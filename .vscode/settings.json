@@ -1,0 +1,18 @@
+{
+  "cSpell.ignorePaths": [],
+  "cSpell.words": [
+    "arrowParens",
+    "clsx",
+    "mantine",
+    "tabler",
+    "tailwindcss",
+    "usehooks",
+    "zustand"
+  ],
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit",
+    "source.addMissingImports": "explicit",
+    "source.removeUnusedImports": "explicit"
+  },
+}
