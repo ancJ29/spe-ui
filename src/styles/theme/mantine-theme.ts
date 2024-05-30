@@ -1,17 +1,31 @@
-import { CSSVariablesResolver, createTheme } from "@mantine/core";
+import { CSSVariablesResolver, Container, createTheme, rem } from "@mantine/core";
 
 // https://mantine.dev/styles/css-variables/#css-variables-resolver
 export const resolver: CSSVariablesResolver = (theme) => ({
   variables: {
     "--main-color": theme.colors.primary[7],
   },
-  light: {},
-  dark: {},
+  light: {
+    "--mantine-color-black": theme.colors.dark[7]
+  },
+  dark: {
+
+  },
 });
+
+// $mantine-breakpoint-xs: '36em'; // 576px
+// $mantine-breakpoint-sm: '48em'; // 768px
+// $mantine-breakpoint-md: '62em'; // 992px
+// $mantine-breakpoint-lg: '75em'; // 1200px
+// $mantine-breakpoint-xl: '88em'; // 1408px
 
 export const theme = createTheme({
   primaryColor: "primary",
   defaultRadius: "sm",
+  fontFamily: "IBM Plex Sans,-apple-system,BlinkMacSystemFont,Roboto,Arial,sans-serif",
+  components: {
+    
+  },
   colors: {
     // https://mantine.dev/colors-generator/?color=F21616
     error: [

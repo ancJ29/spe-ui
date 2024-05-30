@@ -19,5 +19,12 @@ export default ({ mode }: { mode: string }) => {
     define: {
       "import.meta.env.LOG_LEVEL": JSON.stringify(env.LOG_LEVEL),
     },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `@import "./src/styles/theme/theme.module.scss";`,
+        },
+      },
+    },
   });
 };
