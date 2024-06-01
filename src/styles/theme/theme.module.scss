@@ -1,65 +1,22 @@
-@use 'sass:math';
+@use "sass:math";
+@import "./config/functions";
+@import "./config/mixins";
+@import "./config/variables";
+@import "./components/buttons";
+@import "./components/card";
 
-// Define variables for your breakpoints,
-// values must be the same as in your theme
-$mantine-breakpoint-xs: '36em';
-$mantine-breakpoint-sm: '48em';
-$mantine-breakpoint-md: '62em';
-$mantine-breakpoint-lg: '75em';
-$mantine-breakpoint-xl: '88em';
 
-@function rem($value) {
-  @return #{math.div(math.div($value, $value * 0 + 1), 16)}rem;
+.mantine-Carousel-controls {
+    width: calc(100% + 80px);
+    padding: 0 !important;
+    left: -40px !important;
 }
-
-@mixin light {
-  [data-mantine-color-scheme='light'] & {
-    @content;
-  }
+.mantine-Tabs-tabLabel {
+    opacity: 0.5;
 }
-
-@mixin dark {
-  [data-mantine-color-scheme='dark'] & {
-    @content;
-  }
-}
-
-@mixin hover {
-  @media (hover: hover) {
-    &:hover {
-      @content;
+:where([data-active]) {
+    .mantine-Tabs-tabLabel {
+        opacity: 1;
     }
-  }
-
-  @media (hover: none) {
-    &:active {
-      @content;
-    }
-  }
-}
-
-@mixin smaller-than($breakpoint) {
-  @media (max-width: $breakpoint) {
-    @content;
-  }
-}
-
-@mixin larger-than($breakpoint) {
-  @media (min-width: $breakpoint) {
-    @content;
-  }
-}
-
-// Add direction mixins if you need rtl support
-@mixin rtl {
-  [dir='rtl'] & {
-    @content;
-  }
-}
-
-@mixin ltr {
-  [dir='ltr'] & {
-    @content;
-  }
 }
 

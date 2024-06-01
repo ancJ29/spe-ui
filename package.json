@@ -13,9 +13,15 @@
     "type-check": "tsc --noEmit -p ./tsconfig.json"
   },
   "dependencies": {
+    "@mantine/carousel": "^7.10.0",
+    "@mantine/charts": "^7.10.1",
     "@mantinex/mantine-logo": "^1.0.1",
     "@tabler/icons-react": "^3.5.0",
+    "apexcharts": "^3.49.1",
     "clsx": "^2.1.1",
+    "embla-carousel-autoplay": "^7.1.0",
+    "embla-carousel-react": "^7.1.0",
+    "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-fast-marquee": "^1.6.4",
@@ -29,6 +35,7 @@
     "@mantine/hooks": "^7.3.2",
     "@mantine/modals": "^7.5.1",
     "@mantine/notifications": "^7.10.0",
+    "@types/lodash": "^4.17.4",
     "@types/node": "^20.12.12",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.17",
