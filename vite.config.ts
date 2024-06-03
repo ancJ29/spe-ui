@@ -22,9 +22,11 @@ export default ({ mode }: { mode: string }) => {
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: `@import "./src/styles/theme/theme.module.scss";`,
+          additionalData: "@import \"./src/styles/theme/theme.module.scss\";",
         },
       },
     },
+    envPrefix: "APP_",
+    envDir: "environments"
   });
 };

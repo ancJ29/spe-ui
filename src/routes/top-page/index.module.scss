@@ -67,6 +67,9 @@
 .subLinkTitle {
   color: white;
 }
+.defaultColor {
+  color: unset;
+}
 
 .dropdownFooter {
   // background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-7));
@@ -138,9 +141,29 @@
   cursor: pointer;
   display: block;
   width: 100%;
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-light));
+  text-decoration: none;
   @include hover {
     color: var(--mantine-color-primary-5);
   }
 }
 
+.hoverlink {
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-light));
+  @include hover {
+    color: var(--mantine-color-primary-5);
+  }
+}
 
+.bgtopage {
+  @include light {
+    background: var(--mantine-color-gray-2);
+  }
+}
+.linkBlock {
+  display: flex;
+  align-items: center;
+}
+.colorDefault {
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-light));
+}

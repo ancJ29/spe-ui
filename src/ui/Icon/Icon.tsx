@@ -1,21 +1,33 @@
-import { darken, lighten, rem, } from "@mantine/core";
-import cx from 'clsx';
-import classes from './Icon.module.scss'
-import { IconChevronDown } from "@tabler/icons-react";
-import { ComponentProps, ElementType } from "react";
+import { IconChevronDown, IconCode, IconCoin, IconDecimal  } from "@tabler/icons-react";
+import { ComponentProps, ElementType, useState } from "react";
 
-type IconChevronDownProps = ComponentProps<typeof IconChevronDown>;
-type IconProps = {
-    icon: ElementType
-    color: string
-    iconProps: Partial<IconChevronDownProps>
-}
+type _TYPES = "Default";
+type _ICONS = "Default" | "IconCode" | "IconChevronDown" | "IconCoin" | "IconBook" | "IconFingerprint" | "IconChartPie3" | "IconNotification";
 
-export default function Icon(props: IconProps) {
-    return (
-        <>
-            <props.icon {...props.iconProps} className={cx(classes.icon, classes.light)} color={lighten(props.color, 1)}/>
-            <props.icon {...props.iconProps} className={cx(classes.icon, classes.dark)} color={darken(props.color, 1)}/>
-        </>
-    )
+type Custom = {
+  instancetype: _TYPES
+  instanceicon: _ICONS
+};
+const icons: Partial<InstancePropsByType<_ICONS, ElementType>> = {
+  Default: IconDecimal,
+  IconCode: IconCode,
+  IconCoin: IconCoin,
+  IconChevronDown: IconChevronDown,
+};
+type InstanceProps = ComponentProps<typeof IconChevronDown> & Partial<Custom>;
+
+const _props: Partial<InstancePropsByType<_TYPES, InstanceProps>> = {
+  Default: {
+    color: "white"
+  }
+};
+
+export default function Icon(props: InstanceProps) {
+  const [Icon] = useState<ElementType>(icons[props.instancetype ?? "IconCoin"] as ElementType);
+  const [prop] = useState<InstanceProps>(_props[props.instancetype ?? "Default"] as InstanceProps);
+  return (
+    <>
+      <Icon {...prop} {...props}/>
+    </>
+  );
 }
