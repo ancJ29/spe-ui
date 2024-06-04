@@ -7,3 +7,16 @@ $mantine-breakpoint-sm: '48em';
 $mantine-breakpoint-md: '62em';
 $mantine-breakpoint-lg: '75em';
 $mantine-breakpoint-xl: '88em';
+
+.rowItem {
+    &:not(:last-child) {
+        margin-bottom: rem(20px);
+    }
+    position: relative;
+}
+.sticky-top {
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}

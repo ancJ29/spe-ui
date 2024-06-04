@@ -57,13 +57,15 @@ import AppChart, { randomizeArraySparkline } from "@/ui/Chart/Chart";
 import useMetadata from "@/hooks/useMetadata";
 import { Metadata, footerInfo, getFooter, getHeaderMenu } from "@/domain/MetaData";
 import Icon from "@/ui/Icon/Icon";
-
+import svgLogo from "@/assets/images/logo.svg";
+import svgLogoLight from "@/assets/images/logo_light.svg";
 
 export default function TopPage() {
   const [mainTokens, setMainTokens] = useState(generateItems(6));
   const [gainersTokens] = useState(generateItems(3));
   const [newListingsTokens] = useState(generateItems(3));
   const { data } = useMetadata();
+  
   return (
     <>
       <Header metadata={data} />
@@ -162,7 +164,7 @@ export default function TopPage() {
   );
 }
 
-function Header(props: Partial<{ metadata: Metadata }>) {
+export function Header(props: Partial<{ metadata: Metadata }>) {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
   const theme = useMantineTheme();
   const { setColorScheme } = useMantineColorScheme();
@@ -189,7 +191,8 @@ function Header(props: Partial<{ metadata: Metadata }>) {
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
           <Group h="100%">
-            <Avatar color="primary" radius="xl">SE</Avatar>
+            {/* <Avatar color="primary" radius="xl" src={svgLogo}>SE</Avatar> */}
+            <Image src={svgLogo} w={100}/>
             <Group h="100%" gap={0} visibleFrom="sm">
               {
                 menus.map((item, idx) => {
@@ -830,8 +833,9 @@ function Footer(props: Partial<{ metadata: Metadata }>) {
           <Grid>
             <Grid.Col span={3}>
               <Group gap={10}>
-                <Avatar variant='filled' color="primary" radius="xl" size={30}>SE</Avatar>
-                <Title order={4}>Simple Exchange</Title>
+                {/* <Avatar variant='filled' color="primary" radius="xl" size={30}>SE</Avatar> */}
+                <Image src={svgLogoLight} w={150}/>
+                {/* <Title order={4}>Simple Exchange</Title> */}
               </Group>
               <Flex gap={10} mt={30}>
                 {

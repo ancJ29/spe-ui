@@ -1,6 +1,6 @@
 import _axios from "axios";
 const axios = _axios.create({
-  baseURL: import.meta.env.APP_API_URL || "https://spe.cryp-trades.com",
+  baseURL: import.meta.env.APP_API_URL,
   headers: {
     "Content-type": "application/json"
   }
