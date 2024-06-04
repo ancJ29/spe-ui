@@ -1,7 +1,7 @@
 import useTranslation from "@/hooks/useTranslation";
 import AppForm from "@/ui/Form/Form";
 import { Affix, Alert, Box, Button, Card, Center, Container, Divider, Flex, Grid, Group, Image, Notification, NumberFormatter, SimpleGrid, Space, Text, ThemeIcon, Title, Transition, UnstyledButton, darken, lighten, rem, useComputedColorScheme, useMantineColorScheme, useMantineTheme } from "@mantine/core";
-import classes from "./index.module.scss"
+import classes from "./index.module.scss";
 import { samples } from "@/ui/Form/Sample";
 import { IconArrowUp, IconCheck, IconCoinBitcoin, IconInfoCircle, IconInfoCircleFilled, IconPhoneCalling, IconTruckLoading } from "@tabler/icons-react";
 import { useEffect } from "react";
@@ -14,8 +14,8 @@ const SignUp = () => {
   const { setColorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme("dark", { getInitialValueInEffect: true });
   useEffect(() => {
-    setColorScheme("dark")
-  }, [])
+    setColorScheme("dark");
+  }, []);
   const links = [
     {
       title: "24/7 Support | 100k TPS Matching Engine",
@@ -37,13 +37,15 @@ const SignUp = () => {
       icon: IconTruckLoading
     },
 
-  ]
+  ];
   return (
     <>
       <Box className={classes.bggray}>
         <Box className="sticky-top" px={20}>
           <Group justify="space-between">
-            <AppLogo />
+            <a href="/top-page">
+              <AppLogo />
+            </a>
             <SwitchLanguage />
           </Group>
         </Box>
@@ -52,7 +54,7 @@ const SignUp = () => {
           <Grid>
             <Grid.Col span={12}>
               <Alert variant="filled" color={"dark"} icon={checkIcon}>
-              Referral code is invalid within this link, please check the invitation information or continue to sign up.
+                Referral code is invalid within this link, please check the invitation information or continue to sign up.
               </Alert>
             </Grid.Col>
             <Grid.Col span={7}>
@@ -119,10 +121,12 @@ const SignUp = () => {
                 <Card radius={"lg"} p={"xl"}>
                   <Title order={3}>You're invited to Simple Exchange!</Title>
                   <Space h={30} />
-                  <AppForm schema={samples.SignUp.schema}
+                  <AppForm
+                    schema={samples.SignUp.schema}
                     uiSchema={samples.SignUp.uiSchema}
                     formData={samples.SignUp.formData}
-                    w={"100%"} />
+                    w={"100%"}
+                  />
                 </Card>
                 <Group justify="center" my={"lg"}>
                   <div>

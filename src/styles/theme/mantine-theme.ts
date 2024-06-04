@@ -1,4 +1,4 @@
-import { CSSVariablesResolver, createTheme, rem } from "@mantine/core";
+import { CSSVariablesResolver, createTheme } from "@mantine/core";
 
 // https://mantine.dev/styles/css-variables/#css-variables-resolver
 export const resolver: CSSVariablesResolver = (theme) => ({

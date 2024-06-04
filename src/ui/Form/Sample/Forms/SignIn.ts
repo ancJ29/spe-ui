@@ -1,7 +1,5 @@
-import { RJSFSchema, UiSchema, WidgetProps } from '@rjsf/utils';
 
 import { Sample } from "../Sample";
-import { LogoWidget } from '../../widgets/additions/LogoWidget';
 
 const SignIn: Sample = {
   schema: {
@@ -28,15 +26,15 @@ const SignIn: Sample = {
     },
     "type": "object",
     "properties": {
-        "logo": {
-          "$ref": "#/definitions/Logo",
-        },
-        "mobile": {
-          "$ref": "#/definitions/PhoneNumber",
-        },
-        "password": {
-          "$ref": "#/definitions/Password",
-        },
+      // "logo": {
+      //   "$ref": "#/definitions/Logo",
+      // },
+      "mobile": {
+        "$ref": "#/definitions/PhoneNumber",
+      },
+      "password": {
+        "$ref": "#/definitions/Password",
+      },
     },
     "required": [
       "email", "password", "mobile"
@@ -52,14 +50,14 @@ const SignIn: Sample = {
         size: "lg"
       }
     },
-    type: {
-      'ui:widget': "TabWidget",
+    "type": {
+      "ui:widget": "TabWidget",
       "ui:options": {
         label: false,
       }
     },
-    logo: {
-      'ui:widget': "LogoWidget",
+    "logo": {
+      "ui:widget": "LogoWidget",
       "ui:options": {
         label: false
       }

@@ -1,7 +1,5 @@
-import { RJSFSchema, UiSchema, WidgetProps } from '@rjsf/utils';
 
 import { Sample } from "../Sample";
-import { LogoWidget } from '../../widgets/additions/LogoWidget';
 
 const SignUp: Sample = {
   schema: {
@@ -34,7 +32,7 @@ const SignUp: Sample = {
           "1",
           "2"
         ],
-        default: "1",
+        "default": "1",
       },
     },
     "allOf": [
@@ -105,14 +103,17 @@ const SignUp: Sample = {
         size: "lg"
       }
     },
-    type: {
-      'ui:widget': "TabWidget",
+    "mobile": {
+      "ui:widget": "PhoneNumberWidget",
+    },
+    "type": {
+      "ui:widget": "TabWidget",
       "ui:options": {
         label: false,
       }
     },
-    logo: {
-      'ui:widget': "LogoWidget",
+    "logo": {
+      "ui:widget": "LogoWidget",
       "ui:options": {
         label: false
       }

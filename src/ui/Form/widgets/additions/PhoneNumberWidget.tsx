@@ -4,7 +4,7 @@ import { IconEye, IconMailHeart, IconPhone } from "@tabler/icons-react";
 import { useState } from "react";
 
 type Mode = "1" | "2";
-export function TabWidget(props: WidgetProps) {
+export function PhoneNumberWidget(props: WidgetProps) {
   const [value, setValue] = useState<Mode>("1");
   return (
     <SegmentedControl

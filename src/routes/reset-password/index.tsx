@@ -1,7 +1,7 @@
 import useTranslation from "@/hooks/useTranslation";
 import AppForm from "@/ui/Form/Form";
-import { Box, Card, Center, Container, Group, Space, Text, Title,  } from "@mantine/core";
-import classes from "./index.module.scss"
+import { Box, Card, Center, Container, Group, Space, Text, Title  } from "@mantine/core";
+import classes from "./index.module.scss";
 import { samples } from "@/ui/Form/Sample";
 import { Header } from "../top-page";
 
@@ -16,10 +16,12 @@ const Page = () => {
           <Container size={"lg"}>
             <Box w={"100%"}>
               <Card radius={"lg"} p={"xl"} w={500}>
-                <AppForm schema={samples.ResetPassword.schema}
+                <AppForm
+                  schema={samples.ResetPassword.schema}
                   uiSchema={samples.ResetPassword.uiSchema}
                   formData={samples.ResetPassword.formData}
-                  w={"100%"} />
+                  w={"100%"}
+                />
               </Card>
               <Group justify="center" my={"lg"}>
                 <div>

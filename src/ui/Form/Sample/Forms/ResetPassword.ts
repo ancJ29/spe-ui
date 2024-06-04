@@ -41,7 +41,7 @@ const ResetPassword: Sample = {
           "1",
           "2"
         ],
-        default: "1",
+        "default": "1",
       },
     },
     "allOf": [
@@ -118,14 +118,14 @@ const ResetPassword: Sample = {
         size: "lg"
       }
     },
-    type: {
-      'ui:widget': "TabWidget",
+    "type": {
+      "ui:widget": "TabWidget",
       "ui:options": {
         label: false,
       }
     },
-    logo: {
-      'ui:widget': "LogoWidget",
+    "logo": {
+      "ui:widget": "LogoWidget",
       "ui:options": {
         label: false
       }

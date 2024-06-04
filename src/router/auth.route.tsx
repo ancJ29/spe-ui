@@ -19,12 +19,13 @@ const ServiceWrapper = lazy(() => import("@/layouts/ServiceWrapper"));
 // prettier-ignore
 const componentMap: Record<string, LazyExoticComponent> = {
   BlankPage: lazy(() => import("@/routes/blank-page")),
+  TopPage: lazy(() => import("@/routes/top-page")),
 };
 
 const configs: Config[] = [
   {
     path: "/*",
-    element: "BlankPage",
+    element: "TopPage",
     wrapper: {
       element: ServiceWrapper as Wrapper,
     },

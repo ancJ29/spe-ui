@@ -1,7 +1,5 @@
-import { RJSFSchema, UiSchema, WidgetProps } from '@rjsf/utils';
 
 import { Sample } from "../Sample";
-import { LogoWidget } from '../../widgets/additions/LogoWidget';
 
 const ForgotPassword: Sample = {
   schema: {
@@ -39,7 +37,7 @@ const ForgotPassword: Sample = {
           "1",
           "2"
         ],
-        default: "1",
+        "default": "1",
       },
     },
     "allOf": [
@@ -110,14 +108,14 @@ const ForgotPassword: Sample = {
         size: "lg"
       }
     },
-    type: {
-      'ui:widget': "TabWidget",
+    "type": {
+      "ui:widget": "TabWidget",
       "ui:options": {
         label: false,
       }
     },
-    logo: {
-      'ui:widget': "LogoWidget",
+    "logo": {
+      "ui:widget": "LogoWidget",
       "ui:options": {
         label: false
       }

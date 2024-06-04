@@ -1,5 +1,5 @@
 import { lazy } from "react";
-import { Navigate, type RouteObject } from "react-router-dom";
+import { type RouteObject } from "react-router-dom";
 
 const map = {
   Login: lazy(() => import("@/routes/login")),
@@ -14,7 +14,7 @@ const routes: RouteObject[] = [
     element: <map.Login />,
   },
   {
-    path: "/signup",
+    path: "/register",
     element: <map.SignUp />,
   },
   {
@@ -27,11 +27,11 @@ const routes: RouteObject[] = [
   },
   {
     path: "/top-page",
-    element: <map.TopPage />
+    element: <map.TopPage />,
   },
   {
     path: "/*",
-    element: <Navigate to="/login" />,
+    element: <map.TopPage />,
   },
 ];
 

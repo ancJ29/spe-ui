@@ -3,42 +3,50 @@ import Form, { IChangeEvent } from "@rjsf/core";
 import Ajv2020 from "ajv/dist/2020.js";
 import { customizeValidator } from "@rjsf/validator-ajv8";
 import {
-  FieldTemplateProps,
   RJSFSchema,
   RJSFValidationError,
   RegistryWidgetsType,
   UiSchema,
 
 } from "@rjsf/utils";
-import { samples } from "./Sample";
-import { Box, Card, Text } from "@mantine/core";
-import { LogoWidget } from "./widgets/additions/LogoWidget";
-import PhoneNumberField from "./fields/additions/PhoneNumber";
-import { TabWidget } from "./widgets/additions/TabWidget";
-import CustomTextWidget from "./widgets/overwrites/TextWidget";
-import CustomPasswordWidget from "./widgets/overwrites/PasswordWidget";
-import SubmitButton from "./templates/overwrites/SubmitButtonTemplate";
-import FieldErrorTemplate from "./templates/overwrites/FieldErrorTemplate";
-import classes from "./form.module.scss"
-
+import { Box, } from "@mantine/core";
+import classes from "./form.module.scss";
 import { Sample } from "./Sample/Sample";
-import CustomFieldTemplate from "./templates/overwrites/CustomFieldTemplate";
+
+import {
+  PhoneNumberField
+} from "./fields";
+import {
+  CustomFieldTemplate,
+  FieldErrorTemplate,
+  SubmitButton
+} from "./templates";
+import {
+  CustomPasswordWidget, 
+  CustomTextWidget,
+  LogoWidget,
+  PhoneNumberWidget, 
+  TabWidget
+} from "./widgets";
 
 const AJV8_2020 = customizeValidator({ AjvClass: Ajv2020 });
 const customWidgets: RegistryWidgetsType = {
+  // overwrites
   TextWidget: CustomTextWidget,
   PasswordWidget: CustomPasswordWidget,
+  // additions
   LogoWidget: LogoWidget,
   TabWidget: TabWidget,
+  PhoneNumberWidget: PhoneNumberWidget
 };
 
 
-const AppForm: React.FC<Sample & Partial<{w: number | string}>> = (props) => {
+const AppForm: React.FC<Sample & Partial<{ w: number | string }>> = (props) => {
   const [schema] = useState<RJSFSchema>(
     // samples.SignUp.schema as RJSFSchema,
     props.schema as RJSFSchema,
   );
-  
+
   const [uiSchema] = useState<UiSchema>(props.uiSchema! /*props.formConfig.schema as UiSchema*/);  /*samples.SignUp.uiSchema!*/
   const [formData, setFormData] = useState(props.formData /*props.formConfig.formData*/); /*samples.SignUp.formData*/
 
@@ -62,15 +70,16 @@ const AppForm: React.FC<Sample & Partial<{w: number | string}>> = (props) => {
 
   return (
     <>
-    
+
       <Box w={props.w ?? 500}>
-        <Form className={classes.form}
+        <Form
+          className={classes.form}
           schema={schema}
           uiSchema={uiSchema}
           formData={formData}
           validator={AJV8_2020}
           fields={{
-            'PhoneNumber': PhoneNumberField,
+            "PhoneNumberField": PhoneNumberField,
           }}
           widgets={customWidgets}
           templates={{
