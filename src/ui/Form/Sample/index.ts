@@ -1,10 +1,10 @@
-import simple from "./simple";
-import { Sample } from "./Sample";
 import deepFreeze from "deep-freeze-es6";
-import SignUp from "./Forms/SignUp";
-import SignIn from "./Forms/SignIN";
-import ForgotPassword from "./Forms/forgotPassword";
 import ResetPassword from "./Forms/ResetPassword";
+import SignIn from "./Forms/SignIn";
+import SignUp from "./Forms/SignUp";
+import ForgotPassword from "./Forms/forgotPassword";
+import { Sample } from "./Sample";
+import simple from "./simple";
 
 
 const _samples: Record<string, Sample> = {
