@@ -16,7 +16,7 @@ const Page = () => {
           <Container size={"lg"}>
             <Box w={"100%"}>
               <Card radius={"lg"} p={"xl"} w={500}>
-              <Title order={3} style={{ textAlign: "center" }}>
+                <Title order={3} style={{ textAlign: "center" }}>
                   Reset Password to Simple Exchange!
                 </Title>
                 <Space h={30} />

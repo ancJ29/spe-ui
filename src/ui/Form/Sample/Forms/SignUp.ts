@@ -31,7 +31,7 @@ const SignUp: Sample = {
         ]
       },
     },
-    oneOf: [
+    "oneOf": [
       {
         "properties": {
           "type": {
@@ -96,7 +96,7 @@ const SignUp: Sample = {
       "ui:placeholder": "Password"
     },
     "type": {
-      'ui:widget': 'hidden',
+      "ui:widget": "hidden",
       "ui:options": {
         label: false,
       },

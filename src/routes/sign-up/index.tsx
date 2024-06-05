@@ -117,13 +117,14 @@ const SignUp = () => {
                 <Card radius={"lg"} p={"xl"}>
                   <Title order={3}>You're invited to Simple Exchange!</Title>
                   <Space h={30} />
-                  <AppForm api="/api/register"
+                  <AppForm
+                    api="/api/register"
                     schema={samples.SignUp.schema}
                     uiSchema={samples.SignUp.uiSchema}
                     formData={samples.SignUp.formData}
                     w={"100%"}
                     _onSubmit={(res) => {
-                      console.log("RES_CODE", res)
+                      console.log("RES_CODE", res);
                       localStorage.setItem("__USER__", "true");
                       window.open("/", "_self");
                     }}

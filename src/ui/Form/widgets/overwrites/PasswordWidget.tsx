@@ -3,7 +3,7 @@ import { WidgetProps } from "@rjsf/utils";
 import { useState } from "react";
 
 export const CustomPasswordWidget = function (props: WidgetProps) {
-  const [text, setText] = useState<string>(props.value as string ?? '');
+  const [text, setText] = useState<string>(props.value as string ?? "");
   const [_title] = useState<string>(props.value);
   const { onChange } = props;
   return (

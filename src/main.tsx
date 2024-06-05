@@ -2,7 +2,7 @@ import { LanguageProvider } from "@/context/LanguageContext";
 import "@/styles/globals.scss";
 import "@mantine/core/styles.css";
 import "@mantine/carousel/styles.css";
-import '@mantine/notifications/styles.css';
+import "@mantine/notifications/styles.css";
 
 import React from "react";
 import ReactDOM from "react-dom/client";

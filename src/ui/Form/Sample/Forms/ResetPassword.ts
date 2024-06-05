@@ -35,7 +35,7 @@ const ResetPassword: Sample = {
         minLength: 3,
       },
     },
-    oneOf: [
+    "oneOf": [
       {
         "properties": {
           // "logo": {
@@ -91,7 +91,7 @@ const ResetPassword: Sample = {
       }
     },
     "type": {
-      'ui:widget': 'hidden',
+      "ui:widget": "hidden",
       "ui:options": {
         label: false,
       },

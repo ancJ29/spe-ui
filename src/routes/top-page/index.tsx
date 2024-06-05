@@ -847,19 +847,19 @@ function renderCell(field: any, element: any) {
         chartOptions={
           element.change > 0
             ? {
-                colors: ["#00E396"],
-                fill: {
-                  opacity: 0.4,
-                  colors: ["#00E396"], // Set màu nền cho phần fill của biểu đồ
-                },
-              }
+              colors: ["#00E396"],
+              fill: {
+                opacity: 0.4,
+                colors: ["#00E396"], // Set màu nền cho phần fill của biểu đồ
+              },
+            }
             : {
-                colors: ["#ff0000"],
-                fill: {
-                  opacity: 0.4,
-                  colors: ["#ff0000"], // Set màu nền cho phần fill của biểu đồ
-                },
-              }
+              colors: ["#ff0000"],
+              fill: {
+                opacity: 0.4,
+                colors: ["#ff0000"], // Set màu nền cho phần fill của biểu đồ
+              },
+            }
         }
       />
     );

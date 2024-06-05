@@ -31,7 +31,7 @@ const ForgotPassword: Sample = {
         ]
       },
     },
-    oneOf: [
+    "oneOf": [
       {
         "properties": {
           // "logo": {
@@ -75,7 +75,7 @@ const ForgotPassword: Sample = {
       }
     },
     "type": {
-      'ui:widget': 'hidden',
+      "ui:widget": "hidden",
       "ui:options": {
         label: false,
       },

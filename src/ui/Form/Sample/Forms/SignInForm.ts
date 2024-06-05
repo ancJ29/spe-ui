@@ -31,7 +31,7 @@ const SignInForm: Sample = {
         ]
       },
     },
-    oneOf: [
+    "oneOf": [
       {
         "properties": {
           // "logo": {
@@ -81,7 +81,7 @@ const SignInForm: Sample = {
       }
     },
     "type": {
-      'ui:widget': 'hidden',
+      "ui:widget": "hidden",
       "ui:options": {
         label: false,
       },

@@ -1,7 +1,7 @@
 import { Flex, TextInput, rem,  Grid, Avatar, Combobox, useCombobox, InputBase } from "@mantine/core";
 import { WidgetProps } from "@rjsf/utils";
 import { useState } from "react";
-import phonecode from "../mocks/phonecode.json"
+import phonecode from "../mocks/phonecode.json";
 import {
   isPossiblePhoneNumber,
   isValidPhoneNumber,
@@ -9,7 +9,7 @@ import {
   CountryCode,
   CountryCallingCode,
   AsYouType
-} from 'libphonenumber-js'
+} from "libphonenumber-js";
 
 import { useDebouncedCallback } from "@mantine/hooks";
 
@@ -17,7 +17,7 @@ export function PhoneNumberWidget(props: WidgetProps) {
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
     onDropdownOpen: (eventSource) => {
-      if (eventSource === 'keyboard') {
+      if (eventSource === "keyboard") {
         combobox.selectActiveOption();
       } else {
         combobox.updateSelectedOptionIndex("active");
@@ -25,7 +25,7 @@ export function PhoneNumberWidget(props: WidgetProps) {
     },
   });
   const [value, setValue] = useState<string | null>("+81 Japan");
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const shouldFilterOptions = phonecode.every((item) => item.value !== search);
   const filteredOptions = shouldFilterOptions
     ? phonecode.filter((item) => item.value.toLowerCase().includes(search.toLowerCase().trim()))
@@ -39,7 +39,7 @@ export function PhoneNumberWidget(props: WidgetProps) {
     </Combobox.Option>
   ));
   const handleSearch = useDebouncedCallback(async (query: string) => {
-    props.onChange(query)
+    props.onChange(query);
     // console.log("IS_VALID", isValidPhoneNumber(query, "VN"), new AsYouType().input(`${value}${query}`))
   }, 500);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,7 +54,7 @@ export function PhoneNumberWidget(props: WidgetProps) {
             store={combobox}
             withinPortal={true}
             onOptionSubmit={(val) => {
-              console.log("onOptionSubmit", val)
+              console.log("onOptionSubmit", val);
               setValue(val);
               setSearch(`+${parseInt(val)}`);
               combobox.closeDropdown();
@@ -75,14 +75,14 @@ export function PhoneNumberWidget(props: WidgetProps) {
                 onFocus={() => combobox.openDropdown()}
                 onBlur={() => {
                   combobox.closeDropdown();
-                  setSearch(value || '');
+                  setSearch(value || "");
                 }}
                 placeholder="Region"
                 rightSectionPointerEvents="none"
               />
             </Combobox.Target>
 
-            <Combobox.Dropdown style={{overflowY: "auto", maxHeight: rem("30vh")}} >
+            <Combobox.Dropdown style={{ overflowY: "auto", maxHeight: rem("30vh") }} >
               <Combobox.Options>
                 {options.length > 0 ? options : <Combobox.Empty>Nothing found</Combobox.Empty>}
               </Combobox.Options>

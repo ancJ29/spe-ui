@@ -3,7 +3,7 @@ import guestRoutes from "@/router/guest.route";
 import { resolver, theme } from "@/styles/theme/mantine-theme";
 import { Loader, MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
-import { Notifications } from '@mantine/notifications';
+import { Notifications } from "@mantine/notifications";
 import "@mantine/notifications/styles.css";
 import { useEffect, useMemo, useState } from "react";
 import { RouteObject, useRoutes } from "react-router-dom";

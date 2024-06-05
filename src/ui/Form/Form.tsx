@@ -9,7 +9,7 @@ import {
   UiSchema,
 
 } from "@rjsf/utils";
-import { Box, LoadingOverlay, rem, } from "@mantine/core";
+import { Box, LoadingOverlay, rem } from "@mantine/core";
 import classes from "./form.module.scss";
 import { Sample } from "./Sample/Sample";
 
@@ -29,7 +29,7 @@ import {
   TabWidget
 } from "./widgets";
 import axios from "@/services/apis/api";
-import { notifications } from '@mantine/notifications';
+import { notifications } from "@mantine/notifications";
 import { IconCheck } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import AppButton from "../Button/AppButton";
@@ -51,7 +51,7 @@ type Custom = {
   api: string
   _onSubmit: (res: any) => void
   msgSuccess: string
-}
+};
 const AppForm: React.FC<Sample & Partial<Custom>> = (props) => {
   const [schema] = useState<RJSFSchema>(
     // samples.SignUp.schema as RJSFSchema,
@@ -66,20 +66,20 @@ const AppForm: React.FC<Sample & Partial<Custom>> = (props) => {
       window.console.log("submitted formData", evt.formData);
       window.console.log("submit event", event);
       if (props.api) {
-        let formData = { ...evt.formData }
-        let ks = Object.keys(formData)
+        const formData = { ...evt.formData };
+        const ks = Object.keys(formData);
         ks.forEach((_name) => {
           if (formData[_name] === undefined) {
-            delete formData[_name]
+            delete formData[_name];
           }
-        })
-        console.log("formData", evt, formData)
-        toggle()
+        });
+        console.log("formData", evt, formData);
+        toggle();
         axios.post(props.api, formData).then(res => {
           if(!res.data.success) {
             notifications.show({
-              color: 'red',
-              title: 'Something went wrong',
+              color: "red",
+              title: "Something went wrong",
               message: res.data.reason,
               icon: <IconCheck style={{ width: rem(18), height: rem(18) }} />,
               loading: false,
@@ -88,11 +88,11 @@ const AppForm: React.FC<Sample & Partial<Custom>> = (props) => {
             });
           }else {
             if (props._onSubmit) {
-              props._onSubmit(res)
+              props._onSubmit(res);
             }
             notifications.show({
-              color: 'teal',
-              title: 'The form was submitted successfully.',
+              color: "teal",
+              title: "The form was submitted successfully.",
               message: props.msgSuccess ?? "The action was successful",
               icon: <IconCheck style={{ width: rem(18), height: rem(18) }} />,
               loading: false,
@@ -103,8 +103,8 @@ const AppForm: React.FC<Sample & Partial<Custom>> = (props) => {
           
           
         }).finally(() => {
-          close()
-        })
+          close();
+        });
       }
     },
     [],
