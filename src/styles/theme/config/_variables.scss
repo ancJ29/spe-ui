@@ -20,3 +20,7 @@ $mantine-breakpoint-xl: '88em';
     left: 0;
     z-index: 2;
 }
+
+html {
+    overflow-x: hidden;
+}

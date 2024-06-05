@@ -15,6 +15,7 @@ export const CustomPasswordWidget = function (props: WidgetProps) {
           setText(value);
         }}
         type="password"
+        placeholder={props.uiSchema?.["ui:placeholder"]}
         error={props.rawErrors?.toLocaleString()}
       />
     </>

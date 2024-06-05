@@ -14,6 +14,7 @@ export const CustomTextWidget = function (props: WidgetProps) {
           onChange(value);
           setText(value);
         }}
+        placeholder={props.uiSchema?.["ui:placeholder"]}
         error={Boolean(props.rawErrors?.toLocaleString())}
       />
     </>

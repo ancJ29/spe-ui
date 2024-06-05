@@ -105,12 +105,19 @@ const SignUp: Sample = {
     },
     "mobile": {
       "ui:widget": "PhoneNumberWidget",
+      "ui:placeholder": "Mobile"
+    },
+    "email": {
+      "ui:placeholder": "Email"
+    },
+    "password": {
+      "ui:placeholder": "Password"
     },
     "type": {
       "ui:widget": "TabWidget",
       "ui:options": {
         label: false,
-      }
+      },
     },
     "logo": {
       "ui:widget": "LogoWidget",

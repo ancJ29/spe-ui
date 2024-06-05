@@ -95,10 +95,6 @@ const SignUp = () => {
                       <UnstyledButton key={i} variant="transparent">
                         <Group wrap="nowrap" align="flex-start">
                           <ThemeIcon size={34} variant="transparent" radius="md">
-                            {/* <item.icon style={{ width: rem(22), height: rem(22) }} color={"white"} /> */}
-                            {/* <IconCode style={{ width: rem(22), height: rem(22) }} color={"white"} /> */}
-                            {/* IconCoin */}
-                            {/* <Icon instanceicon="IconCoin" style={{ width: rem(22), height: rem(22) }} /> */}
                             {_item.icon && <_item.icon size={100} />}
                           </ThemeIcon>
                           <div>
@@ -121,7 +117,7 @@ const SignUp = () => {
                 <Card radius={"lg"} p={"xl"}>
                   <Title order={3}>You're invited to Simple Exchange!</Title>
                   <Space h={30} />
-                  <AppForm
+                  <AppForm api="/api/register"
                     schema={samples.SignUp.schema}
                     uiSchema={samples.SignUp.uiSchema}
                     formData={samples.SignUp.formData}
@@ -136,18 +132,6 @@ const SignUp = () => {
               </Box>
             </Grid.Col>
           </Grid>
-
-
-          {/* <Center style={{ minHeight: "100vh" }}>
-        <Button
-          onClick={() => {
-            localStorage.setItem("__USER__", "true");
-            window.open("/", "_self");
-          }}
-        >
-          {t("Login")}
-        </Button>
-      </Center> */}
         </Container>
       </Box>
     </>

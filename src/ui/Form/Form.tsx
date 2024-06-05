@@ -28,6 +28,7 @@ import {
   PhoneNumberWidget, 
   TabWidget
 } from "./widgets";
+import axios from "@/services/apis/api";
 
 const AJV8_2020 = customizeValidator({ AjvClass: Ajv2020 });
 const customWidgets: RegistryWidgetsType = {
@@ -41,7 +42,7 @@ const customWidgets: RegistryWidgetsType = {
 };
 
 
-const AppForm: React.FC<Sample & Partial<{ w: number | string }>> = (props) => {
+const AppForm: React.FC<Sample & Partial<{ w: number | string, api: string }>> = (props) => {
   const [schema] = useState<RJSFSchema>(
     // samples.SignUp.schema as RJSFSchema,
     props.schema as RJSFSchema,
@@ -54,6 +55,10 @@ const AppForm: React.FC<Sample & Partial<{ w: number | string }>> = (props) => {
     ({ formData }: IChangeEvent, event: FormEvent<any>) => {
       window.console.log("submitted formData", formData);
       window.console.log("submit event", event);
+      if(props.api) {
+        console.log("formData", formData)
+        axios.post(props.api, formData)
+      }
     },
     [],
   );
