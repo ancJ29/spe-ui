@@ -6,11 +6,11 @@ const ResetPassword: Sample = {
       PhoneNumber: {
         type: "string",
         minLength: 1,
-        title: "Phone Number"
+        title: "Phone"
       },
       Logo: {
         type: "string",
-        title: "Reset Password"
+        title: "Sign In"
       },
       Email: {
         type: "string",
@@ -22,10 +22,12 @@ const ResetPassword: Sample = {
         title: "Password",
         minLength: 3,
       },
-      VerifyCode: {
-        type: "string",
-        title: "Verification Code",
-        minLength: 3,
+      SignUpType: {
+        "type": "number",
+        "enum": [
+          1,
+          2
+        ]
       },
       Code: {
         type: "string",
@@ -33,84 +35,54 @@ const ResetPassword: Sample = {
         minLength: 3,
       },
     },
-    "type": "object",
-    "properties": {
-      "type": {
-        "type": "string",
-        "enum": [
-          "1",
-          "2"
-        ],
-        "default": "1",
-      },
-    },
-    "allOf": [
+    oneOf: [
       {
-        "if": {
-          "properties": {
-            "type": {
-              "const": "2"
-            }
-          }
-        },
-        "then": {
-          "properties": {
-            "logo": {
-              "$ref": "#/definitions/Logo",
-            },
-            "mobile": {
-              "$ref": "#/definitions/PhoneNumber",
-            },
-            "code": {
-              "$ref": "#/definitions/Code",
-            },
-            "password": {
-              "$ref": "#/definitions/Password",
-            },
+        "properties": {
+          // "logo": {
+          //   "$ref": "#/definitions/Logo",
+          // },
+          "type": {
+            "$ref": "#/definitions/SignUpType",
+            "default": 1
           },
-          "required": [
-            "code", "password", "type"
-          ]
-        }
-      },
-      {
-        "if": {
-          "properties": {
-            "type": {
-              "const": "1"
-            }
-          }
-        },
-        "then": {
-          "properties": {
-            "logo": {
-              "$ref": "#/definitions/Logo",
-            },
-            "email": {
-              "$ref": "#/definitions/Email",
-            },
-            "code": {
-              "$ref": "#/definitions/Code",
-            },
-            "password": {
-              "$ref": "#/definitions/Password",
-            },
+          "email": {
+            "$ref": "#/definitions/Email",
           },
-          "required": [
-            "email", "password", "code"
-          ]
-        }
+          "password": {
+            "$ref": "#/definitions/Password",
+          },
+          "code": {
+            "$ref": "#/definitions/Code",
+          },
+        },
+        "required": ["type", "email", "password", "code"]
       },
       {
-        "required": [
-          "type"
-        ]
-      }
+        "properties": {
+          // "logo": {
+          //   "$ref": "#/definitions/Logo",
+          // },
+          "type": {
+            "$ref": "#/definitions/SignUpType",
+            "default": 2
+          },
+          "mobile": {
+            "$ref": "#/definitions/PhoneNumber",
+          },
+          "password": {
+            "$ref": "#/definitions/Password",
+          },
+          "code": {
+            "$ref": "#/definitions/Code",
+          },
+        },
+        "required": ["type", "mobile", "password", "code"]
+      },
+      
     ],
-    // title: "A registration form",
-    // description: "A simple form example.",
   },
   uiSchema: {
+    "ui:widget": "TabWidget",
     "ui:submitButtonOptions": {
       submitText: "Submit",
       props: {
@@ -119,16 +91,19 @@ const ResetPassword: Sample = {
       }
     },
     "type": {
-      "ui:widget": "TabWidget",
+      'ui:widget': 'hidden',
       "ui:options": {
         label: false,
-      }
+      },
     },
     "logo": {
       "ui:widget": "LogoWidget",
       "ui:options": {
         label: false
       }
+    },
+    "password": {
+      "ui:widget": "PasswordWidget",
     }
   },
   formData: {

@@ -1,17 +1,17 @@
 
 import { Sample } from "../Sample";
 
-const SignUp: Sample = {
+const SignInForm: Sample = {
   schema: {
     "definitions": {
       PhoneNumber: {
         type: "string",
         minLength: 1,
-        title: "Phone Number"
+        title: "Phone"
       },
       Logo: {
         type: "string",
-        title: "Sign up"
+        title: "Sign In"
       },
       Email: {
         type: "string",
@@ -34,6 +34,9 @@ const SignUp: Sample = {
     oneOf: [
       {
         "properties": {
+          // "logo": {
+          //   "$ref": "#/definitions/Logo",
+          // },
           "type": {
             "$ref": "#/definitions/SignUpType",
             "default": 1
@@ -49,6 +52,9 @@ const SignUp: Sample = {
       },
       {
         "properties": {
+          // "logo": {
+          //   "$ref": "#/definitions/Logo",
+          // },
           "type": {
             "$ref": "#/definitions/SignUpType",
             "default": 2
@@ -64,36 +70,15 @@ const SignUp: Sample = {
       },
       
     ],
-    
   },
   uiSchema: {
-    // "ui:order": [
-    //   // "type",
-    //   // "email",
-    //   // "mobile",
-    //   // "*",
-    //   // "password"
-    // ],
     "ui:widget": "TabWidget",
-    "ui:options": {
-      "submitButtonOptions": {
-        props: {
-          fullWidth: true,
-          size: "lg",
-        },
-        submitText: "Submit",
-      },
-    },
-    "mobile": {
-      "ui:widget": "PhoneNumberWidget",
-      "ui:placeholder": "Mobile",
-    },
-    "email": {
-      "ui:placeholder": "Email"
-    },
-    "password": {
-      "ui:widget": "PasswordWidget",
-      "ui:placeholder": "Password"
+    "ui:submitButtonOptions": {
+      submitText: "Submit",
+      props: {
+        fullWidth: true,
+        size: "lg"
+      }
     },
     "type": {
       'ui:widget': 'hidden',
@@ -106,6 +91,9 @@ const SignUp: Sample = {
       "ui:options": {
         label: false
       }
+    },
+    "password": {
+      "ui:widget": "PasswordWidget",
     }
   },
   formData: {
@@ -113,4 +101,4 @@ const SignUp: Sample = {
   },
 };
 
-export default SignUp;
+export default SignInForm;

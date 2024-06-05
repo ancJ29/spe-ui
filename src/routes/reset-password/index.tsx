@@ -16,11 +16,17 @@ const Page = () => {
           <Container size={"lg"}>
             <Box w={"100%"}>
               <Card radius={"lg"} p={"xl"} w={500}>
+              <Title order={3} style={{ textAlign: "center" }}>
+                  Reset Password to Simple Exchange!
+                </Title>
+                <Space h={30} />
                 <AppForm
                   schema={samples.ResetPassword.schema}
                   uiSchema={samples.ResetPassword.uiSchema}
                   formData={samples.ResetPassword.formData}
                   w={"100%"}
+                  msgSuccess="Password reset has been done"
+                  api="/api/password/reset"
                 />
               </Card>
               <Group justify="center" my={"lg"}>

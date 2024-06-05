@@ -122,6 +122,11 @@ const SignUp = () => {
                     uiSchema={samples.SignUp.uiSchema}
                     formData={samples.SignUp.formData}
                     w={"100%"}
+                    _onSubmit={(res) => {
+                      console.log("RES_CODE", res)
+                      localStorage.setItem("__USER__", "true");
+                      window.open("/", "_self");
+                    }}
                   />
                 </Card>
                 <Group justify="center" my={"lg"}>

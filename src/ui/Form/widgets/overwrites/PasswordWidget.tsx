@@ -1,14 +1,14 @@
-import { TextInput } from "@mantine/core";
+import { PasswordInput, TextInput } from "@mantine/core";
 import { WidgetProps } from "@rjsf/utils";
 import { useState } from "react";
 
 export const CustomPasswordWidget = function (props: WidgetProps) {
-  const [text, setText] = useState<string>(props.value);
+  const [text, setText] = useState<string>(props.value as string ?? '');
   const [_title] = useState<string>(props.value);
   const { onChange } = props;
   return (
     <>
-      <TextInput
+      <PasswordInput
         value={text}
         onChange={({ target: { value } }) => {
           onChange(value);
@@ -16,7 +16,7 @@ export const CustomPasswordWidget = function (props: WidgetProps) {
         }}
         type="password"
         placeholder={props.uiSchema?.["ui:placeholder"]}
-        error={props.rawErrors?.toLocaleString()}
+        error={Boolean(props.rawErrors?.toLocaleString())}
       />
     </>
   );

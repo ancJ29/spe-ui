@@ -7,11 +7,11 @@ const ForgotPassword: Sample = {
       PhoneNumber: {
         type: "string",
         minLength: 1,
-        title: "Phone Number"
+        title: "Phone"
       },
       Logo: {
         type: "string",
-        title: "Forgot Password"
+        title: "Sign In"
       },
       Email: {
         type: "string",
@@ -23,84 +23,50 @@ const ForgotPassword: Sample = {
         title: "Password",
         minLength: 3,
       },
-      VerifyCode: {
-        type: "string",
-        title: "Verification Code",
-        minLength: 3,
-      },
-    },
-    "type": "object",
-    "properties": {
-      "type": {
-        "type": "string",
+      SignUpType: {
+        "type": "number",
         "enum": [
-          "1",
-          "2"
-        ],
-        "default": "1",
+          1,
+          2
+        ]
       },
     },
-    "allOf": [
+    oneOf: [
       {
-        "if": {
-          "properties": {
-            "type": {
-              "const": "2"
-            }
+        "properties": {
+          // "logo": {
+          //   "$ref": "#/definitions/Logo",
+          // },
+          "type": {
+            "$ref": "#/definitions/SignUpType",
+            "default": 1
+          },
+          "email": {
+            "$ref": "#/definitions/Email",
           }
         },
-        "then": {
-          "properties": {
-            "logo": {
-              "$ref": "#/definitions/Logo",
-            },
-            "mobile": {
-              "$ref": "#/definitions/PhoneNumber",
-            },
-            "password": {
-              "$ref": "#/definitions/VerifyCode",
-            },
-          },
-          "required": [
-            "mobile", "password"
-          ]
-        }
+        "required": ["type", "email"]
       },
       {
-        "if": {
-          "properties": {
-            "type": {
-              "const": "1"
-            }
+        "properties": {
+          // "logo": {
+          //   "$ref": "#/definitions/Logo",
+          // },
+          "type": {
+            "$ref": "#/definitions/SignUpType",
+            "default": 2
+          },
+          "mobile": {
+            "$ref": "#/definitions/PhoneNumber",
           }
         },
-        "then": {
-          "properties": {
-            "logo": {
-              "$ref": "#/definitions/Logo",
-            },
-            "email": {
-              "$ref": "#/definitions/Email",
-            },
-            "password": {
-              "$ref": "#/definitions/VerifyCode",
-            },
-          },
-          "required": [
-            "email", "password"
-          ]
-        }
+        "required": ["type", "mobile"]
       },
-      {
-        "required": [
-          "type"
-        ]
-      }
+      
     ],
-    // title: "A registration form",
-    // description: "A simple form example.",
   },
   uiSchema: {
+    "ui:widget": "TabWidget",
     "ui:submitButtonOptions": {
       submitText: "Submit",
       props: {
@@ -109,10 +75,10 @@ const ForgotPassword: Sample = {
       }
     },
     "type": {
-      "ui:widget": "TabWidget",
+      'ui:widget': 'hidden',
       "ui:options": {
         label: false,
-      }
+      },
     },
     "logo": {
       "ui:widget": "LogoWidget",

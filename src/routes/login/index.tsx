@@ -34,6 +34,11 @@ const Login = () => {
                   uiSchema={samples.SignIn.uiSchema}
                   formData={samples.SignIn.formData}
                   w={"100%"}
+                  _onSubmit={() => {
+                    localStorage.setItem("__USER__", "true");
+                    window.open("/", "_self");
+                  }}
+                  api="/api/login"
                 />
               </Card>
               <Group justify="center" my={"lg"}>

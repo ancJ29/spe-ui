@@ -7,6 +7,7 @@ export function SubmitButton(props: SubmitButtonProps) {
   if (norender) {
     return null;
   }
+  
   return (
     <Button type="submit" {...uiSchema?.["ui:options"]["submitButtonOptions"]?.props}>
       {uiSchema?.["ui:options"]["submitButtonOptions"]?.submitText}

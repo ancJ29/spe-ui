@@ -1,10 +1,10 @@
 import deepFreeze from "deep-freeze-es6";
 import ResetPassword from "./Forms/ResetPassword";
-import SignIn from "./Forms/SignIn";
 import SignUp from "./Forms/SignUp";
 import ForgotPassword from "./Forms/forgotPassword";
 import simple from "./Forms/simple";
 import { Sample } from "./Sample";
+import SignInForm from "./Forms/SignInForm";
 
 
 const _samples: Record<string, Sample> = {
@@ -13,7 +13,7 @@ const _samples: Record<string, Sample> = {
   SignUp: SignUp,
   ForgotPassword: ForgotPassword,
   ResetPassword: ResetPassword,
-  SignIn: SignIn
+  SignIn: SignInForm
 };
 
 export const samples = deepFreeze(_samples);
