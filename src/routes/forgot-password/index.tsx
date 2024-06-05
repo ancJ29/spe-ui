@@ -1,13 +1,21 @@
 import useTranslation from "@/hooks/useTranslation";
 import AppForm from "@/ui/Form/Form";
-import { Box, Card, Center, Container, Group, Space, Text, Title } from "@mantine/core";
-import classes from "./index.module.scss";
 import { samples } from "@/ui/Form/Sample";
+import {
+  Box,
+  Card,
+  Center,
+  Container,
+  Group,
+  Space,
+  Text,
+  Title,
+} from "@mantine/core";
 import { Header } from "../top-page";
+import classes from "./index.module.scss";
 
 const Page = () => {
   const t = useTranslation();
-
   return (
     <>
       <Header />
@@ -17,7 +25,7 @@ const Page = () => {
             <Box w={"100%"}>
               <Card radius={"lg"} p={"xl"} w={500}>
                 <Title order={3} style={{ textAlign: "center" }}>
-                  Forgot Password Simple Exchange!
+                  {t("Forgot Password Simple Exchange!")}
                 </Title>
                 <Space h={30} />
                 <AppForm
@@ -31,26 +39,17 @@ const Page = () => {
               </Card>
               <Group justify="center" my={"lg"}>
                 <div>
-                  You already registered? <Text component="a" href="/login" fw={"bold"}>Login</Text>
+                  {t("You already registered?")}{" "}
+                  <Text component="a" href="/login" fw={"bold"}>
+                    {t("Login")}
+                  </Text>
                 </div>
               </Group>
             </Box>
-
-            {/* <Center style={{ minHeight: "100vh" }}>
-        <Button
-          onClick={() => {
-            localStorage.setItem("__USER__", "true");
-            window.open("/", "_self");
-          }}
-        >
-          {t("Login")}
-        </Button>
-      </Center> */}
           </Container>
         </Center>
       </Box>
     </>
-
   );
 };
 

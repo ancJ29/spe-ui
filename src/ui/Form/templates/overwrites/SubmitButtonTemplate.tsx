@@ -1,5 +1,8 @@
 import { Button } from "@mantine/core";
-import { SubmitButtonProps, getSubmitButtonOptions } from "@rjsf/utils";
+import {
+  SubmitButtonProps,
+  getSubmitButtonOptions,
+} from "@rjsf/utils";
 
 export function SubmitButton(props: SubmitButtonProps) {
   const { uiSchema } = props;
@@ -7,11 +10,13 @@ export function SubmitButton(props: SubmitButtonProps) {
   if (norender) {
     return null;
   }
-  
+
   return (
-    <Button type="submit" {...uiSchema?.["ui:options"]["submitButtonOptions"]?.props}>
-      {uiSchema?.["ui:options"]["submitButtonOptions"]?.submitText}
+    <Button
+      type="submit"
+      {...uiSchema?.["ui:options"]?.["submitButtonOptions"]?.props}
+    >
+      {uiSchema?.["ui:options"]?.["submitButtonOptions"]?.submitText}
     </Button>
   );
 }
-

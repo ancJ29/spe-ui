@@ -1,15 +1,16 @@
-import { Flex, TextInput, rem,  Grid, Avatar, Combobox, useCombobox, InputBase } from "@mantine/core";
-import { WidgetProps } from "@rjsf/utils";
-import { useState } from "react";
-import phonecode from "../mocks/phonecode.json";
 import {
-  isPossiblePhoneNumber,
-  isValidPhoneNumber,
-  validatePhoneNumberLength,
-  CountryCode,
-  CountryCallingCode,
-  AsYouType
-} from "libphonenumber-js";
+  Avatar,
+  Combobox,
+  Flex,
+  Grid,
+  InputBase,
+  TextInput,
+  rem,
+  useCombobox,
+} from "@mantine/core";
+import { WidgetProps } from "@rjsf/utils";
+import { useMemo, useState } from "react";
+import phoneCode from "../mocks/phone-code.json";
 
 import { useDebouncedCallback } from "@mantine/hooks";
 
@@ -26,23 +27,51 @@ export function PhoneNumberWidget(props: WidgetProps) {
   });
   const [value, setValue] = useState<string | null>("+81 Japan");
   const [search, setSearch] = useState("");
-  const shouldFilterOptions = phonecode.every((item) => item.value !== search);
-  const filteredOptions = shouldFilterOptions
-    ? phonecode.filter((item) => item.value.toLowerCase().includes(search.toLowerCase().trim()))
-    : phonecode;
-  const options = filteredOptions.map((item) => (
-    <Combobox.Option value={item.value} key={item.value} active={item.value === value}>
-      <Flex justify={"start"} align={"center"} gap={10}>
-        <Avatar size={20} src={item.image} />
-        {item.label}
-      </Flex>
-    </Combobox.Option>
-  ));
+  const shouldFilterOptions = phoneCode.every(
+    (item) => item.value !== search,
+  );
+  const options = useMemo(() => {
+    if (shouldFilterOptions) {
+      return phoneCode
+        .filter((item) =>
+          item.value
+            .toLowerCase()
+            .includes(search.toLowerCase().trim()),
+        )
+        .map((item) => (
+          <Combobox.Option
+            value={item.value}
+            key={item.value}
+            active={item.value === value}
+          >
+            <Flex justify={"start"} align={"center"} gap={10}>
+              <Avatar size={20} src={item.image} />
+              {item.label}
+            </Flex>
+          </Combobox.Option>
+        ));
+    }
+    return phoneCode.map((item) => (
+      <Combobox.Option
+        value={item.value}
+        key={item.value}
+        active={item.value === value}
+      >
+        <Flex justify={"start"} align={"center"} gap={10}>
+          <Avatar size={20} src={item.image} />
+          {item.label}
+        </Flex>
+      </Combobox.Option>
+    ));
+  }, [search, shouldFilterOptions, value]);
+
   const handleSearch = useDebouncedCallback(async (query: string) => {
     props.onChange(query);
     // console.log("IS_VALID", isValidPhoneNumber(query, "VN"), new AsYouType().input(`${value}${query}`))
   }, 500);
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     handleSearch(event.currentTarget.value);
   };
 
@@ -54,7 +83,6 @@ export function PhoneNumberWidget(props: WidgetProps) {
             store={combobox}
             withinPortal={true}
             onOptionSubmit={(val) => {
-              console.log("onOptionSubmit", val);
               setValue(val);
               setSearch(`+${parseInt(val)}`);
               combobox.closeDropdown();
@@ -82,9 +110,15 @@ export function PhoneNumberWidget(props: WidgetProps) {
               />
             </Combobox.Target>
 
-            <Combobox.Dropdown style={{ overflowY: "auto", maxHeight: rem("30vh") }} >
+            <Combobox.Dropdown
+              style={{ overflowY: "auto", maxHeight: rem("30vh") }}
+            >
               <Combobox.Options>
-                {options.length > 0 ? options : <Combobox.Empty>Nothing found</Combobox.Empty>}
+                {options.length > 0 ? (
+                  options
+                ) : (
+                  <Combobox.Empty>Nothing found</Combobox.Empty>
+                )}
               </Combobox.Options>
             </Combobox.Dropdown>
           </Combobox>

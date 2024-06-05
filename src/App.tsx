@@ -27,9 +27,13 @@ const App = () => {
   }, [loaded]);
 
   return (
-    <MantineProvider theme={theme} cssVariablesResolver={resolver} defaultColorScheme="light">
+    <MantineProvider
+      theme={theme}
+      cssVariablesResolver={resolver}
+      defaultColorScheme="light"
+    >
       <ModalsProvider>{useRoutes(routes)}</ModalsProvider>
-      <Notifications/>
+      <Notifications />
     </MantineProvider>
   );
 };

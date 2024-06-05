@@ -1,22 +1,21 @@
-
 import { Sample } from "../Sample";
 
 const SignInForm: Sample = {
   schema: {
-    "definitions": {
+    definitions: {
       PhoneNumber: {
         type: "string",
         minLength: 1,
-        title: "Phone"
+        title: "Phone",
       },
       Logo: {
         type: "string",
-        title: "Sign In"
+        title: "Sign In",
       },
       Email: {
         type: "string",
         minLength: 1,
-        title: "Email"
+        title: "Email",
       },
       Password: {
         type: "string",
@@ -24,51 +23,47 @@ const SignInForm: Sample = {
         minLength: 3,
       },
       SignUpType: {
-        "type": "number",
-        "enum": [
-          1,
-          2
-        ]
+        type: "number",
+        enum: [1, 2],
       },
     },
-    "oneOf": [
+    oneOf: [
       {
-        "properties": {
+        properties: {
           // "logo": {
           //   "$ref": "#/definitions/Logo",
           // },
-          "type": {
-            "$ref": "#/definitions/SignUpType",
-            "default": 1
+          type: {
+            $ref: "#/definitions/SignUpType",
+            default: 1,
           },
-          "email": {
-            "$ref": "#/definitions/Email",
+          email: {
+            $ref: "#/definitions/Email",
           },
-          "password": {
-            "$ref": "#/definitions/Password",
+          password: {
+            $ref: "#/definitions/Password",
           },
         },
-        "required": ["type", "email", "password"]
+        required: ["type", "email", "password"],
       },
       {
-        "properties": {
+        properties: {
           // "logo": {
           //   "$ref": "#/definitions/Logo",
           // },
-          "type": {
-            "$ref": "#/definitions/SignUpType",
-            "default": 2
+          type: {
+            $ref: "#/definitions/SignUpType",
+            default: 2,
           },
-          "mobile": {
-            "$ref": "#/definitions/PhoneNumber",
+          mobile: {
+            $ref: "#/definitions/PhoneNumber",
           },
-          "password": {
-            "$ref": "#/definitions/Password",
+          password: {
+            $ref: "#/definitions/Password",
           },
         },
-        "required": ["type", "mobile", "password"]
+        required: ["type", "mobile", "password"],
       },
-      
     ],
   },
   uiSchema: {
@@ -77,8 +72,8 @@ const SignInForm: Sample = {
       submitText: "Submit",
       props: {
         fullWidth: true,
-        size: "lg"
-      }
+        size: "lg",
+      },
     },
     "type": {
       "ui:widget": "hidden",
@@ -89,16 +84,14 @@ const SignInForm: Sample = {
     "logo": {
       "ui:widget": "LogoWidget",
       "ui:options": {
-        label: false
-      }
+        label: false,
+      },
     },
     "password": {
       "ui:widget": "PasswordWidget",
-    }
+    },
   },
-  formData: {
-
-  },
+  formData: {},
 };
 
 export default SignInForm;

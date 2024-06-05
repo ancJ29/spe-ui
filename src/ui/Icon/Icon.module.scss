@@ -1,20 +1,19 @@
-
 .dark {
-    @include dark {
-      display: none;
-    }
-  
-    @include light {
-      display: block;
-    }
+  @include dark {
+    display: none;
   }
-  
-  .light {
-    @include light {
-      display: none;
-    }
-  
-    @include dark {
-      display: block;
-    }
+
+  @include light {
+    display: block;
   }
+}
+
+.light {
+  @include light {
+    display: none;
+  }
+
+  @include dark {
+    display: block;
+  }
+}

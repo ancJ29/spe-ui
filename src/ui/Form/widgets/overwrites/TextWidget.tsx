@@ -4,7 +4,6 @@ import { useState } from "react";
 
 export const CustomTextWidget = function (props: WidgetProps) {
   const [text, setText] = useState<string>(props.value);
-  const [_title] = useState<string>(props.value);
   const { onChange } = props;
   return (
     <>
@@ -20,4 +19,3 @@ export const CustomTextWidget = function (props: WidgetProps) {
     </>
   );
 };
-

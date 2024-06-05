@@ -1,3 +1,5 @@
+// cspell: disable
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import svgLogo from "@/assets/images/logo.svg";
 import {
   Metadata,
@@ -63,6 +65,14 @@ import cx from "clsx";
 import { Fragment, useMemo, useState } from "react";
 import classes from "./index.module.scss";
 
+type Gainer = {
+  id: string;
+  token: string;
+  lastPrice: number;
+  change: number;
+  icon: string;
+};
+
 export default function TopPage() {
   const [mainTokens, setMainTokens] = useState(generateItems(6));
   const [gainersTokens] = useState(generateItems(3));
@@ -90,7 +100,7 @@ export default function TopPage() {
                 Catch Your Next Trading Opportunity
               </Title>
               <AppButton
-                instancetype="WithRightIcon"
+                instanceType="WithRightIcon"
                 size="lg"
                 color="primary"
                 variant="light"
@@ -111,17 +121,17 @@ export default function TopPage() {
                   >
                     <Tabs.List bd={1}>
                       <Tabs.Tab value="first">
-                        <AppText instancetype="TabTitle">
+                        <AppText instanceType="TabTitle">
                           Favorites
                         </AppText>
                       </Tabs.Tab>
                       <Tabs.Tab value="second">
-                        <AppText instancetype="TabTitle">
+                        <AppText instanceType="TabTitle">
                           Hot Derivatives
                         </AppText>
                       </Tabs.Tab>
                       <Tabs.Tab value="third">
-                        <AppText instancetype="TabTitle">
+                        <AppText instanceType="TabTitle">
                           Hot Coins
                         </AppText>
                       </Tabs.Tab>
@@ -151,7 +161,7 @@ export default function TopPage() {
                 </Card>
               </Grid.Col>
               <Grid.Col span={8}>
-                <AppButton instancetype="WithRightIcon" size="lg">
+                <AppButton instanceType="WithRightIcon" size="lg">
                   Deposit or Buy Crypto
                 </AppButton>
               </Grid.Col>
@@ -188,18 +198,15 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
   });
 
   const menus = useMemo(() => {
-    const _items = getHeaderMenu(props.metadata!);
+    const _items = getHeaderMenu(props.metadata);
     return _items;
   }, [props.metadata]);
 
-  const [opened, setOpened] = useState<any>({});
+  const [opened, setOpened] = useState<Record<string, unknown>>({});
 
-  const toggle = (id: any, _opened: boolean) => {
-    setOpened((pr: any) => {
-      return {
-        ...pr,
-        [id]: _opened,
-      };
+  const toggle = (id: string, _opened: boolean) => {
+    setOpened((pr: Record<string, unknown>) => {
+      return { ...pr, [id]: _opened };
     });
   };
 
@@ -253,34 +260,29 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
                           variant="transparent"
                           style={{ border: "none", borderRadius: 0 }}
                         >
-                          {item.children.map(
-                            (_item: any, i: number) => (
-                              <UnstyledButton
-                                className={classes.subLink}
-                                key={i}
-                                variant="transparent"
-                              >
-                                <Group
-                                  wrap="nowrap"
-                                  align="flex-start"
-                                >
-                                  <div>
-                                    <Text
-                                      size="sm"
-                                      fw={500}
-                                      className={classes.subLinkTitle}
-                                    >
-                                      {_item.label}
-                                    </Text>
-                                    <Text size="xs" c="dimmed">
-                                      {_item.description ??
-                                        "lorem ispum"}
-                                    </Text>
-                                  </div>
-                                </Group>
-                              </UnstyledButton>
-                            ),
-                          )}
+                          {(item.children || []).map((_item, i) => (
+                            <UnstyledButton
+                              className={classes.subLink}
+                              key={i}
+                              variant="transparent"
+                            >
+                              <Group wrap="nowrap" align="flex-start">
+                                <div>
+                                  <Text
+                                    size="sm"
+                                    fw={500}
+                                    className={classes.subLinkTitle}
+                                  >
+                                    {_item?.label}
+                                  </Text>
+                                  <Text size="xs" c="dimmed">
+                                    {_item?.description ??
+                                      "lorem ispum"}
+                                  </Text>
+                                </div>
+                              </Group>
+                            </UnstyledButton>
+                          ))}
                         </Menu.Dropdown>
                       </Menu>
                     )}
@@ -363,7 +365,7 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
                                     {/* <IconCode style={{ width: rem(22), height: rem(22) }} color={"white"} /> */}
                                     {/* IconCoin */}
                                     <Icon
-                                      instanceicon="IconCoin"
+                                      instanceIcon="IconCoin"
                                       style={{
                                         width: rem(22),
                                         height: rem(22),
@@ -416,7 +418,7 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
           <Group visibleFrom="sm" h="100%">
             <Group h="100%" gap={2}>
               <AppButton
-                instancetype="Ghost"
+                instanceType="Ghost"
                 color="white"
                 component="a"
                 href="/login"
@@ -735,7 +737,13 @@ function Banner() {
                 </Grid.Col>
               </Grid>
             </Box>
-            <Box w={400} onWaiting={() => {}} mx={"auto"}>
+            <Box
+              w={400}
+              onWaiting={() => {
+                // TODO
+              }}
+              mx={"auto"}
+            >
               <Image
                 mx={"auto"}
                 src={
@@ -777,7 +785,7 @@ function SliderNotice() {
   );
 }
 
-function TableBar(props: { items: any[] }) {
+function TableBar(props: { items: Gainer[] }) {
   const fields = [
     {
       name: "token",
@@ -810,12 +818,18 @@ function TableBar(props: { items: any[] }) {
   );
 }
 
-function renderCell(field: any, element: any) {
+function renderCell(
+  field: {
+    name: string;
+    text: string;
+  },
+  element: Gainer,
+) {
   if (field.name == "token") {
     return (
       <Group align="center" gap={"sm"}>
         <Avatar size={28} src={element.icon}></Avatar>
-        <AppText instancetype="WithCellToken">
+        <AppText instanceType="WithCellToken">
           {element.token}
         </AppText>
       </Group>
@@ -823,7 +837,7 @@ function renderCell(field: any, element: any) {
   }
   if (field.name == "price") {
     return (
-      <AppText instancetype="WithCellToken">
+      <AppText instanceType="WithCellToken">
         {element.lastPrice}
       </AppText>
     );
@@ -831,7 +845,7 @@ function renderCell(field: any, element: any) {
   if (field.name == "change") {
     return (
       <AppText
-        instancetype="WithCellToken"
+        instanceType="WithCellToken"
         c={element.change > 0 ? "green" : "red"}
       >
         {element.change > 0 ? "+" : ""}
@@ -840,38 +854,38 @@ function renderCell(field: any, element: any) {
     );
   }
   if (field.name == "Charts") {
+    let chartOptions = {
+      colors: ["#ff0000"],
+      fill: {
+        opacity: 0.4,
+        colors: ["#ff0000"], // Set màu nền cho phần fill của biểu đồ
+      },
+    };
+    if (element.change > 0) {
+      chartOptions = {
+        colors: ["#00E396"],
+        fill: {
+          opacity: 0.4,
+          colors: ["#00E396"], // Set màu nền cho phần fill của biểu đồ
+        },
+      };
+    }
     return (
       <AppChart
-        instancetype="Sparkline"
+        instanceType="Sparkline"
         chartSeries={randomizeArraySparkline()}
-        chartOptions={
-          element.change > 0
-            ? {
-              colors: ["#00E396"],
-              fill: {
-                opacity: 0.4,
-                colors: ["#00E396"], // Set màu nền cho phần fill của biểu đồ
-              },
-            }
-            : {
-              colors: ["#ff0000"],
-              fill: {
-                opacity: 0.4,
-                colors: ["#ff0000"], // Set màu nền cho phần fill của biểu đồ
-              },
-            }
-        }
+        chartOptions={chartOptions}
       />
     );
   }
   if (field.name == "Trade") {
     return (
-      <AppButton instancetype="WithOutlinedColor">Trade</AppButton>
+      <AppButton instanceType="WithOutlinedColor">Trade</AppButton>
     );
   }
 }
 
-function TableBarTopGainers(props: { items: any[] }) {
+function TableBarTopGainers(props: { items: Gainer[] }) {
   const fields = [
     {
       name: "token",
@@ -895,7 +909,8 @@ function TableBarTopGainers(props: { items: any[] }) {
     />
   );
 }
-function TableBarNewListing(props: { items: any[] }) {
+
+function TableBarNewListing(props: { items: Gainer[] }) {
   const fields = [
     {
       name: "token",
@@ -926,7 +941,9 @@ function TrendingTraders() {
     <div>
       <Title order={2}>Trending traders</Title>
       <Title order={5}>
-        Find your favorite master. Invest along the best. It's simple
+        {
+          "Find your favorite master. Invest along the best. It's simple"
+        }
         - when they profit, you do too.
       </Title>
       <Space h={"md"} />
@@ -956,7 +973,7 @@ function TrendingTraders() {
                     </Box>
                   </Flex>
                   <Space h={"xl"} />
-                  <AppButton instancetype="WithRightIcon" size="md">
+                  <AppButton instanceType="WithRightIcon" size="md">
                     View All Masters
                   </AppButton>
                 </Box>
@@ -1002,7 +1019,7 @@ function TrendingTraders() {
                       <Space h={"sm"} />
                       <Box>
                         <Title order={6} fw={"normal"} c={"gray"}>
-                          7D followers' Pnl
+                          {"7D followers' Pnl"}
                         </Title>
                         <Title order={4} fw={"bold"}>
                           1,9444.23
@@ -1011,7 +1028,7 @@ function TrendingTraders() {
                     </Box>
                     <Space h={"md"} />
                     <AppButton
-                      instancetype="GhostWithRightIcon"
+                      instanceType="GhostWithRightIcon"
                       size="lg"
                     >
                       Copy
@@ -1042,7 +1059,7 @@ function QuickStart() {
                   <AppButton
                     size="xl"
                     loaderProps={{ type: "bars" }}
-                    instancetype="WithRightIcon"
+                    instanceType="WithRightIcon"
                   >
                     Start Now
                   </AppButton>
@@ -1118,7 +1135,7 @@ function PartnerSection() {
 
 function Footer(props: Partial<{ metadata: Metadata }>) {
   const footer = useMemo<footerInfo>(() => {
-    return getFooter(props.metadata!);
+    return getFooter(props.metadata);
   }, [props.metadata]);
   return (
     <footer>

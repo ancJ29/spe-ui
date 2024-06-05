@@ -1,10 +1,13 @@
-import { ComponentProps  } from "react";
+import { ComponentProps } from "react";
 import Marquee from "react-fast-marquee";
-
 
 type Instance = ComponentProps<typeof Marquee>;
 
-type InstanceProps = Instance & Partial<{}>;
+type Custom = Partial<{
+  // TODO
+}>;
+
+type InstanceProps = Instance & Custom;
 
 const MarqueeList = (props: InstanceProps) => {
   return (
@@ -15,4 +18,3 @@ const MarqueeList = (props: InstanceProps) => {
 };
 
 export default MarqueeList;
-

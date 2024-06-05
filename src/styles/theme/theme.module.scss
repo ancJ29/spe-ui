@@ -5,18 +5,16 @@
 @import "./components/buttons";
 @import "./components/card";
 
-
 .mantine-Carousel-controls {
-    width: calc(100% + 80px);
-    padding: 0 !important;
-    left: -40px !important;
+  width: calc(100% + 80px);
+  padding: 0 !important;
+  left: -40px !important;
 }
 .mantine-Tabs-tabLabel {
-    opacity: 0.5;
+  opacity: 0.5;
 }
 :where([data-active]) {
-    .mantine-Tabs-tabLabel {
-        opacity: 1;
-    }
+  .mantine-Tabs-tabLabel {
+    opacity: 1;
+  }
 }
-

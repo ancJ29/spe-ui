@@ -8,22 +8,17 @@ export const resolver: CSSVariablesResolver = (theme) => ({
     "--mantine-success-text-emphasis": theme.colors.primary[8],
     "--mantine-success-rgb": theme.colors.primary[8],
   },
-  light: {
-    
-  },
-  dark: {
-
-  },
+  light: {},
+  dark: {},
 });
-
 
 export const theme = createTheme({
   primaryColor: "primary",
   defaultRadius: "sm",
-  fontFamily: "IBM Plex Sans,-apple-system,BlinkMacSystemFont,Roboto,Arial,sans-serif",
-  components: {
-  },
-  
+  fontFamily:
+    "IBM Plex Sans,-apple-system,BlinkMacSystemFont,Roboto,Arial,sans-serif",
+  components: {},
+
   colors: {
     // https://mantine.dev/colors-generator/?color=F21616
     error: [

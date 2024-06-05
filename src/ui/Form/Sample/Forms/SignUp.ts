@@ -1,22 +1,21 @@
-
 import { Sample } from "../Sample";
 
 const SignUp: Sample = {
   schema: {
-    "definitions": {
+    definitions: {
       PhoneNumber: {
         type: "string",
         minLength: 1,
-        title: "Phone Number"
+        title: "Phone Number",
       },
       Logo: {
         type: "string",
-        title: "Sign up"
+        title: "Sign up",
       },
       Email: {
         type: "string",
         minLength: 1,
-        title: "Email"
+        title: "Email",
       },
       Password: {
         type: "string",
@@ -24,47 +23,42 @@ const SignUp: Sample = {
         minLength: 3,
       },
       SignUpType: {
-        "type": "number",
-        "enum": [
-          1,
-          2
-        ]
+        type: "number",
+        enum: [1, 2],
       },
     },
-    "oneOf": [
+    oneOf: [
       {
-        "properties": {
-          "type": {
-            "$ref": "#/definitions/SignUpType",
-            "default": 1
+        properties: {
+          type: {
+            $ref: "#/definitions/SignUpType",
+            default: 1,
           },
-          "email": {
-            "$ref": "#/definitions/Email",
+          email: {
+            $ref: "#/definitions/Email",
           },
-          "password": {
-            "$ref": "#/definitions/Password",
+          password: {
+            $ref: "#/definitions/Password",
           },
         },
-        "required": ["type", "email", "password"]
+        required: ["type", "email", "password"],
       },
       {
-        "properties": {
-          "type": {
-            "$ref": "#/definitions/SignUpType",
-            "default": 2
+        properties: {
+          type: {
+            $ref: "#/definitions/SignUpType",
+            default: 2,
           },
-          "mobile": {
-            "$ref": "#/definitions/PhoneNumber",
+          mobile: {
+            $ref: "#/definitions/PhoneNumber",
           },
-          "password": {
-            "$ref": "#/definitions/Password",
+          password: {
+            $ref: "#/definitions/Password",
           },
         },
-        "required": ["type", "mobile", "password"]
+        required: ["type", "mobile", "password"],
       },
-      
     ],
-    
   },
   uiSchema: {
     // "ui:order": [
@@ -76,7 +70,7 @@ const SignUp: Sample = {
     // ],
     "ui:widget": "TabWidget",
     "ui:options": {
-      "submitButtonOptions": {
+      submitButtonOptions: {
         props: {
           fullWidth: true,
           size: "lg",
@@ -89,11 +83,11 @@ const SignUp: Sample = {
       "ui:placeholder": "Mobile",
     },
     "email": {
-      "ui:placeholder": "Email"
+      "ui:placeholder": "Email",
     },
     "password": {
       "ui:widget": "PasswordWidget",
-      "ui:placeholder": "Password"
+      "ui:placeholder": "Password",
     },
     "type": {
       "ui:widget": "hidden",
@@ -104,13 +98,11 @@ const SignUp: Sample = {
     "logo": {
       "ui:widget": "LogoWidget",
       "ui:options": {
-        label: false
-      }
-    }
+        label: false,
+      },
+    },
   },
-  formData: {
-
-  },
+  formData: {},
 };
 
 export default SignUp;

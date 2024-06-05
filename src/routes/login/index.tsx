@@ -26,7 +26,7 @@ const Login = () => {
             <Box w={"100%"}>
               <Card radius={"lg"} p={"xl"} w={500}>
                 <Title order={3} style={{ textAlign: "center" }}>
-                  You're enjoy to Simple Exchange!
+                  {t("You're enjoy to Simple Exchange!")}
                 </Title>
                 <Space h={30} />
                 <AppForm
@@ -44,28 +44,17 @@ const Login = () => {
               <Group justify="center" my={"lg"}>
                 <div>
                   <Text component="a" href="/forgot-password">
-                    Forgot Password?
+                    {t("Forgot Password?")}
                   </Text>
                 </div>
                 <div>
-                  Not a member?{" "}
+                  {t("Not a member?")}{" "}
                   <Text component="a" href="/register" fw={"bold"}>
-                    Sign Up
+                    {t("Sign Up")}
                   </Text>
                 </div>
               </Group>
             </Box>
-
-            {/* <Center style={{ minHeight: "100vh" }}>
-        <Button
-          onClick={() => {
-            localStorage.setItem("__USER__", "true");
-            window.open("/", "_self");
-          }}
-        >
-          {t("Login")}
-        </Button>
-      </Center> */}
           </Container>
         </Center>
       </Box>

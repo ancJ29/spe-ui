@@ -1,10 +1,14 @@
+// cspell: disable
 .header {
   height: rem(48px);
   padding-left: var(--mantine-spacing-md);
   padding-right: var(--mantine-spacing-md);
   // border-bottom: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
   // background-color: light-dark(var(--mantine-color-black), var(--mantine-color-dark));
-  background-color: light-dark(var(--mantine-color-black), var(--mantine-color-black));
+  background-color: light-dark(
+    var(--mantine-color-black),
+    var(--mantine-color-black)
+  );
   position: sticky;
   top: 0;
   z-index: 9;
@@ -18,36 +22,44 @@
   padding-right: var(--mantine-spacing-md);
   text-decoration: none;
   // color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
-  color: light-dark(var(--mantine-color-white), var(--mantine-color-white));
+  color: light-dark(
+    var(--mantine-color-white),
+    var(--mantine-color-white)
+  );
   font-weight: 500;
   font-size: var(--mantine-font-size-sm);
   cursor: pointer;
+
   @media (max-width: $mantine-breakpoint-sm) {
     height: rem(42px);
     width: 100%;
   }
+
   @include hover {
     // background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
     // background-color: light-dark(var(--mantine-color-primary-7), var(--mantine-color-dark-6));
     background-color: rgba(255, 170, 0, 0.047);
     color: var(--mantine-color-primary-5);
+
     .translate {
       transform: rotate(180deg);
       transform-origin: center center;
       fill: var(--mantine-color-primary-5);
     }
   }
+
   &[aria-expanded="true"] {
     background-color: rgba(255, 170, 0, 0.047);
     color: var(--mantine-color-primary-5);
+
     .translate {
       transform: rotate(180deg);
       transform-origin: center center;
       fill: var(--mantine-color-primary-5);
     }
   }
-  
 }
+
 .translate {
   transition: all 0.25s linear;
 }
@@ -56,17 +68,21 @@
   width: 100%;
   padding: var(--mantine-spacing-xs) var(--mantine-spacing-md);
   border-radius: var(--mantine-radius-md);
+
   @include hover {
     // background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-7));
     background-color: rgba(255, 255, 255, 0.1);
+
     .subLinkTitle {
       color: var(--mantine-color-primary-5);
     }
   }
 }
+
 .subLinkTitle {
   color: white;
 }
+
 .defaultColor {
   color: unset;
 }
@@ -75,7 +91,8 @@
   // background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-7));
   margin: calc(var(--mantine-spacing-md) * -1);
   margin-top: var(--mantine-spacing-sm);
-  padding: var(--mantine-spacing-md) calc(var(--mantine-spacing-md) * 2);
+  padding: var(--mantine-spacing-md)
+    calc(var(--mantine-spacing-md) * 2);
   padding-bottom: var(--mantine-spacing-xl);
   // border-top: rem(1px) solid light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-5));
 }
@@ -112,9 +129,16 @@
 .banner {
   background: #000000;
 }
+
 .contentmarquee {
-  background: linear-gradient(96.76deg, #ffefcd 4.59%, #ffca63 38.25%, #fde4b1 93.08%);
+  background: linear-gradient(
+    96.76deg,
+    #ffefcd 4.59%,
+    #ffca63 38.25%,
+    #fde4b1 93.08%
+  );
 }
+
 .textLight {
   @include light {
     color: var(--mantine-color-white);
@@ -124,6 +148,7 @@
     color: var(--mantine-color-white);
   }
 }
+
 .textPrimary {
   @include light {
     color: var(--mantine-color-primary-5);
@@ -137,19 +162,28 @@
 .footer {
   background-color: rgba(128, 128, 128, 0.1);
 }
+
 .foolink {
   cursor: pointer;
   display: block;
   width: 100%;
-  color: light-dark(var(--mantine-color-black), var(--mantine-color-light));
+  color: light-dark(
+    var(--mantine-color-black),
+    var(--mantine-color-light)
+  );
   text-decoration: none;
+
   @include hover {
     color: var(--mantine-color-primary-5);
   }
 }
 
 .hoverlink {
-  color: light-dark(var(--mantine-color-black), var(--mantine-color-light));
+  color: light-dark(
+    var(--mantine-color-black),
+    var(--mantine-color-light)
+  );
+
   @include hover {
     color: var(--mantine-color-primary-5);
   }
@@ -160,10 +194,15 @@
     background: var(--mantine-color-gray-2);
   }
 }
+
 .linkBlock {
   display: flex;
   align-items: center;
 }
+
 .colorDefault {
-  color: light-dark(var(--mantine-color-black), var(--mantine-color-light));
+  color: light-dark(
+    var(--mantine-color-black),
+    var(--mantine-color-light)
+  );
 }

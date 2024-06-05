@@ -1,25 +1,35 @@
-import { Button, ButtonProps, BoxProps, 
-  createPolymorphicComponent,  
+import {
+  BoxProps,
+  Button,
+  ButtonProps,
+  createPolymorphicComponent,
 } from "@mantine/core";
 
+import { IconArrowRight } from "@tabler/icons-react";
 import { ReactNode, forwardRef } from "react";
 import classes from "./appButton.module.scss";
-import { IconArrowRight } from "@tabler/icons-react";
 
-type _TYPES = "Default" | "Ghost" | "GhostWithRightIcon" | "WithRightIcon" | "WithOutlinedColor";
+type _TYPES =
+  | "Default"
+  | "Ghost"
+  | "GhostWithRightIcon"
+  | "WithRightIcon"
+  | "WithOutlinedColor";
 type Instance = ButtonProps;
+
 type Custom = {
-  children: ReactNode
-  instancetype: _TYPES
+  children?: ReactNode;
+  instanceType?: _TYPES;
 };
-const _classes: Partial<InstanceClassesByType<_TYPES, string>> = {
+
+const _classes: Record<string, string> = {
   Default: "",
   GhostWithRightIcon: classes.appButton,
 };
-const _props: Partial<InstancePropsByType<_TYPES, Instance>> = {
-  Default: {
 
-  },
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const _props: any = {
+  Default: {},
   Ghost: {
     variant: "transparent",
   },
@@ -28,36 +38,39 @@ const _props: Partial<InstancePropsByType<_TYPES, Instance>> = {
     fullWidth: true,
     rightSection: <IconArrowRight />,
     variant: "transparent",
-    px: "0"
+    px: "0",
   },
   WithRightIcon: {
     rightSection: <IconArrowRight />,
   },
   WithOutlinedColor: {
-    variant: "outline"
-  }
+    variant: "outline",
+  },
 };
 
-type InstanceProps = Instance & Partial<Custom>;
+type InstanceProps = Instance & Custom;
 
-interface MyButtonProps extends BoxProps, InstanceProps {
-}
+interface MyButtonProps extends BoxProps, InstanceProps {}
 
 const AppButton = createPolymorphicComponent<"button", MyButtonProps>(
-  forwardRef<HTMLButtonElement, MyButtonProps>(({ children, ...others }, ref) => {
-    const _pr = { ...others };
-    return (
-      <Button
-        {..._props[_pr.instancetype ?? "Default"]}
-        className={_classes[_pr.instancetype ?? "Default"]}
-        {...others}
-        ref={ref}
-      >
-        {children}
-      </Button>
-    );
-  })
+  // eslint-disable-next-line react/display-name
+  forwardRef<HTMLButtonElement, MyButtonProps>(
+    ({ children, ...others }, ref) => {
+      const _pr = { ...others };
+      return (
+        <Button
+          {..._props[_pr.instanceType ?? "Default"]}
+          className={_classes[_pr.instanceType ?? "Default"]}
+          {...others}
+          ref={ref}
+        >
+          {children}
+        </Button>
+      );
+    },
+  ),
 );
 
+AppButton.displayName = "AppButton"; // Add display name
 
 export default AppButton;

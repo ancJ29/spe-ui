@@ -1,22 +1,21 @@
-
 import { Sample } from "../Sample";
 
 const ForgotPassword: Sample = {
   schema: {
-    "definitions": {
+    definitions: {
       PhoneNumber: {
         type: "string",
         minLength: 1,
-        title: "Phone"
+        title: "Phone",
       },
       Logo: {
         type: "string",
-        title: "Sign In"
+        title: "Sign In",
       },
       Email: {
         type: "string",
         minLength: 1,
-        title: "Email"
+        title: "Email",
       },
       Password: {
         type: "string",
@@ -24,45 +23,41 @@ const ForgotPassword: Sample = {
         minLength: 3,
       },
       SignUpType: {
-        "type": "number",
-        "enum": [
-          1,
-          2
-        ]
+        type: "number",
+        enum: [1, 2],
       },
     },
-    "oneOf": [
+    oneOf: [
       {
-        "properties": {
+        properties: {
           // "logo": {
           //   "$ref": "#/definitions/Logo",
           // },
-          "type": {
-            "$ref": "#/definitions/SignUpType",
-            "default": 1
+          type: {
+            $ref: "#/definitions/SignUpType",
+            default: 1,
           },
-          "email": {
-            "$ref": "#/definitions/Email",
-          }
+          email: {
+            $ref: "#/definitions/Email",
+          },
         },
-        "required": ["type", "email"]
+        required: ["type", "email"],
       },
       {
-        "properties": {
+        properties: {
           // "logo": {
           //   "$ref": "#/definitions/Logo",
           // },
-          "type": {
-            "$ref": "#/definitions/SignUpType",
-            "default": 2
+          type: {
+            $ref: "#/definitions/SignUpType",
+            default: 2,
           },
-          "mobile": {
-            "$ref": "#/definitions/PhoneNumber",
-          }
+          mobile: {
+            $ref: "#/definitions/PhoneNumber",
+          },
         },
-        "required": ["type", "mobile"]
+        required: ["type", "mobile"],
       },
-      
     ],
   },
   uiSchema: {
@@ -71,8 +66,8 @@ const ForgotPassword: Sample = {
       submitText: "Submit",
       props: {
         fullWidth: true,
-        size: "lg"
-      }
+        size: "lg",
+      },
     },
     "type": {
       "ui:widget": "hidden",
@@ -83,13 +78,11 @@ const ForgotPassword: Sample = {
     "logo": {
       "ui:widget": "LogoWidget",
       "ui:options": {
-        label: false
-      }
-    }
+        label: false,
+      },
+    },
   },
-  formData: {
-
-  },
+  formData: {},
 };
 
 export default ForgotPassword;

@@ -1,38 +1,34 @@
-import React, { FormEvent, useCallback, useState } from "react";
+import { Box, LoadingOverlay, rem } from "@mantine/core";
 import Form, { IChangeEvent } from "@rjsf/core";
-import Ajv2020 from "ajv/dist/2020.js";
-import { customizeValidator } from "@rjsf/validator-ajv8";
 import {
   RJSFSchema,
   RJSFValidationError,
   RegistryWidgetsType,
   UiSchema,
-
 } from "@rjsf/utils";
-import { Box, LoadingOverlay, rem } from "@mantine/core";
-import classes from "./form.module.scss";
+import { customizeValidator } from "@rjsf/validator-ajv8";
+import Ajv2020 from "ajv/dist/2020.js";
+import React, { FormEvent, useCallback, useState } from "react";
 import { Sample } from "./Sample/Sample";
+import classes from "./form.module.scss";
 
-import {
-  PhoneNumberField
-} from "./fields";
+import axios from "@/services/apis/api";
+import { useDisclosure } from "@mantine/hooks";
+import { notifications } from "@mantine/notifications";
+import { IconCheck } from "@tabler/icons-react";
+import { PhoneNumberField } from "./fields";
 import {
   CustomFieldTemplate,
   FieldErrorTemplate,
-  SubmitButton
+  SubmitButton,
 } from "./templates";
 import {
   CustomPasswordWidget,
   CustomTextWidget,
   LogoWidget,
   PhoneNumberWidget,
-  TabWidget
+  TabWidget,
 } from "./widgets";
-import axios from "@/services/apis/api";
-import { notifications } from "@mantine/notifications";
-import { IconCheck } from "@tabler/icons-react";
-import { useDisclosure } from "@mantine/hooks";
-import AppButton from "../Button/AppButton";
 
 const AJV8_2020 = customizeValidator({ AjvClass: Ajv2020 });
 const customWidgets: RegistryWidgetsType = {
@@ -43,14 +39,13 @@ const customWidgets: RegistryWidgetsType = {
   LogoWidget: LogoWidget,
   TabWidget: TabWidget,
   PhoneNumberWidget: PhoneNumberWidget,
-
 };
 
 type Custom = {
-  w: number | string,
-  api: string
-  _onSubmit: (res: any) => void
-  msgSuccess: string
+  w: number | string;
+  api: string;
+  _onSubmit: (res: unknown) => void;
+  msgSuccess: string;
 };
 const AppForm: React.FC<Sample & Partial<Custom>> = (props) => {
   const [schema] = useState<RJSFSchema>(
@@ -58,11 +53,13 @@ const AppForm: React.FC<Sample & Partial<Custom>> = (props) => {
     props.schema as RJSFSchema,
   );
   const [visible, { toggle, close }] = useDisclosure(false);
-  const [uiSchema] = useState<UiSchema>(props.uiSchema! /*props.formConfig.schema as UiSchema*/);  /*samples.SignUp.uiSchema!*/
-  const [formData, setFormData] = useState(props.formData /*props.formConfig.formData*/); /*samples.SignUp.formData*/
+  const [uiSchema] = useState<UiSchema | undefined>(props.uiSchema);
+  const [formData, setFormData] = useState(
+    props.formData /*props.formConfig.formData*/,
+  ); /*samples.SignUp.formData*/
 
   const onFormDataSubmit = useCallback(
-    (evt: IChangeEvent, event: FormEvent<any>) => {
+    (evt: IChangeEvent, event: FormEvent<unknown>) => {
       window.console.log("submitted formData", evt.formData);
       window.console.log("submit event", event);
       if (props.api) {
@@ -73,41 +70,50 @@ const AppForm: React.FC<Sample & Partial<Custom>> = (props) => {
             delete formData[_name];
           }
         });
-        console.log("formData", evt, formData);
         toggle();
-        axios.post(props.api, formData).then(res => {
-          if(!res.data.success) {
-            notifications.show({
-              color: "red",
-              title: "Something went wrong",
-              message: res.data.reason,
-              icon: <IconCheck style={{ width: rem(18), height: rem(18) }} />,
-              loading: false,
-              autoClose: 5000,
-              position: "top-center",
-            });
-          }else {
-            if (props._onSubmit) {
-              props._onSubmit(res);
+        axios
+          .post(props.api, formData)
+          .then((res) => {
+            if (!res.data.success) {
+              notifications.show({
+                color: "red",
+                title: "Something went wrong",
+                message: res.data.reason,
+                icon: (
+                  <IconCheck
+                    style={{ width: rem(18), height: rem(18) }}
+                  />
+                ),
+                loading: false,
+                autoClose: 5000,
+                position: "top-center",
+              });
+            } else {
+              if (props._onSubmit) {
+                props._onSubmit(res);
+              }
+              notifications.show({
+                color: "teal",
+                title: "The form was submitted successfully.",
+                message:
+                  props.msgSuccess ?? "The action was successful",
+                icon: (
+                  <IconCheck
+                    style={{ width: rem(18), height: rem(18) }}
+                  />
+                ),
+                loading: false,
+                autoClose: 5000,
+                position: "top-center",
+              });
             }
-            notifications.show({
-              color: "teal",
-              title: "The form was submitted successfully.",
-              message: props.msgSuccess ?? "The action was successful",
-              icon: <IconCheck style={{ width: rem(18), height: rem(18) }} />,
-              loading: false,
-              autoClose: 5000,
-              position: "top-center",
-            });
-          }
-          
-          
-        }).finally(() => {
-          close();
-        });
+          })
+          .finally(() => {
+            close();
+          });
       }
     },
-    [],
+    [close, props, toggle],
   );
 
   const onFormDataChange = useCallback(
@@ -122,7 +128,6 @@ const AppForm: React.FC<Sample & Partial<Custom>> = (props) => {
 
   return (
     <>
-
       <Box w={props.w ?? 500} pos="relative">
         <Form
           className={classes.form}
@@ -131,21 +136,19 @@ const AppForm: React.FC<Sample & Partial<Custom>> = (props) => {
           formData={formData}
           validator={AJV8_2020}
           fields={{
-            "PhoneNumberField": PhoneNumberField,
+            PhoneNumberField: PhoneNumberField,
           }}
           widgets={customWidgets}
           templates={{
             ButtonTemplates: { SubmitButton },
             FieldErrorTemplate,
             FieldTemplate: CustomFieldTemplate,
-
           }}
           showErrorList={false}
           extraErrorsBlockSubmit={false}
           extraErrors={{}}
           onChange={onFormDataChange}
           onSubmit={onFormDataSubmit}
-
           onBlur={(id: string, value: string) =>
             window.console.log(`Touched ${id} with value ${value}`)
           }
@@ -156,10 +159,12 @@ const AppForm: React.FC<Sample & Partial<Custom>> = (props) => {
             window.console.log("errors", errorList)
           }
         />
-        
-
       </Box>
-      <LoadingOverlay visible={visible} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
+      <LoadingOverlay
+        visible={visible}
+        zIndex={1000}
+        overlayProps={{ radius: "sm", blur: 2 }}
+      />
     </>
   );
 };

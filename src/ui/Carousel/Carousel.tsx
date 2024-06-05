@@ -1,12 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Carousel, Embla } from "@mantine/carousel";
-import {  Progress } from "@mantine/core";
-import Autoplay from "embla-carousel-autoplay";
-import imgBitcoin1 from "@/assets/images/undraw_bitcoin_re_urgq (1).svg";
 import imgBitcoin2 from "@/assets/images/undraw_bitcoin_p2p_re_1xqa.svg";
+import imgBitcoin1 from "@/assets/images/undraw_bitcoin_re_urg.svg";
 import imgBitcoin3 from "@/assets/images/undraw_profile_image_re_ic2f.svg";
-
-import AppCard from "@/ui/Card/AppCard";
+import AppCard, { AppCardProps } from "@/ui/Card/AppCard";
+import { Carousel, Embla } from "@mantine/carousel";
+import { Progress } from "@mantine/core";
+import Autoplay from "embla-carousel-autoplay";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export default function CarouselPage() {
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -26,37 +25,41 @@ export default function CarouselPage() {
       embla.on("scroll", handleScroll);
       handleScroll();
     }
-  }, [embla]);
-  const items: any[] = [
+  }, [embla, handleScroll]);
+
+  const items: AppCardProps[] = [
     {
       image: imgBitcoin1,
-      title: "European New Users Exclusive: Enjoy 0 Fees and 500% APR!",
-      tags: ["UTA", "Derivatives"]
+      title:
+        "European New Users Exclusive: Enjoy 0 Fees and 500% APR!",
+      tags: ["UTA", "Derivatives"],
     },
     {
       image: imgBitcoin2,
       title: "Exclusive: Enjoy 0 Fees and 500% APR!",
-      tags: ["Enjoy", "Fees"]
+      tags: ["Enjoy", "Fees"],
     },
     {
       image: imgBitcoin3,
-      title: "European New Users Exclusive: Enjoy 0 Fees and 500% APR!",
-      tags: ["UTA", "Derivatives"]
+      title:
+        "European New Users Exclusive: Enjoy 0 Fees and 500% APR!",
+      tags: ["UTA", "Derivatives"],
     },
     {
       image: imgBitcoin2,
       title: "Exclusive: Enjoy 0 Fees and 500% APR!",
-      tags: ["Enjoy", "Fees"]
+      tags: ["Enjoy", "Fees"],
     },
     {
       image: imgBitcoin1,
-      title: "European New Users Exclusive: Enjoy 0 Fees and 500% APR!",
-      tags: ["UTA", "Derivatives"]
+      title:
+        "European New Users Exclusive: Enjoy 0 Fees and 500% APR!",
+      tags: ["UTA", "Derivatives"],
     },
     {
       image: imgBitcoin2,
       title: "Exclusive: Enjoy 0 Fees and 500% APR!",
-      tags: ["Users Exclusive", "European"]
+      tags: ["Users Exclusive", "European"],
     },
   ];
   return (
@@ -74,10 +77,9 @@ export default function CarouselPage() {
         withKeyboardEvents
         getEmblaApi={setEmbla}
       >
-
         {items.map((_, _k) => (
           <Carousel.Slide key={_k}>
-            <AppCard {..._}/>
+            <AppCard {..._} />
           </Carousel.Slide>
         ))}
       </Carousel>
@@ -91,5 +93,3 @@ export default function CarouselPage() {
     </>
   );
 }
-
-

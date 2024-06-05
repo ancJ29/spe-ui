@@ -1,45 +1,22 @@
+import { shuffleArray } from "@/utils";
 import ApexCharts, { ApexOptions } from "apexcharts";
 import { set } from "lodash";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-const randomizeArray = function (arg: any[]) {
-  const array = arg.slice();
-  let currentIndex = array.length,
-    temporaryValue, randomIndex;
-
-  while (0 !== currentIndex) {
-
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-
-  return array;
-};
-const sparklineData = [47, 45, 54, 38, 56, 24, 65, 31, 37, 39, 62];
-
-type _TYPES = TransformInputToUnion<{
-  Default: "Default",
-  Sparkline: "Sparkline",
-}>;
-
+type _TYPES = "Default" | "Sparkline";
 type Instance = ApexOptions;
 type Custom = {
-  instancetype: _TYPES,
-  chartSeries: ApexAxisChartSeries | ApexNonAxisChartSeries
-  chartOptions: Instance
+  instanceType: _TYPES;
+  chartSeries: ApexAxisChartSeries | ApexNonAxisChartSeries;
+  chartOptions: Instance;
 };
 
-
-export const randomizeArraySparkline = () => {
-  return [{
-    data: randomizeArray(sparklineData)
-  }];
-};
+export const randomizeArraySparkline = () => [
+  {
+    data: shuffleArray([47, 45, 54, 38, 56, 24, 65, 31, 37, 39, 62]),
+  },
+];
 
 const optionsSparkline = (chartId: string): Instance => {
   return {
@@ -50,54 +27,65 @@ const optionsSparkline = (chartId: string): Instance => {
       height: 40,
       width: 100,
       sparkline: {
-        enabled: true
+        enabled: true,
       },
       dropShadow: {
-        enabled: false
+        enabled: false,
       },
     },
     colors: ["#00E396"],
     fill: {
       opacity: 0.4,
-      colors: ["#00E396"], // Set màu nền cho phần fill của biểu đồ
+      colors: ["#00E396"],
     },
     stroke: {
       curve: "smooth",
       width: 1,
     },
+    // cspell:disable-next-line
     xaxis: {
+      // cspell:disable-next-line
       crosshairs: {
-        width: 1
+        width: 1,
       },
     },
+    // cspell:disable-next-line
     yaxis: {
-      min: 0
+      min: 0,
     },
     tooltip: {
-      enabled: false
+      enabled: false,
     },
   };
 };
 
-const _props: Partial<InstancePropsByType<_TYPES, Instance>> = {
+type InstancePropsByType = {
+  [k in _TYPES]: Instance;
+};
+
+const _props: Partial<InstancePropsByType> = {
   Default: {},
-  Sparkline: optionsSparkline(uuidv4())
+  Sparkline: optionsSparkline(uuidv4()),
 };
 
 type InstanceProps = Instance & Partial<Custom>;
 
+type Series = ApexAxisChartSeries | ApexNonAxisChartSeries;
+
 export default function AppChart(props: InstanceProps) {
   const refChart = useRef<HTMLDivElement>(null);
   const [chartId] = useState<string>(`chart_${uuidv4()}_apex`);
-  const [options] = useState<Instance>(_props[props.instancetype ?? "Sparkline"] ?? {});
-  const [series] = useState<ApexAxisChartSeries | ApexNonAxisChartSeries>(props.chartSeries ?? []);
+  const [options] = useState<Instance>(
+    _props[props.instanceType ?? "Sparkline"] ?? {},
+  );
+  const [series] = useState<Series>(props.chartSeries ?? []);
 
-  const udpateSeries = useCallback(() => {
+  const updateSeries = useCallback(() => {
     const _chart = ApexCharts.getChartByID(chartId);
-    if(_chart && props.chartOptions) {
+    if (_chart && props.chartOptions) {
       _chart?.updateOptions(props.chartOptions);
     }
-  }, []);
+  }, [chartId, props.chartOptions]);
 
   useEffect(() => {
     if (refChart.current != null) {
@@ -113,7 +101,7 @@ export default function AppChart(props: InstanceProps) {
       } else {
         const chart = new ApexCharts(refChart.current, {
           ...ops,
-          ...props.chartOptions
+          ...props.chartOptions,
         });
         chart.render().then(() => {
           if (series) {
@@ -122,13 +110,11 @@ export default function AppChart(props: InstanceProps) {
         });
       }
     }
-  }, []);
+  }, [chartId, options, props.chartOptions, series]);
 
   useEffect(() => {
-    udpateSeries();
-  }, [props.chartOptions]);
+    updateSeries();
+  }, [props.chartOptions, updateSeries]);
 
-  return (
-    <div ref={refChart} id={chartId}></div>
-  );
+  return <div ref={refChart} id={chartId}></div>;
 }

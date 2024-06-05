@@ -2,25 +2,25 @@
 
 // Define variables for your breakpoints,
 // values must be the same as in your theme
-$mantine-breakpoint-xs: '36em';
-$mantine-breakpoint-sm: '48em';
-$mantine-breakpoint-md: '62em';
-$mantine-breakpoint-lg: '75em';
-$mantine-breakpoint-xl: '88em';
+$mantine-breakpoint-xs: "36em";
+$mantine-breakpoint-sm: "48em";
+$mantine-breakpoint-md: "62em";
+$mantine-breakpoint-lg: "75em";
+$mantine-breakpoint-xl: "88em";
 
 .rowItem {
-    &:not(:last-child) {
-        margin-bottom: rem(20px);
-    }
-    position: relative;
+  &:not(:last-child) {
+    margin-bottom: rem(20px);
+  }
+  position: relative;
 }
 .sticky-top {
-    position: sticky;
-    top: 0;
-    left: 0;
-    z-index: 2;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 2;
 }
 
 html {
-    overflow-x: hidden;
+  overflow-x: hidden;
 }

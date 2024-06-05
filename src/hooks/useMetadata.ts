@@ -3,8 +3,13 @@ import { fetcher } from "@/services/apis/api";
 import useSWR from "swr";
 
 export default function useMetadata() {
-  const { data, error, isLoading } = useSWR<Metadata>("/api/meta-data", fetcher);
+  const { data, error, isLoading } = useSWR<Metadata>(
+    "/api/meta-data",
+    fetcher,
+  );
   return {
-    data, error, isLoading
+    data,
+    error,
+    isLoading,
   };
 }

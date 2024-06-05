@@ -1,10 +1,7 @@
 .appText {
-    @include light {
-       
-    }
+  @include light {
+  }
 
-    @include dark {
-        
-    }
-
+  @include dark {
+  }
 }
