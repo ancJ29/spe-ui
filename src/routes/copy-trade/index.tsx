@@ -46,6 +46,9 @@ import {
 import { useCallback, useMemo, useState } from "react";
 import { Footer, Header } from "../top-page";
 import classes from "./index.module.scss";
+import moneyIcon from "@/assets/images/money.svg";
+import topTradeIcon from "@/assets/images/toptrader.svg";
+import alltraderIcon from "@/assets/images/alltrader.svg";
 
 const sizeContainer = "xl";
 
@@ -76,6 +79,7 @@ const traders = [
     top: 5,
   },
 ];
+
 
 const IndexPage = () => {
   const { data } = useMetadata();
@@ -163,9 +167,7 @@ const IndexPage = () => {
                     right={50}
                     bottom={0}
                     w={60}
-                    src={
-                      "https://www.bybit.com/copyTrade/static/media/money.31e2e41e.svg"
-                    }
+                    src={moneyIcon}
                   />
                 </Box>
                 <Box style={{ padding: "16px 16px" }}>
@@ -232,9 +234,7 @@ const IndexPage = () => {
                   leftSection={
                     <Image
                       width={30}
-                      src={
-                        "https://www.bybit.com/copyTrade/static/media/toptrader.fc0ae9d5.svg"
-                      }
+                      src={topTradeIcon}
                     />
                   }
                 >
@@ -247,9 +247,7 @@ const IndexPage = () => {
                   leftSection={
                     <Image
                       width={30}
-                      src={
-                        "https://www.bybit.com/copyTrade/static/media/alltrader.c85894e1.svg"
-                      }
+                      src={alltraderIcon}
                     />
                   }
                 >

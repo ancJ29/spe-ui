@@ -216,8 +216,7 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
           <Group h="100%">
-            {/* <Avatar color="primary" radius="xl" src={svgLogo}>SE</Avatar> */}
-            <a href="/top-page">
+            <a href="/">
               <Image src={svgLogo} w={100} />
             </a>
             <Group h="100%" gap={0} visibleFrom="sm">
@@ -234,7 +233,10 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
                         offset={0}
                       >
                         <Menu.Target>
-                          <a href="#" className={classes.link}>
+                          <a
+                            href={item.url || "/#"}
+                            className={classes.link}
+                          >
                             <Center inline>
                               <Box component="span" mr={5}>
                                 {item.label}
@@ -288,7 +290,10 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
                       </Menu>
                     )}
                     {item.type === "link" && (
-                      <a href="#" className={classes.link}>
+                      <a
+                        href={item.url || "/#"}
+                        className={classes.link}
+                      >
                         {item.label}
                       </a>
                     )}
@@ -302,7 +307,10 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
                         offset={0}
                       >
                         <HoverCard.Target>
-                          <a href="#" className={classes.link}>
+                          <a
+                            href={item.url || "/#"}
+                            className={classes.link}
+                          >
                             <Center inline>
                               <Box component="span" mr={5}>
                                 {item.label}
@@ -337,7 +345,7 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
                             <Text fw={500} c={"primary"}>
                               {item.panelFooter.title}
                             </Text>
-                            <Anchor href="#" fz="xs">
+                            <Anchor href={item.url || "/#"} fz="xs">
                               View all
                             </Anchor>
                           </Group>
@@ -581,7 +589,7 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
                 )}
                 {item.type === "link" && (
                   <a
-                    href="#"
+                    href={item.url || "/#"}
                     className={cx(classes.link, classes.colorDefault)}
                   >
                     {item.label}
@@ -1162,7 +1170,7 @@ export function Footer(props: Partial<{ metadata: Metadata }>) {
               <Flex gap={10} mt={30}>
                 {footer.socials.map((s, i) => (
                   <a
-                    href={s.url ?? "#"}
+                    href={s.url ?? "/#"}
                     key={i}
                     target="_blank"
                     rel="noreferrer"
@@ -1188,7 +1196,7 @@ export function Footer(props: Partial<{ metadata: Metadata }>) {
                         <a
                           className={classes.foolink}
                           key={i}
-                          href={link.url}
+                          href={link.url || "/#"}
                         >
                           <Text size="sm">{link.label}</Text>
                         </a>
