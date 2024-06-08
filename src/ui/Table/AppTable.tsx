@@ -57,7 +57,7 @@ const elements = [
     change: getRandomNumber(-25, 100),
     token: "ETHUSDT",
     chart: "Carbon",
-    icon: "https://www.bybit.com/bycsi-root/assets/image/coins/light/eth.svg",
+    icon: "/images/bybit/assets/eth.svg",
   },
   {
     id: 7,
@@ -65,7 +65,7 @@ const elements = [
     change: getRandomNumber(-25, 100),
     token: "BTCUSDT",
     chart: "Nitrogen",
-    icon: "https://www.bybit.com/bycsi-root/assets/image/coins/light/btc.svg",
+    icon: "/images/bybit/assets/btc.svg",
   },
   {
     id: 39,
@@ -73,7 +73,7 @@ const elements = [
     change: getRandomNumber(-25, 90),
     token: "GMTUSDT",
     chart: "Yttrium",
-    icon: "https://www.bybit.com/bycsi-root/fop/b97e9838-e8df-4c98-8f20-adf3815b5b07.svg",
+    icon: "/images/bybit/assets/b97e9838-e8df-4c98-8f20-adf3815b5b07.svg",
   },
   {
     id: 56,
@@ -81,7 +81,7 @@ const elements = [
     change: getRandomNumber(-25, 49),
     token: "SLIM/USDT",
     chart: "Barium",
-    icon: "https://www.bybit.com/bycsi-root/assets/image/coins/light/btc.svg",
+    icon: "/images/bybit/assets/btc.svg",
   },
   {
     id: 58,
@@ -89,7 +89,7 @@ const elements = [
     change: getRandomNumber(-25, 57),
     token: "SRP/USDT",
     chart: "Cerium",
-    icon: "https://www.bybit.com/bycsi-root/assets/image/coins/light/btc.svg",
+    icon: "/images/bybit/assets/btc.svg",
   },
 ];
 

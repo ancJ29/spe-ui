@@ -51,32 +51,27 @@ const sizeContainer = "xl";
 
 const traders = [
   {
-    avatar:
-      "https://www.bybit.com/bycsi-root/fop/copytrade/a6fc7bce-dc27-4bd0-94ec-38f9046c50b0.jpg?format=avif&quality=40&resize=width%2F80%2Cheight%2F80",
+    avatar: "/images/bybit/a6fc7bce-dc27-4bd0-94ec-38f9046c50b0.jpg",
     userName: "KING 👑",
     top: 1,
   },
   {
-    avatar:
-      "https://www.bybit.com/bycsi-root/fop/copytrade/ff8f94ee-757d-4063-b741-4e75546a78ce.png?format=avif&quality=40&resize=width%2F80%2Cheight%2F80",
+    avatar: "/images/bybit/ff8f94ee-757d-4063-b741-4e75546a78ce.png",
     userName: "₿eatTheFatCats",
     top: 2,
   },
   {
-    avatar:
-      "https://www.bybit.com/bycsi-root/fop/copytrade/5162cd0a-f072-45db-9b1c-d2d675ead6c8.jpg?format=avif&quality=40&resize=width%2F200%2Cheight%2F200",
+    avatar: "/images/bybit/5162cd0a-f072-45db-9b1c-d2d675ead6c8.jpg",
     userName: "ThisIsAna",
     top: 3,
   },
   {
-    avatar:
-      "https://www.bybit.com/bycsi-root/fop/copytrade/a98158da-6d59-4666-aaad-9c745c5d87b3.png?format=avif&quality=40&resize=width%2F120%2Cheight%2F120",
+    avatar: "/images/bybit/a98158da-6d59-4666-aaad-9c745c5d87b3.png",
     userName: "ᴛʀᴀᴅᴇʀ ʙʏʙɪᴛ🥇", // cspell: disable-line
     top: 4,
   },
   {
-    avatar:
-      "https://www.bybit.com/bycsi-root/fop/copytrade/cc074b0d-38a7-48ee-a1c8-8e12c56acf8c.jpg?format=avif&quality=40&resize=width%2F200%2Cheight%2F200",
+    avatar: "/images/bybit/cc074b0d-38a7-48ee-a1c8-8e12c56acf8c.jpg",
     userName: "AI Pro Trade",
     top: 5,
   },
@@ -927,7 +922,7 @@ function GridMasterTraders() {
                 <Avatar
                   size={48}
                   src={
-                    "https://www.bybit.com/bycsi-root/fop/copytrade/6f03645d-a21a-40d1-97e2-90cbfef6ce98.jpg?format=avif&quality=40&resize=width%2F96%2Cheight%2F96"
+                    "/images/6f03645d-a21a-40d1-97e2-90cbfef6ce98.jpg6"
                   }
                 />
                 <Box maw={280}>
@@ -1077,7 +1072,7 @@ export function CardTraderTop1(
                 opacity={0}
                 size={80}
                 src={
-                  "https://www.bybit.com/bycsi-root/fop/copytrade/6b7252dd-fe34-4ce0-a5f0-837474103818.png?format=avif&quality=40&resize=width%2F160%2Cheight%2F160"
+                  "/images/6b7252dd-fe34-4ce0-a5f0-837474103818.png0"
                 }
               />
               <Box>
@@ -1264,7 +1259,7 @@ export function CardTrader() {
               <Avatar
                 size={60}
                 src={
-                  "https://www.bybit.com/bycsi-root/fop/copytrade/6b7252dd-fe34-4ce0-a5f0-837474103818.png?format=avif&quality=40&resize=width%2F160%2Cheight%2F160"
+                  "/images/6b7252dd-fe34-4ce0-a5f0-837474103818.png0"
                 }
               />
               <Box>
@@ -1463,7 +1458,7 @@ export function CardTraderBonus() {
               <Avatar
                 size={60}
                 src={
-                  "https://www.bybit.com/bycsi-root/fop/copytrade/6b7252dd-fe34-4ce0-a5f0-837474103818.png?format=avif&quality=40&resize=width%2F160%2Cheight%2F160"
+                  "/images/6b7252dd-fe34-4ce0-a5f0-837474103818.png0"
                 }
               />
               <Box>
