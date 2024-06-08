@@ -15,7 +15,7 @@ const routes: RouteObject[] = [
     element: <map.Login />,
   },
   {
-    path: "/copy-trade",
+    path: "/copy-trading",
     element: <map.CopyTrade />,
   },
   {
@@ -29,10 +29,6 @@ const routes: RouteObject[] = [
   {
     path: "/forgot-password",
     element: <map.ForgotPassword />,
-  },
-  {
-    path: "/top-page",
-    element: <map.TopPage />,
   },
   {
     path: "/*",

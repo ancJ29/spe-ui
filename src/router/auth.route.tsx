@@ -25,7 +25,7 @@ const componentMap: Record<string, LazyExoticComponent> = {
 
 const configs: Config[] = [
   {
-    path: "/copy-trade",
+    path: "/copy-trading",
     element: "CopyTrade",
     wrapper: {
       element: ServiceWrapper as Wrapper,
