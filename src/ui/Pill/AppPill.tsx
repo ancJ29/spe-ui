@@ -1,16 +1,37 @@
-import { Pill } from "@mantine/core";
-import { ComponentProps } from "react";
+import { Pill, PillProps } from "@mantine/core";
 import classes from "./pill.module.scss";
-type Instance = ComponentProps<typeof Pill>;
+
+type _TYPES =
+  | "Default"
+  | "WithTagSmall";
+
 type Custom = {
-  // TODO
+  instanceType?: _TYPES;
 };
-type InstanceProps = Instance & Partial<Custom>;
+
+const _props: Partial<Record<_TYPES, InstanceProps>> = {
+  "Default": {},
+  "WithTagSmall": {
+    bg: "blue.1",
+    c: "blue.5",
+    radius: 5, 
+    size: "xs"
+  }
+};
+
+type InstanceProps = PillProps & Partial<Custom>;
 
 export default function AppPill(props: InstanceProps) {
   return (
-    <Pill className={classes.appPill} {...props}>
+    <Pill
+      className={classes.appPill}
+      {
+        ..._props[props.instanceType ?? "Default"]
+      }
+      {...props}
+    >
       {props.children}
     </Pill>
   );
 }
+

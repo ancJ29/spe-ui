@@ -21,7 +21,7 @@ export function TabWidget(props: WidgetProps) {
             value: "0",
             label: (
               <Center style={{ gap: 10 }}>
-                <IconPhone
+                <IconMailHeart
                   style={{ width: rem(16), height: rem(16) }}
                 />
                 <span>Email</span>
@@ -32,7 +32,7 @@ export function TabWidget(props: WidgetProps) {
             value: "1",
             label: (
               <Center style={{ gap: 10 }}>
-                <IconMailHeart
+                <IconPhone
                   style={{ width: rem(16), height: rem(16) }}
                 />
                 <span>Mobile</span>

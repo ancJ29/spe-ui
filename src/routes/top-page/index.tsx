@@ -48,6 +48,7 @@ import {
   Title,
   UnstyledButton,
   alpha,
+  darken,
   lighten,
   rem,
   useComputedColorScheme,
@@ -58,6 +59,7 @@ import { useDisclosure } from "@mantine/hooks";
 import {
   IconCaretDownFilled,
   IconCoin,
+  IconMoon,
   IconSun,
   IconWorld,
 } from "@tabler/icons-react";
@@ -192,10 +194,11 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const theme = useMantineTheme();
-  const { setColorScheme } = useMantineColorScheme();
+  const { setColorScheme, colorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme("light", {
     getInitialValueInEffect: true,
   });
+
 
   const menus = useMemo(() => {
     const _items = getHeaderMenu(props.metadata);
@@ -473,7 +476,9 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
                 size="xl"
                 aria-label="Toggle color scheme"
               >
-                <IconSun color={lighten(theme.colors.dark[7], 1)} />
+                {colorScheme === "light" && <IconSun color={lighten(theme.colors.dark[7], 1)} />}
+                {colorScheme === "dark" && <IconMoon color={lighten(theme.colors.dark[7], 1)} />}
+
               </ActionIcon>
             </Group>
           </Group>
@@ -871,11 +876,13 @@ function renderCell(
       };
     }
     return (
-      <AppChart
-        instanceType="Sparkline"
-        chartSeries={randomizeArraySparkline()}
-        chartOptions={chartOptions}
-      />
+      <div>
+        <AppChart
+          instanceType="Sparkline"
+          chartSeries={randomizeArraySparkline()}
+          chartOptions={chartOptions}
+        />
+      </div>
     );
   }
   if (field.name == "Trade") {
@@ -1133,7 +1140,7 @@ function PartnerSection() {
   );
 }
 
-function Footer(props: Partial<{ metadata: Metadata }>) {
+export function Footer(props: Partial<{ metadata: Metadata }>) {
   const footer = useMemo<footerInfo>(() => {
     return getFooter(props.metadata);
   }, [props.metadata]);

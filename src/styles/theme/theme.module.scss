@@ -4,12 +4,57 @@
 @import "./config/variables";
 @import "./components/buttons";
 @import "./components/card";
+@import "./components/text";
+@import "./components//table";
+@import "./pages/copytrade";
+
 
 .mantine-Carousel-controls {
   width: calc(100% + 80px);
   padding: 0 !important;
   left: -40px !important;
 }
+
+.app-carousel {
+  .mantine-Carousel-controls {
+    // width: calc(100%);
+    width: unset;
+    padding: 0 !important;
+    left: 0 !important;
+    // left: -10px !important;
+    position: static;
+    // border: solid 1px red;
+    justify-content: center;
+    gap: 10px;
+    button {
+      background: #f18f14;
+      svg {
+        fill: white;
+        color: white;
+      }
+      &[data-inactive="true"] {
+        opacity: 0.4;
+        pointer-events: none;
+      }
+    }
+  }
+  .mantine-Carousel-viewport {
+    position: relative;
+    &::before {
+      content: "";
+      width: 50px;
+      height: 100%;
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: red;
+      z-index: 2;
+      background: linear-gradient(270deg, #fff, hsla(0, 0%, 100%, 0) 94.95%);
+    }
+  }
+}
+
 .mantine-Tabs-tabLabel {
   opacity: 0.5;
 }

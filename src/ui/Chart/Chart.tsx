@@ -4,7 +4,7 @@ import { set } from "lodash";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-type _TYPES = "Default" | "Sparkline";
+type _TYPES = "Default" | "Sparkline" | "Areapercent";
 type Instance = ApexOptions;
 type Custom = {
   instanceType: _TYPES;
@@ -42,19 +42,79 @@ const optionsSparkline = (chartId: string): Instance => {
       curve: "smooth",
       width: 1,
     },
-    // cspell:disable-next-line
     xaxis: {
-      // cspell:disable-next-line
       crosshairs: {
         width: 1,
       },
     },
-    // cspell:disable-next-line
     yaxis: {
       min: 0,
+      show: false
     },
     tooltip: {
       enabled: false,
+    },
+  };
+};
+const optionsAreapercent = (chartId: string): Instance => {
+  return {
+    series: [],
+    chart: {
+      id: `chart_${chartId}_apex`,
+      type: "area",
+      height: 100,
+      width: 155,
+      toolbar: {
+        show: false
+      }
+    },
+    colors: ["#00E396"],
+    fill: {
+      opacity: 0.4,
+      colors: ["#00E396"],
+    },
+    stroke: {
+      curve: "smooth",
+      width: 1,
+    },
+    yaxis: {
+      axisBorder: {
+        show: false
+      },
+      axisTicks: {
+        show: false,
+      },
+      labels: {
+        style: {
+          colors: "gray"
+        },
+        formatter: (value) => {
+          return value.toString() + "%"; 
+        },
+      }
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    xaxis: {
+      stepSize: 0,
+      labels: {
+        show: false
+      },
+      axisBorder: {
+        show: false
+      },
+      axisTicks: {
+        show: false
+      }
+      
+    },
+    tooltip: {
+      enabled: false,
+    },
+    grid: {
+      // show: false,
+      strokeDashArray: 2,
     },
   };
 };
@@ -66,9 +126,10 @@ type InstancePropsByType = {
 const _props: Partial<InstancePropsByType> = {
   Default: {},
   Sparkline: optionsSparkline(uuidv4()),
+  Areapercent: optionsAreapercent(uuidv4())
 };
 
-type InstanceProps = Instance & Partial<Custom>;
+type InstanceProps = Partial<Custom>;
 
 type Series = ApexAxisChartSeries | ApexNonAxisChartSeries;
 
@@ -116,5 +177,5 @@ export default function AppChart(props: InstanceProps) {
     updateSeries();
   }, [props.chartOptions, updateSeries]);
 
-  return <div ref={refChart} id={chartId}></div>;
+  return (<div ref={refChart} id={chartId} />);
 }

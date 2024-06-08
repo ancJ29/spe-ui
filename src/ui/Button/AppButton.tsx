@@ -22,13 +22,13 @@ type Custom = {
   instanceType?: _TYPES;
 };
 
-const _classes: Record<string, string> = {
+const _classes: Partial<Record<_TYPES, string>> = {
   Default: "",
   GhostWithRightIcon: classes.appButton,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const _props: any = {
+const _props: Record<_TYPES, InstanceProps> = {
   Default: {},
   Ghost: {
     variant: "transparent",
@@ -46,11 +46,13 @@ const _props: any = {
   WithOutlinedColor: {
     variant: "outline",
   },
+  
 };
 
 type InstanceProps = Instance & Custom;
 
 interface MyButtonProps extends BoxProps, InstanceProps {}
+
 
 const AppButton = createPolymorphicComponent<"button", MyButtonProps>(
   // eslint-disable-next-line react/display-name

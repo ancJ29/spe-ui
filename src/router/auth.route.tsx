@@ -20,9 +20,17 @@ const ServiceWrapper = lazy(() => import("@/layouts/ServiceWrapper"));
 const componentMap: Record<string, LazyExoticComponent> = {
   BlankPage: lazy(() => import("@/routes/blank-page")),
   TopPage: lazy(() => import("@/routes/top-page")),
+  CopyTrade: lazy(() => import("@/routes/copy-trade")),
 };
 
 const configs: Config[] = [
+  {
+    path: "/copy-trade",
+    element: "CopyTrade",
+    wrapper: {
+      element: ServiceWrapper as Wrapper,
+    },
+  },
   {
     path: "/*",
     element: "TopPage",

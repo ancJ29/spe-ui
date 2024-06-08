@@ -1,14 +1,21 @@
 import { Text, TextProps } from "@mantine/core";
 import { ReactNode } from "react";
 
-const _TYPES = {
-  Default: "Default",
-  TabTitle: "TabTitle",
-  WithCellToken: "WithCellToken",
-  WithThead: "WithThead",
-} as const;
+type _TYPES =
+  "Default" |
+  "TabTitle" |
+  "WithCellToken" |
+  "WithThead" |
+  "BannerCopyTitle" |
+  "BannerTextSub" |
+  "TabText" |
+  "WithTitleSectionTrade" |
+  "WithSubTitleSectionTrade" |
+  "WithPriceCardTrader" |
+  "withTheadSmall" |
+  "withPriceCardTrade"
+  | "WidthPriceNormal";
 
-type _TYPES = (typeof _TYPES)[keyof typeof _TYPES];
 type Instance = TextProps;
 type Custom = {
   children: ReactNode;
@@ -35,6 +42,12 @@ const _props: Partial<InstancePropsByType> = {
   WithCellToken: {
     fw: "bold",
     size: "md",
+    style(theme) {
+      return {
+        textOverflow: "ellipsis",
+        overflow: "hidden"
+      };
+    },
   },
   WithThead: {
     size: "sm",
@@ -43,6 +56,55 @@ const _props: Partial<InstancePropsByType> = {
     lineClamp: 1,
     truncate: "end",
   },
+  BannerCopyTitle: {
+    size: "xl",
+    fw: "bold"
+  },
+  BannerTextSub: {
+    size: "lg",
+    fw: "bold"
+  },
+  TabText: {
+    h: 32,
+    fw: "bold",
+    fz: "20px",
+    lh: "28px",
+  },
+  WithTitleSectionTrade: {
+    style: {
+      fontWeight: "600",
+      fontSize: "24px",
+      lineHeight: "32px",
+      color: "#121214",
+      display: "flex",
+      alignItems: "center",
+    },
+    fw: "bolder"
+  },
+  WithSubTitleSectionTrade: {
+    c: "#81858c",
+    fz: 16,
+    fw: "bold"
+  },
+  WithPriceCardTrader: {
+    style: {
+      fontWeight: "700",
+      fontSize: "28px",
+    }
+  },
+  withTheadSmall: {
+    fz: 12,
+    c: "#81858c"
+  },
+  withPriceCardTrade: {
+    fw: "bold",
+    fz: 14,
+  },
+  WidthPriceNormal: {
+    fw: "600",
+    fz: 14
+  }
+
 };
 
 const AppText = (props: InstanceProps) => {
