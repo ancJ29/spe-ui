@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 type _TYPES = "Default" | "Sparkline" | "Areapercent";
 type Instance = ApexOptions;
 type Custom = {
-  instanceType: _TYPES;
+  instancetype: _TYPES;
   chartSeries: ApexAxisChartSeries | ApexNonAxisChartSeries;
   chartOptions: Instance;
 };
@@ -136,7 +136,7 @@ export default function AppChart(props: InstanceProps) {
   const refChart = useRef<HTMLDivElement>(null);
   const [chartId] = useState<string>(`chart_${uuidv4()}_apex`);
   const [options] = useState<Instance>(
-    _props[props.instanceType ?? "Sparkline"] ?? {},
+    _props[props.instancetype ?? "Sparkline"] ?? {},
   );
   const [series] = useState<Series>(props.chartSeries ?? []);
 

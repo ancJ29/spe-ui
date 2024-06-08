@@ -101,7 +101,7 @@ export default function TopPage() {
                 Catch Your Next Trading Opportunity
               </Title>
               <AppButton
-                instanceType="WithRightIcon"
+                instancetype="WithRightIcon"
                 size="lg"
                 color="primary"
                 variant="light"
@@ -122,17 +122,17 @@ export default function TopPage() {
                   >
                     <Tabs.List bd={1}>
                       <Tabs.Tab value="first">
-                        <AppText instanceType="TabTitle">
+                        <AppText instancetype="TabTitle">
                           Favorites
                         </AppText>
                       </Tabs.Tab>
                       <Tabs.Tab value="second">
-                        <AppText instanceType="TabTitle">
+                        <AppText instancetype="TabTitle">
                           Hot Derivatives
                         </AppText>
                       </Tabs.Tab>
                       <Tabs.Tab value="third">
-                        <AppText instanceType="TabTitle">
+                        <AppText instancetype="TabTitle">
                           Hot Coins
                         </AppText>
                       </Tabs.Tab>
@@ -162,7 +162,7 @@ export default function TopPage() {
                 </Card>
               </Grid.Col>
               <Grid.Col span={8}>
-                <AppButton instanceType="WithRightIcon" size="lg">
+                <AppButton instancetype="WithRightIcon" size="lg">
                   Deposit or Buy Crypto
                 </AppButton>
               </Grid.Col>
@@ -419,7 +419,7 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
           <Group visibleFrom="sm" h="100%">
             <Group h="100%" gap={2}>
               <AppButton
-                instanceType="Ghost"
+                instancetype="Ghost"
                 color="white"
                 component="a"
                 href="/login"
@@ -837,7 +837,7 @@ function renderCell(
     return (
       <Group align="center" gap={"sm"}>
         <Avatar size={28} src={element.icon}></Avatar>
-        <AppText instanceType="WithCellToken">
+        <AppText instancetype="WithCellToken">
           {element.token}
         </AppText>
       </Group>
@@ -845,7 +845,7 @@ function renderCell(
   }
   if (field.name == "price") {
     return (
-      <AppText instanceType="WithCellToken">
+      <AppText instancetype="WithCellToken">
         {element.lastPrice}
       </AppText>
     );
@@ -853,7 +853,7 @@ function renderCell(
   if (field.name == "change") {
     return (
       <AppText
-        instanceType="WithCellToken"
+        instancetype="WithCellToken"
         c={element.change > 0 ? "green" : "red"}
       >
         {element.change > 0 ? "+" : ""}
@@ -881,7 +881,7 @@ function renderCell(
     return (
       <div>
         <AppChart
-          instanceType="Sparkline"
+          instancetype="Sparkline"
           chartSeries={randomizeArraySparkline()}
           chartOptions={chartOptions}
         />
@@ -890,7 +890,7 @@ function renderCell(
   }
   if (field.name == "Trade") {
     return (
-      <AppButton instanceType="WithOutlinedColor">Trade</AppButton>
+      <AppButton instancetype="WithOutlinedColor">Trade</AppButton>
     );
   }
 }
@@ -983,7 +983,7 @@ function TrendingTraders() {
                     </Box>
                   </Flex>
                   <Space h={"xl"} />
-                  <AppButton instanceType="WithRightIcon" size="md">
+                  <AppButton instancetype="WithRightIcon" size="md">
                     View All Masters
                   </AppButton>
                 </Box>
@@ -1038,7 +1038,7 @@ function TrendingTraders() {
                     </Box>
                     <Space h={"md"} />
                     <AppButton
-                      instanceType="GhostWithRightIcon"
+                      instancetype="GhostWithRightIcon"
                       size="lg"
                     >
                       Copy
@@ -1069,7 +1069,7 @@ function QuickStart() {
                   <AppButton
                     size="xl"
                     loaderProps={{ type: "bars" }}
-                    instanceType="WithRightIcon"
+                    instancetype="WithRightIcon"
                   >
                     Start Now
                   </AppButton>

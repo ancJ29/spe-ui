@@ -19,7 +19,7 @@ type Instance = ButtonProps;
 
 type Custom = {
   children?: ReactNode;
-  instanceType?: _TYPES;
+  instancetype?: _TYPES;
 };
 
 const _classes: Partial<Record<_TYPES, string>> = {
@@ -59,8 +59,8 @@ const AppButton = createPolymorphicComponent<"button", MyButtonProps>(
       const _pr = { ...others };
       return (
         <Button
-          {..._props[_pr.instanceType ?? "Default"]}
-          className={_classes[_pr.instanceType ?? "Default"]}
+          {..._props[_pr.instancetype ?? "Default"]}
+          className={_classes[_pr.instancetype ?? "Default"]}
           {...others}
           ref={ref}
         >

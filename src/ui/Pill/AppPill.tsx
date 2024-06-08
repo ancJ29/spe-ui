@@ -4,7 +4,7 @@ import classes from "./pill.module.scss";
 type _TYPES = "Default" | "WithTagSmall";
 
 type Custom = {
-  instanceType?: _TYPES;
+  instancetype?: _TYPES;
 };
 
 const _props: Partial<Record<_TYPES, InstanceProps>> = {
@@ -23,7 +23,7 @@ export default function AppPill(props: InstanceProps) {
   return (
     <Pill
       className={classes.appPill}
-      {..._props[props.instanceType ?? "Default"]}
+      {..._props[props.instancetype ?? "Default"]}
       {...props}
     >
       {props.children}

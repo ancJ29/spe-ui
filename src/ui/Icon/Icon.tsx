@@ -24,7 +24,7 @@ const icons: Record<string, ElementType> = {
   IconChevronDown: IconChevronDown,
 };
 type InstanceProps = ComponentProps<typeof IconChevronDown> & {
-  instanceType?: _TYPES;
+  instancetype?: _TYPES;
   instanceIcon?: _ICONS;
 };
 
@@ -36,10 +36,10 @@ const _props: Record<string, InstanceProps> = {
 
 export default function Icon(props: InstanceProps) {
   const [Icon] = useState<ElementType>(
-    icons[props.instanceType ?? "IconCoin"] as ElementType,
+    icons[props.instancetype ?? "IconCoin"] as ElementType,
   );
   const [prop] = useState<InstanceProps>(
-    _props[props.instanceType ?? "Default"] as InstanceProps,
+    _props[props.instancetype ?? "Default"] as InstanceProps,
   );
   return (
     <>

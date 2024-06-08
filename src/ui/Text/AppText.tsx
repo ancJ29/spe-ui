@@ -19,7 +19,7 @@ type _TYPES =
 type Instance = TextProps;
 type Custom = {
   children: ReactNode;
-  instanceType: _TYPES;
+  instancetype: _TYPES;
 };
 type InstanceProps = Instance & Partial<Custom>;
 type InstancePropsByType = {
@@ -110,9 +110,9 @@ const AppText = (props: InstanceProps) => {
   const _pr = { ...props };
   return (
     <Text
-      {..._props[_pr.instanceType ?? "Default"]}
+      {..._props[_pr.instancetype ?? "Default"]}
       {..._pr}
-      className={_classes[_pr.instanceType ?? "Default"]}
+      className={_classes[_pr.instancetype ?? "Default"]}
     >
       {_pr.children}
     </Text>

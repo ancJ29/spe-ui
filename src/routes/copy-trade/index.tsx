@@ -97,20 +97,20 @@ const IndexPage = () => {
                     <AppText
                       fz={24}
                       c={lighten("black", 1)}
-                      instanceType="BannerTextSub"
+                      instancetype="BannerTextSub"
                     >
                       32M+ successful trades, 75% win rate
                     </AppText>
                     <Space mb={20} />
                     <Flex gap={20}>
                       <AppButton
-                        instanceType="WithRightIcon"
+                        instancetype="WithRightIcon"
                         size="md"
                       >
                         Join as transfer
                       </AppButton>
                       <AppButton
-                        instanceType="WithOutlinedColor"
+                        instancetype="WithOutlinedColor"
                         size="md"
                         rightSection={<IconCopy />}
                       >
@@ -186,7 +186,7 @@ const IndexPage = () => {
                       >
                         <Popover.Target>
                           <AppButton
-                            instanceType="Default"
+                            instancetype="Default"
                             variant="transparent"
                             c={"gray.4"}
                             onMouseEnter={open}
@@ -238,7 +238,7 @@ const IndexPage = () => {
                     />
                   }
                 >
-                  <AppText instanceType="TabText">
+                  <AppText instancetype="TabText">
                     Top Master Traders
                   </AppText>
                 </Tabs.Tab>
@@ -253,7 +253,7 @@ const IndexPage = () => {
                     />
                   }
                 >
-                  <AppText instanceType="TabText">
+                  <AppText instancetype="TabText">
                     All Master Traders
                   </AppText>
                 </Tabs.Tab>
@@ -434,17 +434,17 @@ const IndexPage = () => {
             <Container size={sizeContainer}>
               <Group justify="space-between" align="center">
                 <Box>
-                  <AppText instanceType="WithTitleSectionTrade">
+                  <AppText instancetype="WithTitleSectionTrade">
                     Top Traders By ROI
                   </AppText>
-                  <AppText instanceType="WithSubTitleSectionTrade">
+                  <AppText instancetype="WithSubTitleSectionTrade">
                     Traders that have earned the highest ROI in the
                     last 7 days.
                   </AppText>
                 </Box>
                 <AppButton
                   variant="transparent"
-                  instanceType="WithRightIcon"
+                  instancetype="WithRightIcon"
                   size="lg"
                   fw={"bold"}
                 >
@@ -468,16 +468,16 @@ const IndexPage = () => {
             <Container size={sizeContainer}>
               <Group justify="space-between" align="center">
                 <Box>
-                  <AppText instanceType="WithTitleSectionTrade">
+                  <AppText instancetype="WithTitleSectionTrade">
                     Top Balanced Traders
                   </AppText>
-                  <AppText instanceType="WithSubTitleSectionTrade">
+                  <AppText instancetype="WithSubTitleSectionTrade">
                     Traders that balance profit and risk.
                   </AppText>
                 </Box>
                 <AppButton
                   variant="transparent"
-                  instanceType="WithRightIcon"
+                  instancetype="WithRightIcon"
                   size="lg"
                   fw={"bold"}
                 >
@@ -501,16 +501,16 @@ const IndexPage = () => {
             <Container size={sizeContainer}>
               <Group justify="space-between" align="center">
                 <Box>
-                  <AppText instanceType="WithTitleSectionTrade">
+                  <AppText instancetype="WithTitleSectionTrade">
                     Top New Talents
                   </AppText>
-                  <AppText instanceType="WithSubTitleSectionTrade">
+                  <AppText instancetype="WithSubTitleSectionTrade">
                     New traders with high profit and low drawdown.
                   </AppText>
                 </Box>
                 <AppButton
                   variant="transparent"
-                  instanceType="WithRightIcon"
+                  instancetype="WithRightIcon"
                   size="lg"
                   fw={"bold"}
                 >
@@ -534,17 +534,17 @@ const IndexPage = () => {
             <Container size={sizeContainer}>
               <Group justify="space-between" align="center">
                 <Box>
-                  <AppText instanceType="WithTitleSectionTrade">
+                  <AppText instancetype="WithTitleSectionTrade">
                     Boosted Traders (+10% Bonus!)
                   </AppText>
-                  <AppText instanceType="WithSubTitleSectionTrade">
+                  <AppText instancetype="WithSubTitleSectionTrade">
                     Follow Boosted Traders and get an extra 10% in
                     bonuses on your investment, up to 50 USDT.
                   </AppText>
                 </Box>
                 <AppButton
                   variant="transparent"
-                  instanceType="WithRightIcon"
+                  instancetype="WithRightIcon"
                   size="lg"
                   fw={"bold"}
                 >
@@ -569,17 +569,17 @@ const IndexPage = () => {
             <Container size={sizeContainer}>
               <Group justify="space-between" align="center">
                 <Box>
-                  <AppText instanceType="WithTitleSectionTrade">
+                  <AppText instancetype="WithTitleSectionTrade">
                     Traders With The Highest Profit For Followers
                   </AppText>
-                  <AppText instanceType="WithSubTitleSectionTrade">
+                  <AppText instancetype="WithSubTitleSectionTrade">
                     Traders that have earned the highest profits, in
                     USDT, for Followers.
                   </AppText>
                 </Box>
                 <AppButton
                   variant="transparent"
-                  instanceType="WithRightIcon"
+                  instancetype="WithRightIcon"
                   size="lg"
                   fw={"bold"}
                 >
@@ -604,17 +604,17 @@ const IndexPage = () => {
             <Container size={sizeContainer}>
               <Group justify="space-between" align="center">
                 <Box>
-                  <AppText instanceType="WithTitleSectionTrade">
+                  <AppText instancetype="WithTitleSectionTrade">
                     Lowest Drawdown
                   </AppText>
-                  <AppText instanceType="WithSubTitleSectionTrade">
+                  <AppText instancetype="WithSubTitleSectionTrade">
                     Traders with over 10% ROI and a max. drawdown of
                     less than 20% in the last 30 days.
                   </AppText>
                 </Box>
                 <AppButton
                   variant="transparent"
-                  instanceType="WithRightIcon"
+                  instancetype="WithRightIcon"
                   size="lg"
                   fw={"bold"}
                 >
@@ -639,17 +639,17 @@ const IndexPage = () => {
             <Container size={sizeContainer}>
               <Group justify="space-between" align="center">
                 <Box>
-                  <AppText instanceType="WithTitleSectionTrade">
+                  <AppText instancetype="WithTitleSectionTrade">
                     Top Intra-Day Traders
                   </AppText>
-                  <AppText instanceType="WithSubTitleSectionTrade">
+                  <AppText instancetype="WithSubTitleSectionTrade">
                     Intra-day traders with over 20% ROI and a win-rate
                     of more than 20% in the last 7 days.
                   </AppText>
                 </Box>
                 <AppButton
                   variant="transparent"
-                  instanceType="WithRightIcon"
+                  instancetype="WithRightIcon"
                   size="lg"
                   fw={"bold"}
                 >
@@ -676,7 +676,7 @@ const IndexPage = () => {
                 variant="light"
                 size="md"
                 fullWidth
-                instanceType="WithRightIcon"
+                instancetype="WithRightIcon"
               >
                 View All Master Traders
               </AppButton>
@@ -863,11 +863,11 @@ function GridMasterTraders() {
           style={{ border: "solid 1px" }}
         >
           <Box className="table-grid-cell">
-            <AppText instanceType="withTheadSmall">Nickname</AppText>
+            <AppText instancetype="withTheadSmall">Nickname</AppText>
           </Box>
           <Box className="table-grid-cell">
             <Flex align={"center"} gap={5}>
-              <AppText instanceType="withTheadSmall">
+              <AppText instancetype="withTheadSmall">
                 {"7d Master's PnL"}
               </AppText>
               <IconSortUpDown />
@@ -875,13 +875,13 @@ function GridMasterTraders() {
           </Box>
           <Box className="table-grid-cell">
             <Flex align={"center"} gap={5}>
-              <AppText instanceType="withTheadSmall">7d ROI</AppText>
+              <AppText instancetype="withTheadSmall">7d ROI</AppText>
               <IconSortUpDown />
             </Flex>
           </Box>
           <Box className="table-grid-cell">
             <Flex align={"center"} gap={5}>
-              <AppText instanceType="withTheadSmall">
+              <AppText instancetype="withTheadSmall">
                 {"7d Followers' PnL"}
               </AppText>
               <IconSortUpDown />
@@ -889,7 +889,7 @@ function GridMasterTraders() {
           </Box>
           <Box className="table-grid-cell">
             <Flex align={"center"} gap={5}>
-              <AppText instanceType="withTheadSmall">
+              <AppText instancetype="withTheadSmall">
                 7d Win Rate
               </AppText>
               <IconSortUpDown />
@@ -897,7 +897,7 @@ function GridMasterTraders() {
           </Box>
           <Box className="table-grid-cell">
             <Flex align={"center"} gap={5}>
-              <AppText instanceType="withTheadSmall">
+              <AppText instancetype="withTheadSmall">
                 Stability Index
               </AppText>
               <IconSortUpDown />
@@ -905,14 +905,14 @@ function GridMasterTraders() {
           </Box>
           <Box className="table-grid-cell">
             <Flex align={"center"} gap={5}>
-              <AppText instanceType="withTheadSmall">
+              <AppText instancetype="withTheadSmall">
                 Follower(s)
               </AppText>
               <IconSortUpDown />
             </Flex>
           </Box>
           <Box className="table-grid-cell">
-            <AppText instanceType="withTheadSmall">Action</AppText>
+            <AppText instancetype="withTheadSmall">Action</AppText>
           </Box>
         </div>
         {_items.map((_i, i) => (
@@ -926,14 +926,14 @@ function GridMasterTraders() {
                   }
                 />
                 <Box maw={280}>
-                  <AppText instanceType="WithCellToken">
+                  <AppText instancetype="WithCellToken">
                     Pino89 {/* cspell:disable-line */}
                   </AppText>
                   <Flex gap={10}>
-                    <AppPill instanceType="WithTagSmall">
+                    <AppPill instancetype="WithTagSmall">
                       Stable
                     </AppPill>
-                    <AppPill instanceType="WithTagSmall">
+                    <AppPill instancetype="WithTagSmall">
                       Trading Bots
                     </AppPill>
                   </Flex>
@@ -941,32 +941,32 @@ function GridMasterTraders() {
               </Flex>
             </Box>
             <Box className="table-grid-cell">
-              <AppText instanceType="WidthPriceNormal">
+              <AppText instancetype="WidthPriceNormal">
                 +3.92%
               </AppText>
             </Box>
             <Box className="table-grid-cell">
-              <AppText instanceType="WidthPriceNormal">
+              <AppText instancetype="WidthPriceNormal">
                 +43,160.26
               </AppText>
             </Box>
             <Box className="table-grid-cell">
-              <AppText instanceType="WidthPriceNormal">
+              <AppText instancetype="WidthPriceNormal">
                 +21,477.87
               </AppText>
             </Box>
             <Box className="table-grid-cell">
-              <AppText instanceType="WidthPriceNormal">
+              <AppText instancetype="WidthPriceNormal">
                 +66.97%
               </AppText>
             </Box>
             <Box className="table-grid-cell">
-              <AppText instanceType="WidthPriceNormal">
+              <AppText instancetype="WidthPriceNormal">
                 5.0/5.0
               </AppText>
             </Box>
             <Box className="table-grid-cell">
-              <AppText instanceType="WidthPriceNormal">256</AppText>
+              <AppText instancetype="WidthPriceNormal">256</AppText>
             </Box>
             <Box className="table-grid-cell">
               <AppButton
@@ -1072,7 +1072,7 @@ export function CardTraderTop1(
                 opacity={0}
                 size={80}
                 src={
-                  "/images/6b7252dd-fe34-4ce0-a5f0-837474103818.png0"
+                  "/images/bybit/6b7252dd-fe34-4ce0-a5f0-837474103818.png"
                 }
               />
               <Box>
@@ -1085,12 +1085,12 @@ export function CardTraderTop1(
                 </Flex>
                 <Space my={5} />
                 <Flex gap={10}>
-                  <AppText instanceType="withTheadSmall" c={"dark"}>
+                  <AppText instancetype="withTheadSmall" c={"dark"}>
                     85 Follower(s)
                   </AppText>
                   <Flex align={"center"}>
                     <IconCaretUpFilled color="#20b26c" size={16} />
-                    <AppText instanceType="withTheadSmall" c={"dark"}>
+                    <AppText instancetype="withTheadSmall" c={"dark"}>
                       400.00%
                     </AppText>
                   </Flex>
@@ -1116,7 +1116,7 @@ export function CardTraderTop1(
                   m={0}
                   h={"auto"}
                 >
-                  <AppText instanceType="withTheadSmall">
+                  <AppText instancetype="withTheadSmall">
                     ROI{" "}
                     <span
                       style={{
@@ -1131,12 +1131,12 @@ export function CardTraderTop1(
                   </AppText>
                 </AppButton>
               </Tooltip>
-              <AppText instanceType="WithPriceCardTrader" c={"green"}>
+              <AppText instancetype="WithPriceCardTrader" c={"green"}>
                 +422.55%
               </AppText>
             </Box>
             <AppChart
-              instanceType="Areapercent" // cspell:disable-line
+              instancetype="Areapercent" // cspell:disable-line
               chartSeries={[
                 {
                   name: "series1",
@@ -1157,7 +1157,7 @@ export function CardTraderTop1(
               label="Expressed as a percentage and calculated by dividing an investment's net profit (or loss) by its initial cost. ROI is a performance measure used to evaluate the efficiency or profitability of an investment."
             >
               <AppButton variant="transparent" p={0} m={0} h={"auto"}>
-                <AppText instanceType="withTheadSmall">
+                <AppText instancetype="withTheadSmall">
                   ROI{" "}
                   <span
                     style={{
@@ -1172,7 +1172,7 @@ export function CardTraderTop1(
                 </AppText>
               </AppButton>
             </Tooltip>
-            <AppText instanceType="withPriceCardTrade">
+            <AppText instancetype="withPriceCardTrade">
               +20.99%
             </AppText>
           </Flex>
@@ -1188,7 +1188,7 @@ export function CardTraderTop1(
               label="The maximum observed loss for the Master Trader in the last 30 days. A low maximum drawdown indicates that the loss incurred by the Master Trader's trades is relatively small."
             >
               <AppButton variant="transparent" p={0} m={0} h={"auto"}>
-                <AppText instanceType="withTheadSmall">
+                <AppText instancetype="withTheadSmall">
                   Drawdown{" "}
                   <span
                     style={{
@@ -1203,7 +1203,7 @@ export function CardTraderTop1(
                 </AppText>
               </AppButton>
             </Tooltip>
-            <AppText instanceType="withPriceCardTrade" c={"green"}>
+            <AppText instancetype="withPriceCardTrade" c={"green"}>
               21.29%
             </AppText>
           </Flex>
@@ -1219,10 +1219,10 @@ export function CardTraderTop1(
               label="Assets Under Management (AUM) is the total amount of investments from followers, managed by the Master Trader."
             >
               <AppButton variant="transparent" p={0} m={0} h={"auto"}>
-                <AppText instanceType="withTheadSmall">AUM</AppText>
+                <AppText instancetype="withTheadSmall">AUM</AppText>
               </AppButton>
             </Tooltip>
-            <AppText instanceType="withPriceCardTrade">
+            <AppText instancetype="withPriceCardTrade">
               25,478.00
             </AppText>
           </Flex>
@@ -1259,7 +1259,7 @@ export function CardTrader() {
               <Avatar
                 size={60}
                 src={
-                  "/images/6b7252dd-fe34-4ce0-a5f0-837474103818.png0"
+                  "/images/bybit/6b7252dd-fe34-4ce0-a5f0-837474103818.png"
                 }
               />
               <Box>
@@ -1272,12 +1272,12 @@ export function CardTrader() {
                 </Flex>
                 <Space my={5} />
                 <Flex gap={10}>
-                  <AppText instanceType="withTheadSmall">
+                  <AppText instancetype="withTheadSmall">
                     85 Follower(s)
                   </AppText>
                   <Flex align={"center"}>
                     <IconCaretUpFilled color="#20b26c" size={16} />
-                    <AppText instanceType="withTheadSmall">
+                    <AppText instancetype="withTheadSmall">
                       400.00%
                     </AppText>
                   </Flex>
@@ -1303,7 +1303,7 @@ export function CardTrader() {
                   m={0}
                   h={"auto"}
                 >
-                  <AppText instanceType="withTheadSmall">
+                  <AppText instancetype="withTheadSmall">
                     ROI{" "}
                     <span
                       style={{
@@ -1318,12 +1318,12 @@ export function CardTrader() {
                   </AppText>
                 </AppButton>
               </Tooltip>
-              <AppText instanceType="WithPriceCardTrader" c={"green"}>
+              <AppText instancetype="WithPriceCardTrader" c={"green"}>
                 +422.55%
               </AppText>
             </Box>
             <AppChart
-              instanceType="Areapercent" // cspell:disable-line
+              instancetype="Areapercent" // cspell:disable-line
               chartSeries={[
                 {
                   name: "series1",
@@ -1344,7 +1344,7 @@ export function CardTrader() {
               label="Expressed as a percentage and calculated by dividing an investment's net profit (or loss) by its initial cost. ROI is a performance measure used to evaluate the efficiency or profitability of an investment."
             >
               <AppButton variant="transparent" p={0} m={0} h={"auto"}>
-                <AppText instanceType="withTheadSmall">
+                <AppText instancetype="withTheadSmall">
                   ROI{" "}
                   <span
                     style={{
@@ -1359,7 +1359,7 @@ export function CardTrader() {
                 </AppText>
               </AppButton>
             </Tooltip>
-            <AppText instanceType="withPriceCardTrade">
+            <AppText instancetype="withPriceCardTrade">
               +20.99%
             </AppText>
           </Flex>
@@ -1375,7 +1375,7 @@ export function CardTrader() {
               label="The maximum observed loss for the Master Trader in the last 30 days. A low maximum drawdown indicates that the loss incurred by the Master Trader's trades is relatively small."
             >
               <AppButton variant="transparent" p={0} m={0} h={"auto"}>
-                <AppText instanceType="withTheadSmall">
+                <AppText instancetype="withTheadSmall">
                   Drawdown{" "}
                   <span
                     style={{
@@ -1390,7 +1390,7 @@ export function CardTrader() {
                 </AppText>
               </AppButton>
             </Tooltip>
-            <AppText instanceType="withPriceCardTrade" c={"green"}>
+            <AppText instancetype="withPriceCardTrade" c={"green"}>
               21.29%
             </AppText>
           </Flex>
@@ -1406,10 +1406,10 @@ export function CardTrader() {
               label="Assets Under Management (AUM) is the total amount of investments from followers, managed by the Master Trader."
             >
               <AppButton variant="transparent" p={0} m={0} h={"auto"}>
-                <AppText instanceType="withTheadSmall">AUM</AppText>
+                <AppText instancetype="withTheadSmall">AUM</AppText>
               </AppButton>
             </Tooltip>
-            <AppText instanceType="withPriceCardTrade">
+            <AppText instancetype="withPriceCardTrade">
               25,478.00
             </AppText>
           </Flex>
@@ -1458,7 +1458,7 @@ export function CardTraderBonus() {
               <Avatar
                 size={60}
                 src={
-                  "/images/6b7252dd-fe34-4ce0-a5f0-837474103818.png0"
+                  "/images/bybit/6b7252dd-fe34-4ce0-a5f0-837474103818.png"
                 }
               />
               <Box>
@@ -1471,12 +1471,12 @@ export function CardTraderBonus() {
                 </Flex>
                 <Space my={5} />
                 <Flex gap={10}>
-                  <AppText instanceType="withTheadSmall">
+                  <AppText instancetype="withTheadSmall">
                     85 Follower(s)
                   </AppText>
                   <Flex align={"center"}>
                     <IconCaretUpFilled color="#20b26c" size={16} />
-                    <AppText instanceType="withTheadSmall">
+                    <AppText instancetype="withTheadSmall">
                       400.00%
                     </AppText>
                   </Flex>
@@ -1502,7 +1502,7 @@ export function CardTraderBonus() {
                   m={0}
                   h={"auto"}
                 >
-                  <AppText instanceType="withTheadSmall">
+                  <AppText instancetype="withTheadSmall">
                     ROI{" "}
                     <span
                       style={{
@@ -1517,12 +1517,12 @@ export function CardTraderBonus() {
                   </AppText>
                 </AppButton>
               </Tooltip>
-              <AppText instanceType="WithPriceCardTrader" c={"green"}>
+              <AppText instancetype="WithPriceCardTrader" c={"green"}>
                 +422.55%
               </AppText>
             </Box>
             <AppChart
-              instanceType="Areapercent" // cspell:disable-line
+              instancetype="Areapercent" // cspell:disable-line
               chartSeries={[
                 {
                   name: "series1",
@@ -1543,7 +1543,7 @@ export function CardTraderBonus() {
               label="Expressed as a percentage and calculated by dividing an investment's net profit (or loss) by its initial cost. ROI is a performance measure used to evaluate the efficiency or profitability of an investment."
             >
               <AppButton variant="transparent" p={0} m={0} h={"auto"}>
-                <AppText instanceType="withTheadSmall">
+                <AppText instancetype="withTheadSmall">
                   ROI{" "}
                   <span
                     style={{
@@ -1558,7 +1558,7 @@ export function CardTraderBonus() {
                 </AppText>
               </AppButton>
             </Tooltip>
-            <AppText instanceType="withPriceCardTrade">
+            <AppText instancetype="withPriceCardTrade">
               +20.99%
             </AppText>
           </Flex>
@@ -1574,7 +1574,7 @@ export function CardTraderBonus() {
               label="The maximum observed loss for the Master Trader in the last 30 days. A low maximum drawdown indicates that the loss incurred by the Master Trader's trades is relatively small."
             >
               <AppButton variant="transparent" p={0} m={0} h={"auto"}>
-                <AppText instanceType="withTheadSmall">
+                <AppText instancetype="withTheadSmall">
                   Drawdown{" "}
                   <span
                     style={{
@@ -1589,7 +1589,7 @@ export function CardTraderBonus() {
                 </AppText>
               </AppButton>
             </Tooltip>
-            <AppText instanceType="withPriceCardTrade" c={"green"}>
+            <AppText instancetype="withPriceCardTrade" c={"green"}>
               21.29%
             </AppText>
           </Flex>
@@ -1605,10 +1605,10 @@ export function CardTraderBonus() {
               label="Assets Under Management (AUM) is the total amount of investments from followers, managed by the Master Trader."
             >
               <AppButton variant="transparent" p={0} m={0} h={"auto"}>
-                <AppText instanceType="withTheadSmall">AUM</AppText>
+                <AppText instancetype="withTheadSmall">AUM</AppText>
               </AppButton>
             </Tooltip>
-            <AppText instanceType="withPriceCardTrade">
+            <AppText instancetype="withPriceCardTrade">
               25,478.00
             </AppText>
           </Flex>

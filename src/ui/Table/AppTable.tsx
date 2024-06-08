@@ -35,7 +35,7 @@ export default function AppTable<T extends { id: string }>(
           <Table.Tr>
             {props.fields.map((t, i) => (
               <Table.Th key={i}>
-                <AppText instanceType="WithThead">{t.text}</AppText>
+                <AppText instancetype="WithThead">{t.text}</AppText>
               </Table.Th>
             ))}
           </Table.Tr>
