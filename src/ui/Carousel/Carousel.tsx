@@ -94,16 +94,12 @@ export default function CarouselPage() {
   );
 }
 
-
-
 export function AppCarousel(props: Partial<CarouselProps>) {
   const autoplay = useRef(Autoplay({ delay: 500000 }));
-
 
   return (
     <>
       <Box>
-
         <Carousel
           className="app-carousel"
           translate="yes"
@@ -131,13 +127,11 @@ export function AppCarousel(props: Partial<CarouselProps>) {
               // padding: "100px",
               // width: "unset",
               // padding: "0 30px 0 0",
-              
-
             },
             slide: {
               // border: "solid 1px pink",
               padding: "30px 10px",
-            }
+            },
           }}
           {...props}
         >

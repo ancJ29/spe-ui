@@ -48,7 +48,6 @@ import {
   Title,
   UnstyledButton,
   alpha,
-  darken,
   lighten,
   rem,
   useComputedColorScheme,
@@ -198,7 +197,6 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
   const computedColorScheme = useComputedColorScheme("light", {
     getInitialValueInEffect: true,
   });
-
 
   const menus = useMemo(() => {
     const _items = getHeaderMenu(props.metadata);
@@ -476,9 +474,14 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
                 size="xl"
                 aria-label="Toggle color scheme"
               >
-                {colorScheme === "light" && <IconSun color={lighten(theme.colors.dark[7], 1)} />}
-                {colorScheme === "dark" && <IconMoon color={lighten(theme.colors.dark[7], 1)} />}
-
+                {colorScheme === "light" && (
+                  <IconSun color={lighten(theme.colors.dark[7], 1)} />
+                )}
+                {colorScheme === "dark" && (
+                  <IconMoon
+                    color={lighten(theme.colors.dark[7], 1)}
+                  />
+                )}
               </ActionIcon>
             </Group>
           </Group>

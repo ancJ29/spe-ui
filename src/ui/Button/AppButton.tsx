@@ -46,13 +46,11 @@ const _props: Record<_TYPES, InstanceProps> = {
   WithOutlinedColor: {
     variant: "outline",
   },
-  
 };
 
 type InstanceProps = Instance & Custom;
 
 interface MyButtonProps extends BoxProps, InstanceProps {}
-
 
 const AppButton = createPolymorphicComponent<"button", MyButtonProps>(
   // eslint-disable-next-line react/display-name

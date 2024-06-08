@@ -49,7 +49,7 @@ const optionsSparkline = (chartId: string): Instance => {
     },
     yaxis: {
       min: 0,
-      show: false
+      show: false,
     },
     tooltip: {
       enabled: false,
@@ -65,8 +65,8 @@ const optionsAreapercent = (chartId: string): Instance => {
       height: 100,
       width: 155,
       toolbar: {
-        show: false
-      }
+        show: false,
+      },
     },
     colors: ["#00E396"],
     fill: {
@@ -79,19 +79,19 @@ const optionsAreapercent = (chartId: string): Instance => {
     },
     yaxis: {
       axisBorder: {
-        show: false
+        show: false,
       },
       axisTicks: {
         show: false,
       },
       labels: {
         style: {
-          colors: "gray"
+          colors: "gray",
         },
         formatter: (value) => {
-          return value.toString() + "%"; 
+          return value.toString() + "%";
         },
-      }
+      },
     },
     dataLabels: {
       enabled: false,
@@ -99,15 +99,14 @@ const optionsAreapercent = (chartId: string): Instance => {
     xaxis: {
       stepSize: 0,
       labels: {
-        show: false
+        show: false,
       },
       axisBorder: {
-        show: false
+        show: false,
       },
       axisTicks: {
-        show: false
-      }
-      
+        show: false,
+      },
     },
     tooltip: {
       enabled: false,
@@ -126,7 +125,7 @@ type InstancePropsByType = {
 const _props: Partial<InstancePropsByType> = {
   Default: {},
   Sparkline: optionsSparkline(uuidv4()),
-  Areapercent: optionsAreapercent(uuidv4())
+  Areapercent: optionsAreapercent(uuidv4()),
 };
 
 type InstanceProps = Partial<Custom>;
@@ -177,5 +176,5 @@ export default function AppChart(props: InstanceProps) {
     updateSeries();
   }, [props.chartOptions, updateSeries]);
 
-  return (<div ref={refChart} id={chartId} />);
+  return <div ref={refChart} id={chartId} />;
 }
