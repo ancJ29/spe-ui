@@ -278,7 +278,20 @@ const IndexPage = () => {
           <Container size={sizeContainer}>
             {mode === "2" && (
               <Flex gap={20}>
-                <OptionFilter label="30d" />
+                <OptionFilter label="30d" items={[
+                  {
+                    label: "7d",
+                    value: "7d"
+                  },
+                  {
+                    label: "30d",
+                    value: "30d"
+                  },
+                  {
+                    label: "90d",
+                    value: "90d"
+                  }
+                ]} />
                 <OptionFilterAsCheckbox
                   label="Master Trader Rank3"
                   items={[
@@ -694,18 +707,20 @@ const IndexPage = () => {
   );
 };
 
-function OptionFilter(props: Partial<{ label: string }>) {
-  const items = useMemo(() => {
-    return ["7d", "30d", "90d"];
-  }, []);
-  const [values, setValues] = useState<string>(items[0]);
+type FilterOption = {
+  value: string;
+  label: string;
+};
+
+export function OptionFilter(props: Partial<{ label: string, items: FilterOption[] }>) {
+  const [values, setValues] = useState<string>(props?.items?.[0].value as string);
   return (
     <>
-      {/* Menu content */}
       <Menu
         position="bottom-start"
         shadow="md"
         width={200}
+        withinPortal
         transitionProps={{ transition: "fade-down", duration: 150 }}
       >
         <Menu.Target>
@@ -718,13 +733,13 @@ function OptionFilter(props: Partial<{ label: string }>) {
         </Menu.Target>
 
         <Menu.Dropdown>
-          {items.map((item, i) => (
+          {props.items?.map((item, i) => (
             <Menu.Item
               key={i}
-              onClick={() => setValues(item)}
+              onClick={() => setValues(item.value)}
               fw={"bold"}
             >
-              {item}
+              {item.label}
             </Menu.Item>
           ))}
         </Menu.Dropdown>
@@ -733,11 +748,7 @@ function OptionFilter(props: Partial<{ label: string }>) {
   );
 }
 
-type FilterOption = {
-  value: string;
-  label: string;
-};
-function OptionFilterAsCheckbox(
+export function OptionFilterAsCheckbox(
   props: Partial<{ label: string; items: FilterOption[] }>,
 ) {
   const [values, setValues] = useState<{ [k in string]: boolean }>(
@@ -1002,7 +1013,7 @@ function IconSortUpDown() {
     </>
   );
 }
-
+import { v4 as uuidv4 } from "uuid";
 export function CardTraderTop1(
   props: Partial<{ avatar: string; userName: string; top: number }>,
 ) {
@@ -1028,8 +1039,12 @@ export function CardTraderTop1(
         radius={8}
         w={320}
         p={20}
-        pos={"relative"}
+        pos={"relative"} 
+        component="a"
+        href={`/copy-trading/${uuidv4()}`}
       >
+        
+        {/* <Box component="a" href={`/copy-trading/${uuidv4()}`} pos={"absolute"} top={0} left={0}></Box> */}
         <Box pos={"absolute"} top={0} left={0} style={{ zIndex: 2 }}>
           <Image src={images[(props.top as number) - 1]} />
         </Box>
@@ -1250,6 +1265,8 @@ export function CardTrader() {
         }}
         p={20}
         radius={8}
+        component="a"
+        href={`/copy-trading/${uuidv4()}`}
       >
         <Box>
           <Box>
@@ -1439,6 +1456,8 @@ export function CardTraderBonus() {
         p={20}
         radius={8}
         pos={"relative"}
+        component="a"
+        href={`/copy-trading/${uuidv4()}`}
       >
         <Box pos={"absolute"} top={-12} right={0}>
           <Badge
@@ -1623,5 +1642,6 @@ export function CardTraderBonus() {
     </>
   );
 }
+
 
 export default IndexPage;

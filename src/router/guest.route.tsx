@@ -8,6 +8,7 @@ const map = {
   ForgotPassword: lazy(() => import("@/routes/forgot-password")),
   TopPage: lazy(() => import("@/routes/top-page")),
   CopyTrade: lazy(() => import("@/routes/copy-trade")),
+  CopyTradeDetail: lazy(() => import("@/routes/copy-trade-detail")),
 };
 const routes: RouteObject[] = [
   {
@@ -17,6 +18,10 @@ const routes: RouteObject[] = [
   {
     path: "/copy-trading",
     element: <map.CopyTrade />,
+  },
+  {
+    path: "/copy-trading/:id",
+    element: <map.CopyTradeDetail />,
   },
   {
     path: "/register",

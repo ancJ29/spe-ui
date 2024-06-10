@@ -2,10 +2,10 @@ import { Pill, PillProps } from "@mantine/core";
 import classes from "./pill.module.scss";
 
 type _TYPES = "Default" | "WithTagSmall";
-
 type Custom = {
   instancetype?: _TYPES;
 };
+type InstanceProps = PillProps & Partial<Custom>;
 
 const _props: Partial<Record<_TYPES, InstanceProps>> = {
   Default: {},
@@ -17,7 +17,7 @@ const _props: Partial<Record<_TYPES, InstanceProps>> = {
   },
 };
 
-type InstanceProps = PillProps & Partial<Custom>;
+
 
 export default function AppPill(props: InstanceProps) {
   return (

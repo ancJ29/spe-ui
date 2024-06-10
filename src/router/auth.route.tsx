@@ -21,12 +21,20 @@ const componentMap: Record<string, LazyExoticComponent> = {
   BlankPage: lazy(() => import("@/routes/blank-page")),
   TopPage: lazy(() => import("@/routes/top-page")),
   CopyTrade: lazy(() => import("@/routes/copy-trade")),
+  CopyTradeDetail: lazy(() => import("@/routes/copy-trade-detail")),
 };
 
 const configs: Config[] = [
   {
     path: "/copy-trading",
     element: "CopyTrade",
+    wrapper: {
+      element: ServiceWrapper as Wrapper,
+    },
+  },
+  {
+    path: "/copy-trading/:id",
+    element: "CopyTradeDetail",
     wrapper: {
       element: ServiceWrapper as Wrapper,
     },

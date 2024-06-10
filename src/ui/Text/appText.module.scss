@@ -5,3 +5,38 @@
   @include dark {
   }
 }
+
+.WithSize14Gray {
+  font-size: 14px;
+  @include light {
+    color: #71757a;
+  }
+
+  @include dark {
+    color: #71757a;
+  }
+}
+.WidthTooltipGray {
+  font-size: 14px;
+  @include light {
+    color: #71757a;
+  }
+
+  @include dark {
+    // color: #71757a;
+  }
+}
+.WithTextTooltip {
+  font-size: 12px;
+  @include light {
+    color: #71757a;
+  }
+
+  @include dark {
+  }
+}
+
+.withPriceLong {
+  font-size: 18;
+  font-weight: 600;
+}

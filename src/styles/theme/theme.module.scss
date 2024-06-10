@@ -5,7 +5,9 @@
 @import "./components/buttons";
 @import "./components/card";
 @import "./components/text";
-@import "./components//table";
+@import "./components/table";
+@import "./components/chart";
+
 @import "./pages/copytrade";
 
 .mantine-Carousel-controls {
@@ -59,10 +61,14 @@
 }
 
 .mantine-Tabs-tabLabel {
-  opacity: 0.5;
+  // opacity: 0.5;
 }
 :where([data-active]) {
   .mantine-Tabs-tabLabel {
-    opacity: 1;
+    // opacity: 1;
   }
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }

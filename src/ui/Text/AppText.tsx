@@ -1,5 +1,6 @@
-import { Text, TextProps } from "@mantine/core";
-import { ReactNode } from "react";
+import { Text, TextProps, createPolymorphicComponent } from "@mantine/core";
+import { ReactNode, forwardRef } from "react";
+import classes from "./appText.module.scss"
 
 type _TYPES =
   | "Default"
@@ -14,7 +15,12 @@ type _TYPES =
   | "WithPriceCardTrader"
   | "withTheadSmall"
   | "withPriceCardTrade"
-  | "WidthPriceNormal";
+  | "WidthPriceNormal"
+  | "WithSize14Gray"
+  | "WidthTooltipGray"
+  | "WithTextTooltip"
+  | "withPriceLong"
+  | "withPriceNormal"
 
 type Instance = TextProps;
 type Custom = {
@@ -104,19 +110,61 @@ const _props: Partial<InstancePropsByType> = {
     fw: "600",
     fz: 14,
   },
+  WithSize14Gray: {
+    // fz: 14,
+    // c: "#71757a",
+    classNames(theme, props, ctx) {
+      return {
+        root: classes["WithSize14Gray"]
+      }
+    },
+  },
+  WidthTooltipGray: {
+    classNames(theme, props, ctx) {
+      return {
+        root: classes["WidthTooltipGray"]
+      }
+    },
+  },
+  WithTextTooltip: {
+    classNames(theme, props, ctx) {
+      return {
+        root: classes["WithTextTooltip"]
+      }
+    },
+  },
+  withPriceLong: {
+    fw: "bolder",
+    classNames(theme, props, ctx) {
+      return {
+        root: classes["withPriceLong"]
+      }
+    },
+  },
+  withPriceNormal: {
+    fw: "bolder",
+    fz: 14
+  }
 };
 
-const AppText = (props: InstanceProps) => {
-  const _pr = { ...props };
-  return (
-    <Text
-      {..._props[_pr.instancetype ?? "Default"]}
-      {..._pr}
-      className={_classes[_pr.instancetype ?? "Default"]}
-    >
-      {_pr.children}
-    </Text>
-  );
-};
+const AppText = createPolymorphicComponent<"p", InstanceProps>(
+  forwardRef<HTMLParagraphElement, InstanceProps>(
+    ({ children, ...others }, ref) => {
+      const _pr = { ...others };
+      return (
+        <Text
+          {..._props[_pr.instancetype ?? "Default"]}
+          className={_classes[_pr.instancetype ?? "Default"]}
+          {...others}
+          ref={ref}
+        >
+          {children}
+        </Text>
+      );
+    },
+  ),
+);
+AppText.displayName = "AppText"; // Add display name
+
 
 export default AppText;

@@ -1,4 +1,4 @@
-import { CSSVariablesResolver, createTheme } from "@mantine/core";
+import { CSSVariablesResolver, Container, createTheme } from "@mantine/core";
 
 // https://mantine.dev/styles/css-variables/#css-variables-resolver
 export const resolver: CSSVariablesResolver = (theme) => ({
@@ -17,7 +17,13 @@ export const theme = createTheme({
   defaultRadius: "sm",
   fontFamily:
     "IBM Plex Sans,-apple-system,BlinkMacSystemFont,Roboto,Arial,sans-serif",
-  components: {},
+  components: {
+    Container: Container.extend({
+      defaultProps: {
+        size: "lg"
+      }
+    })
+  },
 
   colors: {
     // https://mantine.dev/colors-generator/?color=F21616
@@ -46,5 +52,6 @@ export const theme = createTheme({
       "#c06c00",
       "#a85c00",
     ],
+    
   },
 });
