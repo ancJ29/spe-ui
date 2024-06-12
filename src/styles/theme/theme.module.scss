@@ -8,7 +8,10 @@
 @import "./components/table";
 @import "./components/chart";
 
+@import "./components/footer";
+
 @import "./pages/copytrade";
+@import "./pages/top-page";
 
 .mantine-Carousel-controls {
   width: calc(100% + 80px);

@@ -1,11 +1,16 @@
 import { shuffleArray } from "@/utils";
 import ApexCharts, { ApexOptions } from "apexcharts";
-import { set } from "lodash";
+import _, { set } from "lodash";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import _ from 'lodash'
 
-type _TYPES = "Default" | "Sparkline" | "Areapercent" | "Line" | "Bar" | "Pie";
+type _TYPES =
+  | "Default"
+  | "Sparkline"
+  | "Areapercent"
+  | "Line"
+  | "Bar"
+  | "Pie";
 type Instance = ApexOptions;
 type Custom = {
   instancetype: _TYPES;
@@ -94,8 +99,7 @@ const optionsAreapercent = (chartId: string): Instance => {
         },
       },
       // tickAmount: 0,
-      // min: 0  
-
+      // min: 0
     },
     dataLabels: {
       enabled: false,
@@ -119,10 +123,8 @@ const optionsAreapercent = (chartId: string): Instance => {
       // show: false,
       strokeDashArray: 2,
     },
-
   };
 };
-
 
 const optionsLine = (chartId: string): Instance => {
   return {
@@ -136,11 +138,11 @@ const optionsLine = (chartId: string): Instance => {
         show: false,
       },
       zoom: {
-        enabled: false
+        enabled: false,
       },
     },
     dataLabels: {
-      enabled: false
+      enabled: false,
     },
     colors: ["#f29525", "#008ffb"],
     fill: {
@@ -154,15 +156,15 @@ const optionsLine = (chartId: string): Instance => {
     series: [
       {
         name: "Series A",
-        data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6]
+        data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6],
       },
       {
         name: "Series B",
-        data: [20, 29, 37, 36, 44, 45, 50, 58]
-      }
+        data: [20, 29, 37, 36, 44, 45, 50, 58],
+      },
     ],
     xaxis: {
-      categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016]
+      categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
     },
     yaxis: [
       {
@@ -171,7 +173,6 @@ const optionsLine = (chartId: string): Instance => {
         },
         axisTicks: {
           show: true,
-
         },
         tickAmount: 7,
         min: 0,
@@ -187,7 +188,7 @@ const optionsLine = (chartId: string): Instance => {
       {
         opposite: true,
         axisTicks: {
-          show: true
+          show: true,
         },
         axisBorder: {
           show: true,
@@ -195,52 +196,81 @@ const optionsLine = (chartId: string): Instance => {
         labels: {
           style: {
             colors: "gray",
-          }
+          },
         },
-
-      }
+      },
     ],
     tooltip: {
       // shared: true,
       x: {
-        format: "yyyy-MM-dd"
+        format: "yyyy-MM-dd",
       },
-      custom: function ({ series, seriesIndex, dataPointIndex, w }) {
-        const val = series[seriesIndex][dataPointIndex]
-        const val_0 = series[0][dataPointIndex]
-        const val_1 = series[1][dataPointIndex]
-
-        console.log("WWW", w.globals.seriesNames, w.globals,)
-        const [color1, color2] = w.config.colors
+      custom: function ({ series, dataPointIndex, w }) {
+        const val_0 = series[0][dataPointIndex];
+        const val_1 = series[1][dataPointIndex];
+        const [color1, color2] = w.config.colors;
 
         // let d = new Date(w.globals.timescaleLabels[dataPointIndex].dateString).toLocaleDateString()
-        let d = w.globals.categoryLabels[dataPointIndex]
+        const d = w.globals.categoryLabels[dataPointIndex];
         // ==== SERIES ROI
-        const previousValue_0 = w.globals.series[0][dataPointIndex - 1]
-        const previousValue_1 = w.globals.series[1][dataPointIndex - 1]
-        const previousValue_12 = w.globals.series[1][dataPointIndex - 2]
+        const previousValue_0 =
+          w.globals.series[0][dataPointIndex - 1];
+        const previousValue_1 =
+          w.globals.series[1][dataPointIndex - 1];
+        const previousValue_12 =
+          w.globals.series[1][dataPointIndex - 2];
 
-        let seriROI_0 = '0.00%';
-        let seriROI_1 = '0.00%';
-        let seriROI = '0.00%'
+        let seriesROI_0 = "0.00%";
+        let seriesROI_1 = "0.00%";
+        let seriesROI = "0.00%";
 
         if (previousValue_0 !== undefined) {
-          let isGreaterZero = val_0 - previousValue_0 > 0
-          let isLessZero = val_0 - previousValue_0 < 0
-          seriROI_0 = `<span class="${isGreaterZero ? "text-green" : isLessZero ? "text-red" : ""}">${((val_0 - previousValue_0) / previousValue_0 * 100).toFixed(2)}%</span>`;
+          const isGreaterThanZero = val_0 - previousValue_0 > 0;
+          const isLessThanZero = val_0 - previousValue_0 < 0;
+          let color = "";
+          if (isGreaterThanZero) {
+            color = "text-green";
+          } else if (isLessThanZero) {
+            color = "text-red";
+          }
+          seriesROI_0 = `<span class="${color}">${(
+            ((val_0 - previousValue_0) / previousValue_0) *
+            100
+          ).toFixed(2)}%</span>`;
         }
         if (previousValue_1 !== undefined) {
-          let isGreaterZero = val_1 - previousValue_1 > 0
-          let isLessZero = val_1 - previousValue_1 < 0
-          seriROI_1 = `<span class="${isGreaterZero ? "text-green" : isLessZero ? "text-red" : ""}">${((val_1 - previousValue_1) / previousValue_1 * 100).toFixed(2)}%</span>`;
+          const isGreaterThanZero = val_1 - previousValue_1 > 0;
+          const isLessThanZero = val_1 - previousValue_1 < 0;
+          let color = "";
+          if (isGreaterThanZero) {
+            color = "text-green";
+          } else if (isLessThanZero) {
+            color = "text-red";
+          }
+          seriesROI_1 = `<span class="${color}">${(
+            ((val_1 - previousValue_1) / previousValue_1) *
+            100
+          ).toFixed(2)}%</span>`;
         }
         if (previousValue_12 != undefined) {
-          let todayROI = (val_1 - previousValue_1) / previousValue_1 * 100
-          let preROI = (previousValue_1 - previousValue_12) / previousValue_12 * 100
-          let resultROI = todayROI - preROI
-          let isGreaterZero = resultROI > 0
-          let isLessZero = resultROI < 0
-          seriROI = `<span class="${isGreaterZero ? "text-green" : isLessZero ? "text-red" : ""}">${resultROI.toFixed(2)}%</span>`;
+          const todayROI =
+            ((val_1 - previousValue_1) / previousValue_1) * 100;
+          const preROI =
+            ((previousValue_1 - previousValue_12) /
+              previousValue_12) *
+            100;
+          const resultROI = todayROI - preROI;
+          const isGreaterThanZero = resultROI > 0;
+          const isLessThanZero = resultROI < 0;
+          let color = "";
+          if (isGreaterThanZero) {
+            color = "text-green";
+          } else if (isLessThanZero) {
+            color = "text-red";
+          }
+          seriesROI = `<span class="${color}">${resultROI.toFixed(
+            2,
+          )}%</span>`;
         }
 
         return `<div class="panel-tooltip-chart">
@@ -250,30 +280,29 @@ const optionsLine = (chartId: string): Instance => {
             <div class="item-tooltip-label-box" style="background: ${color1}"></div>
             <div>${w.globals.seriesNames[0]}</div>
             </div>
-            <div class="item-tooltip-value">${seriROI_0}</div>
+            <div class="item-tooltip-value">${seriesROI_0}</div>
           </div>
           <div class="item-tooltip">
             <div class="item-tooltip-label">
             <span class="item-tooltip-label-box" style="background: ${color2}"></span>
             <span>${w.globals.seriesNames[1]}</span>
             </div>
-            <div class="item-tooltip-value">${seriROI_1}</div>
+            <div class="item-tooltip-value">${seriesROI_1}</div>
           </div>
           <div class="item-tooltip">
           <div class="item-tooltip-label">Daily ROI</div>
-            <div class="item-tooltip-value">${seriROI}</div>
+            <div class="item-tooltip-value">${seriesROI}</div>
           </div>
-        </div>`
-      }
-
+        </div>`;
+      },
     },
     grid: {
       // show: false,
       strokeDashArray: 2,
     },
     title: {
-      text: 'Earnings',
-      align: 'left'
+      text: "Earnings",
+      align: "left",
     },
     legend: {
       position: "top",
@@ -284,13 +313,13 @@ const optionsLine = (chartId: string): Instance => {
         height: 3,
         radius: 0,
         offsetY: -3,
-        offsetX: -3
+        offsetX: -3,
       },
       itemMargin: {
-        horizontal: 10
-      }
+        horizontal: 10,
+      },
     },
-  }
+  };
 };
 
 const optionsBar = (chartId: string): Instance => {
@@ -305,8 +334,8 @@ const optionsBar = (chartId: string): Instance => {
         show: false,
       },
       zoom: {
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     colors: ["#f29525", "#008ffb"],
     fill: {
@@ -323,7 +352,6 @@ const optionsBar = (chartId: string): Instance => {
       },
       axisTicks: {
         show: true,
-
       },
       tickAmount: 7,
       min: 0,
@@ -339,8 +367,8 @@ const optionsBar = (chartId: string): Instance => {
     plotOptions: {
       bar: {
         columnWidth: 30,
-        distributed: true
-      }
+        distributed: true,
+      },
     },
     dataLabels: {
       enabled: false,
@@ -352,34 +380,41 @@ const optionsBar = (chartId: string): Instance => {
         // format: 'dd/MM'
       },
       tickAmount: 7,
-
     },
     tooltip: {
       // shared: true,
-      custom: function ({ series, seriesIndex, dataPointIndex, w }) {
-        const val = series[seriesIndex][dataPointIndex]
-        const val_0 = series[0][dataPointIndex]
-        console.log("WWW", w.globals.seriesNames, w.globals,)
-        const [color1, color2] = w.config.colors
+      custom: function ({ series, dataPointIndex, w }) {
+        const val_0 = series[0][dataPointIndex];
+        const [color1, color2] = w.config.colors;
 
         // let d = new Date(w.globals.timescaleLabels[dataPointIndex].dateString).toLocaleDateString()
-        let d = w.globals.labels[dataPointIndex]
+        const d = w.globals.labels[dataPointIndex];
         // ==== SERIES ROI
-        const previousValue_0 = w.globals.series[0][dataPointIndex - 1]
+        const previousValue_0 =
+          w.globals.series[0][dataPointIndex - 1];
 
-        let seriROI_0 = '0.00%';
-        let seriROI_1 = '0.00%';
-        let seriROI = '0.00%'
+        let seriesROI_0 = "0.00%";
+        const seriesROI_1 = "0.00%";
+        const seriesROI = "0.00%";
 
         if (previousValue_0 !== undefined) {
-          let isGreaterZero = val_0 - previousValue_0 > 0
-          let isLessZero = val_0 - previousValue_0 < 0
-          seriROI_0 = `<span class="${isGreaterZero ? "text-green" : isLessZero ? "text-red" : ""}">${((val_0 - previousValue_0) / previousValue_0 * 100).toFixed(2)}%</span>`;
+          const isGreaterThanZero = val_0 - previousValue_0 > 0;
+          const isLessThanZero = val_0 - previousValue_0 < 0;
+          let color = "";
+          if (isGreaterThanZero) {
+            color = "text-green";
+          } else if (isLessThanZero) {
+            color = "text-red";
+          }
+          seriesROI_0 = `<span class="${color}">${(
+            ((val_0 - previousValue_0) / previousValue_0) *
+            100
+          ).toFixed(2)}%</span>`;
         }
         // if (previousValue_1 !== undefined) {
         //   let isGreaterZero = val_1 - previousValue_1 > 0
         //   let isLessZero = val_1 - previousValue_1 < 0
-        //   seriROI_1 = `<span class="${isGreaterZero ? "text-green" : isLessZero ? "text-red" : ""}">${((val_1 - previousValue_1) / previousValue_1 * 100).toFixed(2)}%)</span>`;
+        //   seriesROI_1 = `<span class="${isGreaterZero ? "text-green" : isLessZero ? "text-red" : ""}">${((val_1 - previousValue_1) / previousValue_1 * 100).toFixed(2)}%)</span>`;
         // }
         // if(previousValue_12 != undefined) {
         //   let todayROI = (val_1 - previousValue_1) / previousValue_1 * 100
@@ -387,7 +422,7 @@ const optionsBar = (chartId: string): Instance => {
         //   let resultROI = todayROI - preROI
         //   let isGreaterZero = resultROI > 0
         //   let isLessZero = resultROI < 0
-        //   seriROI = `<span class="${isGreaterZero ? "text-green" : isLessZero ? "text-red" : ""}">${resultROI.toFixed(2)}%)</span>`;
+        //   seriesROI = `<span class="${isGreaterZero ? "text-green" : isLessZero ? "text-red" : ""}">${resultROI.toFixed(2)}%)</span>`;
         // }
 
         return `<div class="panel-tooltip-chart">
@@ -397,30 +432,29 @@ const optionsBar = (chartId: string): Instance => {
             <div class="item-tooltip-label-box" style="background: ${color1}"></div>
             <div>Daily Profit</div>
             </div>
-            <div class="item-tooltip-value">${seriROI_0}</div>
+            <div class="item-tooltip-value">${seriesROI_0}</div>
           </div>
           <div class="item-tooltip">
             <div class="item-tooltip-label">
             <span class="item-tooltip-label-box" style="background: ${color2}"></span>
             <span>Realized P&L</span>
             </div>
-            <div class="item-tooltip-value">${seriROI_1}</div>
+            <div class="item-tooltip-value">${seriesROI_1}</div>
           </div>
           <div class="item-tooltip">
           <div class="item-tooltip-label">Unrealized PnL Change</div>
-            <div class="item-tooltip-value">${seriROI}</div>
+            <div class="item-tooltip-value">${seriesROI}</div>
           </div>
-        </div>`
-      }
-
+        </div>`;
+      },
     },
     grid: {
       // show: false,
       strokeDashArray: 2,
     },
     title: {
-      text: 'Earnings',
-      align: 'left'
+      text: "Earnings",
+      align: "left",
     },
     legend: {
       show: false,
@@ -432,13 +466,12 @@ const optionsBar = (chartId: string): Instance => {
         height: 3,
         radius: 0,
         offsetY: -3,
-        offsetX: -3
+        offsetX: -3,
       },
       itemMargin: {
-        horizontal: 10
-      }
+        horizontal: 10,
+      },
     },
-
   };
 };
 
@@ -451,30 +484,26 @@ const optionsPie = (chartId: string): Instance => {
       id: `chart_${chartId}_apex`,
       events: {
         dataPointMouseEnter: function (event, chartContext, config) {
-          let totalLabel = document.querySelector('.apexcharts-datalabel-label');
-          console.log(config.w.config.series[config.dataPointIndex]);
-          totalLabel!.innerHTML = config.w.config.series[config.dataPointIndex];
-          const series = config.w.config.series
-          const labels = config.w.config.labels
-          console.log(series, labels)
-
+          const totalLabel = document.querySelector(
+            ".apexcharts-datalabel-label",
+          );
+          if (totalLabel) {
+            totalLabel.innerHTML =
+              config.w.config.series[config.dataPointIndex];
+          }
         },
-        dataPointMouseLeave: function (event, chartContext, config) {
-          let totalLabel = document.querySelector('.apexcharts-datalabel-label');
-          const series = config.w.config.series
-          const labels = config.w.config.labels
-          let _m = _.max(series)
-          let idx = series.findIndex((m: number) => m === _m)
-          console.log(series, labels, idx, _m, labels[idx], totalLabel)
-          if(totalLabel) {
+        dataPointMouseLeave: function () {
+          const totalLabel = document.querySelector(
+            ".apexcharts-datalabel-label",
+          );
+          if (totalLabel) {
             totalLabel.textContent = "400";
           }
-
-        }
-      }
+        },
+      },
     },
     dataLabels: {
-      enabled: false
+      enabled: false,
     },
     series: [],
     plotOptions: {
@@ -489,21 +518,20 @@ const optionsPie = (chartId: string): Instance => {
               fontSize: "24px",
               fontWeight: "bold",
               formatter: function (w) {
-                let _m = _.max(w.globals.seriesTotals)
-                return `${_m!.toString()}`
-              }
+                const _m = _.max(w.globals.seriesTotals);
+                return `${_m?.toString()}`;
+              },
             },
             value: {
               fontSize: "24px",
-              fontWeight: "bold", 
-            }
-          }
-        }
-      }
+              fontWeight: "bold",
+            },
+          },
+        },
+      },
     },
-  }
-}
-
+  };
+};
 
 type InstancePropsByType = {
   [k in _TYPES]: Instance;
@@ -515,7 +543,7 @@ const _props: Partial<InstancePropsByType> = {
   Areapercent: optionsAreapercent(uuidv4()),
   Line: optionsLine(uuidv4()),
   Bar: optionsBar(uuidv4()),
-  Pie: optionsPie(uuidv4())
+  Pie: optionsPie(uuidv4()),
 };
 
 type InstanceProps = Partial<Custom>;

@@ -72,7 +72,6 @@
   @include hover {
     // background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-7));
     background-color: rgba(255, 255, 255, 0.1);
-
     .subLinkTitle {
       color: var(--mantine-color-primary-5);
     }
@@ -88,13 +87,11 @@
 }
 
 .dropdownFooter {
-  // background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-7));
   margin: calc(var(--mantine-spacing-md) * -1);
   margin-top: var(--mantine-spacing-sm);
   padding: var(--mantine-spacing-md)
     calc(var(--mantine-spacing-md) * 2);
   padding-bottom: var(--mantine-spacing-xl);
-  // border-top: rem(1px) solid light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-5));
 }
 
 /*
@@ -126,10 +123,6 @@
   }
 }
 
-.banner {
-  background: #000000;
-}
-
 .contentmarquee {
   background: linear-gradient(
     96.76deg,
@@ -155,25 +148,6 @@
   }
 
   @include dark {
-    color: var(--mantine-color-primary-5);
-  }
-}
-
-.footer {
-  background-color: rgba(128, 128, 128, 0.1);
-}
-
-.foolink {
-  cursor: pointer;
-  display: block;
-  width: 100%;
-  color: light-dark(
-    var(--mantine-color-black),
-    var(--mantine-color-light)
-  );
-  text-decoration: none;
-
-  @include hover {
     color: var(--mantine-color-primary-5);
   }
 }

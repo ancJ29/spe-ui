@@ -1,0 +1,9 @@
+.banner {
+  background: #000000;
+  .banner--box {
+    flex-direction: column-reverse;
+    @media (min-width: $mantine-breakpoint-sm) {
+      flex-direction: row;
+    }
+  }
+}

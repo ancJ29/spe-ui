@@ -1,4 +1,8 @@
-import { CSSVariablesResolver, Container, createTheme } from "@mantine/core";
+import {
+  CSSVariablesResolver,
+  Container,
+  createTheme,
+} from "@mantine/core";
 
 // https://mantine.dev/styles/css-variables/#css-variables-resolver
 export const resolver: CSSVariablesResolver = (theme) => ({
@@ -20,9 +24,9 @@ export const theme = createTheme({
   components: {
     Container: Container.extend({
       defaultProps: {
-        size: "lg"
-      }
-    })
+        size: "lg",
+      },
+    }),
   },
 
   colors: {
@@ -52,6 +56,5 @@ export const theme = createTheme({
       "#c06c00",
       "#a85c00",
     ],
-    
   },
 });

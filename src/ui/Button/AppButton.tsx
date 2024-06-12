@@ -15,8 +15,7 @@ type _TYPES =
   | "GhostWithRightIcon"
   | "WithRightIcon"
   | "WithOutlinedColor"
-  | "WithGradient"
-
+  | "WithGradient";
 
 type Instance = ButtonProps;
 
@@ -54,13 +53,13 @@ const _props: Record<_TYPES, InstanceProps> = {
     fullWidth: true,
     size: "sm",
     c: "dark",
-    gradient: { from: "primary", to: "yellow", deg: 90 }
-  }
+    gradient: { from: "primary", to: "yellow", deg: 90 },
+  },
 };
 
 type InstanceProps = Instance & Custom;
 
-interface MyButtonProps extends BoxProps, InstanceProps { }
+interface MyButtonProps extends BoxProps, InstanceProps {}
 
 const AppButton = createPolymorphicComponent<"button", MyButtonProps>(
   // eslint-disable-next-line react/display-name

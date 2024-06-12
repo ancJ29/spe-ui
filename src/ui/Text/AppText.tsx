@@ -1,6 +1,10 @@
-import { Text, TextProps, createPolymorphicComponent } from "@mantine/core";
+import {
+  Text,
+  TextProps,
+  createPolymorphicComponent,
+} from "@mantine/core";
 import { ReactNode, forwardRef } from "react";
-import classes from "./appText.module.scss"
+import classes from "./appText.module.scss";
 
 type _TYPES =
   | "Default"
@@ -20,7 +24,7 @@ type _TYPES =
   | "WidthTooltipGray"
   | "WithTextTooltip"
   | "withPriceLong"
-  | "withPriceNormal"
+  | "withPriceNormal";
 
 type Instance = TextProps;
 type Custom = {
@@ -113,41 +117,42 @@ const _props: Partial<InstancePropsByType> = {
   WithSize14Gray: {
     // fz: 14,
     // c: "#71757a",
-    classNames(theme, props, ctx) {
+    classNames() {
       return {
-        root: classes["WithSize14Gray"]
-      }
+        root: classes["WithSize14Gray"],
+      };
     },
   },
   WidthTooltipGray: {
-    classNames(theme, props, ctx) {
+    classNames() {
       return {
-        root: classes["WidthTooltipGray"]
-      }
+        root: classes["WidthTooltipGray"],
+      };
     },
   },
   WithTextTooltip: {
-    classNames(theme, props, ctx) {
+    classNames() {
       return {
-        root: classes["WithTextTooltip"]
-      }
+        root: classes["WithTextTooltip"],
+      };
     },
   },
   withPriceLong: {
     fw: "bolder",
-    classNames(theme, props, ctx) {
+    classNames() {
       return {
-        root: classes["withPriceLong"]
-      }
+        root: classes["withPriceLong"],
+      };
     },
   },
   withPriceNormal: {
     fw: "bolder",
-    fz: 14
-  }
+    fz: 14,
+  },
 };
 
 const AppText = createPolymorphicComponent<"p", InstanceProps>(
+  // eslint-disable-next-line react/display-name
   forwardRef<HTMLParagraphElement, InstanceProps>(
     ({ children, ...others }, ref) => {
       const _pr = { ...others };
@@ -165,6 +170,5 @@ const AppText = createPolymorphicComponent<"p", InstanceProps>(
   ),
 );
 AppText.displayName = "AppText"; // Add display name
-
 
 export default AppText;

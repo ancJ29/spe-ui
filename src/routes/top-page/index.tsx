@@ -90,7 +90,7 @@ export default function TopPage() {
         style={{ overflow: "hidden" }}
       >
         <Space h={50} />
-        <Container size="xl">
+        <Container>
           <Box>
             <CarouselPage />
           </Box>
@@ -111,7 +111,11 @@ export default function TopPage() {
             </Group>
             <Space h={"md"} />
             <Grid gutter={"lg"}>
-              <Grid.Col span={8}>
+              <Grid.Col
+                span={{
+                  md: 8,
+                }}
+              >
                 <Card radius={"lg"} h={"100%"}>
                   <Tabs
                     defaultValue="first"
@@ -142,7 +146,11 @@ export default function TopPage() {
                   <TableBar items={mainTokens} />
                 </Card>
               </Grid.Col>
-              <Grid.Col span={4}>
+              <Grid.Col
+                span={{
+                  md: 4,
+                }}
+              >
                 <Card radius={"lg"} h={"100%"}>
                   <Box>
                     <Title order={4}>Top Gainers</Title>
@@ -161,7 +169,11 @@ export default function TopPage() {
                   </Box>
                 </Card>
               </Grid.Col>
-              <Grid.Col span={8}>
+              <Grid.Col
+                span={{
+                  md: 8,
+                }}
+              >
                 <AppButton instancetype="WithRightIcon" size="lg">
                   Deposit or Buy Crypto
                 </AppButton>
@@ -175,11 +187,11 @@ export default function TopPage() {
                     </Box> */}
         </Container>
         <Space h={50} />
-        <Container size="xl">
+        <Container>
           <QuickStart />
         </Container>
         <Space h={50} />
-        <Container size="xl">
+        <Container>
           <PartnerSection />
         </Container>
         <Space h={50} />
@@ -726,9 +738,9 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
 function Banner() {
   return (
     <>
-      <Box className={classes.banner} py={40}>
-        <Container size="xl">
-          <Flex gap={"xl"} align={"center"}>
+      <Box className="banner" py={40}>
+        <Container>
+          <Flex gap={"xl"} align={"center"} className="banner--box">
             <Box>
               <Title pb={10} className={classes.textLight}>
                 Invest Like The Best.
@@ -753,19 +765,23 @@ function Banner() {
                 </Grid.Col>
               </Grid>
             </Box>
-            <Box
-              w={400}
-              onWaiting={() => {
-                // TODO
-              }}
-              mx={"auto"}
-            >
-              <Image
+            <Box maw={400}>
+              <Box
+                maw={400}
+                w={"100%"}
+                onWaiting={() => {
+                  // TODO
+                }}
                 mx={"auto"}
-                src={
-                  "https://static-prod.omtrade.com/w-static/_next/static/media/home-bg.c8f0c5a4.png"
-                }
-              />
+              >
+                <Image
+                  mx={"auto"}
+                  maw={"100%"}
+                  src={
+                    "https://static-prod.omtrade.com/w-static/_next/static/media/home-bg.c8f0c5a4.png"
+                  }
+                />
+              </Box>
             </Box>
           </Flex>
         </Container>
@@ -1157,10 +1173,14 @@ export function Footer(props: Partial<{ metadata: Metadata }>) {
   }, [props.metadata]);
   return (
     <footer>
-      <Box py={40} className={classes.footer}>
-        <Container size="xl">
+      <Box py={40} className="footer">
+        <Container>
           <Grid>
-            <Grid.Col span={3}>
+            <Grid.Col
+              span={{
+                md: 3,
+              }}
+            >
               <Group gap={10}>
                 {/* <Avatar variant='filled' color="primary" radius="xl" size={30}>SE</Avatar> */}
                 {/* <Image src={svgLogoLight} w={150} /> */}
@@ -1184,17 +1204,28 @@ export function Footer(props: Partial<{ metadata: Metadata }>) {
                 ))}
               </Flex>
             </Grid.Col>
-            <Grid.Col span={9}>
-              <Grid justify="flex-end">
+            <Grid.Col
+              span={{
+                md: 9,
+              }}
+            >
+              <Grid justify={"end"}>
                 {footer.groups.map((group, i) => (
-                  <Grid.Col span={3} key={i}>
+                  <Grid.Col
+                    span={{
+                      xs: 6,
+                      sm: 4,
+                      md: 3,
+                    }}
+                    key={i}
+                  >
                     <Title order={4} mb={14} c="primary">
                       {group.name}
                     </Title>
                     <Group>
                       {group.links.map((link, i) => (
                         <a
-                          className={classes.foolink}
+                          className="foolink"
                           key={i}
                           href={link.url || "/#"}
                         >
@@ -1210,11 +1241,11 @@ export function Footer(props: Partial<{ metadata: Metadata }>) {
         </Container>
       </Box>
       <Box>
-        <Container size="xl">
+        <Container>
           <Group justify="center" py={10}>
             <Text fz={"12px"}>{footer.copyRight}</Text>
             <Text
-              className={classes.hoverlink}
+              className="hoverlink"
               fz={"12px"}
               component="a"
               href={footer.termOfService.url}
@@ -1222,7 +1253,7 @@ export function Footer(props: Partial<{ metadata: Metadata }>) {
               {footer.termOfService.name}
             </Text>
             <Text
-              className={classes.hoverlink}
+              className={"hoverlink"}
               fz={"12px"}
               component="a"
               href={footer.privacyTerms.url}

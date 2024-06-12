@@ -17,8 +17,6 @@ const _props: Partial<Record<_TYPES, InstanceProps>> = {
   },
 };
 
-
-
 export default function AppPill(props: InstanceProps) {
   return (
     <Pill

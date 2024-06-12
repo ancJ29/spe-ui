@@ -28,7 +28,12 @@ export default function AppCard(props: AppCardProps) {
       h={"100%"}
     >
       {props.children ?? (
-        <Flex gap="sm">
+        <Flex
+          gap="sm"
+          display={{
+            sm: "flex",
+          }}
+        >
           <div style={{ flex: `0 0 ${rem(100)}` }}>
             <Image src={props.image} alt="Norway" />
           </div>

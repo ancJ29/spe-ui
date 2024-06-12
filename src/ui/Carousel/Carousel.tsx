@@ -4,6 +4,7 @@ import imgBitcoin3 from "@/assets/images/undraw_profile_image_re_ic2f.svg";
 import AppCard, { AppCardProps } from "@/ui/Card/AppCard";
 import { Carousel, CarouselProps, Embla } from "@mantine/carousel";
 import { Box, Progress } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 import Autoplay from "embla-carousel-autoplay";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -62,10 +63,21 @@ export default function CarouselPage() {
       tags: ["Users Exclusive", "European"],
     },
   ];
+  const isSmallScreen = useMediaQuery("(max-width: 768px)");
+  const isMediumScreen = useMediaQuery(
+    "(min-width: 769px) and (max-width: 1024px)",
+  );
+
+  let slideSize = "33%";
+  if (isSmallScreen) {
+    slideSize = "100%";
+  } else if (isMediumScreen) {
+    slideSize = "50%";
+  }
   return (
     <>
       <Carousel
-        slideSize="33%"
+        slideSize={slideSize}
         slideGap="md"
         loop
         align="start"

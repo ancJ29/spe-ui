@@ -80,7 +80,6 @@ const traders = [
   },
 ];
 
-
 const IndexPage = () => {
   const { data } = useMetadata();
   const [opened, { close, open }] = useDisclosure(false);
@@ -232,10 +231,7 @@ const IndexPage = () => {
                 <Tabs.Tab
                   value={"1"}
                   leftSection={
-                    <Image
-                      width={30}
-                      src={topTradeIcon}
-                    />
+                    <Image width={30} src={topTradeIcon} />
                   }
                 >
                   <AppText instancetype="TabText">
@@ -245,10 +241,7 @@ const IndexPage = () => {
                 <Tabs.Tab
                   value="2"
                   leftSection={
-                    <Image
-                      width={30}
-                      src={alltraderIcon}
-                    />
+                    <Image width={30} src={alltraderIcon} />
                   }
                 >
                   <AppText instancetype="TabText">
@@ -278,20 +271,23 @@ const IndexPage = () => {
           <Container size={sizeContainer}>
             {mode === "2" && (
               <Flex gap={20}>
-                <OptionFilter label="30d" items={[
-                  {
-                    label: "7d",
-                    value: "7d"
-                  },
-                  {
-                    label: "30d",
-                    value: "30d"
-                  },
-                  {
-                    label: "90d",
-                    value: "90d"
-                  }
-                ]} />
+                <OptionFilter
+                  label="30d"
+                  items={[
+                    {
+                      label: "7d",
+                      value: "7d",
+                    },
+                    {
+                      label: "30d",
+                      value: "30d",
+                    },
+                    {
+                      label: "90d",
+                      value: "90d",
+                    },
+                  ]}
+                />
                 <OptionFilterAsCheckbox
                   label="Master Trader Rank3"
                   items={[
@@ -712,8 +708,12 @@ type FilterOption = {
   label: string;
 };
 
-export function OptionFilter(props: Partial<{ label: string, items: FilterOption[] }>) {
-  const [values, setValues] = useState<string>(props?.items?.[0].value as string);
+export function OptionFilter(
+  props: Partial<{ label: string; items: FilterOption[] }>,
+) {
+  const [values, setValues] = useState<string>(
+    props?.items?.[0].value as string,
+  );
   return (
     <>
       <Menu
@@ -1039,11 +1039,10 @@ export function CardTraderTop1(
         radius={8}
         w={320}
         p={20}
-        pos={"relative"} 
+        pos={"relative"}
         component="a"
         href={`/copy-trading/${uuidv4()}`}
       >
-        
         {/* <Box component="a" href={`/copy-trading/${uuidv4()}`} pos={"absolute"} top={0} left={0}></Box> */}
         <Box pos={"absolute"} top={0} left={0} style={{ zIndex: 2 }}>
           <Image src={images[(props.top as number) - 1]} />
@@ -1642,6 +1641,5 @@ export function CardTraderBonus() {
     </>
   );
 }
-
 
 export default IndexPage;
