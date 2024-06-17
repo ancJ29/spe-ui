@@ -34,7 +34,6 @@ import { Fragment, useState } from "react";
 import { OptionFilter } from "../copy-trade";
 import { Footer, Header } from "../top-page";
 import "./index.module.scss";
-import classes from "./index.module.scss";
 
 export default function CopyTradeDetail() {
   const { data } = useMetadata();
@@ -104,7 +103,7 @@ function Banner() {
                             </AppText>
                           ),
                         })}
-                        dropDown={() => ({
+                        dropdown={() => ({
                           children: (
                             <Box>
                               <AppText fz={16} fw={"bold"}>
@@ -152,7 +151,7 @@ function Banner() {
                                 </AppText>
                               ),
                             })}
-                            dropDown={() => ({
+                            dropdown={() => ({
                               children: (
                                 <AppText
                                   fz={12}
@@ -190,7 +189,7 @@ function Banner() {
                                 </AppText>
                               ),
                             })}
-                            dropDown={() => ({
+                            dropdown={() => ({
                               children: (
                                 <AppText
                                   fz={12}
@@ -229,7 +228,7 @@ function Banner() {
                                 </AppText>
                               ),
                             })}
-                            dropDown={() => ({
+                            dropdown={() => ({
                               children: (
                                 <AppText
                                   fz={12}
@@ -293,7 +292,7 @@ function Banner() {
                                   </Group>
                                 ),
                               })}
-                              dropDown={() => ({
+                              dropdown={() => ({
                                 children: (
                                   <AppText
                                     fz={12}
@@ -323,7 +322,7 @@ function Banner() {
                                     </AppText>
                                   ),
                                 })}
-                                dropDown={() => ({
+                                dropdown={() => ({
                                   children: (
                                     <AppText
                                       fz={12}
@@ -375,7 +374,7 @@ function Banner() {
                               </div>
                             ),
                           })}
-                          dropDown={() => ({
+                          dropdown={() => ({
                             children: (
                               <>
                                 <AppText fw={"bold"}>
@@ -408,7 +407,7 @@ function Banner() {
                               </div>
                             ),
                           })}
-                          dropDown={() => ({
+                          dropdown={() => ({
                             children: (
                               <>
                                 <AppText fw={"bold"}>
@@ -571,7 +570,7 @@ function Performance() {
                 </AppText>
               ),
             })}
-            dropDown={() => ({
+            dropdown={() => ({
               children: (
                 <AppText instancetype="WithTextTooltip">
                   ROI is a performance measure used to evaluate the
@@ -600,7 +599,7 @@ function Performance() {
                 </AppText>
               ),
             })}
-            dropDown={() => ({
+            dropdown={() => ({
               children: (
                 <AppText instancetype="WithTextTooltip">
                   Total profit that includes realized and unrealized
@@ -629,7 +628,7 @@ function Performance() {
                 </AppText>
               ),
             })}
-            dropDown={() => ({
+            dropdown={() => ({
               children: (
                 <AppText instancetype="WithTextTooltip">
                   Shows the average win rate of a Master Trader over a
@@ -656,7 +655,7 @@ function Performance() {
                 </AppText>
               ),
             })}
-            dropDown={() => ({
+            dropdown={() => ({
               children: (
                 <AppText instancetype="WithTextTooltip">
                   {
@@ -686,7 +685,7 @@ function Performance() {
                 </AppText>
               ),
             })}
-            dropDown={() => ({
+            dropdown={() => ({
               children: (
                 <AppText instancetype="WithTextTooltip">
                   {
@@ -714,7 +713,7 @@ function Performance() {
                 </AppText>
               ),
             })}
-            dropDown={() => ({
+            dropdown={() => ({
               children: (
                 <AppText instancetype="WithTextTooltip">
                   The average profit and loss of all the closed
@@ -781,7 +780,7 @@ function Performance() {
                     </AppText>
                   ),
                 })}
-                dropDown={() => ({
+                dropdown={() => ({
                   children: (
                     <AppText instancetype="WithTextTooltip">
                       {v3}
@@ -899,7 +898,7 @@ function Profit() {
                       </AppText>
                     ),
                   })}
-                  dropDown={() => ({
+                  dropdown={() => ({
                     children: (
                       <AppText instancetype="WithTextTooltip">
                         {v12}
@@ -933,7 +932,7 @@ function Profit() {
                       </AppText>
                     ),
                   })}
-                  dropDown={() => ({
+                  dropdown={() => ({
                     children: (
                       <AppText instancetype="WithTextTooltip">
                         {v21}
@@ -978,13 +977,14 @@ function TabsUI() {
     <>
       <Tabs
         defaultValue="gallery"
+        className="tabsCopyTradeDetail"
         classNames={{
-          tab: classes["tab-item-1"],
-          list: classes["tab-item-2"],
-          panel: classes["tab-item-3"],
-          root: classes["tab-item-4"],
-          tabLabel: classes["tab-item-5"],
-          tabSection: classes["tab-item-6"],
+          tab: "tab-item-1",
+          list: "tab-item-2",
+          panel: "tab-item-3",
+          root: "tab-item-4",
+          tabLabel: "tab-item-5",
+          tabSection: "tab-item-6",
         }}
       >
         <Tabs.List>
@@ -1011,7 +1011,7 @@ function TabsUI() {
                   </Flex>
                 ),
               })}
-              dropDown={() => ({
+              dropdown={() => ({
                 children: (
                   <>
                     <AppText instancetype="WithTextTooltip">
@@ -1501,7 +1501,7 @@ const tableData = (): TableData => {
                 </Flex>
               ),
             })}
-            dropDown={() => ({
+            dropdown={() => ({
               children: (
                 <>
                   <AppText instancetype="WithTextTooltip">

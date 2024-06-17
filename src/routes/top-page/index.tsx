@@ -353,7 +353,7 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
                           }}
                           bg={"black"}
                         >
-                          <Group justify="space-between" px="md">
+                          <Group justify="space-between">
                             <Text fw={500} c={"primary"}>
                               {item.panelFooter.title}
                             </Text>

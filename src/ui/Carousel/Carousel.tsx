@@ -88,6 +88,7 @@ export default function CarouselPage() {
         withControls
         withKeyboardEvents
         getEmblaApi={setEmbla}
+        className="carouselCards"
       >
         {items.map((_, _k) => (
           <Carousel.Slide key={_k}>
@@ -124,11 +125,6 @@ export function AppCarousel(props: Partial<CarouselProps>) {
               // overflow: "unset",
             },
             viewport: {
-              // border: "solid 1px blue",
-              // overflow: "unset",
-              // margin: "0 15px",
-              // padding: "32px 34px"
-              // paddingLeft: "20px",
               paddingLeft: "20px",
               marginLeft: "-30px",
             },

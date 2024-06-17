@@ -1,0 +1,19 @@
+// /node_modules/react-grid-layout/css/styles.css
+// /node_modules/react-resizable/css/styles.css
+@import "/node_modules/react-grid-layout/css/styles.css";
+@import "/node_modules/react-resizable/css/styles.css";
+
+.bg-dark {
+  background: light-dark(
+    var(--mantine-color-dark),
+    var(--mantine-color-dark)
+  );
+}
+.layout_trade {
+  // background: light-dark(var(--mantine-color-black), var(--mantine-color-black));
+  // border: solid 1px red;
+}
+.grid-item-box {
+  background: #101014;
+  height: 100%;
+}

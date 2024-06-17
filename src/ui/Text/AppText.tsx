@@ -3,9 +3,8 @@ import {
   TextProps,
   createPolymorphicComponent,
 } from "@mantine/core";
+import cx from "clsx";
 import { ReactNode, forwardRef } from "react";
-import classes from "./appText.module.scss";
-
 type _TYPES =
   | "Default"
   | "TabTitle"
@@ -24,7 +23,13 @@ type _TYPES =
   | "WidthTooltipGray"
   | "WithTextTooltip"
   | "withPriceLong"
-  | "withPriceNormal";
+  | "withPriceNormal"
+  | "WithTokenIcon"
+  | "WidthHoverMainColor"
+  | "WithTextSubtitle"
+  | "WithTheadInMenu"
+  | "WithCellTokenInMenu"
+  | "withPriceTextStatus";
 
 type Instance = TextProps;
 type Custom = {
@@ -34,13 +39,6 @@ type Custom = {
 type InstanceProps = Instance & Partial<Custom>;
 type InstancePropsByType = {
   [k in _TYPES]: Instance;
-};
-type InstanceClassesByType = {
-  [k in _TYPES]: string;
-};
-
-const _classes: Partial<InstanceClassesByType> = {
-  Default: "",
 };
 
 const _props: Partial<InstancePropsByType> = {
@@ -117,38 +115,18 @@ const _props: Partial<InstancePropsByType> = {
   WithSize14Gray: {
     // fz: 14,
     // c: "#71757a",
-    classNames() {
-      return {
-        root: classes["WithSize14Gray"],
-      };
-    },
   },
-  WidthTooltipGray: {
-    classNames() {
-      return {
-        root: classes["WidthTooltipGray"],
-      };
-    },
-  },
-  WithTextTooltip: {
-    classNames() {
-      return {
-        root: classes["WithTextTooltip"],
-      };
-    },
-  },
+  WidthTooltipGray: {},
+  WithTextTooltip: {},
   withPriceLong: {
     fw: "bolder",
-    classNames() {
-      return {
-        root: classes["withPriceLong"],
-      };
-    },
   },
   withPriceNormal: {
     fw: "bolder",
     fz: 14,
   },
+  WithTokenIcon: {},
+  WidthHoverMainColor: {},
 };
 
 const AppText = createPolymorphicComponent<"p", InstanceProps>(
@@ -159,8 +137,8 @@ const AppText = createPolymorphicComponent<"p", InstanceProps>(
       return (
         <Text
           {..._props[_pr.instancetype ?? "Default"]}
-          className={_classes[_pr.instancetype ?? "Default"]}
           {...others}
+          className={cx(_pr.instancetype ?? "Default")}
           ref={ref}
         >
           {children}

@@ -4,7 +4,7 @@ import { resolver, theme } from "@/styles/theme/mantine-theme";
 import { Loader, MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
-import "@mantine/notifications/styles.css";
+
 import { useEffect, useMemo, useState } from "react";
 import { RouteObject, useRoutes } from "react-router-dom";
 import { delay } from "./utils";

@@ -16,7 +16,7 @@ type ParentProps = {
 interface Custom {
   instancetype?: _TYPES;
   target: (props: ParentProps) => PopoverTargetProps;
-  dropDown: (props: ParentProps) => PopoverDropdownProps;
+  dropdown: (props: ParentProps) => PopoverDropdownProps;
 }
 
 type InstanceProps = PopoverProps & Partial<Custom>;
@@ -50,7 +50,7 @@ export function AppPopover(props: InstanceProps) {
         }}
         onMouseLeave={close}
         onMouseEnter={open}
-        {...props.dropDown?.({ close, opened, open })}
+        {...props.dropdown?.({ close, opened, open })}
       />
     </Popover>
   );

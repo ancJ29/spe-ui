@@ -16,12 +16,14 @@ type Config = {
 
 // prettier-ignore
 const ServiceWrapper = lazy(() => import("@/layouts/ServiceWrapper"));
+const TradeWrapper = lazy(() => import("@/layouts/TradeWrapper"));
 // prettier-ignore
 const componentMap: Record<string, LazyExoticComponent> = {
   BlankPage: lazy(() => import("@/routes/blank-page")),
   TopPage: lazy(() => import("@/routes/top-page")),
   CopyTrade: lazy(() => import("@/routes/copy-trade")),
   CopyTradeDetail: lazy(() => import("@/routes/copy-trade-detail")),
+  Trade: lazy(() => import("@/routes/trade")),
 };
 
 const configs: Config[] = [
@@ -37,6 +39,34 @@ const configs: Config[] = [
     element: "CopyTradeDetail",
     wrapper: {
       element: ServiceWrapper as Wrapper,
+    },
+  },
+  {
+    path: "/trade/:baseToken/:pairToken",
+    element: "Trade",
+    wrapper: {
+      element: TradeWrapper as Wrapper,
+    },
+  },
+  {
+    path: "/trade/spot/:baseToken/:pairToken",
+    element: "TradeSpot",
+    wrapper: {
+      element: TradeWrapper as Wrapper,
+    },
+  },
+  {
+    path: "/trade/option/:baseToken/:pairToken",
+    element: "TradeOption",
+    wrapper: {
+      element: TradeWrapper as Wrapper,
+    },
+  },
+  {
+    path: "/trade/futures/:baseToken/:pairToken",
+    element: "TradeFutures",
+    wrapper: {
+      element: TradeWrapper as Wrapper,
     },
   },
   {
