@@ -2,6 +2,7 @@ import { lazy } from "react";
 import { type RouteObject } from "react-router-dom";
 
 const map = {
+  Trade: lazy(() => import("@/routes/trade")),
   Login: lazy(() => import("@/routes/login")),
   SignUp: lazy(() => import("@/routes/sign-up")),
   ResetPassword: lazy(() => import("@/routes/reset-password")),
@@ -11,6 +12,10 @@ const map = {
   CopyTradeDetail: lazy(() => import("@/routes/copy-trade-detail")),
 };
 const routes: RouteObject[] = [
+  {
+    path: "/trade",
+    element: <map.Trade />,
+  },
   {
     path: "/login",
     element: <map.Login />,
