@@ -7,6 +7,7 @@ import {
     ActionIcon,
     Avatar,
     Box,
+    Button,
     Center,
     Checkbox,
     Container,
@@ -20,6 +21,7 @@ import {
     NumberFormatter,
     NumberInput,
     SegmentedControl,
+    SimpleGrid,
     Space,
     Table,
     TableData,
@@ -1367,7 +1369,23 @@ function LimitFutureTradeForm() {
                         })}
                     ></AppPopover>
                     <Box h={14} w={1} bg={"gray"}></Box>
-                    <IconPlusMinus size={18} color="white" />
+                    <Menu width={140} withinPortal>
+                        <Menu.Target>
+                            <AppButton instancetype="Ghost" px={0}>
+                                <IconPlusMinus size={18} color="white" />
+                            </AppButton>
+                        </Menu.Target>
+                        <Menu.Dropdown>
+                            <SimpleGrid cols={2}>
+                                <div>1</div>
+                                <div>2</div>
+                                <div>3</div>
+                                <div>4</div>
+                                <div>5</div>
+                            </SimpleGrid>
+                        </Menu.Dropdown>
+                    </Menu>
+
                 </Flex>
             } />
         </>
