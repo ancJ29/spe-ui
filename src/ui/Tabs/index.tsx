@@ -17,6 +17,7 @@ type ItemType = {
   data: Partial<{ value: string; label: string; options: unknown }>;
   tabProp: TabsTabProps;
   tabsPanelProps: TabsPanelProps;
+  // tabsPanelProps: (props: TabsProps) => TabsPanelProps;
 };
 interface Custom {
   instancetype?: _TYPES;
@@ -71,6 +72,7 @@ export default function AppTabs({
           (props.items as ItemType[]).map((item, idx) => (
             <Tabs.Panel
               key={idx}
+              // {...item.tabsPanelProps(props)}
               {...item.tabsPanelProps}
               value={item.data.value as string}
             />
