@@ -48,6 +48,9 @@ import { AppCarousel } from "../Carousel/Carousel";
 import { AppPopover } from "../Popover/AppPopover";
 import AppText from "../Text/AppText";
 import { dataHistories } from "./tradeHistory";
+import "react-grid-layout/css/styles.css"
+import "react-resizable/css/styles.css"
+
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const initialLayouts =
     // prettier-ignore
