@@ -1,0 +1,12 @@
+.mantine-Select-wrapper {
+    &.app-select {
+        
+    }
+}
+.mantine-Select-option {
+    &.app-select-option {
+        &[data-checked="true"] {
+            color: var(--mantine-color-primary-5);
+        }
+    }
+}

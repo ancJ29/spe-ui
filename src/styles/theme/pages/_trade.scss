@@ -9,6 +9,33 @@
 .grid-item-box {
   background: #101014;
   height: 100%;
+  position: relative;
+  overflow: hidden;
+  & > * {
+    position: relative;
+    z-index: 2;
+   
+    &.grid-item-drag-handle {
+      position: absolute;
+      // border: solid 1px red;
+      z-index: 3;
+      top: 40px;
+      right: 0px;
+      // width: 10px;
+      height: 10px;
+      opacity: 0;
+      cursor: move !important;
+      * {
+        cursor: move !important;
+      }
+    }
+  }
+  &:hover {
+    .grid-item-drag-handle {
+      opacity: 1;
+    }
+  }
+  
 }
 
 .head_item_grid {
@@ -37,3 +64,4 @@
     }
   }
 }
+

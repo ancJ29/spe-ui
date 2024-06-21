@@ -5,6 +5,7 @@ import { shuffleArray } from "@/utils";
 import { splitAndFormatString } from "@/utils/utility";
 import {
     ActionIcon,
+    Alert,
     Avatar,
     Box,
     Button,
@@ -16,30 +17,53 @@ import {
     Grid,
     Group,
     Input,
+    InputLabel,
     InputProps,
     Menu,
+    Modal,
     NumberFormatter,
     NumberInput,
+    Progress,
     SegmentedControl,
+    Select,
     SimpleGrid,
+    Slider,
     Space,
+    Spoiler,
     Table,
     TableData,
+    Tabs,
+    Text,
     TextInput,
     alpha,
 } from "@mantine/core";
-import { useHover } from "@mantine/hooks";
+import { useDisclosure, useHover, useToggle } from "@mantine/hooks";
 import {
+    IconArrowBackUp,
     IconArrowRight,
+    IconArrowsMove,
+    IconCaretDownFilled,
+    IconChartHistogram,
     IconChevronLeft,
     IconChevronRight,
+    IconChevronsDown,
+    IconChevronsUp,
     IconEdit,
+    IconEye,
+    IconEyeOff,
+    IconGripHorizontal,
+    IconHandMove,
+    IconHelp,
     IconInfoSmall,
+    IconLetterC,
     IconMenu2,
+    IconMinus,
+    IconPercentage,
     IconPlus,
     IconPlusMinus,
     IconSearch,
     IconStar,
+    IconSwitch3,
 } from "@tabler/icons-react";
 import { Fragment, useCallback, useEffect, useMemo, useReducer, useState } from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
@@ -48,8 +72,9 @@ import { AppCarousel } from "../Carousel/Carousel";
 import { AppPopover } from "../Popover/AppPopover";
 import AppText from "../Text/AppText";
 import { dataHistories } from "./tradeHistory";
-import "react-grid-layout/css/styles.css"
-import "react-resizable/css/styles.css"
+import "react-grid-layout/css/styles.css";
+import "react-resizable/css/styles.css";
+import { modals } from "@mantine/modals";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const initialLayouts =
@@ -205,7 +230,7 @@ export function GridTrade() {
     return (
         <>
             <Grid columns={24} gutter={4} p={4}>
-                <Grid.Col span={19}>
+                <Grid.Col span={18}>
                     <Grid gutter={4}>
                         <Grid.Col>
                             <TopBar />
@@ -224,18 +249,33 @@ export function GridTrade() {
                             >
                                 <div key={0} className="grid-item-box">
                                     <Center h={"100%"}>Chart</Center>
+                                    <div className="grid-item-drag-handle">
+                                        <ActionIcon size={"xs"} variant="light">
+                                            <IconGripHorizontal size={18} />
+                                        </ActionIcon>
+                                    </div>
                                 </div>
                                 <div key={1} className="grid-item-box">
                                     <OrderBook />
+                                    <div className="grid-item-drag-handle">
+                                        <ActionIcon size={"xs"} variant="light">
+                                            <IconGripHorizontal size={18} />
+                                        </ActionIcon>
+                                    </div>
                                 </div>
                                 <div key={2} className="grid-item-box">
                                     <TabsOfTradeHistory />
+                                    <div className="grid-item-drag-handle">
+                                        <ActionIcon size={"xs"} variant="light">
+                                            <IconGripHorizontal size={18} />
+                                        </ActionIcon>
+                                    </div>
                                 </div>
                             </ResponsiveReactGridLayout>
                         </Grid.Col>
                     </Grid>
                 </Grid.Col>
-                <Grid.Col span={5}>
+                <Grid.Col span={6}>
                     <Box bg={"#101014"} h={"100%"} p={10}>
                         <Forms />
                     </Box>
@@ -243,6 +283,7 @@ export function GridTrade() {
                 <Grid.Col span={24}>
                     <Container fluid>
                         <Forms />
+                        <AddTPAndSL />
                         <Space mb={10} />
                         <TabsOfTradeHistory />
                         <Space mb={10} />
@@ -378,9 +419,11 @@ function TopBar() {
                         position="bottom-start"
                         target={(props) => ({
                             children: (
-                                <div onMouseLeave={props.close}
+                                <div
+                                    onMouseLeave={props.close}
                                     style={{ cursor: "help" }}
-                                    onMouseEnter={props.open}>
+                                    onMouseEnter={props.open}
+                                >
                                     <AppText instancetype="withPriceTextStatus">
                                         <span>Funding Rate</span>/ Countdown
                                     </AppText>
@@ -1246,7 +1289,11 @@ function FilterGroupButtons({ ...props }: FilterGroupButtonsType) {
 function OrderBook() {
     return (
         <>
-            <AppTabs instancetype="WithMediumNoBorder" defaultValue={"1"} showPanel
+
+            <AppTabs
+                instancetype="WithMediumNoBorder"
+                defaultValue={"1"}
+                showPanel
                 items={
                     [
                         {
@@ -1315,82 +1362,1050 @@ function OrderBook() {
                         }
                     ]
                 }
+            // rightSection={
+            //     <div>
+            //         <div className="grid-item-drag-handle">Drag</div>
+            //     </div>
+            // }
             />
 
 
         </>
-    )
+    );
 }
 
 
 function Forms() {
     return (
         <>
+            <Box className="space-y-20">
+                <SegmentedControl className="control-segment-precent" data={[
+                    "Limit", "Market", "Conditional"
+                ]} size="sm"
+                    styles={{
+                        root: {
+                            gap: "20px",
+                            padding: "0px",
+                            background: "none"
+                        },
+                        label: {
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontWeight: "bold",
+                            fontSize: "14px",
+                            padding: "0px"
+                        },
+                        indicator: {
+                            display: "none"
+                        },
+                        // innerLabel: {
+                        //     height: "100%",
 
-            <SegmentedControl data={['Limit', 'Market', 'Conditional']} />
-            <OptionFilter items={[
-                {
-                    label: "1",
-                    value: "1"
-                },
-                {
-                    label: "3",
-                    value: "2"
-                },
+                        // }
+                    }}
+                    withItemsBorders={false}
+                />
+                <LimitFutureTradeForm />
+            </Box>
+        </>
+    );
+}
 
-            ]} />
-            <LimitFutureTradeForm />
+function AddTPAndSL() {
+    const [opened, { open, close }] = useDisclosure(false);
+    const [value, setValue] = useState<'Long' | 'Short'>('Long');
+
+    const onOpenModal = useCallback(() => {
+        open()
+        modals.openConfirmModal
+    }, [])
+
+    return (
+        <>
+            <Box style={{ overflow: "hidden" }} className="space-y-20">
+                <SimpleGrid cols={3}>
+                    <Box>
+                        <InputLabel className="text-label-form">Order Price</InputLabel>
+                        <AppText className="text-price-modal">0.4907</AppText>
+                    </Box>
+                    <Box>
+                        <InputLabel className="text-label-form">Qty</InputLabel>
+                        <AppText className="text-price-modal">87,589</AppText>
+                    </Box>
+                    <Box>
+                        <InputLabel className="text-label-form" styles={{
+                            label: {
+                                textAlign: "right",
+                                display: "block"
+                            }
+                        }}>Last Traded Price</InputLabel>
+                        <AppText className="text-price-modal" styles={{
+                            root: {
+                                textAlign: "right"
+                            }
+                        }}>0.4893</AppText>
+                    </Box>
+                </SimpleGrid>
+                <SegmentedControl fullWidth data={['Long', 'Short']} onChange={() => setValue(value === "Long" ? "Short" : "Long")} defaultValue="Long" value={value} classNames={{
+                    indicator: value === "Long" ? "btnlong" : "btnshort"
+                }} styles={{
+                    indicator: {
+                        background: value === "Long" ? "green" : "red"
+                    }
+                }} />
+                <Flex justify={"space-between"} align={"center"}>
+                    <AppPopover
+                        withArrow={false}
+                        width={400}
+                        target={(props) => ({
+                            children: (
+                                <Flex onMouseLeave={props.close}
+                                    onMouseEnter={props.open} align={"center"} gap={5}>
+                                    <AppText
+                                        style={{
+                                            cursor: "pointer"
+                                        }}
+                                        fz={14}
+                                    >Applicable to</AppText>
+                                    <IconHelp size={14} />
+                                </Flex>
+                            ),
+                        })}
+                        dropdown={() => ({
+                            children: (
+                                <div className="space-y-20">
+                                    <Box>
+                                        <AppText fw={"bold"}>Entire Position</AppText>
+                                        <AppText instancetype="WidthTooltipGray" fz={12}>
+                                            The TP/SL applies to the entire position. Once this order is fully or partially filled, the TP/SL order will be placed.
+                                            Current Order
+                                        </AppText>
+                                    </Box>
+                                    <Box>
+                                        <AppText fw={"bold"}>Entire Position</AppText>
+                                        <AppText instancetype="WidthTooltipGray">
+                                            Take Profit-Trigger by ROI (%)
+                                        </AppText>
+                                    </Box>
+                                </div>
+                            ),
+                        })}
+                    ></AppPopover>
+                    <AppButton variant="transparent" c={"white"} rightSection={
+                        <IconSwitch3 color="orange" size={14} />
+                    }>
+                        Current Order
+                    </AppButton>
+
+                </Flex>
+                <Box className="space-y-6">
+                    <Flex justify={"space-between"}>
+                        <AppText fz={14}>Take Profit-Trigger by Change %</AppText>
+                        <Box>
+                            <Checkbox size="xs" label="Limit" />
+                        </Box>
+                    </Flex>
+                    <Box className="space-y-10">
+                        <Box>
+                            <Grid columns={12} gutter={10}>
+                                <Grid.Col span={8}>
+                                    <NumberInput size="lg"
+                                        withErrorStyles={false}
+                                        rightSectionWidth={150}
+                                        placeholder="Trigger Price"
+                                        styles={{
+                                            input: {
+                                                fontSize: "14px"
+                                            }
+                                        }}
+                                        rightSection={
+                                            <Flex align={"center"} gap={8}>
+                                                <Flex align={"center"}>
+                                                    <ActionIcon variant="transparent" styles={{
+                                                        root: {
+                                                        }
+                                                    }}>
+                                                        <IconMinus size={16} />
+                                                    </ActionIcon>
+                                                </Flex>
+                                                <Box>
+                                                    <Box h={14} w={1} bg={"gray"}></Box>
+                                                </Box>
+                                                <Flex align={"center"}>
+                                                    <ActionIcon variant="transparent">
+                                                        <IconPlus size={16} />
+                                                    </ActionIcon>
+                                                </Flex>
+                                                <Select
+                                                    data={['Last', 'Index', 'Mark']}
+                                                    defaultValue="Last"
+                                                    withCheckIcon={false}
+                                                    rightSection={
+                                                        <IconCaretDownFilled size={14} />
+                                                    }
+                                                    rightSectionWidth={30}
+                                                    allowDeselect={false}
+                                                    size="xs"
+                                                    classNames={
+                                                        {
+                                                            root: "app-select",
+                                                            option: "app-select-option"
+                                                        }
+                                                    }
+                                                    comboboxProps={{
+                                                        position: "bottom-start",
+                                                        offset: 0,
+                                                        withinPortal: true,
+                                                        width: "auto"
+                                                    }}
+                                                    styles={{
+                                                        input: {
+                                                            border: "none",
+                                                            fontSize: "12px",
+                                                            textAlign: "right",
+                                                            paddingTop: 0,
+                                                            paddingBottom: 0,
+                                                            paddingLeft: 0
+
+                                                        },
+                                                        option: {
+                                                            fontSize: "12px",
+                                                        }
+                                                    }}
+                                                />
+
+                                            </Flex>
+                                        }
+                                    />
+                                </Grid.Col>
+                                <Grid.Col span={4}>
+                                    <NumberInput size="lg"
+                                        withErrorStyles={false}
+                                        placeholder="ROI"
+                                        styles={{
+                                            input: {
+                                                fontSize: "14px"
+                                            }
+                                        }}
+                                        rightSection={
+                                            <>
+                                                %
+                                            </>
+                                        }
+                                    />
+                                </Grid.Col>
+                            </Grid>
+                            {value === "Long" ? <Box>
+                                <InputLabel fz={12} c={"gray"} color="gray">
+                                    The Take Profit price must be lower than the order price
+                                </InputLabel>
+                            </Box> : ""}
+                        </Box>
+                        <Box h={40}>
+                            <Slider w={"100%"}
+                                color="primary"
+                                thumbSize={14}
+                                showLabelOnHover={false}
+                                marks={[
+                                    { value: 0, label: '0' },
+                                    { value: 30, label: '50%' },
+                                    { value: 60, label: '100%' },
+                                    { value: 100, label: '150%' },
+                                ]}
+                                styles={{
+                                    trackContainer: {
+                                        width: "calc(100% - 10px)"
+                                    },
+                                    label: {
+
+                                    },
+                                    markLabel: {
+                                        fontSize: "10px"
+                                    }
+                                }}
+                            />
+                        </Box>
+                    </Box>
+                </Box>
+                <Alert variant="light" color="gray" fz={12} p={10} styles={{
+                    message: {
+                        color: "rgba(255,255,255,0.6)",
+                        fontSize: "10px",
+                        padding: "0px"
+                    },
+
+                }}>
+                    Index Price to 0.5696 will trigger market Take Profit order; your expected profit will be 7,091.7863 USDC (ROI: 132.43%)
+
+                </Alert>
+                <Box h={1} w={"100%"} bg={"gray"}></Box>
+                <Box className="space-y-6">
+                    <Flex justify={"space-between"}>
+                        <AppText fz={14}>Stop Loss-Trigger by Change %</AppText>
+                        <Box>
+                            <Checkbox size="xs" label="Limit" />
+                        </Box>
+                    </Flex>
+                    <Box className="space-y-10">
+                        <Grid columns={12} gutter={10}>
+                            <Grid.Col span={8}>
+                                <NumberInput size="lg"
+                                    withErrorStyles={false}
+                                    rightSectionWidth={150}
+                                    placeholder="Trigger Price"
+                                    styles={{
+                                        input: {
+                                            fontSize: "14px"
+                                        }
+                                    }}
+                                    rightSection={
+                                        <Flex align={"center"} gap={8}>
+                                            <Flex align={"center"}>
+                                                <ActionIcon variant="transparent" styles={{
+                                                    root: {
+                                                    }
+                                                }}>
+                                                    <IconMinus size={16} />
+                                                </ActionIcon>
+                                            </Flex>
+                                            <Box>
+                                                <Box h={14} w={1} bg={"gray"}></Box>
+                                            </Box>
+                                            <Flex align={"center"}>
+                                                <ActionIcon variant="transparent">
+                                                    <IconPlus size={16} />
+                                                </ActionIcon>
+                                            </Flex>
+                                            <Select
+                                                data={['Last', 'Index', 'Mark']}
+                                                defaultValue="Last"
+                                                withCheckIcon={false}
+                                                rightSection={
+                                                    <IconCaretDownFilled size={14} />
+                                                }
+                                                rightSectionWidth={30}
+                                                allowDeselect={false}
+                                                size="xs"
+                                                classNames={
+                                                    {
+                                                        root: "app-select",
+                                                        option: "app-select-option"
+                                                    }
+                                                }
+                                                comboboxProps={{
+                                                    position: "bottom-start",
+                                                    offset: 0,
+                                                    withinPortal: true,
+                                                    width: "auto"
+                                                }}
+                                                styles={{
+                                                    input: {
+                                                        border: "none",
+                                                        fontSize: "12px",
+                                                        textAlign: "right",
+                                                        paddingTop: 0,
+                                                        paddingBottom: 0,
+                                                        paddingLeft: 0
+
+                                                    },
+                                                    option: {
+                                                        fontSize: "12px",
+                                                    }
+                                                }}
+                                            />
+
+                                        </Flex>
+                                    }
+                                />
+                            </Grid.Col>
+                            <Grid.Col span={4}>
+                                <NumberInput size="lg"
+                                    withErrorStyles={false}
+                                    placeholder="ROI"
+                                    styles={{
+                                        input: {
+                                            fontSize: "14px"
+                                        }
+                                    }}
+                                    rightSection={
+                                        <>
+                                            %
+                                        </>
+                                    }
+                                />
+                            </Grid.Col>
+                        </Grid>
+
+                        <Box h={40}>
+                            <Slider w={"100%"}
+                                color="primary"
+                                thumbSize={14}
+                                showLabelOnHover={false}
+                                marks={[
+                                    { value: 0, label: '0' },
+                                    { value: 30, label: '50%' },
+                                    { value: 60, label: '100%' },
+                                    { value: 100, label: '150%' },
+                                ]}
+                                styles={{
+                                    trackContainer: {
+                                        width: "calc(100% - 10px)"
+                                    },
+                                    label: {
+
+                                    },
+                                    markLabel: {
+                                        fontSize: "10px"
+                                    }
+                                }}
+                            />
+                        </Box>
+                    </Box>
+                </Box>
+                <SimpleGrid cols={2}>
+                    <AppButton color="primary">Confirm</AppButton>
+                    <AppButton color="gray">Cancel</AppButton>
+                </SimpleGrid>
+            </Box>
         </>
     )
 }
 
 function LimitFutureTradeForm() {
+    const [isOf, setOff] = useState<boolean>(false);
+    const [opened, { open, close }] = useDisclosure(false);
+
+    const onOpenModal = useCallback(() => {
+        open()
+        modals.openConfirmModal
+    }, [])
     return (
         <>
+            <Modal opened={opened} onClose={close} title="Add TP/SL" centered size={440} withOverlay={false} styles={{
+                body: {
+                    background: "#16171a"
+                },
+                title: {
+                    fontWeight: 600,
+                    fontSize: "18px",
+                    color: "white"
+                },
+                header: {
+                    background: "#16171a",
+                    paddingBottom: "30px"
+                }
+            }}>
+                <AddTPAndSL />
+            </Modal>
+            <Box className="space-y-20">
+                <Box className="space-y-4">
+                    <InputLabel className="text-label-form">Order Price</InputLabel>
+                    <NumberInput
+                        rightSectionWidth={80}
+                        rightSection={
+                            <Flex align={"center"} gap={8}>
+                                <AppPopover
+                                    withArrow={false}
+                                    width={"auto"}
+                                    target={(props) => ({
+                                        children: (
+                                            <AppText
+                                                onMouseLeave={props.close}
+                                                style={{
+                                                    cursor: "pointer"
+                                                }}
+                                                onMouseEnter={props.open}
+                                                fz={12}
+                                                c={"primary"}
+                                                fw={"bold"}
+                                            >Last</AppText>
+                                        ),
+                                    })}
+                                    dropdown={() => ({
+                                        children: (
+                                            <div>
+                                                <AppText instancetype="WithTextTooltip">
+                                                    Fill in the last traded price
+                                                </AppText>
+                                            </div>
+                                        ),
+                                    })}
+                                ></AppPopover>
+                                <Box h={14} w={1} bg={"gray"}></Box>
+                                <Menu width={140} withinPortal offset={0} position="bottom-end">
+                                    <Menu.Target>
+                                        <AppButton instancetype="Ghost" px={0}>
+                                            <IconPlusMinus size={18} color="white" />
+                                        </AppButton>
+                                    </Menu.Target>
+                                    <Menu.Dropdown styles={{
+                                        dropdown: {
+                                            padding: 0,
+                                            border: "none",
+                                            borderRadius: 0
+                                        }
+                                    }}
+                                    >
+                                        <SimpleGrid
+                                            cols={2}
+                                            bg={"gray.8"}
+                                            styles={{
+                                                root: {
+                                                    gap: 1
+                                                }
+                                            }}
+                                        >
+                                            <Flex py={4} className="cursor-pointer" align={"center"} justify={"center"} bg={"dark"}>
+                                                <IconPlus size={17} />
+                                            </Flex>
+                                            <Flex py={4} className="cursor-pointer" align={"center"} justify={"center"} bg={"dark"}>
+                                                <IconMinus size={17} />
+                                            </Flex>
+                                            {
+                                                [
+                                                    "+5", "-5", "+25", "-25", "+100", "-100"
+                                                ].map((_, i) => (
+                                                    <Flex py={4} align={"center"} justify={"center"} key={i} bg={"dark"} className="cursor-pointer">
+                                                        <AppText className="textMainHover cursor-pointer" style={{ textAlign: "center" }} w={"100%"}>
+                                                            {_}
+                                                        </AppText>
+                                                    </Flex>
+                                                ))
+                                            }
+                                            <Flex className="cursor-pointer" py={4} align={"center"} justify={"center"} bg={"dark"}>
+                                                <IconLetterC size={17} />
+                                            </Flex>
+                                            <Flex className="cursor-pointer" py={4} align={"center"} justify={"center"} bg={"dark"}>
+                                                <IconArrowBackUp size={17} />
+                                            </Flex>
+                                        </SimpleGrid>
+                                    </Menu.Dropdown>
+                                </Menu>
 
-            <NumberInput label="Order Price" rightSectionWidth={80} rightSection={
-                <Flex align={"center"} gap={8}>
-                    <AppPopover
-                        withArrow={false}
-                        width={"auto"}
-                        target={(props) => ({
-                            children: (
-                                <AppText onMouseLeave={props.close} style={{
-                                    cursor: "pointer"
-                                }}
-                                    onMouseEnter={props.open} fz={12} c={"primary"} fw={"bold"}>Last</AppText>
-                            ),
-                        })}
-                        dropdown={() => ({
-                            children: (
-                                <div>
-                                    <AppText instancetype="WithTextTooltip">
-                                        Fill in the last traded price
-                                    </AppText>
-                                </div>
-                            ),
-                        })}
-                    ></AppPopover>
-                    <Box h={14} w={1} bg={"gray"}></Box>
-                    <Menu width={140} withinPortal>
-                        <Menu.Target>
-                            <AppButton instancetype="Ghost" px={0}>
-                                <IconPlusMinus size={18} color="white" />
-                            </AppButton>
-                        </Menu.Target>
-                        <Menu.Dropdown>
-                            <SimpleGrid cols={2}>
-                                <div>1</div>
-                                <div>2</div>
-                                <div>3</div>
-                                <div>4</div>
-                                <div>5</div>
-                            </SimpleGrid>
-                        </Menu.Dropdown>
-                    </Menu>
+                            </Flex>
+                        }
+                    />
+                </Box>
+                <Box className="space-y-10">
+                    <InputLabel className="text-label-form">
+                        Order by Value
+                    </InputLabel>
+                    <NumberInput
+                        rightSectionWidth={60}
+                        rightSection={
+                            <AppText fz={12} fw={"bold"}>USDC</AppText>
+                        }
+                    ></NumberInput>
+                    <Box>
+                        <SegmentedControl className="control-segment-precent" w={"100%"} h={25} data={[
+                            "10%",
+                            "25%",
+                            "50%",
+                            "75%",
+                            "100%"
+                        ]} size="xs"
+                            styles={{
+                                label: {
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    padding: 0,
+                                    fontSize: "10px"
+                                },
+                                indicator: {
 
+                                },
+                                innerLabel: {
+                                    height: "100%",
+                                    fontSize: "12px"
+                                }
+                            }}
+                            withItemsBorders={false}
+                        />
+                    </Box>
+                </Box>
+
+                <Box className="space-y-10" bd={"solid 1px var(--mantine-color-gray-8)"} px={10} py={10} style={{ borderRadius: "4px" }}>
+                    <Flex justify={"space-between"}>
+                        <InputLabel className="text-label-form">Qty</InputLabel>
+                        <Flex fz={12} fw={"bold"} gap={4}>
+                            <AppText fz={12} c={"green"}>122,495 </AppText> / <AppText fz={12} c={"red"}>122,495</AppText> XRP
+                        </Flex>
+                    </Flex>
+                    <Flex justify={"space-between"}>
+                        <InputLabel className="text-label-form">Cost</InputLabel>
+                        <Flex fz={12} fw={"bold"} gap={4}>
+                            <AppText fz={12} c={"green"}>135.9056</AppText>
+                            / <AppText fz={12} c={"red"}>65,929.2886</AppText> &nbsp; USDC
+                        </Flex>
+                    </Flex>
+                </Box>
+                <Box>
+                    <Checkbox onChange={onOpenModal} label="Take Profit / Stop Loss" styles={{
+                        label: {
+                            fontSize: "12px"
+                        }
+                    }} />
+                </Box>
+                <SimpleGrid
+                    cols={2}
+                    styles={{
+                        root: {
+                            gap: 10
+                        }
+                    }}
+                >
+                    <AppButton bg={"green"} styles={{
+                        label: {
+                            flexWrap: "wrap",
+                            textAlign: "center"
+                        }
+                    }} h={44}>
+                        <Text component="span" style={{ display: "block", width: "100%" }} fw={"bolder"} fz={14}>Buy / Long</Text>
+                        <Text component="span" style={{ display: "block", width: "100%", transform: "translateY(-4px)" }} fz={10}>Demo Trading</Text>
+                    </AppButton>
+                    <AppButton bg={"red"} styles={{
+                        label: {
+                            flexWrap: "wrap",
+                            textAlign: "center"
+                        }
+                    }} h={44}>
+                        <Text component="span" style={{ display: "block", width: "100%" }} fw={"bolder"} fz={14}>Sell / Short</Text>
+                        <Text component="span" style={{ display: "block", width: "100%", transform: "translateY(-4px)" }} fz={10}>Demo Trading</Text>
+                    </AppButton>
+                </SimpleGrid>
+                <SimpleGrid cols={2}>
+                    <Box className="space-y-10">
+                        <Checkbox label={
+                            <>
+                                <AppPopover
+                                    withArrow={false}
+                                    position="bottom-start"
+                                    target={(props) => ({
+                                        children: (
+                                            <InputLabel
+                                                onMouseLeave={props.close}
+                                                onMouseEnter={props.open}
+                                                className="text-label-form"
+                                            >
+                                                Post-Only
+                                            </InputLabel>
+                                        ),
+                                    })}
+                                    dropdown={() => ({
+                                        children: (
+                                            <div>
+                                                <AppText instancetype="WithTextTooltip">
+                                                    The Post-Only order will only be excuted as a maker order. If it can be executed immediately canceled
+                                                </AppText>
+                                            </div>
+                                        ),
+                                    })}
+                                ></AppPopover>
+                            </>
+                        }
+                        />
+                        <Checkbox label={
+                            <>
+                                <AppPopover
+                                    withArrow={false}
+                                    position="bottom-start"
+                                    target={(props) => ({
+                                        children: (
+                                            <InputLabel className="text-label-form" onMouseLeave={props.close}
+                                                onMouseEnter={props.open}>Reduce-Only</InputLabel>
+                                        ),
+                                    })}
+                                    dropdown={() => ({
+                                        children: (
+                                            <div>
+                                                <AppText instancetype="WithTextTooltip">
+                                                    The reduce-only order will only reduce your position size. Any order that might incease your position size will be canceled or adjusted
+                                                </AppText>
+                                            </div>
+                                        ),
+                                    })}
+                                ></AppPopover>
+                            </>
+                        }
+                        />
+                    </Box>
+                    <Box>
+                        <Select
+                            data={['Good-Till-Canceled', 'Immediate-Or-Cancel', 'Fill-Or-Kill']}
+                            defaultValue="Good-Till-Canceled"
+                            withCheckIcon={false}
+                            rightSection={
+                                <IconCaretDownFilled size={14} />
+                            }
+                            rightSectionWidth={30}
+                            allowDeselect={false}
+                            size="xs"
+                            classNames={
+                                {
+                                    root: "app-select",
+                                    option: "app-select-option"
+                                }
+                            }
+                            comboboxProps={{
+                                position: "bottom-start",
+                                offset: 0,
+                                withinPortal: true,
+                                width: "auto"
+                            }}
+                            styles={{
+                                input: {
+                                    border: "none",
+                                    fontSize: "12px",
+                                    textAlign: "right",
+                                    paddingTop: 0,
+                                    paddingBottom: 0,
+                                    paddingLeft: 0
+
+                                },
+                                option: {
+                                    fontSize: "12px",
+                                }
+                            }}
+                        />
+                    </Box>
+                </SimpleGrid>
+                <Flex justify={"space-between"}>
+                    <Flex align={"center"}>
+                        <AppText fz={14} fw={"bold"}>
+                            Unified Trading Account
+                        </AppText>
+                        <ActionIcon onClick={() => setOff(!isOf)} variant="transparent">
+                            {isOf ? <IconEyeOff color="white" size={14} /> : <IconEye color="white" size={14} />}
+                        </ActionIcon>
+                    </Flex>
+                    <Flex align={"center"} gap={5}>
+                        <IconChartHistogram color="orange" size={16} />
+                        <AppText fz={12} c={"orange"}>P&L</AppText>
+                    </Flex>
                 </Flex>
-            } />
+                <Box className="space-y-10">
+                    <Flex justify={"space-between"}>
+                        <InputLabel className="text-label-form">Margin Mode</InputLabel>
+                        <Flex align={"center"}>
+                            <AppText fz={12}>Cross Margin</AppText>
+                            <IconChevronRight size={16} />
+                        </Flex>
+                    </Flex>
+                    <Box h={"1"} bg={"dark"}></Box>
+                </Box>
+                <Grid columns={24} align="center" gutter={0}>
+                    <Grid.Col span={10}>
+                        <AppPopover
+                            withArrow={false}
+                            target={(props) => ({
+                                children: (
+                                    <InputLabel
+                                        onMouseLeave={props.close}
+                                        style={{
+                                            cursor: "pointer",
+                                        }}
+                                        onMouseEnter={props.open}
+                                        className="text-label-form"
+                                    >
+                                        Initial Margin
+                                    </InputLabel>
+                                ),
+                            })}
+                            dropdown={() => ({
+                                children: (
+                                    <div>
+                                        <AppText
+                                            instancetype="WithTextTooltip"
+                                            styles={{
+                                                root: {
+                                                    whiteSpace: "pre-line"
+                                                }
+                                            }}
+                                        >
+                                            Initial Margin: 0.0000 USD <br />
+                                            Margin Balance: 0.0000 USD <br />
+                                            Initial Margin Rate (IMR) = Initial Margin / (Margin Balance - Haircut Loss) * 100% <br />
+                                            <br />
+                                            When IMR is ≥ 100%, it indicates that all the margin balance has been deployed to your positions and orders. In this case, you can no longer place any orders that may increase your position size.
+                                            <br />
+                                            <br />
+                                            The initial margin for all positions and orders under the Unified Trading Account will be converted to USD in real time to derive the total initial margin under the account.
+                                        </AppText>
+                                    </div>
+                                ),
+                            })}
+                        ></AppPopover>
+                    </Grid.Col>
+                    <Grid.Col span={9}>
+                        <Progress value={30} color="green" />
+                    </Grid.Col>
+                    <Grid.Col span={5}>
+                        <AppText fz={12} c={"green"} fw={"bold"} styles={{
+                            root: {
+                                textAlign: "right"
+                            }
+                        }}>
+                            0.00%
+                        </AppText>
+                    </Grid.Col>
+                    <Grid.Col span={10}>
+                        <AppPopover
+                            withArrow={false}
+                            target={(props) => ({
+                                children: (
+                                    <InputLabel
+                                        onMouseLeave={props.close}
+                                        style={{
+                                            cursor: "pointer"
+                                        }}
+                                        onMouseEnter={props.open}
+                                        className="text-label-form"
+                                    >
+                                        Maintenance Margin
+                                    </InputLabel>
+                                ),
+                            })}
+                            dropdown={() => ({
+                                children: (
+                                    <div>
+                                        <AppText
+                                            instancetype="WithTextTooltip"
+                                            styles={{
+                                                root: {
+                                                    whiteSpace: "pre-line"
+                                                }
+                                            }}
+                                        >
+                                            Maintenance Margin: 0.0000 USD <br />
+                                            Margin Balance: 0.0000 USD <br />
+                                            Maintenance Margin Ratio (MMR) = Maintenance Margin / (Margin Balance - Haircut Loss) * 100% <br />
+                                            <br />
+                                            When MMR ≥ 100%, it will trigger auto-redemption to repay outstanding liabilities and may trigger settlement of derivative positions until the Maintenance Margin Ratio returns to normal.
+                                            <br />
+                                            <br />
+                                            The Maintenance Margin for all positions and orders in the Unified Trading Account will be converted in real-time to derive the total Maintenance Margin in USD.
+                                        </AppText>
+                                    </div>
+                                ),
+                            })}
+                        ></AppPopover>
+                    </Grid.Col>
+                    <Grid.Col span={9}>
+                        <Progress value={30} color="green" />
+                    </Grid.Col>
+                    <Grid.Col span={5}>
+                        <AppText fz={12} c={"green"} fw={"bold"} styles={{
+                            root: {
+                                textAlign: "right"
+                            }
+                        }}>
+                            0.00%
+                        </AppText>
+                    </Grid.Col>
+                </Grid>
+                <Box h={"1"} bg={"dark"}></Box>
+                <Box className="space-y-10">
+                    <Flex justify={"space-between"} align={"center"}>
+                        <AppPopover
+                            withArrow={false}
+                            target={(props) => ({
+                                children: (
+                                    <AppText
+                                        onMouseLeave={props.close}
+                                        style={{
+                                            cursor: "pointer",
+                                        }}
+                                        onMouseEnter={props.open}
+                                        fz={12}
+                                    >
+                                        Margin Balance
+                                    </AppText>
+                                ),
+                            })}
+                            dropdown={() => ({
+                                children: (
+                                    <div>
+                                        <AppText
+                                            instancetype="WithTextTooltip"
+                                            styles={{
+                                                root: {
+                                                    whiteSpace: "pre-line"
+                                                }
+                                            }}
+                                        >
+                                            Margin Balance = Wallet Balance + Unrealized P&L (Perpetual + Futures) <br />
+                                            Liquidation will be triggered when margin balance falls below the maintenance margin. <br />
+                                            Initial Margin Rate (IMR) = Initial Margin / (Margin Balance - Haircut Loss) * 100% <br />
+                                            <br />
+                                            Margin balance under the Unified Trading Account is denominated in USDT, calculated in real time based on the total assets in the account.
+                                        </AppText>
+                                    </div>
+                                ),
+                            })}
+                        ></AppPopover>
+                        <AppText fw={"bold"} fz={12}>108,351.5411 USDC</AppText>
+                    </Flex>
+                    <Flex justify={"space-between"} align={"center"}>
+                        <AppPopover
+                            withArrow={false}
+                            target={(props) => ({
+                                children: (
+                                    <AppText
+                                        onMouseLeave={props.close}
+                                        style={{
+                                            cursor: "pointer",
+                                        }}
+                                        onMouseEnter={props.open}
+                                        fz={12}
+                                    >
+                                        Available Balance
+                                    </AppText>
+                                ),
+                            })}
+                            dropdown={() => ({
+                                children: (
+                                    <div>
+                                        <AppText
+                                            instancetype="WithTextTooltip"
+                                            styles={{
+                                                root: {
+                                                    whiteSpace: "pre-line"
+                                                }
+                                            }}
+                                        >
+                                            The amount of balance that can be used to open positions.
+                                            <br />
+                                            Available Balance = Margin Balance - Initial Margin - Haircut Loss
+                                            <br />
+                                            Available balance under the Unified Trading Account is denominated in USDC, calculated in real time based on the total assets in the account.
+                                        </AppText>
+                                    </div>
+                                ),
+                            })}
+                        ></AppPopover>
+                        <AppText fw={"bold"} fz={12}>106,244.6318 USDC</AppText>
+                    </Flex>
+                </Box>
+                <SimpleGrid
+                    cols={3}
+                    styles={{
+                        root: {
+                            gap: 5
+                        }
+                    }}
+                >
+                    <AppButton bg={"gray.8"} size="xs">Deposit</AppButton>
+                    <AppButton bg={"gray.8"} size="xs">Convert</AppButton>
+                    <AppButton bg={"gray.8"} size="xs">Transfer</AppButton>
+                </SimpleGrid>
+                <Box h={"1"} bg={"dark"}></Box>
+                <Box className="space-y-16">
+                    <Box>
+                        <AppText fz={16} fw={"bold"}>Contract Details BTCUSDT</AppText>
+                    </Box>
+                    <Spoiler maxHeight={72} styles={{
+                        control: {
+                            width: "100%",
+                            textDecoration: "none",
+                            marginTop: "20px",
+                            cursor: "pointer",
+                            color: "gray"
+                        }
+                    }} showLabel={
+                        <Flex align={"center"} w={"100%"} justify={"center"}>
+                            <InputLabel fz={12} color="red">Show</InputLabel>
+                            <IconChevronsDown size={18} />
+                        </Flex>
+                    } hideLabel={
+                        <Flex align={"center"} w={"100%"} justify={"center"} style={{ cursor: "pointer" }}>
+                            <InputLabel fz={12} color="red">Hide</InputLabel>
+                            <IconChevronsUp size={18} />
+                        </Flex>
+                    }>
+                        <SimpleGrid cols={2} styles={{
+                            root: {
+                                gap: 5
+                            }
+                        }}>
+                            <Box>
+                                <AppText c={"#71757a"} fw={"bold"} fz={12}>Expiration Date</AppText>
+                            </Box>
+                            <Box>
+                                <AppText fw={"bold"} fz={12} styles={{
+                                    root: {
+                                        textAlign: "right"
+                                    }
+                                }}>Perpetual</AppText>
+                            </Box>
+                            <Box>
+                                <AppText c={"#71757a"} fw={"bold"} fz={12}>Index Price</AppText>
+                            </Box>
+                            <Box>
+                                <AppText fw={"bold"} fz={12} styles={{
+                                    root: {
+                                        textAlign: "right"
+                                    }
+                                }}>65,224.58</AppText>
+                            </Box>
+                            <Box>
+                                <AppText c={"#71757a"} fw={"bold"} fz={12}>Mark Price</AppText>
+                            </Box>
+                            <Box>
+                                <AppText fw={"bold"} fz={12} styles={{
+                                    root: {
+                                        textAlign: "right"
+                                    }
+                                }}>65,203.88</AppText>
+                            </Box>
+                            <Box>
+                                <AppText c={"#71757a"} fw={"bold"} fz={12}>Open Interest</AppText>
+                            </Box>
+                            <Box>
+                                <AppText fw={"bold"} fz={12} styles={{
+                                    root: {
+                                        textAlign: "right"
+                                    }
+                                }}>65,192.072 BTC</AppText>
+                            </Box>
+                            <Box>
+                                <AppText c={"#71757a"} fw={"bold"} fz={12}>24H Turnover</AppText>
+                            </Box>
+                            <Box>
+                                <AppText fw={"bold"} fz={12} styles={{
+                                    root: {
+                                        textAlign: "right"
+                                    }
+                                }}>53,549.431 BTC</AppText>
+                            </Box>
+                            <Box>
+                                <AppText c={"#71757a"} fw={"bold"} fz={12}>Risk Limit</AppText>
+                            </Box>
+                            <Box>
+                                <AppText fw={"bold"} fz={12} styles={{
+                                    root: {
+                                        textAlign: "right"
+                                    }
+                                }}>2,000,000 USDT</AppText>
+                            </Box>
+                            <Box>
+                                <AppText c={"#71757a"} fw={"bold"} fz={12}>Contract Value</AppText>
+                            </Box>
+                            <Box>
+                                <AppText fw={"bold"} fz={12} styles={{
+                                    root: {
+                                        textAlign: "right"
+                                    }
+                                }}>1 BTC</AppText>
+                            </Box>
+
+                        </SimpleGrid>
+                    </Spoiler>
+
+                </Box>
+
+            </Box>
         </>
-    )
+    );
 }

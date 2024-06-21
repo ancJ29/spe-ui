@@ -24,6 +24,9 @@ import {
   Image,
   Input,
   Menu,
+  MenuDropdownProps,
+  MenuProps,
+  MenuTargetProps,
   Pagination,
   Popover,
   Space,
@@ -43,7 +46,7 @@ import {
   IconSearch,
   IconStarFilled,
 } from "@tabler/icons-react";
-import { useCallback, useMemo, useState } from "react";
+import { ReactNode, useCallback, useMemo, useState } from "react";
 import { Footer, Header } from "../top-page";
 import classes from "./index.module.scss";
 import moneyIcon from "@/assets/images/money.svg";
@@ -709,10 +712,18 @@ type FilterOption = {
 };
 
 export function OptionFilter(
-  props: Partial<{ label: string; items: FilterOption[] }>,
+  props: Partial<{ 
+    label: string; 
+    value?: string, 
+    items: FilterOption[], 
+    icon: ReactNode, 
+    menuProps: MenuProps & {}, 
+    menuTargetProps: MenuTargetProps,
+    menuDropdownProps: MenuDropdownProps
+   }>,
 ) {
   const [values, setValues] = useState<string>(
-    props?.items?.[0].value as string,
+    props.label ?? props?.items?.[0].value as string,
   );
   return (
     <>
@@ -722,17 +733,18 @@ export function OptionFilter(
         width={200}
         withinPortal
         transitionProps={{ transition: "fade-down", duration: 150 }}
+        {...props.menuProps}
       >
-        <Menu.Target>
+        <Menu.Target {...props.menuTargetProps}>
           <AppButton p={0} variant="transparent" color="dark">
             <Flex align={"center"} gap={5}>
               {values ?? props.label ?? "_menu"}
-              <IconChevronDown size={18} color="gray" />
+              {props.icon ? props.icon : <IconChevronDown size={18} color="gray" />}
             </Flex>
           </AppButton>
         </Menu.Target>
 
-        <Menu.Dropdown>
+        <Menu.Dropdown {...props.menuDropdownProps}>
           {props.items?.map((item, i) => (
             <Menu.Item
               key={i}
@@ -749,7 +761,7 @@ export function OptionFilter(
 }
 
 export function OptionFilterAsCheckbox(
-  props: Partial<{ label: string; items: FilterOption[] }>,
+  props: Partial<{ label: string; items: FilterOption[], icon: ReactNode }>,
 ) {
   const [values, setValues] = useState<{ [k in string]: boolean }>(
     {},
@@ -796,7 +808,7 @@ export function OptionFilterAsCheckbox(
                   {checked.length}
                 </Badge>
               )}
-              <IconChevronDown size={18} color="gray" />
+              {props.icon ? props.icon : <IconChevronDown size={18} color="gray" />}
             </Flex>
           </Button>
         </Menu.Target>

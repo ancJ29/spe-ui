@@ -71,3 +71,20 @@
     @content;
   }
 }
+
+
+@mixin space-y($spacing) {
+  .space-y-#{$spacing} {
+    & > * {
+      margin-bottom: #{$spacing * 1px}; 
+      // border: solid 1px red;
+    }
+    & > *:last-child {
+      margin-bottom: 0; 
+    }
+  }
+}
+
+@for $i from 1 through 20 {
+  @include space-y($i);
+}

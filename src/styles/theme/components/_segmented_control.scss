@@ -1,0 +1,21 @@
+.mantine-SegmentedControl-root {
+    &.control-segment-precent {
+        .mantine-SegmentedControl-control {
+        }
+        .mantine-SegmentedControl-input {
+        }
+        .mantine-SegmentedControl-label {
+            
+            &[data-active="true"] {
+                color: var(--mantine-color-primary-5);
+            }
+        }
+        .mantine-SegmentedControl-indicator {
+            &.btnlong {
+                
+            }
+        }
+        .mantine-SegmentedControl-innerLabel {
+        }
+    }
+}

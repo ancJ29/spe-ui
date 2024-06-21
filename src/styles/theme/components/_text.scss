@@ -79,4 +79,17 @@
     color: #71757a;
     white-space: nowrap;
   }
+  &.textMainHover {
+    font-size: 12px;
+    &:hover {
+      color: var(--mantine-color-primary-5);
+    }
+  }
+  &.text-price-modal {
+    color: light-dark(var(black), var(white));
+    font-weight: bolder;
+    font-size: 14px;
+  }
 }
+
+
