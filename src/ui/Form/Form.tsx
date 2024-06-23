@@ -1,4 +1,4 @@
-import { Box, LoadingOverlay, rem } from "@mantine/core";
+import { Box, JsonInput, LoadingOverlay, rem } from "@mantine/core";
 import Form, { IChangeEvent } from "@rjsf/core";
 import {
   RJSFSchema,
@@ -16,29 +16,17 @@ import axios from "@/services/apis/api";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { IconCheck } from "@tabler/icons-react";
-import { PhoneNumberField } from "./fields";
+
 import {
-  CustomFieldTemplate,
-  FieldErrorTemplate,
   SubmitButton,
 } from "./templates";
-import {
-  CustomPasswordWidget,
-  CustomTextWidget,
-  LogoWidget,
-  PhoneNumberWidget,
-  TabWidget,
-} from "./widgets";
+import * as templates from "./templates"
+import * as widgets from "./widgets"
+import * as fields from "./fields"
 
 const AJV8_2020 = customizeValidator({ AjvClass: Ajv2020 });
 const customWidgets: RegistryWidgetsType = {
-  // overwrites
-  TextWidget: CustomTextWidget,
-  PasswordWidget: CustomPasswordWidget,
-  // additions
-  LogoWidget: LogoWidget,
-  TabWidget: TabWidget,
-  PhoneNumberWidget: PhoneNumberWidget,
+  ...widgets
 };
 
 type Custom = {
@@ -46,8 +34,12 @@ type Custom = {
   api: string;
   _onSubmit: (res: unknown) => void;
   msgSuccess: string;
+  showJsonOutput: boolean
 };
-const AppForm: React.FC<Sample & Partial<Custom>> = (props) => {
+const AppForm: React.FC<Sample & Partial<Custom>> = ({
+  showJsonOutput = false,
+  ...props
+}) => {
   const [schema] = useState<RJSFSchema>(
     // samples.SignUp.schema as RJSFSchema,
     props.schema as RJSFSchema,
@@ -136,13 +128,12 @@ const AppForm: React.FC<Sample & Partial<Custom>> = (props) => {
           formData={formData}
           validator={AJV8_2020}
           fields={{
-            PhoneNumberField: PhoneNumberField,
+            ...fields
           }}
           widgets={customWidgets}
           templates={{
             ButtonTemplates: { SubmitButton },
-            FieldErrorTemplate,
-            FieldTemplate: CustomFieldTemplate,
+            ...templates
           }}
           showErrorList={false}
           extraErrorsBlockSubmit={false}
@@ -158,8 +149,18 @@ const AppForm: React.FC<Sample & Partial<Custom>> = (props) => {
           onError={(errorList: RJSFValidationError[]) =>
             window.console.log("errors", errorList)
           }
+          formContext={{formData, updateFormData: setFormData}}
         />
       </Box>
+      {showJsonOutput && <JsonInput
+        label="Your package.json"
+        placeholder="Textarea will autosize to fit the content"
+        validationError="Invalid JSON"
+        formatOnBlur
+        autosize
+        minRows={4}
+        value={JSON.stringify(formData)}
+      />}
       <LoadingOverlay
         visible={visible}
         zIndex={1000}

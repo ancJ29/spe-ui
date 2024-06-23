@@ -75,6 +75,7 @@ import { dataHistories } from "./tradeHistory";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import { modals } from "@mantine/modals";
+import { AddTpSlOfLimitTrade } from "./components/AddTpSlOfLimitTrade";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const initialLayouts =
@@ -295,7 +296,6 @@ export function GridTrade() {
                         <Space mb={10} />
                         <TabSmall />
                         <TableTokens />
-                        <Space mb={10} />
                         <Space mb={10} />
                     </Container>
                 </Grid.Col>
@@ -1413,389 +1413,21 @@ function Forms() {
 }
 
 function AddTPAndSL() {
-    const [opened, { open, close }] = useDisclosure(false);
-    const [value, setValue] = useState<'Long' | 'Short'>('Long');
-
-    const onOpenModal = useCallback(() => {
-        open()
-        modals.openConfirmModal
-    }, [])
-
     return (
-        <>
-            <Box style={{ overflow: "hidden" }} className="space-y-20">
-                <SimpleGrid cols={3}>
-                    <Box>
-                        <InputLabel className="text-label-form">Order Price</InputLabel>
-                        <AppText className="text-price-modal">0.4907</AppText>
-                    </Box>
-                    <Box>
-                        <InputLabel className="text-label-form">Qty</InputLabel>
-                        <AppText className="text-price-modal">87,589</AppText>
-                    </Box>
-                    <Box>
-                        <InputLabel className="text-label-form" styles={{
-                            label: {
-                                textAlign: "right",
-                                display: "block"
-                            }
-                        }}>Last Traded Price</InputLabel>
-                        <AppText className="text-price-modal" styles={{
-                            root: {
-                                textAlign: "right"
-                            }
-                        }}>0.4893</AppText>
-                    </Box>
-                </SimpleGrid>
-                <SegmentedControl fullWidth data={['Long', 'Short']} onChange={() => setValue(value === "Long" ? "Short" : "Long")} defaultValue="Long" value={value} classNames={{
-                    indicator: value === "Long" ? "btnlong" : "btnshort"
-                }} styles={{
-                    indicator: {
-                        background: value === "Long" ? "green" : "red"
-                    }
-                }} />
-                <Flex justify={"space-between"} align={"center"}>
-                    <AppPopover
-                        withArrow={false}
-                        width={400}
-                        target={(props) => ({
-                            children: (
-                                <Flex onMouseLeave={props.close}
-                                    onMouseEnter={props.open} align={"center"} gap={5}>
-                                    <AppText
-                                        style={{
-                                            cursor: "pointer"
-                                        }}
-                                        fz={14}
-                                    >Applicable to</AppText>
-                                    <IconHelp size={14} />
-                                </Flex>
-                            ),
-                        })}
-                        dropdown={() => ({
-                            children: (
-                                <div className="space-y-20">
-                                    <Box>
-                                        <AppText fw={"bold"}>Entire Position</AppText>
-                                        <AppText instancetype="WidthTooltipGray" fz={12}>
-                                            The TP/SL applies to the entire position. Once this order is fully or partially filled, the TP/SL order will be placed.
-                                            Current Order
-                                        </AppText>
-                                    </Box>
-                                    <Box>
-                                        <AppText fw={"bold"}>Entire Position</AppText>
-                                        <AppText instancetype="WidthTooltipGray">
-                                            Take Profit-Trigger by ROI (%)
-                                        </AppText>
-                                    </Box>
-                                </div>
-                            ),
-                        })}
-                    ></AppPopover>
-                    <AppButton variant="transparent" c={"white"} rightSection={
-                        <IconSwitch3 color="orange" size={14} />
-                    }>
-                        Current Order
-                    </AppButton>
-
-                </Flex>
-                <Box className="space-y-6">
-                    <Flex justify={"space-between"}>
-                        <AppText fz={14}>Take Profit-Trigger by Change %</AppText>
-                        <Box>
-                            <Checkbox size="xs" label="Limit" />
-                        </Box>
-                    </Flex>
-                    <Box className="space-y-10">
-                        <Box>
-                            <Grid columns={12} gutter={10}>
-                                <Grid.Col span={8}>
-                                    <NumberInput size="lg"
-                                        withErrorStyles={false}
-                                        rightSectionWidth={150}
-                                        placeholder="Trigger Price"
-                                        styles={{
-                                            input: {
-                                                fontSize: "14px"
-                                            }
-                                        }}
-                                        rightSection={
-                                            <Flex align={"center"} gap={8}>
-                                                <Flex align={"center"}>
-                                                    <ActionIcon variant="transparent" styles={{
-                                                        root: {
-                                                        }
-                                                    }}>
-                                                        <IconMinus size={16} />
-                                                    </ActionIcon>
-                                                </Flex>
-                                                <Box>
-                                                    <Box h={14} w={1} bg={"gray"}></Box>
-                                                </Box>
-                                                <Flex align={"center"}>
-                                                    <ActionIcon variant="transparent">
-                                                        <IconPlus size={16} />
-                                                    </ActionIcon>
-                                                </Flex>
-                                                <Select
-                                                    data={['Last', 'Index', 'Mark']}
-                                                    defaultValue="Last"
-                                                    withCheckIcon={false}
-                                                    rightSection={
-                                                        <IconCaretDownFilled size={14} />
-                                                    }
-                                                    rightSectionWidth={30}
-                                                    allowDeselect={false}
-                                                    size="xs"
-                                                    classNames={
-                                                        {
-                                                            root: "app-select",
-                                                            option: "app-select-option"
-                                                        }
-                                                    }
-                                                    comboboxProps={{
-                                                        position: "bottom-start",
-                                                        offset: 0,
-                                                        withinPortal: true,
-                                                        width: "auto"
-                                                    }}
-                                                    styles={{
-                                                        input: {
-                                                            border: "none",
-                                                            fontSize: "12px",
-                                                            textAlign: "right",
-                                                            paddingTop: 0,
-                                                            paddingBottom: 0,
-                                                            paddingLeft: 0
-
-                                                        },
-                                                        option: {
-                                                            fontSize: "12px",
-                                                        }
-                                                    }}
-                                                />
-
-                                            </Flex>
-                                        }
-                                    />
-                                </Grid.Col>
-                                <Grid.Col span={4}>
-                                    <NumberInput size="lg"
-                                        withErrorStyles={false}
-                                        placeholder="ROI"
-                                        styles={{
-                                            input: {
-                                                fontSize: "14px"
-                                            }
-                                        }}
-                                        rightSection={
-                                            <>
-                                                %
-                                            </>
-                                        }
-                                    />
-                                </Grid.Col>
-                            </Grid>
-                            {value === "Long" ? <Box>
-                                <InputLabel fz={12} c={"gray"} color="gray">
-                                    The Take Profit price must be lower than the order price
-                                </InputLabel>
-                            </Box> : ""}
-                        </Box>
-                        <Box h={40}>
-                            <Slider w={"100%"}
-                                color="primary"
-                                thumbSize={14}
-                                showLabelOnHover={false}
-                                marks={[
-                                    { value: 0, label: '0' },
-                                    { value: 30, label: '50%' },
-                                    { value: 60, label: '100%' },
-                                    { value: 100, label: '150%' },
-                                ]}
-                                styles={{
-                                    trackContainer: {
-                                        width: "calc(100% - 10px)"
-                                    },
-                                    label: {
-
-                                    },
-                                    markLabel: {
-                                        fontSize: "10px"
-                                    }
-                                }}
-                            />
-                        </Box>
-                    </Box>
-                </Box>
-                <Alert variant="light" color="gray" fz={12} p={10} styles={{
-                    message: {
-                        color: "rgba(255,255,255,0.6)",
-                        fontSize: "10px",
-                        padding: "0px"
-                    },
-
-                }}>
-                    Index Price to 0.5696 will trigger market Take Profit order; your expected profit will be 7,091.7863 USDC (ROI: 132.43%)
-
-                </Alert>
-                <Box h={1} w={"100%"} bg={"gray"}></Box>
-                <Box className="space-y-6">
-                    <Flex justify={"space-between"}>
-                        <AppText fz={14}>Stop Loss-Trigger by Change %</AppText>
-                        <Box>
-                            <Checkbox size="xs" label="Limit" />
-                        </Box>
-                    </Flex>
-                    <Box className="space-y-10">
-                        <Grid columns={12} gutter={10}>
-                            <Grid.Col span={8}>
-                                <NumberInput size="lg"
-                                    withErrorStyles={false}
-                                    rightSectionWidth={150}
-                                    placeholder="Trigger Price"
-                                    styles={{
-                                        input: {
-                                            fontSize: "14px"
-                                        }
-                                    }}
-                                    rightSection={
-                                        <Flex align={"center"} gap={8}>
-                                            <Flex align={"center"}>
-                                                <ActionIcon variant="transparent" styles={{
-                                                    root: {
-                                                    }
-                                                }}>
-                                                    <IconMinus size={16} />
-                                                </ActionIcon>
-                                            </Flex>
-                                            <Box>
-                                                <Box h={14} w={1} bg={"gray"}></Box>
-                                            </Box>
-                                            <Flex align={"center"}>
-                                                <ActionIcon variant="transparent">
-                                                    <IconPlus size={16} />
-                                                </ActionIcon>
-                                            </Flex>
-                                            <Select
-                                                data={['Last', 'Index', 'Mark']}
-                                                defaultValue="Last"
-                                                withCheckIcon={false}
-                                                rightSection={
-                                                    <IconCaretDownFilled size={14} />
-                                                }
-                                                rightSectionWidth={30}
-                                                allowDeselect={false}
-                                                size="xs"
-                                                classNames={
-                                                    {
-                                                        root: "app-select",
-                                                        option: "app-select-option"
-                                                    }
-                                                }
-                                                comboboxProps={{
-                                                    position: "bottom-start",
-                                                    offset: 0,
-                                                    withinPortal: true,
-                                                    width: "auto"
-                                                }}
-                                                styles={{
-                                                    input: {
-                                                        border: "none",
-                                                        fontSize: "12px",
-                                                        textAlign: "right",
-                                                        paddingTop: 0,
-                                                        paddingBottom: 0,
-                                                        paddingLeft: 0
-
-                                                    },
-                                                    option: {
-                                                        fontSize: "12px",
-                                                    }
-                                                }}
-                                            />
-
-                                        </Flex>
-                                    }
-                                />
-                            </Grid.Col>
-                            <Grid.Col span={4}>
-                                <NumberInput size="lg"
-                                    withErrorStyles={false}
-                                    placeholder="ROI"
-                                    styles={{
-                                        input: {
-                                            fontSize: "14px"
-                                        }
-                                    }}
-                                    rightSection={
-                                        <>
-                                            %
-                                        </>
-                                    }
-                                />
-                            </Grid.Col>
-                        </Grid>
-
-                        <Box h={40}>
-                            <Slider w={"100%"}
-                                color="primary"
-                                thumbSize={14}
-                                showLabelOnHover={false}
-                                marks={[
-                                    { value: 0, label: '0' },
-                                    { value: 30, label: '50%' },
-                                    { value: 60, label: '100%' },
-                                    { value: 100, label: '150%' },
-                                ]}
-                                styles={{
-                                    trackContainer: {
-                                        width: "calc(100% - 10px)"
-                                    },
-                                    label: {
-
-                                    },
-                                    markLabel: {
-                                        fontSize: "10px"
-                                    }
-                                }}
-                            />
-                        </Box>
-                    </Box>
-                </Box>
-                <SimpleGrid cols={2}>
-                    <AppButton color="primary">Confirm</AppButton>
-                    <AppButton color="gray">Cancel</AppButton>
-                </SimpleGrid>
-            </Box>
-        </>
+        <AddTpSlOfLimitTrade/>
     )
 }
 
 function LimitFutureTradeForm() {
     const [isOf, setOff] = useState<boolean>(false);
-    const [opened, { open, close }] = useDisclosure(false);
+    const [opened, { open, close }] = useDisclosure(true);
 
     const onOpenModal = useCallback(() => {
         open()
-        modals.openConfirmModal
     }, [])
     return (
         <>
-            <Modal opened={opened} onClose={close} title="Add TP/SL" centered size={440} withOverlay={false} styles={{
-                body: {
-                    background: "#16171a"
-                },
-                title: {
-                    fontWeight: 600,
-                    fontSize: "18px",
-                    color: "white"
-                },
-                header: {
-                    background: "#16171a",
-                    paddingBottom: "30px"
-                }
-            }}>
+            <Modal opened={opened} onClose={close} title="Add TP/SL" centered size={440} withOverlay={false}>
                 <AddTPAndSL />
             </Modal>
             <Box className="space-y-20">
@@ -1956,7 +1588,7 @@ function LimitFutureTradeForm() {
                         }
                     }}
                 >
-                    <AppButton bg={"green"} styles={{
+                    <AppButton bg={"#23b26b"} styles={{
                         label: {
                             flexWrap: "wrap",
                             textAlign: "center"
@@ -1965,7 +1597,7 @@ function LimitFutureTradeForm() {
                         <Text component="span" style={{ display: "block", width: "100%" }} fw={"bolder"} fz={14}>Buy / Long</Text>
                         <Text component="span" style={{ display: "block", width: "100%", transform: "translateY(-4px)" }} fz={10}>Demo Trading</Text>
                     </AppButton>
-                    <AppButton bg={"red"} styles={{
+                    <AppButton bg={"#f0444b"} styles={{
                         label: {
                             flexWrap: "wrap",
                             textAlign: "center"

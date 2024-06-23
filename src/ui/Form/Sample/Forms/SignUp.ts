@@ -61,13 +61,6 @@ const SignUp: Sample = {
     ],
   },
   uiSchema: {
-    // "ui:order": [
-    //   // "type",
-    //   // "email",
-    //   // "mobile",
-    //   // "*",
-    //   // "password"
-    // ],
     "ui:widget": "TabWidget",
     "ui:options": {
       submitButtonOptions: {

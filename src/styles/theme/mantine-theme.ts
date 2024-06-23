@@ -1,6 +1,9 @@
 import {
   CSSVariablesResolver,
   Container,
+  Modal,
+  NumberInput,
+  Select,
   createTheme,
 } from "@mantine/core";
 
@@ -27,6 +30,48 @@ export const theme = createTheme({
         size: "lg",
       },
     }),
+    NumberInput: NumberInput.extend({
+      defaultProps: {
+        styles: {
+          root: {
+            // border: "solid 1px red"
+
+          },
+          input: {
+            background: "#26282c",
+            fontSize: "14px"
+          },
+        }
+      }
+    }),
+    Select: Select.extend({
+      defaultProps: {
+        styles: {
+          input: {
+            background: "#26282c",
+            fontSize: "14px"
+          },
+          section: {
+            background: "red"
+          }
+        }
+      }
+    }),
+    Modal: Modal.extend({
+      defaultProps: {
+        classNames: {
+          title: "app-modal--title",
+          body: "app-modal--body",
+          content: "app-modal--content",
+          close: "app-modal--close",
+          header: "app-modal--header",
+          inner: "app-modal--inner",
+          overlay: "app-modal--overlay",
+          root: "app-modal--root",
+        }
+      }
+    })
+
   },
 
   colors: {
