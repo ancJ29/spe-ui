@@ -90,6 +90,20 @@
     font-weight: bolder;
     font-size: 14px;
   }
+  &.text-hint {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 14px;
+    @include dark {
+      color: #71757a;
+    }
+  }
 }
 
-
+.text-label-alert {
+  font-size: 12px;
+  font-weight: 500;
+  @include dark {
+    color: #adb1b8;
+  }
+}

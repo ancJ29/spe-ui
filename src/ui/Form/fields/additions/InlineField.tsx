@@ -5,7 +5,7 @@ export const InlineField: FC<FieldProps<string>> = ({
   children
 }) => {
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+    <div className="xxxxx555" style={{ display: 'flex', justifyContent: 'space-between', border: "solid 1px red" }}>
       {children}
     </div>
   );

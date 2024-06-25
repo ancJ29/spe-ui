@@ -8,9 +8,8 @@ import {
 } from "@rjsf/utils";
 import { customizeValidator } from "@rjsf/validator-ajv8";
 import Ajv2020 from "ajv/dist/2020.js";
-import React, { FormEvent, useCallback, useState } from "react";
+import React, { FormEvent, useCallback, useRef, useState } from "react";
 import { Sample } from "./Sample/Sample";
-import classes from "./form.module.scss";
 
 import axios from "@/services/apis/api";
 import { useDisclosure } from "@mantine/hooks";
@@ -122,7 +121,6 @@ const AppForm: React.FC<Sample & Partial<Custom>> = ({
     <>
       <Box w={props.w ?? 500} pos="relative">
         <Form
-          className={classes.form}
           schema={schema}
           uiSchema={uiSchema}
           formData={formData}
@@ -153,12 +151,13 @@ const AppForm: React.FC<Sample & Partial<Custom>> = ({
         />
       </Box>
       {showJsonOutput && <JsonInput
-        label="Your package.json"
+        label="JsonData"
         placeholder="Textarea will autosize to fit the content"
         validationError="Invalid JSON"
         formatOnBlur
         autosize
-        minRows={4}
+        rows={5}
+        maxRows={5}
         value={JSON.stringify(formData)}
       />}
       <LoadingOverlay

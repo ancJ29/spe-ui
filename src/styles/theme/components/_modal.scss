@@ -16,6 +16,9 @@
 }
 .app-modal--content {
     &.mantine-Modal-content {
+        @include dark {
+            background: #16171a;
+        }
     }
 }
 .app-modal--close {

@@ -88,3 +88,14 @@
 @for $i from 1 through 20 {
   @include space-y($i);
 }
+
+@mixin generate-grid-classes($columns) {
+  @for $i from 1 through $columns {
+    .span-#{$i} {
+      grid-column: span $i;
+      // border: solid 1px orange;
+    }
+  }
+}
+
+

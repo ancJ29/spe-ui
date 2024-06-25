@@ -75,7 +75,7 @@ import { dataHistories } from "./tradeHistory";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import { modals } from "@mantine/modals";
-import { AddTpSlOfLimitTrade } from "./components/AddTpSlOfLimitTrade";
+import { AddTpSlOfLimitTradeForm } from "./components/AddTpSlOfLimitTradeForm";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const initialLayouts =
@@ -1414,7 +1414,7 @@ function Forms() {
 
 function AddTPAndSL() {
     return (
-        <AddTpSlOfLimitTrade/>
+        <AddTpSlOfLimitTradeForm/>
     )
 }
 
