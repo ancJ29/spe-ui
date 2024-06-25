@@ -138,7 +138,10 @@ const AppText = createPolymorphicComponent<"p", InstanceProps>(
         <Text
           {..._props[_pr.instancetype ?? "Default"]}
           {...others}
-          className={cx(_pr.instancetype ?? "Default", others.className)}
+          className={cx(
+            _pr.instancetype ?? "Default",
+            others.className,
+          )}
           ref={ref}
         >
           {children}

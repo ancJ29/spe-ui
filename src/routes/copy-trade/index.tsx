@@ -1,4 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
+import alltraderIcon from "@/assets/images/alltrader.svg";
+import moneyIcon from "@/assets/images/money.svg";
+import topTradeIcon from "@/assets/images/toptrader.svg";
 import trade_icon from "@/assets/images/trade_icon.png";
 import useMetadata from "@/hooks/useMetadata";
 import AppButton from "@/ui/Button/AppButton";
@@ -47,11 +50,9 @@ import {
   IconStarFilled,
 } from "@tabler/icons-react";
 import { ReactNode, useCallback, useMemo, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { Footer, Header } from "../top-page";
 import classes from "./index.module.scss";
-import moneyIcon from "@/assets/images/money.svg";
-import topTradeIcon from "@/assets/images/toptrader.svg";
-import alltraderIcon from "@/assets/images/alltrader.svg";
 
 const sizeContainer = "xl";
 
@@ -712,18 +713,18 @@ type FilterOption = {
 };
 
 export function OptionFilter(
-  props: Partial<{ 
-    label: string; 
-    value?: string, 
-    items: FilterOption[], 
-    icon: ReactNode, 
-    menuProps: MenuProps & {}, 
-    menuTargetProps: MenuTargetProps,
-    menuDropdownProps: MenuDropdownProps
-   }>,
+  props: Partial<{
+    label: string;
+    value?: string;
+    items: FilterOption[];
+    icon: ReactNode;
+    menuProps: MenuProps;
+    menuTargetProps: MenuTargetProps;
+    menuDropdownProps: MenuDropdownProps;
+  }>,
 ) {
   const [values, setValues] = useState<string>(
-    props.label ?? props?.items?.[0].value as string,
+    props.label ?? (props?.items?.[0].value as string),
   );
   return (
     <>
@@ -739,7 +740,11 @@ export function OptionFilter(
           <AppButton p={0} variant="transparent" color="dark">
             <Flex align={"center"} gap={5}>
               {values ?? props.label ?? "_menu"}
-              {props.icon ? props.icon : <IconChevronDown size={18} color="gray" />}
+              {props.icon ? (
+                props.icon
+              ) : (
+                <IconChevronDown size={18} color="gray" />
+              )}
             </Flex>
           </AppButton>
         </Menu.Target>
@@ -761,7 +766,11 @@ export function OptionFilter(
 }
 
 export function OptionFilterAsCheckbox(
-  props: Partial<{ label: string; items: FilterOption[], icon: ReactNode }>,
+  props: Partial<{
+    label: string;
+    items: FilterOption[];
+    icon: ReactNode;
+  }>,
 ) {
   const [values, setValues] = useState<{ [k in string]: boolean }>(
     {},
@@ -808,7 +817,11 @@ export function OptionFilterAsCheckbox(
                   {checked.length}
                 </Badge>
               )}
-              {props.icon ? props.icon : <IconChevronDown size={18} color="gray" />}
+              {props.icon ? (
+                props.icon
+              ) : (
+                <IconChevronDown size={18} color="gray" />
+              )}
             </Flex>
           </Button>
         </Menu.Target>
@@ -1075,7 +1088,6 @@ export function IconSortUpDown({
     </>
   );
 }
-import { v4 as uuidv4 } from "uuid";
 export function CardTraderTop1(
   props: Partial<{ avatar: string; userName: string; top: number }>,
 ) {

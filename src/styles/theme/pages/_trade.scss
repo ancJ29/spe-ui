@@ -1,6 +1,8 @@
-
 .bg-dark {
-  background: light-dark(var(--mantine-color-dark), var(--mantine-color-dark));
+  background: light-dark(
+    var(--mantine-color-dark),
+    var(--mantine-color-dark)
+  );
 }
 .layout_trade {
   // background: light-dark(var(--mantine-color-black), var(--mantine-color-black));
@@ -14,7 +16,7 @@
   & > * {
     position: relative;
     z-index: 2;
-   
+
     &.grid-item-drag-handle {
       position: absolute;
       // border: solid 1px red;
@@ -35,7 +37,6 @@
       opacity: 1;
     }
   }
-  
 }
 
 .head_item_grid {
@@ -64,4 +65,3 @@
     }
   }
 }
-

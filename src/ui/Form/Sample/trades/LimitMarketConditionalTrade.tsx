@@ -1,29 +1,28 @@
 import { Sample } from "../Sample";
 
-
 const LimitFutureTrade: Sample = {
   schema: {
-    "type": "object",
+    type: "object",
     properties: {
       type: {
-        "type": "string",
-        "enum": ["Long", "Short"],
+        type: "string",
+        enum: ["Long", "Short"],
         default: "Long",
-        "title": "Add Type"
+        title: "Add Type",
       },
       biasType: {
-        "type": "string",
+        type: "string",
         default: "1",
-        "title": "Bias Type",
-        "oneOf": [
+        title: "Bias Type",
+        oneOf: [
           {
-            "title": "Entire Position",
-            "const": "1"
+            title: "Entire Position",
+            const: "1",
           },
           {
-            "title": "Current Order",
-            "const": "2"
-          }
+            title: "Current Order",
+            const: "2",
+          },
         ],
       },
     },
@@ -32,7 +31,7 @@ const LimitFutureTrade: Sample = {
         if: {
           properties: {
             biasType: { const: "2" },
-          }
+          },
         },
         then: {
           properties: {
@@ -44,30 +43,29 @@ const LimitFutureTrade: Sample = {
                   type: "string",
                   enum: ["1", "2", "3"],
                   default: "1",
-                  title: "Take Profit-Trigger by"
+                  title: "Take Profit-Trigger by",
                 },
                 limit: {
                   type: "boolean",
                   default: false,
-                  title: "Limit"
+                  title: "Limit",
                 },
                 value: {
                   type: "string",
-                  
                 },
               },
               if: {
                 properties: {
-                  limit: { const: true }
-                }
+                  limit: { const: true },
+                },
               },
               then: {
                 properties: {
                   orderPrice: {
-                    type: "string",
+                    type: "number",
                   },
-                }
-              }
+                },
+              },
             },
             sl: {
               type: "object",
@@ -77,30 +75,29 @@ const LimitFutureTrade: Sample = {
                   type: "string",
                   enum: ["1", "2", "3"],
                   default: "1",
-                  title: "Stop Loss-Trigger by "
+                  title: "Stop Loss-Trigger by ",
                 },
                 limit: {
                   type: "boolean",
                   default: false,
-                  title: "Stop Loss-Trigger by"
+                  title: "Stop Loss-Trigger by",
                 },
                 value: {
-                  type: "string",
-                  
+                  type: "number",
                 },
               },
               if: {
                 properties: {
-                  limit: { const: true }
-                }
+                  limit: { const: true },
+                },
               },
               then: {
                 properties: {
                   orderPrice: {
-                    type: "string",
+                    type: "number",
                   },
-                }
-              }
+                },
+              },
             },
           },
         },
@@ -109,7 +106,7 @@ const LimitFutureTrade: Sample = {
         if: {
           properties: {
             biasType: { const: "1" },
-          }
+          },
         },
         then: {
           properties: {
@@ -118,7 +115,7 @@ const LimitFutureTrade: Sample = {
               title: "",
               properties: {
                 value: {
-                  type: "string",
+                  type: "number",
                   title: "Take Profit-Trigger by",
                 },
               },
@@ -128,8 +125,8 @@ const LimitFutureTrade: Sample = {
               title: "",
               properties: {
                 value: {
-                  type: "string",
-                  title: "Stop Loss-Trigger by"
+                  type: "number",
+                  title: "Stop Loss-Trigger by",
                 },
               },
             },
@@ -139,12 +136,11 @@ const LimitFutureTrade: Sample = {
     ],
   },
   uiSchema: {
-    // 'ui:order': ['type', 'biasType', 'limitTP', 'tp', 'orderPrice', 'limitSL', 'sl', 'orderPriceSl', 'profit', 'x'],
     "ui:options": {
       submitButtonOptions: {
-        norender: true
+        norender: true,
       },
-      "classNames": "grid-form-root",
+      classNames: "grid-form-root",
     },
     "type": {
       "ui:widget": "TradeLongShortSwitchTPLimitWidget",
@@ -152,81 +148,79 @@ const LimitFutureTrade: Sample = {
         label: false,
       },
     },
-    biasType: {
+    "biasType": {
       "ui:widget": "BiasTypeSwitchWidget",
       "ui:options": {
         label: false,
       },
     },
-    tp: {
+    "tp": {
       "ui:options": {
         label: false,
       },
-      type: {
+      "type": {
         "ui:widget": "TpAndSlSettingsWidget",
         "ui:options": {
           classNames: "span-18",
           label: false,
         },
       },
-      limit: {
+      "limit": {
         "ui:widget": "CheckLimitTpAndSlWidget",
         "ui:options": {
           label: false,
-          classNames: "span-6"
+          classNames: "span-6",
         },
       },
-      value: {
+      "value": {
         "ui:widget": "ProfitInputWidget",
         "ui:options": {
           label: false,
         },
       },
-      orderPrice: {
+      "orderPrice": {
         "ui:widget": "OrderPriceTPInputWidget",
         "ui:options": {
           label: false,
         },
-      }
+      },
     },
-    
-    sl: {
+
+    "sl": {
       "ui:options": {
         label: false,
       },
-      type: {
+      "type": {
         "ui:widget": "TpAndSlSettingsWidget",
         "ui:options": {
           classNames: "span-18",
           label: false,
         },
       },
-      limit: {
+      "limit": {
         "ui:widget": "CheckLimitTpAndSlWidget",
         "ui:options": {
           label: false,
-          classNames: "span-6"
+          classNames: "span-6",
         },
       },
-      value: {
+      "value": {
         "ui:widget": "StopLossInputWidget",
         "ui:options": {
           label: false,
         },
       },
-      orderPrice: {
+      "orderPrice": {
         "ui:widget": "OrderPriceSLInputWidget",
         "ui:options": {
           label: false,
         },
-      }
-    }
-    
+      },
+    },
   },
   formData: {
-    orderPrice: 3
-  }
-
-}
+    orderPrice: 3,
+  },
+};
 
 export default LimitFutureTrade;

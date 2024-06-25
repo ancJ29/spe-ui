@@ -35,27 +35,26 @@ export const theme = createTheme({
         styles: {
           root: {
             // border: "solid 1px red"
-
           },
           input: {
             background: "#26282c",
-            fontSize: "14px"
+            fontSize: "14px",
           },
-        }
-      }
+        },
+      },
     }),
     Select: Select.extend({
       defaultProps: {
         styles: {
           input: {
             background: "#26282c",
-            fontSize: "14px"
+            fontSize: "14px",
           },
           section: {
-            background: "red"
-          }
-        }
-      }
+            background: "red",
+          },
+        },
+      },
     }),
     Modal: Modal.extend({
       defaultProps: {
@@ -68,10 +67,9 @@ export const theme = createTheme({
           inner: "app-modal--inner",
           overlay: "app-modal--overlay",
           root: "app-modal--root",
-        }
-      }
-    })
-
+        },
+      },
+    }),
   },
 
   colors: {

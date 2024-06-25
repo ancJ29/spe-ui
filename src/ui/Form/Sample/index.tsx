@@ -14,7 +14,7 @@ const _samples: Record<string, Sample> = {
   ForgotPassword: ForgotPassword,
   ResetPassword: ResetPassword,
   SignIn: SignInForm,
-  LimitMarketConditionalTrade: LimitFutureTrade
+  LimitMarketConditionalTrade: LimitFutureTrade,
 };
 
 export const samples = deepFreeze(_samples);

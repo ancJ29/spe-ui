@@ -1,20 +1,20 @@
-import { Box, Flex, TableData } from "@mantine/core";
-import AppText from "@/ui/Text/AppText";
-import { AppPopover } from "@/ui/Popover/AppPopover";
 import AppButton from "@/ui/Button/AppButton";
+import { AppPopover } from "@/ui/Popover/AppPopover";
+import AppText from "@/ui/Text/AppText";
+import { Box, Flex, TableData } from "@mantine/core";
 import { IconEdit, IconPlus } from "@tabler/icons-react";
 
 type TradeHistoryBy =
-    "positions"
-    | "PnL"
-    | "currentOrders"
-    | "orderHistory"
-    | "tradeHistory";
+  | "positions"
+  | "PnL"
+  | "currentOrders"
+  | "orderHistory"
+  | "tradeHistory";
 
-type TableDataFunction = (_type?: any) => TableData;
+type TableDataFunction = (_type?: unknown) => TableData;
 
 type TableHistory = Partial<{
-  [k in TradeHistoryBy]: TableDataFunction
+  [k in TradeHistoryBy]: TableDataFunction;
 }>;
 
 const row = {
@@ -40,11 +40,15 @@ const row = {
   filledTotal: 67534.1 + Math.floor(Math.random() * 20),
   tp: [67534.1 + 100, null][Math.floor(Math.random() * 2)],
   sl: [67534.1 - 100, null][Math.floor(Math.random() * 2)],
-  tradeType: ["Close Short", "Close Long", "Open Long", "Open Short"][Math.floor(Math.random() * 4)],
+  tradeType: ["Close Short", "Close Long", "Open Long", "Open Short"][
+    Math.floor(Math.random() * 4)
+  ],
   orderType: ["Limit", "Market"][Math.floor(Math.random() * 2)],
   filledType: ["Trade", "Withdraw"][Math.floor(Math.random() * 2)],
   reduceOnly: [true, false][Math.floor(Math.random() * 2)],
-  status: ["Active", "Closed", "Filled", "Canceled"][Math.floor(Math.random() * 4)],
+  status: ["Active", "Closed", "Filled", "Canceled"][
+    Math.floor(Math.random() * 4)
+  ],
   No: "c8891a7b",
   orderTime: Date.now() + Math.floor(Math.random() * 100),
   tradeTime: Date.now() + Math.floor(Math.random() * 100),
@@ -52,7 +56,9 @@ const row = {
   isBuy: [true, false][Math.floor(Math.random() * 2)],
   NoTP: "4ff674f5",
   NoSL: "e777fc79",
-  transactionID: ["834bc268", "0fd3accd"][Math.floor(Math.random() * 2)],
+  transactionID: ["834bc268", "0fd3accd"][
+    Math.floor(Math.random() * 2)
+  ],
 
   markPrice: 67534.1,
   IM: `6,226.2725 USDT
@@ -72,12 +78,13 @@ const row = {
   ][Math.floor(Math.random() * 2)],
   mmr: ["Trigger: ≥82.28%", null][Math.floor(Math.random() * 2)],
   exitType: ["Trade", "Withdraw"][Math.floor(Math.random() * 2)],
-  closedPl: [67534.1 - 100, 67534.1 + 100][Math.floor(Math.random() * 2)],
-
+  closedPl: [67534.1 - 100, 67534.1 + 100][
+    Math.floor(Math.random() * 2)
+  ],
 };
 
 export const dataHistories: TableHistory = {
-  "positions": () => {
+  positions: () => {
     const _items = [
       [
         "Contracts",
@@ -130,238 +137,240 @@ export const dataHistories: TableHistory = {
       ],
       ["Close By"],
     ];
-    const rows = [...Array(20)].map(() => ({ ...row })).map(
-      (
-        {
-          baseToken,
-          pairToken,
-          entryPrice,
-          qty,
-          isBuy,
-          value,
-          markPrice,
-          liqPrice,
-          IM,
-          MM,
-          unRealizedPnL,
-          realizedPnL,
-          tp,
-          sl,
-          TrailingStop,
-          mmr,
-        },
-        idx,
-      ) => [
-        <Flex key={`${idx}.1`} align={"center"} gap={8}>
-          <Box bg={isBuy ? "green" : "red"} w={"2px"} h={30} />
-          <div>
-            <AppText instancetype="WithCellToken" fz={12}>
-              {baseToken}
-              {pairToken}
-            </AppText>
-            <AppText
-              c={isBuy ? "green" : "red"}
-              fz={12}
-              fw={"bold"}
-              style={{ whiteSpace: "nowrap" }}
-            >
-                                Cross 10.00x
-            </AppText>
-          </div>
-        </Flex>,
-        <AppText
-          key={`${idx}.2`}
-          instancetype="WithCellToken"
-          fz={12}
-          c={isBuy ? "green" : "red"}
-        >
-          {qty}
-        </AppText>,
-        <AppText
-          key={`${idx}.3`}
-          instancetype="WithCellToken"
-          fz={12}
-        >
-          {value}
-        </AppText>,
-        <AppText
-          key={`${idx}.4`}
-          instancetype="WithCellToken"
-          fz={12}
-        >
-          {entryPrice}
-        </AppText>,
-        <AppText
-          key={`${idx}.5`}
-          instancetype="WithCellToken"
-          fz={12}
-        >
-          {markPrice}
-        </AppText>,
-        <AppText
-          key={`${idx}.6`}
-          instancetype="WithCellToken"
-          fz={12}
-          c={"primary"}
-        >
-          {liqPrice ?? "--"}
-        </AppText>,
-        <Box key={`${idx}.7`} w={120}>
-          <AppText instancetype="WithCellToken" fz={12}>
-            {IM}
-          </AppText>
-        </Box>,
-        <Box key={`${idx}.8`} w={120}>
-          <AppText instancetype="WithCellToken" fz={12}>
-            {MM}
-          </AppText>
-        </Box>,
-        <AppPopover
-          key={`${idx}.9`}
-          withArrow={false}
-          target={(props) => ({
-            children: (
+    const rows = [...Array(20)]
+      .map(() => ({ ...row }))
+      .map(
+        (
+          {
+            baseToken,
+            pairToken,
+            entryPrice,
+            qty,
+            isBuy,
+            value,
+            markPrice,
+            liqPrice,
+            IM,
+            MM,
+            unRealizedPnL,
+            realizedPnL,
+            tp,
+            sl,
+            TrailingStop,
+            mmr,
+          },
+          idx,
+        ) => [
+          <Flex key={`${idx}.1`} align={"center"} gap={8}>
+            <Box bg={isBuy ? "green" : "red"} w={"2px"} h={30} />
+            <div>
+              <AppText instancetype="WithCellToken" fz={12}>
+                {baseToken}
+                {pairToken}
+              </AppText>
               <AppText
-                onMouseEnter={props.open}
-                onMouseLeave={props.close}
-                instancetype="WithCellToken"
-                fz={12}
                 c={isBuy ? "green" : "red"}
+                fz={12}
+                fw={"bold"}
+                style={{ whiteSpace: "nowrap" }}
               >
-                {unRealizedPnL}
+                Cross 10.00x
               </AppText>
-            ),
-          })}
-          dropdown={() => ({
-            children: (
-              <AppText instancetype="WithTextTooltip">
-                                    By default, the unrealized profit and loss are
-                                    calculated based on the last traded price. When you
-                                    move your cursor here, the unrealized profit and loss
-                                    shown are calculated based on the mark price
-              </AppText>
-            ),
-          })}
-        ></AppPopover>,
-        <Box w={120} key={`${idx}.10`}>
+            </div>
+          </Flex>,
           <AppText
+            key={`${idx}.2`}
             instancetype="WithCellToken"
             fz={12}
             c={isBuy ? "green" : "red"}
           >
-            {realizedPnL}
-          </AppText>
-        </Box>,
-        <Flex gap={10} align={"center"} key={`${idx}.11`}>
-          {tp && sl ? (
-            <>
-              <Flex align={"center"} direction={"column"} gap={0}>
+            {qty}
+          </AppText>,
+          <AppText
+            key={`${idx}.3`}
+            instancetype="WithCellToken"
+            fz={12}
+          >
+            {value}
+          </AppText>,
+          <AppText
+            key={`${idx}.4`}
+            instancetype="WithCellToken"
+            fz={12}
+          >
+            {entryPrice}
+          </AppText>,
+          <AppText
+            key={`${idx}.5`}
+            instancetype="WithCellToken"
+            fz={12}
+          >
+            {markPrice}
+          </AppText>,
+          <AppText
+            key={`${idx}.6`}
+            instancetype="WithCellToken"
+            fz={12}
+            c={"primary"}
+          >
+            {liqPrice ?? "--"}
+          </AppText>,
+          <Box key={`${idx}.7`} w={120}>
+            <AppText instancetype="WithCellToken" fz={12}>
+              {IM}
+            </AppText>
+          </Box>,
+          <Box key={`${idx}.8`} w={120}>
+            <AppText instancetype="WithCellToken" fz={12}>
+              {MM}
+            </AppText>
+          </Box>,
+          <AppPopover
+            key={`${idx}.9`}
+            withArrow={false}
+            target={(props) => ({
+              children: (
                 <AppText
-                  c={"green"}
+                  onMouseEnter={props.open}
+                  onMouseLeave={props.close}
                   instancetype="WithCellToken"
                   fz={12}
-                  fw={"bold"}
+                  c={isBuy ? "green" : "red"}
                 >
-                  {tp}
+                  {unRealizedPnL}
                 </AppText>
-                <Flex align={"center"} gap={0}>
+              ),
+            })}
+            dropdown={() => ({
+              children: (
+                <AppText instancetype="WithTextTooltip">
+                  By default, the unrealized profit and loss are
+                  calculated based on the last traded price. When you
+                  move your cursor here, the unrealized profit and
+                  loss shown are calculated based on the mark price
+                </AppText>
+              ),
+            })}
+          ></AppPopover>,
+          <Box w={120} key={`${idx}.10`}>
+            <AppText
+              instancetype="WithCellToken"
+              fz={12}
+              c={isBuy ? "green" : "red"}
+            >
+              {realizedPnL}
+            </AppText>
+          </Box>,
+          <Flex gap={10} align={"center"} key={`${idx}.11`}>
+            {tp && sl ? (
+              <>
+                <Flex align={"center"} direction={"column"} gap={0}>
                   <AppText
+                    c={"green"}
                     instancetype="WithCellToken"
                     fz={12}
                     fw={"bold"}
                   >
-                                            /
+                    {tp}
                   </AppText>
-                  <AppText
-                    c={"red"}
-                    instancetype="WithCellToken"
-                    fz={12}
-                    fw={"bold"}
-                  >
-                    {sl}
-                  </AppText>
+                  <Flex align={"center"} gap={0}>
+                    <AppText
+                      instancetype="WithCellToken"
+                      fz={12}
+                      fw={"bold"}
+                    >
+                      /
+                    </AppText>
+                    <AppText
+                      c={"red"}
+                      instancetype="WithCellToken"
+                      fz={12}
+                      fw={"bold"}
+                    >
+                      {sl}
+                    </AppText>
+                  </Flex>
                 </Flex>
-              </Flex>
-              <AppButton
-                variant="outline"
-                color="gray"
-                size="compact-xs"
-              >
-                <IconEdit size={10} />
+                <AppButton
+                  variant="outline"
+                  color="gray"
+                  size="compact-xs"
+                >
+                  <IconEdit size={10} />
+                </AppButton>
+              </>
+            ) : (
+              <AppButton bg={"dark"} size="compact-xs" fz={12}>
+                <IconPlus size={16} />
+                Add
               </AppButton>
-            </>
-          ) : (
+            )}
+          </Flex>,
+          <Flex w={180} align={"center"} gap={5} key={`${idx}.12`}>
+            {TrailingStop ? (
+              <>
+                <AppText instancetype="WithCellToken" fz={12}>
+                  {TrailingStop}
+                </AppText>
+                <Box>
+                  <AppButton
+                    variant="outline"
+                    color="gray"
+                    size="compact-xs"
+                  >
+                    <IconEdit size={10} />
+                  </AppButton>
+                </Box>
+              </>
+            ) : (
+              <AppButton bg={"dark"} size="compact-xs" fz={12}>
+                <IconPlus size={16} />
+                Add
+              </AppButton>
+            )}
+          </Flex>,
+          <Flex w={170} align={"center"} gap={10} key={`${idx}.13`}>
+            {mmr ? (
+              <>
+                <AppText instancetype="WithCellToken" fz={12}>
+                  {mmr}
+                </AppText>
+                <Box>
+                  <AppButton
+                    variant="outline"
+                    color="gray"
+                    size="compact-xs"
+                  >
+                    <IconEdit size={10} />
+                  </AppButton>
+                </Box>
+              </>
+            ) : (
+              <AppButton bg={"dark"} size="compact-xs" fz={12}>
+                <IconPlus size={16} />
+                Add
+              </AppButton>
+            )}
+          </Flex>,
+          <AppText
+            instancetype="WithCellToken"
+            fz={12}
+            key={`${idx}.14`}
+          >
             <AppButton bg={"dark"} size="compact-xs" fz={12}>
-              <IconPlus size={16} />
-                                Add
+              Reverse
             </AppButton>
-          )}
-        </Flex>,
-        <Flex w={180} align={"center"} gap={5} key={`${idx}.12`}>
-          {TrailingStop ? (
-            <>
-              <AppText instancetype="WithCellToken" fz={12}>
-                {TrailingStop}
-              </AppText>
-              <Box>
-                <AppButton
-                  variant="outline"
-                  color="gray"
-                  size="compact-xs"
-                >
-                  <IconEdit size={10} />
-                </AppButton>
-              </Box>
-            </>
-          ) : (
+          </AppText>,
+          <Flex key={`${idx}.15`} gap={10}>
             <AppButton bg={"dark"} size="compact-xs" fz={12}>
-              <IconPlus size={16} />
-                                Add
+              Limit
             </AppButton>
-          )}
-        </Flex>,
-        <Flex w={170} align={"center"} gap={10} key={`${idx}.13`}>
-          {mmr ? (
-            <>
-              <AppText instancetype="WithCellToken" fz={12}>
-                {mmr}
-              </AppText>
-              <Box>
-                <AppButton
-                  variant="outline"
-                  color="gray"
-                  size="compact-xs"
-                >
-                  <IconEdit size={10} />
-                </AppButton>
-              </Box>
-            </>
-          ) : (
             <AppButton bg={"dark"} size="compact-xs" fz={12}>
-              <IconPlus size={16} />
-                                Add
+              Market
             </AppButton>
-          )}
-        </Flex>,
-        <AppText
-          instancetype="WithCellToken"
-          fz={12}
-          key={`${idx}.14`}
-        >
-          <AppButton bg={"dark"} size="compact-xs" fz={12}>
-                            Reverse
-          </AppButton>
-        </AppText>,
-        <Flex key={`${idx}.15`} gap={10}>
-          <AppButton bg={"dark"} size="compact-xs" fz={12}>
-                            Limit
-          </AppButton>
-          <AppButton bg={"dark"} size="compact-xs" fz={12}>
-                            Market
-          </AppButton>
-        </Flex>,
-      ],
-    );
+          </Flex>,
+        ],
+      );
     return {
       head: _items.map(([text, tooltip], i) => {
         return (
@@ -415,106 +424,96 @@ export const dataHistories: TableHistory = {
       body: rows,
     };
   },
-  "PnL": () => {
+  PnL: () => {
     const _items = [
-      [
-        "Contracts",
-      ],
-      [
-        "Qty",
-      ],
-      [
-        "Entry Price",
-      ],
+      ["Contracts"],
+      ["Qty"],
+      ["Entry Price"],
       ["Exit Price"],
-      [
-        "Trade Type",
-      ],
+      ["Trade Type"],
       ["Closed P&L"],
-      [
-        "Exit Type",
-      ],
-      [
-        "Trade Time",
-      ],
+      ["Exit Type"],
+      ["Trade Time"],
     ];
-    const rows = [...Array(20)].map(() => ({
-      ...row,
-    })).map(
-      (
-        {
-          baseToken,
-          pairToken,
-          entryPrice,
-          qty,
-          isBuy,
-          exitPrice,
-          exitType,
-          tradeTime,
-          tradeType,
-          closedPl
-        },
-        idx,
-      ) => [
-        <Flex key={`${idx}.1`} align={"center"} gap={8}>
-          <Box bg={isBuy ? "green" : "red"} w={"2px"} h={30} />
-          <div>
-            <AppText instancetype="WithCellToken" fz={12}>
-              {baseToken}
-              {pairToken}
-            </AppText>
-          </div>
-        </Flex>,
-        <AppText
-          key={`${idx}.2`}
-          instancetype="WithCellToken"
-          fz={12}
-          c={isBuy ? "green" : "red"}
-        >
-          {qty}
-        </AppText>,
+    const rows = [...Array(20)]
+      .map(() => ({
+        ...row,
+      }))
+      .map(
+        (
+          {
+            baseToken,
+            pairToken,
+            entryPrice,
+            qty,
+            isBuy,
+            exitPrice,
+            exitType,
+            tradeTime,
+            tradeType,
+            closedPl,
+          },
+          idx,
+        ) => [
+          <Flex key={`${idx}.1`} align={"center"} gap={8}>
+            <Box bg={isBuy ? "green" : "red"} w={"2px"} h={30} />
+            <div>
+              <AppText instancetype="WithCellToken" fz={12}>
+                {baseToken}
+                {pairToken}
+              </AppText>
+            </div>
+          </Flex>,
+          <AppText
+            key={`${idx}.2`}
+            instancetype="WithCellToken"
+            fz={12}
+            c={isBuy ? "green" : "red"}
+          >
+            {qty}
+          </AppText>,
 
-        <AppText
-          key={`${idx}.4`}
-          instancetype="WithCellToken"
-          fz={12}
-        >
-          {entryPrice}
-        </AppText>,
-        <AppText
-          key={`${idx}.5`}
-          instancetype="WithCellToken"
-          fz={12}
-        >
-          {exitPrice}
-        </AppText>,
-        <AppText
-          key={`${idx}.3`}
-          instancetype="WithCellToken"
-          fz={12}
-          c={"green"}
-        >
-          {tradeType}
-        </AppText>,
-        <AppText
-          key={`${idx}.6`}
-          instancetype="WithCellToken"
-          fz={12}
-        >
-          {closedPl ?? "--"}
-        </AppText>,
-        <Box key={`${idx}.7`} w={120}>
-          <AppText instancetype="WithCellToken" fz={12}>
-            {exitType}
-          </AppText>
-        </Box>,
-        <Box key={`${idx}.8`} miw={130}>
-          <AppText instancetype="WithCellToken" fz={12}>
-            {new Date(tradeTime).toLocaleString()}
-          </AppText>
-        </Box>,
-      ],
-    );
+          <AppText
+            key={`${idx}.4`}
+            instancetype="WithCellToken"
+            fz={12}
+          >
+            {entryPrice}
+          </AppText>,
+          <AppText
+            key={`${idx}.5`}
+            instancetype="WithCellToken"
+            fz={12}
+          >
+            {exitPrice}
+          </AppText>,
+          <AppText
+            key={`${idx}.3`}
+            instancetype="WithCellToken"
+            fz={12}
+            c={"green"}
+          >
+            {tradeType}
+          </AppText>,
+          <AppText
+            key={`${idx}.6`}
+            instancetype="WithCellToken"
+            fz={12}
+          >
+            {closedPl ?? "--"}
+          </AppText>,
+          <Box key={`${idx}.7`} w={120}>
+            <AppText instancetype="WithCellToken" fz={12}>
+              {exitType}
+            </AppText>
+          </Box>,
+          <Box key={`${idx}.8`} miw={130}>
+            <AppText instancetype="WithCellToken" fz={12}>
+              {new Date(tradeTime).toLocaleString()}
+            </AppText>
+          </Box>,
+        ],
+      );
     return {
       head: _items.map(([text, tooltip], i) => {
         return (
@@ -566,7 +565,7 @@ export const dataHistories: TableHistory = {
       body: rows,
     };
   },
-  "currentOrders": (_type = "Active") => {
+  currentOrders: (_type = "Active") => {
     const data = {
       Active: {
         items: [
@@ -581,111 +580,60 @@ export const dataHistories: TableHistory = {
           ["Status"],
           ["Order No."],
           ["Order Time"],
-          ["Action"]
+          ["Action"],
         ],
-        rows: [...Array(20)].map(() => ({ ...row })).map(
-          (
-            {
-              baseToken,
-              pairToken,
-              entryPrice,
-              qty,
-              isBuy,
-              exitPrice,
-              tradeTime,
-              tradeType,
-              orderTime,
-              orderType,
-              triggerPrice,
-              orderPrice,
-              tp,
-              sl,
-              reduceOnly,
-              status,
-              ...props
-            },
-            idx,
-          ) => [
-            <Flex key={`${idx}.1`} align={"center"} gap={8}>
-              <Box bg={isBuy ? "green" : "red"} w={"2px"} h={30} />
-              <div>
+        rows: [...Array(20)]
+          .map(() => ({ ...row }))
+          .map(
+            (
+              {
+                baseToken,
+                pairToken,
+                qty,
+                isBuy,
+                tradeType,
+                orderTime,
+                orderType,
+                orderPrice,
+                tp,
+                sl,
+                reduceOnly,
+                status,
+                ...props
+              },
+              idx,
+            ) => [
+              <Flex key={`${idx}.1`} align={"center"} gap={8}>
+                <Box bg={isBuy ? "green" : "red"} w={"2px"} h={30} />
+                <div>
+                  <AppText instancetype="WithCellToken" fz={12}>
+                    {baseToken}
+                    {pairToken}
+                  </AppText>
+                </div>
+              </Flex>,
+              <Flex
+                key={`${idx}.2`}
+                justify={"space-between"}
+                miw={120}
+                align={"center"}
+                gap={10}
+              >
                 <AppText instancetype="WithCellToken" fz={12}>
-                  {baseToken}
-                  {pairToken}
+                  {qty} {baseToken}
                 </AppText>
-              </div>
-            </Flex>,
-            <Flex justify={"space-between"} miw={120} align={"center"} gap={10}>
-              <AppText instancetype="WithCellToken" fz={12}>
-                {qty} {baseToken}
-              </AppText>
-            </Flex>,
+              </Flex>,
 
-            <Flex justify={"space-between"} align={"center"} gap={10}>
-              <AppText
-                instancetype="WithCellToken"
-                fz={12}
+              <Flex
+                key={`${idx}.3`}
+                justify={"space-between"}
+                align={"center"}
+                gap={10}
               >
-                {orderPrice}
-              </AppText>
-              <Box>
-                <AppButton
-                  variant="outline"
-                  color="gray"
-                  size="compact-xs"
-                >
-                  <IconEdit size={10} />
-                </AppButton>
-              </Box>
-            </Flex>,
-            <Flex justify={"space-between"} miw={120} align={"center"} gap={10}>
-              <AppText
-                key={`${idx}.4`}
-                instancetype="WithCellToken"
-                fz={12}
-              >
-                {props.Filled}/{props.Total}
-              </AppText>
-              <Box>
-                <AppButton
-                  variant="outline"
-                  color="gray"
-                  size="compact-xs"
-                >
-                  <IconEdit size={10} />
-                </AppButton>
-              </Box>
-            </Flex>,
-            <Flex gap={10} align={"center"} key={`${idx}.11`}>
-              {tp && sl ? (
-                <>
-                  <Flex align={"center"} direction={"column"} gap={0}>
-                    <AppText
-                      c={"green"}
-                      instancetype="WithCellToken"
-                      fz={12}
-                      fw={"bold"}
-                    >
-                      {tp}
-                    </AppText>
-                    <Flex align={"center"} gap={0}>
-                      <AppText
-                        instancetype="WithCellToken"
-                        fz={12}
-                        fw={"bold"}
-                      >
-                                                    /
-                      </AppText>
-                      <AppText
-                        c={"red"}
-                        instancetype="WithCellToken"
-                        fz={12}
-                        fw={"bold"}
-                      >
-                        {sl}
-                      </AppText>
-                    </Flex>
-                  </Flex>
+                <AppText instancetype="WithCellToken" fz={12}>
+                  {orderPrice}
+                </AppText>
+                <Box>
                   <AppButton
                     variant="outline"
                     color="gray"
@@ -693,206 +641,211 @@ export const dataHistories: TableHistory = {
                   >
                     <IconEdit size={10} />
                   </AppButton>
-                </>
-              ) : (
-                <AppButton bg={"dark"} size="compact-xs" fz={12}>
-                  <IconPlus size={16} />
-                                        Add
-                </AppButton>
-              )}
-            </Flex>,
-            <Box miw={120}>
-              <AppText
-                instancetype="WithCellToken"
-                fz={12}
-                c={"green"}
+                </Box>
+              </Flex>,
+              <Flex
+                key={`${idx}.4`}
+                justify={"space-between"}
+                miw={120}
+                align={"center"}
+                gap={10}
               >
-                {tradeType}
-              </AppText>
-            </Box>,
-            <Box miw={120}>
-              <AppText
-                instancetype="WithCellToken"
+                <AppText instancetype="WithCellToken" fz={12}>
+                  {props.Filled}/{props.Total}
+                </AppText>
+                <Box>
+                  <AppButton
+                    variant="outline"
+                    color="gray"
+                    size="compact-xs"
+                  >
+                    <IconEdit size={10} />
+                  </AppButton>
+                </Box>
+              </Flex>,
+              <Flex gap={10} align={"center"} key={`${idx}.11`}>
+                {tp && sl ? (
+                  <>
+                    <Flex
+                      align={"center"}
+                      direction={"column"}
+                      gap={0}
+                    >
+                      <AppText
+                        c={"green"}
+                        instancetype="WithCellToken"
+                        fz={12}
+                        fw={"bold"}
+                      >
+                        {tp}
+                      </AppText>
+                      <Flex align={"center"} gap={0}>
+                        <AppText
+                          instancetype="WithCellToken"
+                          fz={12}
+                          fw={"bold"}
+                        >
+                          /
+                        </AppText>
+                        <AppText
+                          c={"red"}
+                          instancetype="WithCellToken"
+                          fz={12}
+                          fw={"bold"}
+                        >
+                          {sl}
+                        </AppText>
+                      </Flex>
+                    </Flex>
+                    <AppButton
+                      variant="outline"
+                      color="gray"
+                      size="compact-xs"
+                    >
+                      <IconEdit size={10} />
+                    </AppButton>
+                  </>
+                ) : (
+                  <AppButton bg={"dark"} size="compact-xs" fz={12}>
+                    <IconPlus size={16} />
+                    Add
+                  </AppButton>
+                )}
+              </Flex>,
+              <Box key={`${idx}.5`} miw={120}>
+                <AppText
+                  instancetype="WithCellToken"
+                  fz={12}
+                  c={"green"}
+                >
+                  {tradeType}
+                </AppText>
+              </Box>,
+              <Box key={`${idx}.6`} miw={120}>
+                <AppText instancetype="WithCellToken" fz={12}>
+                  {orderType}
+                </AppText>
+              </Box>,
+              <Box key={`${idx}.7`} w={120}>
+                <AppText instancetype="WithCellToken" fz={12}>
+                  {reduceOnly ? "YES" : "NO"}
+                </AppText>
+              </Box>,
+              <Box key={`${idx}.7`} miw={120}>
+                <AppText instancetype="WithCellToken" fz={12}>
+                  {status}
+                </AppText>
+              </Box>,
+              <Box key={`${idx}.8`} miw={120}>
+                <AppText instancetype="WithCellToken" fz={12}>
+                  {props.No}
+                </AppText>
+              </Box>,
+              <Box key={`${idx}.9`} miw={140}>
+                <AppText instancetype="WithCellToken" fz={12}>
+                  {new Date(orderTime).toLocaleString()}
+                </AppText>
+              </Box>,
+              <AppButton
+                key={`${idx}.10`}
+                bg={"dark"}
+                size="xs"
                 fz={12}
               >
-                {orderType}
-              </AppText>
-            </Box>,
-            <Box key={`${idx}.7`} w={120}>
-              <AppText instancetype="WithCellToken" fz={12}>
-                {reduceOnly ? "YES" : "NO"}
-              </AppText>
-            </Box>,
-            <Box w={120}>
-              <AppText instancetype="WithCellToken" fz={12}>
-                {status}
-              </AppText>
-            </Box>,
-            <Box w={120}>
-              <AppText instancetype="WithCellToken" fz={12}>
-                {props.No}
-              </AppText>
-            </Box>,
-            <Box miw={140}>
-              <AppText instancetype="WithCellToken" fz={12}>
-                {new Date(orderTime).toLocaleString()}
-              </AppText>
-            </Box>,
-            <AppButton bg={"dark"} size="xs" fz={12}>Cancel</AppButton>
-          ],
-        )
+                Cancel
+              </AppButton>,
+            ],
+          ),
       },
       Conditional: {
         items: [
-          ["Contracts"], ["Qty"], ["Trigger Price"], ["Price (Distance)"], ["Order Price"], ["TP / SL"], ["Trade Type"],
-          ["Reduce-Only"], ["Status"], ["Order No."], ["Order Time"], ["Action"]
+          ["Contracts"],
+          ["Qty"],
+          ["Trigger Price"],
+          ["Price (Distance)"],
+          ["Order Price"],
+          ["TP / SL"],
+          ["Trade Type"],
+          ["Reduce-Only"],
+          ["Status"],
+          ["Order No."],
+          ["Order Time"],
+          ["Action"],
         ],
-        rows: [...Array(20)].map(() => ({
-          icon: "https://www.bybit.com/bycsi-root/fop/9e97acce-0ffd-4148-8248-1720f6758fa0.svg",
-          baseToken: "BTC",
-          pairToken: "USDT",
-          qty: -960.551 + Math.floor(Math.random() * 20),
-          entryPrice: 67534.1 + Math.floor(Math.random() * 20),
-          exitPrice: 67534.1 + Math.floor(Math.random() * 20),
-          orderPrice: 67534.1 + Math.floor(Math.random() * 20),
-          liqPrice: [67534.1, null][Math.floor(Math.random() * 2)],
-          triggerPrice: 67534.1 + Math.floor(Math.random() * 20),
-          price: "0.06008 (-0.05958)",
+        rows: [...Array(20)]
+          .map(() => ({
+            icon: "https://www.bybit.com/bycsi-root/fop/9e97acce-0ffd-4148-8248-1720f6758fa0.svg",
+            baseToken: "BTC",
+            pairToken: "USDT",
+            qty: -960.551 + Math.floor(Math.random() * 20),
+            entryPrice: 67534.1 + Math.floor(Math.random() * 20),
+            exitPrice: 67534.1 + Math.floor(Math.random() * 20),
+            orderPrice: 67534.1 + Math.floor(Math.random() * 20),
+            liqPrice: [67534.1, null][Math.floor(Math.random() * 2)],
+            triggerPrice: 67534.1 + Math.floor(Math.random() * 20),
+            price: "0.06008 (-0.05958)",
 
-          value: 67534.1 + Math.floor(Math.random() * 20),
-          filledTotal: 67534.1 + Math.floor(Math.random() * 20),
-          tp: [67534.1 + 100, null][Math.floor(Math.random() * 2)],
-          sl: [67534.1 - 100, null][Math.floor(Math.random() * 2)],
-          tradeType: ["Close Short", "Close Long", "Open Long", "Open Short"][Math.floor(Math.random() * 4)],
-          orderType: ["Limit", "Market"][Math.floor(Math.random() * 2)],
-          reduceOnly: [true, false][Math.floor(Math.random() * 2)],
-          status: ["Active", "Closed"][Math.floor(Math.random() * 2)],
-          No: "c8891a7b",
-          orderTime: Date.now() + Math.floor(Math.random() * 100),
-          tradeTime: Date.now() + Math.floor(Math.random() * 100),
-          isBuy: [true, false][Math.floor(Math.random() * 2)],
-
-        })).map(
-          (
-            {
-              baseToken,
-              pairToken,
-              entryPrice,
-              qty,
-              isBuy,
-              exitPrice,
-              tradeTime,
-              tradeType,
-              orderTime,
-              orderType,
-              triggerPrice,
-              orderPrice,
-              tp,
-              sl,
-              reduceOnly,
-              status,
-              ...props
-            },
-            idx,
-          ) => [
-            <Flex key={`${idx}.1`} align={"center"} gap={8}>
-              <Box bg={isBuy ? "green" : "red"} w={"2px"} h={30} />
-              <div>
+            value: 67534.1 + Math.floor(Math.random() * 20),
+            filledTotal: 67534.1 + Math.floor(Math.random() * 20),
+            tp: [67534.1 + 100, null][Math.floor(Math.random() * 2)],
+            sl: [67534.1 - 100, null][Math.floor(Math.random() * 2)],
+            tradeType: [
+              "Close Short",
+              "Close Long",
+              "Open Long",
+              "Open Short",
+            ][Math.floor(Math.random() * 4)],
+            orderType: ["Limit", "Market"][
+              Math.floor(Math.random() * 2)
+            ],
+            reduceOnly: [true, false][Math.floor(Math.random() * 2)],
+            status: ["Active", "Closed"][
+              Math.floor(Math.random() * 2)
+            ],
+            No: "c8891a7b",
+            orderTime: Date.now() + Math.floor(Math.random() * 100),
+            tradeTime: Date.now() + Math.floor(Math.random() * 100),
+            isBuy: [true, false][Math.floor(Math.random() * 2)],
+          }))
+          .map(
+            (
+              {
+                baseToken,
+                pairToken,
+                qty,
+                isBuy,
+                tradeType,
+                orderTime,
+                triggerPrice,
+                orderPrice,
+                tp,
+                sl,
+                reduceOnly,
+                status,
+                ...props
+              },
+              idx,
+            ) => [
+              <Flex key={`${idx}.1`} align={"center"} gap={8}>
+                <Box bg={isBuy ? "green" : "red"} w={"2px"} h={30} />
+                <div>
+                  <AppText instancetype="WithCellToken" fz={12}>
+                    {baseToken}
+                    {pairToken}
+                  </AppText>
+                </div>
+              </Flex>,
+              <Flex
+                key={`${idx}.2`}
+                justify={"space-between"}
+                miw={120}
+                align={"center"}
+                gap={10}
+              >
                 <AppText instancetype="WithCellToken" fz={12}>
-                  {baseToken}
-                  {pairToken}
+                  {qty} {baseToken}
                 </AppText>
-              </div>
-            </Flex>,
-            <Flex justify={"space-between"} miw={120} align={"center"} gap={10}>
-              <AppText instancetype="WithCellToken" fz={12}>
-                {qty} {baseToken}
-              </AppText>
-              <Box>
-                <AppButton
-                  variant="outline"
-                  color="gray"
-                  size="compact-xs"
-                >
-                  <IconEdit size={10} />
-                </AppButton>
-              </Box>
-            </Flex>,
-
-            <Flex justify={"space-between"} miw={120} align={"center"} gap={10}>
-              <AppText
-                key={`${idx}.4`}
-                instancetype="WithCellToken"
-                fz={12}
-              >
-                {`<=${triggerPrice}(Last)`}
-              </AppText>
-              <Box>
-                <AppButton
-                  variant="outline"
-                  color="gray"
-                  size="compact-xs"
-                >
-                  <IconEdit size={10} />
-                </AppButton>
-              </Box>
-            </Flex>,
-            <AppText
-              key={`${idx}.5`}
-              instancetype="WithCellToken"
-              fz={12}
-              style={{ whiteSpace: "nowrap" }}
-            >
-              {props.price}
-            </AppText>,
-            <Flex justify={"space-between"} miw={120} align={"center"} gap={10}>
-              <AppText
-                key={`${idx}.4`}
-                instancetype="WithCellToken"
-                fz={12}
-              >
-                {orderPrice}
-              </AppText>
-              <Box>
-                <AppButton
-                  variant="outline"
-                  color="gray"
-                  size="compact-xs"
-                >
-                  <IconEdit size={10} />
-                </AppButton>
-              </Box>
-            </Flex>,
-            <Flex gap={10} align={"center"} key={`${idx}.11`}>
-              {tp && sl ? (
-                <>
-                  <Flex align={"center"} direction={"column"} gap={0}>
-                    <AppText
-                      c={"green"}
-                      instancetype="WithCellToken"
-                      fz={12}
-                      fw={"bold"}
-                    >
-                      {tp}
-                    </AppText>
-                    <Flex align={"center"} gap={0}>
-                      <AppText
-                        instancetype="WithCellToken"
-                        fz={12}
-                        fw={"bold"}
-                      >
-                                                    /
-                      </AppText>
-                      <AppText
-                        c={"red"}
-                        instancetype="WithCellToken"
-                        fz={12}
-                        fw={"bold"}
-                      >
-                        {sl}
-                      </AppText>
-                    </Flex>
-                  </Flex>
+                <Box>
                   <AppButton
                     variant="outline"
                     color="gray"
@@ -900,237 +853,314 @@ export const dataHistories: TableHistory = {
                   >
                     <IconEdit size={10} />
                   </AppButton>
-                </>
-              ) : (
-                <AppButton bg={"dark"} size="compact-xs" fz={12}>
-                  <IconPlus size={16} />
-                                        Add
-                </AppButton>
-              )}
-            </Flex>,
-            <Box miw={120}>
+                </Box>
+              </Flex>,
+
+              <Flex
+                key={`${idx}.3`}
+                justify={"space-between"}
+                miw={120}
+                align={"center"}
+                gap={10}
+              >
+                <AppText
+                  key={`${idx}.4`}
+                  instancetype="WithCellToken"
+                  fz={12}
+                >
+                  {`<=${triggerPrice}(Last)`}
+                </AppText>
+                <Box>
+                  <AppButton
+                    variant="outline"
+                    color="gray"
+                    size="compact-xs"
+                  >
+                    <IconEdit size={10} />
+                  </AppButton>
+                </Box>
+              </Flex>,
               <AppText
+                key={`${idx}.5`}
                 instancetype="WithCellToken"
                 fz={12}
-                c={"green"}
+                style={{ whiteSpace: "nowrap" }}
               >
-                {tradeType}
-              </AppText>
-            </Box>,
-            <Box key={`${idx}.7`} w={120}>
-              <AppText instancetype="WithCellToken" fz={12}>
-                {reduceOnly ? "YES" : "NO"}
-              </AppText>
-            </Box>,
-            <Box w={120}>
-              <AppText instancetype="WithCellToken" fz={12}>
-                {status}
-              </AppText>
-            </Box>,
-            <Box w={120}>
-              <AppText instancetype="WithCellToken" fz={12}>
-                {props.No}
-              </AppText>
-            </Box>,
-            <Box miw={140}>
-              <AppText instancetype="WithCellToken" fz={12}>
-                {new Date(orderTime).toLocaleString()}
-              </AppText>
-            </Box>,
-            <AppButton bg={"dark"} size="xs" fz={12}>Cancel</AppButton>
-          ],
-        )
-
+                {props.price}
+              </AppText>,
+              <Flex
+                key={`${idx}.4`}
+                justify={"space-between"}
+                miw={120}
+                align={"center"}
+                gap={10}
+              >
+                <AppText
+                  key={`${idx}.4`}
+                  instancetype="WithCellToken"
+                  fz={12}
+                >
+                  {orderPrice}
+                </AppText>
+                <Box>
+                  <AppButton
+                    variant="outline"
+                    color="gray"
+                    size="compact-xs"
+                  >
+                    <IconEdit size={10} />
+                  </AppButton>
+                </Box>
+              </Flex>,
+              <Flex gap={10} align={"center"} key={`${idx}.11`}>
+                {tp && sl ? (
+                  <>
+                    <Flex
+                      align={"center"}
+                      direction={"column"}
+                      gap={0}
+                    >
+                      <AppText
+                        c={"green"}
+                        instancetype="WithCellToken"
+                        fz={12}
+                        fw={"bold"}
+                      >
+                        {tp}
+                      </AppText>
+                      <Flex align={"center"} gap={0}>
+                        <AppText
+                          instancetype="WithCellToken"
+                          fz={12}
+                          fw={"bold"}
+                        >
+                          /
+                        </AppText>
+                        <AppText
+                          c={"red"}
+                          instancetype="WithCellToken"
+                          fz={12}
+                          fw={"bold"}
+                        >
+                          {sl}
+                        </AppText>
+                      </Flex>
+                    </Flex>
+                    <AppButton
+                      variant="outline"
+                      color="gray"
+                      size="compact-xs"
+                    >
+                      <IconEdit size={10} />
+                    </AppButton>
+                  </>
+                ) : (
+                  <AppButton bg={"dark"} size="compact-xs" fz={12}>
+                    <IconPlus size={16} />
+                    Add
+                  </AppButton>
+                )}
+              </Flex>,
+              <Box key={`${idx}.5`} miw={120}>
+                <AppText
+                  instancetype="WithCellToken"
+                  fz={12}
+                  c={"green"}
+                >
+                  {tradeType}
+                </AppText>
+              </Box>,
+              <Box key={`${idx}.7`} w={120}>
+                <AppText instancetype="WithCellToken" fz={12}>
+                  {reduceOnly ? "YES" : "NO"}
+                </AppText>
+              </Box>,
+              <Box key={`${idx}.6`} w={120}>
+                <AppText instancetype="WithCellToken" fz={12}>
+                  {status}
+                </AppText>
+              </Box>,
+              <Box key={`${idx}.7`} w={120}>
+                <AppText instancetype="WithCellToken" fz={12}>
+                  {props.No}
+                </AppText>
+              </Box>,
+              <Box key={`${idx}.8`} miw={140}>
+                <AppText instancetype="WithCellToken" fz={12}>
+                  {new Date(orderTime).toLocaleString()}
+                </AppText>
+              </Box>,
+              <AppButton
+                key={`${idx}.9`}
+                bg={"dark"}
+                size="xs"
+                fz={12}
+              >
+                Cancel
+              </AppButton>,
+            ],
+          ),
       },
       TPandSL: {
         items: [
-          ["Contracts"], ["Qty"], ["Order Price"], ["Trigger Price"], ["Trade Type"],
-          ["Order No."], ["Order Time"], ["Action"]
+          ["Contracts"],
+          ["Qty"],
+          ["Order Price"],
+          ["Trigger Price"],
+          ["Trade Type"],
+          ["Order No."],
+          ["Order Time"],
+          ["Action"],
         ],
-        rows: [...Array(20)].map(() => ({ ...row })).map(
-          (
-            {
-              baseToken,
-              pairToken,
-              entryPrice,
-              qty,
-              isBuy,
-              exitPrice,
-              tradeTime,
-              tradeType,
-              orderTime,
-              orderType,
-              triggerPrice,
-              orderPrice,
-              tp,
-              sl,
-              reduceOnly,
-              status,
-              ...props
-            },
-            idx,
-          ) => [
-            <Flex key={`${idx}.1`} align={"center"} gap={8}>
-              <Box bg={isBuy ? "green" : "red"} w={"2px"} h={30} />
-              <div>
-                <AppText instancetype="WithCellToken" fz={12}>
-                  {baseToken}
-                  {pairToken}
-                </AppText>
-              </div>
-            </Flex>,
-            <Flex justify={"space-between"} align={"center"} gap={10}>
-              <AppText instancetype="WithCellToken" fz={12}>
-                {qty}
-              </AppText>
-            </Flex>,
-            <Box>
-              <AppText instancetype="WithCellToken" fz={12}>
-                                    TP {props.triggerPriceTP}(Last)
-              </AppText>
-              <AppText instancetype="WithCellToken" fz={12}>
-                                    SL {props.triggerPriceSL}(Last)
-              </AppText>
-            </Box>,
-            <AppText
-              instancetype="WithCellToken"
-              fz={12}
-
-            >
-              {orderPrice}
-            </AppText>,
-            <AppText
-              instancetype="WithCellToken"
-              fz={12}
-            >
-              {tradeType}
-            </AppText>,
-
-            <Box>
-              <AppText instancetype="WithCellToken" fz={12}>
-                {props.NoSL}
-              </AppText>
-              <AppText instancetype="WithCellToken" fz={12}>
-                {props.NoTP}
-              </AppText>
-            </Box>,
-            <Box>
-              <AppText instancetype="WithCellToken" fz={12}>
-                {new Date(orderTime).toLocaleString()}
-              </AppText>
-            </Box>,
-            <AppButton bg={"dark"} size="xs" fz={12}>Cancel</AppButton>
-          ],
-        )
-      },
-      TrailingStop: {
-        items: [
-          ["Contracts"], ["Qty"], ["Order Price"], ["Trigger Price"], ["Price (Distance)"], ["Retracement"], ["Activation Price"],
-          ["Trade Type"], ["Status"], ["Order No."], ["Order Time"], ["Action"],
-        ],
-        rows: [...Array(20)].map(() => ({ ...row })).map(
-          (
-            {
-              baseToken,
-              pairToken,
-              entryPrice,
-              qty,
-              isBuy,
-              exitPrice,
-              tradeTime,
-              tradeType,
-              orderTime,
-              orderType,
-              triggerPrice,
-              orderPrice,
-              tp,
-              sl,
-              reduceOnly,
-              status,
-              ...props
-            },
-            idx,
-          ) => [
-            <Flex key={`${idx}.1`} align={"center"} gap={8}>
-              <Box bg={isBuy ? "green" : "red"} w={"2px"} h={30} />
-              <div>
-                <AppText instancetype="WithCellToken" fz={12}>
-                  {baseToken}
-                  {pairToken}
-                </AppText>
-              </div>
-            </Flex>,
-            <Flex justify={"space-between"} miw={120} align={"center"} gap={10}>
-              <AppText instancetype="WithCellToken" fz={12}>
-                {qty} {baseToken}
-              </AppText>
-            </Flex>,
-
-            <Flex justify={"space-between"} align={"center"} gap={10}>
-              <AppText
-                instancetype="WithCellToken"
-                fz={12}
+        rows: [...Array(20)]
+          .map(() => ({ ...row }))
+          .map(
+            (
+              {
+                baseToken,
+                pairToken,
+                qty,
+                isBuy,
+                tradeType,
+                orderTime,
+                orderPrice,
+                ...props
+              },
+              idx,
+            ) => [
+              <Flex key={`${idx}.1`} align={"center"} gap={8}>
+                <Box bg={isBuy ? "green" : "red"} w={"2px"} h={30} />
+                <div>
+                  <AppText instancetype="WithCellToken" fz={12}>
+                    {baseToken}
+                    {pairToken}
+                  </AppText>
+                </div>
+              </Flex>,
+              <Flex
+                key={`${idx}.2`}
+                justify={"space-between"}
+                align={"center"}
+                gap={10}
               >
-                {orderPrice}
-              </AppText>
-              <Box>
-                <AppButton
-                  variant="outline"
-                  color="gray"
-                  size="compact-xs"
-                >
-                  <IconEdit size={10} />
-                </AppButton>
-              </Box>
-            </Flex>,
-            <Flex justify={"space-between"} miw={120} align={"center"} gap={10}>
+                <AppText instancetype="WithCellToken" fz={12}>
+                  {qty}
+                </AppText>
+              </Flex>,
+              <Box key={`${idx}.3`}>
+                <AppText instancetype="WithCellToken" fz={12}>
+                  TP {props.triggerPriceTP}(Last)
+                </AppText>
+                <AppText instancetype="WithCellToken" fz={12}>
+                  SL {props.triggerPriceSL}(Last)
+                </AppText>
+              </Box>,
               <AppText
                 key={`${idx}.4`}
                 instancetype="WithCellToken"
                 fz={12}
               >
-                {props.Filled}/{props.Total}
-              </AppText>
-              <Box>
-                <AppButton
-                  variant="outline"
-                  color="gray"
-                  size="compact-xs"
-                >
-                  <IconEdit size={10} />
-                </AppButton>
-              </Box>
-            </Flex>,
-            <Flex gap={10} align={"center"} key={`${idx}.11`}>
-              {tp && sl ? (
-                <>
-                  <Flex align={"center"} direction={"column"} gap={0}>
-                    <AppText
-                      c={"green"}
-                      instancetype="WithCellToken"
-                      fz={12}
-                      fw={"bold"}
-                    >
-                      {tp}
-                    </AppText>
-                    <Flex align={"center"} gap={0}>
-                      <AppText
-                        instancetype="WithCellToken"
-                        fz={12}
-                        fw={"bold"}
-                      >
-                                                    /
-                      </AppText>
-                      <AppText
-                        c={"red"}
-                        instancetype="WithCellToken"
-                        fz={12}
-                        fw={"bold"}
-                      >
-                        {sl}
-                      </AppText>
-                    </Flex>
-                  </Flex>
+                {orderPrice}
+              </AppText>,
+              <AppText
+                key={`${idx}.5`}
+                instancetype="WithCellToken"
+                fz={12}
+              >
+                {tradeType}
+              </AppText>,
+
+              <Box key={`${idx}.6`}>
+                <AppText instancetype="WithCellToken" fz={12}>
+                  {props.NoSL}
+                </AppText>
+                <AppText instancetype="WithCellToken" fz={12}>
+                  {props.NoTP}
+                </AppText>
+              </Box>,
+              <Box key={`${idx}.7`}>
+                <AppText instancetype="WithCellToken" fz={12}>
+                  {new Date(orderTime).toLocaleString()}
+                </AppText>
+              </Box>,
+              <AppButton
+                key={`${idx}.8`}
+                bg={"dark"}
+                size="xs"
+                fz={12}
+              >
+                Cancel
+              </AppButton>,
+            ],
+          ),
+      },
+      TrailingStop: {
+        items: [
+          ["Contracts"],
+          ["Qty"],
+          ["Order Price"],
+          ["Trigger Price"],
+          ["Price (Distance)"],
+          ["Retracement"],
+          ["Activation Price"],
+          ["Trade Type"],
+          ["Status"],
+          ["Order No."],
+          ["Order Time"],
+          ["Action"],
+        ],
+        rows: [...Array(20)]
+          .map(() => ({ ...row }))
+          .map(
+            (
+              {
+                baseToken,
+                pairToken,
+                qty,
+                isBuy,
+                tradeType,
+                orderTime,
+                orderType,
+                orderPrice,
+                tp,
+                sl,
+                reduceOnly,
+                status,
+                ...props
+              },
+              idx,
+            ) => [
+              <Flex key={`${idx}.1`} align={"center"} gap={8}>
+                <Box bg={isBuy ? "green" : "red"} w={"2px"} h={30} />
+                <div>
+                  <AppText instancetype="WithCellToken" fz={12}>
+                    {baseToken}
+                    {pairToken}
+                  </AppText>
+                </div>
+              </Flex>,
+              <Flex
+                key={`${idx}.2`}
+                justify={"space-between"}
+                miw={120}
+                align={"center"}
+                gap={10}
+              >
+                <AppText instancetype="WithCellToken" fz={12}>
+                  {qty} {baseToken}
+                </AppText>
+              </Flex>,
+
+              <Flex
+                key={`${idx}.3`}
+                justify={"space-between"}
+                align={"center"}
+                gap={10}
+              >
+                <AppText instancetype="WithCellToken" fz={12}>
+                  {orderPrice}
+                </AppText>
+                <Box>
                   <AppButton
                     variant="outline"
                     color="gray"
@@ -1138,145 +1168,232 @@ export const dataHistories: TableHistory = {
                   >
                     <IconEdit size={10} />
                   </AppButton>
-                </>
-              ) : (
-                <AppButton bg={"dark"} size="compact-xs" fz={12}>
-                  <IconPlus size={16} />
-                                        Add
-                </AppButton>
-              )}
-            </Flex>,
-            <Box miw={120}>
-              <AppText
-                instancetype="WithCellToken"
-                fz={12}
-                c={"green"}
+                </Box>
+              </Flex>,
+              <Flex
+                key={`${idx}.4`}
+                justify={"space-between"}
+                miw={120}
+                align={"center"}
+                gap={10}
               >
-                {tradeType}
-              </AppText>
-            </Box>,
-            <Box miw={120}>
-              <AppText
-                instancetype="WithCellToken"
+                <AppText
+                  key={`${idx}.4`}
+                  instancetype="WithCellToken"
+                  fz={12}
+                >
+                  {props.Filled}/{props.Total}
+                </AppText>
+                <Box>
+                  <AppButton
+                    variant="outline"
+                    color="gray"
+                    size="compact-xs"
+                  >
+                    <IconEdit size={10} />
+                  </AppButton>
+                </Box>
+              </Flex>,
+              <Flex gap={10} align={"center"} key={`${idx}.11`}>
+                {tp && sl ? (
+                  <>
+                    <Flex
+                      align={"center"}
+                      direction={"column"}
+                      gap={0}
+                    >
+                      <AppText
+                        c={"green"}
+                        instancetype="WithCellToken"
+                        fz={12}
+                        fw={"bold"}
+                      >
+                        {tp}
+                      </AppText>
+                      <Flex align={"center"} gap={0}>
+                        <AppText
+                          instancetype="WithCellToken"
+                          fz={12}
+                          fw={"bold"}
+                        >
+                          /
+                        </AppText>
+                        <AppText
+                          c={"red"}
+                          instancetype="WithCellToken"
+                          fz={12}
+                          fw={"bold"}
+                        >
+                          {sl}
+                        </AppText>
+                      </Flex>
+                    </Flex>
+                    <AppButton
+                      variant="outline"
+                      color="gray"
+                      size="compact-xs"
+                    >
+                      <IconEdit size={10} />
+                    </AppButton>
+                  </>
+                ) : (
+                  <AppButton bg={"dark"} size="compact-xs" fz={12}>
+                    <IconPlus size={16} />
+                    Add
+                  </AppButton>
+                )}
+              </Flex>,
+              <Box key={`${idx}.5`} miw={120}>
+                <AppText
+                  instancetype="WithCellToken"
+                  fz={12}
+                  c={"green"}
+                >
+                  {tradeType}
+                </AppText>
+              </Box>,
+              <Box key={`${idx}.6`} miw={120}>
+                <AppText instancetype="WithCellToken" fz={12}>
+                  {orderType}
+                </AppText>
+              </Box>,
+              <Box key={`${idx}.7`} w={120}>
+                <AppText instancetype="WithCellToken" fz={12}>
+                  {reduceOnly ? "YES" : "NO"}
+                </AppText>
+              </Box>,
+              <Box key={`${idx}.7`} w={120}>
+                <AppText instancetype="WithCellToken" fz={12}>
+                  {status}
+                </AppText>
+              </Box>,
+              <Box key={`${idx}.8`} w={120}>
+                <AppText instancetype="WithCellToken" fz={12}>
+                  {props.No}
+                </AppText>
+              </Box>,
+              <Box key={`${idx}.9`} miw={140}>
+                <AppText instancetype="WithCellToken" fz={12}>
+                  {new Date(orderTime).toLocaleString()}
+                </AppText>
+              </Box>,
+              <AppButton
+                key={`${idx}.10`}
+                bg={"dark"}
+                size="xs"
                 fz={12}
               >
-                {orderType}
-              </AppText>
-            </Box>,
-            <Box key={`${idx}.7`} w={120}>
-              <AppText instancetype="WithCellToken" fz={12}>
-                {reduceOnly ? "YES" : "NO"}
-              </AppText>
-            </Box>,
-            <Box w={120}>
-              <AppText instancetype="WithCellToken" fz={12}>
-                {status}
-              </AppText>
-            </Box>,
-            <Box w={120}>
-              <AppText instancetype="WithCellToken" fz={12}>
-                {props.No}
-              </AppText>
-            </Box>,
-            <Box miw={140}>
-              <AppText instancetype="WithCellToken" fz={12}>
-                {new Date(orderTime).toLocaleString()}
-              </AppText>
-            </Box>,
-            <AppButton bg={"dark"} size="xs" fz={12}>Cancel</AppButton>
-          ],
-        )
+                Cancel
+              </AppButton>,
+            ],
+          ),
       },
       MMRClose: {
         items: [
-          ["Contracts"], ["Qty"], ["Trigger MMR"], ["Order Price"], ["Trade Type"], ["Status"], ["Order No."],
-          ["Order Time"], ["Action"]
+          ["Contracts"],
+          ["Qty"],
+          ["Trigger MMR"],
+          ["Order Price"],
+          ["Trade Type"],
+          ["Status"],
+          ["Order No."],
+          ["Order Time"],
+          ["Action"],
         ],
-        rows: [...Array(20)].map(() => ({ ...row })).map(
-          (
-            {
-              baseToken,
-              pairToken,
-              entryPrice,
-              qty,
-              isBuy,
-              exitPrice,
-              tradeTime,
-              tradeType,
-              orderTime,
-              orderType,
-              triggerPrice,
-              orderPrice,
-              tp,
-              sl,
-              reduceOnly,
-              status,
-              ...props
-            },
-            idx,
-          ) => [
-            <Flex key={`${idx}.1`} align={"center"} gap={8}>
-              <Box bg={isBuy ? "green" : "red"} w={"2px"} h={30} />
-              <div>
+        rows: [...Array(20)]
+          .map(() => ({ ...row }))
+          .map(
+            (
+              {
+                baseToken,
+                pairToken,
+
+                qty,
+                isBuy,
+                tradeType,
+                orderTime,
+                orderPrice,
+                status,
+                ...props
+              },
+              idx,
+            ) => [
+              <Flex key={`${idx}.1`} align={"center"} gap={8}>
+                <Box bg={isBuy ? "green" : "red"} w={"2px"} h={30} />
+                <div>
+                  <AppText instancetype="WithCellToken" fz={12}>
+                    {baseToken}
+                    {pairToken}
+                  </AppText>
+                </div>
+              </Flex>,
+              <Flex
+                key={`${idx}.2`}
+                justify={"space-between"}
+                align={"center"}
+                gap={10}
+              >
                 <AppText instancetype="WithCellToken" fz={12}>
-                  {baseToken}
-                  {pairToken}
+                  {qty}
                 </AppText>
-              </div>
-            </Flex>,
-            <Flex justify={"space-between"} align={"center"} gap={10}>
-              <AppText instancetype="WithCellToken" fz={12}>
-                {qty}
-              </AppText>
-            </Flex>,
-            <Box>
-              <AppText instancetype="WithCellToken" fz={12}>
-                                    TP {props.triggerPriceTP}(Last)
-              </AppText>
-              <AppText instancetype="WithCellToken" fz={12}>
-                                    SL {props.triggerPriceSL}(Last)
-              </AppText>
-            </Box>,
-            <AppText
-              instancetype="WithCellToken"
-              fz={12}
+              </Flex>,
+              <Box key={`${idx}.3`}>
+                <AppText instancetype="WithCellToken" fz={12}>
+                  TP {props.triggerPriceTP}(Last)
+                </AppText>
+                <AppText instancetype="WithCellToken" fz={12}>
+                  SL {props.triggerPriceSL}(Last)
+                </AppText>
+              </Box>,
+              <AppText
+                key={`${idx}.4`}
+                instancetype="WithCellToken"
+                fz={12}
+              >
+                {orderPrice}
+              </AppText>,
+              <AppText
+                key={`${idx}.5`}
+                instancetype="WithCellToken"
+                fz={12}
+              >
+                {tradeType}
+              </AppText>,
+              <AppText
+                key={`${idx}.6`}
+                instancetype="WithCellToken"
+                fz={12}
+              >
+                {status}
+              </AppText>,
 
-            >
-              {orderPrice}
-            </AppText>,
-            <AppText
-              instancetype="WithCellToken"
-              fz={12}
-            >
-              {tradeType}
-            </AppText>,
-            <AppText
-              instancetype="WithCellToken"
-              fz={12}
-            >
-              {status}
-            </AppText>,
-
-            <Box>
-              <AppText instancetype="WithCellToken" fz={12}>
-                {props.NoSL}
-              </AppText>
-              <AppText instancetype="WithCellToken" fz={12}>
-                {props.NoTP}
-              </AppText>
-            </Box>,
-            <Box>
-              <AppText instancetype="WithCellToken" fz={12}>
-                {new Date(orderTime).toLocaleString()}
-              </AppText>
-            </Box>,
-            <AppButton bg={"dark"} size="xs" fz={12}>Cancel</AppButton>
-          ],
-        )
-      }
+              <Box key={`${idx}.7`}>
+                <AppText instancetype="WithCellToken" fz={12}>
+                  {props.NoSL}
+                </AppText>
+                <AppText instancetype="WithCellToken" fz={12}>
+                  {props.NoTP}
+                </AppText>
+              </Box>,
+              <Box key={`${idx}.8`}>
+                <AppText instancetype="WithCellToken" fz={12}>
+                  {new Date(orderTime).toLocaleString()}
+                </AppText>
+              </Box>,
+              <AppButton
+                key={`${idx}.9`}
+                bg={"dark"}
+                size="xs"
+                fz={12}
+              >
+                Cancel
+              </AppButton>,
+            ],
+          ),
+      },
     }[_type as string];
     return {
-      head: data!.items.map(([text, tooltip], i) => {
+      head: (data?.items || []).map(([text, tooltip], i) => {
         return (
           <div key={i}>
             {tooltip ? (
@@ -1323,10 +1440,10 @@ export const dataHistories: TableHistory = {
           </div>
         );
       }),
-      body: data!.rows,
+      body: data?.rows,
     };
   },
-  "orderHistory": (_type = "limitAndMarket") => {
+  orderHistory: (_type = "limitAndMarket") => {
     const data = {
       limitAndMarket: {
         items: [
@@ -1339,63 +1456,81 @@ export const dataHistories: TableHistory = {
           ["Order No."],
           ["Order Time"],
         ],
-        rows: [...Array(20)].map(() => ({ ...row })).map(
-          (
-            {
-              baseToken,
-              pairToken,
-              entryPrice,
-              qty,
-              isBuy,
-              exitPrice,
-              tradeTime,
-              tradeType,
-              orderTime,
-              orderType,
-              triggerPrice,
-              orderPrice,
-              tp,
-              sl,
-              reduceOnly,
-              status,
-              ...props
-            },
-            idx,
-          ) => [
-            <Flex key={`${idx}.1`} align={"center"} gap={8}>
-              <Box bg={isBuy ? "green" : "red"} w={"2px"} h={30} />
-              <div>
+        rows: [...Array(20)]
+          .map(() => ({ ...row }))
+          .map(
+            (
+              {
+                baseToken,
+                pairToken,
+                isBuy,
+                tradeType,
+                orderTime,
+                orderType,
+                orderPrice,
+                status,
+                ...props
+              },
+              idx,
+            ) => [
+              <Flex key={`${idx}.1`} align={"center"} gap={8}>
+                <Box bg={isBuy ? "green" : "red"} w={"2px"} h={30} />
+                <div>
+                  <AppText instancetype="WithCellToken" fz={12}>
+                    {baseToken}
+                    {pairToken}
+                  </AppText>
+                </div>
+              </Flex>,
+              <AppText
+                key={`${idx}.2`}
+                instancetype="WithCellToken"
+                fz={12}
+              >
+                {props.Filled}/{props.Total}
+              </AppText>,
+              <AppText
+                key={`${idx}.4`}
+                instancetype="WithCellToken"
+                fz={12}
+              >
+                {props.FilledPrice}/{orderPrice}
+              </AppText>,
+              <AppText
+                key={`${idx}.4`}
+                instancetype="WithCellToken"
+                fz={12}
+              >
+                {tradeType}
+              </AppText>,
+              <AppText
+                key={`${idx}.5`}
+                instancetype="WithCellToken"
+                fz={12}
+              >
+                {orderType}
+              </AppText>,
+              <AppText
+                key={`${idx}.6`}
+                instancetype="WithCellToken"
+                fz={12}
+              >
+                {status}
+              </AppText>,
+              <AppText
+                key={`${idx}.7`}
+                instancetype="WithCellToken"
+                fz={12}
+              >
+                {props.No}
+              </AppText>,
+              <Box key={`${idx}.8`} miw={140}>
                 <AppText instancetype="WithCellToken" fz={12}>
-                  {baseToken}
-                  {pairToken}
+                  {new Date(orderTime).toLocaleString()}
                 </AppText>
-              </div>
-            </Flex>,
-            <AppText instancetype="WithCellToken" fz={12}>
-              {props.Filled}/{props.Total}
-            </AppText>,
-            <AppText instancetype="WithCellToken" fz={12}>
-              {props.FilledPrice}/{orderPrice}
-            </AppText>,
-            <AppText instancetype="WithCellToken" fz={12}>
-              {tradeType}
-            </AppText>,
-            <AppText instancetype="WithCellToken" fz={12}>
-              {orderType}
-            </AppText>,
-            <AppText instancetype="WithCellToken" fz={12}>
-              {status}
-            </AppText>,
-            <AppText instancetype="WithCellToken" fz={12}>
-              {props.No}
-            </AppText>,
-            <Box miw={140}>
-              <AppText instancetype="WithCellToken" fz={12}>
-                {new Date(orderTime).toLocaleString()}
-              </AppText>
-            </Box>,
-          ],
-        )
+              </Box>,
+            ],
+          ),
       },
       Conditional: {
         items: [
@@ -1408,15 +1543,15 @@ export const dataHistories: TableHistory = {
           ["Order No."],
           ["Order Time"],
         ],
-        rows: [...Array(20)].map(() => ({ ...row })).map(
-          (
-            {
-              ...props
-            },
-            idx,
-          ) => [
+        rows: [...Array(20)]
+          .map(() => ({ ...row }))
+          .map(({ ...props }, idx) => [
             <Flex key={`${idx}.1`} align={"center"} gap={8}>
-              <Box bg={props.isBuy ? "green" : "red"} w={"2px"} h={30} />
+              <Box
+                bg={props.isBuy ? "green" : "red"}
+                w={"2px"}
+                h={30}
+              />
               <div>
                 <AppText instancetype="WithCellToken" fz={12}>
                   {props.baseToken}
@@ -1424,32 +1559,54 @@ export const dataHistories: TableHistory = {
                 </AppText>
               </div>
             </Flex>,
-            <AppText instancetype="WithCellToken" fz={12}>
+            <AppText
+              key={`${idx}.2`}
+              instancetype="WithCellToken"
+              fz={12}
+            >
               {props.Filled}/{props.actualQty}
             </AppText>,
-            <AppText instancetype="WithCellToken" fz={12}>
+            <AppText
+              key={`${idx}.3`}
+              instancetype="WithCellToken"
+              fz={12}
+            >
               {props.FilledPrice}/{props.orderPrice}
             </AppText>,
-            <AppText instancetype="WithCellToken" fz={12}>
+            <AppText
+              key={`${idx}.4`}
+              instancetype="WithCellToken"
+              fz={12}
+            >
               {props.triggerPrice}
             </AppText>,
-            <AppText instancetype="WithCellToken" fz={12}>
+            <AppText
+              key={`${idx}.5`}
+              instancetype="WithCellToken"
+              fz={12}
+            >
               {props.tradeType}
             </AppText>,
-            <AppText instancetype="WithCellToken" fz={12}>
+            <AppText
+              key={`${idx}.6`}
+              instancetype="WithCellToken"
+              fz={12}
+            >
               {props.status}
             </AppText>,
-            <AppText instancetype="WithCellToken" fz={12}>
+            <AppText
+              key={`${idx}.7`}
+              instancetype="WithCellToken"
+              fz={12}
+            >
               {props.No}
             </AppText>,
-            <Box miw={140}>
+            <Box key={`${idx}.8`} miw={140}>
               <AppText instancetype="WithCellToken" fz={12}>
                 {new Date(props.orderTime).toLocaleString()}
               </AppText>
             </Box>,
-          ],
-        )
-
+          ]),
       },
       TPandSL: {
         items: [
@@ -1462,15 +1619,15 @@ export const dataHistories: TableHistory = {
           ["Order No."],
           ["Order Time"],
         ],
-        rows: [...Array(20)].map(() => ({ ...row })).map(
-          (
-            {
-              ...props
-            },
-            idx,
-          ) => [
+        rows: [...Array(20)]
+          .map(() => ({ ...row }))
+          .map(({ ...props }, idx) => [
             <Flex key={`${idx}.1`} align={"center"} gap={8}>
-              <Box bg={props.isBuy ? "green" : "red"} w={"2px"} h={30} />
+              <Box
+                bg={props.isBuy ? "green" : "red"}
+                w={"2px"}
+                h={30}
+              />
               <div>
                 <AppText instancetype="WithCellToken" fz={12}>
                   {props.baseToken}
@@ -1478,31 +1635,54 @@ export const dataHistories: TableHistory = {
                 </AppText>
               </div>
             </Flex>,
-            <AppText instancetype="WithCellToken" fz={12}>
+            <AppText
+              key={`${idx}.2`}
+              instancetype="WithCellToken"
+              fz={12}
+            >
               {props.Filled}/{props.actualQty}
             </AppText>,
-            <AppText instancetype="WithCellToken" fz={12}>
+            <AppText
+              key={`${idx}.3`}
+              instancetype="WithCellToken"
+              fz={12}
+            >
               {props.FilledPrice}/{props.orderPrice}
             </AppText>,
-            <AppText instancetype="WithCellToken" fz={12}>
+            <AppText
+              key={`${idx}.4`}
+              instancetype="WithCellToken"
+              fz={12}
+            >
               {props.triggerPrice}
             </AppText>,
-            <AppText instancetype="WithCellToken" fz={12}>
+            <AppText
+              key={`${idx}.5`}
+              instancetype="WithCellToken"
+              fz={12}
+            >
               {props.tradeType}
             </AppText>,
-            <AppText instancetype="WithCellToken" fz={12}>
+            <AppText
+              key={`${idx}.6`}
+              instancetype="WithCellToken"
+              fz={12}
+            >
               {props.status}
             </AppText>,
-            <AppText instancetype="WithCellToken" fz={12}>
+            <AppText
+              key={`${idx}.7`}
+              instancetype="WithCellToken"
+              fz={12}
+            >
               {props.No}
             </AppText>,
-            <Box miw={140}>
+            <Box key={`${idx}.8`} miw={140}>
               <AppText instancetype="WithCellToken" fz={12}>
                 {new Date(props.orderTime).toLocaleString()}
               </AppText>
             </Box>,
-          ],
-        )
+          ]),
       },
       TrailingStop: {
         items: [
@@ -1515,15 +1695,15 @@ export const dataHistories: TableHistory = {
           ["Order No."],
           ["Order Time"],
         ],
-        rows: [...Array(20)].map(() => ({ ...row })).map(
-          (
-            {
-              ...props
-            },
-            idx,
-          ) => [
+        rows: [...Array(20)]
+          .map(() => ({ ...row }))
+          .map(({ ...props }, idx) => [
             <Flex key={`${idx}.1`} align={"center"} gap={8}>
-              <Box bg={props.isBuy ? "green" : "red"} w={"2px"} h={30} />
+              <Box
+                bg={props.isBuy ? "green" : "red"}
+                w={"2px"}
+                h={30}
+              />
               <div>
                 <AppText instancetype="WithCellToken" fz={12}>
                   {props.baseToken}
@@ -1531,31 +1711,54 @@ export const dataHistories: TableHistory = {
                 </AppText>
               </div>
             </Flex>,
-            <AppText instancetype="WithCellToken" fz={12}>
+            <AppText
+              key={`${idx}.2`}
+              instancetype="WithCellToken"
+              fz={12}
+            >
               {props.Filled}/{props.actualQty}
             </AppText>,
-            <AppText instancetype="WithCellToken" fz={12}>
+            <AppText
+              key={`${idx}.3`}
+              instancetype="WithCellToken"
+              fz={12}
+            >
               {props.triggerPrice}
             </AppText>,
-            <AppText instancetype="WithCellToken" fz={12}>
+            <AppText
+              key={`${idx}.4`}
+              instancetype="WithCellToken"
+              fz={12}
+            >
               {props.FilledPrice}/{props.orderPrice}
             </AppText>,
-            <AppText instancetype="WithCellToken" fz={12}>
+            <AppText
+              key={`${idx}.5`}
+              instancetype="WithCellToken"
+              fz={12}
+            >
               {props.tradeType}
             </AppText>,
-            <AppText instancetype="WithCellToken" fz={12}>
+            <AppText
+              key={`${idx}.6`}
+              instancetype="WithCellToken"
+              fz={12}
+            >
               {props.status}
             </AppText>,
-            <AppText instancetype="WithCellToken" fz={12}>
+            <AppText
+              key={`${idx}.7`}
+              instancetype="WithCellToken"
+              fz={12}
+            >
               {props.No}
             </AppText>,
-            <Box miw={140}>
+            <Box key={`${idx}.8`} miw={140}>
               <AppText instancetype="WithCellToken" fz={12}>
                 {new Date(props.orderTime).toLocaleString()}
               </AppText>
             </Box>,
-          ],
-        )
+          ]),
       },
       MMRClose: {
         items: [
@@ -1568,15 +1771,15 @@ export const dataHistories: TableHistory = {
           ["Order No."],
           ["Order Time"],
         ],
-        rows: [...Array(20)].map(() => ({ ...row })).map(
-          (
-            {
-              ...props
-            },
-            idx,
-          ) => [
+        rows: [...Array(20)]
+          .map(() => ({ ...row }))
+          .map(({ ...props }, idx) => [
             <Flex key={`${idx}.1`} align={"center"} gap={8}>
-              <Box bg={props.isBuy ? "green" : "red"} w={"2px"} h={30} />
+              <Box
+                bg={props.isBuy ? "green" : "red"}
+                w={"2px"}
+                h={30}
+              />
               <div>
                 <AppText instancetype="WithCellToken" fz={12}>
                   {props.baseToken}
@@ -1584,35 +1787,58 @@ export const dataHistories: TableHistory = {
                 </AppText>
               </div>
             </Flex>,
-            <AppText instancetype="WithCellToken" fz={12}>
+            <AppText
+              key={`${idx}.2`}
+              instancetype="WithCellToken"
+              fz={12}
+            >
               {props.Filled}/{props.actualQty}
             </AppText>,
-            <AppText instancetype="WithCellToken" fz={12}>
+            <AppText
+              key={`${idx}.3`}
+              instancetype="WithCellToken"
+              fz={12}
+            >
               {props.triggerMMR}%
             </AppText>,
-            <AppText instancetype="WithCellToken" fz={12}>
+            <AppText
+              key={`${idx}.4`}
+              instancetype="WithCellToken"
+              fz={12}
+            >
               {props.FilledPrice}/{props.orderPrice}
             </AppText>,
-            <AppText instancetype="WithCellToken" fz={12}>
+            <AppText
+              key={`${idx}.5`}
+              instancetype="WithCellToken"
+              fz={12}
+            >
               {props.tradeType}
             </AppText>,
-            <AppText instancetype="WithCellToken" fz={12}>
+            <AppText
+              key={`${idx}.6`}
+              instancetype="WithCellToken"
+              fz={12}
+            >
               {props.status}
             </AppText>,
-            <AppText instancetype="WithCellToken" fz={12}>
+            <AppText
+              key={`${idx}.7`}
+              instancetype="WithCellToken"
+              fz={12}
+            >
               {props.No}
             </AppText>,
-            <Box miw={140}>
+            <Box key={`${idx}.8`} miw={140}>
               <AppText instancetype="WithCellToken" fz={12}>
                 {new Date(props.orderTime).toLocaleString()}
               </AppText>
             </Box>,
-          ],
-        )
-      }
+          ]),
+      },
     }[_type as string];
     return {
-      head: data!.items.map(([text, tooltip], i) => {
+      head: (data?.items || []).map(([text, tooltip], i) => {
         return (
           <div key={i}>
             {tooltip ? (
@@ -1659,10 +1885,10 @@ export const dataHistories: TableHistory = {
           </div>
         );
       }),
-      body: data!.rows,
+      body: data?.rows,
     };
   },
-  "tradeHistory": () => {
+  tradeHistory: () => {
     const _items = [
       ["Contracts"],
       ["Filled/Total"],
@@ -1671,15 +1897,11 @@ export const dataHistories: TableHistory = {
       ["Order Type"],
       ["Filled Type"],
       ["Transaction ID"],
-      ["Transaction Time"]
+      ["Transaction Time"],
     ];
-    const rows = [...Array(20)].map(() => ({ ...row })).map(
-      (
-        {
-          ...props
-        },
-        idx,
-      ) => [
+    const rows = [...Array(20)]
+      .map(() => ({ ...row }))
+      .map(({ ...props }, idx) => [
         <Flex key={`${idx}.1`} align={"center"} gap={8}>
           <Box bg={props.isBuy ? "green" : "red"} w={"2px"} h={30} />
           <div>
@@ -1689,43 +1911,54 @@ export const dataHistories: TableHistory = {
             </AppText>
           </div>
         </Flex>,
-        <AppText instancetype="WithCellToken" fz={12}>
+        <AppText
+          key={`${idx}.2`}
+          instancetype="WithCellToken"
+          fz={12}
+        >
           {props.Filled} / {props.Total}
         </AppText>,
-        <AppText instancetype="WithCellToken" fz={12}>
+        <AppText
+          key={`${idx}.3`}
+          instancetype="WithCellToken"
+          fz={12}
+        >
           {props.FilledPrice} / {props.orderPrice}
         </AppText>,
         <AppText
+          key={`${idx}.4`}
           instancetype="WithCellToken"
           fz={12}
         >
           {props.tradeType}
         </AppText>,
         <AppText
+          key={`${idx}.5`}
           instancetype="WithCellToken"
           fz={12}
         >
           {props.orderType}
         </AppText>,
         <AppText
+          key={`${idx}.6`}
           instancetype="WithCellToken"
           fz={12}
         >
           {props.filledType}
         </AppText>,
         <AppText
+          key={`${idx}.7`}
           instancetype="WithCellToken"
           fz={12}
         >
           {props.transactionID}
         </AppText>,
-        <Box>
+        <Box key={`${idx}.8`}>
           <AppText instancetype="WithCellToken" fz={12}>
             {new Date(props.transactionTime).toLocaleString()}
           </AppText>
         </Box>,
-      ],
-    );
+      ]);
     return {
       head: _items.map(([text, tooltip], i) => {
         return (
@@ -1776,7 +2009,6 @@ export const dataHistories: TableHistory = {
       }),
       body: rows,
     };
-  }
+  },
   // orderHistory
 };
-

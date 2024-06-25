@@ -29,12 +29,12 @@
 
 .text-border-middle {
   position: relative;
-  &>* {
+  & > * {
     position: relative;
     z-index: 1;
   }
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     pointer-events: none;
     width: 100%;
