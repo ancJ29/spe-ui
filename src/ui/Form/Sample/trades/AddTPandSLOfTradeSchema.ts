@@ -1,6 +1,6 @@
 import { Sample } from "../Sample";
 
-const LimitFutureTrade: Sample = {
+const AddTPandSLOfTrade: Sample = {
   schema: {
     type: "object",
     properties: {
@@ -223,4 +223,4 @@ const LimitFutureTrade: Sample = {
   },
 };
 
-export default LimitFutureTrade;
+export default AddTPandSLOfTrade;

@@ -90,9 +90,20 @@
 
 @mixin generate-grid-classes($columns) {
   @for $i from 1 through $columns {
-    .span-#{$i} {
+    &.span-#{$i} {
       grid-column: span $i;
       // border: solid 1px orange;
     }
   }
 }
+
+@mixin generate-grid-gap-classes($columns) {
+  @for $i from 1 through $columns {
+      &.gap-#{$i} {
+        fieldset {
+          gap: #{$i}px;
+        }
+      }
+  }
+}
+

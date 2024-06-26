@@ -25,10 +25,10 @@ export function AddTpSlOfLimitTradeForm({
         <AppForm
           w={"100%"}
           ref={formRef}
-          schema={samples.LimitMarketConditionalTrade.schema}
-          uiSchema={samples.LimitMarketConditionalTrade.uiSchema}
+          schema={samples.AddTPandSLOfTrade.schema}
+          uiSchema={samples.AddTPandSLOfTrade.uiSchema}
           formData={{
-            ...samples.LimitMarketConditionalTrade.formData,
+            ...samples.AddTPandSLOfTrade.formData,
             orderPrice,
           }}
           onSubmit={({ formData }) => {
