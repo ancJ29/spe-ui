@@ -1,6 +1,6 @@
 import { Sample } from "../Sample";
 
-const simple: Sample = {
+const simpleSchema: Sample = {
   schema: {
     title: "A registration form",
     description: "A simple form example.",
@@ -80,4 +80,4 @@ const simple: Sample = {
   },
 };
 
-export default simple;
+export default simpleSchema;

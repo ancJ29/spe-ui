@@ -22,12 +22,12 @@ import axios from "@/services/apis/api";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { IconCheck } from "@tabler/icons-react";
+import MonacoEditor from "@monaco-editor/react";
 
 import * as fields from "./fields";
 import * as templates from "./templates";
-import { SubmitButton } from "./templates";
 import * as widgets from "./widgets";
-
+const toJson = (val: unknown) => JSON.stringify(val, null, 2);
 const AJV8_2020 = customizeValidator({ AjvClass: Ajv2020 });
 const customWidgets: RegistryWidgetsType = {
   ...widgets,
@@ -148,7 +148,7 @@ const AppForm = forwardRef(
             }}
             widgets={customWidgets}
             templates={{
-              ButtonTemplates: { SubmitButton },
+              ButtonTemplates: { SubmitButton: templates.SubmitButton },
               ...templates,
             }}
             showErrorList={false}
@@ -169,16 +169,24 @@ const AppForm = forwardRef(
           />
         </Box>
         {showJsonOutput && (
-          <JsonInput
-            label="JsonData"
-            placeholder="Textarea will autosize to fit the content"
-            validationError="Invalid JSON"
-            formatOnBlur
-            autosize
-            rows={5}
-            maxRows={5}
-            value={JSON.stringify(formData)}
-          />
+          <>
+            <Box h={"300px"}>
+              <MonacoEditor
+                language='json'
+                value={toJson(formData)}
+                theme='vs-dark'
+                onChange={() => { }}
+                options={{
+                  minimap: {
+                    enabled: false,
+                  },
+                  automaticLayout: true,
+                  formatOnType: true,
+                  formatOnPaste: true,
+                }}
+              />
+            </Box>
+          </>
         )}
         <LoadingOverlay
           visible={visible}

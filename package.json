@@ -15,6 +15,7 @@
   "dependencies": {
     "@mantine/carousel": "^7.10.0",
     "@mantinex/mantine-logo": "^1.0.1",
+    "@monaco-editor/react": "^4.6.0",
     "@rjsf/core": "^5.18.4",
     "@rjsf/utils": "^5.18.4",
     "@rjsf/validator-ajv8": "^5.18.4",
@@ -23,6 +24,7 @@
     "ajv": "^8.14.0",
     "apexcharts": "^3.49.1",
     "clsx": "^2.1.1",
+    "decimal.js": "^10.4.3",
     "deep-freeze-es6": "^3.0.2",
     "embla-carousel-autoplay": "^7.1.0",
     "embla-carousel-react": "^7.1.0",

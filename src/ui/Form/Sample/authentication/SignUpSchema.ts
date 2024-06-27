@@ -1,16 +1,16 @@
 import { Sample } from "../Sample";
 
-const SignInForm: Sample = {
+const SignUpSchema: Sample = {
   schema: {
     definitions: {
       PhoneNumber: {
         type: "string",
         minLength: 1,
-        title: "Phone",
+        title: "Phone Number",
       },
       Logo: {
         type: "string",
-        title: "Sign In",
+        title: "Sign up",
       },
       Email: {
         type: "string",
@@ -30,9 +30,6 @@ const SignInForm: Sample = {
     oneOf: [
       {
         properties: {
-          // "logo": {
-          //   "$ref": "#/definitions/Logo",
-          // },
           type: {
             $ref: "#/definitions/SignUpType",
             default: 1,
@@ -48,9 +45,6 @@ const SignInForm: Sample = {
       },
       {
         properties: {
-          // "logo": {
-          //   "$ref": "#/definitions/Logo",
-          // },
           type: {
             $ref: "#/definitions/SignUpType",
             default: 2,
@@ -68,12 +62,25 @@ const SignInForm: Sample = {
   },
   uiSchema: {
     "ui:widget": "TabWidget",
-    "ui:submitButtonOptions": {
-      submitText: "Submit",
-      props: {
-        fullWidth: true,
-        size: "lg",
+    "ui:options": {
+      submitButtonOptions: {
+        props: {
+          fullWidth: true,
+          size: "lg",
+        },
+        submitText: "Submit",
       },
+    },
+    "mobile": {
+      "ui:widget": "PhoneNumberWidget",
+      "ui:placeholder": "Mobile",
+    },
+    "email": {
+      "ui:placeholder": "Email",
+    },
+    "password": {
+      "ui:widget": "PasswordWidget",
+      "ui:placeholder": "Password",
     },
     "type": {
       "ui:widget": "hidden",
@@ -87,11 +94,8 @@ const SignInForm: Sample = {
         label: false,
       },
     },
-    "password": {
-      "ui:widget": "PasswordWidget",
-    },
   },
   formData: {},
 };
 
-export default SignInForm;
+export default SignUpSchema;

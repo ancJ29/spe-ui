@@ -1,6 +1,6 @@
 import { Sample } from "../Sample";
 
-const ForgotPassword: Sample = {
+const ForgotPasswordSchema: Sample = {
   schema: {
     definitions: {
       PhoneNumber: {
@@ -85,4 +85,4 @@ const ForgotPassword: Sample = {
   formData: {},
 };
 
-export default ForgotPassword;
+export default ForgotPasswordSchema;

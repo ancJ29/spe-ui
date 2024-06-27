@@ -1,6 +1,6 @@
 import { Sample } from "../Sample";
 
-const ResetPassword: Sample = {
+const SignInFormSchema: Sample = {
   schema: {
     definitions: {
       PhoneNumber: {
@@ -26,11 +26,6 @@ const ResetPassword: Sample = {
         type: "number",
         enum: [1, 2],
       },
-      Code: {
-        type: "string",
-        title: "Code",
-        minLength: 3,
-      },
     },
     oneOf: [
       {
@@ -48,11 +43,8 @@ const ResetPassword: Sample = {
           password: {
             $ref: "#/definitions/Password",
           },
-          code: {
-            $ref: "#/definitions/Code",
-          },
         },
-        required: ["type", "email", "password", "code"],
+        required: ["type", "email", "password"],
       },
       {
         properties: {
@@ -69,11 +61,8 @@ const ResetPassword: Sample = {
           password: {
             $ref: "#/definitions/Password",
           },
-          code: {
-            $ref: "#/definitions/Code",
-          },
         },
-        required: ["type", "mobile", "password", "code"],
+        required: ["type", "mobile", "password"],
       },
     ],
   },
@@ -105,4 +94,4 @@ const ResetPassword: Sample = {
   formData: {},
 };
 
-export default ResetPassword;
+export default SignInFormSchema;

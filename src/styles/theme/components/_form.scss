@@ -26,7 +26,6 @@
     .form-group.field {
       grid-column: span 24;
       @include generate-grid-classes(24);
-      
     }
   }
   
