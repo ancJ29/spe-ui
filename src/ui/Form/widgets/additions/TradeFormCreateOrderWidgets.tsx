@@ -2,18 +2,18 @@
 import AppButton from "@/ui/Button/AppButton";
 import { AppPopover } from "@/ui/Popover/AppPopover";
 import AppText from "@/ui/Text/AppText";
-import { ActionIcon, Box, Checkbox, Flex, Image, InputLabel, Menu, Modal, NumberInput, SegmentedControl, Select, SimpleGrid, Text, Title } from "@mantine/core";
+import { ActionIcon, Badge, Box, Checkbox, Chip, Flex, Image, InputLabel, Menu, Modal, NumberInput, SegmentedControl, Select, SimpleGrid, Text, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { WidgetProps } from "@rjsf/utils";
-import { IconArrowBackUp, IconCaretDownFilled, IconEraser, IconLetterC, IconMinus, IconPlus, IconPlusMinus } from "@tabler/icons-react";
-import { useCallback, useMemo, useState } from "react";
-import { AddTpSlOfLimitTradeForm } from "@/ui/GridLayout/components";
-import AppForm from "../../Form";
-import { samples } from "../../Sample";
+import { IconArrowBackUp, IconCaretDownFilled, IconEdit, IconEraser, IconLetterC, IconMinus, IconPlus, IconPlusMinus } from "@tabler/icons-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { AddTpSlOfTradeForm } from "@/ui/GridLayout/components";
 import Decimal from "decimal.js";
+import { IChangeEvent } from "@rjsf/core";
 
 
-export function OrderPriceWidget(props: WidgetProps) {
+
+export function TriggerPriceWidget(props: WidgetProps) {
   const changeByLast = useCallback(() => {
     props.onChange(Math.floor(Math.random() * 100));
   }, [props.value]);
@@ -24,7 +24,8 @@ export function OrderPriceWidget(props: WidgetProps) {
     } else {
       const num = new Decimal(parseFloat(v));
       console.log("NUM", num);
-      const val = num.plus(props.value);
+      const n = props.value ?? 0
+      const val = num.plus(n);
       const _v = parseFloat(val.toString());
       if (_v < 0) {
         props.onChange(0.1);
@@ -37,7 +38,7 @@ export function OrderPriceWidget(props: WidgetProps) {
   return (
     <>
       <NumberInput
-        label="Order Price"
+        label={props.label}
         classNames={{
           label: "text-label-form"
         }}
@@ -46,7 +47,7 @@ export function OrderPriceWidget(props: WidgetProps) {
         rightSectionWidth={80}
         value={props.value}
         onChange={(_value) => {
-          props.onChange(_value.toString());
+          props.onChange(_value);
         }}
         rightSection={
           <Flex align={"center"} gap={8}>
@@ -66,7 +67,7 @@ export function OrderPriceWidget(props: WidgetProps) {
                     c={"primary"}
                     fw={"bold"}
                   >
-                                        Last
+                    Last
                   </AppText>
                 ),
               })}
@@ -74,7 +75,7 @@ export function OrderPriceWidget(props: WidgetProps) {
                 children: (
                   <div>
                     <AppText instancetype="WithTextTooltip">
-                                            Fill in the last traded price
+                      Fill in the last traded price
                     </AppText>
                   </div>
                 ),
@@ -148,6 +149,382 @@ export function OrderPriceWidget(props: WidgetProps) {
   );
 }
 
+export function TriggerPriceNoLastWidget(props: WidgetProps) {
+  const changeBySymbol = useCallback((v: string) => {
+    if (["DEL", "BACK"].includes(v)) {
+      props.onChange(0.1);
+    } else {
+      const num = new Decimal(parseFloat(v));
+      console.log("NUM", num);
+      const n = props.value ?? 0
+      const val = num.plus(n);
+      const _v = parseFloat(val.toString());
+      if (_v < 0) {
+        props.onChange(0.1);
+      } else {
+        props.onChange(_v);
+      }
+    }
+  }, [props.value]);
+
+  return (
+    <>
+      <NumberInput
+        label={props.label}
+        classNames={{
+          label: "text-label-form"
+        }}
+        thousandSeparator=","
+        decimalSeparator="."
+        rightSectionWidth={40}
+        value={props.value}
+        onChange={(_value) => {
+          props.onChange(_value);
+        }}
+        rightSection={
+          <Flex align={"center"} gap={8} justify={"end"} w={"100%"} pr={"8px"}>
+            <Menu
+              width={140}
+              withinPortal
+              offset={0}
+              position="bottom-end"
+            >
+              <Menu.Target>
+                <AppButton instancetype="Ghost" px={0}>
+                  <IconPlusMinus size={18} color="white" />
+                </AppButton>
+              </Menu.Target>
+              <Menu.Dropdown
+                styles={{
+                  dropdown: {
+                    padding: 0,
+                    border: "none",
+                    borderRadius: 0,
+                  },
+                }}
+              >
+                <SimpleGrid
+                  cols={2}
+                  bg={"gray.8"}
+                  styles={{
+                    root: {
+                      gap: 1,
+                    },
+                  }}
+                >
+                  {["0.1", "-0.1", "+5", "-5", "+25", "-25", "+100", "-100", "DEL", "BACK"].map(
+                    (_, i) => (
+                      <Flex
+                        py={4}
+                        align={"center"}
+                        justify={"center"}
+                        key={i}
+                        bg={"dark"}
+                        className="cursor-pointer"
+                        onClick={() => changeBySymbol(_)}
+                      >
+                        {
+                          _ === "DEL" ? <IconLetterC size={17} /> :
+                            _ === "BACK" ? <IconArrowBackUp size={17} /> :
+                              _ === "0.1" ? <IconPlus size={17} /> :
+                                _ === "-0.1" ? <IconMinus size={17} /> :
+                                  <AppText
+                                    className="textMainHover cursor-pointer"
+                                    style={{ textAlign: "center" }}
+                                    w={"100%"}
+                                  >
+                                    {_}
+                                  </AppText>
+                        }
+
+                      </Flex>
+                    ),
+                  )}
+                </SimpleGrid>
+              </Menu.Dropdown>
+            </Menu>
+          </Flex>
+        }
+      />
+    </>
+  );
+}
+
+export function OrderPriceWidget(props: WidgetProps) {
+  const changeByLast = useCallback(() => {
+    props.onChange(Math.floor(Math.random() * 100));
+  }, [props.value]);
+
+  const changeBySymbol = useCallback((v: string) => {
+    if (["DEL", "BACK"].includes(v)) {
+      props.onChange(0.1);
+    } else {
+      const num = new Decimal(parseFloat(v));
+      console.log("NUM", num);
+      const val = num.plus(props.value);
+      const _v = parseFloat(val.toString());
+      if (_v < 0) {
+        props.onChange(0.1);
+      } else {
+        props.onChange(_v);
+      }
+    }
+  }, [props.value]);
+
+  return (
+    <>
+      <NumberInput
+        label="Order Price"
+        classNames={{
+          label: "text-label-form"
+        }}
+        thousandSeparator=","
+        decimalSeparator="."
+        rightSectionWidth={80}
+        value={props.value}
+        onChange={(_value) => {
+          props.onChange(_value.toString());
+        }}
+        rightSection={
+          <Flex align={"center"} gap={8}>
+            <AppPopover
+              withArrow={false}
+              width={"auto"}
+              target={(props) => ({
+                children: (
+                  <AppText
+                    onClick={changeByLast}
+                    onMouseLeave={props.close}
+                    style={{
+                      cursor: "pointer",
+                    }}
+                    onMouseEnter={props.open}
+                    fz={12}
+                    c={"primary"}
+                    fw={"bold"}
+                  >
+                    Last
+                  </AppText>
+                ),
+              })}
+              dropdown={() => ({
+                children: (
+                  <div>
+                    <AppText instancetype="WithTextTooltip">
+                      Fill in the last traded price
+                    </AppText>
+                  </div>
+                ),
+              })}
+            ></AppPopover>
+            <Box h={14} w={1} bg={"gray"}></Box>
+            <Menu
+              width={140}
+              withinPortal
+              offset={0}
+              position="bottom-end"
+            >
+              <Menu.Target>
+                <AppButton instancetype="Ghost" px={0}>
+                  <IconPlusMinus size={18} color="white" />
+                </AppButton>
+              </Menu.Target>
+              <Menu.Dropdown
+                styles={{
+                  dropdown: {
+                    padding: 0,
+                    border: "none",
+                    borderRadius: 0,
+                  },
+                }}
+              >
+                <SimpleGrid
+                  cols={2}
+                  bg={"gray.8"}
+                  styles={{
+                    root: {
+                      gap: 1,
+                    },
+                  }}
+                >
+                  {["0.1", "-0.1", "+5", "-5", "+25", "-25", "+100", "-100", "DEL", "BACK"].map(
+                    (_, i) => (
+                      <Flex
+                        py={4}
+                        align={"center"}
+                        justify={"center"}
+                        key={i}
+                        bg={"dark"}
+                        className="cursor-pointer"
+                        onClick={() => changeBySymbol(_)}
+                      >
+                        {
+                          _ === "DEL" ? <IconLetterC size={17} /> :
+                            _ === "BACK" ? <IconArrowBackUp size={17} /> :
+                              _ === "0.1" ? <IconPlus size={17} /> :
+                                _ === "-0.1" ? <IconMinus size={17} /> :
+                                  <AppText
+                                    className="textMainHover cursor-pointer"
+                                    style={{ textAlign: "center" }}
+                                    w={"100%"}
+                                  >
+                                    {_}
+                                  </AppText>
+                        }
+
+                      </Flex>
+                    ),
+                  )}
+                </SimpleGrid>
+              </Menu.Dropdown>
+            </Menu>
+          </Flex>
+        }
+      />
+    </>
+  );
+}
+
+export function OrderPriceConditionalWidget(props: WidgetProps) {
+  const changeByLast = useCallback(() => {
+    props.onChange(Math.floor(Math.random() * 100));
+  }, [props.value]);
+
+  const changeBySymbol = useCallback((v: string) => {
+    if (["DEL", "BACK"].includes(v)) {
+      props.onChange(0.1);
+    } else {
+      const num = new Decimal(parseFloat(v));
+      console.log("NUM", num);
+      const n = props.value ?? 0
+      const val = num.plus(n);
+      const _v = parseFloat(val.toString());
+      if (_v < 0) {
+        props.onChange(0.1);
+      } else {
+        props.onChange(_v);
+      }
+    }
+  }, [props.value]);
+
+  return (
+    <>
+      <NumberInput
+        label={props.label}
+        classNames={{
+          label: "text-label-form"
+        }}
+        thousandSeparator=","
+        decimalSeparator="."
+        rightSectionWidth={80}
+        value={props.value}
+        readOnly={props.readonly}
+        disabled={props.readonly}
+        onChange={(_value) => {
+          props.onChange(_value.toString());
+        }}
+        rightSection={
+          <>
+            {!props.readonly && <Flex align={"center"} gap={8}>
+              <AppPopover
+                withArrow={false}
+                width={"auto"}
+                target={(props) => ({
+                  children: (
+                    <AppText
+                      onClick={changeByLast}
+                      onMouseLeave={props.close}
+                      style={{
+                        cursor: "pointer",
+                      }}
+                      onMouseEnter={props.open}
+                      fz={12}
+                      c={"primary"}
+                      fw={"bold"}
+                    >
+                      Last
+                    </AppText>
+                  ),
+                })}
+                dropdown={() => ({
+                  children: (
+                    <div>
+                      <AppText instancetype="WithTextTooltip">
+                        Fill in the last traded price
+                      </AppText>
+                    </div>
+                  ),
+                })}
+              ></AppPopover>
+              <Box h={14} w={1} bg={"gray"}></Box>
+              <Menu
+                width={140}
+                withinPortal
+                offset={0}
+                position="bottom-end"
+              >
+                <Menu.Target>
+                  <AppButton instancetype="Ghost" px={0}>
+                    <IconPlusMinus size={18} color="white" />
+                  </AppButton>
+                </Menu.Target>
+                <Menu.Dropdown
+                  styles={{
+                    dropdown: {
+                      padding: 0,
+                      border: "none",
+                      borderRadius: 0,
+                    },
+                  }}
+                >
+                  <SimpleGrid
+                    cols={2}
+                    bg={"gray.8"}
+                    styles={{
+                      root: {
+                        gap: 1,
+                      },
+                    }}
+                  >
+                    {["0.1", "-0.1", "+5", "-5", "+25", "-25", "+100", "-100", "DEL", "BACK"].map(
+                      (_, i) => (
+                        <Flex
+                          py={4}
+                          align={"center"}
+                          justify={"center"}
+                          key={i}
+                          bg={"dark"}
+                          className="cursor-pointer"
+                          onClick={() => changeBySymbol(_)}
+                        >
+                          {
+                            _ === "DEL" ? <IconLetterC size={17} /> :
+                              _ === "BACK" ? <IconArrowBackUp size={17} /> :
+                                _ === "0.1" ? <IconPlus size={17} /> :
+                                  _ === "-0.1" ? <IconMinus size={17} /> :
+                                    <AppText
+                                      className="textMainHover cursor-pointer"
+                                      style={{ textAlign: "center" }}
+                                      w={"100%"}
+                                    >
+                                      {_}
+                                    </AppText>
+                          }
+
+                        </Flex>
+                      ),
+                    )}
+                  </SimpleGrid>
+                </Menu.Dropdown>
+              </Menu>
+            </Flex>}
+          </>
+        }
+      />
+    </>
+  );
+}
+
 export function VolumeInputFieldWidget(props: WidgetProps) {
   return (
     <>
@@ -166,7 +543,7 @@ export function VolumeInputFieldWidget(props: WidgetProps) {
           rightSectionWidth={60}
           rightSection={
             <AppText fz={12} fw={"bold"}>
-                            USDC
+              USDC
             </AppText>
           }
         ></NumberInput>
@@ -229,26 +606,26 @@ export function calcInfoPriceWidget(props: WidgetProps) {
           <InputLabel className="text-label-form">Qty</InputLabel>
           <Flex fz={12} fw={"bold"} gap={4}>
             <AppText fz={12} c={"green"}>
-                            122,495{" "}
+              122,495{" "}
             </AppText>{" "}
-                        /{" "}
+            /{" "}
             <AppText fz={12} c={"red"}>
-                            122,495
+              122,495
             </AppText>{" "}
-                        XRP
+            XRP
           </Flex>
         </Flex>
         <Flex justify={"space-between"}>
           <InputLabel className="text-label-form">Cost</InputLabel>
           <Flex fz={12} fw={"bold"} gap={4}>
             <AppText fz={12} c={"green"}>
-                            135.9056
+              135.9056
             </AppText>
-                        /{" "}
+            /{" "}
             <AppText fz={12} c={"red"}>
-                            65,929.2886
+              65,929.2886
             </AppText>{" "}
-                        &nbsp; USDC
+            &nbsp; USDC
           </Flex>
         </Flex>
       </Box>
@@ -322,7 +699,7 @@ export function PostOnlyWidget(props: WidgetProps) {
                       onMouseEnter={_props.open}
                       className="text-label-form"
                     >
-                                            Post-Only
+                      Post-Only
                     </InputLabel>
                   ),
                 })}
@@ -330,9 +707,9 @@ export function PostOnlyWidget(props: WidgetProps) {
                   children: (
                     <div>
                       <AppText instancetype="WithTextTooltip">
-                                                The Post-Only order will only be executed
-                                                as a maker order. If it can be executed
-                                                immediately canceled
+                        The Post-Only order will only be executed
+                        as a maker order. If it can be executed
+                        immediately canceled
                       </AppText>
                     </div>
                   ),
@@ -368,7 +745,7 @@ export function ReduceOnlyWidget(props: WidgetProps) {
                       onMouseLeave={_props.close}
                       onMouseEnter={_props.open}
                     >
-                                            Reduce-Only
+                      Reduce-Only
                     </InputLabel>
                   ),
                 })}
@@ -376,10 +753,10 @@ export function ReduceOnlyWidget(props: WidgetProps) {
                   children: (
                     <div>
                       <AppText instancetype="WithTextTooltip">
-                                                The reduce-only order will only reduce
-                                                your position size. Any order that might
-                                                increase your position size will be
-                                                canceled or adjusted
+                        The reduce-only order will only reduce
+                        your position size. Any order that might
+                        increase your position size will be
+                        canceled or adjusted
                       </AppText>
                     </div>
                   ),
@@ -395,9 +772,32 @@ export function ReduceOnlyWidget(props: WidgetProps) {
 
 export function TPandSLModalWidget(props: WidgetProps) {
   const [opened, { open, close }] = useDisclosure(false);
+  const [data, setData] = useState<any>(null);
+
   const onOpenModal = useCallback(() => {
     open();
   }, [open]);
+
+  const onSubmit = useCallback((res: IChangeEvent) => {
+    // eslint-disable-next-line no-console
+    console.log("TPandSLModalWidget", res.formData);
+    setData(res.formData);
+    close();
+  }, [props.value]);
+
+  const isHasTpOrSl: { isLong: boolean, isSet: boolean } = useMemo(() => {
+    const isSet = data?.tp?.value > 0 || data?.sl?.value > 0;
+    const isLong = data?.type === "Long";
+    return {
+      isSet,
+      isLong
+    };
+  }, [data]);
+
+  useEffect(() => {
+    props.onChange(isHasTpOrSl.isSet);
+  }, [isHasTpOrSl]);
+
 
   return (
     <>
@@ -409,25 +809,42 @@ export function TPandSLModalWidget(props: WidgetProps) {
         size={440}
         closeOnClickOutside={false}
       >
-        <AddTpSlOfLimitTradeForm
-          orderPrice={0}
-          onSubmit={(res) => {
-            // eslint-disable-next-line no-console
-            console.log("AddTpSlOfLimitTradeForm", res);
-          }}
+        <AddTpSlOfTradeForm
+          orderPrice={0.4907}
+          onSubmit={onSubmit}
+          onClose={close}
         />
       </Modal>
+
       <Box>
-        <Checkbox
-          checked={opened}
-          onChange={onOpenModal}
-          label="Take Profit / Stop Loss"
-          styles={{
-            label: {
-              fontSize: "12px",
-            },
-          }}
-        />
+        <Flex justify={"space-between"} align={"center"}>
+          <Box>
+            <Flex justify={"start"} align={"center"} gap={10}>
+              <Checkbox
+                checked={props.value}
+                onChange={onOpenModal}
+                label="Take Profit / Stop Loss"
+                styles={{
+                  label: {
+                    fontSize: "12px",
+                  },
+                }}
+              />
+              {
+                isHasTpOrSl.isSet && (
+                  <>
+                    <Badge size="sm" variant="light" color={isHasTpOrSl.isLong ? "#23b26b" : "#f0444b"}>
+                      {isHasTpOrSl.isLong ? "Long" : "Short"}
+                    </Badge>
+                  </>
+                )
+              }
+            </Flex>
+          </Box>
+          <Box className="cursor-pointer" onClick={onOpenModal}>
+            {isHasTpOrSl.isSet && <IconEdit size={16} />}
+          </Box>
+        </Flex>
       </Box>
     </>
   );
@@ -529,11 +946,72 @@ export function TakeProfitWidget(props: WidgetProps) {
 
 
 export function TakeProfitTriggerByWidget(props: WidgetProps) {
+  console.log("props.label ", props.label);
   return (
     <>
       <Box h={"100%"} w={"100%"}>
         <Select
-          label="Trigger Price"
+          label={props.label ? props.label : " "}
+          onChange={v => props.onChange(v)}
+          data={props.schema.enum as string[]}
+          value={props.value}
+          withCheckIcon={false}
+          rightSection={
+            <IconCaretDownFilled size={14} />
+          }
+          rightSectionWidth={30}
+          allowDeselect={false}
+          classNames={{
+            root: "app-select--root",
+            option: "app-select-option",
+            input: "app-select--input",
+            section: "app-select--section",
+          }}
+          comboboxProps={{
+            position: "bottom-end",
+            offset: 0,
+            withinPortal: true,
+          }}
+          styles={{
+            label: {
+              fontSize: "12px"
+            },
+            wrapper: {
+              // height: "100%"
+            },
+            root: {
+              // height: "100%"
+            },
+            input: {
+              border: "none",
+              fontSize: "12px",
+              textAlign: "center",
+              paddingTop: 0,
+              paddingBottom: 0,
+              paddingLeft: 0,
+              // height: "100%"
+            },
+            option: {
+              fontSize: "12px",
+            },
+          }}
+        />
+      </Box>
+    </>
+  );
+}
+
+export function OrderByPriceByWidget(props: WidgetProps) {
+  const { formContext: { updateFormData, formData, updateField } } = props;
+  useEffect(() => {
+    console.log("VALUESSSS", props);
+    updateField("type", props.value);
+  }, [props.value]);
+  return (
+    <>
+      <Box h={"100%"} w={"100%"}>
+        <Select
+          label={props.label ? props.label : " "}
           onChange={v => props.onChange(v)}
           data={props.schema.enum as string[]}
           value={props.value}
@@ -711,55 +1189,6 @@ export function StopLossTriggerByWidget(props: WidgetProps) {
   );
 }
 
-
-
-export function TPandSLModalSimpleWidget(props: WidgetProps) {
-  const [opened, { open, close }] = useDisclosure(false);
-  const onOpenModal = useCallback(() => {
-    open();
-  }, [open]);
-
-  return (
-    <>
-      <Modal
-        opened={opened}
-        onClose={close}
-        title="Add TP/SL"
-        centered
-        size={440}
-        closeOnClickOutside={false}
-      >
-        <AppForm
-          w={"100%"}
-          schema={samples.AddTPandSLOfLimitTradeSchema.schema}
-          uiSchema={samples.AddTPandSLOfLimitTradeSchema.uiSchema}
-          formData={{
-            ...samples.AddTPandSLOfLimitTradeSchema.formData,
-          }}
-          onSubmit={({ formData }) => {
-            // eslint-disable-next-line no-console
-            console.log("AddTpSlOfLimitTradeForm", formData);
-          }}
-          showJsonOutput
-        />
-      </Modal>
-      <Box>
-        <Checkbox
-          checked={opened}
-          onChange={onOpenModal}
-          label="Take Profit / Stop Loss"
-          styles={{
-            label: {
-              fontSize: "12px",
-            },
-          }}
-        />
-      </Box>
-    </>
-  );
-}
-
-
 export function LongShortButtonsWidget(props: WidgetProps) {
   return (
     <>
@@ -787,7 +1216,7 @@ export function LongShortButtonsWidget(props: WidgetProps) {
             fw={"bolder"}
             fz={14}
           >
-                        Buy / Long
+            Buy / Long
           </Text>
           <Text
             component="span"
@@ -798,7 +1227,7 @@ export function LongShortButtonsWidget(props: WidgetProps) {
             }}
             fz={10}
           >
-                        Demo Trading
+            Demo Trading
           </Text>
         </AppButton>
         <AppButton
@@ -817,7 +1246,7 @@ export function LongShortButtonsWidget(props: WidgetProps) {
             fw={"bolder"}
             fz={14}
           >
-                        Sell / Short
+            Sell / Short
           </Text>
           <Text
             component="span"
@@ -828,10 +1257,12 @@ export function LongShortButtonsWidget(props: WidgetProps) {
             }}
             fz={10}
           >
-                        Demo Trading
+            Demo Trading
           </Text>
         </AppButton>
       </SimpleGrid>
     </>
   );
 }
+
+

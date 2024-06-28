@@ -32,8 +32,38 @@ import {
   IconSwitch3,
 } from "@tabler/icons-react";
 import { useCallback, useMemo, useState } from "react";
-
+import Decimal from "decimal.js";
 type OrderType = "Entire Position" | "Current Order";
+const T = 0.00001;
+// roi = ((tp - gia mua) / gia mua) * 100
+const calcROI = (
+  value: number,
+  orderPrice: number,
+  isLong = false,
+) => {
+  if (isLong) {
+    return ((value - orderPrice) / orderPrice) * 100;
+  } else {
+    return ((orderPrice - value) / orderPrice) * 100;
+  }
+};
+// tp = gia mua * (1 + ROI / 100)
+const calcTP = (roi: number, orderPrice: number, isLong = false) => {
+  if (isLong) {
+    return orderPrice * (1 + roi / 100);
+  } else {
+    return orderPrice * (1 - roi / 100);
+  }
+};
+
+// sl = gia mua * (1 - ROI / 100)
+const calcSL = (roi: number, orderPrice: number, isLong = false) => {
+  if (isLong) {
+    return orderPrice * (1 - roi / 100);
+  } else {
+    return orderPrice * (1 + roi / 100);
+  }
+};
 
 export function BiasTypeSwitchWidget(props: WidgetProps) {
   const [orderType, toggle] = useToggle<OrderType>([
@@ -106,36 +136,6 @@ export function BiasTypeSwitchWidget(props: WidgetProps) {
     </>
   );
 }
-const T = 0.00001;
-// roi = ((tp - gia mua) / gia mua) * 100
-const calcROI = (
-  value: number,
-  orderPrice: number,
-  isLong = false,
-) => {
-  if (isLong) {
-    return ((value - orderPrice) / orderPrice) * 100;
-  } else {
-    return ((orderPrice - value) / orderPrice) * 100;
-  }
-};
-// tp = gia mua * (1 + ROI / 100)
-const calcTP = (roi: number, orderPrice: number, isLong = false) => {
-  if (isLong) {
-    return orderPrice * (1 + roi / 100);
-  } else {
-    return orderPrice * (1 - roi / 100);
-  }
-};
-
-// sl = gia mua * (1 - ROI / 100)
-const calcSL = (roi: number, orderPrice: number, isLong = false) => {
-  if (isLong) {
-    return orderPrice * (1 - roi / 100);
-  } else {
-    return orderPrice * (1 + roi / 100);
-  }
-};
 
 export function ProfitInputWidget(props: WidgetProps) {
   const [, setValue] = useState(props.value);
@@ -166,7 +166,7 @@ export function ProfitInputWidget(props: WidgetProps) {
 
   const onChangePrice = useCallback(
     (v: number) => {
-      props.onChange(parseFloat(v.toFixed(5)));
+      props.onChange(v);
       const roi = calcROI(v, orderPrice, isLong);
       setROI(roi);
     },
@@ -189,7 +189,6 @@ export function ProfitInputWidget(props: WidgetProps) {
         const tp = isDecrement ? v - T : v + T;
         const roi = calcROI(tp, orderPrice, isLong);
         setROI(parseFloat(roi.toFixed(2)));
-
         props.onChange(parseFloat(tp.toFixed(5)));
       }
     },
@@ -400,7 +399,7 @@ export function StopLossInputWidget(props: WidgetProps) {
 
   const onChangePrice = useCallback(
     (v: number) => {
-      props.onChange(parseFloat(v.toFixed(5)));
+      props.onChange(v);
       const roi = calcROI(v, orderPrice, isLong);
       setROI(roi);
     },
@@ -419,11 +418,13 @@ export function StopLossInputWidget(props: WidgetProps) {
   const onTickPrice = useCallback(
     (isDecrement = false) => {
       if (Boolean(props.value) && props.value > 0) {
+        const num = new Decimal(parseFloat(props.value));
         const v = parseFloat(props.value);
-        const sl = isDecrement ? v - T : v + T;
-        const roi = calcROI(sl, orderPrice, isLong);
-        setROI(parseFloat(roi.toFixed(2)));
-        props.onChange(parseFloat(sl.toFixed(5)));
+        const sl = isDecrement ? num.minus(T) : num.plus(T);
+        const val = parseFloat(sl.toString());
+        const roi = calcROI(val, orderPrice, isLong);
+        setROI(roi);
+        props.onChange(val);
       }
     },
     [props, orderPrice, isLong],

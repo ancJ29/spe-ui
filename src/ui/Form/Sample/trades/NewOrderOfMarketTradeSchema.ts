@@ -17,7 +17,7 @@ const NewOrderOfMarketTradeSchema: Sample = {
         enum: [
           "MARKET", "LIMIT"
         ],
-        default: "LIMIT",
+        default: "MARKET",
         readOnly: true
       },
       volume: {
@@ -46,33 +46,33 @@ const NewOrderOfMarketTradeSchema: Sample = {
         readOnly: true
       },
     },
-    if: {
-      properties: {
-        isTpAndSl: {
-          const: true
-        }
-      }
-    },
-    then: {
-      properties: {
-        takeProfit: {
-          type: "string"
-        },
-        takeProfitTriggerBy: {
-          type: "string",
-          enum: ["MARK", "LAST", "INDEX"],
-          default: "MARK"
-        },
-        stopLoss: {
-          type: "string",
-        },
-        stopLossTriggerBy: {
-          type: "string",
-          enum: ["MARK", "LAST", "INDEX"],
-          default: "MARK"
-        },
-      }
-    },
+    // if: {
+    //   properties: {
+    //     isTpAndSl: {
+    //       const: true
+    //     }
+    //   }
+    // },
+    // then: {
+    //   properties: {
+    //     takeProfit: {
+    //       type: "string"
+    //     },
+    //     takeProfitTriggerBy: {
+    //       type: "string",
+    //       enum: ["MARK", "LAST", "INDEX"],
+    //       default: "MARK"
+    //     },
+    //     stopLoss: {
+    //       type: "string",
+    //     },
+    //     stopLossTriggerBy: {
+    //       type: "string",
+    //       enum: ["MARK", "LAST", "INDEX"],
+    //       default: "MARK"
+    //     },
+    //   }
+    // },
     required: [
       "accountId", "symbolId", "side", "type", "volume",
     ]
@@ -147,7 +147,7 @@ const NewOrderOfMarketTradeSchema: Sample = {
     },
     "isTpAndSl": {
       "ui:options": {
-        "widget": "CheckBoxTpAndSlWidget",
+        "widget": "TPandSLModalWidget",
         "label": false,
       }
     },

@@ -51,7 +51,7 @@ const AddTPandSLOfTrade: Sample = {
                   title: "Limit",
                 },
                 value: {
-                  type: "string",
+                  type: "number",
                 },
               },
               if: {

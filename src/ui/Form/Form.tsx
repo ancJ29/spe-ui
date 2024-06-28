@@ -120,6 +120,14 @@ const AppForm = forwardRef(
       [setFormData],
     );
 
+    const updateField = (field: string, value: any) => {
+      setFormData((prevFormData: any) => ({
+        ...prevFormData,
+        [field]: value
+      }));
+    };
+  
+
     useImperativeHandle(
       ref,
       () => {
@@ -133,7 +141,7 @@ const AppForm = forwardRef(
       [],
     );
     const formRef = useRef<React.ElementRef<typeof Form>>(null);
-
+    const isDev = import.meta.env.MODE === "development";
     return (
       <>
         <Box w={props.w ?? 500} pos="relative">
@@ -165,10 +173,10 @@ const AppForm = forwardRef(
             onError={(errorList: RJSFValidationError[]) =>
               window.console.log("errors", errorList)
             }
-            formContext={{ formData, updateFormData: setFormData }}
+            formContext={{ formData, updateFormData: setFormData, updateField }}
           />
         </Box>
-        {showJsonOutput && (
+        {(showJsonOutput && isDev) && (
           <>
             <Box h={"300px"}>
               <MonacoEditor

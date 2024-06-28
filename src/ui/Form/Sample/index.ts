@@ -8,7 +8,7 @@ import SignInForm from "./authentication/SignInFormSchema";
 import NewOrderOfLimitTradeSchema from "./trades/NewOrderOfLimitTradeSchema";
 import AddTPandSLOfTrade from "./trades/AddTPandSLOfTradeSchema";
 import NewOrderOfMarketTradeSchema from "./trades/NewOrderOfMarketTradeSchema";
-import AddTPandSLOfLimitTradeSchema from "./trades/AddTPandSLOfLimitTradeSchema";
+import NewOrderOfConditionalTradeSchema from "./trades/NewOrderOfConditionalTradeSchema";
 
 const _samples: Record<string, Sample> = {
   Blank: { schema: {}, uiSchema: {}, formData: {} },
@@ -17,10 +17,10 @@ const _samples: Record<string, Sample> = {
   ForgotPassword: ForgotPassword,
   ResetPassword: ResetPassword,
   SignIn: SignInForm,
-  NewOrderOfMarketTradeSchema: NewOrderOfMarketTradeSchema,
-  NewOrderOfLimitTradeSchema: NewOrderOfLimitTradeSchema,
-  AddTPandSLOfTrade: AddTPandSLOfTrade,
-  AddTPandSLOfLimitTradeSchema: AddTPandSLOfLimitTradeSchema,
+  NewOrderOfMarketTradeSchema,
+  NewOrderOfLimitTradeSchema,
+  NewOrderOfConditionalTradeSchema,
+  AddTPandSLOfTrade,
   
 };
 

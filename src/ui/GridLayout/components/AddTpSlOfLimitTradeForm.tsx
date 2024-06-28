@@ -2,14 +2,16 @@ import AppButton from "@/ui/Button/AppButton";
 import AppForm from "@/ui/Form/Form";
 import { samples } from "@/ui/Form/Sample";
 import { Box, SimpleGrid } from "@mantine/core";
+import { IChangeEvent } from "@rjsf/core";
 import { useCallback, useRef } from "react";
 
 interface AddTPSLProps {
   orderPrice: number;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onSubmit: (res: any) => void;
+  onSubmit: (res: IChangeEvent) => void;
+  onClose?: () => void
 }
-export function AddTpSlOfLimitTradeForm({
+export function AddTpSlOfTradeForm({
   orderPrice = 0.4907,
   ...props
 }: AddTPSLProps) {
@@ -31,9 +33,9 @@ export function AddTpSlOfLimitTradeForm({
             ...samples.AddTPandSLOfTrade.formData,
             orderPrice,
           }}
-          onSubmit={({ formData }) => {
+          onSubmit={(_props) => {
             if (props.onSubmit) {
-              props?.onSubmit(formData);
+              props?.onSubmit(_props);
             }
           }}
           showJsonOutput
@@ -54,7 +56,14 @@ export function AddTpSlOfLimitTradeForm({
           <AppButton color="primary" onClick={confirm}>
             Confirm
           </AppButton>
-          <AppButton color="gray">Cancel</AppButton>
+          <AppButton
+            color="gray"
+            onClick={() => {
+              if(props.onClose) {
+                props.onClose();
+              }
+            }}
+          >Cancel</AppButton>
         </SimpleGrid>
       </Box>
     </>

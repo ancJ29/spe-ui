@@ -72,12 +72,22 @@ export function CreateOrderTradeByConditionalForm({
   const formRef = useRef<any>(null);
   return (
     <>
-      <Box className="space-y-20" h={400}>
-        <Center h={"100%"}>
-          <AppText instancetype="WithTextTooltip">
-            TODO: Create OrderTrade By Conditional Form
-          </AppText>
-        </Center>
+      <Box className="space-y-20">
+        <AppForm
+          w={"100%"}
+          ref={formRef}
+          schema={samples.NewOrderOfConditionalTradeSchema.schema}
+          uiSchema={samples.NewOrderOfConditionalTradeSchema.uiSchema}
+          formData={{
+            ...samples.NewOrderOfConditionalTradeSchema.formData,
+          }}
+          onSubmit={({ formData }) => {
+            if (props.onSubmit) {
+              props?.onSubmit(formData);
+            }
+          }}
+          showJsonOutput
+        />
       </Box>
     </>
   );
