@@ -7,7 +7,7 @@ import {
   TabsTabProps,
 } from "@mantine/core";
 import { ReactNode } from "react";
-
+import cx from "clsx";
 type _TYPES =
   | "Default"
   | "WithCopyTradeDetail"
@@ -52,7 +52,10 @@ export default function AppTabs({
 }: Partial<InstanceProps>) {
   return (
     <>
-      <Tabs {..._props[props.instancetype ?? "Default"]} {...props}>
+      <Tabs {..._props[props.instancetype ?? "Default"]} {...props} className={cx(
+            _props[props.instancetype ?? "Default"]?.className,
+            props.className,
+          )}>
         <Flex align={"center"} gap={10} className="tabs-header">
           {leftSection}
           <Tabs.List {...props.tablist} flex={1}>

@@ -99,7 +99,7 @@ const ResetPasswordSchema: Sample = {
       },
     },
     "password": {
-      "ui:widget": "PasswordWidget",
+      "ui:widget": "CustomPasswordWidget",
     },
   },
   formData: {},

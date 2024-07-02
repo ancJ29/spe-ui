@@ -24,6 +24,7 @@
     "ajv": "^8.14.0",
     "apexcharts": "^3.49.1",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.11",
     "decimal.js": "^10.4.3",
     "deep-freeze-es6": "^3.0.2",
     "embla-carousel-autoplay": "^7.1.0",

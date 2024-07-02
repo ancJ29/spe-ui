@@ -1,4 +1,4 @@
-import { Box, JsonInput, LoadingOverlay, rem } from "@mantine/core";
+import { Box, LoadingOverlay, rem } from "@mantine/core";
 import Form, { IChangeEvent } from "@rjsf/core";
 import {
   RJSFSchema,

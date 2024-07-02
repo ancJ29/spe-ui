@@ -3,6 +3,8 @@ import { type RouteObject } from "react-router-dom";
 
 const map = {
   Trade: lazy(() => import("@/routes/trade")),
+  SpotTrade: lazy(() => import("@/routes/spot")),
+  FuturesTrade: lazy(() => import("@/routes/future")),
   Login: lazy(() => import("@/routes/login")),
   SignUp: lazy(() => import("@/routes/sign-up")),
   ResetPassword: lazy(() => import("@/routes/reset-password")),
@@ -39,6 +41,18 @@ const routes: RouteObject[] = [
   {
     path: "/forgot-password",
     element: <map.ForgotPassword />,
+  },
+  {
+    path: "/trade/:baseToken/:pairToken",
+    element: <map.Trade/>,
+  },
+  {
+    path: "/trade/spot/:baseToken/:pairToken",
+    element: <map.SpotTrade/>,
+  },
+  {
+    path: "/trade/futures/:baseToken/:pairToken",
+    element: <map.FuturesTrade/>,
   },
   {
     path: "/*",

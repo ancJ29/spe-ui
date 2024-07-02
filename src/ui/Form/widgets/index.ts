@@ -6,6 +6,7 @@ export * from "./additions/TradeInputTPLimitWidget";
 export * from "./additions/TradeLongShortSwitchTPLimitWidget";
 export * from "./additions/TradeAddTPSLWidgets";
 export * from "./additions/TradeFormCreateOrderWidgets";
+export * from "./additions/TradeFormSpotWidgets";
 // Overwrite
 export * from "./overwrites/PasswordWidget";
 export * from "./overwrites/TextWidget";

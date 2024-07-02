@@ -1,10 +1,10 @@
 import AppButton from "@/ui/Button/AppButton";
-import { Box, Flex } from "@mantine/core";
+import { Box, Flex, SegmentedControl } from "@mantine/core";
 import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 
 type FilterButtons = {
   value: string;
-  label: string;
+  label: string | React.ReactNode;
   order: number;
   pos: "right" | "left";
 };
@@ -25,15 +25,15 @@ export function FilterGroupButtons({ ...props }: FilterGroupButtonsType) {
 
   useEffect(() => {
     const left =
-            (props.items
-              .filter((i) => i?.pos === "left")
-              .sort((a, b) => a?.order - b?.order) as FilterButtons[]) ??
-            [];
+      (props.items
+        .filter((i) => i?.pos === "left")
+        .sort((a, b) => a?.order - b?.order) as FilterButtons[]) ??
+      [];
     const right =
-            (props.items
-              .filter((i) => i?.pos === "right")
-              .sort((a, b) => a?.order - b?.order) as FilterButtons[]) ??
-            [];
+      (props.items
+        .filter((i) => i?.pos === "right")
+        .sort((a, b) => a?.order - b?.order) as FilterButtons[]) ??
+      [];
     if (left.length > 0) {
       setFilterValues([left[0].value]);
     }
@@ -44,9 +44,9 @@ export function FilterGroupButtons({ ...props }: FilterGroupButtonsType) {
 
   useEffect(() => {
     if (props.onChange) {
-      props.onChange(filterValues, filterValuesRight);
+      // props.onChange(filterValues, filterValuesRight);
     }
-  }, [filterValues, filterValuesRight, props]);
+  }, [filterValues, filterValuesRight]);
 
   const _items = useMemo(() => {
     const left = props.items
@@ -61,75 +61,70 @@ export function FilterGroupButtons({ ...props }: FilterGroupButtonsType) {
     };
   }, [props.items]);
 
-  const _styles = useMemo(() => {
-    return {
-      left: {
-        active: {
-          bg: "dark",
-        },
-        default: {
-          color: "light",
-          variant: "subtle",
-        },
-      },
-      right: {
-        active: {
-          color: "white",
-          fw: "bolder",
-        },
-        default: {
-          color: "light",
-        },
-      },
-    };
-  }, []);
 
-  const onChange = useCallback((value: string, isRight = false) => {
-    if (isRight) {
-      setFilterValuesRight([value]);
-    } else {
-      setFilterValues([value]);
+  const setValueLeft = (v: string) => {
+    if (props.onChange) {
+      props.onChange([v], filterValuesRight);
     }
-  }, []);
+    setValue(v)
+  }
+  const setValueRight = (v: string) => {
+    if (props.onChange) {
+      props.onChange(filterValues, [v]);
+    }
+    setValueR(v)
+  }
+  const [value, setValue] = useState(props.value);
+  const [valueR, setValueR] = useState(props.value);
 
   return (
     <>
       <Flex gap={12} my={10} align={"center"}>
-        {_items.left.map((item: FilterButtons, i) => (
-          <Fragment key={i}>
-            <AppButton
-              onClick={() => onChange(item.value)}
-              size="compact-xs"
-              fz={12}
-              value={item.value}
-              {...(filterValues.includes(item.value)
-                ? _styles.left.active
-                : _styles.left.default)}
-            >
-              {item.label}
-            </AppButton>
-          </Fragment>
-        ))}
+        <SegmentedControl
+          onChange={setValueLeft}
+          data={_items.left}
+          withItemsBorders={false}
+          value={value}
+          styles={{
+            control: {
+
+            },
+            root: {
+              padding: "0px",
+              gap: 10,
+              background: "none"
+            },
+            label: {
+              fontWeight: "bold"
+            }
+
+          }}
+          size={"xs"}
+        />
         <Box>
           <Box h={20} w={1} bg={"dark"} />
         </Box>
-        {_items.right.map((item: FilterButtons, i) => (
-          <Fragment key={i}>
-            <AppButton
-              onClick={() => onChange(item.value, true)}
-              px={0}
-              size="compact-xs"
-              fz={12}
-              variant="subtle"
-              value={item.value}
-              {...(filterValuesRight.includes(item.value)
-                ? _styles.right.active
-                : _styles.right.default)}
-            >
-              {item.label}
-            </AppButton>
-          </Fragment>
-        ))}
+        <SegmentedControl
+          onChange={setValueRight}
+          data={_items.right}
+          withItemsBorders={false}
+          value={valueR}
+          styles={{
+            control: {
+
+            },
+            root: {
+              padding: "0px",
+              gap: 10,
+              background: "none"
+            },
+            label: {
+              fontWeight: "bold"
+            }
+
+          }}
+          size={"xs"}
+        />
       </Flex>
     </>
   );

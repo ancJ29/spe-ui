@@ -79,7 +79,7 @@ const SignUpSchema: Sample = {
       "ui:placeholder": "Email",
     },
     "password": {
-      "ui:widget": "PasswordWidget",
+      "ui:widget": "CustomPasswordWidget",
       "ui:placeholder": "Password",
     },
     "type": {

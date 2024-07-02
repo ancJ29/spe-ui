@@ -24,6 +24,8 @@ const componentMap: Record<string, LazyExoticComponent> = {
   CopyTrade: lazy(() => import("@/routes/copy-trade")),
   CopyTradeDetail: lazy(() => import("@/routes/copy-trade-detail")),
   Trade: lazy(() => import("@/routes/trade")),
+  SpotTrade: lazy(() => import("@/routes/spot")),
+  FutureTrade: lazy(() => import("@/routes/future")),
 };
 
 const configs: Config[] = [
@@ -50,21 +52,14 @@ const configs: Config[] = [
   },
   {
     path: "/trade/spot/:baseToken/:pairToken",
-    element: "TradeSpot",
-    wrapper: {
-      element: TradeWrapper as Wrapper,
-    },
-  },
-  {
-    path: "/trade/option/:baseToken/:pairToken",
-    element: "TradeOption",
+    element: "SpotTrade",
     wrapper: {
       element: TradeWrapper as Wrapper,
     },
   },
   {
     path: "/trade/futures/:baseToken/:pairToken",
-    element: "TradeFutures",
+    element: "FutureTrade",
     wrapper: {
       element: TradeWrapper as Wrapper,
     },

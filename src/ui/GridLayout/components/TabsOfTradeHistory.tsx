@@ -5,8 +5,8 @@ import { splitAndFormatString } from "@/utils/utility";
 import { Box, Checkbox, Divider, Flex, Table, TableData } from "@mantine/core";
 import { Fragment, useMemo, useState } from "react";
 import { FilterGroupButtons } from "./FilterGroupButtons";
-import { dataHistories } from "../tradeHistory";
 import { IconArrowRight } from "@tabler/icons-react";
+import { dataHistories } from "../trade/tradeHistory";
 
 export function TabsOfTradeHistory() {
   const [activeTab, setActiveTab] = useState<string>("positions");
@@ -137,7 +137,7 @@ export function TabsOfTradeHistory() {
         leftSection={
           <Flex gap={10} align={"center"}>
             <AppText instancetype="withPriceLong" c={"primary"}>
-                            Trade (Demo Trading)
+              Trade (Demo Trading)
             </AppText>
             <Divider
               style={{ alignSelf: "center" }}
@@ -168,13 +168,14 @@ function TablePositions() {
   return (
     <>
       <Flex direction={"column"} h={"100%"}>
-        <Box
-          style={{ overflowY: "auto", overflowX: "auto" }}
-          h={"100%"}
-          className="box-scroll"
-        >
+        <Table.ScrollContainer minWidth={"100%"} h={"100%"}>
           {dataHistories["positions"] && (
             <Table
+              styles={{
+                thead: {
+                  background: "#101014"
+                }
+              }}
               stickyHeader
               highlightOnHover
               withRowBorders={false}
@@ -182,7 +183,7 @@ function TablePositions() {
               verticalSpacing={"xs"}
             />
           )}
-        </Box>
+        </Table.ScrollContainer>
         <Box className="text-border-middle" my={20}>
           <AppText
             instancetype="WithTextTooltip"
@@ -194,8 +195,8 @@ function TablePositions() {
             display={"flex"}
             style={{ alignItems: "center", gap: 0 }}
           >
-                        Only the last 100 transactions are displayed on this page.
-                        To view more, check out &nbsp;
+            Only the last 100 transactions are displayed on this page.
+            To view more, check out &nbsp;
             <AppText
               w={"fit-content"}
               fw={"bold"}
@@ -205,7 +206,7 @@ function TablePositions() {
               display={"flex"}
               style={{ alignItems: "center", gap: 5 }}
             >
-                            All Orders
+              All Orders
               <IconArrowRight size={14} />
             </AppText>
           </AppText>
@@ -218,13 +219,14 @@ function TablePositions() {
 function TablePnL() {
   return (
     <Flex direction={"column"} h={"100%"}>
-      <Box
-        style={{ overflowY: "auto", overflowX: "auto" }}
-        h={"100%"}
-        className="box-scroll"
-      >
+      <Table.ScrollContainer minWidth={"100%"} h={"100%"}>
         {dataHistories["PnL"] && (
           <Table
+            styles={{
+              thead: {
+                background: "#101014"
+              }
+            }}
             stickyHeader
             highlightOnHover
             withRowBorders={false}
@@ -232,7 +234,7 @@ function TablePnL() {
             verticalSpacing={"xs"}
           />
         )}
-      </Box>
+      </Table.ScrollContainer>
       <Box className="text-border-middle" my={20}>
         <AppText
           instancetype="WithTextTooltip"
@@ -244,8 +246,8 @@ function TablePnL() {
           display={"flex"}
           style={{ alignItems: "center", gap: 0 }}
         >
-                    Only the last 100 transactions are displayed on this page.
-                    To view more, check out &nbsp;
+          Only the last 100 transactions are displayed on this page.
+          To view more, check out &nbsp;
           <AppText
             w={"fit-content"}
             fw={"bold"}
@@ -255,7 +257,7 @@ function TablePnL() {
             display={"flex"}
             style={{ alignItems: "center", gap: 5 }}
           >
-                        All Orders
+            All Orders
             <IconArrowRight size={14} />
           </AppText>
         </AppText>
@@ -271,7 +273,9 @@ function TableCurrentOrders() {
       <Flex direction={"column"} h={"100%"}>
         <FilterGroupButtons
           onChange={(values) => {
+            console.log("CHANGE_VALUES", values)
             if (values[0]) {
+              // alert(values[0])
               setType(values[0]);
             }
           }}
@@ -308,14 +312,14 @@ function TableCurrentOrders() {
             },
           ]}
         />
-
-        <Box
-          style={{ overflowY: "auto", overflowX: "auto" }}
-          h={"100%"}
-          className="box-scroll"
-        >
+        <Table.ScrollContainer minWidth={"100%"} h={"100%"}>
           {dataHistories["currentOrders"] && (
             <Table
+              styles={{
+                thead: {
+                  background: "#101014"
+                }
+              }}
               stickyHeader
               highlightOnHover
               withRowBorders={false}
@@ -323,7 +327,7 @@ function TableCurrentOrders() {
               verticalSpacing={"xs"}
             />
           )}
-        </Box>
+        </Table.ScrollContainer>
         <Box className="text-border-middle" my={20}>
           <AppText
             instancetype="WithTextTooltip"
@@ -335,8 +339,8 @@ function TableCurrentOrders() {
             display={"flex"}
             style={{ alignItems: "center", gap: 0 }}
           >
-                        Only the last 100 transactions are displayed on this page.
-                        To view more, check out &nbsp;
+            Only the last 100 transactions are displayed on this page.
+            To view more, check out &nbsp;
             <AppText
               w={"fit-content"}
               fw={"bold"}
@@ -346,7 +350,7 @@ function TableCurrentOrders() {
               display={"flex"}
               style={{ alignItems: "center", gap: 5 }}
             >
-                            All Orders
+              All Orders
               <IconArrowRight size={14} />
             </AppText>
           </AppText>
@@ -418,13 +422,15 @@ function TableOrderHistory() {
             },
           ]}
         />
-        <Box
-          style={{ overflowY: "auto", overflowX: "auto" }}
-          h={"100%"}
-          className="box-scroll"
-        >
+
+        <Table.ScrollContainer minWidth={"100%"} h={"100%"}>
           {dataHistories["orderHistory"] && (
             <Table
+              styles={{
+                thead: {
+                  background: "#101014"
+                }
+              }}
               stickyHeader
               highlightOnHover
               withRowBorders={false}
@@ -432,7 +438,7 @@ function TableOrderHistory() {
               verticalSpacing={"xs"}
             />
           )}
-        </Box>
+        </Table.ScrollContainer>
         <Box w={"100%"} className="text-border-middle" my={20}>
           <AppText
             instancetype="WithTextTooltip"
@@ -444,8 +450,8 @@ function TableOrderHistory() {
             display={"flex"}
             style={{ alignItems: "center", gap: 0 }}
           >
-                        Only the last 100 transactions are displayed on this page.
-                        To view more, check out &nbsp;
+            Only the last 100 transactions are displayed on this page.
+            To view more, check out &nbsp;
             <AppText
               w={"fit-content"}
               fw={"bold"}
@@ -455,7 +461,7 @@ function TableOrderHistory() {
               display={"flex"}
               style={{ alignItems: "center", gap: 5 }}
             >
-                            All Orders
+              All Orders
               <IconArrowRight size={14} />
             </AppText>
           </AppText>
@@ -491,13 +497,15 @@ function TableTradeHistory() {
             },
           ]}
         />
-        <Box
-          style={{ overflowY: "auto", overflowX: "auto" }}
-          h={"100%"}
-          className="box-scroll"
-        >
+        
+          <Table.ScrollContainer minWidth={"100%"} h={"100%"}>
           {dataHistories["tradeHistory"] && (
             <Table
+              styles={{
+                thead: {
+                  background: "#101014"
+                }
+              }}
               stickyHeader
               highlightOnHover
               withRowBorders={false}
@@ -505,7 +513,7 @@ function TableTradeHistory() {
               verticalSpacing={"xs"}
             />
           )}
-        </Box>
+          </Table.ScrollContainer>
         <Box className="text-border-middle" my={20}>
           <AppText
             instancetype="WithTextTooltip"
@@ -517,8 +525,8 @@ function TableTradeHistory() {
             display={"flex"}
             style={{ alignItems: "center", gap: 0 }}
           >
-                        Only the last 100 transactions are displayed on this page.
-                        To view more, check out &nbsp;
+            Only the last 100 transactions are displayed on this page.
+            To view more, check out &nbsp;
             <AppText
               w={"fit-content"}
               fw={"bold"}
@@ -528,7 +536,7 @@ function TableTradeHistory() {
               display={"flex"}
               style={{ alignItems: "center", gap: 5 }}
             >
-                            All Orders
+              All Orders
               <IconArrowRight size={14} />
             </AppText>
           </AppText>

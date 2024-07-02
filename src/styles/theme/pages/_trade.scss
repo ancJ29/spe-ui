@@ -21,20 +21,27 @@
       position: absolute;
       // border: solid 1px red;
       z-index: 3;
-      top: 40px;
+      top: 30px;
       right: 0px;
       // width: 10px;
       height: 10px;
-      opacity: 0;
+      // opacity: 0;
+      top: -15px;
+      right: -15px;
       cursor: move !important;
+      transition: right 0.25s linear;
+      transition: top 0.25s linear;
       * {
         cursor: move !important;
       }
+      
     }
   }
   &:hover {
     .grid-item-drag-handle {
       opacity: 1;
+      top: -3px;
+      right: -2px;
     }
   }
 }

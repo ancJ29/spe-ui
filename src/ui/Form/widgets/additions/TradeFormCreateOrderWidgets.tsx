@@ -2,7 +2,7 @@
 import AppButton from "@/ui/Button/AppButton";
 import { AppPopover } from "@/ui/Popover/AppPopover";
 import AppText from "@/ui/Text/AppText";
-import { ActionIcon, Badge, Box, Checkbox, Chip, Flex, Image, InputLabel, Menu, Modal, NumberInput, SegmentedControl, Select, SimpleGrid, Text, Title } from "@mantine/core";
+import { ActionIcon, Badge, Box, Checkbox, Chip, Flex, Image, InputLabel, Menu, Modal, NumberFormatter, NumberInput, SegmentedControl, Select, SimpleGrid, Text, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { WidgetProps } from "@rjsf/utils";
 import { IconArrowBackUp, IconCaretDownFilled, IconEdit, IconEraser, IconLetterC, IconMinus, IconPlus, IconPlusMinus } from "@tabler/icons-react";
@@ -526,6 +526,7 @@ export function OrderPriceConditionalWidget(props: WidgetProps) {
 }
 
 export function VolumeInputFieldWidget(props: WidgetProps) {
+  // console.log("VolumeInputFieldWidget", )
   return (
     <>
       <Box className="space-y-10">
@@ -535,15 +536,17 @@ export function VolumeInputFieldWidget(props: WidgetProps) {
           classNames={{
             label: "text-label-form"
           }}
-          label="Order by Value"
+          label={props.label ? props.label : "Order by Value"}
           value={props.value}
           onChange={(_value) => {
             props.onChange(_value.toString());
           }}
           rightSectionWidth={60}
+          readOnly={props.readonly}
+          disabled={props.readonly}
           rightSection={
             <AppText fz={12} fw={"bold"}>
-              USDC
+              {props?.options?.props?.suffix ? props?.options?.props?.suffix : "USDC"}
             </AppText>
           }
         ></NumberInput>

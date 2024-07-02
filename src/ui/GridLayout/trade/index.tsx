@@ -6,6 +6,7 @@ import {
   Divider,
   Flex,
   Grid,
+  HoverCard,
   InputLabel,
   Progress,
   SegmentedControl,
@@ -14,12 +15,13 @@ import {
   Spoiler,
 
 } from "@mantine/core";
-import { useDisclosure, useHover } from "@mantine/hooks";
+import { useHover } from "@mantine/hooks";
 import {
   IconChartHistogram,
   IconChevronRight,
   IconChevronsDown,
   IconChevronsUp,
+  IconDots,
   IconEye,
   IconEyeOff,
   IconGripHorizontal,
@@ -31,17 +33,18 @@ import {
 import { Responsive, WidthProvider } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
-import AppButton from "../Button/AppButton";
-import { AppPopover } from "../Popover/AppPopover";
-import AppText from "../Text/AppText";
 import {
-  CreateOrderTradeByLimitForm,
+  CreateOrderTradeByConditionalForm,
+  CreateOrderTradeByLimitForm, CreateOrderTradeByMarketForm,
+  MenuToken,
   OrderBook,
   TabsOfTradeHistory,
-  MenuToken,
-  CreateOrderTradeByMarketForm,
-  CreateOrderTradeByConditionalForm,
-} from "./components";
+  TopBar
+} from "../components";
+import AppText from "@/ui/Text/AppText";
+import { AppPopover } from "@/ui/Popover/AppPopover";
+import AppButton from "@/ui/Button/AppButton";
+
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const initialLayouts =
@@ -68,7 +71,7 @@ export function GridTrade() {
   return (
     <>
       <Grid columns={24} gutter={4} p={4}>
-        <Grid.Col span={18}>
+        <Grid.Col span={19}>
           <Grid gutter={4}>
             <Grid.Col>
               <TopBar />
@@ -113,7 +116,7 @@ export function GridTrade() {
             </Grid.Col>
           </Grid>
         </Grid.Col>
-        <Grid.Col span={6}>
+        <Grid.Col span={5}>
           <Box bg={"#101014"} h={"100%"} p={10}>
             <Forms />
           </Box>
@@ -123,191 +126,7 @@ export function GridTrade() {
   );
 }
 
-function TopBar() {
-  const { hovered, ref } = useHover();
-  return (
-    <>
-      <Flex bg={"#101014"} align={"center"} gap={20} p={10}>
-        <MenuToken />
-        <Divider orientation="vertical" />
-        <div>
-          <AppText instancetype="withPriceLong" c={"green"}>
-            3,541.57
-          </AppText>
-          <AppPopover
-            withArrow={false}
-            position="bottom-start"
-            target={(props) => ({
-              children: (
-                <AppText
-                  onMouseLeave={props.close}
-                  style={{ cursor: "help" }}
-                  onMouseEnter={props.open}
-                  instancetype="WithTextSubtitle"
-                  fw={"bold"}
-                >
-                  3,540.91
-                </AppText>
-              ),
-            })}
-            dropdown={() => ({
-              children: (
-                <div>
-                  <AppText instancetype="WithTextTooltip">
-                    Mark price is derived by index price and funding
-                    rate, and reflects the fair market price.
-                    Liquidation is triggered by mark price.
-                  </AppText>
-                  <AppText
-                    component="a"
-                    href="#"
-                    instancetype="WithTextTooltip"
-                    c={"primary"}
-                  >
-                    Click here for details
-                  </AppText>
-                </div>
-              ),
-            })}
-          ></AppPopover>
-        </div>
-        <div>
-          <AppText instancetype="withPriceTextStatus">
-            Index Price
-          </AppText>
-          <AppText instancetype="WithTextSubtitle" fw={"bold"}>
-            66,232.09
-          </AppText>
-        </div>
-        <div>
-          <AppText instancetype="withPriceTextStatus">
-            24H Change %
-          </AppText>
-          <AppText instancetype="WithTextSubtitle" fw={"bold"}>
-            +124.08 <span>(+3.61%)</span>
-          </AppText>
-        </div>
-        <div>
-          <AppText instancetype="withPriceTextStatus">
-            24H High
-          </AppText>
-          <AppText instancetype="WithTextSubtitle" fw={"bold"}>
-            3,655.35
-          </AppText>
-        </div>
-        <div>
-          <AppText instancetype="withPriceTextStatus">
-            24H Low
-          </AppText>
-          <AppText instancetype="WithTextSubtitle" fw={"bold"}>
-            3,428.56
-          </AppText>
-        </div>
-        <div ref={ref}>
-          {!hovered ? (
-            <div>
-              <AppText instancetype="withPriceTextStatus">
-                24H Turnover(USDT)
-              </AppText>
-              <AppText instancetype="WithTextSubtitle" fw={"bold"}>
-                1,455,440,962.99
-              </AppText>
-            </div>
-          ) : (
-            <div>
-              <AppText instancetype="withPriceTextStatus">
-                24H Volume
-              </AppText>
-              <AppText instancetype="WithTextSubtitle" fw={"bold"}>
-                1,455,440,962.99
-              </AppText>
-            </div>
-          )}
-        </div>
-        <div>
-          <AppText instancetype="withPriceTextStatus">
-            Open Interest(BTC)
-          </AppText>
-          <AppText instancetype="WithTextSubtitle" fw={"bold"}>
-            1,455,440,962.99
-          </AppText>
-        </div>
-        <div>
-          <AppPopover
-            withArrow={false}
-            position="bottom-start"
-            target={(props) => ({
-              children: (
-                <div
-                  onMouseLeave={props.close}
-                  style={{ cursor: "help" }}
-                  onMouseEnter={props.open}
-                >
-                  <AppText instancetype="withPriceTextStatus">
-                    <span>Funding Rate</span>/ Countdown
-                  </AppText>
-                  <Flex gap={5}>
-                    <AppText
-                      instancetype="WithTextSubtitle"
-                      fw={"bold"}
-                      c={"primary"}
-                    >
-                      -0.006%
-                    </AppText>
-                    <AppText
-                      instancetype="WithTextSubtitle"
-                      fw={"bold"}
-                    >
-                      /
-                    </AppText>
-                    <AppText
-                      instancetype="WithTextSubtitle"
-                      fw={"bold"}
-                    >
-                      02:10:11
-                    </AppText>
-                  </Flex>
-                </div>
-              ),
-            })}
-            dropdown={() => ({
-              children: (
-                <div>
-                  <AppText instancetype="WithTextTooltip">
-                    <p>
-                      Funding fees will be exchanged between long and
-                      short position holders every 8 hours. Please
-                      note that the funding rate will fluctuate in
-                      real time every 8 hours. If the funding rate is
-                      positive upon settlement, long position holders
-                      will pay short position holders. If the funding
-                      rate is negative, short position holders will
-                      pay long position holders.
-                    </p>
 
-                    <p>
-                      Your position value at the timestamp when
-                      funding is settled will be used to derive your
-                      funding fees.
-                    </p>
-
-                    <p>
-                      Funding Fees = Position Value * Funding Rate
-                    </p>
-                  </AppText>
-                </div>
-              ),
-            })}
-          ></AppPopover>
-        </div>
-
-        {/* <Button p={0} variant="transparent" c={"white"}>
-                    <IconBook />
-                </Button> */}
-      </Flex>
-    </>
-  );
-}
 
 type TradeType = "Limit" | "Market" | "Conditional";
 function Forms() {

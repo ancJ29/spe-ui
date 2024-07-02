@@ -95,5 +95,14 @@
       // border: solid 1px blue;
       overflow: hidden;
     }
+    &.noBg {
+      .mantine-Tabs-root {
+        background: none;
+      }
+      .tabs-header  {
+        background: none;
+        // padding: 0;
+      }
+    }
   }
 }
