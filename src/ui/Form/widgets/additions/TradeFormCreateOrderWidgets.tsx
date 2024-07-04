@@ -24,7 +24,7 @@ export function TriggerPriceWidget(props: WidgetProps) {
     } else {
       const num = new Decimal(parseFloat(v));
       console.log("NUM", num);
-      const n = props.value ?? 0
+      const n = props.value ?? 0;
       const val = num.plus(n);
       const _v = parseFloat(val.toString());
       if (_v < 0) {
@@ -156,7 +156,7 @@ export function TriggerPriceNoLastWidget(props: WidgetProps) {
     } else {
       const num = new Decimal(parseFloat(v));
       console.log("NUM", num);
-      const n = props.value ?? 0
+      const n = props.value ?? 0;
       const val = num.plus(n);
       const _v = parseFloat(val.toString());
       if (_v < 0) {
@@ -396,7 +396,7 @@ export function OrderPriceConditionalWidget(props: WidgetProps) {
     } else {
       const num = new Decimal(parseFloat(v));
       console.log("NUM", num);
-      const n = props.value ?? 0
+      const n = props.value ?? 0;
       const val = num.plus(n);
       const _v = parseFloat(val.toString());
       if (_v < 0) {

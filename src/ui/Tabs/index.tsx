@@ -52,10 +52,14 @@ export default function AppTabs({
 }: Partial<InstanceProps>) {
   return (
     <>
-      <Tabs {..._props[props.instancetype ?? "Default"]} {...props} className={cx(
-            _props[props.instancetype ?? "Default"]?.className,
-            props.className,
-          )}>
+      <Tabs
+        {..._props[props.instancetype ?? "Default"]}
+        {...props}
+        className={cx(
+          _props[props.instancetype ?? "Default"]?.className,
+          props.className,
+        )}
+      >
         <Flex align={"center"} gap={10} className="tabs-header">
           {leftSection}
           <Tabs.List {...props.tablist} flex={1}>

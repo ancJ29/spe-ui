@@ -171,6 +171,9 @@ function TablePositions() {
         <Table.ScrollContainer minWidth={"100%"} h={"100%"}>
           {dataHistories["positions"] && (
             <Table
+              classNames={{
+                table: "table-fixed"
+              }}
               styles={{
                 thead: {
                   background: "#101014"
@@ -273,7 +276,7 @@ function TableCurrentOrders() {
       <Flex direction={"column"} h={"100%"}>
         <FilterGroupButtons
           onChange={(values) => {
-            console.log("CHANGE_VALUES", values)
+            console.log("CHANGE_VALUES", values);
             if (values[0]) {
               // alert(values[0])
               setType(values[0]);
@@ -498,7 +501,7 @@ function TableTradeHistory() {
           ]}
         />
         
-          <Table.ScrollContainer minWidth={"100%"} h={"100%"}>
+        <Table.ScrollContainer minWidth={"100%"} h={"100%"}>
           {dataHistories["tradeHistory"] && (
             <Table
               styles={{
@@ -513,7 +516,7 @@ function TableTradeHistory() {
               verticalSpacing={"xs"}
             />
           )}
-          </Table.ScrollContainer>
+        </Table.ScrollContainer>
         <Box className="text-border-middle" my={20}>
           <AppText
             instancetype="WithTextTooltip"

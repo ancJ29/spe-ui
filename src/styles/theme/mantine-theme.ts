@@ -1,9 +1,12 @@
 import {
   CSSVariablesResolver,
+  Combobox,
   Container,
   Modal,
   NumberInput,
+  PasswordInput,
   Select,
+  TextInput,
   createTheme,
 } from "@mantine/core";
 
@@ -30,8 +33,41 @@ export const theme = createTheme({
         size: "lg",
       },
     }),
+    Combobox: Combobox.extend({
+      defaultProps: {
+        styles: {
+          search: {
+          }
+        }
+      }
+    }),
+    PasswordInput: PasswordInput.extend({
+      defaultProps: {
+        size: "lg",
+        styles: {
+          input: {
+            background: "#26282c",
+            fontSize: "14px",
+            // border: "none"
+          }
+        }
+      }
+    }),
+    TextInput: TextInput.extend({
+      defaultProps: {
+        size: "lg",
+        styles: {
+          input: {
+            background: "#26282c",
+            fontSize: "14px",
+            // border: "none",
+          }
+        }
+      }
+    }),
     NumberInput: NumberInput.extend({
       defaultProps: {
+        size: "lg",
         styles: {
           root: {
             // border: "solid 1px red"
@@ -39,6 +75,7 @@ export const theme = createTheme({
           input: {
             background: "#26282c",
             fontSize: "14px",
+            // border: "none"
           },
         },
       },
@@ -51,7 +88,6 @@ export const theme = createTheme({
             fontSize: "14px",
           },
           section: {
-            background: "red",
           },
         },
       },

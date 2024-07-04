@@ -69,7 +69,7 @@ export function GridTradeFuture() {
   return (
     <>
       <Grid columns={24} gutter={4} p={4}>
-        <Grid.Col span={18}>
+        <Grid.Col span={19}>
           <Grid gutter={4}>
             <Grid.Col>
               <TopBar />
@@ -114,7 +114,7 @@ export function GridTradeFuture() {
             </Grid.Col>
           </Grid>
         </Grid.Col>
-        <Grid.Col span={6}>
+        <Grid.Col span={5}>
           <Box bg={"#101014"} h={"100%"} p={10}>
             <Forms />
           </Box>

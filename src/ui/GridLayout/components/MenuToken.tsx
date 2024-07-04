@@ -362,34 +362,34 @@ export function TableTokens() {
         { baseToken, dayChange, icon, pairToken, price, volume },
         idx,
       ) => [
-          <Flex key={`${idx}.1`} align={"center"} gap={10}>
-            <IconStar size={15} />
-            <Group gap={7} align="center">
-              <Avatar src={icon} size={20} />
-              <AppText instancetype="WithCellTokenInMenu">
-                {`${baseToken}${pairToken}`}
-              </AppText>
-            </Group>
-          </Flex>,
-          <AppText key={1} fz={12} instancetype="withPriceCardTrade">
-            {price}
-          </AppText>,
-          <AppText
-            key={`${idx}.2`}
-            fz={12}
-            instancetype="withPriceCardTrade"
-            c={dayChange > 0 ? "green" : dayChange < 0 ? "red" : ""}
-          >
-            {dayChange > 0 ? "+" : ""} {dayChange}%
-          </AppText>,
-          <AppText
-            key={`${idx}.3`}
-            fz={12}
-            instancetype="withPriceCardTrade"
-          >
-            {volume}
-          </AppText>,
-        ],
+        <Flex key={`${idx}.1`} align={"center"} gap={10}>
+          <IconStar size={15} />
+          <Group gap={7} align="center">
+            <Avatar src={icon} size={20} />
+            <AppText instancetype="WithCellTokenInMenu">
+              {`${baseToken}${pairToken}`}
+            </AppText>
+          </Group>
+        </Flex>,
+        <AppText key={1} fz={12} instancetype="withPriceCardTrade">
+          {price}
+        </AppText>,
+        <AppText
+          key={`${idx}.2`}
+          fz={12}
+          instancetype="withPriceCardTrade"
+          c={dayChange > 0 ? "green" : dayChange < 0 ? "red" : ""}
+        >
+          {dayChange > 0 ? "+" : ""} {dayChange}%
+        </AppText>,
+        <AppText
+          key={`${idx}.3`}
+          fz={12}
+          instancetype="withPriceCardTrade"
+        >
+          {volume}
+        </AppText>,
+      ],
     );
     return {
       head: _items.map(([text], i) => {
@@ -410,19 +410,19 @@ export function TableTokens() {
     };
   };
   return (
-      <Table.ScrollContainer minWidth={"100%"} h={400}>
-        <Table
-          styles={{
-            thead: {
-              background: "var(--mantine-color-dark-9)"
-            }
-          }}
-          stickyHeader
-          highlightOnHover
-          withRowBorders={false}
-          data={tableData()}
-          verticalSpacing={"xs"}
-        />
-      </Table.ScrollContainer>
+    <Table.ScrollContainer minWidth={"100%"} h={400}>
+      <Table
+        styles={{
+          thead: {
+            background: "var(--mantine-color-dark-9)"
+          }
+        }}
+        stickyHeader
+        highlightOnHover
+        withRowBorders={false}
+        data={tableData()}
+        verticalSpacing={"xs"}
+      />
+    </Table.ScrollContainer>
   );
 }

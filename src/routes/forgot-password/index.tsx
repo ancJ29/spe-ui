@@ -13,9 +13,12 @@ import {
 } from "@mantine/core";
 import { Header } from "../top-page";
 import classes from "./index.module.scss";
+import { useAuthenticate } from "@/hooks/useAuthenticate";
 
 const Page = () => {
   const t = useTranslation();
+  const {  formRef, forgotPassword } = useAuthenticate();
+
   return (
     <>
       <Header />
@@ -29,12 +32,14 @@ const Page = () => {
                 </Title>
                 <Space h={30} />
                 <AppForm
+                  ref={formRef}
+                  showJsonOutput={false}
                   schema={samples.ForgotPassword.schema}
                   uiSchema={samples.ForgotPassword.uiSchema}
                   formData={samples.ForgotPassword.formData}
                   w={"100%"}
-                  api="/api/password/forgot"
                   msgSuccess="You have successfully submitted a password change request."
+                  onSubmit={forgotPassword}
                 />
               </Card>
               <Group justify="center" my={"lg"}>

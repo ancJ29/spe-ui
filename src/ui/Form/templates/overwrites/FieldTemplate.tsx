@@ -2,7 +2,7 @@ import { Text } from "@mantine/core";
 import { FieldTemplateProps } from "@rjsf/utils";
 import clsx from "clsx";
 
-export function CustomFieldTemplate(props: FieldTemplateProps) {
+export function FieldTemplate(props: FieldTemplateProps) {
   const {
     id,
     classNames,
@@ -13,6 +13,8 @@ export function CustomFieldTemplate(props: FieldTemplateProps) {
     description,
     errors,
     children,
+    uiSchema,
+    rawErrors
   } = props;
   return (
     <div className={clsx(classNames, "rowItem")} style={style}>

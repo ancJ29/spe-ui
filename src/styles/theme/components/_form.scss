@@ -23,8 +23,11 @@
     display: grid;
     grid-template-columns: repeat(24, 1fr);
     gap: 10px;
+    position: relative;
+    
     .form-group.field {
       grid-column: span 24;
+      margin-bottom: 0;
       @include generate-grid-classes(24);
     }
   }

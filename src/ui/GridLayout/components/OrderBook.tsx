@@ -47,23 +47,28 @@ export function OrderBook() {
   );
 }
 
-type GridTypes = "orderAll" | "orderHorizontal" | "orderBuy" | "orderSell"
+type GridTypes = "orderAll" | "orderHorizontal" | "orderBuy" | "orderSell";
 function GridOrderBook() {
-  const [gridType, setGridType] = useState<GridTypes>("orderAll")
-  const w = 14
+  const [gridType, setGridType] = useState<GridTypes>("orderAll");
+  const w = 14;
   return (
     <>
       <>
         <Flex align={"center"} justify={"space-between"} px={10} py={5}>
           <Box>
-            <SegmentedControl withItemsBorders={false} size="sm" onChange={(v) => setGridType(v as GridTypes)} value={gridType} styles={{
-              root: {
-                background: "none"
-              },
-            }}
+            <SegmentedControl
+              withItemsBorders={false}
+              size="sm"
+              onChange={(v) => setGridType(v as GridTypes)}
+              value={gridType}
+              styles={{
+                root: {
+                  background: "none"
+                },
+              }}
               data={[
                 {
-                  value: 'orderAll',
+                  value: "orderAll",
                   label: (
                     <Box w={w}>
                       <Image src={orderAll} />
@@ -71,7 +76,7 @@ function GridOrderBook() {
                   ),
                 },
                 {
-                  value: 'orderHorizontal',
+                  value: "orderHorizontal",
                   label: (
                     <Box w={w}>
                       <Image src={orderHorizontal} />
@@ -79,7 +84,7 @@ function GridOrderBook() {
                   ),
                 },
                 {
-                  value: 'orderBuy',
+                  value: "orderBuy",
                   label: (
                     <Box w={w}>
                       <Image src={orderBuy} />
@@ -87,7 +92,7 @@ function GridOrderBook() {
                   ),
                 },
                 {
-                  value: 'orderSell',
+                  value: "orderSell",
                   label: (
                     <Box w={w}>
                       <Image src={orderSell} />
@@ -99,7 +104,8 @@ function GridOrderBook() {
             />
           </Box>
           <Box>
-            <Select w={80}
+            <Select
+              w={80}
               data={["0.1", "0.2", "0.4", "1", "2", "5", "10"]}
               defaultValue="0.1"
               withCheckIcon={false}
@@ -146,7 +152,7 @@ function GridOrderBook() {
         {gridType === "orderSell" && <AskOrderBookTrade/>}
       </>
     </>
-  )
+  );
 }
 
 

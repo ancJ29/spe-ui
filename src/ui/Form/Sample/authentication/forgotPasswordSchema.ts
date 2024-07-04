@@ -1,3 +1,4 @@
+import { REGEX } from "@/utils/regex";
 import { Sample } from "../Sample";
 
 const ForgotPasswordSchema: Sample = {
@@ -6,81 +7,245 @@ const ForgotPasswordSchema: Sample = {
       PhoneNumber: {
         type: "string",
         minLength: 1,
-        title: "Phone",
-      },
-      Logo: {
-        type: "string",
-        title: "Sign In",
+        title: "Phone Number",
       },
       Email: {
         type: "string",
         minLength: 1,
         title: "Email",
-      },
-      Password: {
-        type: "string",
-        title: "Password",
-        minLength: 3,
+        pattern: REGEX.EMAIL
       },
       SignUpType: {
-        type: "number",
-        enum: [1, 2],
+        type: "string",
+        enum: ["1", "2"],
+        default: "1",
+      },
+      PhoneLocal: {
+        type: "string",
+        default: "+81 Japan",
+        title: "Region"
+      }
+    },
+    properties: {
+      type: {
+        $ref: "#/definitions/SignUpType",
       },
     },
-    oneOf: [
-      {
-        properties: {
-          // "logo": {
-          //   "$ref": "#/definitions/Logo",
-          // },
-          type: {
-            $ref: "#/definitions/SignUpType",
-            default: 1,
-          },
-          email: {
-            $ref: "#/definitions/Email",
-          },
+    if: {
+      properties: {
+        type: {
+          const: "1"
+        }
+      }
+    },
+    then: {
+      properties: {
+        email: {
+          $ref: "#/definitions/Email",
         },
-        required: ["type", "email"],
       },
-      {
-        properties: {
-          // "logo": {
-          //   "$ref": "#/definitions/Logo",
-          // },
-          type: {
-            $ref: "#/definitions/SignUpType",
-            default: 2,
-          },
-          mobile: {
-            $ref: "#/definitions/PhoneNumber",
-          },
+      required: ["email"]
+    },
+    else: {
+      properties: {
+        phoneLocale: {
+          $ref: "#/definitions/PhoneLocal"
         },
-        required: ["type", "mobile"],
+        mobile: {
+          $ref: "#/definitions/PhoneNumber",
+        },
       },
-    ],
+      required: ["phoneLocale", "mobile"]
+    },
   },
   uiSchema: {
-    "ui:widget": "TabWidget",
-    "ui:submitButtonOptions": {
-      submitText: "Submit",
-      props: {
-        fullWidth: true,
-        size: "lg",
+    "ui:options": {
+      submitButtonOptions: {
+        props: {
+          fullWidth: true,
+          size: "lg",
+        },
+        submitText: "Submit",
       },
+      // label: false,
+      classNames: "grid-form-root gap-15",
     },
     "type": {
-      "ui:widget": "hidden",
       "ui:options": {
-        label: false,
+        "widget": "TabWidget",
+        "label": false
+      }
+    },
+    "phoneLocale": {
+      "ui:options": {
+        "widget": "PhoneLocalWidget",
+        "classNames": "span-9",
+        "label": false,
+        "props": {
+          withAsterisk: true,
+        }
+      }
+    },
+    "mobile": {
+      "ui:options": {
+        "widget": "PhoneNumberWidget",
+        "placeholder": "Mobile",
+        "classNames": "span-15",
+        "label": false,
+        "props": {
+          withAsterisk: true
+        }
+      }
+    },
+    "email": {
+      "ui:options": {
+        "placeholder": "Email",
+        "label": false,
+        "props": {
+          withAsterisk: true
+        }
+      }
+    },
+
+    "mfaCode": {
+      "ui:options": {
+        "placeholder": "Email",
+        "label": false,
+        "props": {
+          withAsterisk: true
+        }
+      }
+    }
+  },
+  formData: {},
+};
+
+export const ForgotPassword2FASchema: Sample = {
+  schema: {
+    definitions: {
+      PhoneNumber: {
+        type: "string",
+        minLength: 1,
+        title: "Phone Number",
+      },
+      Email: {
+        type: "string",
+        minLength: 1,
+        title: "Email",
+        pattern: REGEX.EMAIL
+      },
+      SignUpType: {
+        type: "string",
+        enum: ["1", "2"],
+        default: "1",
+      },
+      PhoneLocal: {
+        type: "string",
+        default: "+81 Japan",
+        title: "Region"
+      },
+      mfaCode: {
+        type: "string",
+        title: "2FA Code"
+      }
+    },
+    properties: {
+      type: {
+        $ref: "#/definitions/SignUpType",
       },
     },
-    "logo": {
-      "ui:widget": "LogoWidget",
-      "ui:options": {
-        label: false,
-      },
+    if: {
+      properties: {
+        type: {
+          const: "1"
+        }
+      }
     },
+    then: {
+      properties: {
+        email: {
+          $ref: "#/definitions/Email",
+        },
+        mfaCode: {
+          $ref: "#/definitions/mfaCode",
+        },
+        
+      },
+      required: ["email", "mfaCode"]
+    },
+    else: {
+      properties: {
+        phoneLocale: {
+          $ref: "#/definitions/PhoneLocal"
+        },
+        mobile: {
+          $ref: "#/definitions/PhoneNumber",
+        },
+        mfaCode: {
+          $ref: "#/definitions/mfaCode",
+        }
+      },
+      required: ["phoneLocale", "mobile", "mfaCode"]
+    },
+  },
+  uiSchema: {
+    "ui:options": {
+      submitButtonOptions: {
+        props: {
+          fullWidth: true,
+          size: "lg",
+        },
+        submitText: "Submit",
+      },
+      // label: false,
+      classNames: "grid-form-root gap-15",
+    },
+    "type": {
+      "ui:options": {
+        "widget": "TabWidget",
+        "label": false
+      }
+    },
+    "phoneLocale": {
+      "ui:options": {
+        "widget": "PhoneLocalWidget",
+        "classNames": "span-9",
+        "label": false,
+        "props": {
+          withAsterisk: true,
+        }
+      }
+    },
+    "mobile": {
+      "ui:options": {
+        "widget": "PhoneNumberWidget",
+        "placeholder": "Mobile",
+        "classNames": "span-15",
+        "label": false,
+        "props": {
+          withAsterisk: true
+        }
+      }
+    },
+    "email": {
+      "ui:options": {
+        "placeholder": "Email",
+        "label": false,
+        "props": {
+          withAsterisk: true
+        }
+      }
+    },
+
+    "mfaCode": {
+      "ui:options": {
+        "placeholder": "Email",
+        "label": false,
+        "props": {
+          withAsterisk: true
+        }
+      }
+    }
   },
   formData: {},
 };

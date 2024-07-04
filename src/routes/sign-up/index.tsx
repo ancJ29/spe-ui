@@ -30,9 +30,11 @@ import {
 } from "@tabler/icons-react";
 import { useEffect } from "react";
 import classes from "./index.module.scss";
+import { useAuthenticate } from "@/hooks/useAuthenticate";
 
 const SignUp = () => {
   const t = useTranslation();
+  const { formRef, signUp } = useAuthenticate();
   const checkIcon = (
     <IconInfoCircleFilled
       style={{ width: rem(20), height: rem(20) }}
@@ -161,15 +163,12 @@ const SignUp = () => {
                   </Title>
                   <Space h={30} />
                   <AppForm
-                    api="/api/register"
+                    ref={formRef}
                     schema={samples.SignUp.schema}
                     uiSchema={samples.SignUp.uiSchema}
                     formData={samples.SignUp.formData}
                     w={"100%"}
-                    _onSubmit={() => {
-                      localStorage.setItem("__USER__", "true");
-                      window.open("/", "_self");
-                    }}
+                    onSubmit={signUp}
                   />
                 </Card>
                 <Group justify="center" my={"lg"}>

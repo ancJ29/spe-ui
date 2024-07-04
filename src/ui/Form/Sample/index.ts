@@ -1,10 +1,10 @@
 import deepFreeze from "deep-freeze-es6";
 import { Sample } from "./Sample";
-import ResetPassword from "./authentication/ResetPasswordSchema";
-import SignUp from "./authentication/SignUpSchema";
-import ForgotPassword from "./authentication/forgotPasswordSchema";
+import ResetPassword, { ResetPassword2FASchema } from "./authentication/ResetPasswordSchema";
+import SignUp, { SignUp2FASchema } from "./authentication/SignUpSchema";
+import ForgotPassword, { ForgotPassword2FASchema } from "./authentication/forgotPasswordSchema";
 import simple from "./authentication/simpleSchema";
-import SignInForm from "./authentication/SignInFormSchema";
+import SignInForm, { SignIn2FAFormSchema } from "./authentication/SignInFormSchema";
 import NewOrderOfLimitTradeSchema from "./trades/NewOrderOfLimitTradeSchema";
 import AddTPandSLOfTrade from "./trades/AddTPandSLOfTradeSchema";
 import NewOrderOfMarketTradeSchema from "./trades/NewOrderOfMarketTradeSchema";
@@ -16,9 +16,13 @@ const _samples: Record<string, Sample> = {
   Blank: { schema: {}, uiSchema: {}, formData: {} },
   Simple: simple,
   SignUp: SignUp,
+  SignUp2FASchema,
   ForgotPassword: ForgotPassword,
+  ForgotPassword2FASchema,
   ResetPassword: ResetPassword,
+  ResetPassword2FASchema,
   SignIn: SignInForm,
+  SignIn2FAFormSchema,
   NewOrderOfMarketTradeSchema,
   NewOrderOfLimitTradeSchema,
   NewOrderOfConditionalTradeSchema,

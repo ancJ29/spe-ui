@@ -1,16 +1,12 @@
 import { Center, SegmentedControl, rem } from "@mantine/core";
 import { WidgetProps } from "@rjsf/utils";
 import { IconMailHeart, IconPhone } from "@tabler/icons-react";
-import { useState } from "react";
-
-type Mode = "0" | "1";
 
 export function TabWidget(props: WidgetProps) {
-  const [value, setValue] = useState<Mode>("0");
-
   return (
     <>
       <SegmentedControl
+
         size="sm"
         color="primary"
         transitionDuration={200}
@@ -18,7 +14,7 @@ export function TabWidget(props: WidgetProps) {
         transitionTimingFunction="linear"
         data={[
           {
-            value: "0",
+            value: "1",
             label: (
               <Center style={{ gap: 10 }}>
                 <IconMailHeart
@@ -29,7 +25,7 @@ export function TabWidget(props: WidgetProps) {
             ),
           },
           {
-            value: "1",
+            value: "2",
             label: (
               <Center style={{ gap: 10 }}>
                 <IconPhone
@@ -40,10 +36,9 @@ export function TabWidget(props: WidgetProps) {
             ),
           },
         ]}
-        value={value}
+        value={props.value.toString()}
         onChange={(v) => {
-          setValue(v as Mode);
-          props.onChange(v);
+          props.onChange(v.toString());
         }}
       />
     </>

@@ -44,10 +44,10 @@ type AppFormProps = Sample & Partial<Custom>;
 
 // eslint-disable-next-line react/display-name
 const AppForm = forwardRef(
-  ({ showJsonOutput = false, ...props }: AppFormProps, ref) => {
-    const [schema] = useState<RJSFSchema>(props.schema as RJSFSchema);
+  ({ showJsonOutput = true, ...props }: AppFormProps, ref) => {
+    const [schema, setSchema] = useState<RJSFSchema>(props.schema as RJSFSchema);
     const [visible, { toggle, close }] = useDisclosure(false);
-    const [uiSchema] = useState<UiSchema | undefined>(props.uiSchema);
+    const [uiSchema, setUiSchema] = useState<UiSchema | undefined>(props.uiSchema);
     const [formData, setFormData] = useState(
       props.formData,
     ); /*samples.SignUp.formData*/
@@ -56,6 +56,7 @@ const AppForm = forwardRef(
       (evt: IChangeEvent, event: FormEvent<unknown>) => {
         window.console.log("submitted formData", evt.formData);
         window.console.log("submit event", event);
+        
         if (props.api) {
           const formData = { ...evt.formData };
           const ks = Object.keys(formData);
@@ -136,6 +137,10 @@ const AppForm = forwardRef(
             formRef.current?.submit();
           },
           formRef,
+          setSchema,
+          setUiSchema,
+          setFormData,
+          toggle, close
         };
       },
       [],

@@ -66,14 +66,14 @@ export function FilterGroupButtons({ ...props }: FilterGroupButtonsType) {
     if (props.onChange) {
       props.onChange([v], filterValuesRight);
     }
-    setValue(v)
-  }
+    setValue(v);
+  };
   const setValueRight = (v: string) => {
     if (props.onChange) {
       props.onChange(filterValues, [v]);
     }
-    setValueR(v)
-  }
+    setValueR(v);
+  };
   const [value, setValue] = useState(props.value);
   const [valueR, setValueR] = useState(props.value);
 

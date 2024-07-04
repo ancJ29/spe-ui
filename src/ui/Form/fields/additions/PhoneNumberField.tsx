@@ -20,7 +20,7 @@ export const PhoneNumberField: FC<FieldProps<string>> = ({
         value={text}
         onChange={({ target: { value } }) => {
           onChange(value);
-          setText(value);
+          // setText(value);
         }}
         error={rawErrors?.toLocaleString()}
       />

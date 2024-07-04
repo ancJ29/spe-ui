@@ -405,19 +405,19 @@ const NewOrderOfSpotTradeSchema: Sample = {
         "label": false,
       }
     },
-    spotBy: {
+    "spotBy": {
       "ui:options": {
         "widget": "TradeSpotByModeWidget",
         "label": false,
       }
     },
-    uiBalance: {
+    "uiBalance": {
       "ui:options": {
         "widget": "UiBalanceWidget",
         "label": false,
       }
     },
-    uiBalanceBtc: {
+    "uiBalanceBtc": {
       "ui:options": {
         "widget": "UiBalanceWidget",
         "label": false,
@@ -437,57 +437,57 @@ const NewOrderOfSpotTradeSchema: Sample = {
         "classNames": "span-9",
       }
     },
-    orderPrice: {
+    "orderPrice": {
       "ui:options": {
         "widget": "VolumeInputFieldWidget",
         "label": false,
         // "classNames": "span-9",
-        props: {
+        "props": {
           suffix: "USDT"
         }
       }
     },
-    orderPriceConditional: {
+    "orderPriceConditional": {
       "ui:options": {
         "widget": "VolumeInputFieldWidget",
         "label": false,
         "classNames": "span-15",
       }
     },
-    qty: {
+    "qty": {
       "ui:options": {
         "widget": "QtyPercentWidget",
         "label": false,
-        props: {
+        "props": {
           suffix: "BTC"
         }
       }
     },
-    orderValue: {
+    "orderValue": {
       "ui:options": {
         "widget": "VolumeInputHintFieldWidget",
         "label": false,
-        props: {
+        "props": {
           suffix: "USDT"
         }
       }
     },
-    orderValueMarket: {
+    "orderValueMarket": {
       "ui:options": {
         "widget": "VolumeInputPercentFieldWidget",
         "label": false,
-        props: {
+        "props": {
           suffix: "USDT"
         }
       }
     },
-    uiSubmitBuy: {
+    "uiSubmitBuy": {
       "ui:options": {
         "widget": "QtyBuyButtonWidget",
         "label": false,
       }
     },
-    uiSubmitSell: {
+    "uiSubmitSell": {
       "ui:options": {
         "widget": "QtySellButtonWidget",
         "label": false,

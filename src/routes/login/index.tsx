@@ -13,10 +13,11 @@ import {
 } from "@mantine/core";
 import { Header } from "../top-page";
 import classes from "./login.module.scss";
+import { useAuthenticate } from "@/hooks/useAuthenticate";
 
 const Login = () => {
   const t = useTranslation();
-
+  const {  formRef, login } = useAuthenticate();
   return (
     <>
       <Header />
@@ -30,15 +31,15 @@ const Login = () => {
                 </Title>
                 <Space h={30} />
                 <AppForm
+                  ref={formRef}
+                  showJsonOutput={false}
                   schema={samples.SignIn.schema}
                   uiSchema={samples.SignIn.uiSchema}
                   formData={samples.SignIn.formData}
                   w={"100%"}
-                  _onSubmit={() => {
-                    localStorage.setItem("__USER__", "true");
-                    window.open("/", "_self");
+                  onSubmit={(_props) => {
+                    login(_props);
                   }}
-                  api="/api/login"
                 />
               </Card>
               <Group justify="center" my={"lg"}>
