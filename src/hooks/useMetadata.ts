@@ -1,6 +1,6 @@
 import { Metadata } from "@/domain/MetaData";
 import { fetcher } from "@/services/apis/api";
-import useSWR, { preload } from "swr";
+import useSWR from "swr";
 
 export default function useMetadata() {
   const { data, error, isLoading } = useSWR<Metadata>(
@@ -8,7 +8,7 @@ export default function useMetadata() {
     fetcher,
   );
   return {
-    data,
+    data: data?.result,
     error,
     isLoading,
   };

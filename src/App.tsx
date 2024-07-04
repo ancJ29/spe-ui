@@ -16,7 +16,7 @@ const App = () => {
     if (loaded) {
       return;
     }
-    delay(500).then(() => {
+    delay(1000).then(() => {
       setLoaded(true);
     });
   }, [loaded]);

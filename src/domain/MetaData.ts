@@ -1,8 +1,10 @@
 import { get } from "lodash";
 
 export type Metadata = {
-  version: string;
-  application: Record<string, unknown>;
+  result: {
+    version: string;
+    application: Record<string, unknown>;
+  };
 };
 
 export type MenuType = "link" | "group" | "panel";
