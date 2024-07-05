@@ -14,10 +14,11 @@ import {
 import { Header } from "../top-page";
 import classes from "./login.module.scss";
 import { useAuthenticate } from "@/hooks/useAuthenticate";
+import { convertToLoginFormData } from "./config";
 
 const Login = () => {
   const t = useTranslation();
-  const {  formRef, login } = useAuthenticate();
+  const { formRef } = useAuthenticate();
   return (
     <>
       <Header />
@@ -32,13 +33,24 @@ const Login = () => {
                 <Space h={30} />
                 <AppForm
                   ref={formRef}
-                  showJsonOutput={false}
+                  showJsonOutput={true}
                   schema={samples.SignIn.schema}
                   uiSchema={samples.SignIn.uiSchema}
                   formData={samples.SignIn.formData}
                   w={"100%"}
-                  onSubmit={(_props) => {
-                    login(_props);
+                  api="/api/login"
+                  converterFormData={(formData) => {
+                    return convertToLoginFormData(formData)
+                  }}
+                  messages={{
+                    titleError: "Login Failed",
+                    msgSuccess: "Welcome back! You have successfully logged in to your account.",
+                    titleSuccess: "Login Successful"
+                  }}
+                  _onSubmit={(res: any) => {
+                    localStorage.setItem("__USER__", "true");
+                    localStorage.setItem("token", res?.data?.result?.token);
+                    window.open("/", "_self");
                   }}
                 />
               </Card>

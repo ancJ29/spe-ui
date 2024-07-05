@@ -6,7 +6,7 @@ export function convertToCheckFormData(formData: any) {
       "type": parseInt(formData.type)
     };
   } else {
-    const region = `+${parseInt(formData["phoneLocale"])}`;
+    const region = `+${parseInt(formData?.mobile?.phoneLocale)}`;
     const mobile = `${region}${formData["mobile"]}`;
     return {
       "mobile": mobile,
@@ -15,88 +15,104 @@ export function convertToCheckFormData(formData: any) {
   }
 }
 
-export function convertToLoginFormData(formData: any, mfaCode: boolean) {
-  const data  = {
-    "email": formData.email,
-    "type": parseInt(formData.type),
-    "password": formData.password,
-    "mobile": formData.mobile,
-    "mfaCode": formData.mfaCode,
-  };
+export function convertToLoginFormData(formData: any) {
   if (formData.type === "1") {
-    delete data["mobile"];
+    let data: any = {
+      "email": formData.email?.email,
+      "type": parseInt(formData.type),
+      "password": formData.email.password,
+    }
+    if(formData.email.is2fa) {
+      data['mfaCode'] = formData.email.mfaCode
+    }
+    return data
   } else {
-    const region = `+${parseInt(formData["phoneLocale"])}`;
-    data["mobile"] = `${region}${data["mobile"]}`;
-    delete data["email"];
+    const region = `+${parseInt(formData?.mobile?.phoneLocale)}`;
+    let data: any = {
+      "mobile": region + formData.mobile?.mobile,
+      "type": parseInt(formData.type),
+      "password": formData.mobile.password,
+    }
+    if(formData.email.is2fa) {
+      data['mfaCode'] = formData.mobile.mfaCode
+    }
+    return data
   }
-  if(mfaCode === false) {
-    delete data["mfaCode"];
-  }
-  return data;
 }
 
-export function convertToSignUpFormData(formData: any, mfaCode: boolean) {
-  const data  = {
-    "email": formData.email,
-    "type": parseInt(formData.type),
-    "password": formData.password,
-    "mobile": formData.mobile,
-    "mfaCode": formData.mfaCode,
-  };
+export function convertToSignUpFormData(formData: any) {
   if (formData.type === "1") {
-    delete data["mobile"];
+    let data: any = {
+      "email": formData.email?.email,
+      "type": parseInt(formData.type),
+      "password": formData.email.password,
+    }
+    if(formData.email.is2fa) {
+      data['mfaCode'] = formData.email.mfaCode
+    }
+    return data
   } else {
-    const region = `+${parseInt(formData["phoneLocale"])}`;
-    data["mobile"] = `${region}${data["mobile"]}`;
-    delete data["email"];
+    const region = `+${parseInt(formData?.mobile?.phoneLocale)}`;
+    let data: any = {
+      "mobile": region + formData.mobile?.mobile,
+      "type": parseInt(formData.type),
+      "password": formData.mobile.password,
+    }
+    if(formData.email.is2fa) {
+      data['mfaCode'] = formData.mobile.mfaCode
+    }
+    return data
   }
-  if(mfaCode === false) {
-    delete data["mfaCode"];
-  }
-  return data;
 }
 
-export function convertToForgotPasswordFormData(formData: any, mfaCode: boolean) {
-  const data  = {
-    "email": formData.email,
-    "type": parseInt(formData.type),
-    "mobile": formData.mobile,
-    "mfaCode": formData.mfaCode,
-  };
+export function convertToForgotPasswordFormData(formData: any) {
   if (formData.type === "1") {
-    delete data["mobile"];
+    let data: any  = {
+      "email": formData.email?.email,
+      "type": parseInt(formData.type),
+    };
+    if(formData.email.is2fa) {
+      data['mfaCode'] = formData.email.mfaCode
+    }
+    return data
   } else {
-    const region = `+${parseInt(formData["phoneLocale"])}`;
-    data["mobile"] = `${region}${data["mobile"]}`;
-    delete data["email"];
+    const region = `+${parseInt(formData?.mobile?.phoneLocale)}`;
+    let data: any = {
+      "mobile": region + formData.mobile?.mobile,
+      "type": parseInt(formData.type),
+    }
+    if(formData.email.is2fa) {
+      data['mfaCode'] = formData.mobile.mfaCode
+    }
+    return data
   }
-  if(mfaCode === false) {
-    delete data["mfaCode"];
-  }
-  return data;
 }
 
 
-export function convertToResetPasswordFormData(formData: any, mfaCode: boolean) {
-  const data  = {
-    "type": parseInt(formData.type),
-    "email": formData.email,
-    "password": formData.password,
-    "mobile": formData.mobile,
-    "code": formData.code,
-    "mfaCode": formData.mfaCode,
-  };
+export function convertToResetPasswordFormData(formData: any) {
   if (formData.type === "1") {
-    delete data["mobile"];
+    let data: any  = {
+      "email": formData.email,
+      "type": parseInt(formData.type),
+      "password": formData.email.password,
+      "code": formData.email.code,
+    };
+    if(formData.email.is2fa) {
+      data['mfaCode'] = formData.email.mfaCode
+    }
+    return data
   } else {
-    const region = `+${parseInt(formData["phoneLocale"])}`;
-    data["mobile"] = `${region}${data["mobile"]}`;
-    delete data["email"];
+    const region = `+${parseInt(formData?.mobile?.phoneLocale)}`;
+    let data: any = {
+      "mobile": region + formData.mobile?.mobile,
+      "type": parseInt(formData.type),
+      "password": formData.mobile.password,
+      "code": formData.mobile.code,
+    }
+    if(formData.email.is2fa) {
+      data['mfaCode'] = formData.mobile.mfaCode
+    }
+    return data
   }
-  if(mfaCode === false) {
-    delete data["mfaCode"];
-  }
-  return data;
 }
 

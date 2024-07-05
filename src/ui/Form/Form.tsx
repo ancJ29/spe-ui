@@ -27,18 +27,28 @@ import MonacoEditor from "@monaco-editor/react";
 import * as fields from "./fields";
 import * as templates from "./templates";
 import * as widgets from "./widgets";
+import { cloneDeep, set } from "lodash";
 const toJson = (val: unknown) => JSON.stringify(val, null, 2);
 const AJV8_2020 = customizeValidator({ AjvClass: Ajv2020 });
 const customWidgets: RegistryWidgetsType = {
   ...widgets,
 };
 
+type MessageForm = {
+  titleSuccess: string
+  msgSuccess: string
+  titleError: string
+  msgError: string
+}
+
 type Custom = {
   w: number | string;
   api: string;
   _onSubmit: (res: unknown) => void;
+  converterFormData: (res: unknown) => any;
   msgSuccess: string;
   showJsonOutput: boolean;
+  messages: Partial<MessageForm>
 };
 type AppFormProps = Sample & Partial<Custom>;
 
@@ -57,23 +67,17 @@ const AppForm = forwardRef(
         window.console.log("submitted formData", evt.formData);
         window.console.log("submit event", event);
         
-        if (props.api) {
-          const formData = { ...evt.formData };
-          const ks = Object.keys(formData);
-          ks.forEach((_name) => {
-            if (formData[_name] === undefined) {
-              delete formData[_name];
-            }
-          });
+        if (props.api && props.converterFormData) {
+          let prams = props.converterFormData({ ...evt.formData })
           toggle();
           axios
-            .post(props.api, formData)
+            .post(props.api, prams)
             .then((res) => {
-              if (!res.data.success) {
+              if (!res.data.result) {
                 notifications.show({
                   color: "red",
-                  title: "Something went wrong",
-                  message: res.data.reason,
+                  title: props.messages?.titleError ?? "Something went wrong",
+                  message: props.messages?.msgError ?? res.data.message,
                   icon: (
                     <IconCheck
                       style={{ width: rem(18), height: rem(18) }}
@@ -89,9 +93,8 @@ const AppForm = forwardRef(
                 }
                 notifications.show({
                   color: "teal",
-                  title: "The form was submitted successfully.",
-                  message:
-                    props.msgSuccess ?? "The action was successful",
+                  title: props.messages?.titleSuccess ?? "The form was submitted successfully.",
+                  message: props.messages?.msgSuccess ?? "The action was successful",
                   icon: (
                     <IconCheck
                       style={{ width: rem(18), height: rem(18) }}
@@ -122,10 +125,17 @@ const AppForm = forwardRef(
     );
 
     const updateField = (field: string, value: any) => {
-      setFormData((prevFormData: any) => ({
-        ...prevFormData,
-        [field]: value
-      }));
+      setFormData((prevFormData: any) => {
+        let d = cloneDeep(prevFormData)
+        let v = set(d, field, value)
+        return {
+          ...v
+        }
+        // return {
+        //   ...prevFormData,
+        //   [field]: value
+        // }
+      });
     };
   
 

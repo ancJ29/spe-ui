@@ -14,10 +14,11 @@ import {
 import { Header } from "../top-page";
 import classes from "./index.module.scss";
 import { useAuthenticate } from "@/hooks/useAuthenticate";
+import { convertToForgotPasswordFormData } from "../login/config";
 
 const Page = () => {
   const t = useTranslation();
-  const {  formRef, forgotPassword } = useAuthenticate();
+  const {  formRef } = useAuthenticate();
 
   return (
     <>
@@ -33,13 +34,17 @@ const Page = () => {
                 <Space h={30} />
                 <AppForm
                   ref={formRef}
-                  showJsonOutput={false}
                   schema={samples.ForgotPassword.schema}
                   uiSchema={samples.ForgotPassword.uiSchema}
                   formData={samples.ForgotPassword.formData}
                   w={"100%"}
                   msgSuccess="You have successfully submitted a password change request."
-                  onSubmit={forgotPassword}
+                  api="/api/password/forgot"
+                  converterFormData={convertToForgotPasswordFormData}
+                  messages={{
+                    titleSuccess: "Account Registration Successful",
+                    msgSuccess: "You have successfully submitted a password change request."
+                  }}
                 />
               </Card>
               <Group justify="center" my={"lg"}>

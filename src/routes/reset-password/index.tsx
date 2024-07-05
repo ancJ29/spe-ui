@@ -14,10 +14,11 @@ import {
 import { Header } from "../top-page";
 import classes from "./index.module.scss";
 import { useAuthenticate } from "@/hooks/useAuthenticate";
+import { convertToResetPasswordFormData } from "../login/config";
 
 const Page = () => {
   const t = useTranslation();
-  const { formRef, resetPassword } = useAuthenticate();
+  const { formRef } = useAuthenticate();
   return (
     <>
       <Header />
@@ -32,13 +33,18 @@ const Page = () => {
                 <Space h={30} />
                 <AppForm
                   ref={formRef}
-                  onSubmit={resetPassword}
                   showJsonOutput={false}
                   schema={samples.ResetPassword.schema}
                   uiSchema={samples.ResetPassword.uiSchema}
                   formData={samples.ResetPassword.formData}
                   w={"100%"}
                   msgSuccess="Password reset has been done"
+                  api="/api/password/reset"
+                  converterFormData={convertToResetPasswordFormData}
+                  messages={{
+                    titleSuccess: "Password Reset Successful",
+                    msgSuccess: "Your password has been successfully reset. You can now log in with your new password. If you did not request this change, please contact our support team immediately."
+                  }}
                 />
               </Card>
               <Group justify="center" my={"lg"}>

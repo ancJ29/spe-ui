@@ -31,10 +31,11 @@ import {
 import { useEffect } from "react";
 import classes from "./index.module.scss";
 import { useAuthenticate } from "@/hooks/useAuthenticate";
+import { convertToSignUpFormData } from "../login/config";
 
 const SignUp = () => {
   const t = useTranslation();
-  const { formRef, signUp } = useAuthenticate();
+  const { formRef } = useAuthenticate();
   const checkIcon = (
     <IconInfoCircleFilled
       style={{ width: rem(20), height: rem(20) }}
@@ -168,7 +169,16 @@ const SignUp = () => {
                     uiSchema={samples.SignUp.uiSchema}
                     formData={samples.SignUp.formData}
                     w={"100%"}
-                    onSubmit={signUp}
+                    api="/api/register"
+                    converterFormData={convertToSignUpFormData}
+                    messages={{
+                      titleError: "Account Registration Failed",
+                      titleSuccess: "Account Registration Successful",
+                      msgSuccess: "Congratulations! Your account has been successfully created. Welcome to our community. Please check your email for a verification link to complete your registration."
+                    }}
+                    _onSubmit={() => {
+                      window.open("/login", "_self");
+                    }}
                   />
                 </Card>
                 <Group justify="center" my={"lg"}>
