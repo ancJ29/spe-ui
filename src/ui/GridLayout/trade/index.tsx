@@ -1,62 +1,51 @@
 /* eslint-disable react/prop-types */
+import AppButton from "@/ui/Button/AppButton";
+import { AppPopover } from "@/ui/Popover/AppPopover";
+import AppText from "@/ui/Text/AppText";
 import {
   ActionIcon,
   Box,
   Center,
-  Divider,
   Flex,
   Grid,
-  HoverCard,
   InputLabel,
   Progress,
   SegmentedControl,
   SimpleGrid,
-  Space,
   Spoiler,
-
 } from "@mantine/core";
-import { useHover } from "@mantine/hooks";
 import {
   IconChartHistogram,
   IconChevronRight,
   IconChevronsDown,
   IconChevronsUp,
-  IconDots,
   IconEye,
   IconEyeOff,
   IconGripHorizontal,
 } from "@tabler/icons-react";
-import {
-  useCallback,
-  useState,
-} from "react";
+import { useCallback, useState } from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import {
   CreateOrderTradeByConditionalForm,
-  CreateOrderTradeByLimitForm, CreateOrderTradeByMarketForm,
-  MenuToken,
+  CreateOrderTradeByLimitForm,
+  CreateOrderTradeByMarketForm,
   OrderBook,
   TabsOfTradeHistory,
-  TopBar
+  TopBar,
 } from "../components";
-import AppText from "@/ui/Text/AppText";
-import { AppPopover } from "@/ui/Popover/AppPopover";
-import AppButton from "@/ui/Button/AppButton";
-
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const initialLayouts =
   // prettier-ignore
   "{\"lg\":[{\"x\":4,\"y\":0,\"w\":2,\"h\":5,\"i\":\"0\",\"static\":false},{\"x\":8,\"y\":0,\"w\":2,\"h\":5,\"i\":\"1\",\"static\":false},{\"x\":6,\"y\":0,\"w\":2,\"h\":4,\"i\":\"2\",\"static\":false}],\"md\":[{\"w\":7,\"h\":12,\"x\":0,\"y\":0,\"i\":\"0\",\"moved\":false,\"static\":false},{\"w\":3,\"h\":12,\"x\":7,\"y\":0,\"i\":\"1\",\"moved\":false,\"static\":false},{\"w\":10,\"h\":8,\"x\":0,\"y\":12,\"i\":\"2\",\"moved\":false,\"static\":false}]}";
 
-
 export function GridTrade() {
   const [layouts, setLayouts] = useState(
     JSON.parse(
       (localStorage.getItem("layoutTrade") as string) ??
-      initialLayouts,
+        initialLayouts,
     ),
   );
   const onLayoutChange = useCallback(
@@ -126,8 +115,6 @@ export function GridTrade() {
   );
 }
 
-
-
 type TradeType = "Limit" | "Market" | "Conditional";
 function Forms() {
   const [type, setType] = useState<TradeType>("Limit");
@@ -169,24 +156,33 @@ function Forms() {
   );
 }
 
-
-function TradeForm({
-  tradeType
-}: { tradeType: TradeType }) {
+function TradeForm({ tradeType }: { tradeType: TradeType }) {
   return (
     <>
-      {tradeType === "Limit" && <CreateOrderTradeByLimitForm onSubmit={(res) => {
-        console.log("CreateOrderTradeByLimitForm", res);
-      }}
-      />}
-      {tradeType === "Market" && <CreateOrderTradeByMarketForm onSubmit={(res) => {
-        console.log("CreateOrderTradeByMarketForm", res);
-      }}
-      />}
-      {tradeType === "Conditional" && <CreateOrderTradeByConditionalForm onSubmit={(res) => {
-        console.log("CreateOrderTradeByConditionalForm", res);
-      }}
-      />}
+      {tradeType === "Limit" && (
+        <CreateOrderTradeByLimitForm
+          onSubmit={(res) => {
+            // eslint-disable-next-line no-console
+            console.log("CreateOrderTradeByLimitForm", res);
+          }}
+        />
+      )}
+      {tradeType === "Market" && (
+        <CreateOrderTradeByMarketForm
+          onSubmit={(res) => {
+            // eslint-disable-next-line no-console
+            console.log("CreateOrderTradeByMarketForm", res);
+          }}
+        />
+      )}
+      {tradeType === "Conditional" && (
+        <CreateOrderTradeByConditionalForm
+          onSubmit={(res) => {
+            // eslint-disable-next-line no-console
+            console.log("CreateOrderTradeByConditionalForm", res);
+          }}
+        />
+      )}
       <BoxInfoTradeFoot />
     </>
   );
@@ -266,16 +262,15 @@ function BoxInfoTradeFoot() {
                     (Margin Balance - Haircut Loss) * 100% <br />
                     <br />
                     When IMR is ≥ 100%, it indicates that all the
-                    margin balance has been deployed to your
-                    positions and orders. In this case, you can no
-                    longer place any orders that may increase your
-                    position size.
+                    margin balance has been deployed to your positions
+                    and orders. In this case, you can no longer place
+                    any orders that may increase your position size.
                     <br />
                     <br />
                     The initial margin for all positions and orders
                     under the Unified Trading Account will be
-                    converted to USD in real time to derive the
-                    total initial margin under the account.
+                    converted to USD in real time to derive the total
+                    initial margin under the account.
                   </AppText>
                 </div>
               ),
@@ -399,9 +394,8 @@ function BoxInfoTradeFoot() {
                   >
                     Margin Balance = Wallet Balance + Unrealized P&L
                     (Perpetual + Futures) <br />
-                    Liquidation will be triggered when margin
-                    balance falls below the maintenance margin.{" "}
-                    <br />
+                    Liquidation will be triggered when margin balance
+                    falls below the maintenance margin. <br />
                     Initial Margin Rate (IMR) = Initial Margin /
                     (Margin Balance - Haircut Loss) * 100% <br />
                     <br />
@@ -452,9 +446,8 @@ function BoxInfoTradeFoot() {
                     Margin - Haircut Loss
                     <br />
                     Available balance under the Unified Trading
-                    Account is denominated in USDC, calculated in
-                    real time based on the total assets in the
-                    account.
+                    Account is denominated in USDC, calculated in real
+                    time based on the total assets in the account.
                   </AppText>
                 </div>
               ),

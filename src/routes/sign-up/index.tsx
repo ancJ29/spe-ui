@@ -1,3 +1,4 @@
+import { useAuthenticate } from "@/hooks/useAuthenticate";
 import useTranslation from "@/hooks/useTranslation";
 import AppForm from "@/ui/Form/Form";
 import { samples } from "@/ui/Form/Sample";
@@ -29,13 +30,34 @@ import {
   IconTruckLoading,
 } from "@tabler/icons-react";
 import { useEffect } from "react";
+import { convertToSignUpFormData } from "./config";
 import classes from "./index.module.scss";
-import { useAuthenticate } from "@/hooks/useAuthenticate";
-import { convertToSignUpFormData } from "../login/config";
+
+const links = [
+  {
+    title: "24/7 Support | 100k TPS Matching Engine",
+    icon: IconPhoneCalling,
+  },
+  {
+    title:
+      "Industry-leading trading products with best-in-class liquidity through our Unified Trading Account",
+    description: "Perpetuals, Futures, Options, Margin Trading, Spot",
+    icon: IconCoinBitcoin,
+  },
+  {
+    title: "Trade like a Pro with our easy-to-use Trading Tools",
+    description: "Earn, Copy Trading, and Trading Bots",
+    icon: IconInfoCircleFilled,
+  },
+  {
+    title: "Expand your crypto journey with Web3 and crypto payments",
+    description: "Bybit NFT, Bybit Wallet, Bybit Card",
+    icon: IconTruckLoading,
+  },
+];
 
 const SignUp = () => {
   const t = useTranslation();
-  const { formRef } = useAuthenticate();
   const checkIcon = (
     <IconInfoCircleFilled
       style={{ width: rem(20), height: rem(20) }}
@@ -45,30 +67,6 @@ const SignUp = () => {
   useEffect(() => {
     setColorScheme("dark");
   }, [setColorScheme]);
-  const links = [
-    {
-      title: "24/7 Support | 100k TPS Matching Engine",
-      icon: IconPhoneCalling,
-    },
-    {
-      title:
-        "Industry-leading trading products with best-in-class liquidity through our Unified Trading Account",
-      description:
-        "Perpetuals, Futures, Options, Margin Trading, Spot",
-      icon: IconCoinBitcoin,
-    },
-    {
-      title: "Trade like a Pro with our easy-to-use Trading Tools",
-      description: "Earn, Copy Trading, and Trading Bots",
-      icon: IconInfoCircleFilled,
-    },
-    {
-      title:
-        "Expand your crypto journey with Web3 and crypto payments",
-      description: "Bybit NFT, Bybit Wallet, Bybit Card",
-      icon: IconTruckLoading,
-    },
-  ];
   return (
     <>
       <Box className={classes.bggray}>
@@ -142,9 +140,7 @@ const SignUp = () => {
                         </ThemeIcon>
                         <div>
                           <Text size="lg" fw={500}>
-                            {_item?.title ??
-                              // cspell:disable-next-line
-                              "Hỗ Trợ 24/7 | Công Cụ Khớp Lệnh 100K TPS"}
+                            {_item?.title ?? ""}
                           </Text>
                           <Text size="md" c="dimmed">
                             {_item.description}
@@ -164,28 +160,31 @@ const SignUp = () => {
                   </Title>
                   <Space h={30} />
                   <AppForm
-                    ref={formRef}
                     schema={samples.SignUp.schema}
                     uiSchema={samples.SignUp.uiSchema}
                     formData={samples.SignUp.formData}
                     w={"100%"}
                     api="/api/register"
-                    converterFormData={convertToSignUpFormData}
+                    formDataConverter={convertToSignUpFormData}
                     messages={{
-                      titleError: "Account Registration Failed",
-                      titleSuccess: "Account Registration Successful",
-                      msgSuccess: "Congratulations! Your account has been successfully created. Welcome to our community. Please check your email for a verification link to complete your registration."
+                      titleError: t("Account Registration Failed"),
+                      titleSuccess: t(
+                        "Account Registration Successful",
+                      ),
+                      msgSuccess: t(
+                        "Congratulations! Your account has been successfully created. Welcome to our community. Please check your email for a verification link to complete your registration.",
+                      ),
                     }}
-                    _onSubmit={() => {
+                    onSuccess={() => {
                       window.open("/login", "_self");
                     }}
                   />
                 </Card>
                 <Group justify="center" my={"lg"}>
                   <div>
-                    You already registered?{" "}
+                    {t("You already registered?")}{" "}
                     <Text component="a" href="/login" fw={"bold"}>
-                      Login
+                      {t("Login")}
                     </Text>
                   </div>
                 </Group>

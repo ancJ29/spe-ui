@@ -78,7 +78,7 @@ const SignInFormSchema: Sample = {
       Password: {
         type: "string",
         title: "Password",
-        minLength: 3,
+        minLength: 6,
       },
       type: {
         type: "string",
@@ -131,7 +131,7 @@ const SignInFormSchema: Sample = {
     },
     // "ui:widget": "TabWidget",
     "ui:submitButtonOptions": {
-      submitText: "Submit",
+      submitText: "Login",
       props: {
         fullWidth: true,
         size: "lg",
@@ -157,7 +157,7 @@ const SignInFormSchema: Sample = {
           }
         }
       },
-      mobile: {
+      "mobile": {
         "ui:options": {
           "widget": "PhoneNumber2FAWidget",
           "placeholder": "Mobile",
@@ -168,7 +168,7 @@ const SignInFormSchema: Sample = {
           }
         },
       },
-      is2fa: {
+      "is2fa": {
         "ui:options": {
           "widget": "hidden",
           "label": false,
@@ -195,7 +195,7 @@ const SignInFormSchema: Sample = {
       }
     },
     "email": {
-      email: {
+      "email": {
         "ui:options": {
           "widget": "TextEmail2FaWidget",
           "placeholder": "Email",
@@ -205,7 +205,7 @@ const SignInFormSchema: Sample = {
           }
         },
       },
-      is2fa: {
+      "is2fa": {
         "ui:options": {
           "widget": "hidden",
           "label": false,

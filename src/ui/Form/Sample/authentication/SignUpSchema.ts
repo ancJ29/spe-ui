@@ -15,30 +15,11 @@ const SignUpSchema: Sample = {
             title: "Phone",
             type: "string"
           },
-          is2fa: {
-            type: "boolean",
-            default: false
-          },
           password: {
             $ref: "#/definitions/Password",
           },
         },
         required: ["phoneLocale", "mobile", "password"],
-        if: {
-          properties: {
-            is2fa: {
-              const: true
-            }
-          }
-        },
-        then: {
-          properties: {
-            mfaCode: {
-              $ref: "#/definitions/mfaCode",
-            }
-          },
-          required: ["mfaCode"],
-        }
       },
       Email: {
         type: "object",
@@ -49,35 +30,16 @@ const SignUpSchema: Sample = {
             title: "Email",
             pattern: REGEX.EMAIL,
           },
-          is2fa: {
-            type: "boolean",
-            default: false
-          },
           password: {
             $ref: "#/definitions/Password",
           },
         },
         required: ["email", "password"],
-        if: {
-          properties: {
-            is2fa: {
-              const: true
-            }
-          }
-        },
-        then: {
-          properties: {
-            mfaCode: {
-              $ref: "#/definitions/mfaCode",
-            },
-          },
-          required: ["mfaCode"]
-        }
       },
       Password: {
         type: "string",
         title: "Password",
-        minLength: 3,
+        minLength: 6,
       },
       type: {
         type: "string",
@@ -89,10 +51,6 @@ const SignUpSchema: Sample = {
         default: "+81 Japan",
         title: "Region"
       },
-      mfaCode: {
-        type: "string",
-        title: "2FA Code"
-      }
     },
     properties: {
       type: {
@@ -130,7 +88,7 @@ const SignUpSchema: Sample = {
           fullWidth: true,
           size: "lg",
         },
-        submitText: "Submit",
+        submitText: "Sign up",
       },
       // label: false,
       classNames: "grid-form-root gap-15",
@@ -152,9 +110,8 @@ const SignUpSchema: Sample = {
           }
         }
       },
-      mobile: {
+      "mobile": {
         "ui:options": {
-          "widget": "PhoneNumber2FAWidget",
           "placeholder": "Mobile",
           "label": false,
           "classNames": "span-15",
@@ -163,13 +120,6 @@ const SignUpSchema: Sample = {
           }
         },
       },
-      is2fa: {
-        "ui:options": {
-          "widget": "hidden",
-          "label": false,
-          "classNames": "hiddenField",
-        }
-      },
       "password": {
         "ui:options": {
           "widget": "CustomPasswordWidget",
@@ -179,20 +129,10 @@ const SignUpSchema: Sample = {
           }
         }
       },
-      "mfaCode": {
-        "ui:options": {
-          "placeholder": "Email",
-          "label": false,
-          "props": {
-            withAsterisk: true
-          }
-        }
-      }
     },
     "email": {
-      email: {
+      "email": {
         "ui:options": {
-          "widget": "TextEmail2FaWidget",
           "placeholder": "Email",
           "label": false,
           "props": {
@@ -200,13 +140,6 @@ const SignUpSchema: Sample = {
           }
         },
       },
-      is2fa: {
-        "ui:options": {
-          "widget": "hidden",
-          "label": false,
-          "classNames": "hiddenField",
-        }
-      },
       "password": {
         "ui:options": {
           "widget": "CustomPasswordWidget",
@@ -216,15 +149,6 @@ const SignUpSchema: Sample = {
           }
         }
       },
-      "mfaCode": {
-        "ui:options": {
-          "placeholder": "Email",
-          "label": false,
-          "props": {
-            withAsterisk: true
-          }
-        }
-      }
     },
   },
   formData: {},

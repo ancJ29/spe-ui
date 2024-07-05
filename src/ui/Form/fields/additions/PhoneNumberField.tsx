@@ -9,7 +9,7 @@ export const PhoneNumberField: FC<FieldProps<string>> = ({
   formData,
   rawErrors,
 }) => {
-  const [text, setText] = useState<string>(formData || "");
+  const [text] = useState<string>(formData || "");
   const [_title] = useState<string>(
     title ? (required ? title + "*" : title) : "",
   );
@@ -20,7 +20,6 @@ export const PhoneNumberField: FC<FieldProps<string>> = ({
         value={text}
         onChange={({ target: { value } }) => {
           onChange(value);
-          // setText(value);
         }}
         error={rawErrors?.toLocaleString()}
       />

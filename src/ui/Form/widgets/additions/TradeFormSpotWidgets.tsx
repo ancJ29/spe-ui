@@ -1,15 +1,26 @@
 import AppButton from "@/ui/Button/AppButton";
-import { AppPopover } from "@/ui/Popover/AppPopover";
 import AppText from "@/ui/Text/AppText";
-import { Box, Button, Flex, HoverCard, InputLabel, Modal, NumberFormatter, NumberInput, SegmentedControl, SimpleGrid, Slider, Space, Text } from "@mantine/core";
+import {
+  Box,
+  Button,
+  Flex,
+  HoverCard,
+  InputLabel,
+  Modal,
+  NumberFormatter,
+  NumberInput,
+  SegmentedControl,
+  SimpleGrid,
+  Slider,
+  Space,
+  Text,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { WidgetProps } from "@rjsf/utils";
-import { IconArrowDown, IconCaretDownFilled } from "@tabler/icons-react";
-import { useCallback, useMemo, useState } from "react";
+import { IconCaretDownFilled } from "@tabler/icons-react";
+import { useCallback } from "react";
 
-export function TradeBuySellSwitchTPLimitWidget(
-  props: WidgetProps,
-) {
+export function TradeBuySellSwitchTPLimitWidget(props: WidgetProps) {
   const isBuyOrLong = ["Long", "BUY"];
   return (
     <>
@@ -21,14 +32,18 @@ export function TradeBuySellSwitchTPLimitWidget(
         }}
         value={props.value}
         classNames={{
-          indicator: isBuyOrLong.includes(props.value) ? "btnlong" : "btnshort",
+          indicator: isBuyOrLong.includes(props.value)
+            ? "btnlong"
+            : "btnshort",
         }}
         styles={{
           root: {
-            padding: "0px"
+            padding: "0px",
           },
           indicator: {
-            background: isBuyOrLong.includes(props.value) ? "#23b26b" : "#f0444b",
+            background: isBuyOrLong.includes(props.value)
+              ? "#23b26b"
+              : "#f0444b",
           },
           label: {
             fontWeight: "bolder",
@@ -39,9 +54,7 @@ export function TradeBuySellSwitchTPLimitWidget(
   );
 }
 
-export function TradeSpotByModeWidget(
-  props: WidgetProps,
-) {
+export function TradeSpotByModeWidget(props: WidgetProps) {
   return (
     <>
       <SegmentedControl
@@ -73,36 +86,44 @@ export function TradeSpotByModeWidget(
   );
 }
 
-
 export function UiBalanceWidget(props: WidgetProps) {
-  const { formContext: { formData } } = props;
+  const {
+    formContext: { formData },
+  } = props;
   return (
     <>
       <Flex justify={"space-between"} align={"center"} pt={10}>
-        <HoverCard width={280} shadow="md" position="top" withArrow arrowSize={12}>
+        <HoverCard
+          width={280}
+          shadow="md"
+          position="top"
+          withArrow
+          arrowSize={12}
+        >
           <HoverCard.Target>
-            <InputLabel className="text-label-form">Available Balance</InputLabel>
+            <InputLabel className="text-label-form">
+              Available Balance
+            </InputLabel>
           </HoverCard.Target>
           <HoverCard.Dropdown>
             <Text size="sm">
-                            Bonuses are not reflected in the Available Balance for Spot Trading
+              Bonuses are not reflected in the Available Balance for
+              Spot Trading
             </Text>
           </HoverCard.Dropdown>
         </HoverCard>
         <Text fw={"bolder"} fz={12}>
-          {formData?.spotType === "BUY" ? "56,138.15306945USDT" : "1BTC"}
+          {formData?.spotType === "BUY"
+            ? "56,138.15306945USDT"
+            : "1BTC"}
         </Text>
       </Flex>
     </>
   );
 }
 
-export function UiBalanceBTCWidget(props: WidgetProps) {
-  return (
-    <>
-            Available Balance
-    </>
-  );
+export function UiBalanceBTCWidget() {
+  return <>Available Balance</>;
 }
 
 export function NumberSimpleWidget(props: WidgetProps) {
@@ -112,7 +133,7 @@ export function NumberSimpleWidget(props: WidgetProps) {
         thousandSeparator=","
         decimalSeparator="."
         classNames={{
-          label: "text-label-form"
+          label: "text-label-form",
         }}
         label={props.label ? props.label : "Order by Value"}
         value={props.value}
@@ -133,7 +154,7 @@ export function QtyPercentWidget(props: WidgetProps) {
           thousandSeparator=","
           decimalSeparator="."
           classNames={{
-            label: "text-label-form"
+            label: "text-label-form",
           }}
           label={props.label ? props.label : "Order by Value"}
           value={props.value}
@@ -143,13 +164,17 @@ export function QtyPercentWidget(props: WidgetProps) {
           rightSectionWidth={60}
           rightSection={
             <AppText fz={12} fw={"bold"}>
-              {props?.options?.props?.suffix ? props?.options?.props?.suffix : "USDC"}
+              {props?.options?.props?.suffix
+                ? props?.options?.props?.suffix
+                : "USDC"}
             </AppText>
           }
         ></NumberInput>
         <Box py={20} mb={10} px={2}>
           <Slider
-            onChange={() => props.onChange(Math.floor(Math.random() * 1000))}
+            onChange={() =>
+              props.onChange(Math.floor(Math.random() * 1000))
+            }
             color="primary"
             size="sm"
             max={100}
@@ -162,11 +187,11 @@ export function QtyPercentWidget(props: WidgetProps) {
             ]}
             styles={{
               label: {
-                fontSize: "10px"
+                fontSize: "10px",
               },
               markLabel: {
-                fontSize: "10px"
-              }
+                fontSize: "10px",
+              },
             }}
           />
         </Box>
@@ -183,7 +208,7 @@ export function VolumeInputPercentFieldWidget(props: WidgetProps) {
           thousandSeparator=","
           decimalSeparator="."
           classNames={{
-            label: "text-label-form"
+            label: "text-label-form",
           }}
           label={props.label ? props.label : "Order by Value"}
           value={props.value}
@@ -193,7 +218,9 @@ export function VolumeInputPercentFieldWidget(props: WidgetProps) {
           rightSectionWidth={60}
           rightSection={
             <AppText fz={12} fw={"bold"}>
-              {props?.options?.props?.suffix ? props?.options?.props?.suffix : "USDC"}
+              {props?.options?.props?.suffix
+                ? props?.options?.props?.suffix
+                : "USDC"}
             </AppText>
           }
         ></NumberInput>
@@ -215,11 +242,11 @@ export function VolumeInputPercentFieldWidget(props: WidgetProps) {
           ]}
           styles={{
             label: {
-              fontSize: "10px"
+              fontSize: "10px",
             },
             markLabel: {
-              fontSize: "10px"
-            }
+              fontSize: "10px",
+            },
           }}
         />
       </Box>
@@ -236,7 +263,7 @@ export function VolumeInputHintFieldWidget(props: WidgetProps) {
           thousandSeparator=","
           decimalSeparator="."
           classNames={{
-            label: "text-label-form"
+            label: "text-label-form",
           }}
           label={props.label ? props.label : "Order by Value"}
           value={props.value}
@@ -246,17 +273,22 @@ export function VolumeInputHintFieldWidget(props: WidgetProps) {
           rightSectionWidth={60}
           rightSection={
             <AppText fz={12} fw={"bold"}>
-              {props?.options?.props?.suffix ? props?.options?.props?.suffix : "USDC"}
+              {props?.options?.props?.suffix
+                ? props?.options?.props?.suffix
+                : "USDC"}
             </AppText>
           }
         ></NumberInput>
         <Flex justify={"end"}>
-          <InputLabel className="text-label-form">≈
-            <NumberFormatter value={props.value} thousandSeparator /> {" "}
-                        USD
+          <InputLabel className="text-label-form">
+            ≈
+            <NumberFormatter
+              value={props.value}
+              thousandSeparator
+            />{" "}
+            USD
           </InputLabel>
         </Flex>
-
       </Box>
     </>
   );
@@ -268,9 +300,11 @@ export function QtyBuyButtonWidget(props: WidgetProps) {
       <Space mt={10} />
       <Flex justify={"space-between"}>
         <InputLabel className="text-label-form">
-                    Max. buying amount
+          Max. buying amount
         </InputLabel>
-        <Text fw={"bolder"} fz={12}>0.923598 BTC</Text>
+        <Text fw={"bolder"} fz={12}>
+          0.923598 BTC
+        </Text>
       </Flex>
       <Space my={10} />
       <AppButton
@@ -290,7 +324,7 @@ export function QtyBuyButtonWidget(props: WidgetProps) {
           fw={"bolder"}
           fz={14}
         >
-                    Buy BTC
+          Buy BTC
         </Text>
         <Text
           component="span"
@@ -301,7 +335,7 @@ export function QtyBuyButtonWidget(props: WidgetProps) {
           }}
           fz={10}
         >
-                    Demo Trading
+          Demo Trading
         </Text>
       </AppButton>
     </>
@@ -314,9 +348,11 @@ export function QtySellButtonWidget(props: WidgetProps) {
       <Space mt={10} />
       <Flex justify={"space-between"}>
         <InputLabel className="text-label-form">
-                    Max. selling amount
+          Max. selling amount
         </InputLabel>
-        <Text fw={"bolder"} fz={12}>0.923598 BTC</Text>
+        <Text fw={"bolder"} fz={12}>
+          0.923598 BTC
+        </Text>
       </Flex>
       <Space my={10} />
       <AppButton
@@ -336,7 +372,7 @@ export function QtySellButtonWidget(props: WidgetProps) {
           fw={"bolder"}
           fz={14}
         >
-                    Sell BTC
+          Sell BTC
         </Text>
         <Text
           component="span"
@@ -347,7 +383,7 @@ export function QtySellButtonWidget(props: WidgetProps) {
           }}
           fz={10}
         >
-                    Demo Trading
+          Demo Trading
         </Text>
       </AppButton>
     </>
@@ -361,7 +397,14 @@ export function MarginWidget(props: WidgetProps) {
   }, []);
   return (
     <>
-      <Box onClick={onOpenModal} bg={"#26282c"} px={10} py={8} style={{ borderRadius: "5px" }} className="cursor-pointer">
+      <Box
+        onClick={onOpenModal}
+        bg={"#26282c"}
+        px={10}
+        py={8}
+        style={{ borderRadius: "5px" }}
+        className="cursor-pointer"
+      >
         <Flex justify={"space-between"} align={"center"}>
           <Flex align={"center"} gap={5}>
             <Text fz={12}>Cross</Text>
@@ -383,8 +426,8 @@ export function MarginWidget(props: WidgetProps) {
             // padding: "20px"
           },
           content: {
-            padding: "20px"
-          }
+            padding: "20px",
+          },
         }}
       >
         <Text fw={"bolder"}>Leverage</Text>
@@ -398,8 +441,8 @@ export function MarginWidget(props: WidgetProps) {
             input: {
               border: "none",
               background: "#26282c",
-              textAlign: "center"
-            }
+              textAlign: "center",
+            },
           }}
         />
         <Box py={30} mb={10} px={2}>
@@ -427,20 +470,24 @@ export function MarginWidget(props: WidgetProps) {
             ]}
             styles={{
               label: {
-                fontSize: "10px"
+                fontSize: "10px",
               },
               markLabel: {
-                fontSize: "10px"
-              }
+                fontSize: "10px",
+              },
             }}
           />
         </Box>
         <SimpleGrid cols={2}>
-          <Button bg={"#f6a600"} c={"black"} onClick={close}>Confirm</Button>
-          <Button bg={"gray"} onClick={close}>Cancel</Button>
+          <Button bg={"#f6a600"} c={"black"} onClick={close}>
+            Confirm
+          </Button>
+          <Button bg={"gray"} onClick={close}>
+            Cancel
+          </Button>
         </SimpleGrid>
       </Modal>
-      <Space mb={5}/>
+      <Space mb={5} />
     </>
   );
 }

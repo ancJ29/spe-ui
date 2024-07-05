@@ -1,3 +1,4 @@
+import { useAuthenticate } from "@/hooks/useAuthenticate";
 import useTranslation from "@/hooks/useTranslation";
 import AppForm from "@/ui/Form/Form";
 import { samples } from "@/ui/Form/Sample";
@@ -11,14 +12,11 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { Header } from "../top-page";
-import classes from "./login.module.scss";
-import { useAuthenticate } from "@/hooks/useAuthenticate";
+import { Header } from "@/ui/Header";
 import { convertToLoginFormData } from "./config";
-
+import classes from "./login.module.scss";
 const Login = () => {
   const t = useTranslation();
-  const { formRef } = useAuthenticate();
   return (
     <>
       <Header />
@@ -32,24 +30,27 @@ const Login = () => {
                 </Title>
                 <Space h={30} />
                 <AppForm
-                  ref={formRef}
                   showJsonOutput={true}
                   schema={samples.SignIn.schema}
                   uiSchema={samples.SignIn.uiSchema}
                   formData={samples.SignIn.formData}
                   w={"100%"}
                   api="/api/login"
-                  converterFormData={(formData) => {
-                    return convertToLoginFormData(formData)
-                  }}
+                  formDataConverter={convertToLoginFormData}
                   messages={{
-                    titleError: "Login Failed",
-                    msgSuccess: "Welcome back! You have successfully logged in to your account.",
-                    titleSuccess: "Login Successful"
+                    titleError: t("Login Failed"),
+                    msgSuccess: t(
+                      "Welcome back! You have successfully logged in to your account.",
+                    ),
+                    titleSuccess: t("Login Success"),
                   }}
-                  _onSubmit={(res: any) => {
-                    localStorage.setItem("__USER__", "true");
-                    localStorage.setItem("token", res?.data?.result?.token);
+                  onSuccess={(res: { token: string }) => {
+                    const token = res?.token || "";
+                    if (token) {
+                      localStorage.__USER__ = true;
+                      localStorage.__TOKEN__ = token;
+                      localStorage.token = token;
+                    }
                     window.open("/", "_self");
                   }}
                 />

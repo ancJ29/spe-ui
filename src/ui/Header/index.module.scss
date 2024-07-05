@@ -3,10 +3,12 @@
   height: rem(48px);
   padding-left: var(--mantine-spacing-md);
   padding-right: var(--mantine-spacing-md);
+  
   background-color: light-dark(
-    var(--mantine-color-black),
-    var(--mantine-color-black)
+    #16181e,
+    #16181e
   );
+  // #16181e
   position: sticky;
   top: 0;
   z-index: 9;
@@ -97,7 +99,7 @@
 */
 .menulan {
   @include hover {
-    background-color: rgba(128, 128, 128, 0.1);
+    // background-color: #16181e;
   }
 }
 

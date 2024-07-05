@@ -1,7 +1,6 @@
 import AppForm from "@/ui/Form/Form";
 import { samples } from "@/ui/Form/Sample";
-import AppText from "@/ui/Text/AppText";
-import { Box, Center } from "@mantine/core";
+import { Box } from "@mantine/core";
 import { useRef } from "react";
 
 interface CreateOrderTradeFormProps {
@@ -23,7 +22,7 @@ export function CreateOrderTradeByLimitForm({
           uiSchema={samples.NewOrderOfLimitTradeSchema.uiSchema}
           formData={{
             ...samples.NewOrderOfLimitTradeSchema.formData,
-            price: 1
+            price: 1,
           }}
           onSubmit={({ formData }) => {
             if (props.onSubmit) {

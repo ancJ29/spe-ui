@@ -1,10 +1,11 @@
-import { useRef } from "react";
+import { useCallback } from "react";
 
 
 export function useAuthenticate() {
-    const formRef = useRef<any>(null);
+    const authenticate = useCallback(() => {
+        
+    },[])
     return {
-        formRef
+        user: {}
     };
 }
-

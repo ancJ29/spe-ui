@@ -13,8 +13,6 @@ export function FieldTemplate(props: FieldTemplateProps) {
     description,
     errors,
     children,
-    uiSchema,
-    rawErrors
   } = props;
   return (
     <div className={clsx(classNames, "rowItem")} style={style}>

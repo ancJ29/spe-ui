@@ -2,11 +2,18 @@ import AppButton from "@/ui/Button/AppButton";
 import AppTabs from "@/ui/Tabs";
 import AppText from "@/ui/Text/AppText";
 import { splitAndFormatString } from "@/utils/utility";
-import { Box, Checkbox, Divider, Flex, Table, TableData } from "@mantine/core";
-import { Fragment, useMemo, useState } from "react";
-import { FilterGroupButtons } from "./FilterGroupButtons";
+import {
+  Box,
+  Checkbox,
+  Divider,
+  Flex,
+  Table,
+  TableData,
+} from "@mantine/core";
 import { IconArrowRight } from "@tabler/icons-react";
+import { Fragment, useMemo, useState } from "react";
 import { dataHistories } from "../trade/tradeHistory";
+import { FilterGroupButtons } from "./FilterGroupButtons";
 
 export function TabsOfTradeHistory() {
   const [activeTab, setActiveTab] = useState<string>("positions");
@@ -172,12 +179,12 @@ function TablePositions() {
           {dataHistories["positions"] && (
             <Table
               classNames={{
-                table: "table-fixed"
+                table: "table-fixed",
               }}
               styles={{
                 thead: {
-                  background: "#101014"
-                }
+                  background: "#101014",
+                },
               }}
               stickyHeader
               highlightOnHover
@@ -227,8 +234,8 @@ function TablePnL() {
           <Table
             styles={{
               thead: {
-                background: "#101014"
-              }
+                background: "#101014",
+              },
             }}
             stickyHeader
             highlightOnHover
@@ -276,11 +283,7 @@ function TableCurrentOrders() {
       <Flex direction={"column"} h={"100%"}>
         <FilterGroupButtons
           onChange={(values) => {
-            console.log("CHANGE_VALUES", values);
-            if (values[0]) {
-              // alert(values[0])
-              setType(values[0]);
-            }
+            values[0] && setType(values[0]);
           }}
           items={[
             {
@@ -320,8 +323,8 @@ function TableCurrentOrders() {
             <Table
               styles={{
                 thead: {
-                  background: "#101014"
-                }
+                  background: "#101014",
+                },
               }}
               stickyHeader
               highlightOnHover
@@ -431,8 +434,8 @@ function TableOrderHistory() {
             <Table
               styles={{
                 thead: {
-                  background: "#101014"
-                }
+                  background: "#101014",
+                },
               }}
               stickyHeader
               highlightOnHover
@@ -500,14 +503,14 @@ function TableTradeHistory() {
             },
           ]}
         />
-        
+
         <Table.ScrollContainer minWidth={"100%"} h={"100%"}>
           {dataHistories["tradeHistory"] && (
             <Table
               styles={{
                 thead: {
-                  background: "#101014"
-                }
+                  background: "#101014",
+                },
               }}
               stickyHeader
               highlightOnHover

@@ -1,6 +1,5 @@
-import AppButton from "@/ui/Button/AppButton";
 import { Box, Flex, SegmentedControl } from "@mantine/core";
-import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type FilterButtons = {
   value: string;
@@ -15,7 +14,9 @@ type FilterGroupButtonsType = {
   valueRight?: string;
   onChange?: (values: string[], valuesRight: string[]) => void;
 };
-export function FilterGroupButtons({ ...props }: FilterGroupButtonsType) {
+export function FilterGroupButtons({
+  ...props
+}: FilterGroupButtonsType) {
   const [filterValues, setFilterValues] = useState<string[]>([
     props.value as string,
   ]);
@@ -46,7 +47,7 @@ export function FilterGroupButtons({ ...props }: FilterGroupButtonsType) {
     if (props.onChange) {
       // props.onChange(filterValues, filterValuesRight);
     }
-  }, [filterValues, filterValuesRight]);
+  }, [filterValues, filterValuesRight, props.onChange]);
 
   const _items = useMemo(() => {
     const left = props.items
@@ -60,7 +61,6 @@ export function FilterGroupButtons({ ...props }: FilterGroupButtonsType) {
       right,
     };
   }, [props.items]);
-
 
   const setValueLeft = (v: string) => {
     if (props.onChange) {
@@ -86,18 +86,15 @@ export function FilterGroupButtons({ ...props }: FilterGroupButtonsType) {
           withItemsBorders={false}
           value={value}
           styles={{
-            control: {
-
-            },
+            control: {},
             root: {
               padding: "0px",
               gap: 10,
-              background: "none"
+              background: "none",
             },
             label: {
-              fontWeight: "bold"
-            }
-
+              fontWeight: "bold",
+            },
           }}
           size={"xs"}
         />
@@ -110,18 +107,15 @@ export function FilterGroupButtons({ ...props }: FilterGroupButtonsType) {
           withItemsBorders={false}
           value={valueR}
           styles={{
-            control: {
-
-            },
+            control: {},
             root: {
               padding: "0px",
               gap: 10,
-              background: "none"
+              background: "none",
             },
             label: {
-              fontWeight: "bold"
-            }
-
+              fontWeight: "bold",
+            },
           }}
           size={"xs"}
         />

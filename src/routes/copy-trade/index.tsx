@@ -51,8 +51,9 @@ import {
 } from "@tabler/icons-react";
 import { ReactNode, useCallback, useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { Footer, Header } from "../top-page";
+import { Footer } from "../top-page";
 import classes from "./index.module.scss";
+import { Header } from "@/ui/Header";
 
 const sizeContainer = "xl";
 

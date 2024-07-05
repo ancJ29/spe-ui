@@ -31,8 +31,8 @@ import {
   IconPlus,
   IconSwitch3,
 } from "@tabler/icons-react";
-import { useCallback, useMemo, useState } from "react";
 import Decimal from "decimal.js";
+import { useCallback, useMemo, useState } from "react";
 type OrderType = "Entire Position" | "Current Order";
 const T = 0.00001;
 // roi = ((tp - gia mua) / gia mua) * 100
@@ -419,7 +419,6 @@ export function StopLossInputWidget(props: WidgetProps) {
     (isDecrement = false) => {
       if (Boolean(props.value) && props.value > 0) {
         const num = new Decimal(parseFloat(props.value));
-        const v = parseFloat(props.value);
         const sl = isDecrement ? num.minus(T) : num.plus(T);
         const val = parseFloat(sl.toString());
         const roi = calcROI(val, orderPrice, isLong);

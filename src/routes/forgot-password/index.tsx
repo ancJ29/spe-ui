@@ -1,3 +1,4 @@
+import { useAuthenticate } from "@/hooks/useAuthenticate";
 import useTranslation from "@/hooks/useTranslation";
 import AppForm from "@/ui/Form/Form";
 import { samples } from "@/ui/Form/Sample";
@@ -11,14 +12,12 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { Header } from "../top-page";
+import { convertToForgotPasswordFormData } from "./config";
 import classes from "./index.module.scss";
-import { useAuthenticate } from "@/hooks/useAuthenticate";
-import { convertToForgotPasswordFormData } from "../login/config";
+import { Header } from "@/ui/Header";
 
 const Page = () => {
   const t = useTranslation();
-  const {  formRef } = useAuthenticate();
 
   return (
     <>
@@ -33,17 +32,20 @@ const Page = () => {
                 </Title>
                 <Space h={30} />
                 <AppForm
-                  ref={formRef}
                   schema={samples.ForgotPassword.schema}
                   uiSchema={samples.ForgotPassword.uiSchema}
                   formData={samples.ForgotPassword.formData}
                   w={"100%"}
                   msgSuccess="You have successfully submitted a password change request."
                   api="/api/password/forgot"
-                  converterFormData={convertToForgotPasswordFormData}
+                  formDataConverter={convertToForgotPasswordFormData}
                   messages={{
-                    titleSuccess: "Account Registration Successful",
-                    msgSuccess: "You have successfully submitted a password change request."
+                    titleSuccess: t(
+                      "Account Registration Successful",
+                    ),
+                    msgSuccess: t(
+                      "You have successfully submitted a password change request.",
+                    ),
                   }}
                 />
               </Card>

@@ -32,7 +32,7 @@ import {
 } from "@tabler/icons-react";
 import { Fragment, useState } from "react";
 import { OptionFilter } from "../copy-trade";
-import { Footer, Header } from "../top-page";
+import { Footer } from "../top-page";
 import "./index.module.scss";
 
 export default function CopyTradeDetail() {
@@ -1415,6 +1415,7 @@ import { shuffleArray } from "@/utils";
 import { Table, TableData } from "@mantine/core";
 import _ from "lodash";
 import { getSeriesValue } from "./config";
+import { Header } from "@/ui/Header";
 
 const tableData = (): TableData => {
   const _items = [

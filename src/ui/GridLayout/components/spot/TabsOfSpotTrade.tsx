@@ -1,8 +1,7 @@
-import AppButton from "@/ui/Button/AppButton";
 import AppTabs from "@/ui/Tabs";
 import AppText from "@/ui/Text/AppText";
-import { Box, Checkbox, Divider, Flex, Table, TableData } from "@mantine/core";
-import { Fragment, useMemo, useState } from "react";
+import { Box, Divider, Flex } from "@mantine/core";
+import { useState } from "react";
 
 export function TabsOfSpotTradeHistory() {
   const [activeTab, setActiveTab] = useState<string>("positions");
@@ -16,11 +15,7 @@ export function TabsOfSpotTradeHistory() {
         },
       },
       tabsPanelProps: {
-        children: (
-          <>
-            xx
-          </>
-        ),
+        children: <>xx</>,
         value: "positions",
       },
     },

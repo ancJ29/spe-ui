@@ -19,7 +19,7 @@ export const CustomPasswordWidget = function (props: WidgetProps) {
         placeholder={props.uiSchema?.["ui:placeholder"]}
         error={Boolean(props.rawErrors?.toLocaleString())}
         label={props.label ? props.label : ""}
-        {...(props.options?.props as any)}
+        {...(props.options?.props as any)} // eslint-disable-line
       />
     </>
   );

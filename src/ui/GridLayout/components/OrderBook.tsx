@@ -1,14 +1,24 @@
-import AppTabs from "@/ui/Tabs";
-import AppText from "@/ui/Text/AppText";
-import { Box, Button, Center, Flex, HoverCard, Image, NumberFormatter, SegmentedControl, Select, Space, Text } from "@mantine/core";
-import { useHover } from "@mantine/hooks";
-import { IconArrowUp, IconCaretDownFilled, IconFlag, IconFlagFilled } from "@tabler/icons-react";
-import React, { useState } from "react";
 import orderAll from "@/assets/images/icon/orderAll.svg";
 import orderBuy from "@/assets/images/icon/orderBuy.svg";
-import orderSell from "@/assets/images/icon/orderSell.svg";
 import orderHorizontal from "@/assets/images/icon/orderHorizontal.svg";
-import { AskOrderBookTrade, BidOrderBookTrade, GridRecentTrade, OrderAllOrderBookTrade, OrderHorizontalOrderBookTrade } from ".";
+import orderSell from "@/assets/images/icon/orderSell.svg";
+import AppTabs from "@/ui/Tabs";
+import {
+  Box,
+  Flex,
+  Image,
+  SegmentedControl,
+  Select,
+} from "@mantine/core";
+import { IconCaretDownFilled } from "@tabler/icons-react";
+import { useState } from "react";
+import {
+  AskOrderBookTrade,
+  BidOrderBookTrade,
+  GridRecentTrade,
+  OrderAllOrderBookTrade,
+  OrderHorizontalOrderBookTrade,
+} from ".";
 
 export function OrderBook() {
   return (
@@ -25,9 +35,7 @@ export function OrderBook() {
               value: "1",
             },
             tabsPanelProps: {
-              children: (
-                <GridOrderBook />
-              ),
+              children: <GridOrderBook />,
               value: "positions",
             },
           },
@@ -47,14 +55,23 @@ export function OrderBook() {
   );
 }
 
-type GridTypes = "orderAll" | "orderHorizontal" | "orderBuy" | "orderSell";
+type GridTypes =
+  | "orderAll"
+  | "orderHorizontal"
+  | "orderBuy"
+  | "orderSell";
 function GridOrderBook() {
   const [gridType, setGridType] = useState<GridTypes>("orderAll");
   const w = 14;
   return (
     <>
       <>
-        <Flex align={"center"} justify={"space-between"} px={10} py={5}>
+        <Flex
+          align={"center"}
+          justify={"space-between"}
+          px={10}
+          py={5}
+        >
           <Box>
             <SegmentedControl
               withItemsBorders={false}
@@ -63,7 +80,7 @@ function GridOrderBook() {
               value={gridType}
               styles={{
                 root: {
-                  background: "none"
+                  background: "none",
                 },
               }}
               data={[
@@ -99,7 +116,6 @@ function GridOrderBook() {
                     </Box>
                   ),
                 },
-
               ]}
             />
           </Box>
@@ -140,20 +156,19 @@ function GridOrderBook() {
                   fontSize: "12px",
                   textAlign: "center",
                   justifyContent: "center",
-                  fontWeight: "bold"
+                  fontWeight: "bold",
                 },
               }}
             />
           </Box>
         </Flex>
-        {gridType === "orderAll" && <OrderAllOrderBookTrade/>}
-        {gridType === "orderHorizontal" && <OrderHorizontalOrderBookTrade/> }
-        {gridType === "orderBuy" && <BidOrderBookTrade/>}
-        {gridType === "orderSell" && <AskOrderBookTrade/>}
+        {gridType === "orderAll" && <OrderAllOrderBookTrade />}
+        {gridType === "orderHorizontal" && (
+          <OrderHorizontalOrderBookTrade />
+        )}
+        {gridType === "orderBuy" && <BidOrderBookTrade />}
+        {gridType === "orderSell" && <AskOrderBookTrade />}
       </>
     </>
   );
 }
-
-
-

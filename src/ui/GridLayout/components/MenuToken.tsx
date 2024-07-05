@@ -5,10 +5,28 @@ import { AppPopover } from "@/ui/Popover/AppPopover";
 import AppTabs from "@/ui/Tabs";
 import AppText from "@/ui/Text/AppText";
 import { shuffleArray } from "@/utils";
-import { ActionIcon, Avatar, Box, Flex, Group, Input, InputProps, Menu, Space, Table, TableData } from "@mantine/core";
-import { IconChevronLeft, IconChevronRight, IconInfoSmall, IconMenu2, IconSearch, IconStar } from "@tabler/icons-react";
+import {
+  ActionIcon,
+  Avatar,
+  Box,
+  Flex,
+  Group,
+  Input,
+  InputProps,
+  Menu,
+  Space,
+  Table,
+  TableData,
+} from "@mantine/core";
+import {
+  IconChevronLeft,
+  IconChevronRight,
+  IconInfoSmall,
+  IconMenu2,
+  IconSearch,
+  IconStar,
+} from "@tabler/icons-react";
 import { useMemo, useState } from "react";
-
 
 const items = [
   {
@@ -171,10 +189,12 @@ export function MenuToken() {
                   target={(props) => ({
                     children: (
                       <ActionIcon
+                        // eslint-disable-next-line react/prop-types
                         onMouseEnter={props.open}
                         variant="light"
                         radius={"100%"}
                         size={20}
+                        // eslint-disable-next-line react/prop-types
                         onMouseLeave={props.close}
                       >
                         <IconInfoSmall />
@@ -227,8 +247,6 @@ export function SearchBox(props: Partial<InputProps>) {
   );
 }
 
-
-
 export function TabSmall() {
   const [activeTab, setActiveTab] = useState<string>("Favorites");
   const onChange = (value: string | null) => {
@@ -278,7 +296,6 @@ export function TabSmall() {
   );
 }
 
-
 export function ListCateAsSlide(props: Partial<{ items: string[] }>) {
   return (
     <>
@@ -310,7 +327,6 @@ export function ListCateAsSlide(props: Partial<{ items: string[] }>) {
     </>
   );
 }
-
 
 export function TableTokens() {
   const tableData = (): TableData => {
@@ -414,8 +430,8 @@ export function TableTokens() {
       <Table
         styles={{
           thead: {
-            background: "var(--mantine-color-dark-9)"
-          }
+            background: "var(--mantine-color-dark-9)",
+          },
         }}
         stickyHeader
         highlightOnHover

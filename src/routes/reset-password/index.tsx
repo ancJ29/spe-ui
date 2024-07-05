@@ -1,3 +1,4 @@
+import { useAuthenticate } from "@/hooks/useAuthenticate";
 import useTranslation from "@/hooks/useTranslation";
 import AppForm from "@/ui/Form/Form";
 import { samples } from "@/ui/Form/Sample";
@@ -11,14 +12,12 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { Header } from "../top-page";
+import { Header } from "@/ui/Header";
+import { convertToResetPasswordFormData } from "./config";
 import classes from "./index.module.scss";
-import { useAuthenticate } from "@/hooks/useAuthenticate";
-import { convertToResetPasswordFormData } from "../login/config";
 
 const Page = () => {
   const t = useTranslation();
-  const { formRef } = useAuthenticate();
   return (
     <>
       <Header />
@@ -32,18 +31,19 @@ const Page = () => {
                 </Title>
                 <Space h={30} />
                 <AppForm
-                  ref={formRef}
                   showJsonOutput={false}
                   schema={samples.ResetPassword.schema}
                   uiSchema={samples.ResetPassword.uiSchema}
                   formData={samples.ResetPassword.formData}
                   w={"100%"}
-                  msgSuccess="Password reset has been done"
+                  msgSuccess={t("Password reset has been done")}
                   api="/api/password/reset"
-                  converterFormData={convertToResetPasswordFormData}
+                  formDataConverter={convertToResetPasswordFormData}
                   messages={{
-                    titleSuccess: "Password Reset Successful",
-                    msgSuccess: "Your password has been successfully reset. You can now log in with your new password. If you did not request this change, please contact our support team immediately."
+                    titleSuccess: t("Password Reset Successful"),
+                    msgSuccess: t(
+                      "Your password has been successfully reset. You can now log in with your new password. If you did not request this change, please contact our support team immediately.",
+                    ),
                   }}
                 />
               </Card>

@@ -15,27 +15,8 @@ const ForgotPasswordSchema: Sample = {
             title: "Phone",
             type: "string"
           },
-          is2fa: {
-            type: "boolean",
-            default: false
-          },
         },
         required: ["phoneLocale", "mobile"],
-        if: {
-          properties: {
-            is2fa: {
-              const: true
-            }
-          }
-        },
-        then: {
-          properties: {
-            mfaCode: {
-              $ref: "#/definitions/mfaCode",
-            }
-          },
-          required: ["mfaCode"],
-        }
       },
       Email: {
         type: "object",
@@ -46,27 +27,8 @@ const ForgotPasswordSchema: Sample = {
             title: "Email",
             pattern: REGEX.EMAIL,
           },
-          is2fa: {
-            type: "boolean",
-            default: false
-          },
         },
         required: ["email"],
-        if: {
-          properties: {
-            is2fa: {
-              const: true
-            }
-          }
-        },
-        then: {
-          properties: {
-            mfaCode: {
-              $ref: "#/definitions/mfaCode",
-            },
-          },
-          required: ["mfaCode"]
-        }
       },
       type: {
         type: "string",
@@ -78,10 +40,6 @@ const ForgotPasswordSchema: Sample = {
         default: "+81 Japan",
         title: "Region"
       },
-      mfaCode: {
-        type: "string",
-        title: "2FA Code"
-      }
     },
     properties: {
       type: {
@@ -141,9 +99,8 @@ const ForgotPasswordSchema: Sample = {
           }
         }
       },
-      mobile: {
+      "mobile": {
         "ui:options": {
-          "widget": "PhoneNumber2FAWidget",
           "placeholder": "Mobile",
           "label": false,
           "classNames": "span-15",
@@ -152,27 +109,10 @@ const ForgotPasswordSchema: Sample = {
           }
         },
       },
-      is2fa: {
-        "ui:options": {
-          "widget": "hidden",
-          "label": false,
-          "classNames": "hiddenField",
-        }
-      },
-      "mfaCode": {
-        "ui:options": {
-          "placeholder": "Email",
-          "label": false,
-          "props": {
-            withAsterisk: true
-          }
-        }
-      }
     },
     "email": {
-      email: {
+      "email": {
         "ui:options": {
-          "widget": "TextEmail2FaWidget",
           "placeholder": "Email",
           "label": false,
           "props": {
@@ -180,22 +120,6 @@ const ForgotPasswordSchema: Sample = {
           }
         },
       },
-      is2fa: {
-        "ui:options": {
-          "widget": "hidden",
-          "label": false,
-          "classNames": "hiddenField",
-        }
-      },
-      "mfaCode": {
-        "ui:options": {
-          "placeholder": "Email",
-          "label": false,
-          "props": {
-            withAsterisk: true
-          }
-        }
-      }
     },
   },
   formData: {},

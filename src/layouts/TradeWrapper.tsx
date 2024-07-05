@@ -1,5 +1,5 @@
 import useMetadata from "@/hooks/useMetadata";
-import { Header } from "@/routes/top-page";
+import { Header } from "@/ui/Header";
 import { Box } from "@mantine/core";
 import React from "react";
 

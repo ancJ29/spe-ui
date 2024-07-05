@@ -27,7 +27,7 @@ const simpleSchema: Sample = {
       password: {
         type: "string",
         title: "Password",
-        minLength: 3,
+        minLength: 6,
       },
       telephone: {
         type: "string",
