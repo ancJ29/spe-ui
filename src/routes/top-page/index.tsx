@@ -43,6 +43,8 @@ import { Header } from "@/ui/Header";
 type Gainer = {
   id: string;
   token: string;
+  pairToken: string
+  baseToken: string
   lastPrice: number;
   change: number;
   icon: string;
@@ -282,7 +284,6 @@ function TableBar(props: { items: Gainer[] }) {
       text: "Trade",
     },
   ];
-
   return (
     <AppTable
       fields={fields}
@@ -356,7 +357,9 @@ function renderCell(
   }
   if (field.name == "Trade") {
     return (
-      <AppButton instancetype="WithOutlinedColor">Trade</AppButton>
+      <AppButton instancetype="WithOutlinedColor" component="a" href={
+        `/trade/${element.baseToken}/${element.pairToken}`
+      }>Trade</AppButton>
     );
   }
 }

@@ -46,7 +46,7 @@ export const theme = createTheme({
         size: "lg",
         styles: {
           input: {
-            background: "#26282c",
+            background: "light-dark(rgba(0,0,0, 0.05), #26282c)",
             fontSize: "14px",
             // border: "none"
           }
@@ -58,7 +58,7 @@ export const theme = createTheme({
         size: "lg",
         styles: {
           input: {
-            background: "#26282c",
+            background: "light-dark(rgba(0,0,0, 0.05), #26282c)",
             fontSize: "14px",
             // border: "none",
           }
@@ -73,7 +73,7 @@ export const theme = createTheme({
             // border: "solid 1px red"
           },
           input: {
-            background: "#26282c",
+            background: "light-dark(rgba(0,0,0, 0.05), #26282c)",
             fontSize: "14px",
             // border: "none"
           },
@@ -84,7 +84,7 @@ export const theme = createTheme({
       defaultProps: {
         styles: {
           input: {
-            background: "#26282c",
+            background: "light-dark(rgba(0,0,0, 0.05), #26282c)",
             fontSize: "14px",
           },
           section: {

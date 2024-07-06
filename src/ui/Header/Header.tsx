@@ -554,10 +554,10 @@ function MenuUserInfo() {
     window.open("/", "_self")
   }, [])
 
-  const isLogined = useMemo(() => {
+  const isLoggedIn = useMemo(() => {
     return Boolean(localStorage.getItem("token"))
   }, [])
-  if(!isLogined) {
+  if(!isLoggedIn) {
     return (
       <>
         <GroupLinkAuth />

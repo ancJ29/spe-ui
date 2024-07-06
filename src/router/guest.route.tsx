@@ -43,18 +43,6 @@ const routes: RouteObject[] = [
     element: <map.ForgotPassword />,
   },
   {
-    path: "/trade/:baseToken/:pairToken",
-    element: <map.Trade/>,
-  },
-  {
-    path: "/trade/spot/:baseToken/:pairToken",
-    element: <map.SpotTrade/>,
-  },
-  {
-    path: "/trade/futures/:baseToken/:pairToken",
-    element: <map.FuturesTrade/>,
-  },
-  {
     path: "/*",
     element: <map.TopPage />,
   },
