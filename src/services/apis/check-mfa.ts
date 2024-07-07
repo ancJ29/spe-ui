@@ -1,6 +1,5 @@
 import logger from "../logger";
-
-import axios from "axios";
+import axios from "./axios";
 
 type MfaCheckResponse = {
   result: {
