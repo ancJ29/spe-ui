@@ -99,11 +99,10 @@
 
 @mixin generate-grid-gap-classes($columns) {
   @for $i from 1 through $columns {
-      &.gap-#{$i} {
-        fieldset {
-          gap: #{$i}px;
-        }
+    &.gap-#{$i} {
+      fieldset {
+        gap: #{$i}px;
       }
+    }
   }
 }
-

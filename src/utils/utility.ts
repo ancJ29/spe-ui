@@ -1,3 +1,5 @@
+import { debounce } from "lodash";
+
 export function splitAndFormatString(str: string) {
   str = str.replace(/^linkTo/, "");
   str = str.replace(/^click/, "");
@@ -8,4 +10,26 @@ export function splitAndFormatString(str: string) {
   }
 
   return result;
+}
+
+export function debounceBuilder(
+  fn: (...args: any[]) => void, // eslint-disable-line
+  delay: number,
+) {
+  return debounce(fn, delay);
+}
+
+export function extractPhoneNumber({
+  phoneLocale,
+  mobile,
+}: {
+  phoneLocale?: string;
+  mobile?: string;
+} = {}) {
+  const region = `+${parseInt(phoneLocale || "1")}`;
+  return `${region}${(mobile || "").replace(/^0/g, "")}`;
+}
+
+export function extractSuffix(obj: unknown) {
+  return (obj as { suffix?: string })?.suffix || "USDT";
 }

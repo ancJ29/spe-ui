@@ -9,7 +9,7 @@ interface AddTPSLProps {
   orderPrice: number;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSubmit: (res: IChangeEvent) => void;
-  onClose?: () => void
+  onClose?: () => void;
 }
 export function AddTpSlOfTradeForm({
   orderPrice = 0.4907,
@@ -59,11 +59,13 @@ export function AddTpSlOfTradeForm({
           <AppButton
             color="gray"
             onClick={() => {
-              if(props.onClose) {
+              if (props.onClose) {
                 props.onClose();
               }
             }}
-          >Cancel</AppButton>
+          >
+            Cancel
+          </AppButton>
         </SimpleGrid>
       </Box>
     </>

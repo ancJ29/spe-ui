@@ -1,11 +1,10 @@
-import { useCallback } from "react";
-
+// import { useCallback } from "react";
 
 export function useAuthenticate() {
-    const authenticate = useCallback(() => {
-        
-    },[])
-    return {
-        user: {}
-    };
+  // const authenticate = useCallback(() => {
+
+  // }, []);
+  return {
+    user: {},
+  };
 }

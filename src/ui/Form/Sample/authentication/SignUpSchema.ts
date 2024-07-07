@@ -9,11 +9,11 @@ const SignUpSchema: Sample = {
         title: "",
         properties: {
           phoneLocale: {
-            $ref: "#/definitions/PhoneLocal"
+            $ref: "#/definitions/PhoneLocal",
           },
           mobile: {
             title: "Phone",
-            type: "string"
+            type: "string",
           },
           password: {
             $ref: "#/definitions/Password",
@@ -49,7 +49,7 @@ const SignUpSchema: Sample = {
       PhoneLocal: {
         type: "string",
         default: "+81 Japan",
-        title: "Region"
+        title: "Region",
       },
     },
     properties: {
@@ -60,9 +60,9 @@ const SignUpSchema: Sample = {
     if: {
       properties: {
         type: {
-          const: "1"
-        }
-      }
+          const: "1",
+        },
+      },
     },
     then: {
       properties: {
@@ -95,64 +95,63 @@ const SignUpSchema: Sample = {
     },
     "type": {
       "ui:options": {
-        "widget": "TabWidget",
-        "label": false
-      }
+        widget: "TabWidget",
+        label: false,
+      },
     },
     "mobile": {
-      "phoneLocale": {
+      phoneLocale: {
         "ui:options": {
-          "widget": "PhoneLocalWidget",
-          "classNames": "span-9",
-          "label": false,
-          "props": {
+          widget: "PhoneLocalWidget",
+          classNames: "span-9",
+          label: false,
+          props: {
             withAsterisk: true,
-          }
-        }
-      },
-      "mobile": {
-        "ui:options": {
-          "placeholder": "Mobile",
-          "label": false,
-          "classNames": "span-15",
-          "props": {
-            withAsterisk: true
-          }
+          },
         },
       },
-      "password": {
+      mobile: {
         "ui:options": {
-          "widget": "CustomPasswordWidget",
-          "label": false,
-          "props": {
-            withAsterisk: true
-          }
-        }
+          placeholder: "Mobile",
+          label: false,
+          classNames: "span-15",
+          props: {
+            withAsterisk: true,
+          },
+        },
+      },
+      password: {
+        "ui:options": {
+          widget: "CustomPasswordWidget",
+          label: false,
+          props: {
+            withAsterisk: true,
+          },
+        },
       },
     },
     "email": {
-      "email": {
+      email: {
         "ui:options": {
-          "placeholder": "Email",
-          "label": false,
-          "props": {
-            withAsterisk: true
-          }
+          placeholder: "Email",
+          label: false,
+          props: {
+            withAsterisk: true,
+          },
         },
       },
-      "password": {
+      password: {
         "ui:options": {
-          "widget": "CustomPasswordWidget",
-          "label": false,
-          "props": {
-            withAsterisk: true
-          }
-        }
+          widget: "CustomPasswordWidget",
+          label: false,
+          props: {
+            withAsterisk: true,
+          },
+        },
       },
     },
   },
   formData: {},
 };
-
 
 export default SignUpSchema;

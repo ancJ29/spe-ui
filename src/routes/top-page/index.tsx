@@ -1,16 +1,11 @@
 // cspell: disable
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import {
-  Metadata,
-  footerInfo,
-  getFooter,
-  getHeaderMenu,
-} from "@/domain/MetaData";
+import { Metadata, footerInfo, getFooter } from "@/domain/MetaData";
 import useMetadata from "@/hooks/useMetadata";
 import AppButton from "@/ui/Button/AppButton";
 import CarouselPage from "@/ui/Carousel/Carousel";
 import AppChart, { randomizeArraySparkline } from "@/ui/Chart/Chart";
-import Icon from "@/ui/Icon/Icon";
+import { Header } from "@/ui/Header";
 import { AppLogo } from "@/ui/Logo/Logo";
 import MarqueeList from "@/ui/Marquee/Marquee";
 import AppPill from "@/ui/Pill/AppPill";
@@ -38,13 +33,12 @@ import {
 } from "@mantine/core";
 import { useMemo, useState } from "react";
 import classes from "./index.module.scss";
-import { Header } from "@/ui/Header";
 
 type Gainer = {
   id: string;
   token: string;
-  pairToken: string
-  baseToken: string
+  pairToken: string;
+  baseToken: string;
   lastPrice: number;
   change: number;
   icon: string;
@@ -176,8 +170,6 @@ export default function TopPage() {
     </>
   );
 }
-
-
 
 function Banner() {
   return (
@@ -357,9 +349,13 @@ function renderCell(
   }
   if (field.name == "Trade") {
     return (
-      <AppButton instancetype="WithOutlinedColor" component="a" href={
-        `/trade/${element.baseToken}/${element.pairToken}`
-      }>Trade</AppButton>
+      <AppButton
+        instancetype="WithOutlinedColor"
+        component="a"
+        href={`/trade/${element.baseToken}/${element.pairToken}`}
+      >
+        Trade
+      </AppButton>
     );
   }
 }

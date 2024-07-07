@@ -9,11 +9,11 @@ const ForgotPasswordSchema: Sample = {
         title: "",
         properties: {
           phoneLocale: {
-            $ref: "#/definitions/PhoneLocal"
+            $ref: "#/definitions/PhoneLocal",
           },
           mobile: {
             title: "Phone",
-            type: "string"
+            type: "string",
           },
         },
         required: ["phoneLocale", "mobile"],
@@ -33,12 +33,12 @@ const ForgotPasswordSchema: Sample = {
       type: {
         type: "string",
         enum: ["1", "2"],
-        default: "1"
+        default: "1",
       },
       PhoneLocal: {
         type: "string",
         default: "+81 Japan",
-        title: "Region"
+        title: "Region",
       },
     },
     properties: {
@@ -49,9 +49,9 @@ const ForgotPasswordSchema: Sample = {
     if: {
       properties: {
         type: {
-          const: "1"
-        }
-      }
+          const: "1",
+        },
+      },
     },
     then: {
       properties: {
@@ -59,7 +59,7 @@ const ForgotPasswordSchema: Sample = {
           $ref: "#/definitions/Email",
         },
       },
-      required: ["email"]
+      required: ["email"],
     },
     else: {
       properties: {
@@ -67,7 +67,7 @@ const ForgotPasswordSchema: Sample = {
           $ref: "#/definitions/PhoneNumber",
         },
       },
-      required: ["mobile"]
+      required: ["mobile"],
     },
   },
   uiSchema: {
@@ -84,40 +84,40 @@ const ForgotPasswordSchema: Sample = {
     },
     "type": {
       "ui:options": {
-        "widget": "TabWidget",
-        "label": false
-      }
+        widget: "TabWidget",
+        label: false,
+      },
     },
     "mobile": {
-      "phoneLocale": {
+      phoneLocale: {
         "ui:options": {
-          "widget": "PhoneLocalWidget",
-          "classNames": "span-9",
-          "label": false,
-          "props": {
+          widget: "PhoneLocalWidget",
+          classNames: "span-9",
+          label: false,
+          props: {
             withAsterisk: true,
-          }
-        }
+          },
+        },
       },
-      "mobile": {
+      mobile: {
         "ui:options": {
-          "placeholder": "Mobile",
-          "label": false,
-          "classNames": "span-15",
-          "props": {
-            withAsterisk: true
-          }
+          placeholder: "Mobile",
+          label: false,
+          classNames: "span-15",
+          props: {
+            withAsterisk: true,
+          },
         },
       },
     },
     "email": {
-      "email": {
+      email: {
         "ui:options": {
-          "placeholder": "Email",
-          "label": false,
-          "props": {
-            withAsterisk: true
-          }
+          placeholder: "Email",
+          label: false,
+          props: {
+            withAsterisk: true,
+          },
         },
       },
     },

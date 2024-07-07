@@ -6,7 +6,6 @@ export function TabWidget(props: WidgetProps) {
   return (
     <>
       <SegmentedControl
-
         size="sm"
         color="primary"
         transitionDuration={200}

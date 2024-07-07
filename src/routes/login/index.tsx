@@ -1,7 +1,7 @@
-import { useAuthenticate } from "@/hooks/useAuthenticate";
 import useTranslation from "@/hooks/useTranslation";
 import AppForm from "@/ui/Form/Form";
 import { samples } from "@/ui/Form/Sample";
+import { Header } from "@/ui/Header";
 import {
   Box,
   Card,
@@ -12,7 +12,6 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { Header } from "@/ui/Header";
 import { convertToLoginFormData } from "./config";
 import classes from "./login.module.scss";
 const Login = () => {

@@ -1,5 +1,6 @@
 import AppButton from "@/ui/Button/AppButton";
 import AppText from "@/ui/Text/AppText";
+import { extractSuffix } from "@/utils/utility";
 import {
   Box,
   Button,
@@ -164,9 +165,7 @@ export function QtyPercentWidget(props: WidgetProps) {
           rightSectionWidth={60}
           rightSection={
             <AppText fz={12} fw={"bold"}>
-              {props?.options?.props?.suffix
-                ? props?.options?.props?.suffix
-                : "USDC"}
+              {extractSuffix(props?.options?.props)}
             </AppText>
           }
         ></NumberInput>
@@ -218,9 +217,7 @@ export function VolumeInputPercentFieldWidget(props: WidgetProps) {
           rightSectionWidth={60}
           rightSection={
             <AppText fz={12} fw={"bold"}>
-              {props?.options?.props?.suffix
-                ? props?.options?.props?.suffix
-                : "USDC"}
+              {extractSuffix(props?.options?.props)}
             </AppText>
           }
         ></NumberInput>
@@ -273,9 +270,7 @@ export function VolumeInputHintFieldWidget(props: WidgetProps) {
           rightSectionWidth={60}
           rightSection={
             <AppText fz={12} fw={"bold"}>
-              {props?.options?.props?.suffix
-                ? props?.options?.props?.suffix
-                : "USDC"}
+              {extractSuffix(props?.options?.props)}
             </AppText>
           }
         ></NumberInput>
@@ -294,7 +289,8 @@ export function VolumeInputHintFieldWidget(props: WidgetProps) {
   );
 }
 
-export function QtyBuyButtonWidget(props: WidgetProps) {
+export function QtyBuyButtonWidget() {
+  // props: WidgetProps
   return (
     <>
       <Space mt={10} />
@@ -342,7 +338,8 @@ export function QtyBuyButtonWidget(props: WidgetProps) {
   );
 }
 
-export function QtySellButtonWidget(props: WidgetProps) {
+export function QtySellButtonWidget() {
+  // props: WidgetProps
   return (
     <>
       <Space mt={10} />
@@ -394,7 +391,7 @@ export function MarginWidget(props: WidgetProps) {
   const [opened, { open, close }] = useDisclosure(false);
   const onOpenModal = useCallback(() => {
     open();
-  }, []);
+  }, [open]);
   return (
     <>
       <Box

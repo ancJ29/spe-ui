@@ -1,15 +1,51 @@
-import { Metadata, getHeaderMenu } from "@/domain/MetaData";
-import { ActionIcon, Anchor, Box, Burger, Button, Center, Collapse, CopyButton, Divider, Drawer, Flex, Group, HoverCard, Image, Menu, ScrollArea, SimpleGrid, Text, ThemeIcon, Tooltip, UnstyledButton, lighten, rem, useComputedColorScheme, useMantineColorScheme, useMantineTheme } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
-import classes from "./index.module.scss";
-import { IconArrowRight, IconArrowsLeftRight, IconCaretDownFilled, IconCheck, IconCoin, IconCopy, IconHeart, IconLogout, IconMessageCircle, IconMoon, IconPhoto, IconSearch, IconSettings, IconSun, IconTrash, IconUserCircle, IconWorld } from "@tabler/icons-react";
-import cx from "clsx";
-import Icon from "../Icon/Icon";
-import AppButton from "../Button/AppButton";
-import svgLogo from "@/assets/images/logo.svg";
 import avatardefault from "@/assets/images/avatardefault.png";
-
+import svgLogo from "@/assets/images/logo.svg";
+import { Metadata, getHeaderMenu } from "@/domain/MetaData";
+import {
+  ActionIcon,
+  Anchor,
+  Box,
+  Burger,
+  Button,
+  Center,
+  Collapse,
+  CopyButton,
+  Divider,
+  Drawer,
+  Flex,
+  Group,
+  HoverCard,
+  Image,
+  Menu,
+  ScrollArea,
+  SimpleGrid,
+  Text,
+  ThemeIcon,
+  Tooltip,
+  UnstyledButton,
+  lighten,
+  rem,
+  useComputedColorScheme,
+  useMantineColorScheme,
+  useMantineTheme,
+} from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import {
+  IconArrowRight,
+  IconCaretDownFilled,
+  IconCheck,
+  IconCoin,
+  IconCopy,
+  IconLogout,
+  IconMoon,
+  IconSun,
+  IconWorld,
+} from "@tabler/icons-react";
+import cx from "clsx";
+import { Fragment, useCallback, useMemo, useState } from "react";
+import AppButton from "../Button/AppButton";
+import Icon from "../Icon/Icon";
+import classes from "./index.module.scss";
 
 export function Header(props: Partial<{ metadata: Metadata }>) {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
@@ -92,8 +128,8 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
                               variant="transparent"
                               styles={{
                                 root: {
-                                  borderRadius: "3px"
-                                }
+                                  borderRadius: "3px",
+                                },
                               }}
                             >
                               <Group wrap="nowrap" align="flex-start">
@@ -189,8 +225,8 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
                                 variant="transparent"
                                 styles={{
                                   root: {
-                                    borderRadius: "3px"
-                                  }
+                                    borderRadius: "3px",
+                                  },
                                 }}
                               >
                                 <Group
@@ -545,81 +581,98 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
   );
 }
 
-
 function MenuUserInfo() {
-  
   const logOut = useCallback(() => {
-    localStorage.removeItem("token")
-    localStorage.removeItem("__USER__")
-    window.open("/", "_self")
-  }, [])
+    localStorage.removeItem("token");
+    localStorage.removeItem("__USER__");
+    window.open("/", "_self");
+  }, []);
 
   const isLoggedIn = useMemo(() => {
-    return Boolean(localStorage.getItem("token"))
-  }, [])
-  if(!isLoggedIn) {
+    return Boolean(localStorage.getItem("token"));
+  }, []);
+  if (!isLoggedIn) {
     return (
       <>
         <GroupLinkAuth />
       </>
-    )
+    );
   }
   return (
     <>
-      <Menu shadow="md" width={320} trigger="hover" offset={0} closeDelay={100}>
+      <Menu
+        shadow="md"
+        width={320}
+        trigger="hover"
+        offset={0}
+        closeDelay={100}
+      >
         <Menu.Target>
-          <ActionIcon
-            variant="transparent"
-            size="xl"
-          >
+          <ActionIcon variant="transparent" size="xl">
             <Image src={avatardefault} w={28} h={28} />
           </ActionIcon>
         </Menu.Target>
 
-        <Menu.Dropdown styles={{
-          dropdown: {
-            height: "calc(100vh - 48px)",
-            background: "#16181e",
-            display: "flex",
-            flexDirection: "column",
-            border: "none"
-          }
-        }}>
+        <Menu.Dropdown
+          styles={{
+            dropdown: {
+              height: "calc(100vh - 48px)",
+              background: "#16181e",
+              display: "flex",
+              flexDirection: "column",
+              border: "none",
+            },
+          }}
+        >
           <Menu.Item>
             <Flex gap={10}>
               <Box>
-                <ActionIcon
-                  variant="transparent"
-                  size="xl"
-                >
+                <ActionIcon variant="transparent" size="xl">
                   <Image src={avatardefault} w={38} h={38} />
                 </ActionIcon>
               </Box>
               <Box>
                 <Text fz={14}>duc***@****</Text>
                 <Flex align={"center"} gap={0}>
-                  <Text fz={12} c={"gray.5"}>UID: 194260796</Text>
+                  <Text fz={12} c={"gray.5"}>
+                    UID: 194260796
+                  </Text>
                   <CopyButton value="UID: 194260796">
                     {({ copied, copy }) => (
-                      <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
-                        <ActionIcon color={copied ? 'teal' : 'gray'} variant="subtle" onClick={copy}>
+                      <Tooltip
+                        label={copied ? "Copied" : "Copy"}
+                        withArrow
+                        position="right"
+                      >
+                        <ActionIcon
+                          color={copied ? "teal" : "gray"}
+                          variant="subtle"
+                          onClick={copy}
+                        >
                           {copied ? (
                             <IconCheck style={{ width: rem(16) }} />
                           ) : (
-                            <IconCopy color="orange" style={{ width: rem(16) }} />
+                            <IconCopy
+                              color="orange"
+                              style={{ width: rem(16) }}
+                            />
                           )}
                         </ActionIcon>
                       </Tooltip>
                     )}
                   </CopyButton>
-
                 </Flex>
               </Box>
             </Flex>
           </Menu.Item>
-          <Menu.Item c={"orange"} fw={"bold"}
+          <Menu.Item
+            c={"orange"}
+            fw={"bold"}
             rightSection={
-              <IconArrowRight color="gray" style={{ width: rem(16) }} />
+              <IconArrowRight
+                color="gray"
+                style={{ width: rem(16) }}
+              />
             }
           >
             Switch/Create Account
@@ -638,22 +691,26 @@ function MenuUserInfo() {
             Settings
           </Menu.Item>
 
-
-          <Menu.Item c={"white"} fw={"bold"}
-          >
-            Transfer 
+          <Menu.Item c={"white"} fw={"bold"}>
+            Transfer
           </Menu.Item>
-          <Menu.Item c={"white"} fw={"bold"}
-          >
-            Deposit 
+          <Menu.Item c={"white"} fw={"bold"}>
+            Deposit
           </Menu.Item>
-          <Box style={{
-            marginTop: "auto"
-          }}>
+          <Box
+            style={{
+              marginTop: "auto",
+            }}
+          >
             <Menu.Divider />
-            <Menu.Item onClick={logOut}
+            <Menu.Item
+              onClick={logOut}
               color="red"
-              leftSection={<IconLogout style={{ width: rem(14), height: rem(14) }} />}
+              leftSection={
+                <IconLogout
+                  style={{ width: rem(14), height: rem(14) }}
+                />
+              }
             >
               Logout
             </Menu.Item>
@@ -661,21 +718,23 @@ function MenuUserInfo() {
         </Menu.Dropdown>
       </Menu>
     </>
-  )
+  );
 }
 
 function GroupLinkAuth() {
-  return <>
-    <AppButton
-      instancetype="Ghost"
-      color="white"
-      component="a"
-      href="/login"
-    >
-      Log In
-    </AppButton>
-    <AppButton component="a" href="/register">
-      Sign up
-    </AppButton>
-  </>
+  return (
+    <>
+      <AppButton
+        instancetype="Ghost"
+        color="white"
+        component="a"
+        href="/login"
+      >
+        Log In
+      </AppButton>
+      <AppButton component="a" href="/register">
+        Sign up
+      </AppButton>
+    </>
+  );
 }

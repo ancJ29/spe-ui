@@ -21,9 +21,9 @@
 
 .table-fixed {
   border: solid 1px red;
-  thead, tr {
+  thead,
+  tr {
     th {
-
     }
     td {
       &:first-child {
@@ -33,7 +33,8 @@
         background: #101014;
       }
     }
-    th, td {
+    th,
+    td {
       &:first-child {
         background: #101014;
         position: sticky;

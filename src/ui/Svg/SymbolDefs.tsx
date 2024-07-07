@@ -1,7 +1,11 @@
-
 const SymbolDefs = () => (
   <svg xmlns="http://www.w3.org/2000/svg" style={{ display: "none" }}>
-    <symbol id="#icon-handicap-all-dark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none">
+    <symbol
+      id="#icon-handicap-all-dark"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 20 20"
+      fill="none"
+    >
       <rect x="2" y="3" width="6" height="6" fill="#EF454A"></rect>
       <rect x="2" y="11" width="6" height="6" fill="#20B26C"></rect>
       <g opacity="0.8">

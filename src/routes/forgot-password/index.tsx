@@ -1,7 +1,7 @@
-import { useAuthenticate } from "@/hooks/useAuthenticate";
 import useTranslation from "@/hooks/useTranslation";
 import AppForm from "@/ui/Form/Form";
 import { samples } from "@/ui/Form/Sample";
+import { Header } from "@/ui/Header";
 import {
   Box,
   Card,
@@ -14,7 +14,6 @@ import {
 } from "@mantine/core";
 import { convertToForgotPasswordFormData } from "./config";
 import classes from "./index.module.scss";
-import { Header } from "@/ui/Header";
 
 const Page = () => {
   const t = useTranslation();

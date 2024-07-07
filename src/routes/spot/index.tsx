@@ -4,7 +4,7 @@ import { Box } from "@mantine/core";
 export default function IndexPage() {
   return (
     <Box>
-      <GridTradeSpot/>
+      <GridTradeSpot />
     </Box>
   );
 }

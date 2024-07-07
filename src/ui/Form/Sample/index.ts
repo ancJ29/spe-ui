@@ -24,8 +24,7 @@ const _samples: Record<string, Sample> = {
   NewOrderOfConditionalTradeSchema,
   AddTPandSLOfTrade,
   NewOrderOfSpotTradeSchema,
-  NewOrderOfSpotMarginTradeSchema
-
+  NewOrderOfSpotMarginTradeSchema,
 };
 
 export const samples = deepFreeze(_samples);

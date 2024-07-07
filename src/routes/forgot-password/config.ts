@@ -1,6 +1,11 @@
-import { ForgotPasswordFormData, ForgotPasswordPayload } from "@/types";
+import {
+  ForgotPasswordFormData,
+  ForgotPasswordPayload,
+} from "@/types";
 
-export function convertToForgotPasswordFormData(formData: ForgotPasswordFormData) {
+export function convertToForgotPasswordFormData(
+  formData: ForgotPasswordFormData,
+) {
   if (formData.type === "1") {
     return {
       email: formData.email?.email,

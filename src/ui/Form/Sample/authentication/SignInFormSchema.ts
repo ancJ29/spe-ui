@@ -1,7 +1,6 @@
 import { REGEX } from "@/utils/regex";
 import { Sample } from "../Sample";
 
-
 const SignInFormSchema: Sample = {
   schema: {
     definitions: {
@@ -10,15 +9,15 @@ const SignInFormSchema: Sample = {
         title: "",
         properties: {
           phoneLocale: {
-            $ref: "#/definitions/PhoneLocal"
+            $ref: "#/definitions/PhoneLocal",
           },
           mobile: {
             title: "Phone",
-            type: "string"
+            type: "string",
           },
           is2fa: {
             type: "boolean",
-            default: false
+            default: false,
           },
           password: {
             $ref: "#/definitions/Password",
@@ -28,18 +27,18 @@ const SignInFormSchema: Sample = {
         if: {
           properties: {
             is2fa: {
-              const: true
-            }
-          }
+              const: true,
+            },
+          },
         },
         then: {
           properties: {
             mfaCode: {
               $ref: "#/definitions/mfaCode",
-            }
+            },
           },
           required: ["mfaCode"],
-        }
+        },
       },
       Email: {
         type: "object",
@@ -52,7 +51,7 @@ const SignInFormSchema: Sample = {
           },
           is2fa: {
             type: "boolean",
-            default: false
+            default: false,
           },
           password: {
             $ref: "#/definitions/Password",
@@ -62,9 +61,9 @@ const SignInFormSchema: Sample = {
         if: {
           properties: {
             is2fa: {
-              const: true
-            }
-          }
+              const: true,
+            },
+          },
         },
         then: {
           properties: {
@@ -72,8 +71,8 @@ const SignInFormSchema: Sample = {
               $ref: "#/definitions/mfaCode",
             },
           },
-          required: ["mfaCode"]
-        }
+          required: ["mfaCode"],
+        },
       },
       Password: {
         type: "string",
@@ -83,29 +82,29 @@ const SignInFormSchema: Sample = {
       type: {
         type: "string",
         enum: ["1", "2"],
-        default: "1"
+        default: "1",
       },
       PhoneLocal: {
         type: "string",
         default: "+81 Japan",
-        title: "Region"
+        title: "Region",
       },
       mfaCode: {
         type: "string",
-        title: "2FA Code"
-      }
+        title: "2FA Code",
+      },
     },
     properties: {
       type: {
         $ref: "#/definitions/type",
-      }
+      },
     },
     if: {
       properties: {
         type: {
-          const: "1"
-        }
-      }
+          const: "1",
+        },
+      },
     },
     then: {
       properties: {
@@ -126,8 +125,8 @@ const SignInFormSchema: Sample = {
   },
   uiSchema: {
     "ui:options": {
-      "classNames": "grid-form-root gap-15",
-      "label": false,
+      classNames: "grid-form-root gap-15",
+      label: false,
     },
     // "ui:widget": "TabWidget",
     "ui:submitButtonOptions": {
@@ -139,99 +138,98 @@ const SignInFormSchema: Sample = {
     },
     "type": {
       "ui:options": {
-        "widget": "TabWidget",
-        "label": false,
-        "props": {
-          withAsterisk: true
-        }
-      }
+        widget: "TabWidget",
+        label: false,
+        props: {
+          withAsterisk: true,
+        },
+      },
     },
     "mobile": {
-      "phoneLocale": {
+      phoneLocale: {
         "ui:options": {
-          "widget": "PhoneLocalWidget",
-          "classNames": "span-9",
-          "label": false,
-          "props": {
+          widget: "PhoneLocalWidget",
+          classNames: "span-9",
+          label: false,
+          props: {
             withAsterisk: true,
-          }
-        }
-      },
-      "mobile": {
-        "ui:options": {
-          "widget": "PhoneNumber2FAWidget",
-          "placeholder": "Mobile",
-          "label": false,
-          "classNames": "span-15",
-          "props": {
-            withAsterisk: true
-          }
+          },
         },
       },
-      "is2fa": {
+      mobile: {
         "ui:options": {
-          "widget": "hidden",
-          "label": false,
-          "classNames": "hiddenField",
-        }
+          widget: "PhoneNumber2FAWidget",
+          placeholder: "Mobile",
+          label: false,
+          classNames: "span-15",
+          props: {
+            withAsterisk: true,
+          },
+        },
       },
-      "password": {
+      is2fa: {
         "ui:options": {
-          "widget": "CustomPasswordWidget",
-          "label": false,
-          "props": {
-            withAsterisk: true
-          }
-        }
+          widget: "hidden",
+          label: false,
+          classNames: "hiddenField",
+        },
       },
-      "mfaCode": {
+      password: {
         "ui:options": {
-          "placeholder": "Email",
-          "label": false,
-          "props": {
-            withAsterisk: true
-          }
-        }
-      }
+          widget: "CustomPasswordWidget",
+          label: false,
+          props: {
+            withAsterisk: true,
+          },
+        },
+      },
+      mfaCode: {
+        "ui:options": {
+          placeholder: "Email",
+          label: false,
+          props: {
+            withAsterisk: true,
+          },
+        },
+      },
     },
     "email": {
-      "email": {
+      email: {
         "ui:options": {
-          "widget": "TextEmail2FaWidget",
-          "placeholder": "Email",
-          "label": false,
-          "props": {
-            withAsterisk: true
-          }
+          widget: "TextEmail2FaWidget",
+          placeholder: "Email",
+          label: false,
+          props: {
+            withAsterisk: true,
+          },
         },
       },
-      "is2fa": {
+      is2fa: {
         "ui:options": {
-          "widget": "hidden",
-          "label": false,
-          "classNames": "hiddenField",
-        }
+          widget: "hidden",
+          label: false,
+          classNames: "hiddenField",
+        },
       },
-      "password": {
+      password: {
         "ui:options": {
-          "widget": "CustomPasswordWidget",
-          "label": false,
-          "props": {
-            withAsterisk: true
-          }
-        }
+          widget: "CustomPasswordWidget",
+          label: false,
+          props: {
+            withAsterisk: true,
+          },
+        },
       },
-      "mfaCode": {
+      mfaCode: {
         "ui:options": {
-          "placeholder": "Email",
-          "label": false,
-          "props": {
-            withAsterisk: true
-          }
-        }
-      }
+          placeholder: "Email",
+          label: false,
+          props: {
+            withAsterisk: true,
+          },
+        },
+      },
     },
-
   },
   formData: {},
 };

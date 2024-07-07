@@ -36,10 +36,9 @@ export const theme = createTheme({
     Combobox: Combobox.extend({
       defaultProps: {
         styles: {
-          search: {
-          }
-        }
-      }
+          search: {},
+        },
+      },
     }),
     PasswordInput: PasswordInput.extend({
       defaultProps: {
@@ -49,9 +48,9 @@ export const theme = createTheme({
             background: "light-dark(rgba(0,0,0, 0.05), #26282c)",
             fontSize: "14px",
             // border: "none"
-          }
-        }
-      }
+          },
+        },
+      },
     }),
     TextInput: TextInput.extend({
       defaultProps: {
@@ -61,9 +60,9 @@ export const theme = createTheme({
             background: "light-dark(rgba(0,0,0, 0.05), #26282c)",
             fontSize: "14px",
             // border: "none",
-          }
-        }
-      }
+          },
+        },
+      },
     }),
     NumberInput: NumberInput.extend({
       defaultProps: {
@@ -87,8 +86,7 @@ export const theme = createTheme({
             background: "light-dark(rgba(0,0,0, 0.05), #26282c)",
             fontSize: "14px",
           },
-          section: {
-          },
+          section: {},
         },
       },
     }),

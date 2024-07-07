@@ -22,7 +22,7 @@ export function CreateOrderSpotTradeForm({
           uiSchema={samples.NewOrderOfSpotTradeSchema.uiSchema}
           formData={{
             ...samples.NewOrderOfSpotTradeSchema.formData,
-            price: 1
+            price: 1,
           }}
           onSubmit={({ formData }) => {
             if (props.onSubmit) {
@@ -63,4 +63,3 @@ export function CreateOrderSpotMarginTradeForm({
     </>
   );
 }
-

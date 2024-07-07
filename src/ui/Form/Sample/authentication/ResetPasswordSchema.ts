@@ -9,11 +9,11 @@ const ResetPasswordSchema: Sample = {
         title: "",
         properties: {
           phoneLocale: {
-            $ref: "#/definitions/PhoneLocal"
+            $ref: "#/definitions/PhoneLocal",
           },
           mobile: {
             title: "Phone",
-            type: "string"
+            type: "string",
           },
           password: {
             $ref: "#/definitions/Password",
@@ -50,19 +50,18 @@ const ResetPasswordSchema: Sample = {
       type: {
         type: "string",
         enum: ["1", "2"],
-        default: "1"
+        default: "1",
       },
       PhoneLocal: {
         type: "string",
         default: "+81 Japan",
-        title: "Region"
+        title: "Region",
       },
       Code: {
         type: "string",
         title: "Code",
         minLength: 6,
       },
-
     },
     properties: {
       type: {
@@ -72,9 +71,9 @@ const ResetPasswordSchema: Sample = {
     if: {
       properties: {
         type: {
-          const: "1"
-        }
-      }
+          const: "1",
+        },
+      },
     },
     then: {
       properties: {
@@ -92,12 +91,11 @@ const ResetPasswordSchema: Sample = {
       },
       required: ["mobile"],
     },
-
   },
   uiSchema: {
     "ui:options": {
-      "widget": "hidden",
-      "submitButtonOptions": {
+      widget: "hidden",
+      submitButtonOptions: {
         props: {
           fullWidth: true,
           size: "lg",
@@ -105,93 +103,92 @@ const ResetPasswordSchema: Sample = {
         submitText: "Submit",
       },
       // label: false,
-      "classNames": "grid-form-root gap-15",
+      classNames: "grid-form-root gap-15",
     },
     "type": {
       "ui:options": {
-        "widget": "TabWidget",
-        "label": false
-      }
+        widget: "TabWidget",
+        label: false,
+      },
     },
 
     "code": {
       "ui:options": {
         label: false,
         props: {
-          withAsterisk: true
-        }
-      }
+          withAsterisk: true,
+        },
+      },
     },
     "mobile": {
-      "phoneLocale": {
+      phoneLocale: {
         "ui:options": {
-          "widget": "PhoneLocalWidget",
-          "classNames": "span-9",
-          "label": false,
-          "props": {
+          widget: "PhoneLocalWidget",
+          classNames: "span-9",
+          label: false,
+          props: {
             withAsterisk: true,
-          }
-        }
-      },
-      "mobile": {
-        "ui:options": {
-          "placeholder": "Mobile",
-          "label": false,
-          "classNames": "span-15",
-          "props": {
-            withAsterisk: true
-          }
+          },
         },
       },
-      "password": {
+      mobile: {
         "ui:options": {
-          "widget": "CustomPasswordWidget",
-          "label": false,
-          "props": {
-            withAsterisk: true
-          }
-        }
+          placeholder: "Mobile",
+          label: false,
+          classNames: "span-15",
+          props: {
+            withAsterisk: true,
+          },
+        },
       },
-      "code": {
+      password: {
         "ui:options": {
-          "label": false,
-          "props": {
-            withAsterisk: true
-          }
-        }
-      }
+          widget: "CustomPasswordWidget",
+          label: false,
+          props: {
+            withAsterisk: true,
+          },
+        },
+      },
+      code: {
+        "ui:options": {
+          label: false,
+          props: {
+            withAsterisk: true,
+          },
+        },
+      },
     },
     "email": {
-      "email": {
+      email: {
         "ui:options": {
-          "placeholder": "Email",
-          "label": false,
-          "props": {
-            withAsterisk: true
-          }
+          placeholder: "Email",
+          label: false,
+          props: {
+            withAsterisk: true,
+          },
         },
       },
-      "password": {
+      password: {
         "ui:options": {
-          "widget": "CustomPasswordWidget",
-          "label": false,
-          "props": {
-            withAsterisk: true
-          }
-        }
+          widget: "CustomPasswordWidget",
+          label: false,
+          props: {
+            withAsterisk: true,
+          },
+        },
       },
-      "code": {
+      code: {
         "ui:options": {
-          "label": false,
-          "props": {
-            withAsterisk: true
-          }
-        }
-      }
+          label: false,
+          props: {
+            withAsterisk: true,
+          },
+        },
+      },
     },
   },
   formData: {},
 };
-
 
 export default ResetPasswordSchema;

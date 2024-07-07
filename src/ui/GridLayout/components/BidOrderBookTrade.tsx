@@ -1,6 +1,19 @@
 import { formatCurrency } from "@/utils";
-import { Box, Flex, HoverCard, NumberFormatter, Select, SimpleGrid, Space, Text } from "@mantine/core";
-import { IconArrowUp, IconCaretDownFilled, IconFlagFilled } from "@tabler/icons-react";
+import {
+  Box,
+  Flex,
+  HoverCard,
+  NumberFormatter,
+  Select,
+  SimpleGrid,
+  Space,
+  Text,
+} from "@mantine/core";
+import {
+  IconArrowUp,
+  IconCaretDownFilled,
+  IconFlagFilled,
+} from "@tabler/icons-react";
 
 export function BidOrderBookTrade() {
   return (
@@ -8,15 +21,17 @@ export function BidOrderBookTrade() {
       <Flex align={"center"} gap={20} pl={5} component="div">
         <Flex align={"center"} gap={5}>
           <IconArrowUp color={"#23b26b"} fontWeight={"bold"} />
-          <Text fw={700} fz={"20px"} c={"#23b26b"}>0.022822</Text>
+          <Text fw={700} fz={"20px"} c={"#23b26b"}>
+            0.022822
+          </Text>
         </Flex>
         <HoverCard
           width={200}
           position="top"
           styles={{
             dropdown: {
-              background: "#333537"
-            }
+              background: "#333537",
+            },
           }}
         >
           <HoverCard.Target>
@@ -25,23 +40,27 @@ export function BidOrderBookTrade() {
               gap={5}
               styles={{
                 root: {
-                  cursor: "help"
-                }
+                  cursor: "help",
+                },
               }}
             >
               <IconFlagFilled color="#f6a600" size={16} />
               <Box style={{ borderBottom: "dashed 1px #f6a600" }}>
-                <Text fw={"bolder"} fz={16} c={"#f6a600"}>0.022832</Text>
+                <Text fw={"bolder"} fz={16} c={"#f6a600"}>
+                  0.022832
+                </Text>
               </Box>
             </Flex>
           </HoverCard.Target>
           <HoverCard.Dropdown>
             <Text fz={12}>
-                            Mark price is derived by index price and funding rate, and reflects the fair market price. Liquidation is triggered by mark price.
+              Mark price is derived by index price and funding rate,
+              and reflects the fair market price. Liquidation is
+              triggered by mark price.
             </Text>
             <Space mb={10} />
             <Text c={"#f6a600"} fz={12} className="cursor-pointer">
-                            Click here for details
+              Click here for details
             </Text>
           </HoverCard.Dropdown>
         </HoverCard>
@@ -99,13 +118,13 @@ export function BidOrderBookTrade() {
                         color: "white",
                         background: "none",
                         height: "24px",
-                        minHeight: "unset"
+                        minHeight: "unset",
                       },
                       option: {
                         fontSize: "12px",
                         textAlign: "center",
                         justifyContent: "center",
-                        fontWeight: "bold"
+                        fontWeight: "bold",
                       },
                     }}
                   />
@@ -116,7 +135,18 @@ export function BidOrderBookTrade() {
         </div>
         <div className="table-body">
           {[...Array(15)].map((item, i) => (
-            <HoverCard width={230} openDelay={0} closeDelay={0} shadow="md" key={i} position="left" withinPortal withArrow arrowPosition="center" arrowSize={14}>
+            <HoverCard
+              width={230}
+              openDelay={0}
+              closeDelay={0}
+              shadow="md"
+              key={i}
+              position="left"
+              withinPortal
+              withArrow
+              arrowPosition="center"
+              arrowSize={14}
+            >
               <HoverCard.Target>
                 <div className={"table-row table-row-default"}>
                   <div className="table-cell">
@@ -126,7 +156,9 @@ export function BidOrderBookTrade() {
                           <Text fz={12} c={"#23b26b"}>
                             <NumberFormatter
                               thousandSeparator
-                              value={(Math.random() * 10e6).toFixed(3)}
+                              value={(Math.random() * 10e6).toFixed(
+                                3,
+                              )}
                             />
                           </Text>
                         </div>
@@ -135,8 +167,21 @@ export function BidOrderBookTrade() {
                   </div>
                   <Box className="table-cell" pr={5}>
                     <div className="relative">
-                      <Box className="progress_bar" right={0} top={0} h={"24px"} w={`${Math.random() * 100}%`} pos={"absolute"} bg={"#162a24"}></Box>
-                      <Flex h={"24px"} className="cell-text text-right progress_bar_text" align={"center"} justify={"end"}>
+                      <Box
+                        className="progress_bar"
+                        right={0}
+                        top={0}
+                        h={"24px"}
+                        w={`${Math.random() * 100}%`}
+                        pos={"absolute"}
+                        bg={"#162a24"}
+                      ></Box>
+                      <Flex
+                        h={"24px"}
+                        className="cell-text text-right progress_bar_text"
+                        align={"center"}
+                        justify={"end"}
+                      >
                         <Text fz={12} c={"#ffffff"} fw={600}>
                           <NumberFormatter
                             thousandSeparator
@@ -149,8 +194,21 @@ export function BidOrderBookTrade() {
                   <Box className="table-cell" pl={5} pr={5}>
                     <Box h={"24px"}>
                       <div className="relative">
-                        <Box className="progress_bar" left={0} top={0} h={"24px"} w={`${Math.random() * 100}%`} pos={"absolute"} bg={"#162a24"}></Box>
-                        <Flex h={"24px"} className="cell-text text-left progress_bar_text" align={"center"} justify={"end"}>
+                        <Box
+                          className="progress_bar"
+                          left={0}
+                          top={0}
+                          h={"24px"}
+                          w={`${Math.random() * 100}%`}
+                          pos={"absolute"}
+                          bg={"#162a24"}
+                        ></Box>
+                        <Flex
+                          h={"24px"}
+                          className="cell-text text-left progress_bar_text"
+                          align={"center"}
+                          justify={"end"}
+                        >
                           <Text fz={12} c={"#ffffff"} fw={600}>
                             {/* <NumberFormatter
                                 decimalSeparator=","
@@ -164,30 +222,31 @@ export function BidOrderBookTrade() {
                   </Box>
                 </div>
               </HoverCard.Target>
-              <HoverCard.Dropdown styles={{
-                dropdown: {
-                  background: "#26282c"
-                }
-              }}
+              <HoverCard.Dropdown
+                styles={{
+                  dropdown: {
+                    background: "#26282c",
+                  },
+                }}
               >
                 <Box className="space-y-5">
                   <Flex justify={"space-between"}>
-                    <Text fz={12}>
-                                            Avg. Price
+                    <Text fz={12}>Avg. Price</Text>
+                    <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                      = 61,423.93
                     </Text>
-                    <Text fz={12} fw={"bold"} c={"#ffffff"}>= 61,423.93</Text>
                   </Flex>
                   <Flex justify={"space-between"}>
-                    <Text fz={12}>
-                                            Total Qty (BTC)
+                    <Text fz={12}>Total Qty (BTC)</Text>
+                    <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                      0.885551
                     </Text>
-                    <Text fz={12} fw={"bold"} c={"#ffffff"}>0.885551</Text>
                   </Flex>
                   <Flex justify={"space-between"}>
-                    <Text fz={12}>
-                                            Total Qty (USDT)
+                    <Text fz={12}>Total Qty (USDT)</Text>
+                    <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                      54.394K
                     </Text>
-                    <Text fz={12} fw={"bold"} c={"#ffffff"}>54.394K</Text>
                   </Flex>
                 </Box>
               </HoverCard.Dropdown>
@@ -202,8 +261,8 @@ export function BidOrderBookTrade() {
         position="top"
         styles={{
           dropdown: {
-            background: "#26282c"
-          }
+            background: "#26282c",
+          },
         }}
       >
         <HoverCard.Target>
@@ -218,7 +277,8 @@ export function BidOrderBookTrade() {
                 top={"50%"}
                 style={{
                   transform: "translateY(-50%)",
-                  clipPath: "polygon(0 0, 100% 0, calc(100% - 5px) 100%, 0% 100%)"
+                  clipPath:
+                    "polygon(0 0, 100% 0, calc(100% - 5px) 100%, 0% 100%)",
                 }}
               />
               <Box
@@ -230,7 +290,8 @@ export function BidOrderBookTrade() {
                 top={"50%"}
                 style={{
                   transform: "translateY(-50%)",
-                  clipPath: "polygon(calc(0% + 5px) 0, 100% 0, 100% 100%, 0% 100%)"
+                  clipPath:
+                    "polygon(calc(0% + 5px) 0, 100% 0, 100% 100%, 0% 100%)",
                 }}
               />
               <Flex
@@ -240,8 +301,8 @@ export function BidOrderBookTrade() {
                 h={"100%"}
                 styles={{
                   root: {
-                    zIndex: 1
-                  }
+                    zIndex: 1,
+                  },
                 }}
               >
                 <Flex align={"center"} gap={4} h={"100%"}>
@@ -253,14 +314,26 @@ export function BidOrderBookTrade() {
                     bd={"solid 1px #23b26b"}
                     w={20}
                     h={20}
-                    style={{ textAlign: "center", borderRadius: "2px" }}
+                    style={{
+                      textAlign: "center",
+                      borderRadius: "2px",
+                    }}
                     c={"#23b26b"}
-                  >B
+                  >
+                    B
                   </Flex>
-                  <Text c={"#23b26b"} fz={12} fw={500}>{`${35}%`}</Text>
+                  <Text
+                    c={"#23b26b"}
+                    fz={12}
+                    fw={500}
+                  >{`${35}%`}</Text>
                 </Flex>
                 <Flex align={"center"} gap={4} h={"100%"}>
-                  <Text c={"#f0444b"} fz={12} fw={500}>{`${65}%`}</Text>
+                  <Text
+                    c={"#f0444b"}
+                    fz={12}
+                    fw={500}
+                  >{`${65}%`}</Text>
                   <Flex
                     align={"center"}
                     justify={"center"}
@@ -269,9 +342,13 @@ export function BidOrderBookTrade() {
                     bd={"solid 1px #f0444b"}
                     w={20}
                     h={20}
-                    style={{ textAlign: "center", borderRadius: "2px" }}
+                    style={{
+                      textAlign: "center",
+                      borderRadius: "2px",
+                    }}
                     c={"#f0444b"}
-                  >S
+                  >
+                    S
                   </Flex>
                 </Flex>
               </Flex>
@@ -280,14 +357,14 @@ export function BidOrderBookTrade() {
         </HoverCard.Target>
         <HoverCard.Dropdown>
           <Text size="sm">
-                        Bid-Ask Ratio for the Top 20 Levels within the BTCUSDT Order Book
+            Bid-Ask Ratio for the Top 20 Levels within the BTCUSDT
+            Order Book
           </Text>
         </HoverCard.Dropdown>
       </HoverCard>
     </>
   );
 }
-
 
 export function AskOrderBookTrade() {
   return (
@@ -344,13 +421,13 @@ export function AskOrderBookTrade() {
                         color: "white",
                         background: "none",
                         height: "24px",
-                        minHeight: "unset"
+                        minHeight: "unset",
                       },
                       option: {
                         fontSize: "12px",
                         textAlign: "center",
                         justifyContent: "center",
-                        fontWeight: "bold"
+                        fontWeight: "bold",
                       },
                     }}
                   />
@@ -361,7 +438,18 @@ export function AskOrderBookTrade() {
         </div>
         <div className="table-body">
           {[...Array(15)].map((item, i) => (
-            <HoverCard width={230} openDelay={0} closeDelay={0} shadow="md" key={i} position="left" withinPortal withArrow arrowPosition="center" arrowSize={14}>
+            <HoverCard
+              width={230}
+              openDelay={0}
+              closeDelay={0}
+              shadow="md"
+              key={i}
+              position="left"
+              withinPortal
+              withArrow
+              arrowPosition="center"
+              arrowSize={14}
+            >
               <HoverCard.Target>
                 <div className={"table-row table-row-reverse"}>
                   <div className="table-cell">
@@ -371,7 +459,9 @@ export function AskOrderBookTrade() {
                           <Text fz={12} c={"#f0444b"}>
                             <NumberFormatter
                               thousandSeparator
-                              value={(Math.random() * 10e6).toFixed(3)}
+                              value={(Math.random() * 10e6).toFixed(
+                                3,
+                              )}
                             />
                           </Text>
                         </div>
@@ -380,8 +470,21 @@ export function AskOrderBookTrade() {
                   </div>
                   <Box className="table-cell" pr={5}>
                     <div className="relative">
-                      <Box className="progress_bar" right={0} top={0} h={"24px"} w={`${Math.random() * 100}%`} pos={"absolute"} bg={"#35191d"}></Box>
-                      <Flex h={"24px"} className="cell-text text-right progress_bar_text" align={"center"} justify={"end"}>
+                      <Box
+                        className="progress_bar"
+                        right={0}
+                        top={0}
+                        h={"24px"}
+                        w={`${Math.random() * 100}%`}
+                        pos={"absolute"}
+                        bg={"#35191d"}
+                      ></Box>
+                      <Flex
+                        h={"24px"}
+                        className="cell-text text-right progress_bar_text"
+                        align={"center"}
+                        justify={"end"}
+                      >
                         <Text fz={12} c={"#ffffff"} fw={600}>
                           <NumberFormatter
                             thousandSeparator
@@ -394,8 +497,21 @@ export function AskOrderBookTrade() {
                   <Box className="table-cell" pl={5} pr={5}>
                     <Box h={"24px"}>
                       <div className="relative">
-                        <Box className="progress_bar" left={0} top={0} h={"24px"} w={`${Math.random() * 100}%`} pos={"absolute"} bg={"#35191d"}></Box>
-                        <Flex h={"24px"} className="cell-text text-left progress_bar_text" align={"center"} justify={"end"}>
+                        <Box
+                          className="progress_bar"
+                          left={0}
+                          top={0}
+                          h={"24px"}
+                          w={`${Math.random() * 100}%`}
+                          pos={"absolute"}
+                          bg={"#35191d"}
+                        ></Box>
+                        <Flex
+                          h={"24px"}
+                          className="cell-text text-left progress_bar_text"
+                          align={"center"}
+                          justify={"end"}
+                        >
                           <Text fz={12} c={"#ffffff"} fw={600}>
                             {/* <NumberFormatter
                                 decimalSeparator=","
@@ -409,30 +525,31 @@ export function AskOrderBookTrade() {
                   </Box>
                 </div>
               </HoverCard.Target>
-              <HoverCard.Dropdown styles={{
-                dropdown: {
-                  background: "#26282c"
-                }
-              }}
+              <HoverCard.Dropdown
+                styles={{
+                  dropdown: {
+                    background: "#26282c",
+                  },
+                }}
               >
                 <Box className="space-y-5">
                   <Flex justify={"space-between"}>
-                    <Text fz={12}>
-                                            Avg. Price
+                    <Text fz={12}>Avg. Price</Text>
+                    <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                      = 61,423.93
                     </Text>
-                    <Text fz={12} fw={"bold"} c={"#ffffff"}>= 61,423.93</Text>
                   </Flex>
                   <Flex justify={"space-between"}>
-                    <Text fz={12}>
-                                            Total Qty (BTC)
+                    <Text fz={12}>Total Qty (BTC)</Text>
+                    <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                      0.885551
                     </Text>
-                    <Text fz={12} fw={"bold"} c={"#ffffff"}>0.885551</Text>
                   </Flex>
                   <Flex justify={"space-between"}>
-                    <Text fz={12}>
-                                            Total Qty (USDT)
+                    <Text fz={12}>Total Qty (USDT)</Text>
+                    <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                      54.394K
                     </Text>
-                    <Text fz={12} fw={"bold"} c={"#ffffff"}>54.394K</Text>
                   </Flex>
                 </Box>
               </HoverCard.Dropdown>
@@ -444,15 +561,17 @@ export function AskOrderBookTrade() {
       <Flex align={"center"} gap={20} pl={5} component="div">
         <Flex align={"center"} gap={5}>
           <IconArrowUp color={"#23b26b"} fontWeight={"bold"} />
-          <Text fw={700} fz={"20px"} c={"#23b26b"}>0.022822</Text>
+          <Text fw={700} fz={"20px"} c={"#23b26b"}>
+            0.022822
+          </Text>
         </Flex>
         <HoverCard
           width={200}
           position="top"
           styles={{
             dropdown: {
-              background: "#333537"
-            }
+              background: "#333537",
+            },
           }}
         >
           <HoverCard.Target>
@@ -461,23 +580,27 @@ export function AskOrderBookTrade() {
               gap={5}
               styles={{
                 root: {
-                  cursor: "help"
-                }
+                  cursor: "help",
+                },
               }}
             >
               <IconFlagFilled color="#f6a600" size={16} />
               <Box style={{ borderBottom: "dashed 1px #f6a600" }}>
-                <Text fw={"bolder"} fz={16} c={"#f6a600"}>0.022832</Text>
+                <Text fw={"bolder"} fz={16} c={"#f6a600"}>
+                  0.022832
+                </Text>
               </Box>
             </Flex>
           </HoverCard.Target>
           <HoverCard.Dropdown>
             <Text fz={12}>
-                            Mark price is derived by index price and funding rate, and reflects the fair market price. Liquidation is triggered by mark price.
+              Mark price is derived by index price and funding rate,
+              and reflects the fair market price. Liquidation is
+              triggered by mark price.
             </Text>
             <Space mb={10} />
             <Text c={"#f6a600"} fz={12} className="cursor-pointer">
-                            Click here for details
+              Click here for details
             </Text>
           </HoverCard.Dropdown>
         </HoverCard>
@@ -489,8 +612,8 @@ export function AskOrderBookTrade() {
         position="top"
         styles={{
           dropdown: {
-            background: "#26282c"
-          }
+            background: "#26282c",
+          },
         }}
       >
         <HoverCard.Target>
@@ -505,7 +628,8 @@ export function AskOrderBookTrade() {
                 top={"50%"}
                 style={{
                   transform: "translateY(-50%)",
-                  clipPath: "polygon(0 0, 100% 0, calc(100% - 5px) 100%, 0% 100%)"
+                  clipPath:
+                    "polygon(0 0, 100% 0, calc(100% - 5px) 100%, 0% 100%)",
                 }}
               />
               <Box
@@ -517,7 +641,8 @@ export function AskOrderBookTrade() {
                 top={"50%"}
                 style={{
                   transform: "translateY(-50%)",
-                  clipPath: "polygon(calc(0% + 5px) 0, 100% 0, 100% 100%, 0% 100%)"
+                  clipPath:
+                    "polygon(calc(0% + 5px) 0, 100% 0, 100% 100%, 0% 100%)",
                 }}
               />
               <Flex
@@ -527,8 +652,8 @@ export function AskOrderBookTrade() {
                 h={"100%"}
                 styles={{
                   root: {
-                    zIndex: 1
-                  }
+                    zIndex: 1,
+                  },
                 }}
               >
                 <Flex align={"center"} gap={4} h={"100%"}>
@@ -540,14 +665,26 @@ export function AskOrderBookTrade() {
                     bd={"solid 1px #23b26b"}
                     w={20}
                     h={20}
-                    style={{ textAlign: "center", borderRadius: "2px" }}
+                    style={{
+                      textAlign: "center",
+                      borderRadius: "2px",
+                    }}
                     c={"#23b26b"}
-                  >B
+                  >
+                    B
                   </Flex>
-                  <Text c={"#23b26b"} fz={12} fw={500}>{`${35}%`}</Text>
+                  <Text
+                    c={"#23b26b"}
+                    fz={12}
+                    fw={500}
+                  >{`${35}%`}</Text>
                 </Flex>
                 <Flex align={"center"} gap={4} h={"100%"}>
-                  <Text c={"#f0444b"} fz={12} fw={500}>{`${65}%`}</Text>
+                  <Text
+                    c={"#f0444b"}
+                    fz={12}
+                    fw={500}
+                  >{`${65}%`}</Text>
                   <Flex
                     align={"center"}
                     justify={"center"}
@@ -556,9 +693,13 @@ export function AskOrderBookTrade() {
                     bd={"solid 1px #f0444b"}
                     w={20}
                     h={20}
-                    style={{ textAlign: "center", borderRadius: "2px" }}
+                    style={{
+                      textAlign: "center",
+                      borderRadius: "2px",
+                    }}
                     c={"#f0444b"}
-                  >S
+                  >
+                    S
                   </Flex>
                 </Flex>
               </Flex>
@@ -567,14 +708,14 @@ export function AskOrderBookTrade() {
         </HoverCard.Target>
         <HoverCard.Dropdown>
           <Text size="sm">
-                        Bid-Ask Ratio for the Top 20 Levels within the BTCUSDT Order Book
+            Bid-Ask Ratio for the Top 20 Levels within the BTCUSDT
+            Order Book
           </Text>
         </HoverCard.Dropdown>
       </HoverCard>
     </>
   );
 }
-
 
 export function OrderAllOrderBookTrade() {
   return (
@@ -631,13 +772,13 @@ export function OrderAllOrderBookTrade() {
                         color: "white",
                         background: "none",
                         height: "24px",
-                        minHeight: "unset"
+                        minHeight: "unset",
                       },
                       option: {
                         fontSize: "12px",
                         textAlign: "center",
                         justifyContent: "center",
-                        fontWeight: "bold"
+                        fontWeight: "bold",
                       },
                     }}
                   />
@@ -648,7 +789,18 @@ export function OrderAllOrderBookTrade() {
         </div>
         <div className="table-body">
           {[...Array(9)].map((item, i) => (
-            <HoverCard width={230} openDelay={0} closeDelay={0} shadow="md" key={i} position="left" withinPortal withArrow arrowPosition="center" arrowSize={14}>
+            <HoverCard
+              width={230}
+              openDelay={0}
+              closeDelay={0}
+              shadow="md"
+              key={i}
+              position="left"
+              withinPortal
+              withArrow
+              arrowPosition="center"
+              arrowSize={14}
+            >
               <HoverCard.Target>
                 <div className={"table-row table-row-reverse"}>
                   <Box className="table-cell" w={"calc(100% / 3)"}>
@@ -658,17 +810,36 @@ export function OrderAllOrderBookTrade() {
                           <Text fz={12} c={"#f0444b"}>
                             <NumberFormatter
                               thousandSeparator
-                              value={(Math.random() * 10e6).toFixed(3)}
+                              value={(Math.random() * 10e6).toFixed(
+                                3,
+                              )}
                             />
                           </Text>
                         </div>
                       </Flex>
                     </Box>
                   </Box>
-                  <Box w={"calc(100% / 3)"} className="table-cell" pr={5}>
+                  <Box
+                    w={"calc(100% / 3)"}
+                    className="table-cell"
+                    pr={5}
+                  >
                     <div className="relative">
-                      <Box className="progress_bar" right={0} top={0} h={"24px"} w={`${Math.random() * 100}%`} pos={"absolute"} bg={"#35191d"}></Box>
-                      <Flex h={"24px"} className="cell-text text-right progress_bar_text" align={"center"} justify={"end"}>
+                      <Box
+                        className="progress_bar"
+                        right={0}
+                        top={0}
+                        h={"24px"}
+                        w={`${Math.random() * 100}%`}
+                        pos={"absolute"}
+                        bg={"#35191d"}
+                      ></Box>
+                      <Flex
+                        h={"24px"}
+                        className="cell-text text-right progress_bar_text"
+                        align={"center"}
+                        justify={"end"}
+                      >
                         <Text fz={12} c={"#ffffff"} fw={600}>
                           <NumberFormatter
                             thousandSeparator
@@ -678,11 +849,29 @@ export function OrderAllOrderBookTrade() {
                       </Flex>
                     </div>
                   </Box>
-                  <Box w={"calc(100% / 3)"} className="table-cell" pl={5} pr={5}>
+                  <Box
+                    w={"calc(100% / 3)"}
+                    className="table-cell"
+                    pl={5}
+                    pr={5}
+                  >
                     <Box h={"24px"}>
                       <div className="relative">
-                        <Box className="progress_bar" left={0} top={0} h={"24px"} w={`${Math.random() * 100}%`} pos={"absolute"} bg={"#35191d"}></Box>
-                        <Flex h={"24px"} className="cell-text text-left progress_bar_text" align={"center"} justify={"end"}>
+                        <Box
+                          className="progress_bar"
+                          left={0}
+                          top={0}
+                          h={"24px"}
+                          w={`${Math.random() * 100}%`}
+                          pos={"absolute"}
+                          bg={"#35191d"}
+                        ></Box>
+                        <Flex
+                          h={"24px"}
+                          className="cell-text text-left progress_bar_text"
+                          align={"center"}
+                          justify={"end"}
+                        >
                           <Text fz={12} c={"#ffffff"} fw={600}>
                             {/* <NumberFormatter
                                 decimalSeparator=","
@@ -696,30 +885,31 @@ export function OrderAllOrderBookTrade() {
                   </Box>
                 </div>
               </HoverCard.Target>
-              <HoverCard.Dropdown styles={{
-                dropdown: {
-                  background: "#26282c"
-                }
-              }}
+              <HoverCard.Dropdown
+                styles={{
+                  dropdown: {
+                    background: "#26282c",
+                  },
+                }}
               >
                 <Box className="space-y-5">
                   <Flex justify={"space-between"}>
-                    <Text fz={12}>
-                                            Avg. Price
+                    <Text fz={12}>Avg. Price</Text>
+                    <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                      = 61,423.93
                     </Text>
-                    <Text fz={12} fw={"bold"} c={"#ffffff"}>= 61,423.93</Text>
                   </Flex>
                   <Flex justify={"space-between"}>
-                    <Text fz={12}>
-                                            Total Qty (BTC)
+                    <Text fz={12}>Total Qty (BTC)</Text>
+                    <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                      0.885551
                     </Text>
-                    <Text fz={12} fw={"bold"} c={"#ffffff"}>0.885551</Text>
                   </Flex>
                   <Flex justify={"space-between"}>
-                    <Text fz={12}>
-                                            Total Qty (USDT)
+                    <Text fz={12}>Total Qty (USDT)</Text>
+                    <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                      54.394K
                     </Text>
-                    <Text fz={12} fw={"bold"} c={"#ffffff"}>54.394K</Text>
                   </Flex>
                 </Box>
               </HoverCard.Dropdown>
@@ -731,15 +921,17 @@ export function OrderAllOrderBookTrade() {
       <Flex align={"center"} gap={20} pl={5} component="div">
         <Flex align={"center"} gap={5}>
           <IconArrowUp color={"#23b26b"} fontWeight={"bold"} />
-          <Text fw={700} fz={"20px"} c={"#23b26b"}>0.022822</Text>
+          <Text fw={700} fz={"20px"} c={"#23b26b"}>
+            0.022822
+          </Text>
         </Flex>
         <HoverCard
           width={200}
           position="top"
           styles={{
             dropdown: {
-              background: "#333537"
-            }
+              background: "#333537",
+            },
           }}
         >
           <HoverCard.Target>
@@ -748,33 +940,47 @@ export function OrderAllOrderBookTrade() {
               gap={5}
               styles={{
                 root: {
-                  cursor: "help"
-                }
+                  cursor: "help",
+                },
               }}
             >
               <IconFlagFilled color="#f6a600" size={16} />
               <Box style={{ borderBottom: "dashed 1px #f6a600" }}>
-                <Text fw={"bolder"} fz={16} c={"#f6a600"}>0.022832</Text>
+                <Text fw={"bolder"} fz={16} c={"#f6a600"}>
+                  0.022832
+                </Text>
               </Box>
             </Flex>
           </HoverCard.Target>
           <HoverCard.Dropdown>
             <Text fz={12}>
-                            Mark price is derived by index price and funding rate, and reflects the fair market price. Liquidation is triggered by mark price.
+              Mark price is derived by index price and funding rate,
+              and reflects the fair market price. Liquidation is
+              triggered by mark price.
             </Text>
             <Space mb={10} />
             <Text c={"#f6a600"} fz={12} className="cursor-pointer">
-                            Click here for details
+              Click here for details
             </Text>
           </HoverCard.Dropdown>
         </HoverCard>
-
       </Flex>
       <Space mt={10} />
       <div className="table-root">
         <div className="table-body">
           {[...Array(9)].map((item, i) => (
-            <HoverCard width={230} openDelay={0} closeDelay={0} shadow="md" key={i} position="left" withinPortal withArrow arrowPosition="center" arrowSize={14}>
+            <HoverCard
+              width={230}
+              openDelay={0}
+              closeDelay={0}
+              shadow="md"
+              key={i}
+              position="left"
+              withinPortal
+              withArrow
+              arrowPosition="center"
+              arrowSize={14}
+            >
               <HoverCard.Target>
                 <div className={"table-row table-row-default"}>
                   <Box w={"calc(100% / 3)"} className="table-cell">
@@ -784,17 +990,36 @@ export function OrderAllOrderBookTrade() {
                           <Text fz={12} c={"#23b26b"}>
                             <NumberFormatter
                               thousandSeparator
-                              value={(Math.random() * 10e6).toFixed(3)}
+                              value={(Math.random() * 10e6).toFixed(
+                                3,
+                              )}
                             />
                           </Text>
                         </div>
                       </Flex>
                     </Box>
                   </Box>
-                  <Box w={"calc(100% / 3)"} className="table-cell" pr={5}>
+                  <Box
+                    w={"calc(100% / 3)"}
+                    className="table-cell"
+                    pr={5}
+                  >
                     <div className="relative">
-                      <Box className="progress_bar" right={0} top={0} h={"24px"} w={`${Math.random() * 100}%`} pos={"absolute"} bg={"#162a24"}></Box>
-                      <Flex h={"24px"} className="cell-text text-right progress_bar_text" align={"center"} justify={"end"}>
+                      <Box
+                        className="progress_bar"
+                        right={0}
+                        top={0}
+                        h={"24px"}
+                        w={`${Math.random() * 100}%`}
+                        pos={"absolute"}
+                        bg={"#162a24"}
+                      ></Box>
+                      <Flex
+                        h={"24px"}
+                        className="cell-text text-right progress_bar_text"
+                        align={"center"}
+                        justify={"end"}
+                      >
                         <Text fz={12} c={"#ffffff"} fw={600}>
                           <NumberFormatter
                             thousandSeparator
@@ -804,11 +1029,29 @@ export function OrderAllOrderBookTrade() {
                       </Flex>
                     </div>
                   </Box>
-                  <Box w={"calc(100% / 3)"} className="table-cell" pl={5} pr={5}>
+                  <Box
+                    w={"calc(100% / 3)"}
+                    className="table-cell"
+                    pl={5}
+                    pr={5}
+                  >
                     <Box h={"24px"}>
                       <div className="relative">
-                        <Box className="progress_bar" left={0} top={0} h={"24px"} w={`${Math.random() * 100}%`} pos={"absolute"} bg={"#162a24"}></Box>
-                        <Flex h={"24px"} className="cell-text text-left progress_bar_text" align={"center"} justify={"end"}>
+                        <Box
+                          className="progress_bar"
+                          left={0}
+                          top={0}
+                          h={"24px"}
+                          w={`${Math.random() * 100}%`}
+                          pos={"absolute"}
+                          bg={"#162a24"}
+                        ></Box>
+                        <Flex
+                          h={"24px"}
+                          className="cell-text text-left progress_bar_text"
+                          align={"center"}
+                          justify={"end"}
+                        >
                           <Text fz={12} c={"#ffffff"} fw={600}>
                             {/* <NumberFormatter
                                 decimalSeparator=","
@@ -822,30 +1065,31 @@ export function OrderAllOrderBookTrade() {
                   </Box>
                 </div>
               </HoverCard.Target>
-              <HoverCard.Dropdown styles={{
-                dropdown: {
-                  background: "#26282c"
-                }
-              }}
+              <HoverCard.Dropdown
+                styles={{
+                  dropdown: {
+                    background: "#26282c",
+                  },
+                }}
               >
                 <Box className="space-y-5">
                   <Flex justify={"space-between"}>
-                    <Text fz={12}>
-                                            Avg. Price
+                    <Text fz={12}>Avg. Price</Text>
+                    <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                      = 61,423.93
                     </Text>
-                    <Text fz={12} fw={"bold"} c={"#ffffff"}>= 61,423.93</Text>
                   </Flex>
                   <Flex justify={"space-between"}>
-                    <Text fz={12}>
-                                            Total Qty (BTC)
+                    <Text fz={12}>Total Qty (BTC)</Text>
+                    <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                      0.885551
                     </Text>
-                    <Text fz={12} fw={"bold"} c={"#ffffff"}>0.885551</Text>
                   </Flex>
                   <Flex justify={"space-between"}>
-                    <Text fz={12}>
-                                            Total Qty (USDT)
+                    <Text fz={12}>Total Qty (USDT)</Text>
+                    <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                      54.394K
                     </Text>
-                    <Text fz={12} fw={"bold"} c={"#ffffff"}>54.394K</Text>
                   </Flex>
                 </Box>
               </HoverCard.Dropdown>
@@ -860,8 +1104,8 @@ export function OrderAllOrderBookTrade() {
         position="top"
         styles={{
           dropdown: {
-            background: "#26282c"
-          }
+            background: "#26282c",
+          },
         }}
       >
         <HoverCard.Target>
@@ -876,7 +1120,8 @@ export function OrderAllOrderBookTrade() {
                 top={"50%"}
                 style={{
                   transform: "translateY(-50%)",
-                  clipPath: "polygon(0 0, 100% 0, calc(100% - 5px) 100%, 0% 100%)"
+                  clipPath:
+                    "polygon(0 0, 100% 0, calc(100% - 5px) 100%, 0% 100%)",
                 }}
               />
               <Box
@@ -888,7 +1133,8 @@ export function OrderAllOrderBookTrade() {
                 top={"50%"}
                 style={{
                   transform: "translateY(-50%)",
-                  clipPath: "polygon(calc(0% + 5px) 0, 100% 0, 100% 100%, 0% 100%)"
+                  clipPath:
+                    "polygon(calc(0% + 5px) 0, 100% 0, 100% 100%, 0% 100%)",
                 }}
               />
               <Flex
@@ -898,8 +1144,8 @@ export function OrderAllOrderBookTrade() {
                 h={"100%"}
                 styles={{
                   root: {
-                    zIndex: 1
-                  }
+                    zIndex: 1,
+                  },
                 }}
               >
                 <Flex align={"center"} gap={4} h={"100%"}>
@@ -911,14 +1157,26 @@ export function OrderAllOrderBookTrade() {
                     bd={"solid 1px #23b26b"}
                     w={20}
                     h={20}
-                    style={{ textAlign: "center", borderRadius: "2px" }}
+                    style={{
+                      textAlign: "center",
+                      borderRadius: "2px",
+                    }}
                     c={"#23b26b"}
-                  >B
+                  >
+                    B
                   </Flex>
-                  <Text c={"#23b26b"} fz={12} fw={500}>{`${35}%`}</Text>
+                  <Text
+                    c={"#23b26b"}
+                    fz={12}
+                    fw={500}
+                  >{`${35}%`}</Text>
                 </Flex>
                 <Flex align={"center"} gap={4} h={"100%"}>
-                  <Text c={"#f0444b"} fz={12} fw={500}>{`${65}%`}</Text>
+                  <Text
+                    c={"#f0444b"}
+                    fz={12}
+                    fw={500}
+                  >{`${65}%`}</Text>
                   <Flex
                     align={"center"}
                     justify={"center"}
@@ -927,9 +1185,13 @@ export function OrderAllOrderBookTrade() {
                     bd={"solid 1px #f0444b"}
                     w={20}
                     h={20}
-                    style={{ textAlign: "center", borderRadius: "2px" }}
+                    style={{
+                      textAlign: "center",
+                      borderRadius: "2px",
+                    }}
                     c={"#f0444b"}
-                  >S
+                  >
+                    S
                   </Flex>
                 </Flex>
               </Flex>
@@ -938,7 +1200,8 @@ export function OrderAllOrderBookTrade() {
         </HoverCard.Target>
         <HoverCard.Dropdown>
           <Text size="sm">
-                        Bid-Ask Ratio for the Top 20 Levels within the BTCUSDT Order Book
+            Bid-Ask Ratio for the Top 20 Levels within the BTCUSDT
+            Order Book
           </Text>
         </HoverCard.Dropdown>
       </HoverCard>
@@ -946,22 +1209,23 @@ export function OrderAllOrderBookTrade() {
   );
 }
 
-
 export function OrderHorizontalOrderBookTrade() {
   return (
     <>
       <Flex align={"center"} gap={20} pl={5} component="div">
         <Flex align={"center"} gap={5}>
           <IconArrowUp color={"#23b26b"} fontWeight={"bold"} />
-          <Text fw={700} fz={"20px"} c={"#23b26b"}>0.022822</Text>
+          <Text fw={700} fz={"20px"} c={"#23b26b"}>
+            0.022822
+          </Text>
         </Flex>
         <HoverCard
           width={200}
           position="top"
           styles={{
             dropdown: {
-              background: "#333537"
-            }
+              background: "#333537",
+            },
           }}
         >
           <HoverCard.Target>
@@ -970,37 +1234,39 @@ export function OrderHorizontalOrderBookTrade() {
               gap={5}
               styles={{
                 root: {
-                  cursor: "help"
-                }
+                  cursor: "help",
+                },
               }}
             >
               <IconFlagFilled color="#f6a600" size={16} />
               <Box style={{ borderBottom: "dashed 1px #f6a600" }}>
-                <Text fw={"bolder"} fz={16} c={"#f6a600"}>0.022832</Text>
+                <Text fw={"bolder"} fz={16} c={"#f6a600"}>
+                  0.022832
+                </Text>
               </Box>
             </Flex>
           </HoverCard.Target>
           <HoverCard.Dropdown>
             <Text fz={12}>
-                            Mark price is derived by index price and funding rate, and reflects the fair market price. Liquidation is triggered by mark price.
+              Mark price is derived by index price and funding rate,
+              and reflects the fair market price. Liquidation is
+              triggered by mark price.
             </Text>
             <Space mb={10} />
             <Text c={"#f6a600"} fz={12} className="cursor-pointer">
-                            Click here for details
+              Click here for details
             </Text>
           </HoverCard.Dropdown>
         </HoverCard>
-
       </Flex>
       <Space mb={10} />
       <SimpleGrid
         cols={2}
         styles={{
-          container: {
-          },
+          container: {},
           root: {
-            gap: 10
-          }
+            gap: 10,
+          },
         }}
       >
         <div className="table-root">
@@ -1009,14 +1275,23 @@ export function OrderHorizontalOrderBookTrade() {
               <Box className="table-cell" pl={5}>
                 <Box h={"24px"}>
                   <Box className="row-item-head--text" h={"100%"}>
-                    <Flex justify={"start"} align={"center"} h={"100%"}>
+                    <Flex
+                      justify={"start"}
+                      align={"center"}
+                      h={"100%"}
+                    >
                       <div>Qty(ETH)</div>
                     </Flex>
                   </Box>
                 </Box>
               </Box>
               <Box className="table-cell">
-                <Flex h={"24px"} pl={5} align={"center"} justify={"end"}>
+                <Flex
+                  h={"24px"}
+                  pl={5}
+                  align={"center"}
+                  justify={"end"}
+                >
                   <div className="row-item-head--text">
                     <div>Price(USDT)</div>
                   </div>
@@ -1026,17 +1301,43 @@ export function OrderHorizontalOrderBookTrade() {
           </div>
           <div className="table-body">
             {[...Array(15)].map((item, i) => (
-              <HoverCard width={230} openDelay={0} closeDelay={0} shadow="md" key={i} position="left" withinPortal withArrow arrowPosition="center" arrowSize={14}>
+              <HoverCard
+                width={230}
+                openDelay={0}
+                closeDelay={0}
+                shadow="md"
+                key={i}
+                position="left"
+                withinPortal
+                withArrow
+                arrowPosition="center"
+                arrowSize={14}
+              >
                 <HoverCard.Target>
                   <div className={"table-row table-row-default"}>
                     <Box className="table-cell" pl={5} w={"50%"}>
                       <div className="relative">
-                        <Box className="progress_bar" left={0} top={0} h={"24px"} w={`${Math.random() * 100}%`} pos={"absolute"} bg={"#162a24"}></Box>
-                        <Flex h={"24px"} className="cell-text progress_bar_text" align={"center"} justify={"start"}>
+                        <Box
+                          className="progress_bar"
+                          left={0}
+                          top={0}
+                          h={"24px"}
+                          w={`${Math.random() * 100}%`}
+                          pos={"absolute"}
+                          bg={"#162a24"}
+                        ></Box>
+                        <Flex
+                          h={"24px"}
+                          className="cell-text progress_bar_text"
+                          align={"center"}
+                          justify={"start"}
+                        >
                           <Text fz={12} c={"#ffffff"} fw={600}>
                             <NumberFormatter
                               thousandSeparator
-                              value={(Math.random() * 10e3).toFixed(2)}
+                              value={(Math.random() * 10e3).toFixed(
+                                2,
+                              )}
                             />
                           </Text>
                         </Flex>
@@ -1044,22 +1345,33 @@ export function OrderHorizontalOrderBookTrade() {
                     </Box>
                     <Box className="table-cell" w={"50%"}>
                       <Box h={"24px"} pl={5} pos={"relative"}>
-                        <Box style={{ zIndex: 0 }} className="progress_bar" right={0} top={0} h={"24px"} w={`${Math.random() * 100}%`} pos={"absolute"} bg={"#162a24"}></Box>
+                        <Box
+                          style={{ zIndex: 0 }}
+                          className="progress_bar"
+                          right={0}
+                          top={0}
+                          h={"24px"}
+                          w={`${Math.random() * 100}%`}
+                          pos={"absolute"}
+                          bg={"#162a24"}
+                        ></Box>
                         <Flex
                           align={"center"}
                           justify={"end"}
                           pos={"relative"}
                           styles={{
                             root: {
-                              zIndex: 1
-                            }
+                              zIndex: 1,
+                            },
                           }}
                         >
                           <div className="cell-text long">
                             <Text fz={12} c={"#23b26b"}>
                               <NumberFormatter
                                 thousandSeparator
-                                value={(Math.random() * 10e6).toFixed(3)}
+                                value={(Math.random() * 10e6).toFixed(
+                                  3,
+                                )}
                               />
                             </Text>
                           </div>
@@ -1068,30 +1380,31 @@ export function OrderHorizontalOrderBookTrade() {
                     </Box>
                   </div>
                 </HoverCard.Target>
-                <HoverCard.Dropdown styles={{
-                  dropdown: {
-                    background: "#26282c"
-                  }
-                }}
+                <HoverCard.Dropdown
+                  styles={{
+                    dropdown: {
+                      background: "#26282c",
+                    },
+                  }}
                 >
                   <Box className="space-y-5">
                     <Flex justify={"space-between"}>
-                      <Text fz={12}>
-                                                Avg. Price
+                      <Text fz={12}>Avg. Price</Text>
+                      <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                        = 61,423.93
                       </Text>
-                      <Text fz={12} fw={"bold"} c={"#ffffff"}>= 61,423.93</Text>
                     </Flex>
                     <Flex justify={"space-between"}>
-                      <Text fz={12}>
-                                                Total Qty (BTC)
+                      <Text fz={12}>Total Qty (BTC)</Text>
+                      <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                        0.885551
                       </Text>
-                      <Text fz={12} fw={"bold"} c={"#ffffff"}>0.885551</Text>
                     </Flex>
                     <Flex justify={"space-between"}>
-                      <Text fz={12}>
-                                                Total Qty (USDT)
+                      <Text fz={12}>Total Qty (USDT)</Text>
+                      <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                        54.394K
                       </Text>
-                      <Text fz={12} fw={"bold"} c={"#ffffff"}>54.394K</Text>
                     </Flex>
                   </Box>
                 </HoverCard.Dropdown>
@@ -1103,7 +1416,12 @@ export function OrderHorizontalOrderBookTrade() {
           <div className="table-header">
             <Box className="table-row">
               <Box className="table-cell">
-                <Flex h={"24px"} pr={5} align={"center"} justify={"end"}>
+                <Flex
+                  h={"24px"}
+                  pr={5}
+                  align={"center"}
+                  justify={"end"}
+                >
                   <div className="row-item-head--text">
                     <div>Price(USDT)</div>
                   </div>
@@ -1122,32 +1440,74 @@ export function OrderHorizontalOrderBookTrade() {
           </div>
           <div className="table-body">
             {[...Array(15)].map((item, i) => (
-              <HoverCard width={230} openDelay={0} closeDelay={0} shadow="md" key={i} position="left" withinPortal withArrow arrowPosition="center" arrowSize={14}>
+              <HoverCard
+                width={230}
+                openDelay={0}
+                closeDelay={0}
+                shadow="md"
+                key={i}
+                position="left"
+                withinPortal
+                withArrow
+                arrowPosition="center"
+                arrowSize={14}
+              >
                 <HoverCard.Target>
                   <div className="table-row table-row-default">
                     <Box className="table-cell" w={"50%"}>
                       <Box h={"24px"} pl={5} pos={"relative"}>
-                        <Box className="progress_bar" style={{ zIndex: 0 }} left={0} top={0} h={"24px"} w={`${Math.random() * 100}%`} pos={"absolute"} bg={"#35191d"}></Box>
-                        <Flex align={"center"} justify={"end"} pos={"relative"} style={{ zIndex: 1 }}>
+                        <Box
+                          className="progress_bar"
+                          style={{ zIndex: 0 }}
+                          left={0}
+                          top={0}
+                          h={"24px"}
+                          w={`${Math.random() * 100}%`}
+                          pos={"absolute"}
+                          bg={"#35191d"}
+                        ></Box>
+                        <Flex
+                          align={"center"}
+                          justify={"end"}
+                          pos={"relative"}
+                          style={{ zIndex: 1 }}
+                        >
                           <div className="cell-text long">
                             <Text fz={12} c={"#f0444b"}>
                               <NumberFormatter
                                 thousandSeparator
-                                value={(Math.random() * 10e4).toFixed(3)}
+                                value={(Math.random() * 10e4).toFixed(
+                                  3,
+                                )}
                               />
                             </Text>
                           </div>
                         </Flex>
                       </Box>
                     </Box>
-                    <Box className="table-cell" pr={5}  w={"50%"}>
+                    <Box className="table-cell" pr={5} w={"50%"}>
                       <div className="relative">
-                        <Box className="progress_bar" right={0} top={0} h={"24px"} w={`${Math.random() * 100}%`} pos={"absolute"} bg={"#35191d"}></Box>
-                        <Flex h={"24px"} className="cell-text text-right progress_bar_text" align={"center"} justify={"end"}>
+                        <Box
+                          className="progress_bar"
+                          right={0}
+                          top={0}
+                          h={"24px"}
+                          w={`${Math.random() * 100}%`}
+                          pos={"absolute"}
+                          bg={"#35191d"}
+                        ></Box>
+                        <Flex
+                          h={"24px"}
+                          className="cell-text text-right progress_bar_text"
+                          align={"center"}
+                          justify={"end"}
+                        >
                           <Text fz={12} c={"#ffffff"} fw={600}>
                             <NumberFormatter
                               thousandSeparator
-                              value={(Math.random() * 10e6).toFixed(2)}
+                              value={(Math.random() * 10e6).toFixed(
+                                2,
+                              )}
                             />
                           </Text>
                         </Flex>
@@ -1155,30 +1515,31 @@ export function OrderHorizontalOrderBookTrade() {
                     </Box>
                   </div>
                 </HoverCard.Target>
-                <HoverCard.Dropdown styles={{
-                  dropdown: {
-                    background: "#26282c"
-                  }
-                }}
+                <HoverCard.Dropdown
+                  styles={{
+                    dropdown: {
+                      background: "#26282c",
+                    },
+                  }}
                 >
                   <Box className="space-y-5">
                     <Flex justify={"space-between"}>
-                      <Text fz={12}>
-                                                Avg. Price
+                      <Text fz={12}>Avg. Price</Text>
+                      <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                        = 61,423.93
                       </Text>
-                      <Text fz={12} fw={"bold"} c={"#ffffff"}>= 61,423.93</Text>
                     </Flex>
                     <Flex justify={"space-between"}>
-                      <Text fz={12}>
-                                                Total Qty (BTC)
+                      <Text fz={12}>Total Qty (BTC)</Text>
+                      <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                        0.885551
                       </Text>
-                      <Text fz={12} fw={"bold"} c={"#ffffff"}>0.885551</Text>
                     </Flex>
                     <Flex justify={"space-between"}>
-                      <Text fz={12}>
-                                                Total Qty (USDT)
+                      <Text fz={12}>Total Qty (USDT)</Text>
+                      <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                        54.394K
                       </Text>
-                      <Text fz={12} fw={"bold"} c={"#ffffff"}>54.394K</Text>
                     </Flex>
                   </Box>
                 </HoverCard.Dropdown>
@@ -1195,8 +1556,8 @@ export function OrderHorizontalOrderBookTrade() {
         position="top"
         styles={{
           dropdown: {
-            background: "#26282c"
-          }
+            background: "#26282c",
+          },
         }}
       >
         <HoverCard.Target>
@@ -1211,7 +1572,8 @@ export function OrderHorizontalOrderBookTrade() {
                 top={"50%"}
                 style={{
                   transform: "translateY(-50%)",
-                  clipPath: "polygon(0 0, 100% 0, calc(100% - 5px) 100%, 0% 100%)"
+                  clipPath:
+                    "polygon(0 0, 100% 0, calc(100% - 5px) 100%, 0% 100%)",
                 }}
               />
               <Box
@@ -1223,7 +1585,8 @@ export function OrderHorizontalOrderBookTrade() {
                 top={"50%"}
                 style={{
                   transform: "translateY(-50%)",
-                  clipPath: "polygon(calc(0% + 5px) 0, 100% 0, 100% 100%, 0% 100%)"
+                  clipPath:
+                    "polygon(calc(0% + 5px) 0, 100% 0, 100% 100%, 0% 100%)",
                 }}
               />
               <Flex
@@ -1233,8 +1596,8 @@ export function OrderHorizontalOrderBookTrade() {
                 h={"100%"}
                 styles={{
                   root: {
-                    zIndex: 1
-                  }
+                    zIndex: 1,
+                  },
                 }}
               >
                 <Flex align={"center"} gap={4} h={"100%"}>
@@ -1246,14 +1609,26 @@ export function OrderHorizontalOrderBookTrade() {
                     bd={"solid 1px #23b26b"}
                     w={20}
                     h={20}
-                    style={{ textAlign: "center", borderRadius: "2px" }}
+                    style={{
+                      textAlign: "center",
+                      borderRadius: "2px",
+                    }}
                     c={"#23b26b"}
-                  >B
+                  >
+                    B
                   </Flex>
-                  <Text c={"#23b26b"} fz={12} fw={500}>{`${35}%`}</Text>
+                  <Text
+                    c={"#23b26b"}
+                    fz={12}
+                    fw={500}
+                  >{`${35}%`}</Text>
                 </Flex>
                 <Flex align={"center"} gap={4} h={"100%"}>
-                  <Text c={"#f0444b"} fz={12} fw={500}>{`${65}%`}</Text>
+                  <Text
+                    c={"#f0444b"}
+                    fz={12}
+                    fw={500}
+                  >{`${65}%`}</Text>
                   <Flex
                     align={"center"}
                     justify={"center"}
@@ -1262,9 +1637,13 @@ export function OrderHorizontalOrderBookTrade() {
                     bd={"solid 1px #f0444b"}
                     w={20}
                     h={20}
-                    style={{ textAlign: "center", borderRadius: "2px" }}
+                    style={{
+                      textAlign: "center",
+                      borderRadius: "2px",
+                    }}
                     c={"#f0444b"}
-                  >S
+                  >
+                    S
                   </Flex>
                 </Flex>
               </Flex>
@@ -1273,11 +1652,11 @@ export function OrderHorizontalOrderBookTrade() {
         </HoverCard.Target>
         <HoverCard.Dropdown>
           <Text size="sm">
-                        Bid-Ask Ratio for the Top 20 Levels within the BTCUSDT Order Book
+            Bid-Ask Ratio for the Top 20 Levels within the BTCUSDT
+            Order Book
           </Text>
         </HoverCard.Dropdown>
       </HoverCard>
     </>
   );
 }
-

@@ -1,4 +1,5 @@
 import { SignupFormData, SignupPayload } from "@/types";
+import { extractPhoneNumber } from "@/utils/utility";
 
 export function convertToSignUpFormData(formData: SignupFormData) {
   if (formData.type === "1") {
@@ -8,13 +9,9 @@ export function convertToSignUpFormData(formData: SignupFormData) {
       password: formData.email.password,
     } as SignupPayload;
   }
-  const region = `+${parseInt(
-    formData.mobile?.phoneLocale || "1",
-  )}`;
-  const mobile = (formData.mobile?.mobile || "").replace(/^0/g, "");
   return {
     type: 2,
-    mobile: region + mobile,
+    mobile: extractPhoneNumber(formData.mobile),
     password: formData.mobile?.password || "",
   } as SignupPayload;
 }

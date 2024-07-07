@@ -7,12 +7,12 @@ const NewOrderOfSpotTradeSchema: Sample = {
       spotType: {
         type: "string",
         enum: ["BUY", "SELL"],
-        default: "BUY"
+        default: "BUY",
       },
       spotBy: {
         type: "string",
         enum: ["Limit", "Market", "Conditional", "TP/SL"],
-        default: "Limit"
+        default: "Limit",
       },
     },
     allOf: [
@@ -20,364 +20,362 @@ const NewOrderOfSpotTradeSchema: Sample = {
         if: {
           properties: {
             spotType: {
-              const: "BUY"
+              const: "BUY",
             },
             spotBy: {
-              const: "Limit"
-            }
-          }
+              const: "Limit",
+            },
+          },
         },
         then: {
           properties: {
             uiBalance: {
               type: "string",
-              readOnly: true
+              readOnly: true,
             },
 
             orderPrice: {
               type: "number",
-              title: "Order Price"
+              title: "Order Price",
             },
             qty: {
               type: "number",
-              title: "Qty"
+              title: "Qty",
             },
             orderValue: {
               type: "number",
-              title: "Order Value"
+              title: "Order Value",
             },
             uiSubmitBuy: {
-              type: "number"
+              type: "number",
             },
-          }
+          },
         },
-        required: []
+        required: [],
       },
       {
         if: {
           properties: {
             spotType: {
-              const: "BUY"
+              const: "BUY",
             },
             spotBy: {
-              const: "Market"
-            }
-          }
+              const: "Market",
+            },
+          },
         },
         then: {
           properties: {
             uiBalance: {
               type: "string",
-              readOnly: true
+              readOnly: true,
             },
             orderValueMarket: {
               type: "number",
-              title: "Order Value"
+              title: "Order Value",
             },
             uiSubmitBuy: {
-              type: "number"
+              type: "number",
             },
-          }
+          },
         },
-        required: []
+        required: [],
       },
       {
         if: {
           properties: {
             spotType: {
-              const: "BUY"
+              const: "BUY",
             },
             spotBy: {
               enum: ["Conditional", "TP/SL"],
-            }
-          }
+            },
+          },
         },
         then: {
           properties: {
             uiBalance: {
               type: "string",
-              readOnly: true
+              readOnly: true,
             },
             triggerPrice: {
               type: "number",
-              title: "Trigger Price"
+              title: "Trigger Price",
             },
             orderTriggerBy: {
               type: "string",
               enum: ["LIMIT", "MARKET"],
               default: "LIMIT",
-              title: ""
+              title: "",
             },
           },
           if: {
             properties: {
               orderTriggerBy: {
-                const: "LIMIT"
-              }
-            }
+                const: "LIMIT",
+              },
+            },
           },
           then: {
             properties: {
               orderPriceConditional: {
                 type: "number",
-                title: "Order Price"
+                title: "Order Price",
               },
               qty: {
                 type: "number",
-                title: "Qty"
+                title: "Qty",
               },
               uiSubmitBuy: {
-                type: "number"
+                type: "number",
               },
-            }
+            },
           },
           else: {
             properties: {
               orderPriceConditional: {
                 type: "number",
                 readOnly: true,
-                title: "Order Price"
+                title: "Order Price",
               },
               orderValue: {
                 type: "number",
-                title: "Order Value"
+                title: "Order Value",
               },
               uiSubmitBuy: {
-                type: "number"
+                type: "number",
               },
-            }
-          }
+            },
+          },
         },
-        required: []
+        required: [],
       },
       {
         if: {
           properties: {
             spotType: {
-              const: "SELL"
+              const: "SELL",
             },
             spotBy: {
-              const: "Limit"
-            }
-          }
+              const: "Limit",
+            },
+          },
         },
         then: {
           properties: {
             uiBalanceBtc: {
               type: "string",
-              readOnly: true
+              readOnly: true,
             },
             qty: {
               type: "number",
-              title: "Qty"
+              title: "Qty",
             },
             orderValue: {
               type: "number",
-              title: "Order Value"
+              title: "Order Value",
             },
             uiSubmitSell: {
               type: "number",
-              readOnly: true
+              readOnly: true,
             },
           },
-          required: []
+          required: [],
         },
         else: {
           properties: {},
-          required: []
-        }
+          required: [],
+        },
       },
       {
         if: {
           properties: {
             spotType: {
-              const: "SELL"
+              const: "SELL",
             },
             spotBy: {
-              const: "Market"
-            }
-          }
+              const: "Market",
+            },
+          },
         },
         then: {
           properties: {
             uiBalanceBtc: {
               type: "string",
-              readOnly: true
+              readOnly: true,
             },
             qty: {
               type: "number",
-              title: "Qty"
+              title: "Qty",
             },
             uiSubmitSell: {
               type: "number",
-              readOnly: true
+              readOnly: true,
             },
           },
-          required: []
+          required: [],
         },
         else: {
           properties: {},
-          required: []
-        }
+          required: [],
+        },
       },
       {
         if: {
           properties: {
             spotType: {
-              const: "SELL"
+              const: "SELL",
             },
             spotBy: {
-              const: "Conditional"
-            }
-          }
+              const: "Conditional",
+            },
+          },
         },
         then: {
           properties: {
             uiBalanceBtc: {
               type: "string",
-              readOnly: true
+              readOnly: true,
             },
             triggerPrice: {
               type: "number",
-              title: "Trigger Price"
+              title: "Trigger Price",
             },
             orderTriggerBy: {
               type: "string",
               enum: ["LIMIT", "MARKET"],
               default: "LIMIT",
-              title: ""
+              title: "",
             },
             uiSubmitSell: {
               type: "number",
-              readOnly: true
+              readOnly: true,
             },
           },
           if: {
             properties: {
               orderTriggerBy: {
-                const: "LIMIT"
-              }
-            }
+                const: "LIMIT",
+              },
+            },
           },
           then: {
             properties: {
               orderPriceConditional: {
                 type: "number",
-                title: "Order Price"
+                title: "Order Price",
               },
               qty: {
                 type: "number",
-                title: "Qty"
+                title: "Qty",
               },
-              
-            }
+            },
           },
           else: {
             properties: {
               orderPriceConditional: {
                 type: "number",
                 title: "Order Price",
-                readOnly: true
+                readOnly: true,
               },
               qty: {
                 type: "number",
-                title: "Qty"
+                title: "Qty",
               },
-            }
+            },
           },
-          required: []
+          required: [],
         },
         else: {
           properties: {},
-          required: []
-        }
+          required: [],
+        },
       },
       {
         if: {
           properties: {
             spotType: {
-              const: "SELL"
+              const: "SELL",
             },
             spotBy: {
-              const: "TP/SL"
-            }
-          }
+              const: "TP/SL",
+            },
+          },
         },
         then: {
           properties: {
             uiBalanceBtc: {
               type: "string",
-              readOnly: true
+              readOnly: true,
             },
             triggerPrice: {
               type: "number",
-              title: "Trigger Price"
+              title: "Trigger Price",
             },
             orderTriggerBy: {
               type: "string",
               enum: ["LIMIT", "MARKET"],
               default: "LIMIT",
-              title: ""
+              title: "",
             },
             uiSubmitSell: {
               type: "number",
-              readOnly: true
+              readOnly: true,
             },
           },
           if: {
             properties: {
               orderTriggerBy: {
-                const: "LIMIT"
-              }
-            }
+                const: "LIMIT",
+              },
+            },
           },
           then: {
             properties: {
               orderPriceConditional: {
                 type: "number",
-                title: "Order Price"
+                title: "Order Price",
               },
               qty: {
                 type: "number",
-                title: "Qty"
+                title: "Qty",
               },
               orderValue: {
                 type: "number",
-                title: "Order Value"
+                title: "Order Value",
               },
               uiSubmitSell: {
                 type: "number",
-                readOnly: true
+                readOnly: true,
               },
-            }
+            },
           },
           else: {
             properties: {
               orderPriceConditional: {
                 type: "number",
                 readOnly: true,
-                title: "Order Price"
+                title: "Order Price",
               },
               qty: {
                 type: "number",
-                title: "Qty"
+                title: "Qty",
               },
               uiSubmitSell: {
                 type: "number",
-                readOnly: true
+                readOnly: true,
               },
-            }
+            },
           },
-          required: []
+          required: [],
         },
 
         else: {
           properties: {},
-          required: []
-        }
-      }
-    ]
-
+          required: [],
+        },
+      },
+    ],
   },
   uiSchema: {
     "ui:order": [
@@ -391,7 +389,7 @@ const NewOrderOfSpotTradeSchema: Sample = {
       "orderTriggerBy",
       "qty",
       "orderValue",
-      "*"
+      "*",
     ],
     "ui:options": {
       submitButtonOptions: {
@@ -401,106 +399,101 @@ const NewOrderOfSpotTradeSchema: Sample = {
     },
     "spotType": {
       "ui:options": {
-        "widget": "TradeBuySellSwitchTPLimitWidget",
-        "label": false,
-      }
+        widget: "TradeBuySellSwitchTPLimitWidget",
+        label: false,
+      },
     },
     "spotBy": {
       "ui:options": {
-        "widget": "TradeSpotByModeWidget",
-        "label": false,
-      }
+        widget: "TradeSpotByModeWidget",
+        label: false,
+      },
     },
     "uiBalance": {
       "ui:options": {
-        "widget": "UiBalanceWidget",
-        "label": false,
-      }
+        widget: "UiBalanceWidget",
+        label: false,
+      },
     },
     "uiBalanceBtc": {
       "ui:options": {
-        "widget": "UiBalanceWidget",
-        "label": false,
-      }
+        widget: "UiBalanceWidget",
+        label: false,
+      },
     },
     "triggerPrice": {
       "ui:options": {
-        "widget": "VolumeInputFieldWidget",
-        "label": false,
+        widget: "VolumeInputFieldWidget",
+        label: false,
         // "classNames": "span-15",
-      }
+      },
     },
     "orderTriggerBy": {
       "ui:options": {
-        "widget": "TakeProfitTriggerByWidget",
-        "label": false,
-        "classNames": "span-9",
-      }
+        widget: "TakeProfitTriggerByWidget",
+        label: false,
+        classNames: "span-9",
+      },
     },
     "orderPrice": {
       "ui:options": {
-        "widget": "VolumeInputFieldWidget",
-        "label": false,
+        widget: "VolumeInputFieldWidget",
+        label: false,
         // "classNames": "span-9",
-        "props": {
-          suffix: "USDT"
-        }
-      }
+        props: {
+          suffix: "USDT",
+        },
+      },
     },
     "orderPriceConditional": {
       "ui:options": {
-        "widget": "VolumeInputFieldWidget",
-        "label": false,
-        "classNames": "span-15",
-      }
+        widget: "VolumeInputFieldWidget",
+        label: false,
+        classNames: "span-15",
+      },
     },
     "qty": {
       "ui:options": {
-        "widget": "QtyPercentWidget",
-        "label": false,
-        "props": {
-          suffix: "BTC"
-        }
-      }
+        widget: "QtyPercentWidget",
+        label: false,
+        props: {
+          suffix: "BTC",
+        },
+      },
     },
     "orderValue": {
       "ui:options": {
-        "widget": "VolumeInputHintFieldWidget",
-        "label": false,
-        "props": {
-          suffix: "USDT"
-        }
-      }
+        widget: "VolumeInputHintFieldWidget",
+        label: false,
+        props: {
+          suffix: "USDT",
+        },
+      },
     },
     "orderValueMarket": {
       "ui:options": {
-        "widget": "VolumeInputPercentFieldWidget",
-        "label": false,
-        "props": {
-          suffix: "USDT"
-        }
-      }
+        widget: "VolumeInputPercentFieldWidget",
+        label: false,
+        props: {
+          suffix: "USDT",
+        },
+      },
     },
     "uiSubmitBuy": {
       "ui:options": {
-        "widget": "QtyBuyButtonWidget",
-        "label": false,
-      }
+        widget: "QtyBuyButtonWidget",
+        label: false,
+      },
     },
     "uiSubmitSell": {
       "ui:options": {
-        "widget": "QtySellButtonWidget",
-        "label": false,
-      }
+        widget: "QtySellButtonWidget",
+        label: false,
+      },
     },
-    
-
   },
-  formData: {
-
-  },
+  formData: {},
 };
-
 
 // #### Parameters
 
@@ -524,6 +517,5 @@ const NewOrderOfSpotTradeSchema: Sample = {
 // | `stopLoss`            | `string`  |          |         |                               |
 // | `stopLossTriggerBy`   | `string`  |          |         | Enum: `MARK`, `LAST`, `INDEX` |
 // | `clientOrderId`       | `string`  |          |         |                               |
-
 
 export default NewOrderOfSpotTradeSchema;

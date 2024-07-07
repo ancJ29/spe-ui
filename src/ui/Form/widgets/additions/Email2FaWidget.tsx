@@ -1,7 +1,7 @@
-import axios from "@/services/apis/api";
+import checkMfa from "@/services/apis/check-mfa";
+import { debounceBuilder } from "@/utils/utility";
 import { Loader, TextInput } from "@mantine/core";
 import { WidgetProps } from "@rjsf/utils";
-import { debounce } from "lodash";
 import { useCallback, useState } from "react";
 import { z } from "zod";
 
@@ -22,31 +22,44 @@ export const TextEmailWidget = function (props: WidgetProps) {
         label={props.label ? props.label : ""}
         placeholder={props.uiSchema?.["ui:placeholder"]}
         error={Boolean(props.rawErrors?.toLocaleString())}
-        {...(props.options?.props as any)}
+        {...(props.options?.props as any)} // eslint-disable-line
       />
     </>
   );
 };
 
-export function TextEmail2FaWidget(props: WidgetProps) {
-  const [text, setText] = useState<string>(props.value);
+const onChange = debounceBuilder(
+  (
+    value: string,
+    updateField: (key: string, value: boolean | undefined) => void,
+    doCheck2FA: (email: string) => void,
+  ) => {
+    if (value === "") {
+      updateField("email.email", undefined);
+      updateField("email.is2fa", false);
+    } else {
+      doCheck2FA(value);
+    }
+  },
+  800,
+);
+
+export function TextEmail2FaWidget({
+  label,
+  uiSchema,
+  rawErrors,
+  options,
+  formContext: { updateField, value },
+}: WidgetProps) {
+  const [text, setText] = useState<string>(value);
   const [loading, setLoading] = useState<boolean>(false);
-  const {
-    formContext: { updateField },
-  } = props;
   const doCheck2FA = useCallback(
     (_email: string) => {
       try {
         const email = z.string().email().parse(_email);
-        const params = {
-          email,
-          type: 1,
-        };
         setLoading(true);
-        axios
-          .post("/api/check", params)
-          .then((res) => {
-            const hasMfa = Boolean(res.data?.result?.hasMfa);
+        checkMfa({ email, type: 1 })
+          .then(({ hasMfa }) => {
             updateField("email.email", email);
             updateField("email.is2fa", hasMfa);
           })
@@ -61,36 +74,24 @@ export function TextEmail2FaWidget(props: WidgetProps) {
     [updateField],
   );
 
-  // TODO: fix this
-  const debouncedOnChange = useCallback(
-    debounce((value) => {
-      if (value === "") {
-        updateField("email.email", undefined);
-        updateField("email.is2fa", false);
-      } else {
-        doCheck2FA(value);
-      }
-    }, 800),
-    [],
+  const handleChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value;
+      setText(value);
+      onChange(value, updateField, doCheck2FA);
+    },
+    [doCheck2FA, updateField],
   );
-
-  const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const value = event.target.value;
-    setText(value);
-    debouncedOnChange(value);
-  };
 
   return (
     <>
       <TextInput
         value={text}
         onChange={handleChange}
-        label={props.label ? props.label : ""}
-        placeholder={props.uiSchema?.["ui:placeholder"]}
-        error={Boolean(props.rawErrors?.toLocaleString())}
-        {...(props.options?.props as any)} // eslint-disable-line
+        label={label || ""}
+        placeholder={uiSchema?.["ui:placeholder"]}
+        error={Boolean(rawErrors?.toLocaleString())}
+        {...(options?.props as any)} // eslint-disable-line
         rightSection={
           <>{loading && <Loader color="primary" size={"xs"} />}</>
         }
