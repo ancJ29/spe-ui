@@ -1,8 +1,14 @@
 export default {
   error,
+  debug,
 };
 
-export function error(...args: unknown[]) {
+function error(...args: unknown[]) {
   // eslint-disable-next-line no-console
   console.error(...args);
+}
+
+function debug(...args: unknown[]) {
+  // eslint-disable-next-line no-console
+  console.log(...args);
 }

@@ -5,9 +5,9 @@ import {
   Flex,
   Image,
   Loader,
-  NumberInput,
   Select,
   Text,
+  TextInput,
 } from "@mantine/core";
 import { WidgetProps } from "@rjsf/utils";
 import { IconCheck, IconChevronDown } from "@tabler/icons-react";
@@ -60,12 +60,11 @@ export function PhoneLocalWidget(props: WidgetProps) {
 export function PhoneNumberWidget(props: WidgetProps) {
   return (
     <>
-      <NumberInput
+      <TextInput
         label={props.label ? props.label : ""}
-        value={props.value}
+        value={props.value || ""}
         placeholder={props.uiSchema?.["ui:placeholder"]}
         error={Boolean(props.rawErrors?.toLocaleString())}
-        hideControls
         onChange={(v) => {
           props.onChange(v.toString());
         }}
@@ -83,31 +82,31 @@ export function PhoneNumber2FAWidget({
   formContext: { formData, updateField, value },
 }: WidgetProps) {
   const [loading, setLoading] = useState(false);
-  const [, setText] = useState<string>(value);
+  const [text, setText] = useState<string>(value);
 
   const doCheck2FA = useCallback(
     (value: number) => {
       const mobile = extractPhoneNumber({
-        phoneLocale: formData?.phoneLocale,
+        phoneLocale: formData?.mobile?.phoneLocale,
         mobile: value.toString(),
       });
       setLoading(true);
       checkMfa({ mobile, type: 2 })
         .then(({ hasMfa }) => {
-          updateField("email.mobile", mobile);
-          updateField("email.is2fa", hasMfa);
+          updateField("mobile.mobile", mobile);
+          updateField("mobile.is2fa", hasMfa);
         })
         .catch(() => {
           // console.log(err);
         })
         .finally(() => setLoading(false));
     },
-    [formData?.phoneLocale, updateField],
+    [updateField, formData],
   );
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      const value = event.target.value;
+      const value = event.target?.value || "";
       setText(value);
       onChange(value, updateField, doCheck2FA);
     },
@@ -116,12 +115,11 @@ export function PhoneNumber2FAWidget({
 
   return (
     <>
-      <NumberInput
+      <TextInput
         label={label || ""}
-        value={value}
+        value={text || ""}
         placeholder={uiSchema?.["ui:placeholder"]}
         error={Boolean(rawErrors?.toLocaleString())}
-        hideControls
         onChange={handleChange}
         rightSection={
           <>{loading && <Loader color="primary" size={"xs"} />}</>

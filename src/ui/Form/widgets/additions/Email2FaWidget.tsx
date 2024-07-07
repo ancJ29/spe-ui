@@ -10,7 +10,7 @@ export const TextEmailWidget = function (props: WidgetProps) {
   return (
     <>
       <TextInput
-        value={text}
+        value={text || ""}
         onChange={({ target: { value } }) => {
           if (value === "") {
             props.onChange(undefined);
@@ -76,7 +76,7 @@ export function TextEmail2FaWidget({
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      const value = event.target.value;
+      const value = event.target?.value || "";
       setText(value);
       onChange(value, updateField, doCheck2FA);
     },
@@ -86,7 +86,7 @@ export function TextEmail2FaWidget({
   return (
     <>
       <TextInput
-        value={text}
+        value={text || ""}
         onChange={handleChange}
         label={label || ""}
         placeholder={uiSchema?.["ui:placeholder"]}

@@ -17,7 +17,7 @@ export const PhoneNumberField: FC<FieldProps<string>> = ({
     <div>
       <TextInput
         label={_title}
-        value={text}
+        value={text || ""}
         onChange={({ target: { value } }) => {
           onChange(value);
         }}

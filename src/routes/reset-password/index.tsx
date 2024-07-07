@@ -12,11 +12,31 @@ import {
   Text,
   Title,
 } from "@mantine/core";
+import { useMemo } from "react";
 import { convertToResetPasswordFormData } from "./config";
 import classes from "./index.module.scss";
 
 const Page = () => {
   const t = useTranslation();
+  const formData = useMemo(() => {
+    const searchParams = Object.fromEntries(
+      window.location.search
+        ?.replace("?", "")
+        .split("&")
+        .map((el) => el.split("=")),
+    );
+    const code = searchParams["code"] || "";
+    const email = searchParams["email"] || "";
+    const mobile = searchParams["mobile"] || "";
+    if (!email && !mobile) {
+      return {};
+    }
+    return Object.assign({}, samples.ResetPassword.formData, {
+      type: email ? "1" : "2",
+      mobile: { mobile, type: "2", code },
+      email: { email, type: "1", code },
+    });
+  }, []);
   return (
     <>
       <Header />
@@ -33,7 +53,7 @@ const Page = () => {
                   showJsonOutput={false}
                   schema={samples.ResetPassword.schema}
                   uiSchema={samples.ResetPassword.uiSchema}
-                  formData={samples.ResetPassword.formData}
+                  formData={formData}
                   w={"100%"}
                   msgSuccess={t("Password reset has been done")}
                   api="/api/password/reset"

@@ -1,3 +1,4 @@
+import logger from "@/services/logger";
 import { debounce } from "lodash";
 
 export function splitAndFormatString(str: string) {
@@ -26,6 +27,7 @@ export function extractPhoneNumber({
   phoneLocale?: string;
   mobile?: string;
 } = {}) {
+  logger.debug("extractPhoneNumber", phoneLocale, mobile);
   const region = `+${parseInt(phoneLocale || "1")}`;
   return `${region}${(mobile || "").replace(/^0/g, "")}`;
 }

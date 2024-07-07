@@ -7,7 +7,7 @@ export const TextWidget = function (props: WidgetProps) {
   return (
     <>
       <TextInput
-        value={text}
+        value={text || ""}
         onChange={({ target: { value } }) => {
           if (value === "") {
             props.onChange(undefined);
