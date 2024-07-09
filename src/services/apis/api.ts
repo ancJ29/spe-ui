@@ -1,6 +1,9 @@
 import axios from "./axios";
 
-export const fetcher = (url: string) =>
-  axios.get(url).then((response) => response.data);
+export function fetcher<T>(url: string) {
+  return axios
+    .get<{ result: T }>(url)
+    .then((response) => response.data.result);
+}
 
 export default axios;

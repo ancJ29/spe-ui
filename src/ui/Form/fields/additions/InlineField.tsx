@@ -4,7 +4,7 @@ import { FC } from "react";
 export const InlineField: FC<FieldProps<string>> = ({ children }) => {
   return (
     <div
-      className="xxxxx555"
+      className=""
       style={{
         display: "flex",
         justifyContent: "space-between",

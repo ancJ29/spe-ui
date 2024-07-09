@@ -1,6 +1,7 @@
-import avatardefault from "@/assets/images/avatardefault.png";
+import defaultAvatar from "@/assets/images/defaultAvatar.png";
 import svgLogo from "@/assets/images/logo.svg";
-import { Metadata, getHeaderMenu } from "@/domain/MetaData";
+import { Application } from "@/common/types";
+import { getHeaderMenu } from "@/domain/Application";
 import {
   ActionIcon,
   Anchor,
@@ -47,7 +48,7 @@ import AppButton from "../Button/AppButton";
 import Icon from "../Icon/Icon";
 import classes from "./index.module.scss";
 
-export function Header(props: Partial<{ metadata: Metadata }>) {
+export function Header(props: Partial<{ metadata: Application }>) {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const theme = useMantineTheme();
@@ -56,9 +57,8 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
     getInitialValueInEffect: true,
   });
 
-  const menus = useMemo(() => {
-    const _items = getHeaderMenu(props.metadata);
-    return _items;
+  const menu = useMemo(() => {
+    return getHeaderMenu(props.metadata);
   }, [props.metadata]);
 
   const [opened, setOpened] = useState<Record<string, unknown>>({});
@@ -78,7 +78,7 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
               <Image src={svgLogo} w={100} />
             </a>
             <Group h="100%" gap={0} visibleFrom="sm">
-              {menus.map((item, idx) => {
+              {menu.map((item, idx) => {
                 return (
                   <Fragment key={idx}>
                     {item.type === "group" && (
@@ -143,7 +143,7 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
                                   </Text>
                                   <Text size="xs" c="dimmed">
                                     {_item?.description ??
-                                      "lorem ispum"}
+                                      "lorem ipsum"}
                                   </Text>
                                 </div>
                               </Group>
@@ -206,7 +206,7 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
                         >
                           <Group justify="space-between">
                             <Text fw={500} c={"primary"}>
-                              {item.panelFooter.title}
+                              {item?.panelFooter?.title || ""}
                             </Text>
                             <Anchor href={item.url || "/#"} fz="xs">
                               View all
@@ -218,53 +218,59 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
                             color={lighten("white", 0.4)}
                           />
                           <SimpleGrid cols={2} spacing={0}>
-                            {item.children.map((_item, i) => (
-                              <UnstyledButton
-                                key={i}
-                                className={classes.subLink}
-                                variant="transparent"
-                                styles={{
-                                  root: {
-                                    borderRadius: "3px",
-                                  },
-                                }}
-                              >
-                                <Group
-                                  wrap="nowrap"
-                                  align="flex-start"
+                            {(item?.children || []).map(
+                              (_item, i) => (
+                                <UnstyledButton
+                                  key={i}
+                                  className={classes.subLink}
+                                  variant="transparent"
+                                  styles={{
+                                    root: {
+                                      borderRadius: "3px",
+                                    },
+                                  }}
                                 >
-                                  <ThemeIcon
-                                    size={34}
-                                    variant="transparent"
-                                    radius="md"
+                                  <Group
+                                    wrap="nowrap"
+                                    align="flex-start"
                                   >
-                                    {/* <item.icon style={{ width: rem(22), height: rem(22) }} color={"white"} /> */}
-                                    {/* <IconCode style={{ width: rem(22), height: rem(22) }} color={"white"} /> */}
-                                    {/* IconCoin */}
-                                    <Icon
-                                      instanceIcon="IconCoin"
-                                      style={{
-                                        width: rem(22),
-                                        height: rem(22),
-                                      }}
-                                    />
-                                  </ThemeIcon>
-                                  <div>
-                                    <Text
-                                      size="sm"
-                                      fw={500}
-                                      className={classes.subLinkTitle}
+                                    <ThemeIcon
+                                      size={34}
+                                      variant="transparent"
+                                      radius="md"
                                     >
-                                      {_item?.label}
-                                    </Text>
-                                    <Text size="xs" c="dimmed">
-                                      Lorem ipsum dolor sit amet
-                                      consectetur adipisicing elit.
-                                    </Text>
-                                  </div>
-                                </Group>
-                              </UnstyledButton>
-                            ))}
+                                      {/* <item.icon style={{ width: rem(22), height: rem(22) }} color={"white"} /> */}
+                                      {/* <IconCode style={{ width: rem(22), height: rem(22) }} color={"white"} /> */}
+                                      {/* IconCoin */}
+                                      <Icon
+                                        instanceIcon="IconCoin"
+                                        style={{
+                                          width: rem(22),
+                                          height: rem(22),
+                                        }}
+                                      />
+                                    </ThemeIcon>
+                                    <div>
+                                      <Text
+                                        size="sm"
+                                        fw={500}
+                                        className={
+                                          classes.subLinkTitle
+                                        }
+                                      >
+                                        {_item?.label}
+                                      </Text>
+                                      <Text size="xs" c="dimmed">
+                                        {/* cspell:disable */}
+                                        lorem ipsum dolor sit amet
+                                        consectetuer adipiscing elit
+                                        {/* cspell:ensable */}
+                                      </Text>
+                                    </div>
+                                  </Group>
+                                </UnstyledButton>
+                              ),
+                            )}
                           </SimpleGrid>
                           <Divider
                             my="sm"
@@ -277,7 +283,8 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
                                   Get started
                                 </Text>
                                 <Text size="xs" c="dimmed">
-                                  {item.panelFooter.description}
+                                  {item.panelFooter?.description ||
+                                    ""}
                                 </Text>
                               </div>
                               <Button>Get started</Button>
@@ -320,10 +327,16 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
                   bd={"none"}
                   style={{ border: "none" }}
                 >
-                  <Menu.Item c={"white"} className={classes.menulan}>
+                  <Menu.Item
+                    c={"white"}
+                    className={classes.menuLanguage}
+                  >
                     English
                   </Menu.Item>
-                  <Menu.Item c={"white"} className={classes.menulan}>
+                  <Menu.Item
+                    c={"white"}
+                    className={classes.menuLanguage}
+                  >
                     日本語
                   </Menu.Item>
                 </Menu.Dropdown>
@@ -371,7 +384,7 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
       >
         <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
           <Divider />
-          {menus.map((item, idx) => {
+          {menu.map((item, idx) => {
             return (
               <Fragment key={idx}>
                 {item.type === "group" && (
@@ -408,7 +421,7 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
                         ) === true
                       }
                     >
-                      {item.children.map((_item, i) => (
+                      {(item.children || []).map((_item, i) => (
                         <UnstyledButton
                           key={i}
                           className={classes.subLink}
@@ -487,7 +500,7 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
                         ) === true
                       }
                     >
-                      {item.children.map((_item, i) => (
+                      {(item.children || []).map((_item, i) => (
                         <UnstyledButton
                           key={i}
                           className={classes.subLink}
@@ -554,10 +567,16 @@ export function Header(props: Partial<{ metadata: Metadata }>) {
                 bd={"none"}
                 style={{ border: "none" }}
               >
-                <Menu.Item c={"white"} className={classes.menulan}>
+                <Menu.Item
+                  c={"white"}
+                  className={classes.menuLanguage}
+                >
                   English
                 </Menu.Item>
-                <Menu.Item c={"white"} className={classes.menulan}>
+                <Menu.Item
+                  c={"white"}
+                  className={classes.menuLanguage}
+                >
                   日本語
                 </Menu.Item>
               </Menu.Dropdown>
@@ -609,7 +628,7 @@ function MenuUserInfo() {
       >
         <Menu.Target>
           <ActionIcon variant="transparent" size="xl">
-            <Image src={avatardefault} w={28} h={28} />
+            <Image src={defaultAvatar} w={28} h={28} />
           </ActionIcon>
         </Menu.Target>
 
@@ -628,7 +647,7 @@ function MenuUserInfo() {
             <Flex gap={10}>
               <Box>
                 <ActionIcon variant="transparent" size="xl">
-                  <Image src={avatardefault} w={38} h={38} />
+                  <Image src={defaultAvatar} w={38} h={38} />
                 </ActionIcon>
               </Box>
               <Box>

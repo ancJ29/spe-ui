@@ -69,6 +69,7 @@
   @include hover {
     // background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-7));
     background-color: rgba(255, 255, 255, 0.1);
+
     .subLinkTitle {
       color: var(--mantine-color-primary-5);
     }
@@ -94,7 +95,7 @@
 /*
  MENU LANGUAGE
 */
-.menulan {
+.menuLanguage {
   @include hover {
     // background-color: #16181e;
   }

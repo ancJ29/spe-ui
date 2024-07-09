@@ -208,10 +208,10 @@ export default AppForm;
 const test = false;
 function JsonForm({ formData }: { formData: unknown }) {
   if (!isDev) {
-    return "";
+    return <></>;
   }
   if (test) {
-    return "";
+    return <></>;
   }
   return (
     <Box h={"300px"}>

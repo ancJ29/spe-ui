@@ -27,10 +27,10 @@ export default function SwitchLanguage() {
         bd={"none"}
         style={{ border: "none" }}
       >
-        <Menu.Item c={"white"} className={classes.menulan}>
+        <Menu.Item c={"white"} className={classes.menuLanguage}>
           English
         </Menu.Item>
-        <Menu.Item c={"white"} className={classes.menulan}>
+        <Menu.Item c={"white"} className={classes.menuLanguage}>
           日本語
         </Menu.Item>
       </Menu.Dropdown>

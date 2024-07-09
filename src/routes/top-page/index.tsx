@@ -1,7 +1,12 @@
 // cspell: disable
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Metadata, footerInfo, getFooter } from "@/domain/MetaData";
+import {
+  Application,
+  ApplicationFooter,
+  getFooter,
+} from "@/domain/Application";
 import useMetadata from "@/hooks/useMetadata";
+import logger from "@/services/logger";
 import AppButton from "@/ui/Button/AppButton";
 import CarouselPage from "@/ui/Carousel/Carousel";
 import AppChart, { randomizeArraySparkline } from "@/ui/Chart/Chart";
@@ -608,9 +613,11 @@ function PartnerSection() {
   );
 }
 
-export function Footer(props: Partial<{ metadata: Metadata }>) {
-  const footer = useMemo<footerInfo>(() => {
-    return getFooter(props.metadata);
+export function Footer(props: Partial<{ metadata: Application }>) {
+  const footer = useMemo<ApplicationFooter>(() => {
+    const footer = getFooter(props.metadata);
+    logger.debug("footer", footer);
+    return footer;
   }, [props.metadata]);
   return (
     <footer>
@@ -691,7 +698,7 @@ export function Footer(props: Partial<{ metadata: Metadata }>) {
               component="a"
               href={footer.termOfService.url}
             >
-              {footer.termOfService.name}
+              {footer.termOfService.label}
             </Text>
             <Text
               className={"hoverlink"}
@@ -700,7 +707,7 @@ export function Footer(props: Partial<{ metadata: Metadata }>) {
               href={footer.privacyTerms.url}
               target="_blank"
             >
-              {footer.privacyTerms.name}
+              {footer.privacyTerms.label}
             </Text>
           </Group>
         </Container>
