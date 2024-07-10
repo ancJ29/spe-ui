@@ -205,7 +205,7 @@ const AppForm = forwardRef(
 
 export default AppForm;
 
-const test = false;
+const test = true;
 function JsonForm({ formData }: { formData: unknown }) {
   if (!isDev) {
     return <></>;
@@ -214,7 +214,7 @@ function JsonForm({ formData }: { formData: unknown }) {
     return <></>;
   }
   return (
-    <Box h={"300px"}>
+    <Box h={"300px"} mt={10}>
       <MonacoEditor
         language="json"
         value={toJson(formData)}

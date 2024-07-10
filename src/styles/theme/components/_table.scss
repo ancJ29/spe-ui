@@ -60,3 +60,44 @@
     }
   }
 }
+
+
+.table-sticky-column {
+  thead,
+  tr {
+    th {
+    }
+    td {
+      &:first-child {
+        
+      }
+      &:last-child {
+      }
+    }
+    th,
+    td {
+      &:first-child {
+        position: sticky;
+        left: 0;
+        background: light-dark(white, var(--mantine-color-dark-2));
+      }
+      &:last-child {
+        position: sticky;
+        right: 0;
+        background: light-dark(white, var(--mantine-color-dark-2));
+      }
+    }
+  }
+  tr {
+    &:hover {
+      td {
+        &:first-child {
+          background: var(--tr-hover-bg);
+        }
+        &:last-child {
+          background: var(--tr-hover-bg);
+        }
+      }
+    }
+  }
+}

@@ -4,7 +4,20 @@ const axios = _axios.create({
     import.meta.env.APP_API_URL || "https://spe-demo.cryp-trades.com",
   headers: {
     "Content-type": "application/json",
+    "X-API-KEY": "jsuG@wPZ6scs8VCuKJsVdw5"
   },
 });
 
+axios.interceptors.request.use(
+  config => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
 export default axios;

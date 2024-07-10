@@ -18,6 +18,8 @@ export const TextWidget = function (props: WidgetProps) {
         }}
         placeholder={props.uiSchema?.["ui:placeholder"]}
         error={Boolean(props.rawErrors?.toLocaleString())}
+        readOnly={props.readonly}
+        disabled={props.readonly}
         label={props.label ? props.label : ""}
         {...(props.options?.props as any)} // eslint-disable-line
       />

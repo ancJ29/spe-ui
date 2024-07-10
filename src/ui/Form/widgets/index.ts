@@ -8,6 +8,8 @@ export * from "./additions/TradeLongShortSwitchTPLimitWidget";
 export * from "./additions/TradeAddTPSLWidgets";
 export * from "./additions/TradeFormCreateOrderWidgets";
 export * from "./additions/TradeFormSpotWidgets";
+export * from "./additions/DepositWidgets";
+export * from "./additions/SwapCoinWidgets";
 // Overwrite
 export * from "./additions/PasswordWidget";
 export * from "./overwrites/TextWidget";

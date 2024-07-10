@@ -2,17 +2,17 @@
 import AppButton from "@/ui/Button/AppButton";
 import { AppPopover } from "@/ui/Popover/AppPopover";
 import AppText from "@/ui/Text/AppText";
+import { TVChart } from "@/ui/TvChart";
 import {
   ActionIcon,
   Box,
-  Center,
   Flex,
   Grid,
   InputLabel,
   Progress,
   SegmentedControl,
   SimpleGrid,
-  Spoiler,
+  Spoiler
 } from "@mantine/core";
 import {
   IconChartHistogram,
@@ -78,7 +78,7 @@ export function GridTrade() {
                 draggableHandle=".grid-item-drag-handle"
               >
                 <div key={0} className="grid-item-box">
-                  <Center h={"100%"}>Chart</Center>
+                  <TVChart />
                   <div className="grid-item-drag-handle">
                     <ActionIcon size={"xs"} variant="light">
                       <IconGripHorizontal size={18} />

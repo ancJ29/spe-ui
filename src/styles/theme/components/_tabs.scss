@@ -34,6 +34,24 @@
 }
 
 .mantine-Tabs-root {
+  &.tabBorderSmall {
+    .mantine-Tabs-list {
+      // border: solid 1px blue;
+      &::before {
+        border-width: 0.5px;
+        // border-color: #f3f5f7;
+      }
+    }
+    .mantine-Tabs-tab {
+      font-size: 16px;
+      font-weight: 500;
+      &:not([aria-selected="true"]) {
+        // opacity: 0.4;
+        // font-weight: 100;
+        color: gray;
+      }
+    }
+  }
   &.WithSmallOnMenu {
     // border: solid 1px red;
     .mantine-Tabs-list {

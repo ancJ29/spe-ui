@@ -710,10 +710,10 @@ function MenuUserInfo() {
             Settings
           </Menu.Item>
 
-          <Menu.Item c={"white"} fw={"bold"}>
-            Transfer
+          <Menu.Item c={"white"} fw={"bold"} component="a" href="/wallet">
+            Assets
           </Menu.Item>
-          <Menu.Item c={"white"} fw={"bold"}>
+          <Menu.Item c={"white"} fw={"bold"} component="a" href="/user/assets/deposit">
             Deposit
           </Menu.Item>
           <Box
