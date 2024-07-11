@@ -22,7 +22,7 @@ export function SwapForm(props: FormProps) {
             ...samples.FundSwapSchema.formData,
           }}
           showJsonOutput
-          api="/api/transfer"
+          api="/api/order/swap"
           formDataConverter={convertToSwapFormData}
           onSuccess={props.onSubmit}
         />

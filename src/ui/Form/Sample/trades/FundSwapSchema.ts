@@ -1,73 +1,67 @@
+import { CoinsAsName, SwapSideAsName, swapSides, swapSymbols } from "@/domain/marketPrice";
 import { Sample } from "../Sample";
 
 const FundSwapSchema: Sample = {
   schema: {
-    definitions: {
-      coin: {
-        type: "string",
-        enum: ["ETH", "BTC", "USDT"],
-        default: "ETH"
-      },
-      amount: {
-        type: "number",
-      },
-      toAccountId: {
-        type: "string"
-      },
-      fromAccountId: {
-        type: "string"
-      },
-      isOneToMany: {
-        type: "boolean",
-        default: true
-      },
-      swapMode: {
-        type: "boolean",
-        default: false
-      },
-    },
     properties: {
-      coin: {
-        $ref: "#/definitions/coin",
+      accountId: {
+        type: "string"
       },
-      swapMode: {
-        $ref: "#/definitions/swapMode",
-      }
+      side: {
+        type: "string",
+        enum: swapSides,
+        default: swapSides[0]
+      },
     },
+    
     dependencies: {
-      swapMode: {
+      side: {
         oneOf: [
           {
             properties: {
-              "swapMode": {
-                const: true
+              symbolFrom: {
+                type: "string",
+                enum: [CoinsAsName.USDT],
+                default: CoinsAsName.USDT
               },
-              "fromAccountId": {
-                $ref: "#/definitions/fromAccountId",
+              side: {
+                enum: [SwapSideAsName.BUY]
               },
-              "toAccountId": {
-                $ref: "#/definitions/toAccountId",
+              symbolTo: {
+                type: "string",
+                enum: [CoinsAsName.BTC, CoinsAsName.ETH],
+                default: CoinsAsName.BTC
               },
-              "amount": {
-                $ref: "#/definitions/amount",
+              infoPrice: {
+                type: "string"
               },
+              volume: {
+                type: ["number", "string"],
+              }
             },
 
           },
           {
             properties: {
-              "swapMode": {
-                const: false
+              symbolFrom: {
+                type: "string",
+                enum: [CoinsAsName.BTC, CoinsAsName.ETH],
+                default: CoinsAsName.BTC
               },
-              "fromAccountId": {
-                $ref: "#/definitions/fromAccountId",
+              side: {
+                enum: [SwapSideAsName.SELL]
               },
-              "toAccountId": {
-                $ref: "#/definitions/toAccountId",
+              symbolTo: {
+                type: "string",
+                enum: [CoinsAsName.USDT],
+                default: CoinsAsName.USDT
               },
-              "amount": {
-                $ref: "#/definitions/amount",
+              infoPrice: {
+                type: "string"
               },
+              volume: {
+                type: ["number", "string"],
+              }
             },
 
           },
@@ -79,9 +73,10 @@ const FundSwapSchema: Sample = {
   },
   uiSchema: {
     "ui:order": [
-      "coin",
-      "fromAccountId",
-      "swapMode",
+      "accountId",
+      "symbolFrom",
+      "side",
+      "symbolTo",
       "*"
     ],
     "ui:options": {
@@ -94,40 +89,51 @@ const FundSwapSchema: Sample = {
         size: "lg",
       },
     },
-    "coin": {
+    "symbolTo": {
+      "ui:options": {
+        widget: "CoinSwapWidget",
+        label: false
+      }
+    },
+    "symbolFrom": {
+      "ui:options": {
+        widget: "CoinSwapWidget",
+        label: false
+      }
+    },
+    "volume": {
       "ui:options": {
         widget: "hidden",
         label: false
       }
     },
-    "toAccountId": {
-      "ui:options": {
-        widget: "ToCoinSwapWidget",
-        label: false
-      }
-    },
-    "fromAccountId": {
-      "ui:options": {
-        widget: "FromCoinSwapWidget",
-        label: false
-      }
-    },
-    "amount": {
-      "ui:options": {
-        widget: "hidden",
-        label: false
-      }
-    },
-    "swapMode": {
+    "side": {
       "ui:options": {
         widget: "SwapSwitchWidget",
         label: false
       }
+    },
+    accountId: {
+      "ui:options": {
+        widget: "FundingAccountWidget",
+        label: false
+      }
+    },
+    infoPrice: {
+      "ui:options": {
+        widget: "MarketPriceInfoWidget",
+        label: false
+      }
     }
-
+    
 
   },
-  formData: {}
+  formData: {
+    "accountId": "{{FUNDING_ACCOUNT_ID}}",
+    "symbol": "BTC_USDT_SPOT",
+    "side": "BUY",
+    "volume": "0.1"
+  }
 };
 
 export default FundSwapSchema;

@@ -1,5 +1,6 @@
 
 import { CHAIN, CoinType, TRANSACTION_TYPE } from "@/domain/balance";
+
 export type DepositFormData = {
   fromAddress: string
   txId: string
@@ -53,8 +54,8 @@ export type TransferFormData = {
 };
 
 export type TransactionsHistoryFormData = {
-  type: TRANSACTION_TYPE,
+  type: TRANSACTION_TYPE[],
   accountId: string,
   limit?: number
   cursor?: number
-}
+};

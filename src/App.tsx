@@ -1,5 +1,6 @@
 import authRoutes from "@/router/auth.route";
 import guestRoutes from "@/router/guest.route";
+import serviceRoutes from "@/router/service.route";
 import { resolver, theme } from "@/styles/theme/mantine-theme";
 import { Loader, MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
@@ -61,5 +62,5 @@ function _buildRoutes(loaded: boolean, login: boolean) {
       } as RouteObject,
     ];
   }
-  return login ? authRoutes : guestRoutes;
+  return serviceRoutes.concat(login ? authRoutes : guestRoutes);
 }

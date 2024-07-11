@@ -70,7 +70,7 @@ const FundTransferSchema: Sample = {
     "amount": {
       "ui:options": {
         label: false,
-        widget: "AmountWidget",
+        widget: "AmountToSendWidget",
         props: {
           placeholder: "Min 0.01",
         },

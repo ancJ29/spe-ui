@@ -47,6 +47,7 @@ import { Fragment, useCallback, useMemo, useState } from "react";
 import AppButton from "../Button/AppButton";
 import Icon from "../Icon/Icon";
 import classes from "./index.module.scss";
+import { logout } from "@/services/apis/axios";
 
 export function Header(props: Partial<{ metadata: Application }>) {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
@@ -602,8 +603,7 @@ export function Header(props: Partial<{ metadata: Application }>) {
 
 function MenuUserInfo() {
   const logOut = useCallback(() => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("__USER__");
+    logout()
     window.open("/", "_self");
   }, []);
 

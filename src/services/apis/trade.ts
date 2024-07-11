@@ -21,7 +21,16 @@ export function internalDepositApi(formData: DepositFormData) {
   return axios.post("/internal-api/deposit");
 }
 
-export function fetchTransactionsHistory(formData: TransactionsHistoryFormData) {
-  return axios.post("/transactions/list", formData);
+export function fetchTransactionsHistoryApi(formData: TransactionsHistoryFormData) {
+  console.log(formData.type)
+  return axios.get("/api/transactions/list", {params: {
+    ...formData,
+    type: formData.type?.join()
+  }});
+  // api/transactions/list?type=WITHDRAW&accountId=10142252461111972007602
 }
+export function fetchMarketPricesApi() {
+  return axios.get("/api/market/prices");
+}
+
 

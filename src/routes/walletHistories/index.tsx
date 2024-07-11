@@ -1,34 +1,9 @@
-import bigNumber from "@/common/big-number";
-import { useTradeStorageInfo } from "@/services/tradeAdapter";
-import { TabsTransactions} from "@/ui/Wallet";
-import { Anchor, Box, Breadcrumbs, Container, Title, useMantineColorScheme } from "@mantine/core";
-import { IconChevronRight } from "@tabler/icons-react";
-import { useEffect } from "react";
+import { TableRecordsSwap } from "@/ui/Wallet";
 
 export default function Page() {
-  const { accounts, balances, depositAddress, fetchTransactionsHistory } = useTradeStorageInfo();
-  const { setColorScheme } = useMantineColorScheme();
-  useEffect(() => {
-    setColorScheme("light");
-  }, [])
-  return (
-    <Container fluid>
-      <Box py={30}>
-        <Breadcrumbs separator={<IconChevronRight color="gray" size={14}/>}>
-          <Anchor c={"#121214"} fz={14} fw={400} href="/wallet">
-            Funding
-          </Anchor>
-          <Anchor c={"#121214"} fz={14} fw={400}>
-            Funding Account History
-          </Anchor>
-        </Breadcrumbs>
-        <Box py={20}>
-        <Title order={2} fz={"24px"}>Funding Account History</Title>
-        </Box>
-        <Box>
-          <TabsTransactions />
-        </Box>
-      </Box>
-    </Container>
-  );
+    return (
+        <>
+            <TableRecordsSwap />
+        </>
+    )
 }

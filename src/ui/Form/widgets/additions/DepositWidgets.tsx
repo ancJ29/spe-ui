@@ -1,5 +1,5 @@
 import { CHAIN, CoinType, DepositCoinsListed, iconsByCoin, textByCoin } from "@/domain/balance";
-import { Button, Flex, Image, Select, Box, Text, InputLabel, TextInput, CopyButton, NumberInput } from "@mantine/core";
+import { Button, Flex, Image, Select, Box, Text, InputLabel, TextInput, CopyButton, NumberInput, Divider } from "@mantine/core";
 import { WidgetProps } from "@rjsf/utils";
 import { IconCaretDownFilled, IconCopy } from "@tabler/icons-react";
 import { useEffect, useMemo, useState } from "react";
@@ -7,7 +7,9 @@ import { QRCodeSVG } from "qrcode.react";
 import axios from "@/services/apis/axios";
 import { fetchDepositAddressApi } from "@/services/apis";
 import { useTradeStorageInfo } from "@/services/tradeAdapter";
-import { Account } from "@/domain/account";
+import { Account, getAccountFunding } from "@/domain/account";
+import bigNumber from "@/common/big-number";
+import NumberFormat from "@/ui/NumberFormat";
 
 type RenderSelectOptionProps = {
   option: { label: string; value: string, image?: string };
@@ -266,7 +268,7 @@ export function QrCodeWidget(props: WidgetProps) {
                   <Button fullWidth p={0} variant="transparent" color={copied ? "teal" : "primary"} onClick={copy}>
                     <Flex gap={5} align={"center"} justify={"end"} fz={12}>
                       {copied ? "Copied" : "Copy"}
-                      <IconCopy size={20}/>
+                      <IconCopy size={20} />
                     </Flex>
                   </Button>
                 )}
@@ -284,6 +286,7 @@ export function QrCodeWidget(props: WidgetProps) {
 
 export function AmountWidget(props: WidgetProps) {
   const { formContext: { formData, updateField } } = props;
+
   return (
     <>
       <NumberInput
@@ -300,6 +303,78 @@ export function AmountWidget(props: WidgetProps) {
         rightSection={
           <Text fw={"bold"}>{formData?.coin}</Text>
         }
+        label={props.label ? props.label : ""}
+        withAsterisk={props.required}
+        {...(props.options?.props as any)}
+      />
+    </>
+  );
+}
+
+
+export function AmountToSendWidget(props: WidgetProps) {
+  const { formContext: { formData, updateField } } = props;
+  const { balances } = useTradeStorageInfo()
+  const balanceByCoin = useMemo(() => {
+    let coin = balances.balances.find(i => i.coin === formData?.coin)
+    if (coin) {
+      return bigNumber.sub(coin.amount, coin.locked)
+    }
+    return 0
+  }, [balances])
+
+  return (
+    <>
+      <Box pos={"relative"}>
+        <NumberInput
+          hideControls
+          onChange={v => props.onChange(v)}
+          value={props.value}
+          styles={{
+            input: {
+              background: "#f3f5f7",
+              border: "none",
+              fontWeight: "bolder"
+            },
+          }}
+          rightSectionWidth={120}
+          rightSection={
+            <Flex w={"100%"} gap={8} justify={"end"} pr={10} align={"center"}>
+              <Text onClick={() => props.onChange(balanceByCoin)} className="cursor-pointer" fw={"bold"} c={"primary"}>All</Text>
+              <Divider h={12} c={"red"} bg={"gray"} w={1}/>
+              <Text fw={"bold"}>{formData?.coin}</Text>
+            </Flex>
+          }
+          rightSectionPointerEvents="all"
+          label={props.label ? props.label : ""}
+          withAsterisk={props.required}
+
+          {...(props.options?.props as any)}
+        />
+        <Flex justify={"end"} pos={"absolute"} top={"calc(100% + 5px)"} right={0}>
+          <Text fz={12} fw={"bold"} c="dimmed">Total: <NumberFormat value={balanceByCoin} decimalPlaces={8}/> {formData?.coin}</Text>
+        </Flex>
+      </Box>
+
+    </>
+  );
+}
+
+
+export function EnterAddressWidget(props: WidgetProps) {
+  const { formContext: { formData, updateField } } = props;
+  return (
+    <>
+      <TextInput
+        onChange={v => props.onChange(v.target.value)}
+        value={props.value}
+        styles={{
+          input: {
+            background: "#f3f5f7",
+            border: "none",
+            fontWeight: "bolder"
+          },
+        }}
         label={props.label ? props.label : ""}
         withAsterisk={props.required}
         {...(props.options?.props as any)}
@@ -367,4 +442,21 @@ export function SelectAccountWalletWidget(props: WidgetProps) {
       />
     </>
   );
+}
+
+export function FundingAccountWidget(props: WidgetProps) {
+  const { accounts } = useTradeStorageInfo()
+  const accountFunding = useMemo(() => {
+    return getAccountFunding(accounts)
+  }, [accounts])
+  useEffect(() => {
+    if(accountFunding) {
+      props.onChange(accountFunding.id)
+    }
+  }, [accountFunding])
+  return (
+    <>
+      {/* {accountFunding?.id} */}
+    </>
+  )
 }

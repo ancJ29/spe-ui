@@ -1,13 +1,41 @@
 import AppTabs from "@/ui/Tabs";
+import { TableRecordsSwap } from "./TableRecordsSwap";
+import { TableRecordsDeposit } from "./TableRecordsDeposit";
+import { TableRecordsWithdraw } from "./TableRecordsWithdraw";
+import { TableRecordsOthers } from "./TableRecordsOthers";
+import { matchPath, useLocation, useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
 
 export function TabsTransactions() {
+    const [tab, setTab] = useState<string | null>("swap")
+    const navigate = useNavigate();
+    let location = useLocation();
+    
+    useEffect(() => {
+        setTabByRoute()
+    }, [location.pathname])
+
+    const setTabByRoute = useCallback(() => {
+        let f = location.pathname.split("/")
+        let tab = f[f.length - 1]
+        const isIndex = Boolean(matchPath("/wallet/records", location.pathname)?.pattern)
+        setTab(isIndex ? "swap" : tab)
+    }, [location.pathname])
+
+    const onChangeTab = useCallback((t: string | null) => {
+        // setTab(t)
+        navigate(`/wallet/records/${t?.toLowerCase()}`, {
+            replace: true
+        })
+    }, [location.pathname])
+    
     return (
         <>
-
-            <AppTabs
+            <AppTabs 
                 className="noBg"
-                defaultValue={"1"}
-                showPanel
+                value={tab}
+                showPanel={false}
+                onChange={onChangeTab}
                 classNames={{
                     root: "tabBorderSmall"
                 }}
@@ -21,49 +49,49 @@ export function TabsTransactions() {
                     {
                         data: {
                             label: "Swap",
-                            value: "1",
+                            value: "swap",
                         },
                         tabsPanelProps: {
                             children: <>
-                                {/* xxx */}
+                                <TableRecordsSwap/>
                             </>,
-                            value: "positions",
+                            value: "swap",
                         },
                     },
                     {
                         data: {
                             label: "Deposit",
-                            value: "2",
+                            value: "deposit",
                         },
                         tabsPanelProps: {
                             children: <>
-                                {/* yyy */}
+                                <TableRecordsDeposit/>
                             </>,
-                            value: "2",
+                            value: "deposit",
                         },
                     },
                     {
                         data: {
                             label: "Withdraw",
-                            value: "3",
+                            value: "withdraw",
                         },
                         tabsPanelProps: {
                             children: <>
-                                {/* yyy */}
+                                <TableRecordsWithdraw/>
                             </>,
-                            value: "3",
+                            value: "withdraw",
                         },
                     },
                     {
                         data: {
                             label: "Others",
-                            value: "4",
+                            value: "others",
                         },
                         tabsPanelProps: {
                             children: <>
-                                {/* yyy */}
+                                <TableRecordsOthers/>
                             </>,
-                            value: "4",
+                            value: "others",
                         },
                     },
                     

@@ -20,8 +20,7 @@ const FundWithdrawSchema: Sample = {
       },
       address: {
         type: "string",
-        title: "",
-        readOnly: true,
+        title: "Address",
         default: "0x12131"
       },
       amount: {
@@ -39,16 +38,14 @@ const FundWithdrawSchema: Sample = {
             default: "ETH",
             title: "Chain"
           },
-                   
           amount: {
             $ref: "#/definitions/amount",
           },
           address: {
             $ref: "#/definitions/address",
           },
-                   
         },
-        required: ["amount", "chain"]
+        required: ["amount", "chain", "address"]
       },
       infoBTC: {
         type: "object",
@@ -68,7 +65,7 @@ const FundWithdrawSchema: Sample = {
           },
 
         },
-        required: ["walletAddress", "amount", "chain"]
+        required: ["address", "amount", "chain"]
       },
       infoUSDT: {
         type: "object",
@@ -183,13 +180,17 @@ const FundWithdrawSchema: Sample = {
       },
       address: {
         "ui:options": {
-          widget: "hidden"
+          widget: "EnterAddressWidget",
+          label: false,
+          props: {
+            placeholder: "Enter address"
+          }
         }
       },
       amount: {
         "ui:options": {
           label: false,
-          widget: "AmountWidget",
+          widget: "AmountToSendWidget",
           props: {
             placeholder: "Min 0.01",
           },
@@ -209,13 +210,17 @@ const FundWithdrawSchema: Sample = {
       },
       address: {
         "ui:options": {
-          widget: "hidden"
+          widget: "EnterAddressWidget",
+          label: false,
+          props: {
+            placeholder: "Enter address"
+          }
         }
       },
       amount: {
         "ui:options": {
           label: false,
-          widget: "AmountWidget",
+          widget: "AmountToSendWidget",
           props: {
             placeholder: "Min 0.01",
           },
@@ -234,13 +239,17 @@ const FundWithdrawSchema: Sample = {
       },
       address: {
         "ui:options": {
-          widget: "hidden"
+          widget: "EnterAddressWidget",
+          label: false,
+          props: {
+            placeholder: "Enter address"
+          }
         }
       },
       amount: {
         "ui:options": {
           label: false,
-          widget: "AmountWidget",
+          widget: "AmountToSendWidget",
           props: {
             placeholder: "Min 0.01",
           },

@@ -1,3 +1,4 @@
+import { RouteConfig } from "@/types";
 import { lazy } from "react";
 import { type RouteObject } from "react-router-dom";
 
@@ -15,20 +16,8 @@ const map = {
 };
 const routes: RouteObject[] = [
   {
-    path: "/trade",
-    element: <map.Trade />,
-  },
-  {
     path: "/login",
     element: <map.Login />,
-  },
-  {
-    path: "/copy-trading",
-    element: <map.CopyTrade />,
-  },
-  {
-    path: "/copy-trading/:id",
-    element: <map.CopyTradeDetail />,
   },
   {
     path: "/register",
@@ -48,4 +37,4 @@ const routes: RouteObject[] = [
   },
 ];
 
-export default routes;
+export default routes as RouteConfig[];

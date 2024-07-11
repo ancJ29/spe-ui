@@ -99,9 +99,9 @@ const IndexPage = () => {
               <Box>
                 <Center h={"100%"}>
                   <Box>
-                    <div className="textWithCopy">
-                      Bybit Copy Trading
-                    </div>
+                    <Text className="textWithCopy">
+                      SPE Copy Trading
+                    </Text>
                     <AppText
                       fz={24}
                       c={lighten("black", 1)}

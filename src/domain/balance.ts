@@ -6,6 +6,7 @@ import { AccountNameType } from "./account";
 export type CoinType = "USDT" | "BTC" | "ETH";
 export type CHAIN = "Bitcoin" | "Ethereum" | "Binance Smart Chain"; 
 export type TRANSACTION_TYPE = "DEPOSIT" | "WITHDRAW" | "TRANSFER" | "REALIZED_PNL" | "FUNDING_FEE" | "COMMISSION_FEE" | "LIQUIDATION_CLEARANCE" | "REFERRAL_KICKBACK"
+export type ModalMode = "DEPOSIT" | "SWAP" | "TRANSFER" | "WITHDRAW" | "ADDRESS";
 
 export type BalanceOverview = {
   totalInBtc: string 

@@ -9,6 +9,9 @@ export type Account = {
   type: AccountType
 };
 
+export function getAccountFunding(accounts: Account[]) {
+  return accounts.find(acc => acc.isFunding)
+}
 
 // [
 //    {

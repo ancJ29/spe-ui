@@ -16,6 +16,19 @@ import { convertToLoginFormData } from "./config";
 import classes from "./login.module.scss";
 const Login = () => {
   const t = useTranslation();
+  const authenticated = (res: any) => {
+    const query = new URLSearchParams(window.location.search);
+    const redirectPath = query.get('redirect') || '/';
+
+    const token = res?.token || "";
+    if (token) {
+      localStorage.__USER__ = true;
+      localStorage.__TOKEN__ = token;
+      localStorage.token = token;
+    }
+    window.location.href = redirectPath;
+    // window.open("/", "_self");
+  }
   return (
     <>
       <Header />
@@ -44,13 +57,7 @@ const Login = () => {
                     titleSuccess: t("Login Success"),
                   }}
                   onSuccess={(res: { token: string }) => {
-                    const token = res?.token || "";
-                    if (token) {
-                      localStorage.__USER__ = true;
-                      localStorage.__TOKEN__ = token;
-                      localStorage.token = token;
-                    }
-                    window.open("/", "_self");
+                    authenticated(res)
                   }}
                 />
               </Card>

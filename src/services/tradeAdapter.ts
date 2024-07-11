@@ -7,6 +7,8 @@ export function useTradeStorageInfo(): TradeStorageService {
     accounts: store.accounts,
     balances: store.balances,
     depositAddress: store.depositAddress,
+    transactions: store.transactions,
+    marketPrices: store.marketPrices,
     initialAll() {
       return store.initial();
     },

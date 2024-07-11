@@ -18,83 +18,42 @@ type Config = {
 // prettier-ignore
 const ServiceWrapper = lazy(() => import("@/layouts/ServiceWrapper"));
 const TradeWrapper = lazy(() => import("@/layouts/TradeWrapper"));
-const HistoryWrapper = lazy(() => import("@/layouts/HistoryWrapper"));
 // prettier-ignore
 const componentMap: Record<string, LazyExoticComponent> = {
-  BlankPage: lazy(() => import("@/routes/blank-page")),
   TopPage: lazy(() => import("@/routes/top-page")),
   CopyTrade: lazy(() => import("@/routes/copy-trade")),
   CopyTradeDetail: lazy(() => import("@/routes/copy-trade-detail")),
-  Trade: lazy(() => import("@/routes/trade")),
   SpotTrade: lazy(() => import("@/routes/spot")),
   FutureTrade: lazy(() => import("@/routes/future")),
-  Deposit: lazy(() => import("@/routes/deposit")),
-  Wallet: lazy(() => import("@/routes/wallet")),
-  WalletHistory: lazy(() => import("@/routes/walletHistories")),
-  WalletHistorySwap: lazy(() => import("@/routes/walletHistories/swap")),
-  WalletHistoryDeposit: lazy(() => import("@/routes/walletHistories/deposit")),
-  WalletHistoryWithdraw: lazy(() => import("@/routes/walletHistories/withdraw")),
-  WalletHistoryOthers: lazy(() => import("@/routes/walletHistories/others")),
 };
 
 const configs: Config[] = [
   {
-    path: "/wallet",
-    element: "Wallet",
-    wrapper: {
-      element: TradeWrapper as Wrapper,
-    },
-  },
-  {
-    path: "/wallet/records",
-    element: "WalletHistory",
-    wrapper: {
-      element: HistoryWrapper as Wrapper,
-    },
-    
-  },
-  {
-    path: "/wallet/records/swap",
-    element: "WalletHistorySwap",
-    wrapper: {
-      element: HistoryWrapper as Wrapper,
-    },
-    
-  },
-  {
-    path: "/wallet/records/deposit",
-    element: "WalletHistoryDeposit",
-    wrapper: {
-      element: HistoryWrapper as Wrapper,
-    },
-  },
-  {
-    path: "/wallet/records/withdraw",
-    element: "WalletHistoryWithdraw",
-    wrapper: {
-      element: HistoryWrapper as Wrapper,
-    },
-  },
-  {
-    path: "/wallet/records/others",
-    element: "WalletHistoryOthers",
-    wrapper: {
-      element: HistoryWrapper as Wrapper,
-    },
-  },
-
-  {
-    path: "/user/assets/deposit",
-    element: "Deposit",
-    wrapper: {
-      element: TradeWrapper as Wrapper,
-    },
-  },
-  {
-    path: "/*",
-    element: "TopPage",
+    path: "/copy-trading",
+    element: "CopyTrade",
     wrapper: {
       element: ServiceWrapper as Wrapper,
+    },
+  },
+  {
+    path: "/copy-trading/:id",
+    element: "CopyTradeDetail",
+    wrapper: {
+      element: ServiceWrapper as Wrapper,
+    },
+  },
+  {
+    path: "/trade/spot/:baseToken/:pairToken",
+    element: "SpotTrade",
+    wrapper: {
+      element: TradeWrapper as Wrapper,
+    },
+  },
+  {
+    path: "/trade/futures/:baseToken/:pairToken",
+    element: "FutureTrade",
+    wrapper: {
+      element: TradeWrapper as Wrapper,
     },
   },
 ];

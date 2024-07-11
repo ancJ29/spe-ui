@@ -16,7 +16,12 @@ export function convertToDepositFormData(formData: DepositFormData) {
 
 
 export function convertToSwapFormData(formData: DepositFormData) {
-  return formData;
+  return {
+    "accountId": formData.accountId,
+    "symbol": `${formData.symbolFrom}${formData.symbolTo}`,
+    "side": formData.side,
+    "volume": formData.volume
+  };
 }
 
 
