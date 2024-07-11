@@ -2,6 +2,7 @@ import defaultAvatar from "@/assets/images/defaultAvatar.png";
 import svgLogo from "@/assets/images/logo.svg";
 import { Application } from "@/common/types";
 import { getHeaderMenu } from "@/domain/Application";
+import { logout } from "@/services/apis/axios";
 import {
   ActionIcon,
   Anchor,
@@ -47,14 +48,15 @@ import { Fragment, useCallback, useMemo, useState } from "react";
 import AppButton from "../Button/AppButton";
 import Icon from "../Icon/Icon";
 import classes from "./index.module.scss";
-import { logout } from "@/services/apis/axios";
+
+const debug = true;
 
 export function Header(props: Partial<{ metadata: Application }>) {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const theme = useMantineTheme();
   const { setColorScheme, colorScheme } = useMantineColorScheme();
-  const computedColorScheme = useComputedColorScheme("light", {
+  const computedColorScheme = useComputedColorScheme("dark", {
     getInitialValueInEffect: true,
   });
 
@@ -342,27 +344,32 @@ export function Header(props: Partial<{ metadata: Application }>) {
                   </Menu.Item>
                 </Menu.Dropdown>
               </Menu>
-              <ActionIcon
-                onClick={() =>
-                  setColorScheme(
-                    computedColorScheme === "light"
-                      ? "dark"
-                      : "light",
-                  )
-                }
-                variant="transparent"
-                size="xl"
-                aria-label="Toggle color scheme"
-              >
-                {colorScheme === "light" && (
-                  <IconSun color={lighten(theme.colors.dark[7], 1)} />
-                )}
-                {colorScheme === "dark" && (
-                  <IconMoon
-                    color={lighten(theme.colors.dark[7], 1)}
-                  />
-                )}
-              </ActionIcon>
+              {!debug && (
+                <ActionIcon
+                  onClick={() =>
+                    setColorScheme(
+                      computedColorScheme === "light"
+                        ? "dark"
+                        : "light",
+                    )
+                  }
+                  // style={{ cursor: "pointer", display: "hidden" }}
+                  variant="transparent"
+                  size="xl"
+                  aria-label="Toggle color scheme"
+                >
+                  {colorScheme === "light" && (
+                    <IconSun
+                      color={lighten(theme.colors.dark[7], 1)}
+                    />
+                  )}
+                  {colorScheme === "dark" && (
+                    <IconMoon
+                      color={lighten(theme.colors.dark[7], 1)}
+                    />
+                  )}
+                </ActionIcon>
+              )}
             </Group>
           </Group>
 
@@ -603,7 +610,7 @@ export function Header(props: Partial<{ metadata: Application }>) {
 
 function MenuUserInfo() {
   const logOut = useCallback(() => {
-    logout()
+    logout();
     window.open("/", "_self");
   }, []);
 
@@ -710,10 +717,20 @@ function MenuUserInfo() {
             Settings
           </Menu.Item>
 
-          <Menu.Item c={"white"} fw={"bold"} component="a" href="/wallet">
+          <Menu.Item
+            c={"white"}
+            fw={"bold"}
+            component="a"
+            href="/wallet"
+          >
             Assets
           </Menu.Item>
-          <Menu.Item c={"white"} fw={"bold"} component="a" href="/user/assets/deposit">
+          <Menu.Item
+            c={"white"}
+            fw={"bold"}
+            component="a"
+            href="/user/assets/deposit"
+          >
             Deposit
           </Menu.Item>
           <Box

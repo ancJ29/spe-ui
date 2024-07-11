@@ -31,7 +31,7 @@ const App = () => {
     <MantineProvider
       theme={theme}
       cssVariablesResolver={resolver}
-      defaultColorScheme="light"
+      defaultColorScheme="dark"
     >
       <ModalsProvider>{useRoutes(routes)}</ModalsProvider>
       <Notifications />
