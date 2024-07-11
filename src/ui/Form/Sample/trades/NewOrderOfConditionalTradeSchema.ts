@@ -37,6 +37,7 @@ const NewOrderOfConditionalTradeSchema: Sample = {
       },
       volume: {
         type: "string",
+        title: "Volume"
       },
       leverage: {
         type: "number",
@@ -229,7 +230,7 @@ const NewOrderOfConditionalTradeSchema: Sample = {
     },
     "uiCalcInfoPrice": {
       "ui:options": {
-        widget: "calcInfoPriceWidget",
+        widget: "CalcInfoPriceWidget",
         label: false,
       },
     },

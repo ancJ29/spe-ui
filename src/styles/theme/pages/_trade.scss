@@ -1,15 +1,30 @@
 .bg-dark {
   background: light-dark(
-    var(--mantine-color-dark),
-    var(--mantine-color-dark)
+    #f5f7fb,
+    var(--mantine-color-dark-9)
+  );
+  // background: light-dark(
+  //   #f5f7fb,
+  //   red
+  // );
+}
+.bg-trade {
+  background: light-dark(
+    #ffffff,
+    #101014
   );
 }
 .layout_trade {
   // background: light-dark(var(--mantine-color-black), var(--mantine-color-black));
   // border: solid 1px red;
+  // background: red;
 }
 .grid-item-box {
-  background: #101014;
+  // background: #101014;
+  background: light-dark(
+    #ffffff,
+    #101014
+  );
   height: 100%;
   position: relative;
   overflow: hidden;

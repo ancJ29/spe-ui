@@ -220,7 +220,11 @@ export function MenuToken() {
         </Menu.Target>
         <Menu.Dropdown
           variant="transparent"
-          style={{ border: "none", borderRadius: 0 }}
+          style={{ 
+            // border: "none", 
+            // borderRadius: 0 ,
+
+          }}
         >
           <Box px={4} pt={10}>
             <SearchBox />
@@ -430,7 +434,7 @@ export function TableTokens() {
       <Table
         styles={{
           thead: {
-            background: "var(--mantine-color-dark-9)",
+            background: "light-dark(white, var(--mantine-color-dark-9))",
           },
         }}
         stickyHeader

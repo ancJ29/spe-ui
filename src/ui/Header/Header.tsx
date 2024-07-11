@@ -2,7 +2,6 @@ import defaultAvatar from "@/assets/images/defaultAvatar.png";
 import svgLogo from "@/assets/images/logo.svg";
 import { Application } from "@/common/types";
 import { getHeaderMenu } from "@/domain/Application";
-import { logout } from "@/services/apis/axios";
 import {
   ActionIcon,
   Anchor,
@@ -49,7 +48,7 @@ import AppButton from "../Button/AppButton";
 import Icon from "../Icon/Icon";
 import classes from "./index.module.scss";
 
-const debug = true;
+const debug = false;
 
 export function Header(props: Partial<{ metadata: Application }>) {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
@@ -353,9 +352,8 @@ export function Header(props: Partial<{ metadata: Application }>) {
                         : "light",
                     )
                   }
-                  // style={{ cursor: "pointer", display: "hidden" }}
-                  variant="transparent"
                   size="xl"
+                  variant="transparent"
                   aria-label="Toggle color scheme"
                 >
                   {colorScheme === "light" && (
@@ -610,14 +608,12 @@ export function Header(props: Partial<{ metadata: Application }>) {
 
 function MenuUserInfo() {
   const logOut = useCallback(() => {
-    logout();
+    delete localStorage.__TOKEN__;
+    delete sessionStorage.__TOKEN__;
     window.open("/", "_self");
   }, []);
 
-  const isLoggedIn = useMemo(() => {
-    return Boolean(localStorage.getItem("token"));
-  }, []);
-  if (!isLoggedIn) {
+  if (!localStorage.__TOKEN__) {
     return (
       <>
         <GroupLinkAuth />
@@ -643,7 +639,7 @@ function MenuUserInfo() {
           styles={{
             dropdown: {
               height: "calc(100vh - 48px)",
-              background: "#16181e",
+              background: "light-dark(#fff, #16181e)",
               display: "flex",
               flexDirection: "column",
               border: "none",
@@ -713,12 +709,11 @@ function MenuUserInfo() {
             Switch/Create Account
           </Menu.Item> */}
           <Menu.Divider />
-          <Menu.Item c={"white"} fw={"bold"}>
+          <Menu.Item fw={"bold"}>
             Settings
           </Menu.Item>
 
           <Menu.Item
-            c={"white"}
             fw={"bold"}
             component="a"
             href="/wallet"
@@ -726,7 +721,6 @@ function MenuUserInfo() {
             Assets
           </Menu.Item>
           <Menu.Item
-            c={"white"}
             fw={"bold"}
             component="a"
             href="/user/assets/deposit"

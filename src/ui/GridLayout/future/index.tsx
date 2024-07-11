@@ -105,7 +105,7 @@ export function GridTradeFuture() {
           </Grid>
         </Grid.Col>
         <Grid.Col span={5}>
-          <Box bg={"#101014"} h={"100%"} p={10}>
+          <Box className="bg-trade" h={"100%"} p={10}>
             <Forms />
           </Box>
         </Grid.Col>
@@ -216,7 +216,7 @@ function BoxInfoTradeFoot() {
             <IconChevronRight size={16} />
           </Flex>
         </Flex>
-        <Box h={"1"} bg={"dark"}></Box>
+        <Box h={"1"} className="border-bottom-dark"></Box>
       </Box>
       <Grid columns={24} align="center" gutter={0}>
         <Grid.Col span={10}>
@@ -353,7 +353,7 @@ function BoxInfoTradeFoot() {
           </AppText>
         </Grid.Col>
       </Grid>
-      <Box h={"1"} bg={"dark"}></Box>
+      <Box h={"1"} className="border-bottom-dark"></Box>
       <Box className="space-y-10">
         <Flex justify={"space-between"} align={"center"}>
           <AppPopover
@@ -457,17 +457,32 @@ function BoxInfoTradeFoot() {
           },
         }}
       >
-        <AppButton bg={"gray.8"} size="xs">
+        <AppButton styles={{
+          root: {
+            background: "light-dark(#e9edf3, #414347)",
+            color: "light-dark(black, white)"
+          }
+        }} size="xs">
           Deposit
         </AppButton>
-        <AppButton bg={"gray.8"} size="xs">
+        <AppButton styles={{
+          root: {
+            background: "light-dark(#e9edf3, #414347)",
+            color: "light-dark(black, white)"
+          }
+        }} size="xs">
           Convert
         </AppButton>
-        <AppButton bg={"gray.8"} size="xs">
+        <AppButton styles={{
+          root: {
+            background: "light-dark(#e9edf3, #414347)",
+            color: "light-dark(black, white)"
+          }
+        }} size="xs">
           Transfer
         </AppButton>
       </SimpleGrid>
-      <Box h={"1"} bg={"dark"}></Box>
+      <Box h={"1"} className="border-bottom-dark"></Box>
       <Box className="space-y-16">
         <Box>
           <AppText fz={16} fw={"bold"}>

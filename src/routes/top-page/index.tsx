@@ -357,7 +357,7 @@ function renderCell(
       <AppButton
         instancetype="WithOutlinedColor"
         component="a"
-        href={`/trade/${element.baseToken}/${element.pairToken}`}
+        href={`/trade/futures/${element.baseToken}/${element.pairToken}`}
       >
         Trade
       </AppButton>

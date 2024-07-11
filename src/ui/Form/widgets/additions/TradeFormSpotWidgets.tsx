@@ -20,6 +20,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { WidgetProps } from "@rjsf/utils";
 import { IconCaretDownFilled } from "@tabler/icons-react";
 import { useCallback } from "react";
+import { sizeInput } from "./TradeFormCreateOrderWidgets";
 
 export function TradeBuySellSwitchTPLimitWidget(props: WidgetProps) {
   const isBuyOrLong = ["Long", "BUY"];
@@ -48,6 +49,7 @@ export function TradeBuySellSwitchTPLimitWidget(props: WidgetProps) {
           },
           label: {
             fontWeight: "bolder",
+            // color: isBuyOrLong.includes(props.value) ? "white" : "gray"
           },
         }}
       />
@@ -168,6 +170,7 @@ export function QtyPercentWidget(props: WidgetProps) {
               {extractSuffix(props?.options?.props)}
             </AppText>
           }
+          size={sizeInput}
         ></NumberInput>
         <Box py={20} mb={10} px={2}>
           <Slider
@@ -273,6 +276,7 @@ export function VolumeInputHintFieldWidget(props: WidgetProps) {
               {extractSuffix(props?.options?.props)}
             </AppText>
           }
+          size={sizeInput}
         ></NumberInput>
         <Flex justify={"end"}>
           <InputLabel className="text-label-form">
@@ -396,10 +400,12 @@ export function MarginWidget(props: WidgetProps) {
     <>
       <Box
         onClick={onOpenModal}
-        bg={"#26282c"}
         px={10}
         py={8}
-        style={{ borderRadius: "5px" }}
+        style={{ 
+          borderRadius: "5px" ,
+          background: "light-dark(#f3f5f7, #26282c)"
+        }}
         className="cursor-pointer"
       >
         <Flex justify={"space-between"} align={"center"}>
@@ -437,7 +443,7 @@ export function MarginWidget(props: WidgetProps) {
           styles={{
             input: {
               border: "none",
-              background: "#26282c",
+              background: "light-dark(#f3f5f7, #26282c)",
               textAlign: "center",
             },
           }}

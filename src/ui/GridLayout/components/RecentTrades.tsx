@@ -17,7 +17,8 @@ export function GridRecentTrade() {
           <Table
             styles={{
               thead: {
-                background: "#101014",
+                // background: "#101014",
+                background: "light-dark(#ffffff, #101014)"
               },
               th: {
                 fontSize: "12px",
@@ -91,7 +92,7 @@ const tableData: TableData = {
           <NumberFormatter
             style={{
               fontSize: "12px",
-              color: "white",
+              color: "light-dark(dark, white)",
               fontWeight: "600",
             }}
             value={qty}
@@ -104,7 +105,7 @@ const tableData: TableData = {
           <Text
             style={{
               fontSize: "12px",
-              color: "white",
+              color: "light-dark(dark, white)",
               fontWeight: "600",
             }}
           >

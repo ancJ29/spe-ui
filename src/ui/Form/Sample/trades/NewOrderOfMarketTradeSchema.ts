@@ -20,6 +20,7 @@ const NewOrderOfMarketTradeSchema: Sample = {
       },
       volume: {
         type: "string",
+        title: "Volume"
       },
       leverage: {
         type: "number",
@@ -189,7 +190,7 @@ const NewOrderOfMarketTradeSchema: Sample = {
     },
     "calcInfoPrice": {
       "ui:options": {
-        widget: "calcInfoPriceWidget",
+        widget: "CalcInfoPriceWidget",
         label: false,
       },
     },

@@ -9,7 +9,7 @@ export function TopBar() {
   const { hovered, ref } = useHover();
   return (
     <>
-      <Flex bg={"#101014"} align={"center"} gap={20} p={10}>
+      <Flex className="bg-trade" align={"center"} gap={20} p={10}>
         <MenuToken />
         <Divider orientation="vertical" />
         <div>

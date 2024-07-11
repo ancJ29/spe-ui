@@ -300,7 +300,12 @@ export const dataHistories: TableHistory = {
                 </AppButton>
               </>
             ) : (
-              <AppButton bg={"dark"} size="compact-xs" fz={12}>
+              <AppButton styles={{
+                root: {
+                  background: "light-dark(#e9edf3, #414347)",
+                  color: "light-dark(black, white)"
+                }
+              }} size="compact-xs" fz={12}>
                 <IconPlus size={16} />
                 Add
               </AppButton>
@@ -323,7 +328,12 @@ export const dataHistories: TableHistory = {
                 </Box>
               </>
             ) : (
-              <AppButton bg={"dark"} size="compact-xs" fz={12}>
+              <AppButton styles={{
+                root: {
+                  background: "light-dark(#e9edf3, #414347)",
+                  color: "light-dark(black, white)"
+                }
+              }} size="compact-xs" fz={12}>
                 <IconPlus size={16} />
                 Add
               </AppButton>
@@ -346,7 +356,12 @@ export const dataHistories: TableHistory = {
                 </Box>
               </>
             ) : (
-              <AppButton bg={"dark"} size="compact-xs" fz={12}>
+              <AppButton styles={{
+                root: {
+                  background: "light-dark(#e9edf3, #414347)",
+                  color: "light-dark(black, white)"
+                }
+              }}  size="compact-xs" fz={12}>
                 <IconPlus size={16} />
                 Add
               </AppButton>
@@ -357,15 +372,30 @@ export const dataHistories: TableHistory = {
             fz={12}
             key={`${idx}.14`}
           >
-            <AppButton bg={"dark"} size="compact-xs" fz={12}>
+            <AppButton styles={{
+              root: {
+                background: "light-dark(#e9edf3, #414347)",
+                color: "light-dark(black, white)"
+              }
+            }} size="compact-xs" fz={12}>
               Reverse
             </AppButton>
           </AppText>,
           <Flex key={`${idx}.15`} gap={10}>
-            <AppButton bg={"dark"} size="compact-xs" fz={12}>
+            <AppButton size="compact-xs" fz={12} styles={{
+              root: {
+                background: "light-dark(#e9edf3, #414347)",
+                color: "light-dark(black, white)"
+              }
+            }}>
               Limit
             </AppButton>
-            <AppButton bg={"dark"} size="compact-xs" fz={12}>
+            <AppButton size="compact-xs" fz={12} styles={{
+              root: {
+                background: "light-dark(#e9edf3, #414347)",
+                color: "light-dark(black, white)"
+              }
+            }}>
               Market
             </AppButton>
           </Flex>,
@@ -387,7 +417,7 @@ export const dataHistories: TableHistory = {
                       onMouseEnter={props.open}
                       onMouseLeave={props.close}
                       style={{
-                        borderBottom: "solid 1px #595d61",
+                        borderBottom: "solid 1px light-dark(#eaecee, #595d61)",
                         whiteSpace: "nowrap",
                         width: "fit-content",
                       }}
@@ -410,7 +440,7 @@ export const dataHistories: TableHistory = {
                 fz={12}
                 c={"#71757a"}
                 style={{
-                  borderBottom: "solid 1px #595d61",
+                  borderBottom: "solid 1px light-dark(#eaecee, #595d61)",
                   whiteSpace: "nowrap",
                   width: "fit-content",
                 }}
@@ -706,7 +736,12 @@ export const dataHistories: TableHistory = {
                     </AppButton>
                   </>
                 ) : (
-                  <AppButton bg={"dark"} size="compact-xs" fz={12}>
+                  <AppButton styles={{
+                    root: {
+                      background: "light-dark(#e9edf3, #414347)",
+                      color: "light-dark(black, white)"
+                    }
+                  }} size="compact-xs" fz={12}>
                     <IconPlus size={16} />
                     Add
                   </AppButton>
@@ -748,7 +783,12 @@ export const dataHistories: TableHistory = {
               </Box>,
               <AppButton
                 key={`${idx}.10`}
-                bg={"dark"}
+                styles={{
+                  root: {
+                    background: "light-dark(#e9edf3, #414347)",
+                    color: "light-dark(black, white)"
+                  }
+                }}
                 size="xs"
                 fz={12}
               >
@@ -955,7 +995,12 @@ export const dataHistories: TableHistory = {
                     </AppButton>
                   </>
                 ) : (
-                  <AppButton bg={"dark"} size="compact-xs" fz={12}>
+                  <AppButton styles={{
+                    root: {
+                      background: "light-dark(#e9edf3, #414347)",
+                      color: "light-dark(black, white)"
+                    }
+                  }} size="compact-xs" fz={12}>
                     <IconPlus size={16} />
                     Add
                   </AppButton>
@@ -992,7 +1037,12 @@ export const dataHistories: TableHistory = {
               </Box>,
               <AppButton
                 key={`${idx}.9`}
-                bg={"dark"}
+                styles={{
+                  root: {
+                    background: "light-dark(#e9edf3, #414347)",
+                    color: "light-dark(black, white)"
+                  }
+                }}
                 size="xs"
                 fz={12}
               >
@@ -1085,7 +1135,12 @@ export const dataHistories: TableHistory = {
               </Box>,
               <AppButton
                 key={`${idx}.8`}
-                bg={"dark"}
+                styles={{
+                  root: {
+                    background: "light-dark(#e9edf3, #414347)",
+                    color: "light-dark(black, white)"
+                  }
+                }}
                 size="xs"
                 fz={12}
               >
@@ -1237,7 +1292,12 @@ export const dataHistories: TableHistory = {
                     </AppButton>
                   </>
                 ) : (
-                  <AppButton bg={"dark"} size="compact-xs" fz={12}>
+                  <AppButton styles={{
+                    root: {
+                      background: "light-dark(#e9edf3, #414347)",
+                      color: "light-dark(black, white)"
+                    }
+                  }} size="compact-xs" fz={12}>
                     <IconPlus size={16} />
                     Add
                   </AppButton>
@@ -1279,7 +1339,12 @@ export const dataHistories: TableHistory = {
               </Box>,
               <AppButton
                 key={`${idx}.10`}
-                bg={"dark"}
+                styles={{
+                  root: {
+                    background: "light-dark(#e9edf3, #414347)",
+                    color: "light-dark(black, white)"
+                  }
+                }}
                 size="xs"
                 fz={12}
               >
@@ -1382,7 +1447,12 @@ export const dataHistories: TableHistory = {
               </Box>,
               <AppButton
                 key={`${idx}.9`}
-                bg={"dark"}
+                styles={{
+                  root: {
+                    background: "light-dark(#e9edf3, #414347)",
+                    color: "light-dark(black, white)"
+                  }
+                }}
                 size="xs"
                 fz={12}
               >

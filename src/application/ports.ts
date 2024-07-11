@@ -1,8 +1,8 @@
-import { DepositAddressFormData, DepositAddressPayload, DepositFormData, GetAccountsFormData, SuccessPayload, TransactionsHistoryFormData } from "@/types";
+import { MarketPrice } from "@/domain/marketPrice";
+import { Transaction } from "@/domain/transaction";
+import { DepositAddressFormData, DepositFormData, GetAccountsFormData, TransactionsHistoryFormData } from "@/types";
 import { Account } from "../domain/account";
 import { Balance } from "../domain/balance";
-import { Transaction } from "@/domain/transaction";
-import { MarketPrice } from "@/domain/marketPrice";
 
 export interface TradeStorageService {
   depositAddress: string
@@ -16,7 +16,7 @@ export interface TradeStorageService {
 
 export interface DepositService {
   getDepositAddress(formData: DepositAddressFormData): Promise<unknown>
-  tryDeposit(formData: DepositFormData): Promise<unknown> 
+  tryDeposit(formData: DepositFormData): Promise<unknown>
 }
 
 export interface AccountService {
@@ -26,5 +26,3 @@ export interface AccountService {
 export interface BalanceService {
   setBalances(): Promise<unknown>
 }
-
-

@@ -1,14 +1,12 @@
-import authRoutes from "@/router/auth.route";
-import guestRoutes from "@/router/guest.route";
-import serviceRoutes from "@/router/service.route";
+import routes from "@/router";
 import { resolver, theme } from "@/styles/theme/mantine-theme";
 import { Loader, MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
 
+import axios from "@/services/apis/axios";
 import { useEffect, useMemo, useState } from "react";
 import { RouteObject, useRoutes } from "react-router-dom";
-import { delay } from "./utils";
 
 const App = () => {
   const [loaded, setLoaded] = useState(false);
@@ -17,14 +15,29 @@ const App = () => {
     if (loaded) {
       return;
     }
-    delay(1000).then(() => {
+    if (localStorage.__TOKEN__) {
+      axios
+        .get("/api/me")
+        .then((res) => {
+          if (res.data.code !== 0) {
+            delete localStorage.__TOKEN__;
+            delete sessionStorage.__TOKEN__;
+          }
+        })
+        .catch(() => {
+          delete localStorage.__TOKEN__;
+          delete sessionStorage.__TOKEN__;
+        })
+        .finally(() => {
+          setLoaded(true);
+        });
+    } else {
       setLoaded(true);
-    });
+    }
   }, [loaded]);
 
   const routes = useMemo(() => {
-    const login = Boolean(localStorage.__USER__);
-    return _buildRoutes(loaded, login);
+    return _buildRoutes(loaded);
   }, [loaded]);
 
   return (
@@ -41,7 +54,7 @@ const App = () => {
 
 export default App;
 
-function _buildRoutes(loaded: boolean, login: boolean) {
+function _buildRoutes(loaded: boolean) {
   if (!loaded) {
     return [
       {
@@ -62,5 +75,5 @@ function _buildRoutes(loaded: boolean, login: boolean) {
       } as RouteObject,
     ];
   }
-  return serviceRoutes.concat(login ? authRoutes : guestRoutes);
+  return routes;
 }

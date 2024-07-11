@@ -127,7 +127,6 @@ export function BiasTypeSwitchWidget(props: WidgetProps) {
             }
           }}
           variant="transparent"
-          c={"white"}
           rightSection={<IconSwitch3 color="orange" size={14} />}
         >
           {props.value === "1" ? "Entire Position" : "Current Order"}
@@ -284,6 +283,7 @@ export function ProfitInputWidget(props: WidgetProps) {
                                 paddingTop: 0,
                                 paddingBottom: 0,
                                 paddingLeft: 0,
+                                background: "none"
                               },
                               option: {
                                 fontSize: "12px",
@@ -353,7 +353,7 @@ export function ProfitInputWidget(props: WidgetProps) {
             p={10}
             styles={{
               message: {
-                color: "rgba(255,255,255,0.6)",
+                color: "light-dark(#000, rgba(255,255,255,0.6))",
                 fontSize: "10px",
                 padding: "0px",
               },
@@ -366,7 +366,8 @@ export function ProfitInputWidget(props: WidgetProps) {
             </div>
           </Alert>
         )}
-        <Box h={1} w={"100%"} bg={"gray"}></Box>
+        <Box h={1} w={"100%"} className="border-bottom-dark"></Box>
+        
       </Box>
     </>
   );
@@ -515,6 +516,7 @@ export function StopLossInputWidget(props: WidgetProps) {
                             paddingTop: 0,
                             paddingBottom: 0,
                             paddingLeft: 0,
+                            background: "none"
                           },
                           option: {
                             fontSize: "12px",
@@ -571,7 +573,7 @@ export function StopLossInputWidget(props: WidgetProps) {
             p={10}
             styles={{
               message: {
-                color: "rgba(255,255,255,0.6)",
+                color: "light-dark(#000, rgba(255,255,255,0.6))",
                 fontSize: "10px",
                 padding: "0px",
               },
@@ -608,7 +610,7 @@ export function OrderPriceTPInputWidget(props: WidgetProps) {
         p={10}
         styles={{
           message: {
-            color: "rgba(255,255,255,0.6)",
+            color: "light-dark(#000, rgba(255,255,255,0.6))",
             fontSize: "10px",
             padding: "0px",
           },
@@ -662,7 +664,7 @@ export function OrderPriceSLInputWidget(props: WidgetProps) {
         p={10}
         styles={{
           message: {
-            color: "rgba(255,255,255,0.6)",
+            color: "light-dark(#000, rgba(255,255,255,0.6))",
             fontSize: "10px",
             padding: "0px",
           },

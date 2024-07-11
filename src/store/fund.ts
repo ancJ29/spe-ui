@@ -63,21 +63,21 @@ export const useFundStore = create<FundState>((set, get) => ({
   fetchDepositAddress: async (coin: CoinType, chain: CHAIN) => {
     const res = await fetchDepositAddressApi({ coin, chain });
     if(res.data.result) {
-    set(state => ({
-      ...state,
-      depositAddress: res.data.result?.depositAddress
-    }));
-  }
+      set(state => ({
+        ...state,
+        depositAddress: res.data.result?.depositAddress
+      }));
+    }
   },
 
   initial: async () => {
     await get().fetchAccounts();
     await get().fetchBalances();
-    await get().fetchMarketPrices()
+    await get().fetchMarketPrices();
     console.log("All data fetched in sequence");
   },
   fetchTransactionsHistory: async (queryParams) => {
-    const res = await fetchTransactionsHistoryApi(queryParams)
+    const res = await fetchTransactionsHistoryApi(queryParams);
     if(res.data.result) {
       set(state => ({
         ...state,
@@ -86,7 +86,7 @@ export const useFundStore = create<FundState>((set, get) => ({
     }
   },
   fetchMarketPrices: async () => {
-    const res = await fetchMarketPricesApi()
+    const res = await fetchMarketPricesApi();
     if(res.data.result) {
       set(state => ({
         ...state,

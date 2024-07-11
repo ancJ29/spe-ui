@@ -42,7 +42,6 @@ export function AddTpSlOfTradeForm({
         />
         <SimpleGrid
           cols={2}
-          bg={"dark"}
           py={10}
           styles={{
             root: {
@@ -50,6 +49,7 @@ export function AddTpSlOfTradeForm({
               bottom: 0,
               left: 0,
               zIndex: 4,
+              background: "light-dark(white, #16171a)"
             },
           }}
         >

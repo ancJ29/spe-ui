@@ -3,7 +3,7 @@ import { Box } from "@mantine/core";
 
 export default function IndexPage() {
   return (
-    <Box>
+    <Box className="bg-dark">
       <GridTrade />
     </Box>
   );

@@ -2,6 +2,13 @@ import orderAll from "@/assets/images/icon/orderAll.svg";
 import orderBuy from "@/assets/images/icon/orderBuy.svg";
 import orderHorizontal from "@/assets/images/icon/orderHorizontal.svg";
 import orderSell from "@/assets/images/icon/orderSell.svg";
+
+import orderAllLight from "@/assets/images/icon/orderAll-light.svg";
+import orderBuyLight from "@/assets/images/icon/orderBuy-light.svg";
+import orderHorizontalLight from "@/assets/images/icon/orderHorizontal-light.svg";
+import orderSellLight from "@/assets/images/icon/orderSell-light.svg";
+
+
 import AppTabs from "@/ui/Tabs";
 import {
   Box,
@@ -88,7 +95,8 @@ function GridOrderBook() {
                   value: "orderAll",
                   label: (
                     <Box w={w}>
-                      <Image src={orderAll} />
+                      <Image lightHidden src={orderAll} />
+                      <Image darkHidden src={orderAllLight} />
                     </Box>
                   ),
                 },
@@ -96,7 +104,8 @@ function GridOrderBook() {
                   value: "orderHorizontal",
                   label: (
                     <Box w={w}>
-                      <Image src={orderHorizontal} />
+                      <Image lightHidden src={orderHorizontal} />
+                      <Image darkHidden src={orderHorizontalLight} />
                     </Box>
                   ),
                 },
@@ -104,7 +113,8 @@ function GridOrderBook() {
                   value: "orderBuy",
                   label: (
                     <Box w={w}>
-                      <Image src={orderBuy} />
+                      <Image lightHidden src={orderBuy} />
+                      <Image darkHidden src={orderBuyLight} />
                     </Box>
                   ),
                 },
@@ -112,7 +122,8 @@ function GridOrderBook() {
                   value: "orderSell",
                   label: (
                     <Box w={w}>
-                      <Image src={orderSell} />
+                      <Image lightHidden src={orderSell} />
+                      <Image darkHidden src={orderSellLight} />
                     </Box>
                   ),
                 },
@@ -147,8 +158,8 @@ function GridOrderBook() {
                   paddingBottom: 0,
                   paddingLeft: 0,
                   fontWeight: "bold",
-                  color: "white",
-                  background: "#26282c",
+                  color: "light-dark(black, white)",
+                  background: "light-dark(#f3f5f7, #26282c)",
                   minHeight: "unset",
                   height: "24px",
                 },

@@ -10,7 +10,7 @@ export type Account = {
 };
 
 export function getAccountFunding(accounts: Account[]) {
-  return accounts.find(acc => acc.isFunding)
+  return accounts.find(acc => acc.isFunding);
 }
 
 // [

@@ -37,6 +37,7 @@ const FundSwapSchema: Sample = {
               },
               volume: {
                 type: ["number", "string"],
+                title: "Volume"
               }
             },
 
@@ -61,6 +62,7 @@ const FundSwapSchema: Sample = {
               },
               volume: {
                 type: ["number", "string"],
+                title: "Volume"
               }
             },
 
@@ -113,13 +115,13 @@ const FundSwapSchema: Sample = {
         label: false
       }
     },
-    accountId: {
+    "accountId": {
       "ui:options": {
         widget: "FundingAccountWidget",
         label: false
       }
     },
-    infoPrice: {
+    "infoPrice": {
       "ui:options": {
         widget: "MarketPriceInfoWidget",
         label: false

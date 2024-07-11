@@ -30,7 +30,7 @@ export function BidOrderBookTrade() {
           position="top"
           styles={{
             dropdown: {
-              background: "#333537",
+              background: "light-dark(white, #333537)",
             },
           }}
         >
@@ -114,8 +114,8 @@ export function BidOrderBookTrade() {
                         paddingTop: 0,
                         paddingBottom: 0,
                         paddingLeft: 0,
-                        fontWeight: "normal",
-                        color: "white",
+                        fontWeight: "600",
+                        color: "light-dark(black, white)",
                         background: "none",
                         height: "24px",
                         minHeight: "unset",
@@ -174,7 +174,9 @@ export function BidOrderBookTrade() {
                         h={"24px"}
                         w={`${Math.random() * 100}%`}
                         pos={"absolute"}
-                        bg={"#162a24"}
+                        style={{
+                          background: "light-dark(#e7f6ed, #162a24)"
+                        }}
                       ></Box>
                       <Flex
                         h={"24px"}
@@ -182,7 +184,11 @@ export function BidOrderBookTrade() {
                         align={"center"}
                         justify={"end"}
                       >
-                        <Text fz={12} c={"#ffffff"} fw={600}>
+                        <Text fz={12} styles={{
+                          root: {
+                            color: "light-dark(#121214, #fff)"
+                          }
+                        }} fw={500}>
                           <NumberFormatter
                             thousandSeparator
                             value={(Math.random() * 10e6).toFixed(2)}
@@ -201,7 +207,9 @@ export function BidOrderBookTrade() {
                           h={"24px"}
                           w={`${Math.random() * 100}%`}
                           pos={"absolute"}
-                          bg={"#162a24"}
+                          style={{
+                            background: "light-dark(#e7f6ed, #162a24)"
+                          }}
                         ></Box>
                         <Flex
                           h={"24px"}
@@ -209,7 +217,11 @@ export function BidOrderBookTrade() {
                           align={"center"}
                           justify={"end"}
                         >
-                          <Text fz={12} c={"#ffffff"} fw={600}>
+                          <Text fz={12} styles={{
+                            root: {
+                              color: "light-dark(#121214, #fff)"
+                            }
+                          }}>
                             {/* <NumberFormatter
                                 decimalSeparator=","
                                 value={Math.random() * 10e6}
@@ -225,7 +237,7 @@ export function BidOrderBookTrade() {
               <HoverCard.Dropdown
                 styles={{
                   dropdown: {
-                    background: "#26282c",
+                    background: "light-dark(#f3f5f7, #26282c)",
                   },
                 }}
               >
@@ -261,7 +273,7 @@ export function BidOrderBookTrade() {
         position="top"
         styles={{
           dropdown: {
-            background: "#26282c",
+            background: "light-dark(#f3f5f7, #26282c)",
           },
         }}
       >
@@ -269,7 +281,6 @@ export function BidOrderBookTrade() {
           <Box px={10}>
             <Box pos={"relative"} className="cursor-pointer">
               <Box
-                bg={"#172b23"}
                 w={`${35}%`}
                 h={20}
                 pos={"absolute"}
@@ -279,10 +290,10 @@ export function BidOrderBookTrade() {
                   transform: "translateY(-50%)",
                   clipPath:
                     "polygon(0 0, 100% 0, calc(100% - 5px) 100%, 0% 100%)",
+                    background: "light-dark(#e7f6ed, #172b23)"
                 }}
               />
               <Box
-                bg={"#35191e"}
                 w={`${65}%`}
                 h={20}
                 pos={"absolute"}
@@ -292,6 +303,7 @@ export function BidOrderBookTrade() {
                   transform: "translateY(-50%)",
                   clipPath:
                     "polygon(calc(0% + 5px) 0, 100% 0, 100% 100%, 0% 100%)",
+                    background: "light-dark(#feeaea, #35191e)"
                 }}
               />
               <Flex
@@ -417,8 +429,8 @@ export function AskOrderBookTrade() {
                         paddingTop: 0,
                         paddingBottom: 0,
                         paddingLeft: 0,
-                        fontWeight: "normal",
-                        color: "white",
+                        fontWeight: "600",
+                        color: "light-dark(black, white)",
                         background: "none",
                         height: "24px",
                         minHeight: "unset",
@@ -477,7 +489,9 @@ export function AskOrderBookTrade() {
                         h={"24px"}
                         w={`${Math.random() * 100}%`}
                         pos={"absolute"}
-                        bg={"#35191d"}
+                        style={{
+                          background: "light-dark(#feeaea, #35191d)"
+                        }}
                       ></Box>
                       <Flex
                         h={"24px"}
@@ -485,7 +499,11 @@ export function AskOrderBookTrade() {
                         align={"center"}
                         justify={"end"}
                       >
-                        <Text fz={12} c={"#ffffff"} fw={600}>
+                        <Text fz={12} styles={{
+                          root: {
+                            color: "light-dark(#484849, #fff)"
+                          }
+                        }}>
                           <NumberFormatter
                             thousandSeparator
                             value={(Math.random() * 10e6).toFixed(2)}
@@ -504,7 +522,9 @@ export function AskOrderBookTrade() {
                           h={"24px"}
                           w={`${Math.random() * 100}%`}
                           pos={"absolute"}
-                          bg={"#35191d"}
+                          style={{
+                            background: "light-dark(#feeaea, #35191d)"
+                          }}
                         ></Box>
                         <Flex
                           h={"24px"}
@@ -512,7 +532,11 @@ export function AskOrderBookTrade() {
                           align={"center"}
                           justify={"end"}
                         >
-                          <Text fz={12} c={"#ffffff"} fw={600}>
+                          <Text fz={12} styles={{
+                          root: {
+                            color: "light-dark(#484849, #fff)"
+                          }
+                        }}>
                             {/* <NumberFormatter
                                 decimalSeparator=","
                                 value={Math.random() * 10e6}
@@ -528,26 +552,38 @@ export function AskOrderBookTrade() {
               <HoverCard.Dropdown
                 styles={{
                   dropdown: {
-                    background: "#26282c",
+                    background: "light-dark(#f3f5f7, #26282c)",
                   },
                 }}
               >
                 <Box className="space-y-5">
                   <Flex justify={"space-between"}>
                     <Text fz={12}>Avg. Price</Text>
-                    <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                    <Text fz={12} fw={"bold"} styles={{
+                          root: {
+                            color: "light-dark(#484849, #fff)"
+                          }
+                        }}>
                       = 61,423.93
                     </Text>
                   </Flex>
                   <Flex justify={"space-between"}>
                     <Text fz={12}>Total Qty (BTC)</Text>
-                    <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                    <Text fz={12} fw={"bold"} styles={{
+                          root: {
+                            color: "light-dark(#484849, #fff)"
+                          }
+                        }}>
                       0.885551
                     </Text>
                   </Flex>
                   <Flex justify={"space-between"}>
                     <Text fz={12}>Total Qty (USDT)</Text>
-                    <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                    <Text fz={12} fw={"bold"} styles={{
+                          root: {
+                            color: "light-dark(#484849, #fff)"
+                          }
+                        }}>
                       54.394K
                     </Text>
                   </Flex>
@@ -570,7 +606,7 @@ export function AskOrderBookTrade() {
           position="top"
           styles={{
             dropdown: {
-              background: "#333537",
+              background: "light-dark(white, #333537)",
             },
           }}
         >
@@ -612,7 +648,7 @@ export function AskOrderBookTrade() {
         position="top"
         styles={{
           dropdown: {
-            background: "#26282c",
+            background: "light-dark(#f3f5f7, #26282c)",
           },
         }}
       >
@@ -620,7 +656,6 @@ export function AskOrderBookTrade() {
           <Box px={10}>
             <Box pos={"relative"} className="cursor-pointer">
               <Box
-                bg={"#172b23"}
                 w={`${35}%`}
                 h={20}
                 pos={"absolute"}
@@ -630,10 +665,10 @@ export function AskOrderBookTrade() {
                   transform: "translateY(-50%)",
                   clipPath:
                     "polygon(0 0, 100% 0, calc(100% - 5px) 100%, 0% 100%)",
+                    background: "light-dark(#e7f6ed, #172b23)"
                 }}
               />
               <Box
-                bg={"#35191e"}
                 w={`${65}%`}
                 h={20}
                 pos={"absolute"}
@@ -643,6 +678,7 @@ export function AskOrderBookTrade() {
                   transform: "translateY(-50%)",
                   clipPath:
                     "polygon(calc(0% + 5px) 0, 100% 0, 100% 100%, 0% 100%)",
+                    background: "light-dark(#feeaea, #35191e)"
                 }}
               />
               <Flex
@@ -768,8 +804,8 @@ export function OrderAllOrderBookTrade() {
                         paddingTop: 0,
                         paddingBottom: 0,
                         paddingLeft: 0,
-                        fontWeight: "normal",
-                        color: "white",
+                        fontWeight: "600",
+                        color: "light-dark(black, white)",
                         background: "none",
                         height: "24px",
                         minHeight: "unset",
@@ -832,7 +868,9 @@ export function OrderAllOrderBookTrade() {
                         h={"24px"}
                         w={`${Math.random() * 100}%`}
                         pos={"absolute"}
-                        bg={"#35191d"}
+                        style={{
+                          background: "light-dark(#feeaea, #35191d)"
+                        }}
                       ></Box>
                       <Flex
                         h={"24px"}
@@ -840,7 +878,11 @@ export function OrderAllOrderBookTrade() {
                         align={"center"}
                         justify={"end"}
                       >
-                        <Text fz={12} c={"#ffffff"} fw={600}>
+                        <Text fz={12} styles={{
+                          root: {
+                            color: "light-dark(#000, #ffffff)"
+                          }
+                        }}>
                           <NumberFormatter
                             thousandSeparator
                             value={(Math.random() * 10e6).toFixed(2)}
@@ -864,7 +906,9 @@ export function OrderAllOrderBookTrade() {
                           h={"24px"}
                           w={`${Math.random() * 100}%`}
                           pos={"absolute"}
-                          bg={"#35191d"}
+                          style={{
+                            background: "light-dark(#feeaea, #35191d)"
+                          }}
                         ></Box>
                         <Flex
                           h={"24px"}
@@ -872,7 +916,11 @@ export function OrderAllOrderBookTrade() {
                           align={"center"}
                           justify={"end"}
                         >
-                          <Text fz={12} c={"#ffffff"} fw={600}>
+                          <Text fz={12} styles={{
+                            root: {
+                              color: "light-dark(#000, #ffffff)"
+                            }
+                          }}>
                             {/* <NumberFormatter
                                 decimalSeparator=","
                                 value={Math.random() * 10e6}
@@ -888,26 +936,38 @@ export function OrderAllOrderBookTrade() {
               <HoverCard.Dropdown
                 styles={{
                   dropdown: {
-                    background: "#26282c",
+                    background: "light-dark(#f3f5f7, #26282c)",
                   },
                 }}
               >
                 <Box className="space-y-5">
                   <Flex justify={"space-between"}>
                     <Text fz={12}>Avg. Price</Text>
-                    <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                    <Text fz={12} fw={"bold"}  styles={{
+                            root: {
+                              color: "light-dark(#121214, #fff)"
+                            }
+                          }}>
                       = 61,423.93
                     </Text>
                   </Flex>
                   <Flex justify={"space-between"}>
                     <Text fz={12}>Total Qty (BTC)</Text>
-                    <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                    <Text fz={12} fw={"bold"}  styles={{
+                            root: {
+                              color: "light-dark(#121214, #fff)"
+                            }
+                          }}>
                       0.885551
                     </Text>
                   </Flex>
                   <Flex justify={"space-between"}>
                     <Text fz={12}>Total Qty (USDT)</Text>
-                    <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                    <Text fz={12} fw={"bold"}  styles={{
+                            root: {
+                              color: "light-dark(#121214, #fff)"
+                            }
+                          }}>
                       54.394K
                     </Text>
                   </Flex>
@@ -930,7 +990,7 @@ export function OrderAllOrderBookTrade() {
           position="top"
           styles={{
             dropdown: {
-              background: "#333537",
+              background: "light-dark(white, #333537)",
             },
           }}
         >
@@ -1012,7 +1072,9 @@ export function OrderAllOrderBookTrade() {
                         h={"24px"}
                         w={`${Math.random() * 100}%`}
                         pos={"absolute"}
-                        bg={"#162a24"}
+                        style={{
+                          background: "light-dark(#e7f6ed, #162a24)"
+                        }}
                       ></Box>
                       <Flex
                         h={"24px"}
@@ -1020,7 +1082,11 @@ export function OrderAllOrderBookTrade() {
                         align={"center"}
                         justify={"end"}
                       >
-                        <Text fz={12} c={"#ffffff"} fw={600}>
+                        <Text fz={12} styles={{
+                          root: {
+                            color: "light-dark(#121214, #fff)"
+                          }
+                        }}>
                           <NumberFormatter
                             thousandSeparator
                             value={(Math.random() * 10e6).toFixed(2)}
@@ -1044,7 +1110,9 @@ export function OrderAllOrderBookTrade() {
                           h={"24px"}
                           w={`${Math.random() * 100}%`}
                           pos={"absolute"}
-                          bg={"#162a24"}
+                          style={{
+                            background: "light-dark(#e7f6ed, #162a24)"
+                          }}
                         ></Box>
                         <Flex
                           h={"24px"}
@@ -1052,7 +1120,11 @@ export function OrderAllOrderBookTrade() {
                           align={"center"}
                           justify={"end"}
                         >
-                          <Text fz={12} c={"#ffffff"} fw={600}>
+                          <Text fz={12} styles={{
+                            root: {
+                              color: "light-dark(#121214, #fff)"
+                            }
+                          }}>
                             {/* <NumberFormatter
                                 decimalSeparator=","
                                 value={Math.random() * 10e6}
@@ -1068,26 +1140,38 @@ export function OrderAllOrderBookTrade() {
               <HoverCard.Dropdown
                 styles={{
                   dropdown: {
-                    background: "#26282c",
+                    background: "light-dark(#f3f5f7, #26282c)",
                   },
                 }}
               >
                 <Box className="space-y-5">
                   <Flex justify={"space-between"}>
                     <Text fz={12}>Avg. Price</Text>
-                    <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                    <Text fz={12} fw={"bold"} styles={{
+                      root: {
+                        color: "light-dark(#121214, #fff)"
+                      }
+                    }}>
                       = 61,423.93
                     </Text>
                   </Flex>
                   <Flex justify={"space-between"}>
                     <Text fz={12}>Total Qty (BTC)</Text>
-                    <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                    <Text fz={12} fw={"bold"} styles={{
+                      root: {
+                        color: "light-dark(#121214, #fff)"
+                      }
+                    }}>
                       0.885551
                     </Text>
                   </Flex>
                   <Flex justify={"space-between"}>
                     <Text fz={12}>Total Qty (USDT)</Text>
-                    <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                    <Text fz={12} fw={"bold"} styles={{
+                      root: {
+                        color: "light-dark(#121214, #fff)"
+                      }
+                    }}>
                       54.394K
                     </Text>
                   </Flex>
@@ -1104,7 +1188,7 @@ export function OrderAllOrderBookTrade() {
         position="top"
         styles={{
           dropdown: {
-            background: "#26282c",
+            background: "light-dark(#f3f5f7, #26282c)",
           },
         }}
       >
@@ -1112,7 +1196,6 @@ export function OrderAllOrderBookTrade() {
           <Box px={10}>
             <Box pos={"relative"} className="cursor-pointer">
               <Box
-                bg={"#172b23"}
                 w={`${35}%`}
                 h={20}
                 pos={"absolute"}
@@ -1122,10 +1205,10 @@ export function OrderAllOrderBookTrade() {
                   transform: "translateY(-50%)",
                   clipPath:
                     "polygon(0 0, 100% 0, calc(100% - 5px) 100%, 0% 100%)",
+                    background: "light-dark(#e7f6ed, #172b23)"
                 }}
               />
               <Box
-                bg={"#35191e"}
                 w={`${65}%`}
                 h={20}
                 pos={"absolute"}
@@ -1135,6 +1218,7 @@ export function OrderAllOrderBookTrade() {
                   transform: "translateY(-50%)",
                   clipPath:
                     "polygon(calc(0% + 5px) 0, 100% 0, 100% 100%, 0% 100%)",
+                    background: "light-dark(#feeaea, #35191e)"
                 }}
               />
               <Flex
@@ -1224,7 +1308,7 @@ export function OrderHorizontalOrderBookTrade() {
           position="top"
           styles={{
             dropdown: {
-              background: "#333537",
+              background: "light-dark(white, #333537)",
             },
           }}
         >
@@ -1324,7 +1408,9 @@ export function OrderHorizontalOrderBookTrade() {
                           h={"24px"}
                           w={`${Math.random() * 100}%`}
                           pos={"absolute"}
-                          bg={"#162a24"}
+                          style={{
+                            background: "light-dark(#e7f6ed, #162a24)"
+                          }}
                         ></Box>
                         <Flex
                           h={"24px"}
@@ -1332,7 +1418,11 @@ export function OrderHorizontalOrderBookTrade() {
                           align={"center"}
                           justify={"start"}
                         >
-                          <Text fz={12} c={"#ffffff"} fw={600}>
+                          <Text fz={12} styles={{
+                            root: {
+                              color: "light-dark(#121214, #fff)"
+                            }
+                          }}>
                             <NumberFormatter
                               thousandSeparator
                               value={(Math.random() * 10e3).toFixed(
@@ -1346,14 +1436,16 @@ export function OrderHorizontalOrderBookTrade() {
                     <Box className="table-cell" w={"50%"}>
                       <Box h={"24px"} pl={5} pos={"relative"}>
                         <Box
-                          style={{ zIndex: 0 }}
                           className="progress_bar"
                           right={0}
                           top={0}
                           h={"24px"}
                           w={`${Math.random() * 100}%`}
                           pos={"absolute"}
-                          bg={"#162a24"}
+                          style={{
+                            background: "light-dark(#e7f6ed, #162a24)",
+                            zIndex: 0
+                          }}
                         ></Box>
                         <Flex
                           align={"center"}
@@ -1383,26 +1475,38 @@ export function OrderHorizontalOrderBookTrade() {
                 <HoverCard.Dropdown
                   styles={{
                     dropdown: {
-                      background: "#26282c",
+                      background: "light-dark(#f3f5f7, #26282c)",
                     },
                   }}
                 >
                   <Box className="space-y-5">
                     <Flex justify={"space-between"}>
                       <Text fz={12}>Avg. Price</Text>
-                      <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                      <Text fz={12} fw={"bold"} styles={{
+                        root: {
+                          color: "light-dark(#121214, #fff)"
+                        }
+                      }} >
                         = 61,423.93
                       </Text>
                     </Flex>
                     <Flex justify={"space-between"}>
                       <Text fz={12}>Total Qty (BTC)</Text>
-                      <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                      <Text fz={12} fw={"bold"} styles={{
+                        root: {
+                          color: "light-dark(#121214, #fff)"
+                        }
+                      }} >
                         0.885551
                       </Text>
                     </Flex>
                     <Flex justify={"space-between"}>
                       <Text fz={12}>Total Qty (USDT)</Text>
-                      <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                      <Text fz={12} fw={"bold"} styles={{
+                        root: {
+                          color: "light-dark(#121214, #fff)"
+                        }
+                      }} >
                         54.394K
                       </Text>
                     </Flex>
@@ -1458,13 +1562,15 @@ export function OrderHorizontalOrderBookTrade() {
                       <Box h={"24px"} pl={5} pos={"relative"}>
                         <Box
                           className="progress_bar"
-                          style={{ zIndex: 0 }}
                           left={0}
                           top={0}
                           h={"24px"}
                           w={`${Math.random() * 100}%`}
                           pos={"absolute"}
-                          bg={"#35191d"}
+                          style={{
+                            background: "light-dark(#feeaea, #35191d)",
+                            zIndex: 0
+                          }}
                         ></Box>
                         <Flex
                           align={"center"}
@@ -1494,7 +1600,9 @@ export function OrderHorizontalOrderBookTrade() {
                           h={"24px"}
                           w={`${Math.random() * 100}%`}
                           pos={"absolute"}
-                          bg={"#35191d"}
+                          style={{
+                            background: "light-dark(#feeaea, #35191d)"
+                          }}
                         ></Box>
                         <Flex
                           h={"24px"}
@@ -1502,7 +1610,11 @@ export function OrderHorizontalOrderBookTrade() {
                           align={"center"}
                           justify={"end"}
                         >
-                          <Text fz={12} c={"#ffffff"} fw={600}>
+                          <Text fz={12} styles={{
+                            root: {
+                              color: "light-dark(#151517, #ffffff)"
+                            }
+                          }}>
                             <NumberFormatter
                               thousandSeparator
                               value={(Math.random() * 10e6).toFixed(
@@ -1518,26 +1630,38 @@ export function OrderHorizontalOrderBookTrade() {
                 <HoverCard.Dropdown
                   styles={{
                     dropdown: {
-                      background: "#26282c",
+                      background: "light-dark(#f3f5f7, #26282c)",
                     },
                   }}
                 >
                   <Box className="space-y-5">
                     <Flex justify={"space-between"}>
                       <Text fz={12}>Avg. Price</Text>
-                      <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                      <Text fz={12} fw={"bold"}  styles={{
+                            root: {
+                              color: "light-dark(#121214, #fff)"
+                            }
+                          }}>
                         = 61,423.93
                       </Text>
                     </Flex>
                     <Flex justify={"space-between"}>
                       <Text fz={12}>Total Qty (BTC)</Text>
-                      <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                      <Text fz={12} fw={"bold"}  styles={{
+                            root: {
+                              color: "light-dark(#121214, #fff)"
+                            }
+                          }}>
                         0.885551
                       </Text>
                     </Flex>
                     <Flex justify={"space-between"}>
                       <Text fz={12}>Total Qty (USDT)</Text>
-                      <Text fz={12} fw={"bold"} c={"#ffffff"}>
+                      <Text fz={12} fw={"bold"}  styles={{
+                            root: {
+                              color: "light-dark(#121214, #fff)"
+                            }
+                          }}>
                         54.394K
                       </Text>
                     </Flex>
@@ -1556,7 +1680,7 @@ export function OrderHorizontalOrderBookTrade() {
         position="top"
         styles={{
           dropdown: {
-            background: "#26282c",
+            background: "light-dark(#f3f5f7, #26282c)",
           },
         }}
       >
@@ -1564,7 +1688,6 @@ export function OrderHorizontalOrderBookTrade() {
           <Box px={10}>
             <Box pos={"relative"} className="cursor-pointer">
               <Box
-                bg={"#172b23"}
                 w={`${35}%`}
                 h={20}
                 pos={"absolute"}
@@ -1574,10 +1697,10 @@ export function OrderHorizontalOrderBookTrade() {
                   transform: "translateY(-50%)",
                   clipPath:
                     "polygon(0 0, 100% 0, calc(100% - 5px) 100%, 0% 100%)",
+                    background: "light-dark(#e7f6ed, #172b23)"
                 }}
               />
               <Box
-                bg={"#35191e"}
                 w={`${65}%`}
                 h={20}
                 pos={"absolute"}
@@ -1587,6 +1710,7 @@ export function OrderHorizontalOrderBookTrade() {
                   transform: "translateY(-50%)",
                   clipPath:
                     "polygon(calc(0% + 5px) 0, 100% 0, 100% 100%, 0% 100%)",
+                    background: "light-dark(#feeaea, #35191e)"
                 }}
               />
               <Flex

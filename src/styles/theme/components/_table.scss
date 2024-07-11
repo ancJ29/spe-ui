@@ -24,24 +24,29 @@
   thead,
   tr {
     th {
+      background: light-dark(#ffffff, #101014);
     }
     td {
       &:first-child {
         background: #101014;
+        background: light-dark(#ffffff, #101014);
       }
       &:last-child {
         background: #101014;
+        background: light-dark(#ffffff, #101014);
       }
     }
     th,
     td {
       &:first-child {
         background: #101014;
+        background: light-dark(#ffffff, #101014);
         position: sticky;
         left: 0;
       }
       &:last-child {
         background: #101014;
+        background: light-dark(#ffffff, #101014);
         position: sticky;
         right: 0;
       }
@@ -61,7 +66,6 @@
   }
 }
 
-
 .table-sticky-column {
   thead,
   tr {
@@ -69,7 +73,6 @@
     }
     td {
       &:first-child {
-        
       }
       &:last-child {
       }
@@ -79,12 +82,12 @@
       &:first-child {
         position: sticky;
         left: 0;
-        background: light-dark(white, var(--mantine-color-dark-2));
+        background: light-dark(white, black);
       }
       &:last-child {
         position: sticky;
         right: 0;
-        background: light-dark(white, var(--mantine-color-dark-2));
+        background: light-dark(white, black);
       }
     }
   }

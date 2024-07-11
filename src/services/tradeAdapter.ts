@@ -13,7 +13,7 @@ export function useTradeStorageInfo(): TradeStorageService {
       return store.initial();
     },
     fetchTransactionsHistory(queryParams) {
-      return store.fetchTransactionsHistory(queryParams)
+      return store.fetchTransactionsHistory(queryParams);
     }
   };
 }

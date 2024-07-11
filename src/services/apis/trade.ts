@@ -22,14 +22,15 @@ export function internalDepositApi(formData: DepositFormData) {
 }
 
 export function fetchTransactionsHistoryApi(formData: TransactionsHistoryFormData) {
-  return axios.get("/api/transactions/list", {
-    params: {
-      ...formData,
-      type: formData.type?.join()
-    }
-  });
+  console.log(formData.type);
+  return axios.get("/api/transactions/list", { params: {
+    ...formData,
+    type: formData.type?.join()
+  } });
   // api/transactions/list?type=WITHDRAW&accountId=10142252461111972007602
 }
 export function fetchMarketPricesApi() {
   return axios.get("/api/market/prices");
 }
+
+

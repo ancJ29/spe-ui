@@ -14,21 +14,9 @@ import {
 } from "@mantine/core";
 import { convertToLoginFormData } from "./config";
 import classes from "./login.module.scss";
+
 const Login = () => {
   const t = useTranslation();
-  const authenticated = (res: any) => {
-    const query = new URLSearchParams(window.location.search);
-    const redirectPath = query.get('redirect') || '/';
-
-    const token = res?.token || "";
-    if (token) {
-      localStorage.__USER__ = true;
-      localStorage.__TOKEN__ = token;
-      localStorage.token = token;
-    }
-    window.location.href = redirectPath;
-    // window.open("/", "_self");
-  }
   return (
     <>
       <Header />
@@ -49,15 +37,13 @@ const Login = () => {
                   w={"100%"}
                   api="/api/login"
                   formDataConverter={convertToLoginFormData}
+                  onSuccess={_authenticated}
                   messages={{
                     titleError: t("Login Failed"),
                     msgSuccess: t(
                       "Welcome back! You have successfully logged in to your account.",
                     ),
                     titleSuccess: t("Login Success"),
-                  }}
-                  onSuccess={(res: { token: string }) => {
-                    authenticated(res)
                   }}
                 />
               </Card>
@@ -83,3 +69,13 @@ const Login = () => {
 };
 
 export default Login;
+
+function _authenticated(res: { token: string }) {
+  const query = new URLSearchParams(window.location.search);
+  const redirectPath = query.get("redirect") || "/";
+  const token = res?.token || "";
+  if (token) {
+    localStorage.__TOKEN__ = token;
+  }
+  window.location.href = redirectPath;
+}

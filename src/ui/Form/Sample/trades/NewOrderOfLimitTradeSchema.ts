@@ -20,6 +20,7 @@ const NewOrderOfLimitTradeSchema: Sample = {
       },
       volume: {
         type: "string",
+        title: "Volume"
       },
       price: {
         type: "string",
@@ -206,7 +207,7 @@ const NewOrderOfLimitTradeSchema: Sample = {
     },
     "calcInfoPrice": {
       "ui:options": {
-        widget: "calcInfoPriceWidget",
+        widget: "CalcInfoPriceWidget",
         label: false,
       },
     },

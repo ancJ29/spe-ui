@@ -10,7 +10,7 @@ export default function Page() {
   const { setColorScheme } = useMantineColorScheme();
   useEffect(() => {
     setColorScheme("light");
-  }, [])
+  }, []);
   return (
     <Container fluid>
       <Box className="space-y-4" py={10}>
@@ -18,8 +18,13 @@ export default function Page() {
         <Flex justify={"space-between"} align={"center"}>
           <Title order={2}>Funding Account</Title>
           <Flex align={"center"} h={"100%"}>
-            <Button component="a" href="/wallet/records" variant="gradient" rightSection={<IconHistory />}
-              gradient={{ from: "primary", to: "yellow", deg: 90 }}>History</Button>
+            <Button
+              component="a"
+              href="/wallet/records"
+              variant="gradient"
+              rightSection={<IconHistory />}
+              gradient={{ from: "primary", to: "yellow", deg: 90 }}
+            >History</Button>
           </Flex>
         </Flex>
         <Space mb={20} />
@@ -29,14 +34,14 @@ export default function Page() {
               <Text c={"dimmed"}>Total Equity</Text>
               <Flex align={"end"}>
                 <Text fz={24} fw={"bold"}>
-                  <NumberFormat decimalPlaces={2} value={balances?.overview['all']?.totalInUsd} />
+                  <NumberFormat decimalPlaces={2} value={balances?.overview["all"]?.totalInUsd} />
                   {" "}
                   <span style={{ fontSize: "14px", fontWeight: "bold" }}>USD</span>
                 </Text>
 
               </Flex>
               <Text c={"dimmed"}>
-                ≈ <NumberFormat decimalPlaces={8} value={balances?.overview['all']?.totalInUsd} /> BTC
+                ≈ <NumberFormat decimalPlaces={8} value={balances?.overview["all"]?.totalInUsd} /> BTC
               </Text>
             </Card>
           </Box>
@@ -45,12 +50,12 @@ export default function Page() {
               <Text c={"dimmed"}>Available Balance</Text>
               <Flex align={"end"}>
                 <Text fz={24} fw={"bold"}>
-                  <NumberFormat decimalPlaces={2} value={balances?.overview['all']?.totalInUsd} /> {" "}
+                  <NumberFormat decimalPlaces={2} value={balances?.overview["all"]?.totalInUsd} /> {" "}
                   <span style={{ fontSize: "14px", fontWeight: "bold" }}>USD</span>
                 </Text>
 
               </Flex>
-              <Text c={"dimmed"}>≈ <NumberFormat decimalPlaces={8} value={balances?.overview['all']?.totalInUsd} /> BTC</Text>
+              <Text c={"dimmed"}>≈ <NumberFormat decimalPlaces={8} value={balances?.overview["all"]?.totalInUsd} /> BTC</Text>
             </Card>
           </Box>
           <Box ml={"auto"}>

@@ -314,14 +314,14 @@ export function AmountWidget(props: WidgetProps) {
 
 export function AmountToSendWidget(props: WidgetProps) {
   const { formContext: { formData, updateField } } = props;
-  const { balances } = useTradeStorageInfo()
+  const { balances } = useTradeStorageInfo();
   const balanceByCoin = useMemo(() => {
-    let coin = balances.balances.find(i => i.coin === formData?.coin)
+    const coin = balances.balances.find(i => i.coin === formData?.coin);
     if (coin) {
-      return bigNumber.sub(coin.amount, coin.locked)
+      return bigNumber.sub(coin.amount, coin.locked);
     }
-    return 0
-  }, [balances])
+    return 0;
+  }, [balances]);
 
   return (
     <>
@@ -445,18 +445,18 @@ export function SelectAccountWalletWidget(props: WidgetProps) {
 }
 
 export function FundingAccountWidget(props: WidgetProps) {
-  const { accounts } = useTradeStorageInfo()
+  const { accounts } = useTradeStorageInfo();
   const accountFunding = useMemo(() => {
-    return getAccountFunding(accounts)
-  }, [accounts])
+    return getAccountFunding(accounts);
+  }, [accounts]);
   useEffect(() => {
     if(accountFunding) {
-      props.onChange(accountFunding.id)
+      props.onChange(accountFunding.id);
     }
-  }, [accountFunding])
+  }, [accountFunding]);
   return (
     <>
       {/* {accountFunding?.id} */}
     </>
-  )
+  );
 }

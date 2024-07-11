@@ -17,7 +17,7 @@
     .table-row-default.table-row:has(~ [aria-expanded="true"]) {
       .table-cell {
         &::before {
-          background: rgba(255, 255, 255, 0.1);
+          background: light-dark(rgba(0,0,0, 0.06), rgba(255, 255, 255, 0.1));
         }
       }
     }
@@ -29,15 +29,15 @@
       &[aria-expanded="true"] ~ .table-row {
         .table-cell {
           &::before {
-            background: rgba(255, 255, 255, 0.1);
+            background: light-dark(rgba(0,0,0, 0.06), rgba(255, 255, 255, 0.1));
           }
         }
       }
       &[aria-expanded="true"] {
         .table-cell {
-          border-top: dashed 1px white;
+          border-top: dashed 1px light-dark(black, white);
           &::before {
-            background: rgba(255, 255, 255, 0.1);
+            background: light-dark(rgba(0,0,0, 0.06), rgba(255, 255, 255, 0.1));
           }
         }
       }
@@ -65,9 +65,9 @@
         }
         &:hover {
           .table-cell {
-            border-bottom-color: white;
+            border-bottom-color: light-dark(black, white);
             &::before {
-              background: rgba(255, 255, 255, 0.1);
+              background: light-dark(rgba(0,0,0, 0.06), rgba(255, 255, 255, 0.1));
             }
           }
         }

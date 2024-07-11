@@ -1,1 +1,1 @@
-export * from "./NoDataRecord"
+export * from "./NoDataRecord";

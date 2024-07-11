@@ -11,7 +11,7 @@ const axios = _axios.create({
 
 axios.interceptors.request.use(
   config => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.__TOKEN__;
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
@@ -21,19 +21,5 @@ axios.interceptors.request.use(
     return Promise.reject(error);
   },
 );
-axios.interceptors.response.use(response => {
-  const currentPath = window.location.pathname + window.location.search;
-  if (response.data.code === 90003 && response.data.result == null) {
-    console.log(response.data)
-    logout()
-    window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`;
-  }
-  return response
-})
+
 export default axios;
-
-
-export function logout() {
-  localStorage.removeItem("token");
-  localStorage.removeItem("__USER__");
-}

@@ -33,6 +33,7 @@ import {
 } from "@tabler/icons-react";
 import Decimal from "decimal.js";
 import { useCallback, useEffect, useMemo, useState } from "react";
+export const sizeInput = "sm"
 
 export function TriggerPriceWidget({
   label,
@@ -115,7 +116,12 @@ export function TriggerPriceWidget({
             >
               <Menu.Target>
                 <AppButton instancetype="Ghost" px={0}>
-                  <IconPlusMinus size={18} color="white" />
+                  <Box lightHidden>
+                    <IconPlusMinus size={18} color="white" />
+                  </Box>
+                  <Box darkHidden>
+                    <IconPlusMinus size={18} color="black" />
+                  </Box>
                 </AppButton>
               </Menu.Target>
               <Menu.Dropdown
@@ -129,10 +135,10 @@ export function TriggerPriceWidget({
               >
                 <SimpleGrid
                   cols={2}
-                  bg={"gray.8"}
                   styles={{
                     root: {
                       gap: 1,
+                      background: "light-dark(rgba(0, 0, 0, 0.1), var(--mantine-color-gray-8))"
                     },
                   }}
                 >
@@ -153,7 +159,11 @@ export function TriggerPriceWidget({
                       align={"center"}
                       justify={"center"}
                       key={i}
-                      bg={"dark"}
+                      styles={{
+                        root: {
+                          background: "light-dark(white, var(--mantine-color-dark-8))"
+                        }
+                      }}
                       className="cursor-pointer"
                       onClick={() => changeBySymbol(_)}
                     >
@@ -222,6 +232,7 @@ export function TriggerPriceNoLastWidget({
         rightSectionWidth={40}
         value={value}
         onChange={onChange}
+        size={sizeInput}
         rightSection={
           <Flex
             align={"center"}
@@ -238,7 +249,12 @@ export function TriggerPriceNoLastWidget({
             >
               <Menu.Target>
                 <AppButton instancetype="Ghost" px={0}>
-                  <IconPlusMinus size={18} color="white" />
+                <Box lightHidden>
+                    <IconPlusMinus size={18} color="white" />
+                  </Box>
+                  <Box darkHidden>
+                    <IconPlusMinus size={18} color="black" />
+                  </Box>
                 </AppButton>
               </Menu.Target>
               <Menu.Dropdown
@@ -252,10 +268,10 @@ export function TriggerPriceNoLastWidget({
               >
                 <SimpleGrid
                   cols={2}
-                  bg={"gray.8"}
                   styles={{
                     root: {
                       gap: 1,
+                      background: "light-dark(rgba(0, 0, 0, 0.1), var(--mantine-color-gray-8))"
                     },
                   }}
                 >
@@ -276,7 +292,11 @@ export function TriggerPriceNoLastWidget({
                       align={"center"}
                       justify={"center"}
                       key={i}
-                      bg={"dark"}
+                      styles={{
+                        root: {
+                          background: "light-dark(white, var(--mantine-color-dark-8))"
+                        }
+                      }}
                       className="cursor-pointer"
                       onClick={() => changeBySymbol(_)}
                     >
@@ -348,6 +368,7 @@ export function OrderPriceWidget({
         rightSectionWidth={80}
         value={value}
         onChange={onChange}
+        size={sizeInput}
         rightSection={
           <Flex align={"center"} gap={8}>
             <AppPopover
@@ -389,7 +410,12 @@ export function OrderPriceWidget({
             >
               <Menu.Target>
                 <AppButton instancetype="Ghost" px={0}>
-                  <IconPlusMinus size={18} color="white" />
+                  <Box lightHidden>
+                    <IconPlusMinus size={18} color="white" />
+                  </Box>
+                  <Box darkHidden>
+                    <IconPlusMinus size={18} color="black" />
+                  </Box>
                 </AppButton>
               </Menu.Target>
               <Menu.Dropdown
@@ -403,10 +429,10 @@ export function OrderPriceWidget({
               >
                 <SimpleGrid
                   cols={2}
-                  bg={"gray.8"}
                   styles={{
                     root: {
                       gap: 1,
+                      background: "light-dark(rgba(0, 0, 0, 0.1), var(--mantine-color-gray-8))"
                     },
                   }}
                 >
@@ -427,7 +453,11 @@ export function OrderPriceWidget({
                       align={"center"}
                       justify={"center"}
                       key={i}
-                      bg={"dark"}
+                      styles={{
+                        root: {
+                          background: "light-dark(white, var(--mantine-color-dark-8))"
+                        }
+                      }}
                       className="cursor-pointer"
                       onClick={() => changeBySymbol(_)}
                     >
@@ -505,6 +535,7 @@ export function OrderPriceConditionalWidget({
         onChange={(_value) => {
           onChange(_value.toString());
         }}
+        size={sizeInput}
         rightSection={
           <>
             {!readonly && (
@@ -548,7 +579,12 @@ export function OrderPriceConditionalWidget({
                 >
                   <Menu.Target>
                     <AppButton instancetype="Ghost" px={0}>
-                      <IconPlusMinus size={18} color="white" />
+                      <Box lightHidden>
+                        <IconPlusMinus size={18} color="white" />
+                      </Box>
+                      <Box darkHidden>
+                        <IconPlusMinus size={18} color="black" />
+                      </Box>
                     </AppButton>
                   </Menu.Target>
                   <Menu.Dropdown
@@ -562,10 +598,10 @@ export function OrderPriceConditionalWidget({
                   >
                     <SimpleGrid
                       cols={2}
-                      bg={"gray.8"}
                       styles={{
                         root: {
                           gap: 1,
+                          background: "light-dark(rgba(0, 0, 0, 0.1), var(--mantine-color-gray-8))"
                         },
                       }}
                     >
@@ -586,7 +622,11 @@ export function OrderPriceConditionalWidget({
                           align={"center"}
                           justify={"center"}
                           key={i}
-                          bg={"dark"}
+                          styles={{
+                            root: {
+                              background: "light-dark(white, var(--mantine-color-dark-8))"
+                            }
+                          }}
                           className="cursor-pointer"
                           onClick={() => changeBySymbol(_)}
                         >
@@ -640,6 +680,7 @@ export function VolumeInputFieldWidget(props: WidgetProps) {
           rightSectionWidth={60}
           readOnly={props.readonly}
           disabled={props.readonly}
+          size={sizeInput}
           rightSection={
             <AppText fz={12} fw={"bold"}>
               {extractSuffix(props?.options?.props)}
@@ -691,16 +732,18 @@ export function LeverageWidget(props: WidgetProps) {
   );
 }
 
-export function calcInfoPriceWidget() {
+export function CalcInfoPriceWidget() {
   // props: WidgetProps
   return (
     <>
       <Box
         className="space-y-10"
-        bd={"solid 1px var(--mantine-color-gray-8)"}
         px={10}
         py={10}
-        style={{ borderRadius: "4px" }}
+        style={{ 
+          borderRadius: "4px", 
+          border: "solid 1px light-dark(#f3f5f7, var(--mantine-color-gray-8))" 
+        }}
       >
         <Flex justify={"space-between"}>
           <InputLabel className="text-label-form">Qty</InputLabel>
@@ -766,6 +809,7 @@ export function TimeInForceWidget(props: WidgetProps) {
               paddingTop: 0,
               paddingBottom: 0,
               paddingLeft: 0,
+              background: "light-dark(rgba(0,0,0, 0.05), #26282c)",
             },
             option: {
               fontSize: "12px",
@@ -1084,6 +1128,7 @@ export function TakeProfitTriggerByWidget(props: WidgetProps) {
               paddingBottom: 0,
               paddingLeft: 0,
               // height: "100%"
+              background: "light-dark(rgba(0,0,0, 0.05), #26282c)",
             },
             option: {
               fontSize: "12px",
@@ -1136,10 +1181,7 @@ export function OrderByPriceByWidget(props: WidgetProps) {
               border: "none",
               fontSize: "12px",
               textAlign: "center",
-              paddingTop: 0,
-              paddingBottom: 0,
-              paddingLeft: 0,
-              // height: "100%"
+              background: "light-dark(rgba(0,0,0, 0.05), #26282c)",
             },
             option: {
               fontSize: "12px",
@@ -1261,6 +1303,7 @@ export function StopLossTriggerByWidget(props: WidgetProps) {
               paddingBottom: 0,
               paddingLeft: 0,
               // height: "100%"
+              background: "light-dark(rgba(0,0,0, 0.05), #26282c)",
             },
             option: {
               fontSize: "12px",

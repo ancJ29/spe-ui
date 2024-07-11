@@ -109,7 +109,12 @@ export function TabsOfTradeHistory() {
       ?.data.options.actions.map((i, index) => (
         <Fragment key={index}>
           {i.startsWith("click") ? (
-            <AppButton bg={"dark"} size="compact-xs" fz={12}>
+            <AppButton styles={{
+              root: {
+                background: "light-dark(#e9edf3, #414347)",
+                color: "light-dark(black, white)"
+              }
+            }} size="compact-xs" fz={12}>
               {splitAndFormatString(i)}
             </AppButton>
           ) : i.startsWith("link") ? (
@@ -183,7 +188,8 @@ function TablePositions() {
               }}
               styles={{
                 thead: {
-                  background: "#101014",
+                  // background: "#101014",
+                  background: "light-dark(#ffffff, #101014)"
                 },
               }}
               stickyHeader
@@ -198,7 +204,11 @@ function TablePositions() {
           <AppText
             instancetype="WithTextTooltip"
             c={"#71757a"}
-            bg={"#101014"}
+            styles={{
+              root: {
+                background: "light-dark(#ffffff, #101014)"
+              }
+            }}
             w={"fit-content"}
             mx={"auto"}
             px={10}
@@ -234,7 +244,8 @@ function TablePnL() {
           <Table
             styles={{
               thead: {
-                background: "#101014",
+                // background: "#101014",
+                background: "light-dark(#ffffff, #101014)"
               },
             }}
             stickyHeader
@@ -249,7 +260,11 @@ function TablePnL() {
         <AppText
           instancetype="WithTextTooltip"
           c={"#71757a"}
-          bg={"#101014"}
+          styles={{
+            root: {
+              background: "light-dark(#ffffff, #101014)"
+            }
+          }}
           w={"fit-content"}
           mx={"auto"}
           px={10}
@@ -323,7 +338,8 @@ function TableCurrentOrders() {
             <Table
               styles={{
                 thead: {
-                  background: "#101014",
+                  // background: "#101014",
+                  background: "light-dark(#ffffff, #101014)"
                 },
               }}
               stickyHeader
@@ -338,7 +354,11 @@ function TableCurrentOrders() {
           <AppText
             instancetype="WithTextTooltip"
             c={"#71757a"}
-            bg={"#101014"}
+            styles={{
+              root: {
+                background: "light-dark(#ffffff, #101014)"
+              }
+            }}
             w={"fit-content"}
             mx={"auto"}
             px={10}
@@ -434,7 +454,8 @@ function TableOrderHistory() {
             <Table
               styles={{
                 thead: {
-                  background: "#101014",
+                  // background: "#101014",
+                  background: "light-dark(#ffffff, #101014)"
                 },
               }}
               stickyHeader
@@ -449,7 +470,11 @@ function TableOrderHistory() {
           <AppText
             instancetype="WithTextTooltip"
             c={"#71757a"}
-            bg={"#101014"}
+            styles={{
+              root: {
+                background: "light-dark(#ffffff, #101014)"
+              }
+            }}
             w={"fit-content"}
             mx={"auto"}
             px={10}
@@ -509,7 +534,8 @@ function TableTradeHistory() {
             <Table
               styles={{
                 thead: {
-                  background: "#101014",
+                  // background: "#101014",
+                  background: "light-dark(#ffffff, #101014)"
                 },
               }}
               stickyHeader
@@ -524,7 +550,11 @@ function TableTradeHistory() {
           <AppText
             instancetype="WithTextTooltip"
             c={"#71757a"}
-            bg={"#101014"}
+            styles={{
+              root: {
+                background: "light-dark(#ffffff, #101014)"
+              }
+            }}
             w={"fit-content"}
             mx={"auto"}
             px={10}
