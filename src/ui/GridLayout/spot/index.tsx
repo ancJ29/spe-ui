@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import AppTabs from "@/ui/Tabs";
+import { TVChart } from "@/ui/TvChart";
 import {
   ActionIcon,
   Box,
-  Center,
   Flex,
   Grid,
   InputLabel,
@@ -78,7 +78,7 @@ export function GridTradeSpot() {
                 draggableHandle=".grid-item-drag-handle"
               >
                 <div key={0} className="grid-item-box">
-                  <Center h={"100%"}>Chart</Center>
+                  <TVChart />
                   <div className="grid-item-drag-handle">
                     <ActionIcon size={"xs"} variant="light">
                       <IconGripHorizontal size={18} />

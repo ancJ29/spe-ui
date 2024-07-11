@@ -12,7 +12,7 @@ import {
   Progress,
   SegmentedControl,
   SimpleGrid,
-  Spoiler
+  Spoiler,
 } from "@mantine/core";
 import {
   IconChartHistogram,
@@ -79,6 +79,7 @@ export function GridTrade() {
               >
                 <div key={0} className="grid-item-box">
                   <TVChart />
+                  {/* xxx */}
                   <div className="grid-item-drag-handle">
                     <ActionIcon size={"xs"} variant="light">
                       <IconGripHorizontal size={18} />
