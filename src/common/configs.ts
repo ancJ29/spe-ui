@@ -1,6 +1,21 @@
+import { TransactionStatus } from "./enums";
+
 export const DEFAULT_LEVERAGE = 20;
 
 export const SWAP_RATE = 0.01;
+
+export const DISPLAY_ORDERS: Record<string, number> = {
+  BTC: 1,
+  ETH: 2,
+  USDT: 3,
+};
+
+export const STATUS_COLORS: Record<TransactionStatus, string> = {
+  DONE: "green",
+  FAILED: "red",
+  PENDING: "orange",
+  PROCESSING: "blue",
+};
 
 export const ASSET_COIN_LIST: Record<string, string> = {
   BTC: "Bitcoin",

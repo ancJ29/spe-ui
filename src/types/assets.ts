@@ -1,5 +1,5 @@
 
-import { CHAIN, CoinType, TRANSACTION_TYPE } from "@/domain/balance";
+import { TransactionType } from "@/common/enums";
 
 type WithdrawInfoFormData = {
   chain: string;
@@ -8,8 +8,8 @@ type WithdrawInfoFormData = {
 };
 
 export type WithdrawFormData = {
-  coin: CoinType;
-  chain: CHAIN;
+  coin: string;
+  chain: string
   address: string;
   amount: number;
   infoBTC: WithdrawInfoFormData;
@@ -30,16 +30,16 @@ export type DepositFormData = {
   txId: string
   walletAddress: string
   amount: number
-  coin: CoinType
-  chain: CHAIN,
+  coin: string
+  chain: string,
   infoBTC: DepositFormData
   infoETH: DepositFormData
   infoUSDT: DepositFormData
 };
 
 export type DepositAddressFormData = {
-  coin: CoinType
-  chain: CHAIN
+  coin: string
+  chain: string
 };
 
 export type DepositAddressPayload = {
@@ -47,29 +47,30 @@ export type DepositAddressPayload = {
 };
 
 export type TransferAssetsFormData = {
-  coin: CoinType
+  coin: string
   amount: string | number
   fromAccountId: string
   toAccountId: string
 };
 
 export type GetAccountsFormData = {
-  coin: CoinType
+  coin: string
   amount: string | number
   fromAccountId: string
   toAccountId: string
 };
 
 export type TransferFormData = {
-  coin: CoinType
+  coin: string
   amount: number,
   toAccountId: string
   fromAccountId: string
 };
 
 export type TransactionsHistoryFormData = {
-  type: TRANSACTION_TYPE[],
-  accountId: string,
+  type?: TransactionType,
+  types?: TransactionType[],
+  accountId?: string,
   limit?: number
   cursor?: number
 };

@@ -2,6 +2,7 @@ const { resolve } = require("path");
 
 module.exports = {
   root: true,
+  ignorePatterns: ["node_modules", "build", "dist", "public"],
   plugins: ["prettier"],
   settings: {
     "react": {

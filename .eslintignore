@@ -1,4 +1,4 @@
-node_modules/
-dist/
-src/common/
-public/
+node_modules/*
+dist/*
+src/common/*
+public/*

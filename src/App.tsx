@@ -1,42 +1,33 @@
 import routes from "@/router";
+import getMe from "@/services/apis/get-me";
 import { resolver, theme } from "@/styles/theme/mantine-theme";
 import { Loader, MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
-
-import axios from "@/services/apis/axios";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { RouteObject, useRoutes } from "react-router-dom";
-
+import { useBoolean } from "usehooks-ts";
+import useAuthStore from "./store/auth";
 const App = () => {
-  const [loaded, setLoaded] = useState(false);
+  const { value: loaded, setTrue } = useBoolean(false);
 
   useEffect(() => {
     if (loaded) {
       return;
     }
     if (localStorage.__TOKEN__) {
-      axios
-        .get("/api/me")
-        .then((res) => {
-          if (res.data.code !== 0) {
-            delete localStorage.__TOKEN__;
-            delete sessionStorage.__TOKEN__;
-            sessionStorage.clear();
-          }
-        })
+      getMe()
+        .then((me) => useAuthStore.getState().setMe(me))
         .catch(() => {
-          delete localStorage.__TOKEN__;
-          delete sessionStorage.__TOKEN__;
-          sessionStorage.clear();
+          useAuthStore.getState().logout();
         })
         .finally(() => {
-          setLoaded(true);
+          setTrue();
         });
     } else {
-      setLoaded(true);
+      setTrue();
     }
-  }, [loaded]);
+  }, [loaded, setTrue]);
 
   const routes = useMemo(() => {
     return _buildRoutes(loaded);

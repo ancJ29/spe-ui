@@ -3,12 +3,11 @@ import useTranslation from "@/hooks/useTranslation";
 import AppForm from "@/ui/Form/Form";
 import { Card, Space, Title } from "@mantine/core";
 
-type DepositFormProps = {
+export function DepositForm(props: {
   maw?: string | number;
+  coin: string;
   onClose?: () => void;
-};
-
-export function DepositForm(props: DepositFormProps) {
+}) {
   const t = useTranslation();
   return (
     <>
@@ -29,7 +28,8 @@ export function DepositForm(props: DepositFormProps) {
           uiSchema={schema.DepositSchema.uiSchema}
           onSubmit={props.onClose}
           formData={{
-            ...schema.DepositSchema.formData,
+            ...schema.WithdrawSchema.formData,
+            coin: props.coin || schema.WithdrawSchema.formData.coin,
           }}
           showJsonOutput
         />

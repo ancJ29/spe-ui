@@ -4,10 +4,10 @@ import { Card, Space, Title } from "@mantine/core";
 import { IChangeEvent } from "@rjsf/core";
 import { convertToWithdrawFormData } from "./config";
 
-type WithdrawFormProps = {
+export function WithdrawForm(props: {
+  coin?: string;
   onSubmit: (res: IChangeEvent) => void;
-};
-export function WithdrawForm(props: WithdrawFormProps) {
+}) {
   return (
     <>
       <Card
@@ -25,7 +25,10 @@ export function WithdrawForm(props: WithdrawFormProps) {
           w={"100%"}
           schema={schema.WithdrawSchema.schema}
           uiSchema={schema.WithdrawSchema.uiSchema}
-          formData={schema.WithdrawSchema.formData}
+          formData={{
+            ...schema.WithdrawSchema.formData,
+            coin: props.coin,
+          }}
           showJsonOutput
           api="/api/withdraw"
           formDataConverter={convertToWithdrawFormData}

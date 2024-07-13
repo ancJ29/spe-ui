@@ -1,3 +1,3 @@
+export * from "./FundAssetsTable";
 export * from "./TabsWallet";
-export * from "./TableCoinsTradingWallet";
-export * from "./TableCoinsWallet";
+export * from "./TradingAssetsTable";

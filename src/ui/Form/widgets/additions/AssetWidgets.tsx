@@ -1,7 +1,6 @@
 import BN from "@/common/big-number";
-import { ASSET_COIN_LIST } from "@/common/configs";
+import { ASSET_COIN_LIST, SWAP_RATE } from "@/common/configs";
 import { buildOptions, freeAmount } from "@/common/utils";
-import { CoinType, iconsByCoin, textByCoin } from "@/domain/balance";
 import { ASSET_COIN_OPTIONS, COIN_IMAGES } from "@/domain/config";
 import {
   convertCoinToCoinUsingRate,
@@ -113,7 +112,7 @@ export function SelectCoinWidget(props: WidgetProps) {
             <Image
               w={"22px"}
               h={"22px"}
-              src={iconsByCoin[props.value as CoinType]}
+              src={COIN_IMAGES[props.value]}
             />
           </>
         }
@@ -203,7 +202,7 @@ export function QrCodeWidget(props: WidgetProps) {
   } = props;
   const t = useTranslation();
   useEffect(() => {
-    const coin: CoinType = formData.coin;
+    const coin = formData.coin;
     const chain = formData?.[`info${coin}`]?.chain;
     if (coin && chain) {
       fetchDepositAddressApi({ coin, chain }).then(
@@ -441,6 +440,7 @@ export function AmountToTransferWidget({
               fontSize: "14px",
             },
             input: {
+              fontSize: "14px",
               cursor: isZero ? "not-allowed" : "pointer",
               background: "#f3f5f7",
               border: "none",
@@ -615,9 +615,12 @@ export function CoinSwapWidget(props: WidgetProps) {
       marketPrices,
     );
     if (formData.side === SwapSideAsName.BUY) {
-      return BN.div(formData.volume, info.price);
+      return BN.mul(
+        BN.div(formData.volume, info.price),
+        1 - SWAP_RATE,
+      );
     }
-    return BN.mul(formData.volume, info.price);
+    return BN.mul(formData.volume, info.price, 1 - SWAP_RATE);
   }, [
     formData.side,
     formData.symbolFrom,
@@ -703,7 +706,7 @@ export function CoinSwapWidget(props: WidgetProps) {
                   <Image
                     w={"28px"}
                     h={"28px"}
-                    src={iconsByCoin[props.value as CoinType]}
+                    src={COIN_IMAGES[props.value]}
                   />
                 </Box>
                 <Flex direction={"column"} justify={"start"}>
@@ -719,7 +722,7 @@ export function CoinSwapWidget(props: WidgetProps) {
                     {props.value}
                   </Text>
                   <Text fz={12} c={"#81858c"}>
-                    {textByCoin[props.value as CoinType]}
+                    {ASSET_COIN_LIST[props.value]}
                   </Text>
                 </Flex>
               </Flex>
@@ -741,7 +744,7 @@ export function CoinSwapWidget(props: WidgetProps) {
                         <Image
                           w={"28px"}
                           h={"28px"}
-                          src={iconsByCoin[option.value as CoinType]}
+                          src={COIN_IMAGES[option.value]}
                         />
                         <Flex direction={"column"}>
                           <Text
@@ -752,7 +755,7 @@ export function CoinSwapWidget(props: WidgetProps) {
                             {option.value}
                           </Text>
                           <Text fz={12} c={"#81858c"}>
-                            {textByCoin[option.value as CoinType]}
+                            {ASSET_COIN_LIST[option.value]}
                           </Text>
                         </Flex>
                       </Flex>

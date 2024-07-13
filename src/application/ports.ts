@@ -1,19 +1,17 @@
-import { Balance, BalanceOverview, MarketPrice } from "@/common/types";
-import { Transaction } from "@/domain/transaction";
-import { DepositAddressFormData, GetAccountsFormData, TransactionsHistoryFormData } from "@/types";
+import { Balance, BalanceOverview, MarketPrice, SpeTransaction } from "@/common/types";
+import { DepositAddressFormData, GetAccountsFormData } from "@/types";
 import { Account } from "../domain/account";
 
 export interface TradeStorageService {
-  depositAddress: string
   balances: Balance[]
+  accountById: Record<string, Account>
   overview: BalanceOverview
   fundingAccount?: Account
+  tradingAccount?: Account
   fundingBalances: Balance[]
   accounts: Account[]
-  transactions: Transaction[]
+  transactions: SpeTransaction[]
   marketPrices: MarketPrice
-  reloadAll(): Promise<void>
-  fetchTransactionsHistory(queryParams: TransactionsHistoryFormData): Promise<void>
 }
 
 export interface DepositService {

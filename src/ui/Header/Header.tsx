@@ -1,8 +1,6 @@
-import defaultAvatar from "@/assets/images/defaultAvatar.png";
 import svgLogo from "@/assets/images/logo.svg";
 import { Application } from "@/common/types";
 import { getHeaderMenu } from "@/domain/Application";
-import { Language } from "@/services/languages";
 import {
   ActionIcon,
   Anchor,
@@ -11,10 +9,8 @@ import {
   Button,
   Center,
   Collapse,
-  CopyButton,
   Divider,
   Drawer,
-  Flex,
   Group,
   HoverCard,
   Image,
@@ -25,7 +21,6 @@ import {
   SimpleGrid,
   Text,
   ThemeIcon,
-  Tooltip,
   UnstyledButton,
   useComputedColorScheme,
   useMantineColorScheme,
@@ -33,23 +28,17 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import {
-  IconArrowRight,
   IconCaretDownFilled,
-  IconCheck,
   IconCoin,
-  IconCopy,
-  IconLogout,
   IconMoon,
   IconSun,
-  IconWorld,
 } from "@tabler/icons-react";
 import cx from "clsx";
-import { Fragment, useCallback, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Fragment, useMemo, useState } from "react";
 import AppButton from "../Button/AppButton";
 import classes from "./index.module.scss";
-
-const debug = false;
+import MenuUserInfo from "./MenuUserInfo";
+import SwitchLanguage from "./SwitchLanguage";
 
 export function Header(props: Partial<{ metadata: Application }>) {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
@@ -305,31 +294,27 @@ export function Header(props: Partial<{ metadata: Application }>) {
             </Group>
             <Group h="100%" gap={0}>
               <SwitchLanguage />
-              {!debug && (
-                <ActionIcon
-                  onClick={() =>
-                    setColorScheme(
-                      computedColorScheme === "light"
-                        ? "dark"
-                        : "light",
-                    )
-                  }
-                  size="xl"
-                  variant="transparent"
-                  aria-label="Toggle color scheme"
-                >
-                  {colorScheme === "light" && (
-                    <IconSun
-                      color={lighten(theme.colors.dark[7], 1)}
-                    />
-                  )}
-                  {colorScheme === "dark" && (
-                    <IconMoon
-                      color={lighten(theme.colors.dark[7], 1)}
-                    />
-                  )}
-                </ActionIcon>
-              )}
+              <ActionIcon
+                onClick={() =>
+                  setColorScheme(
+                    computedColorScheme === "light"
+                      ? "dark"
+                      : "light",
+                  )
+                }
+                size="xl"
+                variant="transparent"
+                aria-label="Toggle color scheme"
+              >
+                {colorScheme === "light" && (
+                  <IconSun color={lighten(theme.colors.dark[7], 1)} />
+                )}
+                {colorScheme === "dark" && (
+                  <IconMoon
+                    color={lighten(theme.colors.dark[7], 1)}
+                  />
+                )}
+              </ActionIcon>
             </Group>
           </Group>
 
@@ -531,222 +516,5 @@ export function Header(props: Partial<{ metadata: Application }>) {
         </ScrollArea>
       </Drawer>
     </>
-  );
-}
-
-function MenuUserInfo() {
-  const logOut = useCallback(() => {
-    delete localStorage.__TOKEN__;
-    delete sessionStorage.__TOKEN__;
-    window.open("/", "_self");
-  }, []);
-
-  if (!localStorage.__TOKEN__) {
-    return (
-      <>
-        <GroupLinkAuth />
-      </>
-    );
-  }
-  return (
-    <>
-      <Menu
-        shadow="md"
-        width={320}
-        trigger="hover"
-        offset={0}
-        closeDelay={100}
-      >
-        <Menu.Target>
-          <ActionIcon variant="transparent" size="xl">
-            <Image src={defaultAvatar} w={28} h={28} />
-          </ActionIcon>
-        </Menu.Target>
-
-        <Menu.Dropdown
-          styles={{
-            dropdown: {
-              height: "calc(100vh - 48px)",
-              background: "light-dark(#fff, #16181e)",
-              display: "flex",
-              flexDirection: "column",
-              border: "none",
-            },
-          }}
-        >
-          <Menu.Item>
-            <Flex gap={10}>
-              <Box>
-                <ActionIcon variant="transparent" size="xl">
-                  <Image src={defaultAvatar} w={38} h={38} />
-                </ActionIcon>
-              </Box>
-              <Box>
-                <Text fz={14}>duc***@****</Text>
-                <Flex align={"center"} gap={0}>
-                  <Text fz={12} c={"gray.5"}>
-                    UID: 194260796
-                  </Text>
-                  <CopyButton value="UID: 194260796">
-                    {({ copied, copy }) => (
-                      <Tooltip
-                        label={copied ? "Copied" : "Copy"}
-                        withArrow
-                        position="right"
-                      >
-                        <ActionIcon
-                          color={copied ? "teal" : "gray"}
-                          variant="subtle"
-                          onClick={copy}
-                        >
-                          {copied ? (
-                            <IconCheck style={{ width: rem(16) }} />
-                          ) : (
-                            <IconCopy
-                              color="orange"
-                              style={{ width: rem(16) }}
-                            />
-                          )}
-                        </ActionIcon>
-                      </Tooltip>
-                    )}
-                  </CopyButton>
-                </Flex>
-              </Box>
-            </Flex>
-          </Menu.Item>
-          <Menu.Item
-            c={"orange"}
-            fw={"bold"}
-            rightSection={
-              <IconArrowRight
-                color="gray"
-                style={{ width: rem(16) }}
-              />
-            }
-          >
-            Switch/Create Account
-          </Menu.Item>
-          {/* <Menu.Item c={"orange"} fw={"bold"}
-            rightSection={
-              <Text size="xs" c="dimmed">
-                ⌘K
-              </Text>
-            }
-          >
-            Switch/Create Account
-          </Menu.Item> */}
-          <Menu.Divider />
-          <Menu.Item fw={"bold"}>Settings</Menu.Item>
-
-          <Menu.Item fw={"bold"} component="a" href="/wallet">
-            Assets
-          </Menu.Item>
-          <Menu.Item
-            fw={"bold"}
-            component="a"
-            href="/user/assets/deposit"
-          >
-            Deposit
-          </Menu.Item>
-          <Box
-            style={{
-              marginTop: "auto",
-            }}
-          >
-            <Menu.Divider />
-            <Menu.Item
-              onClick={logOut}
-              color="red"
-              leftSection={
-                <IconLogout
-                  style={{ width: rem(14), height: rem(14) }}
-                />
-              }
-            >
-              Logout
-            </Menu.Item>
-          </Box>
-        </Menu.Dropdown>
-      </Menu>
-    </>
-  );
-}
-
-function GroupLinkAuth() {
-  return (
-    <>
-      <AppButton
-        instancetype="Ghost"
-        color="white"
-        component="a"
-        href="/login"
-      >
-        Log In
-      </AppButton>
-      <AppButton component="a" href="/register">
-        Sign up
-      </AppButton>
-    </>
-  );
-}
-
-function SwitchLanguage() {
-  const theme = useMantineTheme();
-  const navigate = useNavigate();
-  const onChange = (lan: Language) => {
-    localStorage.__LANGUAGE__ = lan;
-    navigate(0);
-  };
-  const activeLanguage = useMemo(() => {
-    return localStorage.__LANGUAGE__;
-  }, []);
-  return (
-    <Menu
-      shadow="none"
-      width={150}
-      trigger="hover"
-      radius={0}
-      offset={0}
-    >
-      <Menu.Target>
-        <ActionIcon variant="transparent" size="xl" h={"100%"}>
-          <IconWorld color={lighten(theme.colors.dark[7], 1)} />
-        </ActionIcon>
-      </Menu.Target>
-      <Menu.Dropdown
-        bg={"#16181e"}
-        bd={"none"}
-        style={{ border: "none" }}
-      >
-        <Menu.Item
-          aria-checked={activeLanguage === Language.EN}
-          className={classes.menuLanguage}
-          onClick={() => {
-            onChange(Language.EN);
-          }}
-        >
-          English
-        </Menu.Item>
-        <Menu.Item
-          aria-checked={activeLanguage === Language.JA}
-          className={classes.menuLanguage}
-          onClick={() => {
-            onChange(Language.JA);
-          }}
-        >
-          日本語
-        </Menu.Item>
-        <Menu.Item
-          className={classes.menuLanguage}
-          aria-checked={activeLanguage === Language.CN}
-          onClick={() => {
-            onChange(Language.CN);
-          }}
-        >
-          国际化
-        </Menu.Item>
-      </Menu.Dropdown>
-    </Menu>
   );
 }

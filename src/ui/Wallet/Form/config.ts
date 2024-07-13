@@ -1,4 +1,3 @@
-import { chainByCoin, CoinType } from "@/domain/balance";
 import logger from "@/services/logger";
 import { SwapFormData, TransferAssetsFormData, WithdrawFormData } from "@/types";
 
@@ -18,11 +17,11 @@ export function convertToSwapFormData(formData: SwapFormData) {
 
 
 export function convertToWithdrawFormData(formData: WithdrawFormData) {
-  const k: CoinType = formData.coin;
+  const k = formData.coin;
   const infoKey = k === "BTC" ? "infoBTC" : k === "ETH" ? "infoETH" : "infoUSDT";
   return {
     "coin": formData.coin,
-    "chain": chainByCoin[formData.coin],
+    "chain": formData.chain,
     "address": formData[infoKey].address,
     "amount": formData[infoKey].amount,
   };

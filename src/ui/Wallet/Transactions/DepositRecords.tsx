@@ -1,12 +1,9 @@
-import {
-  chainByCoin,
-  CoinType,
-  iconsByCoin,
-  ModalMode,
-  textByCoin,
-} from "@/domain/balance";
-import { StatusTransaction } from "@/domain/transaction";
+import { ASSET_COIN_LIST, STATUS_COLORS } from "@/common/configs";
+import { TransactionType } from "@/common/enums";
+import useTranslation from "@/hooks/useTranslation";
 import { useTradeStorageInfo } from "@/services/tradeAdapter";
+import { useAssetStore } from "@/store/assets";
+import { Asset } from "@/ui/Asset/Asset";
 import { NoDataRecord } from "@/ui/NoData";
 import NumberFormat from "@/ui/NumberFormat";
 import {
@@ -15,65 +12,53 @@ import {
   Box,
   Button,
   Flex,
-  Image,
   Modal,
   ScrollArea,
   Table,
   TableData,
-  Text,
   Title,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconX } from "@tabler/icons-react";
-import { useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { DepositForm } from "../Form";
 
-export function TableRecordsDeposit() {
+export function DepositRecords() {
+  const t = useTranslation();
   const { transactions } = useTradeStorageInfo();
+  useEffect(() => {
+    useAssetStore.getState().fetchTransactionsHistory({
+      type: TransactionType.DEPOSIT,
+    });
+  }, []);
   const [opened, { open, close }] = useDisclosure(false);
-  const [, setModalMode] = useState<ModalMode>();
-  const openModal = (mode: ModalMode) => {
-    setModalMode(mode);
-    open();
-  };
-  const colors: Record<StatusTransaction, string> = {
-    DONE: "green",
-    FAILED: "red",
-    PENDING: "orange",
-    PROCESSING: "blue",
-  };
+  const [coin, setCoin] = useState("");
+  const openModal = useCallback(
+    (coin: string) => {
+      setCoin(coin);
+      open();
+    },
+    [open],
+  );
 
-  const tableData: TableData = {
-    head: [
-      "Coin",
-      "Time",
-      "Amount",
-      "Address",
-      "Chain Name",
-      "Progress",
-      "Status",
-      "Action",
-    ],
-    foot: [],
-    body: [
-      ...[...transactions].map((row) => {
-        return [
+  const tableData: TableData = useMemo(() => {
+    return {
+      head: [
+        "Coin",
+        "Time",
+        "Amount",
+        "Address",
+        "Chain Name",
+        "Progress",
+        "Status",
+        "Action",
+      ].map((el) => t(el)),
+      // foot: [],
+      body: transactions
+        .filter((el) => el.type === TransactionType.DEPOSIT)
+        .map((row) => [
           <>
-            <Flex align={"center"} gap={10}>
-              <Box>
-                <Image
-                  w={30}
-                  h={30}
-                  src={iconsByCoin[row.asset as CoinType]}
-                />
-              </Box>
-              <Box>
-                <Title order={6}>{row.asset}</Title>
-                <Text c="dimmed">
-                  {textByCoin[row.asset as CoinType]}
-                </Text>
-              </Box>
-            </Flex>
+            <Asset asset={row.asset} />
           </>,
           <>
             <Title order={6} fz={12}>
@@ -84,18 +69,15 @@ export function TableRecordsDeposit() {
             <Title order={6} fz={12}>
               <NumberFormat decimalPlaces={8} value={row.amount} />
             </Title>
-            <Text c="dimmed" size="xs">
-              ~ $<NumberFormat decimalPlaces={8} value={row.amount} />
-            </Text>
           </>,
           <>
             <Title order={6} fz={12}>
-              {row.to}
+              {row.to || "N/A"}
             </Title>
           </>,
           <>
             <Title order={6} fz={12}>
-              {chainByCoin[row.asset]}
+              {ASSET_COIN_LIST[row.asset]}
             </Title>
           </>,
           <>
@@ -104,24 +86,26 @@ export function TableRecordsDeposit() {
             </Title>
           </>,
           <>
-            <Badge color={colors[row.status]}>{row.status}</Badge>
+            <Badge color={STATUS_COLORS[row.status]}>
+              {row.status}
+            </Badge>
           </>,
           <>
             <Flex gap={5}>
               <Button
-                onClick={() => openModal("DEPOSIT")}
+                onClick={() => openModal(row.asset)}
                 p={0}
                 size="xs"
                 variant="transparent"
               >
-                Deposit
+                {t("Deposit")}
               </Button>
             </Flex>
           </>,
-        ];
-      }),
-    ],
-  };
+        ]),
+    };
+  }, [openModal, t, transactions]);
+
   return (
     <>
       <Box h={"100%"} w={"100%"}>
@@ -177,7 +161,7 @@ export function TableRecordsDeposit() {
           >
             <IconX color="gray" />
           </ActionIcon>
-          <DepositForm maw={"100%"} onClose={close} />
+          <DepositForm maw={"100%"} coin={coin} onClose={close} />
         </Box>
       </Modal>
     </>

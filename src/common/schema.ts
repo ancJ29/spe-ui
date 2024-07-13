@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+export const booleanSchema = z.boolean();
+
 export const stringSchema = z.string();
 
 export const numberSchema = z.number();
@@ -49,7 +51,6 @@ export const userConfigSchema = z.object({
     numberSchema.int().positive().min(1).max(200),
   ),
 });
-export type UserConfig = z.infer<typeof userConfigSchema>;
 
 export const dateSchema = z
   .string()
@@ -82,18 +83,19 @@ export const nullablePositiveInteger = z
 
 export const authenticationPayloadSchema = z.object({
   id: stringSchema,
-  depositCode: stringSchema,
+  uid: stringSchema,
+  fiatDepositMemo: optionalStringSchema,
   affiliateCode: stringSchema,
-  emailVerified: z.boolean(),
-  mobileVerified: z.boolean(),
-  hasMfa: z.boolean(),
+  emailVerified: booleanSchema,
+  mobileVerified: booleanSchema,
+  hasMfa: booleanSchema,
   kycLevel: numberSchema.int().positive().min(0).max(4),
   email: optionalStringSchema,
   mobile: optionalStringSchema,
   config: userConfigSchema.optional(),
 });
 
-const baseMenuSchema = z.object({
+export const baseMenuSchema = z.object({
   icon: z.string().optional(),
   type: z.enum(["link", "group", "panel", "custom"]),
   label: z.string(),
@@ -160,8 +162,8 @@ export const applicationSchema = z.object({
     }),
     features: z.object({
       register: z.object({
-        email: z.boolean(),
-        mobile: z.boolean(),
+        email: booleanSchema,
+        mobile: booleanSchema,
       }),
       symbols: z
         .object({
@@ -183,8 +185,8 @@ export const applicationSchema = z.object({
           quoteAssetPrecision: z.number(),
           baseCommissionPrecision: z.number(),
           quoteCommissionPrecision: z.number(),
-          isSpot: z.boolean(),
-          isFuture: z.boolean(),
+          isSpot: booleanSchema,
+          isFuture: booleanSchema,
           defaultLeverage: z.number(),
         })
         .array(),

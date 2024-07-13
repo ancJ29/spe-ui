@@ -41,7 +41,8 @@ export function fetchTransactionsHistoryApi(formData: TransactionsHistoryFormDat
   return axios.get("/api/transactions/list", {
     params: {
       ...formData,
-      type: formData.type?.join()
+      type: formData.type,
+      types: formData.types?.join(","),
     }
   });
   // api/transactions/list?type=WITHDRAW&accountId=10142252461111972007602

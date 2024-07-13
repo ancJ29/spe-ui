@@ -1,3 +1,5 @@
+import useTranslation from "@/hooks/useTranslation";
+import useAuthStore from "@/store/auth";
 import AppTabs from "@/ui/Tabs";
 import { useCallback, useEffect, useState } from "react";
 import {
@@ -5,12 +7,15 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import { TableRecordsDeposit } from "./TableRecordsDeposit";
-import { TableRecordsOthers } from "./TableRecordsOthers";
-import { TableRecordsSwap } from "./TableRecordsSwap";
-import { TableRecordsWithdraw } from "./TableRecordsWithdraw";
+import { DepositRecords } from "./DepositRecords";
+import { OtherRecords } from "./OtherRecords";
+import { SwapRecords } from "./SwapRecords";
+import { WithdrawRecords } from "./WithdrawRecords";
 
 export function TabsTransactions() {
+  const { me } = useAuthStore();
+
+  const t = useTranslation();
   const [tab, setTab] = useState<string | null>("swap");
   const navigate = useNavigate();
   const location = useLocation();
@@ -57,61 +62,56 @@ export function TabsTransactions() {
         items={[
           {
             data: {
-              label: "Swap",
+              label: t("Swap"),
               value: "swap",
             },
             tabsPanelProps: {
-              children: (
-                <>
-                  <TableRecordsSwap />
-                </>
-              ),
+              children: <SwapRecords />,
               value: "swap",
             },
           },
           {
             data: {
-              label: "Deposit",
+              label: t("Deposit"),
               value: "deposit",
             },
             tabsPanelProps: {
-              children: (
-                <>
-                  <TableRecordsDeposit />
-                </>
-              ),
+              children: <DepositRecords />,
               value: "deposit",
             },
           },
           {
             data: {
-              label: "Withdraw",
+              label: t("Withdraw"),
               value: "withdraw",
             },
             tabsPanelProps: {
-              children: (
-                <>
-                  <TableRecordsWithdraw />
-                </>
-              ),
+              children: <WithdrawRecords />,
               value: "withdraw",
             },
           },
           {
+            skip: Boolean(!me?.fiatDepositMemo),
             data: {
-              label: "Others",
+              label: t("Fiat Deposit"),
+              value: "fiat-deposit",
+            },
+            tabsPanelProps: {
+              children: <WithdrawRecords />,
+              value: "fiat-deposit",
+            },
+          },
+          {
+            data: {
+              label: t("Others"),
               value: "others",
             },
             tabsPanelProps: {
-              children: (
-                <>
-                  <TableRecordsOthers />
-                </>
-              ),
+              children: <OtherRecords />,
               value: "others",
             },
           },
-        ]}
+        ].filter((i) => !i.skip)}
       />
     </>
   );

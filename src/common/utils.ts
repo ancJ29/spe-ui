@@ -110,3 +110,14 @@ export function freeAmount({
 }) {
   return BN.sub(amount || 0, locked || 0);
 }
+
+export function masking(text: string): string {
+  if (text.includes("@")) {
+    const [username, domain] = text.split("@");
+    if (username.length > 6) {
+      return `${username.slice(0, 3)}***@${masking(domain)}`;
+    }
+    return `${username.slice(0, 1)}***@${masking(domain)}`;
+  }
+  return text.replace(/.(?=.{4})/g, '*');
+}

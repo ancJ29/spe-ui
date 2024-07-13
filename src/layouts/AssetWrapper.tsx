@@ -4,8 +4,7 @@ import { useAssetStore } from "@/store/assets";
 import { Header } from "@/ui/Header";
 import { Box } from "@mantine/core";
 import React from "react";
-
-const TradeWrapper = ({
+const AssetWrapper = ({
   children,
 }: {
   children: React.ReactNode;
@@ -22,4 +21,4 @@ const TradeWrapper = ({
   );
 };
 
-export default TradeWrapper;
+export default AssetWrapper;

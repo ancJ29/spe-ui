@@ -1,11 +1,9 @@
-import {
-  CoinType,
-  iconsByCoin,
-  ModalMode,
-  textByCoin,
-} from "@/domain/balance";
+import { ASSET_COIN_LIST } from "@/common/configs";
+import { ModalMode } from "@/domain/balance";
+import { COIN_IMAGES } from "@/domain/config";
 import useTranslation from "@/hooks/useTranslation";
 import { useTradeStorageInfo } from "@/services/tradeAdapter";
+import { useAssetStore } from "@/store/assets";
 import { NoDataRecord } from "@/ui/NoData";
 import NumberFormat from "@/ui/NumberFormat";
 import {
@@ -23,7 +21,7 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconX } from "@tabler/icons-react";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
   DepositForm,
   SwapForm,
@@ -31,17 +29,25 @@ import {
   WithdrawForm,
 } from "../Form";
 
-export function TableCoinsWallet() {
+// FundAssetsTable.tsx
+export function FundAssetsTable() {
   const t = useTranslation();
-  const { accounts, balances, reloadAll } = useTradeStorageInfo();
+  const { accounts, balances, fundingAccount, tradingAccount } =
+    useTradeStorageInfo();
   const [modalMode, setModalMode] = useState<ModalMode>();
+  const [coin, setCoin] = useState("");
   const [opened, { open, close }] = useDisclosure(false);
 
-  const tableData: TableData = useMemo(() => {
-    const openModal = (mode: ModalMode) => {
+  const openModal = useCallback(
+    (mode: ModalMode, coin: string) => {
       setModalMode(mode);
+      setCoin(coin);
       open();
-    };
+    },
+    [open],
+  );
+
+  const tableData: TableData = useMemo(() => {
     const accountId = accounts.find((el) => el.isFunding)?.id;
     const rows = accountId
       ? balances.filter((el) => el.accountId === accountId)
@@ -58,17 +64,11 @@ export function TableCoinsWallet() {
         <>
           <Flex align={"center"} gap={10}>
             <Box>
-              <Image
-                w={30}
-                h={30}
-                src={iconsByCoin[row.coin as CoinType]}
-              />
+              <Image w={30} h={30} src={COIN_IMAGES[row.coin]} />
             </Box>
             <Box>
               <Title order={6}>{row.coin}</Title>
-              <Text c="dimmed">
-                {textByCoin[row.coin as CoinType]}
-              </Text>
+              <Text c="dimmed">{ASSET_COIN_LIST[row.coin]}</Text>
             </Box>
           </Flex>
         </>,
@@ -103,7 +103,7 @@ export function TableCoinsWallet() {
         <>
           <Flex gap={8}>
             <Button
-              onClick={() => openModal("DEPOSIT")}
+              onClick={() => openModal("DEPOSIT", row.coin)}
               p={0}
               size="xs"
               variant="transparent"
@@ -111,7 +111,7 @@ export function TableCoinsWallet() {
               {t("Deposit")}
             </Button>
             <Button
-              onClick={() => openModal("SWAP")}
+              onClick={() => openModal("SWAP", row.coin)}
               p={0}
               size="xs"
               variant="transparent"
@@ -119,7 +119,7 @@ export function TableCoinsWallet() {
               {t("Swap")}
             </Button>
             <Button
-              onClick={() => openModal("WITHDRAW")}
+              onClick={() => openModal("WITHDRAW", row.coin)}
               p={0}
               size="xs"
               variant="transparent"
@@ -127,10 +127,10 @@ export function TableCoinsWallet() {
               {t("Withdraw")}
             </Button>
             {/* <Button p={0} size="xs" variant="transparent">
-              {t("Address")}
+              {t("Address")} // TODO: Implement this
             </Button> */}
             <Button
-              onClick={() => openModal("TRANSFER")}
+              onClick={() => openModal("TRANSFER", row.coin)}
               p={0}
               size="xs"
               variant="transparent"
@@ -141,7 +141,12 @@ export function TableCoinsWallet() {
         </>,
       ]),
     };
-  }, [accounts, balances, open, t]);
+  }, [accounts, balances, openModal, t]);
+
+  const onSubmit = useCallback(() => {
+    useAssetStore.getState().initial();
+    close();
+  }, [close]);
 
   return (
     <>
@@ -206,14 +211,23 @@ export function TableCoinsWallet() {
             <IconX color="gray" />
           </ActionIcon>
           {modalMode == "DEPOSIT" && (
-            <DepositForm maw={"100%"} onClose={close} />
+            <DepositForm maw={"100%"} coin={coin} onClose={close} />
           )}
-          {modalMode == "SWAP" && <SwapForm onSubmit={reloadAll} />}
+          {modalMode == "SWAP" && (
+            <SwapForm coin={coin} onSubmit={onSubmit} />
+          )}
           {modalMode == "TRANSFER" && (
-            <TransferForm onSubmit={reloadAll} />
+            <TransferForm
+              coin={coin}
+              accountIds={[
+                fundingAccount?.id || "",
+                tradingAccount?.id || "",
+              ]}
+              onSubmit={onSubmit}
+            />
           )}
           {modalMode == "WITHDRAW" && (
-            <WithdrawForm onSubmit={reloadAll} />
+            <WithdrawForm coin={coin} onSubmit={onSubmit} />
           )}
         </Box>
       </Modal>

@@ -1,3 +1,5 @@
+import AuthWrapper from "@/layouts/AuthWrapper";
+import GuestWrapper from "@/layouts/GuestWrapper";
 import { RouteConfig } from "@/types";
 import { lazy } from "react";
 
@@ -11,17 +13,16 @@ type Config = {
   authOnly?: boolean;
   guestOnly?: boolean;
   element: string | (() => JSX.Element);
-  wrapper?: {
-    element: Wrapper;
-    props?: GenericProps;
-  };
+  wrapper?: string;
 };
 
-const AuthWrapper = lazy(() => import("@/layouts/AuthWrapper"));
-const GuestWrapper = lazy(() => import("@/layouts/GuestWrapper"));
-const ServiceWrapper = lazy(() => import("@/layouts/ServiceWrapper"));
-const TradeWrapper = lazy(() => import("@/layouts/TradeWrapper"));
-const HistoryWrapper = lazy(() => import("@/layouts/HistoryWrapper"));
+// prettier-ignore
+export const wrapperMap: Record<string, Wrapper> = {
+  HistoryWrapper: lazy(() => import("@/layouts/HistoryWrapper")) as Wrapper,
+  ServiceWrapper: lazy(() => import("@/layouts/ServiceWrapper")) as Wrapper,
+  TradeWrapper: lazy(() => import("@/layouts/TradeWrapper")) as Wrapper,
+  AssetWrapper: lazy(() => import("@/layouts/AssetWrapper")) as Wrapper,
+};
 
 // prettier-ignore
 const componentMap: Record<string, LazyExoticComponent> = {
@@ -34,7 +35,7 @@ const componentMap: Record<string, LazyExoticComponent> = {
   FutureTrade: lazy(() => import("@/routes/future")),
   Deposit: lazy(() => import("@/routes/deposit")),
   Wallet: lazy(() => import("@/routes/wallet")),
-  WalletHistory: lazy(() => import("@/routes/walletHistories")),
+  FiatDeposit: lazy(() => import("@/routes/walletHistories/fiat-deposit")),
   WalletHistorySwap: lazy(() => import("@/routes/walletHistories/swap")),
   WalletHistoryDeposit: lazy(() => import("@/routes/walletHistories/deposit")),
   WalletHistoryWithdraw: lazy(() => import("@/routes/walletHistories/withdraw")),
@@ -49,89 +50,65 @@ const configs: Config[] = [
   {
     path: "/copy-trading",
     element: "CopyTrade",
-    wrapper: {
-      element: ServiceWrapper as Wrapper,
-    },
+    wrapper: "ServiceWrapper",
   },
   {
     path: "/copy-trading/:id",
     element: "CopyTradeDetail",
-    wrapper: {
-      element: ServiceWrapper as Wrapper,
-    },
+    wrapper: "ServiceWrapper",
   },
   {
     path: "/trade/spot/:baseToken/:pairToken",
     element: "SpotTrade",
-    authOnly: true,
-    wrapper: {
-      element: TradeWrapper as Wrapper,
-    },
+    wrapper: "TradeWrapper",
   },
   {
     path: "/trade/futures/:baseToken/:pairToken",
     element: "FutureTrade",
-    authOnly: true,
-    wrapper: {
-      element: TradeWrapper as Wrapper,
-    },
+    wrapper: "TradeWrapper",
   },
   {
     path: "/wallet",
     element: "Wallet",
+    wrapper: "AssetWrapper",
     authOnly: true,
-    wrapper: {
-      element: TradeWrapper as Wrapper,
-    },
-  },
-  {
-    path: "/wallet/records",
-    element: "WalletHistory",
-    authOnly: true,
-    wrapper: {
-      element: HistoryWrapper as Wrapper,
-    },
   },
   {
     path: "/wallet/records/swap",
     element: "WalletHistorySwap",
+    wrapper: "HistoryWrapper",
     authOnly: true,
-    wrapper: {
-      element: HistoryWrapper as Wrapper,
-    },
   },
   {
     path: "/wallet/records/deposit",
     element: "WalletHistoryDeposit",
+    wrapper: "HistoryWrapper",
     authOnly: true,
-    wrapper: {
-      element: HistoryWrapper as Wrapper,
-    },
+  },
+  {
+    path: "/wallet/records/fiat-deposit",
+    element: "FiatDeposit",
+    wrapper: "HistoryWrapper",
+    authOnly: true,
   },
   {
     path: "/wallet/records/withdraw",
     element: "WalletHistoryWithdraw",
+    wrapper: "HistoryWrapper",
     authOnly: true,
-    wrapper: {
-      element: HistoryWrapper as Wrapper,
-    },
   },
   {
     path: "/wallet/records/others",
     element: "WalletHistoryOthers",
+    wrapper: "HistoryWrapper",
     authOnly: true,
-    wrapper: {
-      element: HistoryWrapper as Wrapper,
-    },
   },
 
   {
     path: "/user/assets/deposit",
     element: "Deposit",
+    wrapper: "AssetWrapper",
     authOnly: true,
-    wrapper: {
-      element: TradeWrapper as Wrapper,
-    },
   },
   {
     path: "/login",
@@ -156,9 +133,7 @@ const configs: Config[] = [
   {
     path: "/*",
     element: "TopPage",
-    wrapper: {
-      element: ServiceWrapper as Wrapper,
-    },
+    wrapper: "ServiceWrapper",
   },
 ];
 
@@ -170,10 +145,11 @@ function _buildRouteConfig(config: Config): RouteConfig {
       ? componentMap[config.element]
       : config.element;
 
-  let element = config.wrapper ? (
-    <config.wrapper.element {...config.wrapper.props}>
+  const Wrapper = wrapperMap[config.wrapper || ""];
+  let element = Wrapper ? (
+    <Wrapper>
       <Component />
-    </config.wrapper.element>
+    </Wrapper>
   ) : (
     <Component />
   );

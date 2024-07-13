@@ -1,6 +1,5 @@
 import BN from "@/common/big-number";
 import { MarketPrice } from "@/common/types";
-import { CoinType } from "./balance";
 
 export type SWAP_SIDE = "BUY" | "SELL";
 export type SWAP_SYMBOL = "ETHUSDT" | "BNBUSDT" | "BTCUSDT" | "ETH_USDT_SPOT" | "BTC_USDT_SPOT";
@@ -10,14 +9,8 @@ export const swapSymbols: SWAP_SYMBOL[] = [
   "BNBUSDT", "ETHUSDT", "BTCUSDT"
 ];
 
-export const baseSymbols: CoinType[] = [
-  "BTC", "ETH"
-];
 
-export const pairSymbol: CoinType = "USDT";
-
-
-export const CoinsAsName: Record<CoinType, CoinType> = {
+export const CoinsAsName: Record<string, string> = {
   BTC: "BTC",
   ETH: "ETH",
   USDT: "USDT"

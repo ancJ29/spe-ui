@@ -1,5 +1,7 @@
 import useMetadata from "@/hooks/useMetadata";
-import { useTradeStorageInfo } from "@/services/tradeAdapter";
+import useOnMounted from "@/hooks/useOnMounted";
+import useTranslation from "@/hooks/useTranslation";
+import { useAssetStore } from "@/store/assets";
 import { Header } from "@/ui/Header";
 import { TabsTransactions } from "@/ui/Wallet";
 import {
@@ -7,21 +9,22 @@ import {
   Box,
   Breadcrumbs,
   Container,
+  Space,
   Title,
 } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
-import React, { useEffect } from "react";
+import React from "react";
 
 const HistoryWrapper = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
+  const t = useTranslation();
   const { data } = useMetadata();
-  const { reloadAll } = useTradeStorageInfo();
-  useEffect(() => {
-    reloadAll();
-  }, []);
+  useOnMounted(() => {
+    useAssetStore.getState().initial();
+  });
   return (
     <>
       <Header metadata={data} />
@@ -31,19 +34,20 @@ const HistoryWrapper = ({
             separator={<IconChevronRight color="gray" size={14} />}
           >
             <Anchor fz={14} fw={400} href="/wallet">
-              Funding
+              {t("Funding")}
             </Anchor>
             <Anchor fz={14} fw={400}>
-              Funding Account History
+              {t("Funding Account History")}
             </Anchor>
           </Breadcrumbs>
           <Box py={20}>
             <Title order={2} fz={"24px"}>
-              Funding Account History
+              {t("Funding Account History")}
             </Title>
           </Box>
           <Box>
             <TabsTransactions />
+            <Space mb={10} />
             <Box>{children}</Box>
           </Box>
         </Box>

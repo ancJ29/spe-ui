@@ -16,7 +16,7 @@ import {
 import { IconHistory } from "@tabler/icons-react";
 import { useMemo } from "react";
 
-export default function Page() {
+export default function Wallet() {
   const t = useTranslation();
   const { overview, balances } = useTradeStorageInfo();
 
@@ -104,10 +104,10 @@ export default function Page() {
             <Flex align={"right"} h={"100%"}>
               <Button
                 component="a"
-                href="/wallet/records"
+                href="/wallet/records/swap"
                 variant="gradient"
-                rightSection={<IconHistory />}
                 gradient={{ from: "primary", to: "yellow", deg: 90 }}
+                rightSection={<IconHistory />}
               >
                 {t("History")}
               </Button>

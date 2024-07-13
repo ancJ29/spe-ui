@@ -3,13 +3,24 @@ import useTranslation from "@/hooks/useTranslation";
 import AppForm from "@/ui/Form/Form";
 import { Card, Space, Title } from "@mantine/core";
 import { IChangeEvent } from "@rjsf/core";
+import { useMemo } from "react";
 import { convertToTransferFormData } from "./config";
 
-type TransferFormProps = {
+export function TransferForm(props: {
+  coin?: string;
+  accountIds?: string[];
   onSubmit?: (res: IChangeEvent) => void;
-};
-export function TransferForm(props: TransferFormProps) {
+}) {
   const t = useTranslation();
+
+  const formData = useMemo(() => {
+    return {
+      ...schema.TransferSchema.formData,
+      fromAccountId: props.accountIds?.[0],
+      toAccountId: props.accountIds?.[1],
+      coin: props.coin,
+    };
+  }, [props.accountIds, props.coin]);
 
   return (
     <>
@@ -28,7 +39,7 @@ export function TransferForm(props: TransferFormProps) {
           w={"100%"}
           schema={schema.TransferSchema.schema}
           uiSchema={schema.TransferSchema.uiSchema}
-          formData={schema.TransferSchema.formData}
+          formData={formData}
           showJsonOutput
           api="/api/transfer"
           formDataConverter={convertToTransferFormData}

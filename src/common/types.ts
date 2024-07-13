@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { applicationFooterSchema, applicationSchema } from "./schema";
+import { TransactionStatus, TransactionType } from "./enums";
+import { applicationFooterSchema, applicationSchema, authenticationPayloadSchema, userConfigSchema } from "./schema";
 
 export type GenericObject = Record<string, unknown>;
 
@@ -9,6 +10,8 @@ export enum Side {
   BUY = "BUY",
   SELL = "SELL",
 }
+
+export type UserConfig = z.infer<typeof userConfigSchema>;
 
 export type BalanceOverview = {
   all: {
@@ -86,3 +89,20 @@ export type KLine = [
   string, // "28.46694368",      // Taker buy quote asset volume
   string, // "17928899.62484339" // Ignore.
 ][];
+
+export type AuthenticationPayload = z.infer<typeof authenticationPayloadSchema>;
+
+export type SpeTransaction = {
+  id: string;
+  accountId: string;
+  type: TransactionType;
+  status: TransactionStatus;
+  to: string;
+  asset: string;
+  toAsset: string;
+  amount: string;
+  toAmount: string;
+  jpyAmount: string;
+  createdAt: number;
+  updatedAt: number;
+};
