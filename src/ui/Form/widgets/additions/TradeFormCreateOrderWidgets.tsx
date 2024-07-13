@@ -33,7 +33,6 @@ import {
 } from "@tabler/icons-react";
 import Decimal from "decimal.js";
 import { useCallback, useEffect, useMemo, useState } from "react";
-export const sizeInput = "sm"
 
 export function TriggerPriceWidget({
   label,
@@ -138,7 +137,8 @@ export function TriggerPriceWidget({
                   styles={{
                     root: {
                       gap: 1,
-                      background: "light-dark(rgba(0, 0, 0, 0.1), var(--mantine-color-gray-8))"
+                      background:
+                        "light-dark(rgba(0, 0, 0, 0.1), var(--mantine-color-gray-8))",
                     },
                   }}
                 >
@@ -161,8 +161,9 @@ export function TriggerPriceWidget({
                       key={i}
                       styles={{
                         root: {
-                          background: "light-dark(white, var(--mantine-color-dark-8))"
-                        }
+                          background:
+                            "light-dark(white, var(--mantine-color-dark-8))",
+                        },
                       }}
                       className="cursor-pointer"
                       onClick={() => changeBySymbol(_)}
@@ -232,7 +233,7 @@ export function TriggerPriceNoLastWidget({
         rightSectionWidth={40}
         value={value}
         onChange={onChange}
-        size={sizeInput}
+        size="sm"
         rightSection={
           <Flex
             align={"center"}
@@ -249,7 +250,7 @@ export function TriggerPriceNoLastWidget({
             >
               <Menu.Target>
                 <AppButton instancetype="Ghost" px={0}>
-                <Box lightHidden>
+                  <Box lightHidden>
                     <IconPlusMinus size={18} color="white" />
                   </Box>
                   <Box darkHidden>
@@ -271,7 +272,8 @@ export function TriggerPriceNoLastWidget({
                   styles={{
                     root: {
                       gap: 1,
-                      background: "light-dark(rgba(0, 0, 0, 0.1), var(--mantine-color-gray-8))"
+                      background:
+                        "light-dark(rgba(0, 0, 0, 0.1), var(--mantine-color-gray-8))",
                     },
                   }}
                 >
@@ -294,8 +296,9 @@ export function TriggerPriceNoLastWidget({
                       key={i}
                       styles={{
                         root: {
-                          background: "light-dark(white, var(--mantine-color-dark-8))"
-                        }
+                          background:
+                            "light-dark(white, var(--mantine-color-dark-8))",
+                        },
                       }}
                       className="cursor-pointer"
                       onClick={() => changeBySymbol(_)}
@@ -368,7 +371,7 @@ export function OrderPriceWidget({
         rightSectionWidth={80}
         value={value}
         onChange={onChange}
-        size={sizeInput}
+        size="sm"
         rightSection={
           <Flex align={"center"} gap={8}>
             <AppPopover
@@ -432,7 +435,8 @@ export function OrderPriceWidget({
                   styles={{
                     root: {
                       gap: 1,
-                      background: "light-dark(rgba(0, 0, 0, 0.1), var(--mantine-color-gray-8))"
+                      background:
+                        "light-dark(rgba(0, 0, 0, 0.1), var(--mantine-color-gray-8))",
                     },
                   }}
                 >
@@ -455,8 +459,9 @@ export function OrderPriceWidget({
                       key={i}
                       styles={{
                         root: {
-                          background: "light-dark(white, var(--mantine-color-dark-8))"
-                        }
+                          background:
+                            "light-dark(white, var(--mantine-color-dark-8))",
+                        },
                       }}
                       className="cursor-pointer"
                       onClick={() => changeBySymbol(_)}
@@ -535,7 +540,7 @@ export function OrderPriceConditionalWidget({
         onChange={(_value) => {
           onChange(_value.toString());
         }}
-        size={sizeInput}
+        size="sm"
         rightSection={
           <>
             {!readonly && (
@@ -601,7 +606,8 @@ export function OrderPriceConditionalWidget({
                       styles={{
                         root: {
                           gap: 1,
-                          background: "light-dark(rgba(0, 0, 0, 0.1), var(--mantine-color-gray-8))"
+                          background:
+                            "light-dark(rgba(0, 0, 0, 0.1), var(--mantine-color-gray-8))",
                         },
                       }}
                     >
@@ -624,8 +630,9 @@ export function OrderPriceConditionalWidget({
                           key={i}
                           styles={{
                             root: {
-                              background: "light-dark(white, var(--mantine-color-dark-8))"
-                            }
+                              background:
+                                "light-dark(white, var(--mantine-color-dark-8))",
+                            },
                           }}
                           className="cursor-pointer"
                           onClick={() => changeBySymbol(_)}
@@ -680,7 +687,7 @@ export function VolumeInputFieldWidget(props: WidgetProps) {
           rightSectionWidth={60}
           readOnly={props.readonly}
           disabled={props.readonly}
-          size={sizeInput}
+          size="sm"
           rightSection={
             <AppText fz={12} fw={"bold"}>
               {extractSuffix(props?.options?.props)}
@@ -740,9 +747,10 @@ export function CalcInfoPriceWidget() {
         className="space-y-10"
         px={10}
         py={10}
-        style={{ 
-          borderRadius: "4px", 
-          border: "solid 1px light-dark(#f3f5f7, var(--mantine-color-gray-8))" 
+        style={{
+          borderRadius: "4px",
+          border:
+            "solid 1px light-dark(#f3f5f7, var(--mantine-color-gray-8))",
         }}
       >
         <Flex justify={"space-between"}>
@@ -1142,7 +1150,7 @@ export function TakeProfitTriggerByWidget(props: WidgetProps) {
 
 export function OrderByPriceByWidget(props: WidgetProps) {
   useEffect(() => {
-    props.formContext.updateField("type", props.value);
+    props.formContext.updateFields({ type: props.value });
   }, [props.formContext, props.value]);
   return (
     <>

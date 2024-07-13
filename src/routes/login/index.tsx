@@ -1,6 +1,6 @@
+import { schema } from "@/domain/schema";
 import useTranslation from "@/hooks/useTranslation";
 import AppForm from "@/ui/Form/Form";
-import { samples } from "@/ui/Form/Sample";
 import { Header } from "@/ui/Header";
 import {
   Box,
@@ -31,9 +31,9 @@ const Login = () => {
                 <Space h={30} />
                 <AppForm
                   showJsonOutput={true}
-                  schema={samples.SignIn.schema}
-                  uiSchema={samples.SignIn.uiSchema}
-                  formData={samples.SignIn.formData}
+                  schema={schema.Login.schema}
+                  uiSchema={schema.Login.uiSchema}
+                  formData={schema.Login.formData}
                   w={"100%"}
                   api="/api/login"
                   formDataConverter={convertToLoginFormData}

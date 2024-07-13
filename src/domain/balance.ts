@@ -2,30 +2,11 @@ import btc from "@/assets/images/coins/BTC.svg";
 import eth from "@/assets/images/coins/ETH.svg";
 import usdt from "@/assets/images/coins/usdt.svg";
 
-import { AccountNameType } from "./account";
+
 export type CoinType = "USDT" | "BTC" | "ETH";
-export type CHAIN = "Bitcoin" | "Ethereum" | "Binance Smart Chain"; 
+export type CHAIN = "Bitcoin" | "Ethereum" | "Binance Smart Chain";
 export type TRANSACTION_TYPE = "DEPOSIT" | "WITHDRAW" | "TRANSFER" | "REALIZED_PNL" | "FUNDING_FEE" | "COMMISSION_FEE" | "LIQUIDATION_CLEARANCE" | "REFERRAL_KICKBACK";
 export type ModalMode = "DEPOSIT" | "SWAP" | "TRANSFER" | "WITHDRAW" | "ADDRESS";
-
-export type BalanceOverview = {
-  totalInBtc: string 
-  totalInUsd: string
-};
-
-export type BalanceInfo = {
-  accountId: string 
-  name: AccountNameType
-  coin: string
-  amount: string
-  locked: string
-};
-
-export type Balance = {
-  balances: BalanceInfo[]
-  overview: Record<string | "all", BalanceOverview>
-};
-
 
 export const iconsByCoin: Record<CoinType, string> = {
   BTC: btc,
@@ -36,7 +17,7 @@ export const iconsByCoin: Record<CoinType, string> = {
 export const textByCoin: Record<CoinType, string> = {
   BTC: "Bitcoin",
   ETH: "Ethereum",
-  USDT: "TetherUS"
+  USDT: "Tether (USDT) "
 };
 
 export const chainByCoin: Record<CoinType, CHAIN> = {
@@ -45,7 +26,7 @@ export const chainByCoin: Record<CoinType, CHAIN> = {
   USDT: "Binance Smart Chain"
 };
 
-export const DepositCoinsListed: {coin: CoinType, chain: CHAIN, icon: string, options?: {value: string, label: string, icon: string}}[] = [
+export const DepositCoinsListed: { coin: CoinType, chain: CHAIN, icon: string, options?: { value: string, label: string, icon: string } }[] = [
   {
     chain: "Ethereum",
     coin: "ETH",
@@ -64,4 +45,3 @@ export const DepositCoinsListed: {coin: CoinType, chain: CHAIN, icon: string, op
 ];
 
 export type SWAP_MODE = "oneToOne" | "oneToMany" | "manyToMany" | "manyToOne";
-

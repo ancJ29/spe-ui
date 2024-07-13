@@ -29,7 +29,6 @@ const _classes: Partial<Record<_TYPES, string>> = {
   GhostWithRightIcon: classes.appButton,
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const _props: Record<_TYPES, InstanceProps> = {
   Default: {},
   Ghost: {

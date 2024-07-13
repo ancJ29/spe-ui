@@ -1,7 +1,17 @@
 {
+  "files.exclude": {
+    "public/tv": true,
+  },
   "cSpell.ignorePaths": [],
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit",
+    "source.addMissingImports": "explicit",
+    "source.removeUnusedImports": "explicit"
+  },
   "cSpell.words": [
     "ADAUSDT",
+    "BNBUSDT",
     "apexcharts",
     "Areapercent",
     "arrowParens",
@@ -24,6 +34,9 @@
     "TPandSL",
     "Combobox",
     "Roboto",
+    "qrcode",
+    "SOLANA",
+    "romanji",
     "norender",
     "rjsf",
     "Sparkline",
@@ -43,10 +56,4 @@
     "yaxis",
     "zustand"
   ],
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.organizeImports": "explicit",
-    "source.addMissingImports": "explicit",
-    "source.removeUnusedImports": "explicit"
-  },
 }

@@ -29,7 +29,7 @@ import { useState } from "react";
 import { DepositForm } from "../Form";
 
 export function TableRecordsDeposit() {
-  const { transactions, initialAll } = useTradeStorageInfo();
+  const { transactions } = useTradeStorageInfo();
   const [opened, { open, close }] = useDisclosure(false);
   const [, setModalMode] = useState<ModalMode>();
   const openModal = (mode: ModalMode) => {
@@ -85,7 +85,7 @@ export function TableRecordsDeposit() {
               <NumberFormat decimalPlaces={8} value={row.amount} />
             </Title>
             <Text c="dimmed" size="xs">
-              ≈ $<NumberFormat decimalPlaces={8} value={row.amount} />
+              ~ $<NumberFormat decimalPlaces={8} value={row.amount} />
             </Text>
           </>,
           <>
@@ -177,7 +177,7 @@ export function TableRecordsDeposit() {
           >
             <IconX color="gray" />
           </ActionIcon>
-          <DepositForm maw={"100%"} onSubmit={initialAll} />
+          <DepositForm maw={"100%"} onClose={close} />
         </Box>
       </Modal>
     </>

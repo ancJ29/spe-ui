@@ -20,3 +20,17 @@ export async function loadDictionaries(lang: Language) {
     [Language.CN]: CN,
   }[lang] as Dictionary;
 }
+
+export function getDictionary() {
+  switch (localStorage.__LANGUAGE__) {
+    case Language.EN:
+      return EN;
+    case Language.JA:
+      return JA;
+    case Language.CN:
+      return CN;
+    default:
+      return EN;
+
+  }
+}

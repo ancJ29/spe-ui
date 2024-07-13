@@ -1,7 +1,7 @@
+import { FormSchema } from "@/types";
 import { REGEX } from "@/utils/regex";
-import { Sample } from "../Sample";
 
-const ResetPasswordSchema: Sample = {
+const LoginFormSchema: FormSchema = {
   schema: {
     definitions: {
       PhoneNumber: {
@@ -15,14 +15,30 @@ const ResetPasswordSchema: Sample = {
             title: "Phone",
             type: "string",
           },
+          is2fa: {
+            type: "boolean",
+            default: false,
+          },
           password: {
             $ref: "#/definitions/Password",
           },
-          code: {
-            $ref: "#/definitions/Code",
+        },
+        required: ["phoneLocale", "mobile", "password"],
+        if: {
+          properties: {
+            is2fa: {
+              const: true,
+            },
           },
         },
-        required: ["phoneLocale", "mobile", "password", "code"],
+        then: {
+          properties: {
+            mfaCode: {
+              $ref: "#/definitions/mfaCode",
+            },
+          },
+          required: ["mfaCode"],
+        },
       },
       Email: {
         type: "object",
@@ -33,14 +49,30 @@ const ResetPasswordSchema: Sample = {
             title: "Email",
             pattern: REGEX.EMAIL,
           },
+          is2fa: {
+            type: "boolean",
+            default: false,
+          },
           password: {
             $ref: "#/definitions/Password",
           },
-          code: {
-            $ref: "#/definitions/Code",
+        },
+        required: ["email", "password"],
+        if: {
+          properties: {
+            is2fa: {
+              const: true,
+            },
           },
         },
-        required: ["email", "password", "code"],
+        then: {
+          properties: {
+            mfaCode: {
+              $ref: "#/definitions/mfaCode",
+            },
+          },
+          required: ["mfaCode"],
+        },
       },
       Password: {
         type: "string",
@@ -57,10 +89,9 @@ const ResetPasswordSchema: Sample = {
         default: "+81 Japan",
         title: "Region",
       },
-      Code: {
+      mfaCode: {
         type: "string",
-        title: "Code",
-        minLength: 6,
+        title: "2FA Code",
       },
     },
     properties: {
@@ -94,26 +125,20 @@ const ResetPasswordSchema: Sample = {
   },
   uiSchema: {
     "ui:options": {
-      widget: "hidden",
-      submitButtonOptions: {
-        props: {
-          fullWidth: true,
-          size: "lg",
-        },
-        submitText: "Submit",
-      },
-      // label: false,
       classNames: "grid-form-root gap-15",
+      label: false,
+    },
+    // "ui:widget": "TabWidget",
+    "ui:submitButtonOptions": {
+      submitText: "Login",
+      props: {
+        fullWidth: true,
+        size: "lg",
+      },
     },
     "type": {
       "ui:options": {
         widget: "TabWidget",
-        label: false,
-      },
-    },
-
-    "code": {
-      "ui:options": {
         label: false,
         props: {
           withAsterisk: true,
@@ -133,12 +158,20 @@ const ResetPasswordSchema: Sample = {
       },
       mobile: {
         "ui:options": {
+          widget: "PhoneNumber2FAWidget",
           placeholder: "Mobile",
           label: false,
           classNames: "span-15",
           props: {
             withAsterisk: true,
           },
+        },
+      },
+      is2fa: {
+        "ui:options": {
+          widget: "hidden",
+          label: false,
+          classNames: "hiddenField",
         },
       },
       password: {
@@ -150,8 +183,9 @@ const ResetPasswordSchema: Sample = {
           },
         },
       },
-      code: {
+      mfaCode: {
         "ui:options": {
+          placeholder: "Email",
           label: false,
           props: {
             withAsterisk: true,
@@ -162,11 +196,19 @@ const ResetPasswordSchema: Sample = {
     "email": {
       email: {
         "ui:options": {
+          widget: "TextEmail2FaWidget",
           placeholder: "Email",
           label: false,
           props: {
             withAsterisk: true,
           },
+        },
+      },
+      is2fa: {
+        "ui:options": {
+          widget: "hidden",
+          label: false,
+          classNames: "hiddenField",
         },
       },
       password: {
@@ -178,8 +220,9 @@ const ResetPasswordSchema: Sample = {
           },
         },
       },
-      code: {
+      mfaCode: {
         "ui:options": {
+          placeholder: "Email",
           label: false,
           props: {
             withAsterisk: true,
@@ -188,7 +231,9 @@ const ResetPasswordSchema: Sample = {
       },
     },
   },
-  formData: {},
+  formData: {
+
+  },
 };
 
-export default ResetPasswordSchema;
+export default LoginFormSchema;

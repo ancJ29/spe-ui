@@ -10,12 +10,35 @@ export enum Side {
   SELL = "SELL",
 }
 
+export type BalanceOverview = {
+  all: {
+    totalInUsd: string;
+    totalInBtc: string;
+  };
+  [key: string]: {
+    totalInUsd: string;
+    totalInBtc: string;
+  };
+};
+
+// "BTC_USDT_SPOT": number,
+export type MarketPrice = Record<string, number>;
+
 export type Balance = {
   accountId: string;
   name: string;
   coin: string;
+  coinName: string;
   amount: string;
+  usdValue: string;
+  btcValue: string;
   locked: string;
+  lockedUsdValue: string;
+  lockedBtcValue: string;
+  equity: string;
+  unRealizedPnl: string;
+  margin: string;
+  availableMargin: string;
 };
 
 export type SPEOrderBook = Record<

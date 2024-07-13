@@ -1,5 +1,5 @@
+import { schema } from "@/domain/schema";
 import AppForm from "@/ui/Form/Form";
-import { samples } from "@/ui/Form/Sample";
 import { Box } from "@mantine/core";
 import { useRef } from "react";
 
@@ -18,10 +18,10 @@ export function CreateOrderSpotTradeForm({
         <AppForm
           w={"100%"}
           ref={formRef}
-          schema={samples.NewOrderOfSpotTradeSchema.schema}
-          uiSchema={samples.NewOrderOfSpotTradeSchema.uiSchema}
+          schema={schema.NewOrderOfSpotTradeSchema.schema}
+          uiSchema={schema.NewOrderOfSpotTradeSchema.uiSchema}
           formData={{
-            ...samples.NewOrderOfSpotTradeSchema.formData,
+            ...schema.NewOrderOfSpotTradeSchema.formData,
             price: 1,
           }}
           onSubmit={({ formData }) => {
@@ -47,10 +47,10 @@ export function CreateOrderSpotMarginTradeForm({
         <AppForm
           w={"100%"}
           ref={formRef}
-          schema={samples.NewOrderOfSpotMarginTradeSchema.schema}
-          uiSchema={samples.NewOrderOfSpotMarginTradeSchema.uiSchema}
+          schema={schema.NewOrderOfSpotMarginTradeSchema.schema}
+          uiSchema={schema.NewOrderOfSpotMarginTradeSchema.uiSchema}
           formData={{
-            ...samples.NewOrderOfSpotMarginTradeSchema.formData,
+            ...schema.NewOrderOfSpotMarginTradeSchema.formData,
           }}
           onSubmit={({ formData }) => {
             if (props.onSubmit) {

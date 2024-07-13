@@ -1,15 +1,15 @@
+import { schema } from "@/domain/schema";
+import useTranslation from "@/hooks/useTranslation";
 import AppForm from "@/ui/Form/Form";
-import { samples } from "@/ui/Form/Sample";
 import { Card, Space, Title } from "@mantine/core";
-import { IChangeEvent } from "@rjsf/core";
-import { convertToDepositFormData } from "./config";
 
-interface FormProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onSubmit: (res: IChangeEvent) => void;
-  maw?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-}
-export function DepositForm(props: FormProps) {
+type DepositFormProps = {
+  maw?: string | number;
+  onClose?: () => void;
+};
+
+export function DepositForm(props: DepositFormProps) {
+  const t = useTranslation();
   return (
     <>
       <Card
@@ -21,20 +21,19 @@ export function DepositForm(props: FormProps) {
         w={"100%"}
         mx={"auto"}
       >
-        <Title order={3}>Deposit</Title>
+        <Title order={3}>{t("Deposit")}</Title>
         <Space my={10} />
         <AppForm
           w={"100%"}
-          schema={samples.DepositSchema.schema}
-          uiSchema={samples.DepositSchema.uiSchema}
+          schema={schema.DepositSchema.schema}
+          uiSchema={schema.DepositSchema.uiSchema}
+          onSubmit={props.onClose}
           formData={{
-            ...samples.DepositSchema.formData,
+            ...schema.DepositSchema.formData,
           }}
           showJsonOutput
-          api="/internal-api/deposit"
-          formDataConverter={convertToDepositFormData}
-          onSuccess={props.onSubmit}
         />
+        <Space my={10} />
       </Card>
     </>
   );

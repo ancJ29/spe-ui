@@ -1,7 +1,8 @@
+import { FormSchema } from "@/types";
 import { REGEX } from "@/utils/regex";
-import { Sample } from "../Sample";
 
-const SignInFormSchema: Sample = {
+
+const ResetPasswordSchema: FormSchema = {
   schema: {
     definitions: {
       PhoneNumber: {
@@ -15,30 +16,14 @@ const SignInFormSchema: Sample = {
             title: "Phone",
             type: "string",
           },
-          is2fa: {
-            type: "boolean",
-            default: false,
-          },
           password: {
             $ref: "#/definitions/Password",
           },
-        },
-        required: ["phoneLocale", "mobile", "password"],
-        if: {
-          properties: {
-            is2fa: {
-              const: true,
-            },
+          code: {
+            $ref: "#/definitions/Code",
           },
         },
-        then: {
-          properties: {
-            mfaCode: {
-              $ref: "#/definitions/mfaCode",
-            },
-          },
-          required: ["mfaCode"],
-        },
+        required: ["phoneLocale", "mobile", "password", "code"],
       },
       Email: {
         type: "object",
@@ -49,30 +34,14 @@ const SignInFormSchema: Sample = {
             title: "Email",
             pattern: REGEX.EMAIL,
           },
-          is2fa: {
-            type: "boolean",
-            default: false,
-          },
           password: {
             $ref: "#/definitions/Password",
           },
-        },
-        required: ["email", "password"],
-        if: {
-          properties: {
-            is2fa: {
-              const: true,
-            },
+          code: {
+            $ref: "#/definitions/Code",
           },
         },
-        then: {
-          properties: {
-            mfaCode: {
-              $ref: "#/definitions/mfaCode",
-            },
-          },
-          required: ["mfaCode"],
-        },
+        required: ["email", "password", "code"],
       },
       Password: {
         type: "string",
@@ -89,9 +58,10 @@ const SignInFormSchema: Sample = {
         default: "+81 Japan",
         title: "Region",
       },
-      mfaCode: {
+      Code: {
         type: "string",
-        title: "2FA Code",
+        title: "Code",
+        minLength: 6,
       },
     },
     properties: {
@@ -125,20 +95,24 @@ const SignInFormSchema: Sample = {
   },
   uiSchema: {
     "ui:options": {
-      classNames: "grid-form-root gap-15",
-      label: false,
-    },
-    // "ui:widget": "TabWidget",
-    "ui:submitButtonOptions": {
-      submitText: "Login",
-      props: {
-        fullWidth: true,
-        size: "lg",
+      submitButtonOptions: {
+        props: {
+          fullWidth: true,
+          size: "lg",
+        },
+        submitText: "Submit",
       },
+      classNames: "grid-form-root gap-15",
     },
     "type": {
       "ui:options": {
         widget: "TabWidget",
+        label: false,
+      },
+    },
+
+    "code": {
+      "ui:options": {
         label: false,
         props: {
           withAsterisk: true,
@@ -158,20 +132,12 @@ const SignInFormSchema: Sample = {
       },
       mobile: {
         "ui:options": {
-          widget: "PhoneNumber2FAWidget",
           placeholder: "Mobile",
           label: false,
           classNames: "span-15",
           props: {
             withAsterisk: true,
           },
-        },
-      },
-      is2fa: {
-        "ui:options": {
-          widget: "hidden",
-          label: false,
-          classNames: "hiddenField",
         },
       },
       password: {
@@ -183,9 +149,8 @@ const SignInFormSchema: Sample = {
           },
         },
       },
-      mfaCode: {
+      code: {
         "ui:options": {
-          placeholder: "Email",
           label: false,
           props: {
             withAsterisk: true,
@@ -196,19 +161,11 @@ const SignInFormSchema: Sample = {
     "email": {
       email: {
         "ui:options": {
-          widget: "TextEmail2FaWidget",
           placeholder: "Email",
           label: false,
           props: {
             withAsterisk: true,
           },
-        },
-      },
-      is2fa: {
-        "ui:options": {
-          widget: "hidden",
-          label: false,
-          classNames: "hiddenField",
         },
       },
       password: {
@@ -220,9 +177,8 @@ const SignInFormSchema: Sample = {
           },
         },
       },
-      mfaCode: {
+      code: {
         "ui:options": {
-          placeholder: "Email",
           label: false,
           props: {
             withAsterisk: true,
@@ -231,9 +187,7 @@ const SignInFormSchema: Sample = {
       },
     },
   },
-  formData: {
-    
-  },
+  formData: {},
 };
 
-export default SignInFormSchema;
+export default ResetPasswordSchema;

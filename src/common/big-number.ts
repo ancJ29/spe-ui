@@ -77,11 +77,11 @@ function formatNumberWithCommas(number: BN, decimalPlaces = 2) {
     },
   });
   const bigNumber = new BigNumber(number);
-  if(!bigNumber.isFinite()) {
-    return "--"
+  if (!bigNumber.isFinite()) {
+    return "--";
   }
   return bigNumber.toFormat(decimalPlaces);
-  
+
 }
 
 export default {
@@ -99,5 +99,5 @@ export default {
   lte,
   mul,
   precision,
-  formatNumberWithCommas
+  formatNumberWithCommas,
 };

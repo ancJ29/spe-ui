@@ -1,28 +1,25 @@
-import { MarketPrice } from "@/domain/marketPrice";
+import { Balance, BalanceOverview, MarketPrice } from "@/common/types";
 import { Transaction } from "@/domain/transaction";
-import { DepositAddressFormData, DepositFormData, GetAccountsFormData, TransactionsHistoryFormData } from "@/types";
+import { DepositAddressFormData, GetAccountsFormData, TransactionsHistoryFormData } from "@/types";
 import { Account } from "../domain/account";
-import { Balance } from "../domain/balance";
 
 export interface TradeStorageService {
   depositAddress: string
-  balances: Balance
+  balances: Balance[]
+  overview: BalanceOverview
+  fundingAccount?: Account
+  fundingBalances: Balance[]
   accounts: Account[]
   transactions: Transaction[]
   marketPrices: MarketPrice
-  initialAll(): Promise<void>
+  reloadAll(): Promise<void>
   fetchTransactionsHistory(queryParams: TransactionsHistoryFormData): Promise<void>
 }
 
 export interface DepositService {
   getDepositAddress(formData: DepositAddressFormData): Promise<unknown>
-  tryDeposit(formData: DepositFormData): Promise<unknown>
 }
 
 export interface AccountService {
   getAccounts(formData: GetAccountsFormData): Promise<unknown>
-}
-
-export interface BalanceService {
-  setBalances(): Promise<unknown>
 }

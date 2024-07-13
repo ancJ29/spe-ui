@@ -1,6 +1,6 @@
+import { Balance, BalanceOverview, MarketPrice } from "@/common/types";
 import { Account } from "@/domain/account";
-import { Balance, CHAIN, CoinType } from "@/domain/balance";
-import { MarketPrice } from "@/domain/marketPrice";
+import { CHAIN, CoinType } from "@/domain/balance";
 import { Transaction } from "@/domain/transaction";
 import { fetchAccountsApi, fetchBalancesApi, fetchDepositAddressApi, fetchMarketPricesApi, fetchTransactionsHistoryApi } from "@/services/apis";
 import { TransactionsHistoryFormData } from "@/types";
@@ -8,13 +8,14 @@ import { create } from "zustand";
 
 interface FundState {
   depositAddress: string
-  balances: Balance;
+  balances: {
+    overview: BalanceOverview;
+    balances: Balance[];
+  };
   accounts: Account[];
   transactions: Transaction[]
   marketPrices: MarketPrice
   setDepositAddress: (address: string) => void
-  setBalances: (items: Balance) => void;
-  setAccounts: (items: Account[]) => void;
   fetchBalances: () => Promise<void>
   fetchAccounts: () => Promise<void>
   fetchDepositAddress: (coin: CoinType, chain: CHAIN) => Promise<void>
@@ -25,7 +26,14 @@ interface FundState {
 
 export const useFundStore = create<FundState>((set, get) => ({
   depositAddress: "",
-  balances: { balances: [], overview: {} },
+  balances: {
+    balances: [], overview: {
+      all: {
+        totalInBtc: "0",
+        totalInUsd: "0"
+      }
+    }
+  },
   accounts: [],
   transactions: [],
   marketPrices: {
@@ -36,18 +44,14 @@ export const useFundStore = create<FundState>((set, get) => ({
     ETHUSDT: 0
   },
   setDepositAddress: (depositAddress) => set((state) => ({ ...state, depositAddress })),
-  setBalances: (items) => set((state) => ({ ...state, balances: { ...items } })),
-  setAccounts: (items) => set((state) => ({ ...state, accounts: items })),
 
   // Async actions
   fetchBalances: async () => {
-    const res = await fetchBalancesApi();
-    if (res.data.result) {
-      set(state => ({
-        ...state,
-        balances: res.data.result
-      }));
-    }
+    const { balances, overview } = await fetchBalancesApi();
+    set(state => ({
+      ...state,
+      balances: { balances, overview }
+    }));
   },
 
   fetchAccounts: async () => {
@@ -61,24 +65,21 @@ export const useFundStore = create<FundState>((set, get) => ({
   },
 
   fetchDepositAddress: async (coin: CoinType, chain: CHAIN) => {
-    const res = await fetchDepositAddressApi({ coin, chain });
-    if(res.data.result) {
-      set(state => ({
-        ...state,
-        depositAddress: res.data.result?.depositAddress
-      }));
-    }
+    const depositAddress = await fetchDepositAddressApi({ coin, chain });
+    depositAddress && set(state => ({
+      ...state,
+      depositAddress: depositAddress
+    }));
   },
 
   initial: async () => {
     await get().fetchAccounts();
     await get().fetchBalances();
     await get().fetchMarketPrices();
-    console.log("All data fetched in sequence");
   },
   fetchTransactionsHistory: async (queryParams) => {
     const res = await fetchTransactionsHistoryApi(queryParams);
-    if(res.data.result) {
+    if (res.data.result) {
       set(state => ({
         ...state,
         transactions: res.data.result ?? []
@@ -86,12 +87,10 @@ export const useFundStore = create<FundState>((set, get) => ({
     }
   },
   fetchMarketPrices: async () => {
-    const res = await fetchMarketPricesApi();
-    if(res.data.result) {
-      set(state => ({
-        ...state,
-        marketPrices: res.data.result
-      }));
-    }
+    const marketPrices = await fetchMarketPricesApi();
+    set(state => ({
+      ...state,
+      marketPrices,
+    }));
   }
 }));

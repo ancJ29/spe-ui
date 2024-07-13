@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import useTranslation from "@/hooks/useTranslation";
 import {
   ActionIcon,
   Box,
@@ -180,6 +181,7 @@ function TradeForm({ tradeType }: { tradeType: TradeType }) {
 }
 
 function BoxInfoTradeFoot() {
+  const t = useTranslation();
   const [isOf, setOff] = useState<boolean>(false);
   return (
     <Box className="space-y-20">
@@ -457,29 +459,38 @@ function BoxInfoTradeFoot() {
           },
         }}
       >
-        <AppButton styles={{
-          root: {
-            background: "light-dark(#e9edf3, #414347)",
-            color: "light-dark(black, white)"
-          }
-        }} size="xs">
+        <AppButton
+          styles={{
+            root: {
+              background: "light-dark(#e9edf3, #414347)",
+              color: "light-dark(black, white)",
+            },
+          }}
+          size="xs"
+        >
           Deposit
         </AppButton>
-        <AppButton styles={{
-          root: {
-            background: "light-dark(#e9edf3, #414347)",
-            color: "light-dark(black, white)"
-          }
-        }} size="xs">
+        <AppButton
+          styles={{
+            root: {
+              background: "light-dark(#e9edf3, #414347)",
+              color: "light-dark(black, white)",
+            },
+          }}
+          size="xs"
+        >
           Convert
         </AppButton>
-        <AppButton styles={{
-          root: {
-            background: "light-dark(#e9edf3, #414347)",
-            color: "light-dark(black, white)"
-          }
-        }} size="xs">
-          Transfer
+        <AppButton
+          styles={{
+            root: {
+              background: "light-dark(#e9edf3, #414347)",
+              color: "light-dark(black, white)",
+            },
+          }}
+          size="xs"
+        >
+          {t("Transfer")}
         </AppButton>
       </SimpleGrid>
       <Box h={"1"} className="border-bottom-dark"></Box>

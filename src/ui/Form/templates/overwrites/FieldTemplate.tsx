@@ -1,4 +1,4 @@
-import { InputLabel, Text } from "@mantine/core";
+import { Text } from "@mantine/core";
 import { FieldTemplateProps } from "@rjsf/utils";
 import clsx from "clsx";
 
@@ -13,10 +13,9 @@ export function FieldTemplate(props: FieldTemplateProps) {
     description,
     errors,
     children,
-    hidden
+    hidden,
   } = props;
-  console.log("FIELD",props);
-  if(hidden) {
+  if (hidden) {
     return <></>;
   }
   return (
@@ -24,10 +23,12 @@ export function FieldTemplate(props: FieldTemplateProps) {
       {props.displayLabel && (
         <Text component="label" htmlFor={id} fw={"bold"}>
           {label}
-          <span style={{ color: "red" }}>{required ? "*" : null}</span>
+          <span style={{ color: "red" }}>
+            {required ? "*" : null}
+          </span>
         </Text>
       )}
-      
+
       {description}
       {children}
       {errors}

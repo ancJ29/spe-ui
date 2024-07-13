@@ -18,10 +18,9 @@ const HistoryWrapper = ({
   children: React.ReactNode;
 }) => {
   const { data } = useMetadata();
-  const { initialAll } = useTradeStorageInfo();
+  const { reloadAll } = useTradeStorageInfo();
   useEffect(() => {
-    // setColorScheme("light");
-    initialAll();
+    reloadAll();
   }, []);
   return (
     <>
@@ -31,7 +30,7 @@ const HistoryWrapper = ({
           <Breadcrumbs
             separator={<IconChevronRight color="gray" size={14} />}
           >
-            <Anchor  fz={14} fw={400} href="/wallet">
+            <Anchor fz={14} fw={400} href="/wallet">
               Funding
             </Anchor>
             <Anchor fz={14} fw={400}>

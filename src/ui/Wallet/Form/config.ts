@@ -1,26 +1,18 @@
 import { chainByCoin, CoinType } from "@/domain/balance";
-import { DepositFormData, WithdrawFormData } from "@/types";
+import logger from "@/services/logger";
+import { SwapFormData, TransferAssetsFormData, WithdrawFormData } from "@/types";
 
-export function convertToDepositFormData(formData: DepositFormData) {
-  const k: CoinType = formData.coin;
-  const infoKey = k === "BTC" ? "infoBTC" : k === "ETH" ? "infoETH" : "infoUSDT";
+
+export function convertToSwapFormData(formData: SwapFormData) {
+  logger.debug("convertToSwapFormData", formData);
+  const symbol = formData.side === "SELL" ?
+    `${formData.symbolFrom}_${formData.symbolTo}_SPOT`
+    : `${formData.symbolTo}_${formData.symbolFrom}_SPOT`;
   return {
-    "fromAddress": formData[infoKey].fromAddress,
-    "txId": formData[infoKey].txId,
-    "walletAddress": formData[infoKey].walletAddress,
-    "amount": formData[infoKey].amount,
-    "coin": formData.coin,
-    "chain": chainByCoin[formData.coin]
-  };
-}
-
-
-export function convertToSwapFormData(formData: DepositFormData) {
-  return {
-    "accountId": formData.accountId,
-    "symbol": `${formData.symbolFrom}${formData.symbolTo}`,
-    "side": formData.side,
-    "volume": formData.volume
+    accountId: formData.accountId,
+    symbol,
+    side: formData.side,
+    volume: formData.volume.toString(),
   };
 }
 
@@ -36,6 +28,6 @@ export function convertToWithdrawFormData(formData: WithdrawFormData) {
   };
 }
 
-export function convertToTransferFormData(formData: WithdrawFormData) {
+export function convertToTransferFormData(formData: TransferAssetsFormData) {
   return formData;
 }

@@ -45,7 +45,7 @@ export function GridTradeSpot() {
   const [layouts, setLayouts] = useState(
     JSON.parse(
       (localStorage.getItem("layoutTrade") as string) ??
-      initialLayouts,
+        initialLayouts,
     ),
   );
   const onLayoutChange = useCallback(
@@ -464,28 +464,37 @@ function BoxInfoTradeFoot() {
           },
         }}
       >
-        <AppButton styles={{
-          root: {
-            background: "light-dark(#e9edf3, #414347)",
-            color: "light-dark(black, white)"
-          }
-        }} size="xs">
+        <AppButton
+          styles={{
+            root: {
+              background: "light-dark(#e9edf3, #414347)",
+              color: "light-dark(black, white)",
+            },
+          }}
+          size="xs"
+        >
           Deposit
         </AppButton>
-        <AppButton styles={{
-          root: {
-            background: "light-dark(#e9edf3, #414347)",
-            color: "light-dark(black, white)"
-          }
-        }} size="xs">
+        <AppButton
+          styles={{
+            root: {
+              background: "light-dark(#e9edf3, #414347)",
+              color: "light-dark(black, white)",
+            },
+          }}
+          size="xs"
+        >
           Convert
         </AppButton>
-        <AppButton styles={{
-          root: {
-            background: "light-dark(#e9edf3, #414347)",
-            color: "light-dark(black, white)"
-          }
-        }} size="xs">
+        <AppButton
+          styles={{
+            root: {
+              background: "light-dark(#e9edf3, #414347)",
+              color: "light-dark(black, white)",
+            },
+          }}
+          size="xs"
+        >
           Transfer
         </AppButton>
       </SimpleGrid>

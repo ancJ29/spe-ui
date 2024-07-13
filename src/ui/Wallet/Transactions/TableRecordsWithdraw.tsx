@@ -29,7 +29,7 @@ import { useState } from "react";
 import { WithdrawForm } from "../Form";
 
 export function TableRecordsWithdraw() {
-  const { transactions, initialAll } = useTradeStorageInfo();
+  const { transactions, reloadAll } = useTradeStorageInfo();
   const [opened, { open, close }] = useDisclosure(false);
   const [, setModalMode] = useState<ModalMode>();
   const openModal = (mode: ModalMode) => {
@@ -84,7 +84,7 @@ export function TableRecordsWithdraw() {
               <NumberFormat decimalPlaces={8} value={row.amount} />
             </Title>
             <Text c="dimmed" size="xs">
-              ≈ $<NumberFormat decimalPlaces={8} value={row.amount} />
+              ~ $<NumberFormat decimalPlaces={8} value={row.amount} />
             </Text>
           </>,
           <>
@@ -175,7 +175,7 @@ export function TableRecordsWithdraw() {
           >
             <IconX color="gray" />
           </ActionIcon>
-          <WithdrawForm onSubmit={initialAll} />
+          <WithdrawForm onSubmit={reloadAll} />
         </Box>
       </Modal>
     </>

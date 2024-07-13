@@ -1,13 +1,17 @@
-import { Sample } from "../Sample";
+import { t } from "@/common/utils";
+import { getDictionary } from "@/services/languages";
+import { FormSchema } from "@/types";
 
-const FundTransferSchema: Sample = {
+const dictionary = getDictionary();
+
+const TransferSchema: FormSchema = {
   schema: {
     definitions: {
       coin: {
         type: "string",
         enum: ["USDT", "BTC", "ETH"],
         default: "USDT",
-        title: "Choose coin to transfer"
+        title: t(dictionary, "Choose coin to transfer")
       },
     },
     properties: {
@@ -16,18 +20,17 @@ const FundTransferSchema: Sample = {
       },
       fromAccountId: {
         type: "string",
-        title: "From account transfer"
+        title: t(dictionary, "From account"),
       },
       toAccountId: {
         type: "string",
-        title: "To account transfer"
+        title: t(dictionary, "To account"),
       },
       amount: {
         type: "number",
-        title: "Amount",
+        title: t(dictionary, "Amount"),
         minimum: 0.01
       },
-
     },
     required: ["coin", "fromAccountId", "toAccountId", "amount"],
 
@@ -42,9 +45,8 @@ const FundTransferSchema: Sample = {
       submitButtonOptions: {
         props: {
           fullWidth: true,
-          size: "lg",
         },
-        submitText: "Submit",
+        submitText: t(dictionary, "Submit"),
       },
       label: false,
       classNames: "grid-form-root gap-15",
@@ -58,31 +60,29 @@ const FundTransferSchema: Sample = {
     "fromAccountId": {
       "ui:options": {
         label: false,
-        widget: "SelectAccountWalletWidget"
+        widget: "SelectAccountWidget"
       }
     },
     "toAccountId": {
       "ui:options": {
         label: false,
-        widget: "SelectAccountWalletWidget"
+        widget: "SelectAccountWidget"
       }
     },
     "amount": {
       "ui:options": {
         label: false,
-        widget: "AmountToSendWidget",
+        widget: "AmountToTransferWidget",
         props: {
           placeholder: "Min 0.01",
         },
       }
     },
-       
+
 
   },
   formData: {
-
   }
 };
 
-export default FundTransferSchema;
-
+export default TransferSchema;

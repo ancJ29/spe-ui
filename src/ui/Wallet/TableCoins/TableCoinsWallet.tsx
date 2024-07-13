@@ -1,83 +1,148 @@
-import { CoinType, iconsByCoin, ModalMode, textByCoin } from "@/domain/balance";
+import {
+  CoinType,
+  iconsByCoin,
+  ModalMode,
+  textByCoin,
+} from "@/domain/balance";
+import useTranslation from "@/hooks/useTranslation";
 import { useTradeStorageInfo } from "@/services/tradeAdapter";
 import { NoDataRecord } from "@/ui/NoData";
 import NumberFormat from "@/ui/NumberFormat";
-import { ActionIcon, Box, Button, Flex, Image, Modal, ScrollArea, Table, TableData, Text, Title } from "@mantine/core";
+import {
+  ActionIcon,
+  Box,
+  Button,
+  Flex,
+  Image,
+  Modal,
+  ScrollArea,
+  Table,
+  TableData,
+  Text,
+  Title,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconX } from "@tabler/icons-react";
 import { useMemo, useState } from "react";
-import { DepositForm, SwapForm, TransferForm, WithdrawForm } from "../Form";
+import {
+  DepositForm,
+  SwapForm,
+  TransferForm,
+  WithdrawForm,
+} from "../Form";
 
 export function TableCoinsWallet() {
-  const { balances, initialAll } = useTradeStorageInfo();
+  const t = useTranslation();
+  const { accounts, balances, reloadAll } = useTradeStorageInfo();
   const [modalMode, setModalMode] = useState<ModalMode>();
   const [opened, { open, close }] = useDisclosure(false);
-  
-  const rows = useMemo(() => {
-    return balances.balances.filter(i => i.name === "FUNDING ACCOUNT");
-  }, [balances.balances]);
-  
-  const openModal = (mode: ModalMode) => {
-    setModalMode(mode);
-    open();
-  };
-  
-  const tableData: TableData = {
-    head: ["Coin", "Available", "Frozen", "BTC Valuation", "Actions"],
-    body: [
-      ...rows.map((row) => {
-        return [
-          <>
-            <Flex align={"center"} gap={10}>
-              <Box>
-                <Image w={30} h={30} src={iconsByCoin[row.coin as CoinType]} />
-              </Box>
-              <Box>
-                <Title order={6}>{row.coin}</Title>
-                <Text c="dimmed">{textByCoin[row.coin as CoinType]}</Text>
-              </Box>
-            </Flex>
-          </>,
-          <>
-            <Title order={6}>
-              <NumberFormat decimalPlaces={8} value={row.amount} />
-            </Title>
-            <Text c="dimmed" size="xs">
-                ≈ ${<NumberFormat decimalPlaces={8} value={row.amount} />}
-            </Text>
-          </>,
-          <>
-            <Title order={6}>
-              {<NumberFormat decimalPlaces={8} value={row.locked} />}
-            </Title>
-            <Text c="dimmed" size="xs">
-                ≈ ${<NumberFormat decimalPlaces={8} value={row.locked} />}
-            </Text>
-          </>,
-          <>
-            <Title order={6}>
-              {<NumberFormat decimalPlaces={8} value={row.locked} />}
-            </Title>
-            <Text c="dimmed" size="xs">
-                ≈ ${<NumberFormat decimalPlaces={8} value={row.locked} />}
-            </Text>
-          </>
-          ,
-          <>
-            <Flex gap={8}>
-              <Button onClick={() => openModal("DEPOSIT")} p={0} size="xs" variant="transparent">Deposit</Button>
-              <Button onClick={() => openModal("SWAP")} p={0} size="xs" variant="transparent" >Swap</Button>
-              <Button onClick={() => openModal("WITHDRAW")} p={0} size="xs" variant="transparent">Widthdraw</Button>
-              <Button p={0} size="xs" variant="transparent">Address</Button>
-              <Button onClick={() => openModal("TRANSFER")} p={0} size="xs" variant="transparent">Transfer</Button>
-            </Flex>
-          </>
-        ];
-      }),
-    ],
-  };
-  
-  
+
+  const tableData: TableData = useMemo(() => {
+    const openModal = (mode: ModalMode) => {
+      setModalMode(mode);
+      open();
+    };
+    const accountId = accounts.find((el) => el.isFunding)?.id;
+    const rows = accountId
+      ? balances.filter((el) => el.accountId === accountId)
+      : [];
+    return {
+      head: [
+        "Coin",
+        "Available",
+        "Frozen",
+        "BTC Valuation",
+        "Actions",
+      ].map((el) => t(el)),
+      body: rows.map((row) => [
+        <>
+          <Flex align={"center"} gap={10}>
+            <Box>
+              <Image
+                w={30}
+                h={30}
+                src={iconsByCoin[row.coin as CoinType]}
+              />
+            </Box>
+            <Box>
+              <Title order={6}>{row.coin}</Title>
+              <Text c="dimmed">
+                {textByCoin[row.coin as CoinType]}
+              </Text>
+            </Box>
+          </Flex>
+        </>,
+        <>
+          <Title order={6}>
+            <NumberFormat decimalPlaces={8} value={row.amount} />
+          </Title>
+          <Text c="dimmed" size="xs">
+            ~ $
+            {<NumberFormat decimalPlaces={3} value={row.usdValue} />}
+          </Text>
+        </>,
+        <>
+          <Title order={6}>
+            {<NumberFormat decimalPlaces={8} value={row.locked} />}
+          </Title>
+          <Text c="dimmed" size="xs">
+            ~ $
+            {
+              <NumberFormat
+                decimalPlaces={3}
+                value={row.lockedUsdValue}
+              />
+            }
+          </Text>
+        </>,
+        <>
+          <Title order={6}>
+            {<NumberFormat decimalPlaces={8} value={row.btcValue} />}
+          </Title>
+        </>,
+        <>
+          <Flex gap={8}>
+            <Button
+              onClick={() => openModal("DEPOSIT")}
+              p={0}
+              size="xs"
+              variant="transparent"
+            >
+              {t("Deposit")}
+            </Button>
+            <Button
+              onClick={() => openModal("SWAP")}
+              p={0}
+              size="xs"
+              variant="transparent"
+            >
+              {t("Swap")}
+            </Button>
+            <Button
+              onClick={() => openModal("WITHDRAW")}
+              p={0}
+              size="xs"
+              variant="transparent"
+            >
+              {t("Withdraw")}
+            </Button>
+            {/* <Button p={0} size="xs" variant="transparent">
+              {t("Address")}
+            </Button> */}
+            <Button
+              onClick={() => openModal("TRANSFER")}
+              p={0}
+              size="xs"
+              variant="transparent"
+            >
+              {t("Transfer")}
+            </Button>
+          </Flex>
+        </>,
+      ]),
+    };
+  }, [accounts, balances, open, t]);
+
   return (
     <>
       <Box h={"100%"}>
@@ -92,13 +157,11 @@ export function TableCoinsWallet() {
             styles={{
               th: {
                 whiteSpace: "nowrap",
-                fontSize: "12px"
-              }
+                fontSize: "12px",
+              },
             }}
           />
-          <>
-            {rows.length === 0 && <NoDataRecord />}
-          </>
+          <>{tableData.body?.length === 0 && <NoDataRecord />}</>
         </Table.ScrollContainer>
       </Box>
       <Modal
@@ -122,7 +185,7 @@ export function TableCoinsWallet() {
             background: "none",
             boxShadow: "none",
             // overflow: "hidden"
-          }
+          },
         }}
         scrollAreaComponent={ScrollArea.Autosize}
       >
@@ -136,16 +199,22 @@ export function TableCoinsWallet() {
             top={30}
             styles={{
               root: {
-                zIndex: 2
-              }
+                zIndex: 2,
+              },
             }}
           >
             <IconX color="gray" />
           </ActionIcon>
-          {modalMode == "DEPOSIT" && <DepositForm maw={"100%"} onSubmit={initialAll} />}
-          {modalMode == "SWAP" && <SwapForm onSubmit={initialAll} />}
-          {modalMode == "TRANSFER" && <TransferForm onSubmit={initialAll} />}
-          {modalMode == "WITHDRAW" && <WithdrawForm onSubmit={initialAll} />}
+          {modalMode == "DEPOSIT" && (
+            <DepositForm maw={"100%"} onClose={close} />
+          )}
+          {modalMode == "SWAP" && <SwapForm onSubmit={reloadAll} />}
+          {modalMode == "TRANSFER" && (
+            <TransferForm onSubmit={reloadAll} />
+          )}
+          {modalMode == "WITHDRAW" && (
+            <WithdrawForm onSubmit={reloadAll} />
+          )}
         </Box>
       </Modal>
     </>

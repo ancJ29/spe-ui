@@ -1,4 +1,3 @@
-import { Balance } from "@/domain/balance";
 import { Language } from "@/services/languages";
 import { create } from "zustand";
 

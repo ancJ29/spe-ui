@@ -1,6 +1,30 @@
 
 import { CHAIN, CoinType, TRANSACTION_TYPE } from "@/domain/balance";
 
+type WithdrawInfoFormData = {
+  chain: string;
+  address: string;
+  amount: number;
+};
+
+export type WithdrawFormData = {
+  coin: CoinType;
+  chain: CHAIN;
+  address: string;
+  amount: number;
+  infoBTC: WithdrawInfoFormData;
+  infoETH: WithdrawInfoFormData;
+  infoUSDT: WithdrawInfoFormData;
+};
+
+export type SwapFormData = {
+  accountId: string
+  symbolFrom: string
+  symbolTo: string
+  side: string
+  volume: number
+};
+
 export type DepositFormData = {
   fromAddress: string
   txId: string
@@ -34,16 +58,6 @@ export type GetAccountsFormData = {
   amount: string | number
   fromAccountId: string
   toAccountId: string
-};
-
-export type WithdrawFormData = {
-  coin: CoinType
-  chain: CHAIN,
-  address: string,
-  amount: number,
-  infoBTC: WithdrawFormData
-  infoETH: WithdrawFormData
-  infoUSDT: WithdrawFormData
 };
 
 export type TransferFormData = {

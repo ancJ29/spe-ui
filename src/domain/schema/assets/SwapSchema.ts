@@ -1,7 +1,7 @@
-import { CoinsAsName, SwapSideAsName, swapSides, swapSymbols } from "@/domain/marketPrice";
-import { Sample } from "../Sample";
+import { CoinsAsName, SwapSideAsName, swapSides } from "@/domain/marketPrice";
+import { FormSchema } from "@/types";
 
-const FundSwapSchema: Sample = {
+const SwapSchema: FormSchema = {
   schema: {
     properties: {
       accountId: {
@@ -13,7 +13,6 @@ const FundSwapSchema: Sample = {
         default: swapSides[0]
       },
     },
-    
     dependencies: {
       side: {
         oneOf: [
@@ -70,8 +69,6 @@ const FundSwapSchema: Sample = {
         ]
       }
     }
-
-
   },
   uiSchema: {
     "ui:order": [
@@ -88,16 +85,15 @@ const FundSwapSchema: Sample = {
       submitText: "Swap",
       props: {
         fullWidth: true,
-        size: "lg",
       },
     },
-    "symbolTo": {
+    "symbolFrom": {
       "ui:options": {
         widget: "CoinSwapWidget",
         label: false
       }
     },
-    "symbolFrom": {
+    "symbolTo": {
       "ui:options": {
         widget: "CoinSwapWidget",
         label: false
@@ -115,27 +111,24 @@ const FundSwapSchema: Sample = {
         label: false
       }
     },
+    "infoPrice": {
+      "ui:options": {
+        widget: "MarketPriceInfoWidget",
+        label: false
+      }
+    },
     "accountId": {
       "ui:options": {
         widget: "FundingAccountWidget",
         label: false
       }
     },
-    "infoPrice": {
-      "ui:options": {
-        widget: "MarketPriceInfoWidget",
-        label: false
-      }
-    }
-    
-
   },
   formData: {
     "accountId": "{{FUNDING_ACCOUNT_ID}}",
-    "symbol": "BTC_USDT_SPOT",
-    "side": "BUY",
+    "side": "SELL",
     "volume": "0.1"
   }
 };
 
-export default FundSwapSchema;
+export default SwapSchema;

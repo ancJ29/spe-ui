@@ -1,5 +1,5 @@
+import { schema } from "@/domain/schema";
 import AppForm from "@/ui/Form/Form";
-import { samples } from "@/ui/Form/Sample";
 import { Box } from "@mantine/core";
 import { useRef } from "react";
 
@@ -18,10 +18,10 @@ export function CreateOrderTradeByLimitForm({
         <AppForm
           w={"100%"}
           ref={formRef}
-          schema={samples.NewOrderOfLimitTradeSchema.schema}
-          uiSchema={samples.NewOrderOfLimitTradeSchema.uiSchema}
+          schema={schema.NewOrderOfLimitTradeSchema.schema}
+          uiSchema={schema.NewOrderOfLimitTradeSchema.uiSchema}
           formData={{
-            ...samples.NewOrderOfLimitTradeSchema.formData,
+            ...schema.NewOrderOfLimitTradeSchema.formData,
             price: 1,
           }}
           onSubmit={({ formData }) => {
@@ -47,10 +47,10 @@ export function CreateOrderTradeByMarketForm({
         <AppForm
           w={"100%"}
           ref={formRef}
-          schema={samples.NewOrderOfMarketTradeSchema.schema}
-          uiSchema={samples.NewOrderOfMarketTradeSchema.uiSchema}
+          schema={schema.NewOrderOfMarketTradeSchema.schema}
+          uiSchema={schema.NewOrderOfMarketTradeSchema.uiSchema}
           formData={{
-            ...samples.NewOrderOfMarketTradeSchema.formData,
+            ...schema.NewOrderOfMarketTradeSchema.formData,
           }}
           onSubmit={({ formData }) => {
             if (props.onSubmit) {
@@ -75,10 +75,10 @@ export function CreateOrderTradeByConditionalForm({
         <AppForm
           w={"100%"}
           ref={formRef}
-          schema={samples.NewOrderOfConditionalTradeSchema.schema}
-          uiSchema={samples.NewOrderOfConditionalTradeSchema.uiSchema}
+          schema={schema.NewOrderOfConditionalTradeSchema.schema}
+          uiSchema={schema.NewOrderOfConditionalTradeSchema.uiSchema}
           formData={{
-            ...samples.NewOrderOfConditionalTradeSchema.formData,
+            ...schema.NewOrderOfConditionalTradeSchema.formData,
           }}
           onSubmit={({ formData }) => {
             if (props.onSubmit) {

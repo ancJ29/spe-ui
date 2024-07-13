@@ -1,13 +1,17 @@
-import { Sample } from "../Sample";
+import { t } from "@/common/utils";
+import { getDictionary } from "@/services/languages";
+import { FormSchema } from "@/types";
 
-const FundWithdrawSchema: Sample = {
+const dictionary = getDictionary();
+
+const WithdrawSchema: FormSchema = {
   schema: {
     definitions: {
       coin: {
         type: "string",
         enum: ["USDT", "BTC", "ETH"],
         default: "USDT",
-        title: "Choose coin to withdraw"
+        title: t(dictionary, "Choose coin to withdraw"),
       },
       qrcode: {
         type: "string",
@@ -20,12 +24,12 @@ const FundWithdrawSchema: Sample = {
       },
       address: {
         type: "string",
-        title: "Address",
-        default: "0x12131"
+        title: t(dictionary, "Address"),
+        default: "",
       },
       amount: {
         type: "number",
-        title: "Amount",
+        title: t(dictionary, "Amount"),
         minimum: 0.01
       },
       infoETH: {
@@ -34,9 +38,9 @@ const FundWithdrawSchema: Sample = {
         properties: {
           chain: {
             type: "string",
-            enum: ["ETH"],
-            default: "ETH",
-            title: "Chain"
+            enum: ["Ethereum", "Binance Smart Chain"],
+            default: "Ethereum",
+            title: t(dictionary, "Chain"),
           },
           amount: {
             $ref: "#/definitions/amount",
@@ -53,9 +57,9 @@ const FundWithdrawSchema: Sample = {
         properties: {
           chain: {
             type: "string",
-            enum: ["BTC"],
-            default: "BTC",
-            title: "Chain"
+            enum: ["Bitcoin"],
+            default: "Bitcoin",
+            title: t(dictionary, "Chain"),
           },
           amount: {
             $ref: "#/definitions/amount",
@@ -73,9 +77,9 @@ const FundWithdrawSchema: Sample = {
         properties: {
           chain: {
             type: "string",
-            enum: ["TRC20", "SOLANA", "POLYGON", "ERC20"],
-            default: "TRC20",
-            title: "Chain"
+            enum: ["Ethereum", "Binance Smart Chain"],
+            default: "Ethereum",
+            title: t(dictionary, "Chain"),
           },
           amount: {
             $ref: "#/definitions/amount",
@@ -155,9 +159,8 @@ const FundWithdrawSchema: Sample = {
       submitButtonOptions: {
         props: {
           fullWidth: true,
-          size: "lg",
         },
-        submitText: "Submit",
+        submitText: t(dictionary, "Submit"),
       },
       label: false,
       classNames: "grid-form-root gap-15",
@@ -180,17 +183,17 @@ const FundWithdrawSchema: Sample = {
       },
       address: {
         "ui:options": {
-          widget: "EnterAddressWidget",
+          widget: "WithdrawAddressWidget",
           label: false,
           props: {
-            placeholder: "Enter address"
+            placeholder: t(dictionary, "Please enter address"),
           }
         }
       },
       amount: {
         "ui:options": {
           label: false,
-          widget: "AmountToSendWidget",
+          widget: "AmountToWithdrawWidget",
           props: {
             placeholder: "Min 0.01",
           },
@@ -210,17 +213,17 @@ const FundWithdrawSchema: Sample = {
       },
       address: {
         "ui:options": {
-          widget: "EnterAddressWidget",
+          widget: "WithdrawAddressWidget",
           label: false,
           props: {
-            placeholder: "Enter address"
+            placeholder: t(dictionary, "Please enter address"),
           }
         }
       },
       amount: {
         "ui:options": {
           label: false,
-          widget: "AmountToSendWidget",
+          widget: "AmountToWithdrawWidget",
           props: {
             placeholder: "Min 0.01",
           },
@@ -239,17 +242,17 @@ const FundWithdrawSchema: Sample = {
       },
       address: {
         "ui:options": {
-          widget: "EnterAddressWidget",
+          widget: "WithdrawAddressWidget",
           label: false,
           props: {
-            placeholder: "Enter address"
+            placeholder: t(dictionary, "Please enter address"),
           }
         }
       },
       amount: {
         "ui:options": {
           label: false,
-          widget: "AmountToSendWidget",
+          widget: "AmountToWithdrawWidget",
           props: {
             placeholder: "Min 0.01",
           },
@@ -263,4 +266,4 @@ const FundWithdrawSchema: Sample = {
   }
 };
 
-export default FundWithdrawSchema;
+export default WithdrawSchema;

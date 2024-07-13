@@ -1,9 +1,9 @@
+import logger from "@/services/logger";
+import { useMantineColorScheme } from "@mantine/core";
 import { ResolutionString } from "public/tv/charting_library";
 import { useEffect, useRef, useState } from "react";
 import dataFeed from "./data-feed";
-import { useMantineColorScheme } from "@mantine/core";
-import logger from "@/services/logger";
-type theme = "Light" | "Dark"
+type theme = "Light" | "Dark";
 export const TVChart = ({
   base = "BTC",
   quote = "USDT",
@@ -35,7 +35,7 @@ export const TVChart = ({
         symbol,
         drawings_access: {
           type: "white",
-          tools: []
+          tools: [],
         },
         locale: "en",
         library_path: "/tv/charting_library/",
@@ -60,23 +60,22 @@ export const TVChart = ({
           "symbollist_context_menu", // cspell: disable-line
           "auto_enable_symbol_labels",
         ],
-        // custom_css_url: '../themed.css',
-      })
-      wg.onChartReady((...res) => {
-        wg.changeTheme(colorScheme as theme)
-      })
+      });
+      wg.onChartReady(() => {
+        wg.changeTheme(colorScheme as theme);
+      });
       setWidget(wg);
       return () => widget && widget.remove();
     }
-  }, [base, isSpot, theme, colorScheme, quote]);
+  }, [base, isSpot, theme, colorScheme, quote, widget]);
 
   useEffect(() => {
     try {
-      widget.changeTheme(colorScheme as theme)
-    }catch(e: any) {
-      logger.debug(e.message)
+      widget.changeTheme(colorScheme as theme);
+    } catch (e: unknown) {
+      logger.debug(e);
     }
-  }, [colorScheme])
+  }, [colorScheme, widget]);
 
   return (
     <>

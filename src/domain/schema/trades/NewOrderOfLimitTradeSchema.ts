@@ -1,6 +1,6 @@
-import { Sample } from "../Sample";
+import { FormSchema } from "@/types";
 
-const NewOrderOfConditionalTradeSchema: Sample = {
+const NewOrderOfLimitTradeSchema: FormSchema = {
   schema: {
     type: "object",
     properties: {
@@ -8,101 +8,101 @@ const NewOrderOfConditionalTradeSchema: Sample = {
         type: "string",
         readOnly: true,
       },
-      type: {
-        type: "string",
-        enum: ["MARKET", "LIMIT"],
-        default: "MARKET",
-        readOnly: true,
-      },
       symbolId: {
         type: "string",
         readOnly: true,
       },
-      triggerPrice: {
-        type: "string",
-        title: "Trigger Price",
-      },
-      triggerBy: {
-        type: "string",
-        enum: ["MARK", "LAST", "INDEX"],
-        default: "MARK",
-        title: "",
-      },
-
-      uiOrderPriceBy: {
+      type: {
         type: "string",
         enum: ["MARKET", "LIMIT"],
         default: "LIMIT",
-        title: "",
+        readOnly: true,
       },
       volume: {
         type: "string",
         title: "Volume"
+      },
+      price: {
+        type: "string",
       },
       leverage: {
         type: "number",
         enum: [10, 25, 50, 75, 100],
         default: 0,
       },
+      timeInForce: {
+        type: "string",
+        enum: ["GTC", "IOC", "FOK"],
+        default: "GTC",
+      },
+      postOnly: {
+        type: "boolean",
+        default: false,
+      },
+      reduceOnly: {
+        type: "boolean",
+        default: false,
+      },
+
       clientOrderId: {
         type: "string",
         readOnly: true,
       },
       // only ui
-      uiIsTpAndSl: {
+      isTpAndSl: {
         type: "boolean",
         default: false,
       },
-      uiGroupActions: {
+      groupActions: {
         type: "string",
         readOnly: true,
       },
-      uiCalcInfoPrice: {
+      calcInfoPrice: {
         type: "string",
         readOnly: true,
       },
     },
-    if: {
-      properties: {
-        uiOrderPriceBy: {
-          const: "MARKET",
-        },
-      },
-    },
-    then: {
-      properties: {
-        price: {
-          type: "string",
-          title: "Order Price",
-          readOnly: true,
-        },
-      },
-    },
-    else: {
-      properties: {
-        price: {
-          type: "string",
-          title: "Order Price",
-        },
-      },
-    },
+    // if: {
+    //   properties: {
+    //     isTpAndSl: {
+    //       const: true
+    //     }
+    //   }
+    // },
+    // then: {
+    //   properties: {
+    //     takeProfit: {
+    //       type: "string"
+    //     },
+    //     takeProfitTriggerBy: {
+    //       type: "string",
+    //       enum: ["MARK", "LAST", "INDEX"],
+    //       default: "MARK"
+    //     },
+    //     stopLoss: {
+    //       type: "string",
+    //     },
+    //     stopLossTriggerBy: {
+    //       type: "string",
+    //       enum: ["MARK", "LAST", "INDEX"],
+    //       default: "MARK"
+    //     },
+    //   }
+    // },
     required: ["accountId", "symbolId", "side", "type", "volume"],
   },
   uiSchema: {
     "ui:order": [
-      "triggerPrice",
-      "triggerBy",
       "price",
-      "uiOrderPriceBy",
       "volume",
       "leverage",
-      "uiCalcInfoPrice",
-      "uiIsTpAndSl",
+      "calcInfoPrice",
+      "isTpAndSl",
       "takeProfit",
       "takeProfitTriggerBy",
       "stopLoss",
       "stopLossTriggerBy",
-      "uiGroupActions",
+      "groupActions",
       "postOnly",
       "timeInForce",
       "reduceOnly",
@@ -127,30 +127,8 @@ const NewOrderOfConditionalTradeSchema: Sample = {
     },
     "price": {
       "ui:options": {
-        widget: "OrderPriceConditionalWidget",
+        widget: "OrderPriceWidget",
         label: false,
-        classNames: "span-15",
-      },
-    },
-    "uiOrderPriceBy": {
-      "ui:options": {
-        widget: "OrderByPriceByWidget",
-        label: false,
-        classNames: "span-9",
-      },
-    },
-    "triggerPrice": {
-      "ui:options": {
-        widget: "TriggerPriceNoLastWidget",
-        label: false,
-        classNames: "span-15",
-      },
-    },
-    "triggerBy": {
-      "ui:options": {
-        widget: "TakeProfitTriggerByWidget",
-        label: false,
-        classNames: "span-9",
       },
     },
     "volume": {
@@ -180,7 +158,7 @@ const NewOrderOfConditionalTradeSchema: Sample = {
         classNames: "span-12",
       },
     },
-    "uiIsTpAndSl": {
+    "isTpAndSl": {
       "ui:options": {
         widget: "TPandSLModalWidget",
         label: false,
@@ -200,7 +178,6 @@ const NewOrderOfConditionalTradeSchema: Sample = {
         classNames: "span-9",
       },
     },
-
     "stopLossTriggerBy": {
       "ui:options": {
         widget: "StopLossTriggerByWidget",
@@ -216,7 +193,7 @@ const NewOrderOfConditionalTradeSchema: Sample = {
       },
     },
 
-    "uiGroupActions": {
+    "groupActions": {
       "ui:options": {
         widget: "LongShortButtonsWidget",
         label: false,
@@ -228,7 +205,7 @@ const NewOrderOfConditionalTradeSchema: Sample = {
         label: false,
       },
     },
-    "uiCalcInfoPrice": {
+    "calcInfoPrice": {
       "ui:options": {
         widget: "CalcInfoPriceWidget",
         label: false,
@@ -267,4 +244,4 @@ const NewOrderOfConditionalTradeSchema: Sample = {
 // | `stopLossTriggerBy`   | `string`  |          |         | Enum: `MARK`, `LAST`, `INDEX` |
 // | `clientOrderId`       | `string`  |          |         |                               |
 
-export default NewOrderOfConditionalTradeSchema;
+export default NewOrderOfLimitTradeSchema;

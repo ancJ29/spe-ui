@@ -1,7 +1,7 @@
+import { FormSchema } from "@/types";
 import { REGEX } from "@/utils/regex";
-import { Sample } from "../Sample";
 
-const SignUpSchema: Sample = {
+const SignUpSchema: FormSchema = {
   schema: {
     definitions: {
       PhoneNumber: {

@@ -1040,7 +1040,7 @@ function TabsUI() {
                 bg={mode == 1 ? "" : "gray.1"}
                 c={mode == 1 ? "" : "gray"}
               >
-                All
+                {t("All")}
               </AppButton>
             </Grid.Col>
             <Grid.Col span={4}>
@@ -1411,11 +1411,12 @@ function TabsUI() {
 }
 
 import AppChart from "@/ui/Chart/Chart";
+import { Header } from "@/ui/Header";
 import { shuffleArray } from "@/utils";
 import { Table, TableData } from "@mantine/core";
 import _ from "lodash";
 import { getSeriesValue } from "./config";
-import { Header } from "@/ui/Header";
+import { t } from "@/common/utils";
 
 const tableData = (): TableData => {
   const _items = [

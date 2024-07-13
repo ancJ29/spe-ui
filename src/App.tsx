@@ -22,11 +22,13 @@ const App = () => {
           if (res.data.code !== 0) {
             delete localStorage.__TOKEN__;
             delete sessionStorage.__TOKEN__;
+            sessionStorage.clear();
           }
         })
         .catch(() => {
           delete localStorage.__TOKEN__;
           delete sessionStorage.__TOKEN__;
+          sessionStorage.clear();
         })
         .finally(() => {
           setLoaded(true);

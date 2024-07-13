@@ -10,16 +10,14 @@ const ServiceWrapper = ({
   children: React.ReactNode;
 }) => {
   const { data } = useMetadata();
-  const { initialAll } = useTradeStorageInfo();
+  const { reloadAll } = useTradeStorageInfo();
   useEffect(() => {
-    initialAll();
+    reloadAll();
   }, []);
   return (
     <>
       <Header metadata={data} />
-      <Box h={"100%"}>
-        {children}
-      </Box>
+      <Box h={"100%"}>{children}</Box>
     </>
   );
 };

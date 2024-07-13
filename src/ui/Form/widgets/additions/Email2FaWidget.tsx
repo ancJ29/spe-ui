@@ -31,12 +31,14 @@ export const TextEmailWidget = function (props: WidgetProps) {
 const onChange = debounceBuilder(
   (
     value: string,
-    updateField: (key: string, value: boolean | undefined) => void,
+    updateFields: (updated: Record<string, unknown>) => void,
     doCheck2FA: (email: string) => void,
   ) => {
     if (value === "") {
-      updateField("email.email", undefined);
-      updateField("email.is2fa", false);
+      updateFields({
+        "email.email": "",
+        "email.is2fa": false,
+      });
     } else {
       doCheck2FA(value);
     }
@@ -49,9 +51,11 @@ export function TextEmail2FaWidget({
   uiSchema,
   rawErrors,
   options,
-  formContext: { updateField, value },
+  formContext: { updateFields, formData },
 }: WidgetProps) {
-  const [text, setText] = useState<string>(value);
+  const [text, setText] = useState<string>(
+    formData.email?.email || "",
+  );
   const [loading, setLoading] = useState<boolean>(false);
   const doCheck2FA = useCallback(
     (_email: string) => {
@@ -60,8 +64,10 @@ export function TextEmail2FaWidget({
         setLoading(true);
         checkMfa({ email, type: 1 })
           .then(({ hasMfa }) => {
-            updateField("email.email", email);
-            updateField("email.is2fa", hasMfa);
+            updateFields({
+              "email.email": email,
+              "email.is2fa": hasMfa,
+            });
           })
           .catch(() => {
             // console.log(err);
@@ -71,16 +77,16 @@ export function TextEmail2FaWidget({
         // console.log(e.message);
       }
     },
-    [updateField],
+    [updateFields],
   );
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const value = event.target?.value || "";
       setText(value);
-      onChange(value, updateField, doCheck2FA);
+      onChange(value, updateFields, doCheck2FA);
     },
-    [doCheck2FA, updateField],
+    [doCheck2FA, updateFields],
   );
 
   return (

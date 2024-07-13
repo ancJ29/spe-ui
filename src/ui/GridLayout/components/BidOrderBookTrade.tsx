@@ -184,11 +184,15 @@ export function BidOrderBookTrade() {
                         align={"center"}
                         justify={"end"}
                       >
-                        <Text fz={12} styles={{
-                          root: {
-                            color: "light-dark(#121214, #fff)"
-                          }
-                        }} fw={500}>
+                        <Text
+                          fz={12}
+                          styles={{
+                            root: {
+                              color: "light-dark(#121214, #fff)"
+                            }
+                          }}
+                          fw={500}
+                        >
                           <NumberFormatter
                             thousandSeparator
                             value={(Math.random() * 10e6).toFixed(2)}
@@ -217,11 +221,14 @@ export function BidOrderBookTrade() {
                           align={"center"}
                           justify={"end"}
                         >
-                          <Text fz={12} styles={{
-                            root: {
-                              color: "light-dark(#121214, #fff)"
-                            }
-                          }}>
+                          <Text
+                            fz={12}
+                            styles={{
+                              root: {
+                                color: "light-dark(#121214, #fff)"
+                              }
+                            }}
+                          >
                             {/* <NumberFormatter
                                 decimalSeparator=","
                                 value={Math.random() * 10e6}
@@ -290,7 +297,7 @@ export function BidOrderBookTrade() {
                   transform: "translateY(-50%)",
                   clipPath:
                     "polygon(0 0, 100% 0, calc(100% - 5px) 100%, 0% 100%)",
-                    background: "light-dark(#e7f6ed, #172b23)"
+                  background: "light-dark(#e7f6ed, #172b23)"
                 }}
               />
               <Box
@@ -303,7 +310,7 @@ export function BidOrderBookTrade() {
                   transform: "translateY(-50%)",
                   clipPath:
                     "polygon(calc(0% + 5px) 0, 100% 0, 100% 100%, 0% 100%)",
-                    background: "light-dark(#feeaea, #35191e)"
+                  background: "light-dark(#feeaea, #35191e)"
                 }}
               />
               <Flex
@@ -499,11 +506,14 @@ export function AskOrderBookTrade() {
                         align={"center"}
                         justify={"end"}
                       >
-                        <Text fz={12} styles={{
-                          root: {
-                            color: "light-dark(#484849, #fff)"
-                          }
-                        }}>
+                        <Text
+                          fz={12}
+                          styles={{
+                            root: {
+                              color: "light-dark(#484849, #fff)"
+                            }
+                          }}
+                        >
                           <NumberFormatter
                             thousandSeparator
                             value={(Math.random() * 10e6).toFixed(2)}
@@ -532,11 +542,14 @@ export function AskOrderBookTrade() {
                           align={"center"}
                           justify={"end"}
                         >
-                          <Text fz={12} styles={{
-                          root: {
-                            color: "light-dark(#484849, #fff)"
-                          }
-                        }}>
+                          <Text
+                            fz={12}
+                            styles={{
+                              root: {
+                                color: "light-dark(#484849, #fff)"
+                              }
+                            }}
+                          >
                             {/* <NumberFormatter
                                 decimalSeparator=","
                                 value={Math.random() * 10e6}
@@ -559,31 +572,43 @@ export function AskOrderBookTrade() {
                 <Box className="space-y-5">
                   <Flex justify={"space-between"}>
                     <Text fz={12}>Avg. Price</Text>
-                    <Text fz={12} fw={"bold"} styles={{
-                          root: {
-                            color: "light-dark(#484849, #fff)"
-                          }
-                        }}>
+                    <Text
+                      fz={12}
+                      fw={"bold"}
+                      styles={{
+                        root: {
+                          color: "light-dark(#484849, #fff)"
+                        }
+                      }}
+                    >
                       = 61,423.93
                     </Text>
                   </Flex>
                   <Flex justify={"space-between"}>
                     <Text fz={12}>Total Qty (BTC)</Text>
-                    <Text fz={12} fw={"bold"} styles={{
-                          root: {
-                            color: "light-dark(#484849, #fff)"
-                          }
-                        }}>
+                    <Text
+                      fz={12}
+                      fw={"bold"}
+                      styles={{
+                        root: {
+                          color: "light-dark(#484849, #fff)"
+                        }
+                      }}
+                    >
                       0.885551
                     </Text>
                   </Flex>
                   <Flex justify={"space-between"}>
                     <Text fz={12}>Total Qty (USDT)</Text>
-                    <Text fz={12} fw={"bold"} styles={{
-                          root: {
-                            color: "light-dark(#484849, #fff)"
-                          }
-                        }}>
+                    <Text
+                      fz={12}
+                      fw={"bold"}
+                      styles={{
+                        root: {
+                          color: "light-dark(#484849, #fff)"
+                        }
+                      }}
+                    >
                       54.394K
                     </Text>
                   </Flex>
@@ -665,7 +690,7 @@ export function AskOrderBookTrade() {
                   transform: "translateY(-50%)",
                   clipPath:
                     "polygon(0 0, 100% 0, calc(100% - 5px) 100%, 0% 100%)",
-                    background: "light-dark(#e7f6ed, #172b23)"
+                  background: "light-dark(#e7f6ed, #172b23)"
                 }}
               />
               <Box
@@ -678,7 +703,7 @@ export function AskOrderBookTrade() {
                   transform: "translateY(-50%)",
                   clipPath:
                     "polygon(calc(0% + 5px) 0, 100% 0, 100% 100%, 0% 100%)",
-                    background: "light-dark(#feeaea, #35191e)"
+                  background: "light-dark(#feeaea, #35191e)"
                 }}
               />
               <Flex
@@ -878,11 +903,14 @@ export function OrderAllOrderBookTrade() {
                         align={"center"}
                         justify={"end"}
                       >
-                        <Text fz={12} styles={{
-                          root: {
-                            color: "light-dark(#000, #ffffff)"
-                          }
-                        }}>
+                        <Text
+                          fz={12}
+                          styles={{
+                            root: {
+                              color: "light-dark(#000, #ffffff)"
+                            }
+                          }}
+                        >
                           <NumberFormatter
                             thousandSeparator
                             value={(Math.random() * 10e6).toFixed(2)}
@@ -916,11 +944,14 @@ export function OrderAllOrderBookTrade() {
                           align={"center"}
                           justify={"end"}
                         >
-                          <Text fz={12} styles={{
-                            root: {
-                              color: "light-dark(#000, #ffffff)"
-                            }
-                          }}>
+                          <Text
+                            fz={12}
+                            styles={{
+                              root: {
+                                color: "light-dark(#000, #ffffff)"
+                              }
+                            }}
+                          >
                             {/* <NumberFormatter
                                 decimalSeparator=","
                                 value={Math.random() * 10e6}
@@ -943,31 +974,43 @@ export function OrderAllOrderBookTrade() {
                 <Box className="space-y-5">
                   <Flex justify={"space-between"}>
                     <Text fz={12}>Avg. Price</Text>
-                    <Text fz={12} fw={"bold"}  styles={{
-                            root: {
-                              color: "light-dark(#121214, #fff)"
-                            }
-                          }}>
+                    <Text
+                      fz={12}
+                      fw={"bold"}
+                      styles={{
+                        root: {
+                          color: "light-dark(#121214, #fff)"
+                        }
+                      }}
+                    >
                       = 61,423.93
                     </Text>
                   </Flex>
                   <Flex justify={"space-between"}>
                     <Text fz={12}>Total Qty (BTC)</Text>
-                    <Text fz={12} fw={"bold"}  styles={{
-                            root: {
-                              color: "light-dark(#121214, #fff)"
-                            }
-                          }}>
+                    <Text
+                      fz={12}
+                      fw={"bold"}
+                      styles={{
+                        root: {
+                          color: "light-dark(#121214, #fff)"
+                        }
+                      }}
+                    >
                       0.885551
                     </Text>
                   </Flex>
                   <Flex justify={"space-between"}>
                     <Text fz={12}>Total Qty (USDT)</Text>
-                    <Text fz={12} fw={"bold"}  styles={{
-                            root: {
-                              color: "light-dark(#121214, #fff)"
-                            }
-                          }}>
+                    <Text
+                      fz={12}
+                      fw={"bold"}
+                      styles={{
+                        root: {
+                          color: "light-dark(#121214, #fff)"
+                        }
+                      }}
+                    >
                       54.394K
                     </Text>
                   </Flex>
@@ -1082,11 +1125,14 @@ export function OrderAllOrderBookTrade() {
                         align={"center"}
                         justify={"end"}
                       >
-                        <Text fz={12} styles={{
-                          root: {
-                            color: "light-dark(#121214, #fff)"
-                          }
-                        }}>
+                        <Text
+                          fz={12}
+                          styles={{
+                            root: {
+                              color: "light-dark(#121214, #fff)"
+                            }
+                          }}
+                        >
                           <NumberFormatter
                             thousandSeparator
                             value={(Math.random() * 10e6).toFixed(2)}
@@ -1120,11 +1166,14 @@ export function OrderAllOrderBookTrade() {
                           align={"center"}
                           justify={"end"}
                         >
-                          <Text fz={12} styles={{
-                            root: {
-                              color: "light-dark(#121214, #fff)"
-                            }
-                          }}>
+                          <Text
+                            fz={12}
+                            styles={{
+                              root: {
+                                color: "light-dark(#121214, #fff)"
+                              }
+                            }}
+                          >
                             {/* <NumberFormatter
                                 decimalSeparator=","
                                 value={Math.random() * 10e6}
@@ -1147,31 +1196,43 @@ export function OrderAllOrderBookTrade() {
                 <Box className="space-y-5">
                   <Flex justify={"space-between"}>
                     <Text fz={12}>Avg. Price</Text>
-                    <Text fz={12} fw={"bold"} styles={{
-                      root: {
-                        color: "light-dark(#121214, #fff)"
-                      }
-                    }}>
+                    <Text
+                      fz={12}
+                      fw={"bold"}
+                      styles={{
+                        root: {
+                          color: "light-dark(#121214, #fff)"
+                        }
+                      }}
+                    >
                       = 61,423.93
                     </Text>
                   </Flex>
                   <Flex justify={"space-between"}>
                     <Text fz={12}>Total Qty (BTC)</Text>
-                    <Text fz={12} fw={"bold"} styles={{
-                      root: {
-                        color: "light-dark(#121214, #fff)"
-                      }
-                    }}>
+                    <Text
+                      fz={12}
+                      fw={"bold"}
+                      styles={{
+                        root: {
+                          color: "light-dark(#121214, #fff)"
+                        }
+                      }}
+                    >
                       0.885551
                     </Text>
                   </Flex>
                   <Flex justify={"space-between"}>
                     <Text fz={12}>Total Qty (USDT)</Text>
-                    <Text fz={12} fw={"bold"} styles={{
-                      root: {
-                        color: "light-dark(#121214, #fff)"
-                      }
-                    }}>
+                    <Text
+                      fz={12}
+                      fw={"bold"}
+                      styles={{
+                        root: {
+                          color: "light-dark(#121214, #fff)"
+                        }
+                      }}
+                    >
                       54.394K
                     </Text>
                   </Flex>
@@ -1205,7 +1266,7 @@ export function OrderAllOrderBookTrade() {
                   transform: "translateY(-50%)",
                   clipPath:
                     "polygon(0 0, 100% 0, calc(100% - 5px) 100%, 0% 100%)",
-                    background: "light-dark(#e7f6ed, #172b23)"
+                  background: "light-dark(#e7f6ed, #172b23)"
                 }}
               />
               <Box
@@ -1218,7 +1279,7 @@ export function OrderAllOrderBookTrade() {
                   transform: "translateY(-50%)",
                   clipPath:
                     "polygon(calc(0% + 5px) 0, 100% 0, 100% 100%, 0% 100%)",
-                    background: "light-dark(#feeaea, #35191e)"
+                  background: "light-dark(#feeaea, #35191e)"
                 }}
               />
               <Flex
@@ -1418,11 +1479,14 @@ export function OrderHorizontalOrderBookTrade() {
                           align={"center"}
                           justify={"start"}
                         >
-                          <Text fz={12} styles={{
-                            root: {
-                              color: "light-dark(#121214, #fff)"
-                            }
-                          }}>
+                          <Text
+                            fz={12}
+                            styles={{
+                              root: {
+                                color: "light-dark(#121214, #fff)"
+                              }
+                            }}
+                          >
                             <NumberFormatter
                               thousandSeparator
                               value={(Math.random() * 10e3).toFixed(
@@ -1482,31 +1546,43 @@ export function OrderHorizontalOrderBookTrade() {
                   <Box className="space-y-5">
                     <Flex justify={"space-between"}>
                       <Text fz={12}>Avg. Price</Text>
-                      <Text fz={12} fw={"bold"} styles={{
-                        root: {
-                          color: "light-dark(#121214, #fff)"
-                        }
-                      }} >
+                      <Text
+                        fz={12}
+                        fw={"bold"}
+                        styles={{
+                          root: {
+                            color: "light-dark(#121214, #fff)"
+                          }
+                        }}
+                      >
                         = 61,423.93
                       </Text>
                     </Flex>
                     <Flex justify={"space-between"}>
                       <Text fz={12}>Total Qty (BTC)</Text>
-                      <Text fz={12} fw={"bold"} styles={{
-                        root: {
-                          color: "light-dark(#121214, #fff)"
-                        }
-                      }} >
+                      <Text
+                        fz={12}
+                        fw={"bold"}
+                        styles={{
+                          root: {
+                            color: "light-dark(#121214, #fff)"
+                          }
+                        }}
+                      >
                         0.885551
                       </Text>
                     </Flex>
                     <Flex justify={"space-between"}>
                       <Text fz={12}>Total Qty (USDT)</Text>
-                      <Text fz={12} fw={"bold"} styles={{
-                        root: {
-                          color: "light-dark(#121214, #fff)"
-                        }
-                      }} >
+                      <Text
+                        fz={12}
+                        fw={"bold"}
+                        styles={{
+                          root: {
+                            color: "light-dark(#121214, #fff)"
+                          }
+                        }}
+                      >
                         54.394K
                       </Text>
                     </Flex>
@@ -1610,11 +1686,14 @@ export function OrderHorizontalOrderBookTrade() {
                           align={"center"}
                           justify={"end"}
                         >
-                          <Text fz={12} styles={{
-                            root: {
-                              color: "light-dark(#151517, #ffffff)"
-                            }
-                          }}>
+                          <Text
+                            fz={12}
+                            styles={{
+                              root: {
+                                color: "light-dark(#151517, #ffffff)"
+                              }
+                            }}
+                          >
                             <NumberFormatter
                               thousandSeparator
                               value={(Math.random() * 10e6).toFixed(
@@ -1637,31 +1716,43 @@ export function OrderHorizontalOrderBookTrade() {
                   <Box className="space-y-5">
                     <Flex justify={"space-between"}>
                       <Text fz={12}>Avg. Price</Text>
-                      <Text fz={12} fw={"bold"}  styles={{
-                            root: {
-                              color: "light-dark(#121214, #fff)"
-                            }
-                          }}>
+                      <Text
+                        fz={12}
+                        fw={"bold"}
+                        styles={{
+                          root: {
+                            color: "light-dark(#121214, #fff)"
+                          }
+                        }}
+                      >
                         = 61,423.93
                       </Text>
                     </Flex>
                     <Flex justify={"space-between"}>
                       <Text fz={12}>Total Qty (BTC)</Text>
-                      <Text fz={12} fw={"bold"}  styles={{
-                            root: {
-                              color: "light-dark(#121214, #fff)"
-                            }
-                          }}>
+                      <Text
+                        fz={12}
+                        fw={"bold"}
+                        styles={{
+                          root: {
+                            color: "light-dark(#121214, #fff)"
+                          }
+                        }}
+                      >
                         0.885551
                       </Text>
                     </Flex>
                     <Flex justify={"space-between"}>
                       <Text fz={12}>Total Qty (USDT)</Text>
-                      <Text fz={12} fw={"bold"}  styles={{
-                            root: {
-                              color: "light-dark(#121214, #fff)"
-                            }
-                          }}>
+                      <Text
+                        fz={12}
+                        fw={"bold"}
+                        styles={{
+                          root: {
+                            color: "light-dark(#121214, #fff)"
+                          }
+                        }}
+                      >
                         54.394K
                       </Text>
                     </Flex>
@@ -1697,7 +1788,7 @@ export function OrderHorizontalOrderBookTrade() {
                   transform: "translateY(-50%)",
                   clipPath:
                     "polygon(0 0, 100% 0, calc(100% - 5px) 100%, 0% 100%)",
-                    background: "light-dark(#e7f6ed, #172b23)"
+                  background: "light-dark(#e7f6ed, #172b23)"
                 }}
               />
               <Box
@@ -1710,7 +1801,7 @@ export function OrderHorizontalOrderBookTrade() {
                   transform: "translateY(-50%)",
                   clipPath:
                     "polygon(calc(0% + 5px) 0, 100% 0, 100% 100%, 0% 100%)",
-                    background: "light-dark(#feeaea, #35191e)"
+                  background: "light-dark(#feeaea, #35191e)"
                 }}
               />
               <Flex

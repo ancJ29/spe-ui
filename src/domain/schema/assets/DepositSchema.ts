@@ -1,13 +1,17 @@
-import { Sample } from "../Sample";
+import { t } from "@/common/utils";
+import { getDictionary } from "@/services/languages";
+import { FormSchema } from "@/types";
 
-const DepositSchema: Sample = {
+const dictionary = getDictionary();
+
+const DepositSchema: FormSchema = {
   schema: {
     definitions: {
       coin: {
         type: "string",
         enum: ["USDT", "BTC", "ETH"],
         default: "USDT",
-        title: "Choose coin to deposit"
+        title: t(dictionary, "Choose coin to deposit"),
       },
       qrcode: {
         type: "string",
@@ -18,32 +22,14 @@ const DepositSchema: Sample = {
         type: "string",
         title: ""
       },
-      depositAddress: {
-        type: "string",
-        title: "",
-        readOnly: true,
-      },
-      fromAddress: {
-        type: "string",
-        default: "0x1",
-        title: "",
-        readOnly: true,
-      },
       walletAddress: {
         type: "string",
         title: "",
         readOnly: true,
       },
-      txId: {
+      info: {
         type: "string",
-        default: "0x2",
-        readOnly: true,
-        title: ""
-      },
-      amount: {
-        type: "number",
-        title: "Enter Deposit Amount",
-        minimum: 0.01
+        readOnly: true
       },
       infoETH: {
         type: "object",
@@ -51,23 +37,17 @@ const DepositSchema: Sample = {
         properties: {
           chain: {
             type: "string",
-            enum: ["ETH"],
-            default: "ETH",
-            title: "Chain"
+            enum: ["Ethereum", "Binance Smart Chain"],
+            default: "Ethereum",
+            title: t(dictionary, "Chain"),
           },
           walletAddress: {
             $ref: "#/definitions/walletAddress",
             readOnly: true
           },
-          amount: {
-            $ref: "#/definitions/amount",
-          },
-          fromAddress: {
-            $ref: "#/definitions/fromAddress",
-          },
-          txId: {
-            $ref: "#/definitions/txId",
-          },
+          info: {
+            $ref: "#/definitions/info",
+          }
         },
         required: ["walletAddress", "amount", "fromAddress", "txId", "chain"]
       },
@@ -77,27 +57,19 @@ const DepositSchema: Sample = {
         properties: {
           chain: {
             type: "string",
-            enum: ["BTC"],
-            default: "BTC",
-            title: "Chain"
+            enum: ["Bitcoin"],
+            default: "Bitcoin",
+            title: t(dictionary, "Chain"),
           },
           walletAddress: {
             $ref: "#/definitions/walletAddress",
             readOnly: true
           },
-          amount: {
-            $ref: "#/definitions/amount",
-          },
-          fromAddress: {
-            $ref: "#/definitions/fromAddress",
-            readOnly: true
-          },
-          txId: {
-            $ref: "#/definitions/txId",
-          },
-
+          info: {
+            $ref: "#/definitions/info",
+          }
         },
-        required: ["walletAddress", "amount", "fromAddress", "txId", "chain"]
+        required: ["walletAddress", "chain"]
       },
       infoUSDT: {
         type: "object",
@@ -105,26 +77,18 @@ const DepositSchema: Sample = {
         properties: {
           chain: {
             type: "string",
-            enum: ["TRC20", "SOLANA", "POLYGON", "ERC20"],
-            default: "TRC20",
-            title: "Chain"
+            enum: ["Ethereum", "Binance Smart Chain"],
+            default: "Ethereum",
+            title: t(dictionary, "Chain"),
           },
           walletAddress: {
             $ref: "#/definitions/walletAddress",
           },
-
-          amount: {
-            $ref: "#/definitions/amount",
-          },
-          fromAddress: {
-            $ref: "#/definitions/fromAddress",
-          },
-          txId: {
-            $ref: "#/definitions/txId",
-          },
-
+          info: {
+            $ref: "#/definitions/info",
+          }
         },
-        required: ["walletAddress", "amount", "fromAddress", "txId", "chain"]
+        required: ["walletAddress", "chain"]
       },
 
     },
@@ -194,9 +158,8 @@ const DepositSchema: Sample = {
       submitButtonOptions: {
         props: {
           fullWidth: true,
-          size: "lg",
         },
-        submitText: "Submit",
+        submitText: t(dictionary, "Confirm"),
       },
       label: false,
       classNames: "grid-form-root gap-15",
@@ -226,23 +189,10 @@ const DepositSchema: Sample = {
           },
         }
       },
-      fromAddress: {
-        "ui:options": {
-          widget: "hidden"
-        }
-      },
-      txId: {
-        "ui:options": {
-          widget: "hidden"
-        }
-      },
-      amount: {
+      info: {
         "ui:options": {
           label: false,
-          widget: "AmountWidget",
-          props: {
-            placeholder: "Min 0.01",
-          },
+          widget: "InfoDepositCoinWidget",
         }
       }
 
@@ -266,23 +216,10 @@ const DepositSchema: Sample = {
           },
         }
       },
-      fromAddress: {
-        "ui:options": {
-          widget: "hidden"
-        }
-      },
-      txId: {
-        "ui:options": {
-          widget: "hidden"
-        }
-      },
-      amount: {
+      info: {
         "ui:options": {
           label: false,
-          widget: "AmountWidget",
-          props: {
-            placeholder: "Min 0.01",
-          },
+          widget: "InfoDepositCoinWidget",
         }
       }
     },
@@ -305,23 +242,10 @@ const DepositSchema: Sample = {
           },
         }
       },
-      fromAddress: {
-        "ui:options": {
-          widget: "hidden"
-        }
-      },
-      txId: {
-        "ui:options": {
-          widget: "hidden"
-        }
-      },
-      amount: {
+      info: {
         "ui:options": {
           label: false,
-          widget: "AmountWidget",
-          props: {
-            placeholder: "Min 0.01",
-          },
+          widget: "InfoDepositCoinWidget",
         }
       }
     },

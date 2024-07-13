@@ -20,7 +20,6 @@ import { useDisclosure } from "@mantine/hooks";
 import { WidgetProps } from "@rjsf/utils";
 import { IconCaretDownFilled } from "@tabler/icons-react";
 import { useCallback } from "react";
-import { sizeInput } from "./TradeFormCreateOrderWidgets";
 
 export function TradeBuySellSwitchTPLimitWidget(props: WidgetProps) {
   const isBuyOrLong = ["Long", "BUY"];
@@ -35,8 +34,8 @@ export function TradeBuySellSwitchTPLimitWidget(props: WidgetProps) {
         value={props.value}
         classNames={{
           indicator: isBuyOrLong.includes(props.value)
-            ? "btnlong"
-            : "btnshort",
+            ? "btn-long"
+            : "btn-short",
         }}
         styles={{
           root: {
@@ -170,7 +169,7 @@ export function QtyPercentWidget(props: WidgetProps) {
               {extractSuffix(props?.options?.props)}
             </AppText>
           }
-          size={sizeInput}
+          size="sm"
         ></NumberInput>
         <Box py={20} mb={10} px={2}>
           <Slider
@@ -276,11 +275,11 @@ export function VolumeInputHintFieldWidget(props: WidgetProps) {
               {extractSuffix(props?.options?.props)}
             </AppText>
           }
-          size={sizeInput}
+          size="sm"
         ></NumberInput>
         <Flex justify={"end"}>
           <InputLabel className="text-label-form">
-            ≈
+            ~
             <NumberFormatter
               value={props.value}
               thousandSeparator
@@ -402,9 +401,9 @@ export function MarginWidget(props: WidgetProps) {
         onClick={onOpenModal}
         px={10}
         py={8}
-        style={{ 
-          borderRadius: "5px" ,
-          background: "light-dark(#f3f5f7, #26282c)"
+        style={{
+          borderRadius: "5px",
+          background: "light-dark(#f3f5f7, #26282c)",
         }}
         className="cursor-pointer"
       >

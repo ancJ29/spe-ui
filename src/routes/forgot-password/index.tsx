@@ -1,6 +1,6 @@
+import { schema } from "@/domain/schema";
 import useTranslation from "@/hooks/useTranslation";
 import AppForm from "@/ui/Form/Form";
-import { samples } from "@/ui/Form/Sample";
 import { Header } from "@/ui/Header";
 import {
   Box,
@@ -31,9 +31,9 @@ const Page = () => {
                 </Title>
                 <Space h={30} />
                 <AppForm
-                  schema={samples.ForgotPassword.schema}
-                  uiSchema={samples.ForgotPassword.uiSchema}
-                  formData={samples.ForgotPassword.formData}
+                  schema={schema.ForgotPassword.schema}
+                  uiSchema={schema.ForgotPassword.uiSchema}
+                  formData={schema.ForgotPassword.formData}
                   w={"100%"}
                   msgSuccess="You have successfully submitted a password change request."
                   api="/api/password/forgot"

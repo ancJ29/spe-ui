@@ -22,12 +22,14 @@ type RenderSelectOptionProps = {
 const onChange = debounceBuilder(
   (
     value: string,
-    updateField: (key: string, value: boolean | undefined) => void,
+    updateFields: (updated: Record<string, unknown>) => void,
     doCheck2FA: (email: string) => void,
   ) => {
     if (value === "") {
-      updateField("mobile.mobile", undefined);
-      updateField("mobile.is2fa", false);
+      updateFields({
+        "mobile.mobile": "",
+        "mobile.is2fa": false,
+      });
     } else {
       doCheck2FA(value);
     }
@@ -79,10 +81,12 @@ export function PhoneNumber2FAWidget({
   uiSchema,
   rawErrors,
   options,
-  formContext: { formData, updateField, value },
+  formContext: { formData, updateFields },
 }: WidgetProps) {
   const [loading, setLoading] = useState(false);
-  const [text, setText] = useState<string>(value);
+  const [text, setText] = useState<string>(
+    formData.mobile?.mobile || "",
+  );
 
   const doCheck2FA = useCallback(
     (value: number) => {
@@ -93,24 +97,26 @@ export function PhoneNumber2FAWidget({
       setLoading(true);
       checkMfa({ mobile, type: 2 })
         .then(({ hasMfa }) => {
-          updateField("mobile.mobile", mobile);
-          updateField("mobile.is2fa", hasMfa);
+          updateFields({
+            "mobile.mobile": mobile,
+            "mobile.is2fa": hasMfa,
+          });
         })
         .catch(() => {
           // console.log(err);
         })
         .finally(() => setLoading(false));
     },
-    [updateField, formData],
+    [updateFields, formData],
   );
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const value = event.target?.value || "";
       setText(value);
-      onChange(value, updateField, doCheck2FA);
+      onChange(value, updateFields, doCheck2FA);
     },
-    [doCheck2FA, updateField],
+    [doCheck2FA, updateFields],
   );
 
   return (

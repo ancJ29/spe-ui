@@ -1,6 +1,6 @@
+import { schema } from "@/domain/schema";
 import useTranslation from "@/hooks/useTranslation";
 import AppForm from "@/ui/Form/Form";
-import { samples } from "@/ui/Form/Sample";
 import { AppLogo } from "@/ui/Logo/Logo";
 import SwitchLanguage from "@/ui/SwitchLanguage/SwitchLanguage";
 import {
@@ -20,7 +20,6 @@ import {
   UnstyledButton,
   lighten,
   rem,
-  useMantineColorScheme,
 } from "@mantine/core";
 import {
   IconCoinBitcoin,
@@ -28,7 +27,6 @@ import {
   IconPhoneCalling,
   IconTruckLoading,
 } from "@tabler/icons-react";
-import { useEffect } from "react";
 import { convertToSignUpFormData } from "./config";
 import classes from "./index.module.scss";
 
@@ -55,17 +53,13 @@ const links = [
   },
 ];
 
+const checkIcon = (
+  <IconInfoCircleFilled style={{ width: rem(20), height: rem(20) }} />
+);
+
 const SignUp = () => {
   const t = useTranslation();
-  const checkIcon = (
-    <IconInfoCircleFilled
-      style={{ width: rem(20), height: rem(20) }}
-    />
-  );
-  const { setColorScheme } = useMantineColorScheme();
-  useEffect(() => {
-    setColorScheme("dark");
-  }, [setColorScheme]);
+
   return (
     <>
       <Box className={classes.bggray}>
@@ -159,9 +153,9 @@ const SignUp = () => {
                   </Title>
                   <Space h={30} />
                   <AppForm
-                    schema={samples.SignUp.schema}
-                    uiSchema={samples.SignUp.uiSchema}
-                    formData={samples.SignUp.formData}
+                    schema={schema.SignUp.schema}
+                    uiSchema={schema.SignUp.uiSchema}
+                    formData={schema.SignUp.formData}
                     w={"100%"}
                     api="/api/register"
                     formDataConverter={convertToSignUpFormData}

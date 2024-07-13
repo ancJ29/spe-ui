@@ -1,11 +1,8 @@
 import { DepositService } from "@/application/ports";
-import { fetchDepositAddressApi, internalDepositApi } from "./apis";
+import { fetchDepositAddressApi } from "./apis";
 
 export function useDeposit(): DepositService {
   return {
-    tryDeposit(formData) {
-      return internalDepositApi(formData);
-    },
     getDepositAddress(formData) {
       return fetchDepositAddressApi(formData);
     },

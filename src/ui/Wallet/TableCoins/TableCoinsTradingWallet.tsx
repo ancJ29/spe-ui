@@ -1,40 +1,85 @@
-import { CoinType, iconsByCoin, ModalMode, textByCoin } from "@/domain/balance";
+import {
+  CoinType,
+  iconsByCoin,
+  ModalMode,
+  textByCoin,
+} from "@/domain/balance";
+import useTranslation from "@/hooks/useTranslation";
 import { useTradeStorageInfo } from "@/services/tradeAdapter";
 import { NoDataRecord } from "@/ui/NoData";
 import NumberFormat from "@/ui/NumberFormat";
-import { ActionIcon, Box, Button, Flex, Image, Modal, ScrollArea, Table, TableData, Text, Title } from "@mantine/core";
+import {
+  ActionIcon,
+  Box,
+  Button,
+  Flex,
+  Image,
+  Modal,
+  ScrollArea,
+  Table,
+  TableData,
+  Text,
+  Title,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconX } from "@tabler/icons-react";
 import { useMemo, useState } from "react";
-import { DepositForm, SwapForm, TransferForm, WithdrawForm } from "../Form";
+import {
+  DepositForm,
+  SwapForm,
+  TransferForm,
+  WithdrawForm,
+} from "../Form";
 
 export function TableCoinsTradingWallet() {
+  const t = useTranslation();
   const [modalMode, setModalMode] = useState<ModalMode>();
   const [opened, { open, close }] = useDisclosure(false);
-  const { balances, initialAll } = useTradeStorageInfo();
-  
+  const { accounts, balances, reloadAll } = useTradeStorageInfo();
+
   const rows = useMemo(() => {
-    return balances.balances.filter(i => i.name === "TRADING ACCOUNT");
-  }, [balances.balances]);
-  
+    const accountId = accounts.find(
+      (el) => !el.isFunding && !el.isCopyMaster,
+    )?.id;
+    return accountId
+      ? balances.filter((el) => el.accountId === accountId)
+      : [];
+  }, [accounts, balances]);
+
   const openModal = (mode: ModalMode) => {
     setModalMode(mode);
     open();
   };
-  
+
   const tableData: TableData = {
-    head: ["Coin", "Assets", "Total Equity", "Available Margin", "Position Margin", "Order Margin", "Unrealized PnL", "Experience Fund", "Actions"],
+    head: [
+      "Coin",
+      "Assets",
+      "Total Equity",
+      "Available Margin",
+      "Position Margin",
+      // "Order Margin",
+      "Unrealized PnL",
+      // "Experience Fund",
+      "Actions",
+    ].map((el) => t(el)),
     body: [
       ...rows.map((row) => {
         return [
           <>
             <Flex align={"center"} gap={10}>
               <Box>
-                <Image w={30} h={30} src={iconsByCoin[row.coin as CoinType]} />
+                <Image
+                  w={30}
+                  h={30}
+                  src={iconsByCoin[row.coin as CoinType]}
+                />
               </Box>
               <Box>
                 <Title order={6}>{row.coin}</Title>
-                <Text c="dimmed">{textByCoin[row.coin as CoinType]}</Text>
+                <Text c="dimmed">
+                  {textByCoin[row.coin as CoinType]}
+                </Text>
               </Box>
             </Flex>
           </>,
@@ -43,67 +88,48 @@ export function TableCoinsTradingWallet() {
               <NumberFormat decimalPlaces={8} value={row.amount} />
             </Title>
             <Text c="dimmed" size="xs">
-                ≈ $<NumberFormat decimalPlaces={8} value={row.amount} />
+              ~ $
+              <NumberFormat decimalPlaces={3} value={row.usdValue} />
             </Text>
           </>,
           <>
             <Title order={6}>
-              <NumberFormat decimalPlaces={8} value={row.amount} />
+              <NumberFormat decimalPlaces={8} value={row.equity} />
             </Title>
-            <Text c="dimmed" size="xs">
-                ≈ $<NumberFormat decimalPlaces={8} value={row.amount} />
-            </Text>
           </>,
           <>
             <Title order={6}>
-              <NumberFormat decimalPlaces={8} value={row.amount} />
+              <NumberFormat
+                decimalPlaces={8}
+                value={row.availableMargin}
+              />
             </Title>
-            <Text c="dimmed" size="xs">
-                ≈ $<NumberFormat decimalPlaces={8} value={row.amount} />
-            </Text>
-          </>
-          ,
+          </>,
           <>
             <Title order={6}>
-              <NumberFormat decimalPlaces={8} value={row.amount} />
+              <NumberFormat decimalPlaces={8} value={row.margin} />
             </Title>
-            <Text c="dimmed" size="xs">
-                ≈ $<NumberFormat decimalPlaces={8} value={row.amount} />
-            </Text>
-          </>
-          ,
+          </>,
           <>
             <Title order={6}>
-              <NumberFormat decimalPlaces={8} value={row.amount} />
+              <NumberFormat
+                decimalPlaces={8}
+                value={row.unRealizedPnl}
+              />
             </Title>
-            <Text c="dimmed" size="xs">
-                ≈ $<NumberFormat decimalPlaces={8} value={row.amount} />
-            </Text>
-          </>
-          ,
-          <>
-            <Title order={6}>
-              <NumberFormat decimalPlaces={8} value={row.amount} />
-            </Title>
-            <Text c="dimmed" size="xs">
-                ≈ $<NumberFormat decimalPlaces={8} value={row.amount} />
-            </Text>
-          </>
-          ,
-          <>
-            <Title order={6}>
-              <NumberFormat decimalPlaces={8} value={row.amount} />
-            </Title>
-            <Text c="dimmed" size="xs">
-                ≈ $<NumberFormat decimalPlaces={8} value={row.amount} />
-            </Text>
-          </>
-          ,
+          </>,
           <>
             <Flex gap={5}>
-              <Button onClick={() => openModal("TRANSFER")} p={0} size="xs" variant="transparent">Transfer</Button>
+              <Button
+                onClick={() => openModal("TRANSFER")}
+                p={0}
+                size="xs"
+                variant="transparent"
+              >
+                {t("Transfer")}
+              </Button>
             </Flex>
-          </>
+          </>,
         ];
       }),
     ],
@@ -119,16 +145,14 @@ export function TableCoinsTradingWallet() {
             styles={{
               th: {
                 whiteSpace: "nowrap",
-                fontSize: "12px"
-              }
+                fontSize: "12px",
+              },
             }}
             classNames={{
               table: "table-sticky-column",
             }}
           />
-          <>
-            {rows.length === 0 && <NoDataRecord />}
-          </>
+          <>{rows.length === 0 && <NoDataRecord />}</>
         </Table.ScrollContainer>
       </Box>
       <Modal
@@ -152,7 +176,7 @@ export function TableCoinsTradingWallet() {
             background: "none",
             boxShadow: "none",
             // overflow: "hidden"
-          }
+          },
         }}
         scrollAreaComponent={ScrollArea.Autosize}
       >
@@ -166,19 +190,24 @@ export function TableCoinsTradingWallet() {
             top={30}
             styles={{
               root: {
-                zIndex: 2
-              }
+                zIndex: 2,
+              },
             }}
           >
             <IconX color="gray" />
           </ActionIcon>
-          {modalMode == "DEPOSIT" && <DepositForm maw={"100%"} onSubmit={initialAll} />}
-          {modalMode == "SWAP" && <SwapForm onSubmit={initialAll} />}
-          {modalMode == "TRANSFER" && <TransferForm onSubmit={initialAll} />}
-          {modalMode == "WITHDRAW" && <WithdrawForm onSubmit={initialAll} />}
+          {modalMode == "DEPOSIT" && (
+            <DepositForm maw={"100%"} onClose={close} />
+          )}
+          {modalMode == "SWAP" && <SwapForm onSubmit={reloadAll} />}
+          {modalMode == "TRANSFER" && (
+            <TransferForm onSubmit={reloadAll} />
+          )}
+          {modalMode == "WITHDRAW" && (
+            <WithdrawForm onSubmit={reloadAll} />
+          )}
         </Box>
       </Modal>
     </>
   );
 }
-  

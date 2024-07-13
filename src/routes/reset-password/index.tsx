@@ -1,6 +1,6 @@
+import { schema } from "@/domain/schema";
 import useTranslation from "@/hooks/useTranslation";
 import AppForm from "@/ui/Form/Form";
-import { samples } from "@/ui/Form/Sample";
 import { Header } from "@/ui/Header";
 import {
   Box,
@@ -31,7 +31,7 @@ const Page = () => {
     if (!email && !mobile) {
       return {};
     }
-    return Object.assign({}, samples.ResetPassword.formData, {
+    return Object.assign({}, schema.ResetPassword.formData, {
       type: email ? "1" : "2",
       mobile: { mobile, type: "2", code },
       email: { email, type: "1", code },
@@ -50,9 +50,8 @@ const Page = () => {
                 </Title>
                 <Space h={30} />
                 <AppForm
-                  showJsonOutput={false}
-                  schema={samples.ResetPassword.schema}
-                  uiSchema={samples.ResetPassword.uiSchema}
+                  schema={schema.ResetPassword.schema}
+                  uiSchema={schema.ResetPassword.uiSchema}
                   formData={formData}
                   w={"100%"}
                   msgSuccess={t("Password reset has been done")}

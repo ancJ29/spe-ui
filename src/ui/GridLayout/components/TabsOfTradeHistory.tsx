@@ -109,12 +109,16 @@ export function TabsOfTradeHistory() {
       ?.data.options.actions.map((i, index) => (
         <Fragment key={index}>
           {i.startsWith("click") ? (
-            <AppButton styles={{
-              root: {
-                background: "light-dark(#e9edf3, #414347)",
-                color: "light-dark(black, white)"
-              }
-            }} size="compact-xs" fz={12}>
+            <AppButton
+              styles={{
+                root: {
+                  background: "light-dark(#e9edf3, #414347)",
+                  color: "light-dark(black, white)"
+                }
+              }}
+              size="compact-xs"
+              fz={12}
+            >
               {splitAndFormatString(i)}
             </AppButton>
           ) : i.startsWith("link") ? (

@@ -60,7 +60,7 @@ export function TradeLongShortSwitchTPLimitWidget(
           defaultValue="Long"
           value={value}
           classNames={{
-            indicator: value === "Long" ? "btnlong" : "btnshort",
+            indicator: value === "Long" ? "btn-long" : "btn-short",
           }}
           styles={{
             indicator: {

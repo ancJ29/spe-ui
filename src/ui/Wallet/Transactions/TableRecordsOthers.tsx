@@ -57,7 +57,7 @@ export function TableRecordsOthers() {
               <NumberFormat decimalPlaces={8} value={row.amount} />
             </Title>
             <Text c="dimmed" size="xs">
-              ≈ $<NumberFormat decimalPlaces={8} value={row.amount} />
+              ~ $<NumberFormat decimalPlaces={8} value={row.amount} />
             </Text>
           </>,
         ];

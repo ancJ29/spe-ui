@@ -1,4 +1,7 @@
+import { GenericObject } from "@/common/types";
 import axios from "@/services/apis/api";
+import logger from "@/services/logger";
+import { SPEResponse } from "@/types";
 import { Box, LoadingOverlay, rem } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
@@ -12,6 +15,7 @@ import {
 import { customizeValidator } from "@rjsf/validator-ajv8";
 import { IconCheck } from "@tabler/icons-react";
 import Ajv2020 from "ajv/dist/2020.js";
+import { cloneDeep, set } from "lodash";
 import React, {
   FormEvent,
   forwardRef,
@@ -20,8 +24,6 @@ import React, {
   useRef,
   useState,
 } from "react";
-
-import { cloneDeep, set } from "lodash";
 import * as fields from "./fields";
 import * as templates from "./templates";
 import * as widgets from "./widgets";
@@ -30,15 +32,18 @@ const toJson = (val: unknown) => JSON.stringify(val, null, 2);
 const AJV8_2020 = customizeValidator({ AjvClass: Ajv2020 });
 const customWidgets: RegistryWidgetsType = { ...widgets };
 
-type SPEResponse = {
-  code: number;
-  message: string;
-  result: unknown | null;
-};
+const isDev = ["localhost", "127.0.0.1", "0.0.0.0"].includes(
+  window.location.hostname,
+);
 
-type AppFormProps = Omit<FormProps, "validator"> & {
+const test = isDev && false;
+
+type OmittedForm = Omit<FormProps, "formData" | "validator">;
+
+type AppFormProps = OmittedForm & {
   w?: number | string;
   api?: string;
+  formData: GenericObject;
   onSuccess?: (res: any) => void; // eslint-disable-line
   formDataConverter?: (res: any) => any; // eslint-disable-line
   msgSuccess?: string;
@@ -51,27 +56,25 @@ type AppFormProps = Omit<FormProps, "validator"> & {
   };
 };
 
-const isDev = ["localhost", "127.0.0.1", "0.0.0.0"].includes(
-  window.location.hostname,
-);
-
-const debug = (...args: unknown[]) => {
-  isDev ? console.log(...args) : void 0; // eslint-disable-line
-};
-
+// TODO: refactor typed of this component
 // eslint-disable-next-line react/display-name
 const AppForm = forwardRef(
-  ({ showJsonOutput = true, ...props }: AppFormProps, ref) => {
+  ({ showJsonOutput = false, ...props }: AppFormProps, ref) => {
     const [visible, { toggle, close }] = useDisclosure(false);
+    const [counter, setCounter] = useState(0);
     const [schema, setSchema] = useState<RJSFSchema>(props.schema);
+    const [lockUntil, setLockUntil] = useState(0);
     const [uiSchema, setUiSchema] = useState(props.uiSchema);
-    const [formData, updateFormData] = useState(props.formData);
+    const [formData, updateFormData] = useState({
+      ...props.formData,
+    });
+
     const formRef = useRef<React.ElementRef<typeof Form>>(null);
 
     const onFormDataSubmit = useCallback(
       (evt: IChangeEvent, event: FormEvent<unknown>) => {
-        debug("submitted formData", evt.formData);
-        debug("submit event", event);
+        logger.debug("submitted formData", evt.formData);
+        logger.debug("submit event", event);
         if (props.api) {
           const rawData = { ...evt.formData };
           const params =
@@ -121,6 +124,8 @@ const AppForm = forwardRef(
             .finally(() => {
               close();
             });
+        } else {
+          close();
         }
       },
       [close, props, toggle],
@@ -128,19 +133,30 @@ const AppForm = forwardRef(
 
     const onFormDataChange = useCallback(
       (props: IChangeEvent, id?: string) => {
-        id && debug("Field changed, id: ", id, props);
-        updateFormData(props.formData);
+        id && logger.debug("Field changed, id: ", id, props);
+        if (lockUntil < Date.now()) {
+          updateFormData(props.formData);
+          // setCounter((prev) => prev + 1);
+        }
       },
-      [updateFormData],
+      [lockUntil],
     );
 
-    const updateField = (field: string, value: unknown) => {
-      updateFormData((prevFormData: unknown) => {
-        const d = cloneDeep(prevFormData) as Record<string, unknown>;
-        const v = set(d, field, value);
-        return { ...v };
-      });
-    };
+    const updateFields = useCallback(
+      (updated: Record<string, unknown>) => {
+        logger.debug("updateFields", updated);
+        setLockUntil(Date.now() + 300);
+        updateFormData((prevFormData: unknown) => {
+          let d = cloneDeep(prevFormData) as Record<string, unknown>;
+          Object.entries(updated).forEach(([field, value]) => {
+            d = set(d, field, value);
+          });
+          return { ...d };
+        });
+        setCounter((prev) => prev + 1);
+      },
+      [],
+    );
 
     useImperativeHandle(
       ref,
@@ -162,6 +178,7 @@ const AppForm = forwardRef(
       <>
         <Box w={props.w ?? 500} pos="relative">
           <Form
+            key={counter}
             ref={formRef}
             schema={schema}
             uiSchema={uiSchema}
@@ -180,19 +197,23 @@ const AppForm = forwardRef(
             extraErrors={{}}
             onChange={onFormDataChange}
             onSubmit={props.onSubmit ?? onFormDataSubmit}
-            formContext={{ formData, updateFormData, updateField }}
+            formContext={{
+              formData,
+              updateFields,
+              updateFormData,
+            }}
             onBlur={(id: string, value: string) =>
-              debug(`Touched ${id} with value ${value}`)
+              logger.debug(`Touched ${id} with value ${value}`)
             }
             onFocus={(id: string, value: string) =>
-              debug(`Focused ${id} with value ${value}`)
+              logger.debug(`Focused ${id} with value ${value}`)
             }
             onError={(errorList: RJSFValidationError[]) =>
-              debug("errors", errorList)
+              logger.debug("errors", errorList)
             }
           />
         </Box>
-        {showJsonOutput && <JsonForm formData={formData} />}
+        {showJsonOutput && test && <JsonForm formData={formData} />}
         <LoadingOverlay
           visible={visible}
           zIndex={1000}
@@ -205,14 +226,7 @@ const AppForm = forwardRef(
 
 export default AppForm;
 
-const test = true;
-function JsonForm({ formData }: { formData: unknown }) {
-  if (!isDev) {
-    return <></>;
-  }
-  if (test) {
-    return <></>;
-  }
+function JsonForm({ formData }: { formData: GenericObject }) {
   return (
     <Box h={"300px"} mt={10}>
       <MonacoEditor

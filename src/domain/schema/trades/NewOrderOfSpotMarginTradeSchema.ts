@@ -1,6 +1,6 @@
-import { Sample } from "../Sample";
+import { FormSchema } from "@/types";
 
-const NewOrderOfSpotMarginTradeSchema: Sample = {
+const NewOrderOfSpotMarginTradeSchema: FormSchema = {
   schema: {
     type: "object",
     properties: {

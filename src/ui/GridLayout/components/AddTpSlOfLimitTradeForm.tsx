@@ -1,6 +1,6 @@
+import { schema } from "@/domain/schema";
 import AppButton from "@/ui/Button/AppButton";
 import AppForm from "@/ui/Form/Form";
-import { samples } from "@/ui/Form/Sample";
 import { Box, SimpleGrid } from "@mantine/core";
 import { IChangeEvent } from "@rjsf/core";
 import { useCallback, useRef } from "react";
@@ -27,10 +27,10 @@ export function AddTpSlOfTradeForm({
         <AppForm
           w={"100%"}
           ref={formRef}
-          schema={samples.AddTPandSLOfTrade.schema}
-          uiSchema={samples.AddTPandSLOfTrade.uiSchema}
+          schema={schema.AddTPandSLOfTrade.schema}
+          uiSchema={schema.AddTPandSLOfTrade.uiSchema}
           formData={{
-            ...samples.AddTPandSLOfTrade.formData,
+            ...schema.AddTPandSLOfTrade.formData,
             orderPrice,
           }}
           onSubmit={(_props) => {
@@ -49,7 +49,7 @@ export function AddTpSlOfTradeForm({
               bottom: 0,
               left: 0,
               zIndex: 4,
-              background: "light-dark(white, #16171a)"
+              background: "light-dark(white, #16171a)",
             },
           }}
         >

@@ -2,6 +2,7 @@ import defaultAvatar from "@/assets/images/defaultAvatar.png";
 import svgLogo from "@/assets/images/logo.svg";
 import { Application } from "@/common/types";
 import { getHeaderMenu } from "@/domain/Application";
+import { Language } from "@/services/languages";
 import {
   ActionIcon,
   Anchor,
@@ -17,15 +18,15 @@ import {
   Group,
   HoverCard,
   Image,
+  lighten,
   Menu,
+  rem,
   ScrollArea,
   SimpleGrid,
   Text,
   ThemeIcon,
   Tooltip,
   UnstyledButton,
-  lighten,
-  rem,
   useComputedColorScheme,
   useMantineColorScheme,
   useMantineTheme,
@@ -44,8 +45,8 @@ import {
 } from "@tabler/icons-react";
 import cx from "clsx";
 import { Fragment, useCallback, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AppButton from "../Button/AppButton";
-import Icon from "../Icon/Icon";
 import classes from "./index.module.scss";
 
 const debug = false;
@@ -241,11 +242,8 @@ export function Header(props: Partial<{ metadata: Application }>) {
                                       variant="transparent"
                                       radius="md"
                                     >
-                                      {/* <item.icon style={{ width: rem(22), height: rem(22) }} color={"white"} /> */}
-                                      {/* <IconCode style={{ width: rem(22), height: rem(22) }} color={"white"} /> */}
-                                      {/* IconCoin */}
-                                      <Icon
-                                        instanceIcon="IconCoin"
+                                      <IconCoin
+                                        color="white"
                                         style={{
                                           width: rem(22),
                                           height: rem(22),
@@ -306,43 +304,7 @@ export function Header(props: Partial<{ metadata: Application }>) {
               <MenuUserInfo />
             </Group>
             <Group h="100%" gap={0}>
-              <Menu
-                shadow="none"
-                width={150}
-                trigger="hover"
-                radius={0}
-                offset={0}
-              >
-                <Menu.Target>
-                  <ActionIcon
-                    variant="transparent"
-                    size="xl"
-                    h={"100%"}
-                  >
-                    <IconWorld
-                      color={lighten(theme.colors.dark[7], 1)}
-                    />
-                  </ActionIcon>
-                </Menu.Target>
-                <Menu.Dropdown
-                  bg={"#16181e"}
-                  bd={"none"}
-                  style={{ border: "none" }}
-                >
-                  <Menu.Item
-                    c={"white"}
-                    className={classes.menuLanguage}
-                  >
-                    English
-                  </Menu.Item>
-                  <Menu.Item
-                    c={"white"}
-                    className={classes.menuLanguage}
-                  >
-                    日本語
-                  </Menu.Item>
-                </Menu.Dropdown>
-              </Menu>
+              <SwitchLanguage />
               {!debug && (
                 <ActionIcon
                   onClick={() =>
@@ -552,41 +514,7 @@ export function Header(props: Partial<{ metadata: Application }>) {
             <AppButton>Sign up</AppButton>
           </Group>
           <Group h="100%" gap={0}>
-            <Menu
-              shadow="none"
-              width={150}
-              trigger="hover"
-              radius={0}
-              offset={0}
-            >
-              <Menu.Target>
-                <ActionIcon
-                  variant="transparent"
-                  size="xl"
-                  h={"100%"}
-                >
-                  <IconWorld />
-                </ActionIcon>
-              </Menu.Target>
-              <Menu.Dropdown
-                bg={"black"}
-                bd={"none"}
-                style={{ border: "none" }}
-              >
-                <Menu.Item
-                  c={"white"}
-                  className={classes.menuLanguage}
-                >
-                  English
-                </Menu.Item>
-                <Menu.Item
-                  c={"white"}
-                  className={classes.menuLanguage}
-                >
-                  日本語
-                </Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
+            <SwitchLanguage />
             <ActionIcon
               onClick={() =>
                 setColorScheme(
@@ -709,15 +637,9 @@ function MenuUserInfo() {
             Switch/Create Account
           </Menu.Item> */}
           <Menu.Divider />
-          <Menu.Item fw={"bold"}>
-            Settings
-          </Menu.Item>
+          <Menu.Item fw={"bold"}>Settings</Menu.Item>
 
-          <Menu.Item
-            fw={"bold"}
-            component="a"
-            href="/wallet"
-          >
+          <Menu.Item fw={"bold"} component="a" href="/wallet">
             Assets
           </Menu.Item>
           <Menu.Item
@@ -766,5 +688,65 @@ function GroupLinkAuth() {
         Sign up
       </AppButton>
     </>
+  );
+}
+
+function SwitchLanguage() {
+  const theme = useMantineTheme();
+  const navigate = useNavigate();
+  const onChange = (lan: Language) => {
+    localStorage.__LANGUAGE__ = lan;
+    navigate(0);
+  };
+  const activeLanguage = useMemo(() => {
+    return localStorage.__LANGUAGE__;
+  }, []);
+  return (
+    <Menu
+      shadow="none"
+      width={150}
+      trigger="hover"
+      radius={0}
+      offset={0}
+    >
+      <Menu.Target>
+        <ActionIcon variant="transparent" size="xl" h={"100%"}>
+          <IconWorld color={lighten(theme.colors.dark[7], 1)} />
+        </ActionIcon>
+      </Menu.Target>
+      <Menu.Dropdown
+        bg={"#16181e"}
+        bd={"none"}
+        style={{ border: "none" }}
+      >
+        <Menu.Item
+          aria-checked={activeLanguage === Language.EN}
+          className={classes.menuLanguage}
+          onClick={() => {
+            onChange(Language.EN);
+          }}
+        >
+          English
+        </Menu.Item>
+        <Menu.Item
+          aria-checked={activeLanguage === Language.JA}
+          className={classes.menuLanguage}
+          onClick={() => {
+            onChange(Language.JA);
+          }}
+        >
+          日本語
+        </Menu.Item>
+        <Menu.Item
+          className={classes.menuLanguage}
+          aria-checked={activeLanguage === Language.CN}
+          onClick={() => {
+            onChange(Language.CN);
+          }}
+        >
+          国际化
+        </Menu.Item>
+      </Menu.Dropdown>
+    </Menu>
   );
 }

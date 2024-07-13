@@ -1,9 +1,33 @@
+import BN from "./big-number";
+import { GenericObject } from "./types";
 
-export function randomAddress() {
-  const list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "a", "b", "c", "d", "e", "f"];
+export function t(dictionary: Record<string, string>, key?: string) {
+  if (localStorage.___CHECK_LANGUAGE___ === '1') {
+    return 'xxxxxxxxxxxxxxxxxxxxxxxx';
+  }
+  if (!key) {
+    return "";
+  }
+  if (dictionary[key]) {
+    return dictionary[key];
+  } else {
+    return key;
+  }
+}
+
+export function randomAddress(chain?: string) {
+  let list = '0123456789abcdef'.split('');
+  let length = 40;
+  let prefix = "0x";
+  if (chain === "Bitcoin") {
+    list = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    prefix = "3";
+    length = 33;
+  }
+
   return (
-    "0x" +
-    new Array(40)
+    prefix +
+    new Array(length)
       .fill(0)
       .map(() => list[Math.floor(Math.random() * list.length)])
       .join("")
@@ -67,4 +91,22 @@ export function buildContentFromTemplate(
     const regex = new RegExp(`{{${key}}}`, "g");
     return content.replace(regex, value);
   }, template);
+}
+
+export function buildOptions<T extends GenericObject>(arr: T[], key: string, value: string) {
+  return arr.map((item) => ({
+    label: item[key] as string,
+    value: item[value] as string,
+  }));
+}
+
+
+export function freeAmount({
+  amount,
+  locked,
+}: {
+  amount?: number | string,
+  locked?: number | string,
+}) {
+  return BN.sub(amount || 0, locked || 0);
 }

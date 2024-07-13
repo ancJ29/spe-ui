@@ -62,15 +62,15 @@ const row = {
 
   markPrice: 67534.1,
   IM: `6,226.2725 USDT
-                        ≈6,226.27 USD`,
+                        ~6,226.27 USD`,
   MM: `1,275.2084 USDT
-                        ≈1,275.20 USD`,
+                        ~1,275.20 USD`,
   unRealizedPnL: `1,786.6248 USDT
                         (28.69%)
-                        ≈1,786.62 USD
+                        ~1,786.62 USD
                         `,
   realizedPnL: `2,417.9062 USDT
-                        ≈2,417.90 USD`,
+                        ~2,417.90 USD`,
   TrailingStop: [
     `Trigger: 0.06250
                         ReTrackmen: 0.00005`,
@@ -300,12 +300,16 @@ export const dataHistories: TableHistory = {
                 </AppButton>
               </>
             ) : (
-              <AppButton styles={{
-                root: {
-                  background: "light-dark(#e9edf3, #414347)",
-                  color: "light-dark(black, white)"
-                }
-              }} size="compact-xs" fz={12}>
+              <AppButton
+                styles={{
+                  root: {
+                    background: "light-dark(#e9edf3, #414347)",
+                    color: "light-dark(black, white)",
+                  },
+                }}
+                size="compact-xs"
+                fz={12}
+              >
                 <IconPlus size={16} />
                 Add
               </AppButton>
@@ -328,12 +332,16 @@ export const dataHistories: TableHistory = {
                 </Box>
               </>
             ) : (
-              <AppButton styles={{
-                root: {
-                  background: "light-dark(#e9edf3, #414347)",
-                  color: "light-dark(black, white)"
-                }
-              }} size="compact-xs" fz={12}>
+              <AppButton
+                styles={{
+                  root: {
+                    background: "light-dark(#e9edf3, #414347)",
+                    color: "light-dark(black, white)",
+                  },
+                }}
+                size="compact-xs"
+                fz={12}
+              >
                 <IconPlus size={16} />
                 Add
               </AppButton>
@@ -356,12 +364,16 @@ export const dataHistories: TableHistory = {
                 </Box>
               </>
             ) : (
-              <AppButton styles={{
-                root: {
-                  background: "light-dark(#e9edf3, #414347)",
-                  color: "light-dark(black, white)"
-                }
-              }}  size="compact-xs" fz={12}>
+              <AppButton
+                styles={{
+                  root: {
+                    background: "light-dark(#e9edf3, #414347)",
+                    color: "light-dark(black, white)",
+                  },
+                }}
+                size="compact-xs"
+                fz={12}
+              >
                 <IconPlus size={16} />
                 Add
               </AppButton>
@@ -372,30 +384,42 @@ export const dataHistories: TableHistory = {
             fz={12}
             key={`${idx}.14`}
           >
-            <AppButton styles={{
-              root: {
-                background: "light-dark(#e9edf3, #414347)",
-                color: "light-dark(black, white)"
-              }
-            }} size="compact-xs" fz={12}>
+            <AppButton
+              styles={{
+                root: {
+                  background: "light-dark(#e9edf3, #414347)",
+                  color: "light-dark(black, white)",
+                },
+              }}
+              size="compact-xs"
+              fz={12}
+            >
               Reverse
             </AppButton>
           </AppText>,
           <Flex key={`${idx}.15`} gap={10}>
-            <AppButton size="compact-xs" fz={12} styles={{
-              root: {
-                background: "light-dark(#e9edf3, #414347)",
-                color: "light-dark(black, white)"
-              }
-            }}>
+            <AppButton
+              size="compact-xs"
+              fz={12}
+              styles={{
+                root: {
+                  background: "light-dark(#e9edf3, #414347)",
+                  color: "light-dark(black, white)",
+                },
+              }}
+            >
               Limit
             </AppButton>
-            <AppButton size="compact-xs" fz={12} styles={{
-              root: {
-                background: "light-dark(#e9edf3, #414347)",
-                color: "light-dark(black, white)"
-              }
-            }}>
+            <AppButton
+              size="compact-xs"
+              fz={12}
+              styles={{
+                root: {
+                  background: "light-dark(#e9edf3, #414347)",
+                  color: "light-dark(black, white)",
+                },
+              }}
+            >
               Market
             </AppButton>
           </Flex>,
@@ -417,7 +441,8 @@ export const dataHistories: TableHistory = {
                       onMouseEnter={props.open}
                       onMouseLeave={props.close}
                       style={{
-                        borderBottom: "solid 1px light-dark(#eaecee, #595d61)",
+                        borderBottom:
+                          "solid 1px light-dark(#eaecee, #595d61)",
                         whiteSpace: "nowrap",
                         width: "fit-content",
                       }}
@@ -440,7 +465,8 @@ export const dataHistories: TableHistory = {
                 fz={12}
                 c={"#71757a"}
                 style={{
-                  borderBottom: "solid 1px light-dark(#eaecee, #595d61)",
+                  borderBottom:
+                    "solid 1px light-dark(#eaecee, #595d61)",
                   whiteSpace: "nowrap",
                   width: "fit-content",
                 }}
@@ -736,12 +762,16 @@ export const dataHistories: TableHistory = {
                     </AppButton>
                   </>
                 ) : (
-                  <AppButton styles={{
-                    root: {
-                      background: "light-dark(#e9edf3, #414347)",
-                      color: "light-dark(black, white)"
-                    }
-                  }} size="compact-xs" fz={12}>
+                  <AppButton
+                    styles={{
+                      root: {
+                        background: "light-dark(#e9edf3, #414347)",
+                        color: "light-dark(black, white)",
+                      },
+                    }}
+                    size="compact-xs"
+                    fz={12}
+                  >
                     <IconPlus size={16} />
                     Add
                   </AppButton>
@@ -786,8 +816,8 @@ export const dataHistories: TableHistory = {
                 styles={{
                   root: {
                     background: "light-dark(#e9edf3, #414347)",
-                    color: "light-dark(black, white)"
-                  }
+                    color: "light-dark(black, white)",
+                  },
                 }}
                 size="xs"
                 fz={12}
@@ -995,12 +1025,16 @@ export const dataHistories: TableHistory = {
                     </AppButton>
                   </>
                 ) : (
-                  <AppButton styles={{
-                    root: {
-                      background: "light-dark(#e9edf3, #414347)",
-                      color: "light-dark(black, white)"
-                    }
-                  }} size="compact-xs" fz={12}>
+                  <AppButton
+                    styles={{
+                      root: {
+                        background: "light-dark(#e9edf3, #414347)",
+                        color: "light-dark(black, white)",
+                      },
+                    }}
+                    size="compact-xs"
+                    fz={12}
+                  >
                     <IconPlus size={16} />
                     Add
                   </AppButton>
@@ -1040,8 +1074,8 @@ export const dataHistories: TableHistory = {
                 styles={{
                   root: {
                     background: "light-dark(#e9edf3, #414347)",
-                    color: "light-dark(black, white)"
-                  }
+                    color: "light-dark(black, white)",
+                  },
                 }}
                 size="xs"
                 fz={12}
@@ -1138,8 +1172,8 @@ export const dataHistories: TableHistory = {
                 styles={{
                   root: {
                     background: "light-dark(#e9edf3, #414347)",
-                    color: "light-dark(black, white)"
-                  }
+                    color: "light-dark(black, white)",
+                  },
                 }}
                 size="xs"
                 fz={12}
@@ -1292,12 +1326,16 @@ export const dataHistories: TableHistory = {
                     </AppButton>
                   </>
                 ) : (
-                  <AppButton styles={{
-                    root: {
-                      background: "light-dark(#e9edf3, #414347)",
-                      color: "light-dark(black, white)"
-                    }
-                  }} size="compact-xs" fz={12}>
+                  <AppButton
+                    styles={{
+                      root: {
+                        background: "light-dark(#e9edf3, #414347)",
+                        color: "light-dark(black, white)",
+                      },
+                    }}
+                    size="compact-xs"
+                    fz={12}
+                  >
                     <IconPlus size={16} />
                     Add
                   </AppButton>
@@ -1342,8 +1380,8 @@ export const dataHistories: TableHistory = {
                 styles={{
                   root: {
                     background: "light-dark(#e9edf3, #414347)",
-                    color: "light-dark(black, white)"
-                  }
+                    color: "light-dark(black, white)",
+                  },
                 }}
                 size="xs"
                 fz={12}
@@ -1450,8 +1488,8 @@ export const dataHistories: TableHistory = {
                 styles={{
                   root: {
                     background: "light-dark(#e9edf3, #414347)",
-                    color: "light-dark(black, white)"
-                  }
+                    color: "light-dark(black, white)",
+                  },
                 }}
                 size="xs"
                 fz={12}

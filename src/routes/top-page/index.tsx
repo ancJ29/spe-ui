@@ -6,7 +6,6 @@ import {
   getFooter,
 } from "@/domain/Application";
 import useMetadata from "@/hooks/useMetadata";
-import logger from "@/services/logger";
 import AppButton from "@/ui/Button/AppButton";
 import CarouselPage from "@/ui/Carousel/Carousel";
 import AppChart, { randomizeArraySparkline } from "@/ui/Chart/Chart";
@@ -615,9 +614,7 @@ function PartnerSection() {
 
 export function Footer(props: Partial<{ metadata: Application }>) {
   const footer = useMemo<ApplicationFooter>(() => {
-    const footer = getFooter(props.metadata);
-    logger.debug("footer", footer);
-    return footer;
+    return getFooter(props.metadata);
   }, [props.metadata]);
   return (
     <footer>

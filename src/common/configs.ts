@@ -1,5 +1,13 @@
 export const DEFAULT_LEVERAGE = 20;
 
+export const SWAP_RATE = 0.01;
+
+export const ASSET_COIN_LIST: Record<string, string> = {
+  BTC: "Bitcoin",
+  ETH: "Ethereum",
+  USDT: "Tether (USDT)",
+};
+
 // cspell: disable
 export const SYMBOL_MAP = {
   BINANCE: {
