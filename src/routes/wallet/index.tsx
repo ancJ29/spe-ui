@@ -25,14 +25,20 @@ export default function Wallet() {
       let lockedInUsd = "0",
         lockedInBtc = "0";
       balances.forEach((balance) => {
-        lockedInBtc = BN.add(lockedInUsd, balance.lockedBtcValue);
-        lockedInUsd = BN.add(lockedInBtc, balance.lockedUsdValue);
+        lockedInBtc = BN.add(lockedInBtc, balance.lockedBtcValue);
+        lockedInUsd = BN.add(lockedInUsd, balance.lockedUsdValue);
       });
       return {
-        totalInUsd: overview.all?.totalInUsd,
-        totalInBtc: overview.all?.totalInBtc,
-        availableInUsd: BN.sub(overview.all?.totalInUsd, lockedInUsd),
-        availableInBtc: BN.sub(overview.all?.totalInBtc, lockedInBtc),
+        totalInUsd: overview.all?.totalInUsd || "0",
+        totalInBtc: overview.all?.totalInBtc || "0",
+        availableInUsd: BN.sub(
+          overview.all?.totalInUsd || "0",
+          lockedInUsd,
+        ),
+        availableInBtc: BN.sub(
+          overview.all?.totalInBtc || "0",
+          lockedInBtc,
+        ),
       };
     }, [overview, balances]);
 
