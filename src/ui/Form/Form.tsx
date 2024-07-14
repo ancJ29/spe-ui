@@ -36,7 +36,7 @@ const isDev = ["localhost", "127.0.0.1", "0.0.0.0"].includes(
   window.location.hostname,
 );
 
-const test = isDev && false;
+const test = isDev && true;
 
 type OmittedForm = Omit<FormProps, "formData" | "validator">;
 

@@ -1,3 +1,4 @@
+import BN from "@/common/big-number";
 import { ASSET_COIN_LIST } from "@/common/configs";
 import { ModalMode } from "@/domain/balance";
 import { COIN_IMAGES } from "@/domain/config";
@@ -30,7 +31,7 @@ import {
 } from "../Form";
 
 // FundAssetsTable.tsx
-export function FundAssetsTable() {
+export function FundAssetsTable({ hideZero }: { hideZero: boolean }) {
   const t = useTranslation();
   const { accounts, balances, fundingAccount, tradingAccount } =
     useTradeStorageInfo();
@@ -49,9 +50,12 @@ export function FundAssetsTable() {
 
   const tableData: TableData = useMemo(() => {
     const accountId = accounts.find((el) => el.isFunding)?.id;
-    const rows = accountId
-      ? balances.filter((el) => el.accountId === accountId)
-      : [];
+    const rows = balances.filter((el) => {
+      if (accountId && el.accountId === accountId) {
+        return hideZero ? BN.gt(el.amount, 0) : true;
+      }
+      return false;
+    });
     return {
       head: [
         "Coin",
@@ -141,7 +145,7 @@ export function FundAssetsTable() {
         </>,
       ]),
     };
-  }, [accounts, balances, openModal, t]);
+  }, [accounts, balances, hideZero, openModal, t]);
 
   const onSubmit = useCallback(() => {
     useAssetStore.getState().initial();

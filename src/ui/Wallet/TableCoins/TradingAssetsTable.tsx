@@ -1,3 +1,4 @@
+import BN from "@/common/big-number";
 import { ASSET_COIN_LIST } from "@/common/configs";
 import { ModalMode } from "@/domain/balance";
 import { COIN_IMAGES } from "@/domain/config";
@@ -24,7 +25,11 @@ import { IconX } from "@tabler/icons-react";
 import { useCallback, useMemo, useState } from "react";
 import { TransferForm } from "../Form";
 
-export function TradingAssetsTable() {
+export function TradingAssetsTable({
+  hideZero,
+}: {
+  hideZero: boolean;
+}) {
   const t = useTranslation();
   const [modalMode, setModalMode] = useState<ModalMode>();
   const [opened, { open, close }] = useDisclosure(false);
@@ -41,16 +46,16 @@ export function TradingAssetsTable() {
     [open],
   );
 
-  const rows = useMemo(() => {
+  const tableData: TableData = useMemo(() => {
     const accountId = accounts.find(
       (el) => !el.isFunding && !el.isCopyMaster,
     )?.id;
-    return accountId
-      ? balances.filter((el) => el.accountId === accountId)
-      : [];
-  }, [accounts, balances]);
-
-  const tableData: TableData = useMemo(() => {
+    const rows = balances.filter((el) => {
+      if (accountId && el.accountId === accountId) {
+        return hideZero ? BN.gt(el.amount, 0) : true;
+      }
+      return false;
+    });
     return {
       head: [
         "Coin",
@@ -131,7 +136,7 @@ export function TradingAssetsTable() {
         }),
       ],
     };
-  }, [openModal, rows, t]);
+  }, [accounts, balances, hideZero, openModal, t]);
 
   const onSubmit = useCallback(() => {
     useAssetStore.getState().initial();
@@ -156,7 +161,7 @@ export function TradingAssetsTable() {
               table: "table-sticky-column",
             }}
           />
-          <>{rows.length === 0 && <NoDataRecord />}</>
+          <>{tableData.body?.length === 0 && <NoDataRecord />}</>
         </Table.ScrollContainer>
       </Box>
       <Modal

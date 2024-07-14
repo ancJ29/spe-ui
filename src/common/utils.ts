@@ -42,7 +42,7 @@ export function randomString() {
   return (Math.random() + 1).toString(36).substring(7);
 }
 
-export function cleanObj(obj: Record<string, unknown>) {
+export function cleanObj<T extends Record<string, unknown>>(obj: T) {
   for (const key in obj) {
     if (obj[key] === null || obj[key] === undefined) {
       delete obj[key];

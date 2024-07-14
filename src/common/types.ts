@@ -97,6 +97,7 @@ export type SpeTransaction = {
   accountId: string;
   type: TransactionType;
   status: TransactionStatus;
+  from: string;
   to: string;
   asset: string;
   toAsset: string;

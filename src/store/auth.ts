@@ -18,6 +18,7 @@ const authStore = create<AuthState>((set) => ({
     delete sessionStorage.__TOKEN__;
     sessionStorage.clear();
     set((state) => ({ ...state, token: undefined, me: undefined }));
+    window.location.reload();
   },
 }));
 

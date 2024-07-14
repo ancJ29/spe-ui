@@ -72,7 +72,7 @@ export function DepositRecords() {
           </>,
           <>
             <Title order={6} fz={12}>
-              {row.to || "N/A"}
+              {row.from || "N/A"}
             </Title>
           </>,
           <>

@@ -21,7 +21,7 @@ export function convertToWithdrawFormData(formData: WithdrawFormData) {
   const infoKey = k === "BTC" ? "infoBTC" : k === "ETH" ? "infoETH" : "infoUSDT";
   return {
     "coin": formData.coin,
-    "chain": formData.chain,
+    "chain": formData[infoKey].chain,
     "address": formData[infoKey].address,
     "amount": formData[infoKey].amount,
   };

@@ -7,11 +7,9 @@ import { FiatDepositModal } from "./FiatDepositModal";
 import { FundAssetsTable } from "./FundAssetsTable";
 import { TradingAssetsTable } from "./TradingAssetsTable";
 
-type TabType = "Wallet" | "Trading";
 export function TabsWallet() {
   const { me } = useAuthStore();
-
-  const [tab, setTab] = useState<TabType>("Wallet");
+  const [hideZero, setHideZero] = useState(false);
   const t = useTranslation();
   return (
     <>
@@ -19,7 +17,6 @@ export function TabsWallet() {
         <AppTabs
           className="noBg"
           defaultValue={"Wallet"}
-          onChange={(t) => setTab(t as TabType)}
           showPanel
           classNames={{
             root: "tabBorderSmall",
@@ -37,7 +34,7 @@ export function TabsWallet() {
                 value: "Wallet",
               },
               tabsPanelProps: {
-                children: <FundAssetsTable />,
+                children: <FundAssetsTable hideZero={hideZero} />,
                 value: "Wallet",
               },
             },
@@ -47,20 +44,22 @@ export function TabsWallet() {
                 value: "Trading",
               },
               tabsPanelProps: {
-                children: <TradingAssetsTable />,
+                children: <TradingAssetsTable hideZero={hideZero} />,
                 value: "Trading",
               },
             },
           ]}
         />
-        {tab === "Wallet" && (
-          <Box h={42} pos={"absolute"} right={0} top={0}>
-            <Flex align={"center"} gap={20}>
-              <Checkbox label={t("Hide small balances")} />
-              {me?.fiatDepositMemo && <FiatDepositModal />}
-            </Flex>
-          </Box>
-        )}
+        <Box h={42} pos={"absolute"} right={0} top={0}>
+          <Flex align={"center"} gap={20}>
+            <Checkbox
+              checked={hideZero}
+              label={t("Hide small balances")}
+              onClick={() => setHideZero(!hideZero)}
+            />
+            {me?.fiatDepositMemo && <FiatDepositModal />}
+          </Flex>
+        </Box>
       </Box>
     </>
   );

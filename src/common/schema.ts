@@ -23,6 +23,7 @@ export const chainSchema = z.enum([
 ]);
 
 export const userKycDataSchema = z.object({
+  country: optionalStringSchema,
   firstName: optionalStringSchema,
   lastName: optionalStringSchema,
   kanaFirstName: optionalStringSchema,
