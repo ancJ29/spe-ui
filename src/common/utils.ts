@@ -100,7 +100,6 @@ export function buildOptions<T extends GenericObject>(arr: T[], key: string, val
   }));
 }
 
-
 export function freeAmount({
   amount,
   locked,

@@ -1,6 +1,5 @@
 import { Balance, BalanceOverview, MarketPrice, SpeTransaction } from "@/common/types";
-import { DepositAddressFormData, GetAccountsFormData } from "@/types";
-import { Account } from "../domain/account";
+import { Account, DepositAddressFormData, GetAccountsFormData } from "@/types";
 
 export interface TradeStorageService {
   balances: Balance[]
