@@ -1,10 +1,8 @@
 import BN from "@/common/big-number";
 import { ASSET_COIN_LIST } from "@/common/configs";
-import { ModalMode } from "@/domain/balance";
 import { COIN_IMAGES } from "@/domain/config";
 import useTranslation from "@/hooks/useTranslation";
-import { useTradeStorageInfo } from "@/services/tradeAdapter";
-import { useAssetStore } from "@/store/assets";
+import { assetStore } from "@/store/assets";
 import { NoDataRecord } from "@/ui/NoData";
 import NumberFormat from "@/ui/NumberFormat";
 import {
@@ -31,15 +29,13 @@ export function TradingAssetsTable({
   hideZero: boolean;
 }) {
   const t = useTranslation();
-  const [modalMode, setModalMode] = useState<ModalMode>();
   const [opened, { open, close }] = useDisclosure(false);
   const [coin, setCoin] = useState("");
   const { accounts, balances, fundingAccount, tradingAccount } =
-    useTradeStorageInfo();
+    assetStore();
 
   const openModal = useCallback(
-    (mode: ModalMode, coin: string) => {
-      setModalMode(mode);
+    (coin: string) => {
       setCoin(coin);
       open();
     },
@@ -123,7 +119,7 @@ export function TradingAssetsTable({
             <>
               <Flex gap={5}>
                 <Button
-                  onClick={() => openModal("TRANSFER", row.coin)}
+                  onClick={() => openModal(row.coin)}
                   p={0}
                   size="xs"
                   variant="transparent"
@@ -139,7 +135,7 @@ export function TradingAssetsTable({
   }, [accounts, balances, hideZero, openModal, t]);
 
   const onSubmit = useCallback(() => {
-    useAssetStore.getState().initial();
+    assetStore.getState().fetchBalances();
     close();
   }, [close]);
 
@@ -205,16 +201,14 @@ export function TradingAssetsTable({
           >
             <IconX color="gray" />
           </ActionIcon>
-          {modalMode == "TRANSFER" && (
-            <TransferForm
-              coin={coin}
-              accountIds={[
-                tradingAccount?.id || "",
-                fundingAccount?.id || "",
-              ]}
-              onSubmit={onSubmit}
-            />
-          )}
+          <TransferForm
+            coin={coin}
+            accountIds={[
+              tradingAccount?.id || "",
+              fundingAccount?.id || "",
+            ]}
+            onSubmit={onSubmit}
+          />
         </Box>
       </Modal>
     </>

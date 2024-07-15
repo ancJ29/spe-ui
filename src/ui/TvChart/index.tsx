@@ -71,7 +71,7 @@ export const TVChart = ({
 
   useEffect(() => {
     try {
-      widget.changeTheme(colorScheme as theme);
+      widget?.changeTheme(colorScheme as theme);
     } catch (e: unknown) {
       logger.debug(e);
     }

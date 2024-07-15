@@ -11,10 +11,10 @@ const NewOrderOfConditionalTradeSchema: FormSchema = {
       type: {
         type: "string",
         enum: ["MARKET", "LIMIT"],
-        default: "MARKET",
+        default: "LIMIT",
         readOnly: true,
       },
-      symbolId: {
+      symbol: {
         type: "string",
         readOnly: true,
       },
@@ -37,7 +37,7 @@ const NewOrderOfConditionalTradeSchema: FormSchema = {
       },
       volume: {
         type: "string",
-        title: "Volume"
+        title: "Volume",
       },
       leverage: {
         type: "number",
@@ -86,7 +86,7 @@ const NewOrderOfConditionalTradeSchema: FormSchema = {
         },
       },
     },
-    required: ["accountId", "symbolId", "side", "type", "volume"],
+    required: ["accountId", "symbol", "side", "type", "volume"],
   },
   uiSchema: {
     "ui:order": [
@@ -120,7 +120,7 @@ const NewOrderOfConditionalTradeSchema: FormSchema = {
     "accountId": {
       "ui:widget": "hidden",
     },
-    "symbolId": {
+    "symbol": {
       "ui:options": {
         widget: "hidden",
       },
@@ -243,28 +243,5 @@ const NewOrderOfConditionalTradeSchema: FormSchema = {
   },
   formData: {},
 };
-
-// #### Parameters
-
-// | name                  | type      | required | default | description                   |
-// | --------------------- | --------- | -------- | ------- | ----------------------------- |
-// | `accountId`           | `string`  | `YES`    |         |                               |
-// | `symbolId`            | `string`  | `YES`    |         |                               |
-// | `side`                | `string`  | `YES`    |         | Enum: `BUY`, `SELL`           |
-// | `type`                | `string`  | `YES`    |         | Enum: `MARKET`, `LIMIT`       |
-// | `volume`              | `string`  | `YES`    |         |                               |
-// | `price`               | `string`  |          |         |                               |
-// | `leverage`            | `number`  |          |         |                               |
-// | `timeInForce`         | `string`  |          | `GTC`   | Enum: `GTC`, `IOC`, `FOK`     |
-// | `postOnly`            | `boolean` |          | `false` |                               |
-// | `reduceOnly`          | `boolean` |          | `false` |                               |
-// | `triggerPrice`        | `string`  |          |         |                               |
-// | `triggerBy`           | `string`  |          |         | Enum: `MARK`, `LAST`, `INDEX` |
-// | `triggerDirection`    | `string`  |          |         | Enum: `UP`, `DOWN`            |
-// | `takeProfit`          | `string`  |          |         |                               |
-// | `takeProfitTriggerBy` | `string`  |          |         | Enum: `MARK`, `LAST`, `INDEX` |
-// | `stopLoss`            | `string`  |          |         |                               |
-// | `stopLossTriggerBy`   | `string`  |          |         | Enum: `MARK`, `LAST`, `INDEX` |
-// | `clientOrderId`       | `string`  |          |         |                               |
 
 export default NewOrderOfConditionalTradeSchema;

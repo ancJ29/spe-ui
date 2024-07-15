@@ -1,5 +1,5 @@
 import useTranslation from "@/hooks/useTranslation";
-import useAuthStore from "@/store/auth";
+import authStore from "@/store/auth";
 import {
   Alert,
   Box,
@@ -24,7 +24,7 @@ import {
 export function FiatDepositModal() {
   const [opened, { open, close }] = useDisclosure(false);
   const t = useTranslation();
-  const { me } = useAuthStore();
+  const { me } = authStore();
 
   return (
     <>

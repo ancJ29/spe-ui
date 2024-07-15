@@ -1,16 +1,20 @@
-import { CoinsAsName, SwapSideAsName, swapSides } from "@/domain/marketPrice";
+import {
+  CoinsAsName,
+  SwapSideAsName,
+  swapSides,
+} from "@/domain/marketPrice";
 import { FormSchema } from "@/types";
 
 const SwapSchema: FormSchema = {
   schema: {
     properties: {
       accountId: {
-        type: "string"
+        type: "string",
       },
       side: {
         type: "string",
         enum: swapSides,
-        default: swapSides[0]
+        default: swapSides[0],
       },
     },
     dependencies: {
@@ -21,63 +25,55 @@ const SwapSchema: FormSchema = {
               symbolFrom: {
                 type: "string",
                 enum: [CoinsAsName.USDT],
-                default: CoinsAsName.USDT
+                default: CoinsAsName.USDT,
               },
               side: {
-                enum: [SwapSideAsName.BUY]
+                enum: [SwapSideAsName.BUY],
               },
               symbolTo: {
                 type: "string",
                 enum: [CoinsAsName.BTC, CoinsAsName.ETH],
-                default: CoinsAsName.BTC
+                default: CoinsAsName.BTC,
               },
               infoPrice: {
-                type: "string"
+                type: "string",
               },
               volume: {
                 type: ["number", "string"],
-                title: "Volume"
-              }
+                title: "Volume",
+              },
             },
-
           },
           {
             properties: {
               symbolFrom: {
                 type: "string",
                 enum: [CoinsAsName.BTC, CoinsAsName.ETH],
-                default: CoinsAsName.BTC
+                default: CoinsAsName.BTC,
               },
               side: {
-                enum: [SwapSideAsName.SELL]
+                enum: [SwapSideAsName.SELL],
               },
               symbolTo: {
                 type: "string",
                 enum: [CoinsAsName.USDT],
-                default: CoinsAsName.USDT
+                default: CoinsAsName.USDT,
               },
               infoPrice: {
-                type: "string"
+                type: "string",
               },
               volume: {
                 type: ["number", "string"],
-                title: "Volume"
-              }
+                title: "Volume",
+              },
             },
-
           },
-        ]
-      }
-    }
+        ],
+      },
+    },
   },
   uiSchema: {
-    "ui:order": [
-      "accountId",
-      "symbolFrom",
-      "side",
-      "symbolTo",
-      "*"
-    ],
+    "ui:order": ["accountId", "symbolFrom", "side", "symbolTo", "*"],
     "ui:options": {
       classNames: "grid-form-root gap-0",
     },
@@ -90,45 +86,45 @@ const SwapSchema: FormSchema = {
     "symbolFrom": {
       "ui:options": {
         widget: "CoinSwapWidget",
-        label: false
-      }
+        label: false,
+      },
     },
     "symbolTo": {
       "ui:options": {
         widget: "CoinSwapWidget",
-        label: false
-      }
+        label: false,
+      },
     },
     "volume": {
       "ui:options": {
         widget: "hidden",
-        label: false
-      }
+        label: false,
+      },
     },
     "side": {
       "ui:options": {
         widget: "SwapSwitchWidget",
-        label: false
-      }
+        label: false,
+      },
     },
     "infoPrice": {
       "ui:options": {
         widget: "MarketPriceInfoWidget",
-        label: false
-      }
+        label: false,
+      },
     },
     "accountId": {
       "ui:options": {
         widget: "FundingAccountWidget",
-        label: false
-      }
+        label: false,
+      },
     },
   },
   formData: {
-    "accountId": "{{FUNDING_ACCOUNT_ID}}",
-    "side": "SELL",
-    "volume": "0.1"
-  }
+    accountId: "{{FUNDING_ACCOUNT_ID}}",
+    side: "SELL",
+    volume: "0.1",
+  },
 };
 
 export default SwapSchema;

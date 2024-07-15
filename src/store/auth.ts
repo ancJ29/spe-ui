@@ -2,10 +2,10 @@ import { AuthenticationPayload } from "@/common/types";
 import { create } from "zustand";
 
 interface AuthState {
-  token?: string
-  me?: AuthenticationPayload,
-  logout: () => void,
-  setMe: (me: AuthenticationPayload) => void,
+  token?: string;
+  me?: AuthenticationPayload;
+  logout: () => void;
+  setMe: (me: AuthenticationPayload) => void;
 }
 
 const authStore = create<AuthState>((set) => ({

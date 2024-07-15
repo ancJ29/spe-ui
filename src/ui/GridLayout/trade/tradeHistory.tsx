@@ -43,7 +43,7 @@ const row = {
   tradeType: ["Close Short", "Close Long", "Open Long", "Open Short"][
     Math.floor(Math.random() * 4)
   ],
-  orderType: ["Limit", "Market"][Math.floor(Math.random() * 2)],
+  orderSide: ["Limit", "Market"][Math.floor(Math.random() * 2)],
   filledType: ["Trade", "Withdraw"][Math.floor(Math.random() * 2)],
   reduceOnly: [true, false][Math.floor(Math.random() * 2)],
   status: ["Active", "Closed", "Filled", "Canceled"][
@@ -649,7 +649,7 @@ export const dataHistories: TableHistory = {
                 isBuy,
                 tradeType,
                 orderTime,
-                orderType,
+                orderSide,
                 orderPrice,
                 tp,
                 sl,
@@ -788,7 +788,7 @@ export const dataHistories: TableHistory = {
               </Box>,
               <Box key={`${idx}.6`} miw={120}>
                 <AppText instancetype="WithCellToken" fz={12}>
-                  {orderType}
+                  {orderSide}
                 </AppText>
               </Box>,
               <Box key={`${idx}.7`} w={120}>
@@ -865,7 +865,7 @@ export const dataHistories: TableHistory = {
               "Open Long",
               "Open Short",
             ][Math.floor(Math.random() * 4)],
-            orderType: ["Limit", "Market"][
+            orderSide: ["Limit", "Market"][
               Math.floor(Math.random() * 2)
             ],
             reduceOnly: [true, false][Math.floor(Math.random() * 2)],
@@ -1209,7 +1209,7 @@ export const dataHistories: TableHistory = {
                 isBuy,
                 tradeType,
                 orderTime,
-                orderType,
+                orderSide,
                 orderPrice,
                 tp,
                 sl,
@@ -1352,7 +1352,7 @@ export const dataHistories: TableHistory = {
               </Box>,
               <Box key={`${idx}.6`} miw={120}>
                 <AppText instancetype="WithCellToken" fz={12}>
-                  {orderType}
+                  {orderSide}
                 </AppText>
               </Box>,
               <Box key={`${idx}.7`} w={120}>
@@ -1574,7 +1574,7 @@ export const dataHistories: TableHistory = {
                 isBuy,
                 tradeType,
                 orderTime,
-                orderType,
+                orderSide,
                 orderPrice,
                 status,
                 ...props
@@ -1616,7 +1616,7 @@ export const dataHistories: TableHistory = {
                 instancetype="WithCellToken"
                 fz={12}
               >
-                {orderType}
+                {orderSide}
               </AppText>,
               <AppText
                 key={`${idx}.6`}
@@ -2045,7 +2045,7 @@ export const dataHistories: TableHistory = {
           instancetype="WithCellToken"
           fz={12}
         >
-          {props.orderType}
+          {props.orderSide}
         </AppText>,
         <AppText
           key={`${idx}.6`}

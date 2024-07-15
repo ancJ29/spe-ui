@@ -1,6 +1,6 @@
 import BN from "@/common/big-number";
 import useTranslation from "@/hooks/useTranslation";
-import { useTradeStorageInfo } from "@/services/tradeAdapter";
+import { assetStore } from "@/store/assets";
 import NumberFormat from "@/ui/NumberFormat";
 import { TabsWallet } from "@/ui/Wallet";
 import {
@@ -18,7 +18,7 @@ import { useMemo } from "react";
 
 export default function Wallet() {
   const t = useTranslation();
-  const { overview, balances } = useTradeStorageInfo();
+  const { overview, balances } = assetStore();
 
   const { totalInUsd, totalInBtc, availableInUsd, availableInBtc } =
     useMemo(() => {

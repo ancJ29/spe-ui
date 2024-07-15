@@ -231,9 +231,7 @@ const LoginFormSchema: FormSchema = {
       },
     },
   },
-  formData: {
-
-  },
+  formData: {},
 };
 
 export default LoginFormSchema;

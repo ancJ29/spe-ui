@@ -20,7 +20,7 @@ const WithdrawSchema: FormSchema = {
       },
       chain: {
         type: "string",
-        title: ""
+        title: "",
       },
       address: {
         type: "string",
@@ -30,7 +30,7 @@ const WithdrawSchema: FormSchema = {
       amount: {
         type: "number",
         title: t(dictionary, "Amount"),
-        minimum: 0.01
+        minimum: 0.01,
       },
       infoETH: {
         type: "object",
@@ -49,7 +49,7 @@ const WithdrawSchema: FormSchema = {
             $ref: "#/definitions/address",
           },
         },
-        required: ["amount", "chain", "address"]
+        required: ["amount", "chain", "address"],
       },
       infoBTC: {
         type: "object",
@@ -67,9 +67,8 @@ const WithdrawSchema: FormSchema = {
           address: {
             $ref: "#/definitions/address",
           },
-
         },
-        required: ["address", "amount", "chain"]
+        required: ["address", "amount", "chain"],
       },
       infoUSDT: {
         type: "object",
@@ -87,11 +86,9 @@ const WithdrawSchema: FormSchema = {
           address: {
             $ref: "#/definitions/address",
           },
-
         },
-        required: ["amount", "address", "chain"]
+        required: ["amount", "address", "chain"],
       },
-
     },
     properties: {
       coin: {
@@ -104,57 +101,54 @@ const WithdrawSchema: FormSchema = {
         if: {
           properties: {
             coin: {
-              const: "USDT"
-            }
-          }
+              const: "USDT",
+            },
+          },
         },
         then: {
           properties: {
             infoUSDT: {
               $ref: "#/definitions/infoUSDT",
-            }
+            },
           },
-        }
+        },
       },
       {
         if: {
           properties: {
             coin: {
-              const: "BTC"
-            }
-          }
+              const: "BTC",
+            },
+          },
         },
         then: {
           properties: {
             infoBTC: {
               $ref: "#/definitions/infoBTC",
-            }
-          }
-        }
+            },
+          },
+        },
       },
       {
         if: {
           properties: {
             coin: {
-              const: "ETH"
-            }
-          }
+              const: "ETH",
+            },
+          },
         },
         then: {
           properties: {
             infoETH: {
               $ref: "#/definitions/infoETH",
-            }
-          }
-        }
-      }
+            },
+          },
+        },
+      },
     ],
   },
   uiSchema: {
-    "ui:order": [
-      "coin",
-      "*",
-    ],
+    "ui:order": ["coin", "*"],
     "ui:options": {
       submitButtonOptions: {
         props: {
@@ -168,8 +162,8 @@ const WithdrawSchema: FormSchema = {
     "coin": {
       "ui:options": {
         label: false,
-        widget: "SelectCoinWidget"
-      }
+        widget: "SelectCoinWidget",
+      },
     },
     "infoUSDT": {
       chain: {
@@ -179,7 +173,7 @@ const WithdrawSchema: FormSchema = {
           props: {
             withAsterisk: true,
           },
-        }
+        },
       },
       address: {
         "ui:options": {
@@ -187,8 +181,8 @@ const WithdrawSchema: FormSchema = {
           label: false,
           props: {
             placeholder: t(dictionary, "Please enter address"),
-          }
-        }
+          },
+        },
       },
       amount: {
         "ui:options": {
@@ -197,9 +191,8 @@ const WithdrawSchema: FormSchema = {
           props: {
             placeholder: "Min 0.01",
           },
-        }
-      }
-
+        },
+      },
     },
     "infoBTC": {
       chain: {
@@ -209,7 +202,7 @@ const WithdrawSchema: FormSchema = {
           props: {
             withAsterisk: true,
           },
-        }
+        },
       },
       address: {
         "ui:options": {
@@ -217,8 +210,8 @@ const WithdrawSchema: FormSchema = {
           label: false,
           props: {
             placeholder: t(dictionary, "Please enter address"),
-          }
-        }
+          },
+        },
       },
       amount: {
         "ui:options": {
@@ -227,8 +220,8 @@ const WithdrawSchema: FormSchema = {
           props: {
             placeholder: "Min 0.01",
           },
-        }
-      }
+        },
+      },
     },
     "infoETH": {
       chain: {
@@ -238,7 +231,7 @@ const WithdrawSchema: FormSchema = {
           props: {
             withAsterisk: true,
           },
-        }
+        },
       },
       address: {
         "ui:options": {
@@ -246,8 +239,8 @@ const WithdrawSchema: FormSchema = {
           label: false,
           props: {
             placeholder: t(dictionary, "Please enter address"),
-          }
-        }
+          },
+        },
       },
       amount: {
         "ui:options": {
@@ -256,14 +249,13 @@ const WithdrawSchema: FormSchema = {
           props: {
             placeholder: "Min 0.01",
           },
-        }
-      }
+        },
+      },
     },
-
   },
   formData: {
-
-  }
+    coin: "USDT",
+  },
 };
 
 export default WithdrawSchema;

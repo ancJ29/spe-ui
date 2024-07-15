@@ -33,7 +33,9 @@ export const userKycDataSchema = z.object({
   fullName: optionalStringSchema,
   dateOfBirth: optionalStringSchema,
   idNumber: optionalStringSchema,
-  idType: z.enum(["passport", "driverLicense", "ID", "other"]).optional(),
+  idType: z
+    .enum(["passport", "driverLicense", "ID", "other"])
+    .optional(),
   address: optionalStringSchema,
   images: z
     .object({
@@ -94,6 +96,12 @@ export const authenticationPayloadSchema = z.object({
   email: optionalStringSchema,
   mobile: optionalStringSchema,
   config: userConfigSchema.optional(),
+  accounts: z
+    .object({
+      fundingAccountId: optionalStringSchema,
+      tradingAccountId: optionalStringSchema,
+    })
+    .optional(),
 });
 
 export const baseMenuSchema = z.object({

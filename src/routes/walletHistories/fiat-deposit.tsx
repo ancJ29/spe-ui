@@ -1,9 +1,9 @@
-import useAuthStore from "@/store/auth";
+import authStore from "@/store/auth";
 import { FiatDepositRecords } from "@/ui/Wallet";
 import { Navigate } from "react-router-dom";
 
 export default function FiatDeposit() {
-  const { me } = useAuthStore();
+  const { me } = authStore();
   return me?.fiatDepositMemo ? (
     <FiatDepositRecords />
   ) : (

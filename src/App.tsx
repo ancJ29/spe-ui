@@ -1,5 +1,5 @@
 import routes from "@/router";
-import getMe from "@/services/apis/get-me";
+import { getMe } from "@/services/apis";
 import { resolver, theme } from "@/styles/theme/mantine-theme";
 import { Loader, MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
@@ -7,9 +7,21 @@ import { Notifications } from "@mantine/notifications";
 import { useEffect, useMemo } from "react";
 import { RouteObject, useRoutes } from "react-router-dom";
 import { useBoolean } from "usehooks-ts";
-import useAuthStore from "./store/auth";
+import { assetStore } from "./store/assets";
+import authStore from "./store/auth";
+import {
+  default as tradeStore,
+  default as useTradeStore,
+} from "./store/trade";
+
 const App = () => {
   const { value: loaded, setTrue } = useBoolean(false);
+
+  useEffect(() => {
+    _loadPrices();
+    const timer = setInterval(_loadPrices, 10e3);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     if (loaded) {
@@ -17,9 +29,9 @@ const App = () => {
     }
     if (localStorage.__TOKEN__) {
       getMe()
-        .then((me) => useAuthStore.getState().setMe(me))
+        .then((me) => authStore.getState().setMe(me))
         .catch(() => {
-          useAuthStore.getState().logout();
+          authStore.getState().logout();
         })
         .finally(() => {
           setTrue();
@@ -69,4 +81,15 @@ function _buildRoutes(loaded: boolean) {
     ];
   }
   return routes;
+}
+
+function _loadPrices() {
+  useTradeStore.getState().loadSymbols();
+  tradeStore.getState().loadMarketPrices();
+  assetStore
+    .getState()
+    .fetchAccounts()
+    .then(() => {
+      assetStore.getState().fetchBalances();
+    });
 }

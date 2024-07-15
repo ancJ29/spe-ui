@@ -113,8 +113,8 @@ export function TabsOfTradeHistory() {
               styles={{
                 root: {
                   background: "light-dark(#e9edf3, #414347)",
-                  color: "light-dark(black, white)"
-                }
+                  color: "light-dark(black, white)",
+                },
               }}
               size="compact-xs"
               fz={12}
@@ -193,7 +193,7 @@ function TablePositions() {
               styles={{
                 thead: {
                   // background: "#101014",
-                  background: "light-dark(#ffffff, #101014)"
+                  background: "light-dark(#ffffff, #101014)",
                 },
               }}
               stickyHeader
@@ -210,8 +210,8 @@ function TablePositions() {
             c={"#71757a"}
             styles={{
               root: {
-                background: "light-dark(#ffffff, #101014)"
-              }
+                background: "light-dark(#ffffff, #101014)",
+              },
             }}
             w={"fit-content"}
             mx={"auto"}
@@ -249,7 +249,7 @@ function TablePnL() {
             styles={{
               thead: {
                 // background: "#101014",
-                background: "light-dark(#ffffff, #101014)"
+                background: "light-dark(#ffffff, #101014)",
               },
             }}
             stickyHeader
@@ -266,8 +266,8 @@ function TablePnL() {
           c={"#71757a"}
           styles={{
             root: {
-              background: "light-dark(#ffffff, #101014)"
-            }
+              background: "light-dark(#ffffff, #101014)",
+            },
           }}
           w={"fit-content"}
           mx={"auto"}
@@ -343,7 +343,7 @@ function TableCurrentOrders() {
               styles={{
                 thead: {
                   // background: "#101014",
-                  background: "light-dark(#ffffff, #101014)"
+                  background: "light-dark(#ffffff, #101014)",
                 },
               }}
               stickyHeader
@@ -360,8 +360,8 @@ function TableCurrentOrders() {
             c={"#71757a"}
             styles={{
               root: {
-                background: "light-dark(#ffffff, #101014)"
-              }
+                background: "light-dark(#ffffff, #101014)",
+              },
             }}
             w={"fit-content"}
             mx={"auto"}
@@ -459,7 +459,7 @@ function TableOrderHistory() {
               styles={{
                 thead: {
                   // background: "#101014",
-                  background: "light-dark(#ffffff, #101014)"
+                  background: "light-dark(#ffffff, #101014)",
                 },
               }}
               stickyHeader
@@ -476,8 +476,8 @@ function TableOrderHistory() {
             c={"#71757a"}
             styles={{
               root: {
-                background: "light-dark(#ffffff, #101014)"
-              }
+                background: "light-dark(#ffffff, #101014)",
+              },
             }}
             w={"fit-content"}
             mx={"auto"}
@@ -539,7 +539,7 @@ function TableTradeHistory() {
               styles={{
                 thead: {
                   // background: "#101014",
-                  background: "light-dark(#ffffff, #101014)"
+                  background: "light-dark(#ffffff, #101014)",
                 },
               }}
               stickyHeader
@@ -556,8 +556,8 @@ function TableTradeHistory() {
             c={"#71757a"}
             styles={{
               root: {
-                background: "light-dark(#ffffff, #101014)"
-              }
+                background: "light-dark(#ffffff, #101014)",
+              },
             }}
             w={"fit-content"}
             mx={"auto"}

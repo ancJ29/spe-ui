@@ -3,7 +3,6 @@ import CN from "./configs/cn.json";
 import EN from "./configs/en.json";
 import JA from "./configs/ja.json";
 
-// export type Language = "EN" | "JA" | "CN";
 export enum Language {
   EN = "EN",
   JA = "JA",
@@ -31,6 +30,5 @@ export function getDictionary() {
       return CN;
     default:
       return EN;
-
   }
 }

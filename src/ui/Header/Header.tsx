@@ -1,6 +1,10 @@
+import defaultAvatar from "@/assets/images/defaultAvatar.png";
 import svgLogo from "@/assets/images/logo.svg";
 import { Application } from "@/common/types";
+import { masking } from "@/common/utils";
 import { getHeaderMenu } from "@/domain/Application";
+import useTranslation from "@/hooks/useTranslation";
+import { default as authStore } from "@/store/auth";
 import {
   ActionIcon,
   Anchor,
@@ -9,8 +13,10 @@ import {
   Button,
   Center,
   Collapse,
+  CopyButton,
   Divider,
   Drawer,
+  Flex,
   Group,
   HoverCard,
   Image,
@@ -21,6 +27,7 @@ import {
   SimpleGrid,
   Text,
   ThemeIcon,
+  Tooltip,
   UnstyledButton,
   useComputedColorScheme,
   useMantineColorScheme,
@@ -29,22 +36,24 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import {
   IconCaretDownFilled,
+  IconCheck,
   IconCoin,
-  IconMoon,
+  IconCopy,
+  IconLogout,
   IconSun,
 } from "@tabler/icons-react";
 import cx from "clsx";
 import { Fragment, useMemo, useState } from "react";
 import AppButton from "../Button/AppButton";
+import { SwitchDarkLightMode } from "../SwitchDarkLight";
+import SwitchLanguage from "../SwitchLanguage/SwitchLanguage";
 import classes from "./index.module.scss";
-import MenuUserInfo from "./MenuUserInfo";
-import SwitchLanguage from "./SwitchLanguage";
 
 export function Header(props: Partial<{ metadata: Application }>) {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const theme = useMantineTheme();
-  const { setColorScheme, colorScheme } = useMantineColorScheme();
+  const { setColorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme("dark", {
     getInitialValueInEffect: true,
   });
@@ -294,27 +303,7 @@ export function Header(props: Partial<{ metadata: Application }>) {
             </Group>
             <Group h="100%" gap={0}>
               <SwitchLanguage />
-              <ActionIcon
-                onClick={() =>
-                  setColorScheme(
-                    computedColorScheme === "light"
-                      ? "dark"
-                      : "light",
-                  )
-                }
-                size="xl"
-                variant="transparent"
-                aria-label="Toggle color scheme"
-              >
-                {colorScheme === "light" && (
-                  <IconSun color={lighten(theme.colors.dark[7], 1)} />
-                )}
-                {colorScheme === "dark" && (
-                  <IconMoon
-                    color={lighten(theme.colors.dark[7], 1)}
-                  />
-                )}
-              </ActionIcon>
+              <SwitchDarkLightMode />
             </Group>
           </Group>
 
@@ -515,6 +504,150 @@ export function Header(props: Partial<{ metadata: Application }>) {
           </Group>
         </ScrollArea>
       </Drawer>
+    </>
+  );
+}
+
+function MenuUserInfo() {
+  const { me } = authStore();
+  const t = useTranslation();
+
+  if (!me?.id) {
+    return <GroupLinkAuth />;
+  }
+  return (
+    <>
+      <Menu
+        shadow="md"
+        width={320}
+        trigger="hover"
+        offset={0}
+        closeDelay={100}
+      >
+        <Menu.Target>
+          <ActionIcon variant="transparent" size="xl">
+            <Image src={defaultAvatar} w={28} h={28} />
+          </ActionIcon>
+        </Menu.Target>
+
+        <Menu.Dropdown
+          styles={{
+            dropdown: {
+              height: "calc(100vh - 48px)",
+              background: "light-dark(#fff, #16181e)",
+              display: "flex",
+              flexDirection: "column",
+              border: "none",
+            },
+          }}
+        >
+          <Menu.Item>
+            <Flex gap={10}>
+              <Box>
+                <ActionIcon variant="transparent" size="xl">
+                  <Image src={defaultAvatar} w={38} h={38} />
+                </ActionIcon>
+              </Box>
+              <Box>
+                <Text fz={14}>
+                  {masking(me?.email || me?.mobile || "")}
+                </Text>
+                <Flex align={"center"} gap={0}>
+                  <Text fz={12} c={"gray.5"}>
+                    UID: {me?.uid}
+                  </Text>
+                  <CopyButton value="UID: 194260796">
+                    {({ copied, copy }) => (
+                      <Tooltip
+                        label={copied ? "Copied" : "Copy"}
+                        withArrow
+                        position="right"
+                      >
+                        <ActionIcon
+                          color={copied ? "teal" : "gray"}
+                          variant="subtle"
+                          onClick={copy}
+                        >
+                          {copied ? (
+                            <IconCheck style={{ width: rem(16) }} />
+                          ) : (
+                            <IconCopy
+                              color="orange"
+                              style={{ width: rem(16) }}
+                            />
+                          )}
+                        </ActionIcon>
+                      </Tooltip>
+                    )}
+                  </CopyButton>
+                </Flex>
+              </Box>
+            </Flex>
+          </Menu.Item>
+          {/* <Menu.Item
+            c={"orange"}
+            fw={"bold"}
+            rightSection={
+              <IconArrowRight
+                color="gray"
+                style={{ width: rem(16) }}
+              />
+            }
+          >
+            Switch/Create Account
+          </Menu.Item> */}
+          <Menu.Divider />
+          <Menu.Item fw={"bold"}>Settings</Menu.Item>
+          <Menu.Item fw={"bold"} component="a" href="/wallet">
+            {t("Assets")}
+          </Menu.Item>
+          <Menu.Item
+            fw={"bold"}
+            component="a"
+            href="/user/assets/deposit"
+          >
+            Deposit
+          </Menu.Item>
+          <Box
+            style={{
+              marginTop: "auto",
+            }}
+          >
+            <Menu.Divider />
+            <Menu.Item
+              onClick={authStore.getState().logout}
+              color="red"
+              fz={16}
+              fw={700}
+              leftSection={
+                <IconLogout
+                  style={{ width: rem(14), height: rem(14) }}
+                />
+              }
+            >
+              Logout
+            </Menu.Item>
+          </Box>
+        </Menu.Dropdown>
+      </Menu>
+    </>
+  );
+}
+
+function GroupLinkAuth() {
+  return (
+    <>
+      <AppButton
+        instancetype="Ghost"
+        color="white"
+        component="a"
+        href="/login"
+      >
+        Log In
+      </AppButton>
+      <AppButton component="a" href="/register">
+        Sign up
+      </AppButton>
     </>
   );
 }

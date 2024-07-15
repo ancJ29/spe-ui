@@ -18,7 +18,8 @@ export function SubmitButton(props: SubmitButtonProps) {
       gradient={{ from: "primary", to: "yellow", deg: 90 }}
       {...uiSchema?.["ui:options"]?.["submitButtonOptions"]?.props}
     >
-      {uiSchema?.["ui:options"]?.["submitButtonOptions"]?.submitText ?? "Submit"}
+      {uiSchema?.["ui:options"]?.["submitButtonOptions"]
+        ?.submitText ?? "Submit"}
     </Button>
   );
 }

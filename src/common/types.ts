@@ -1,6 +1,15 @@
 import { z } from "zod";
-import { TransactionStatus, TransactionType } from "./enums";
-import { applicationFooterSchema, applicationSchema, authenticationPayloadSchema, userConfigSchema } from "./schema";
+import {
+  AccountType,
+  TransactionStatus,
+  TransactionType,
+} from "./enums";
+import {
+  applicationFooterSchema,
+  applicationSchema,
+  authenticationPayloadSchema,
+  userConfigSchema,
+} from "./schema";
 
 export type GenericObject = Record<string, unknown>;
 
@@ -10,6 +19,35 @@ export enum Side {
   BUY = "BUY",
   SELL = "SELL",
 }
+
+export type SymbolConfig = {
+  name: string;
+  symbol: string;
+  description: string;
+  minPrice: string;
+  maxPrice: string;
+  tickSize: string;
+  minVolume: string;
+  maxVolume: string;
+  volumeStepSize: string;
+  minValue: string;
+  maxValue: string;
+  baseAssetPrecision: number;
+  quoteAssetPrecision: number;
+  baseCommissionPrecision: number;
+  quoteCommissionPrecision: number;
+  isSpot: boolean;
+  isFuture: boolean;
+  defaultLeverage: string;
+};
+
+export type Account = {
+  id: string;
+  name: string;
+  isFunding: boolean;
+  isCopyMaster: boolean;
+  type: AccountType;
+};
 
 export type UserConfig = z.infer<typeof userConfigSchema>;
 
@@ -47,8 +85,8 @@ export type Balance = {
 export type SPEOrderBook = Record<
   string,
   {
-    a: [number, number][];
-    b: [number, number][];
+    a: number[][];
+    b: number[][];
   }
 >;
 
@@ -76,7 +114,7 @@ export type SymbolInformation = {
 
 // https://binance-docs.github.io/apidocs/futures/en/#kline-candlestick-data
 export type KLine = [
-  number,// 1499040000000,      // Open time
+  number, // 1499040000000,      // Open time
   string, // "0.01634790",       // Open
   string, // "0.80000000",       // High
   string, // "0.01575800",       // Low
@@ -90,7 +128,9 @@ export type KLine = [
   string, // "17928899.62484339" // Ignore.
 ][];
 
-export type AuthenticationPayload = z.infer<typeof authenticationPayloadSchema>;
+export type AuthenticationPayload = z.infer<
+  typeof authenticationPayloadSchema
+>;
 
 export type SpeTransaction = {
   id: string;

@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import useTranslation from "@/hooks/useTranslation";
+import logger from "@/services/logger";
 import {
   ActionIcon,
   Box,
@@ -163,7 +164,7 @@ function TradeForm({ tradeType }: { tradeType: TradeType }) {
         <CreateOrderTradeByLimitForm
           onSubmit={(res) => {
             // eslint-disable-next-line no-console
-            console.log("CreateOrderTradeByLimitForm", res);
+            logger.debug("CreateOrderTradeByLimitForm", res);
           }}
         />
       )}
@@ -171,7 +172,7 @@ function TradeForm({ tradeType }: { tradeType: TradeType }) {
         <CreateOrderTradeByMarketForm
           onSubmit={(res) => {
             // eslint-disable-next-line no-console
-            console.log("CreateOrderTradeByMarketForm", res);
+            logger.debug("CreateOrderTradeByMarketForm", res);
           }}
         />
       )}

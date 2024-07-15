@@ -1,7 +1,7 @@
 import { schema } from "@/domain/schema";
 import useTranslation from "@/hooks/useTranslation";
 import AppForm from "@/ui/Form/Form";
-import { AppLogo } from "@/ui/Logo/Logo";
+import { svgLogo } from "@/ui/Logo/Logo";
 import SwitchLanguage from "@/ui/SwitchLanguage/SwitchLanguage";
 import {
   Alert,
@@ -12,6 +12,7 @@ import {
   Flex,
   Grid,
   Group,
+  Image,
   NumberFormatter,
   Space,
   Text,
@@ -20,6 +21,7 @@ import {
   UnstyledButton,
   lighten,
   rem,
+  useMantineColorScheme,
 } from "@mantine/core";
 import {
   IconCoinBitcoin,
@@ -27,6 +29,7 @@ import {
   IconPhoneCalling,
   IconTruckLoading,
 } from "@tabler/icons-react";
+import { useEffect } from "react";
 import { convertToSignUpFormData } from "./config";
 import classes from "./index.module.scss";
 
@@ -59,16 +62,21 @@ const checkIcon = (
 
 const SignUp = () => {
   const t = useTranslation();
-
+  const { setColorScheme } = useMantineColorScheme();
+  useEffect(() => {
+    setColorScheme("dark");
+  }, [setColorScheme]);
   return (
     <>
       <Box className={classes.bggray}>
         <Box className="sticky-top" px={20}>
           <Group justify="space-between">
             <a href="/top-page">
-              <AppLogo />
+              <Image src={svgLogo} w={140} />
             </a>
-            <SwitchLanguage />
+            <Group>
+              <SwitchLanguage />
+            </Group>
           </Group>
         </Box>
         <Container size={"lg"}>

@@ -1,5 +1,5 @@
 import useTranslation from "@/hooks/useTranslation";
-import useAuthStore from "@/store/auth";
+import authStore from "@/store/auth";
 import AppTabs from "@/ui/Tabs";
 import { Box, Checkbox, Flex } from "@mantine/core";
 import { useState } from "react";
@@ -8,7 +8,7 @@ import { FundAssetsTable } from "./FundAssetsTable";
 import { TradingAssetsTable } from "./TradingAssetsTable";
 
 export function TabsWallet() {
-  const { me } = useAuthStore();
+  const { me } = authStore();
   const [hideZero, setHideZero] = useState(false);
   const t = useTranslation();
   return (
@@ -53,9 +53,9 @@ export function TabsWallet() {
         <Box h={42} pos={"absolute"} right={0} top={0}>
           <Flex align={"center"} gap={20}>
             <Checkbox
-              checked={hideZero}
+              defaultChecked={hideZero}
               label={t("Hide small balances")}
-              onClick={() => setHideZero(!hideZero)}
+              onChange={() => setHideZero(!hideZero)}
             />
             {me?.fiatDepositMemo && <FiatDepositModal />}
           </Flex>

@@ -27,6 +27,7 @@ import {
   IconStar,
 } from "@tabler/icons-react";
 import { useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const items = [
   {
@@ -159,6 +160,7 @@ const items = [
 ];
 
 export function MenuToken() {
+  const { baseToken, pairToken } = useParams();
   return (
     <>
       <Menu
@@ -179,7 +181,8 @@ export function MenuToken() {
             <div>
               <Flex align={"center"} gap={5}>
                 <AppText instancetype="WithTokenIcon">
-                  ETHUSDT
+                  {baseToken}
+                  {pairToken}
                 </AppText>
                 <AppPopover
                   withArrow={false}
@@ -220,11 +223,12 @@ export function MenuToken() {
         </Menu.Target>
         <Menu.Dropdown
           variant="transparent"
-          style={{ 
-            // border: "none", 
-            // borderRadius: 0 ,
-
-          }}
+          style={
+            {
+              // border: "none",
+              // borderRadius: 0 ,
+            }
+          }
         >
           <Box px={4} pt={10}>
             <SearchBox />
@@ -434,7 +438,8 @@ export function TableTokens() {
       <Table
         styles={{
           thead: {
-            background: "light-dark(white, var(--mantine-color-dark-9))",
+            background:
+              "light-dark(white, var(--mantine-color-dark-9))",
           },
         }}
         stickyHeader

@@ -66,7 +66,7 @@ const calcSL = (roi: number, orderPrice: number, isLong = false) => {
 };
 
 export function BiasTypeSwitchWidget(props: WidgetProps) {
-  const [orderType, toggle] = useToggle<OrderType>([
+  const [orderSide, toggle] = useToggle<OrderType>([
     "Entire Position",
     "Current Order",
   ]);
@@ -120,7 +120,7 @@ export function BiasTypeSwitchWidget(props: WidgetProps) {
         <AppButton
           onClick={() => {
             toggle();
-            if (orderType === "Current Order") {
+            if (orderSide === "Current Order") {
               props.onChange("1");
             } else {
               props.onChange("2");
@@ -283,7 +283,7 @@ export function ProfitInputWidget(props: WidgetProps) {
                                 paddingTop: 0,
                                 paddingBottom: 0,
                                 paddingLeft: 0,
-                                background: "none"
+                                background: "none",
                               },
                               option: {
                                 fontSize: "12px",
@@ -367,7 +367,6 @@ export function ProfitInputWidget(props: WidgetProps) {
           </Alert>
         )}
         <Box h={1} w={"100%"} className="border-bottom-dark"></Box>
-        
       </Box>
     </>
   );
@@ -516,7 +515,7 @@ export function StopLossInputWidget(props: WidgetProps) {
                             paddingTop: 0,
                             paddingBottom: 0,
                             paddingLeft: 0,
-                            background: "none"
+                            background: "none",
                           },
                           option: {
                             fontSize: "12px",

@@ -99,12 +99,12 @@ export function FilterGroupButtons({
           size={"xs"}
         />
         <Box>
-          
           <Box
             h={20}
             w={1}
             style={{
-              background: "light-dark(#f4f6f7, var(--mantine-color-dark-filled))"
+              background:
+                "light-dark(#f4f6f7, var(--mantine-color-dark-filled))",
             }}
           />
         </Box>

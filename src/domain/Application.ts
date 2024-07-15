@@ -3,7 +3,7 @@ import { get } from "lodash";
 export type {
   Application,
   ApplicationFooter,
-  Menu
+  Menu,
 } from "@/common/types";
 
 export type MenuType = "link" | "group" | "panel";

@@ -11,7 +11,7 @@ const TransferSchema: FormSchema = {
         type: "string",
         enum: ["USDT", "BTC", "ETH"],
         default: "USDT",
-        title: t(dictionary, "Choose coin to transfer")
+        title: t(dictionary, "Choose coin to transfer"),
       },
     },
     properties: {
@@ -29,18 +29,13 @@ const TransferSchema: FormSchema = {
       amount: {
         type: "number",
         title: t(dictionary, "Amount"),
-        minimum: 0.01
+        minimum: 0.01,
       },
     },
     required: ["coin", "fromAccountId", "toAccountId", "amount"],
-
   },
   uiSchema: {
-    "ui:order": [
-      "fromAccountId",
-      "toAccountId",
-      "*",
-    ],
+    "ui:order": ["fromAccountId", "toAccountId", "*"],
     "ui:options": {
       submitButtonOptions: {
         props: {
@@ -54,20 +49,20 @@ const TransferSchema: FormSchema = {
     "coin": {
       "ui:options": {
         label: false,
-        widget: "SelectCoinWidget"
-      }
+        widget: "SelectCoinWidget",
+      },
     },
     "fromAccountId": {
       "ui:options": {
         label: false,
-        widget: "SelectAccountWidget"
-      }
+        widget: "SelectAccountWidget",
+      },
     },
     "toAccountId": {
       "ui:options": {
         label: false,
-        widget: "SelectAccountWidget"
-      }
+        widget: "SelectAccountWidget",
+      },
     },
     "amount": {
       "ui:options": {
@@ -76,13 +71,10 @@ const TransferSchema: FormSchema = {
         props: {
           placeholder: "Min 0.01",
         },
-      }
+      },
     },
-
-
   },
-  formData: {
-  }
+  formData: {},
 };
 
 export default TransferSchema;

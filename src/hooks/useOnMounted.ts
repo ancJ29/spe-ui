@@ -10,6 +10,5 @@ export default function useOnMounted(callback: () => void, key = "") {
       setFalse();
       callback();
     }
-
   }, [key, loaded, callback, setFalse]);
 }

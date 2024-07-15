@@ -9,8 +9,10 @@ export const COIN_IMAGES: Record<string, string> = {
   USDT: usdt,
 };
 
-export const ASSET_COIN_OPTIONS = Object.entries(ASSET_COIN_LIST).map(([coin, name]) => ({
-  label: name,
-  value: coin,
-  image: COIN_IMAGES[coin] || "",
-}));
+export const ASSET_COIN_OPTIONS = Object.entries(ASSET_COIN_LIST).map(
+  ([coin, name]) => ({
+    label: name,
+    value: coin,
+    image: COIN_IMAGES[coin] || "",
+  }),
+);

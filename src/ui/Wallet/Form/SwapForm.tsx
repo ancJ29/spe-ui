@@ -44,6 +44,7 @@ export function SwapForm(props: SwapFormProps) {
         <Space my={10} />
         <AppForm
           w={"100%"}
+          xFlag
           schema={schema.SwapSchema.schema}
           uiSchema={schema.SwapSchema.uiSchema}
           formData={formData}

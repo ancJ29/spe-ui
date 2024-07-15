@@ -10,7 +10,6 @@ const DepositSchema: FormSchema = {
       coin: {
         type: "string",
         enum: ["USDT", "BTC", "ETH"],
-        default: "USDT",
         title: t(dictionary, "Choose coin to deposit"),
       },
       qrcode: {
@@ -20,7 +19,7 @@ const DepositSchema: FormSchema = {
       },
       chain: {
         type: "string",
-        title: ""
+        title: "",
       },
       walletAddress: {
         type: "string",
@@ -29,7 +28,7 @@ const DepositSchema: FormSchema = {
       },
       info: {
         type: "string",
-        readOnly: true
+        readOnly: true,
       },
       infoETH: {
         type: "object",
@@ -43,13 +42,12 @@ const DepositSchema: FormSchema = {
           },
           walletAddress: {
             $ref: "#/definitions/walletAddress",
-            readOnly: true
+            readOnly: true,
           },
           info: {
             $ref: "#/definitions/info",
-          }
+          },
         },
-        required: ["walletAddress", "amount", "fromAddress", "txId", "chain"]
       },
       infoBTC: {
         type: "object",
@@ -63,13 +61,13 @@ const DepositSchema: FormSchema = {
           },
           walletAddress: {
             $ref: "#/definitions/walletAddress",
-            readOnly: true
+            readOnly: true,
           },
           info: {
             $ref: "#/definitions/info",
-          }
+          },
         },
-        required: ["walletAddress", "chain"]
+        required: ["walletAddress", "chain"],
       },
       infoUSDT: {
         type: "object",
@@ -86,11 +84,10 @@ const DepositSchema: FormSchema = {
           },
           info: {
             $ref: "#/definitions/info",
-          }
+          },
         },
-        required: ["walletAddress", "chain"]
+        required: ["walletAddress", "chain"],
       },
-
     },
     properties: {
       coin: {
@@ -103,57 +100,54 @@ const DepositSchema: FormSchema = {
         if: {
           properties: {
             coin: {
-              const: "USDT"
-            }
-          }
+              const: "USDT",
+            },
+          },
         },
         then: {
           properties: {
             infoUSDT: {
               $ref: "#/definitions/infoUSDT",
-            }
+            },
           },
-        }
+        },
       },
       {
         if: {
           properties: {
             coin: {
-              const: "BTC"
-            }
-          }
+              const: "BTC",
+            },
+          },
         },
         then: {
           properties: {
             infoBTC: {
               $ref: "#/definitions/infoBTC",
-            }
-          }
-        }
+            },
+          },
+        },
       },
       {
         if: {
           properties: {
             coin: {
-              const: "ETH"
-            }
-          }
+              const: "ETH",
+            },
+          },
         },
         then: {
           properties: {
             infoETH: {
               $ref: "#/definitions/infoETH",
-            }
-          }
-        }
-      }
+            },
+          },
+        },
+      },
     ],
   },
   uiSchema: {
-    "ui:order": [
-      "coin",
-      "*",
-    ],
+    "ui:order": ["coin", "*"],
     "ui:options": {
       submitButtonOptions: {
         props: {
@@ -167,8 +161,8 @@ const DepositSchema: FormSchema = {
     "coin": {
       "ui:options": {
         label: false,
-        widget: "SelectCoinWidget"
-      }
+        widget: "SelectCoinWidget",
+      },
     },
     "infoUSDT": {
       chain: {
@@ -178,7 +172,7 @@ const DepositSchema: FormSchema = {
           props: {
             withAsterisk: true,
           },
-        }
+        },
       },
       walletAddress: {
         "ui:options": {
@@ -187,15 +181,14 @@ const DepositSchema: FormSchema = {
           props: {
             withAsterisk: true,
           },
-        }
+        },
       },
       info: {
         "ui:options": {
           label: false,
           widget: "InfoDepositCoinWidget",
-        }
-      }
-
+        },
+      },
     },
     "infoBTC": {
       chain: {
@@ -205,7 +198,7 @@ const DepositSchema: FormSchema = {
           props: {
             withAsterisk: true,
           },
-        }
+        },
       },
       walletAddress: {
         "ui:options": {
@@ -214,14 +207,14 @@ const DepositSchema: FormSchema = {
           props: {
             withAsterisk: true,
           },
-        }
+        },
       },
       info: {
         "ui:options": {
           label: false,
           widget: "InfoDepositCoinWidget",
-        }
-      }
+        },
+      },
     },
     "infoETH": {
       chain: {
@@ -231,7 +224,7 @@ const DepositSchema: FormSchema = {
           props: {
             withAsterisk: true,
           },
-        }
+        },
       },
       walletAddress: {
         "ui:options": {
@@ -240,20 +233,17 @@ const DepositSchema: FormSchema = {
           props: {
             withAsterisk: true,
           },
-        }
+        },
       },
       info: {
         "ui:options": {
           label: false,
           widget: "InfoDepositCoinWidget",
-        }
-      }
+        },
+      },
     },
-
   },
-  formData: {
-
-  }
+  formData: {},
 };
 
 export default DepositSchema;

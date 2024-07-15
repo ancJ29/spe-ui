@@ -1,7 +1,5 @@
 import useMetadata from "@/hooks/useMetadata";
-import useOnMounted from "@/hooks/useOnMounted";
 import useTranslation from "@/hooks/useTranslation";
-import { useAssetStore } from "@/store/assets";
 import { Header } from "@/ui/Header";
 import { TabsTransactions } from "@/ui/Wallet";
 import {
@@ -22,9 +20,6 @@ const HistoryWrapper = ({
 }) => {
   const t = useTranslation();
   const { data } = useMetadata();
-  useOnMounted(() => {
-    useAssetStore.getState().initial();
-  });
   return (
     <>
       <Header metadata={data} />

@@ -1,10 +1,8 @@
 import BN from "@/common/big-number";
 import { ASSET_COIN_LIST } from "@/common/configs";
-import { ModalMode } from "@/domain/balance";
 import { COIN_IMAGES } from "@/domain/config";
 import useTranslation from "@/hooks/useTranslation";
-import { useTradeStorageInfo } from "@/services/tradeAdapter";
-import { useAssetStore } from "@/store/assets";
+import { assetStore } from "@/store/assets";
 import { NoDataRecord } from "@/ui/NoData";
 import NumberFormat from "@/ui/NumberFormat";
 import {
@@ -30,11 +28,17 @@ import {
   WithdrawForm,
 } from "../Form";
 
-// FundAssetsTable.tsx
+type ModalMode =
+  | "DEPOSIT"
+  | "SWAP"
+  | "TRANSFER"
+  | "WITHDRAW"
+  | "ADDRESS";
+
 export function FundAssetsTable({ hideZero }: { hideZero: boolean }) {
   const t = useTranslation();
   const { accounts, balances, fundingAccount, tradingAccount } =
-    useTradeStorageInfo();
+    assetStore();
   const [modalMode, setModalMode] = useState<ModalMode>();
   const [coin, setCoin] = useState("");
   const [opened, { open, close }] = useDisclosure(false);
@@ -148,7 +152,7 @@ export function FundAssetsTable({ hideZero }: { hideZero: boolean }) {
   }, [accounts, balances, hideZero, openModal, t]);
 
   const onSubmit = useCallback(() => {
-    useAssetStore.getState().initial();
+    assetStore.getState().fetchBalances();
     close();
   }, [close]);
 

@@ -175,7 +175,7 @@ export function BidOrderBookTrade() {
                         w={`${Math.random() * 100}%`}
                         pos={"absolute"}
                         style={{
-                          background: "light-dark(#e7f6ed, #162a24)"
+                          background: "light-dark(#e7f6ed, #162a24)",
                         }}
                       ></Box>
                       <Flex
@@ -188,8 +188,8 @@ export function BidOrderBookTrade() {
                           fz={12}
                           styles={{
                             root: {
-                              color: "light-dark(#121214, #fff)"
-                            }
+                              color: "light-dark(#121214, #fff)",
+                            },
                           }}
                           fw={500}
                         >
@@ -212,7 +212,8 @@ export function BidOrderBookTrade() {
                           w={`${Math.random() * 100}%`}
                           pos={"absolute"}
                           style={{
-                            background: "light-dark(#e7f6ed, #162a24)"
+                            background:
+                              "light-dark(#e7f6ed, #162a24)",
                           }}
                         ></Box>
                         <Flex
@@ -225,8 +226,8 @@ export function BidOrderBookTrade() {
                             fz={12}
                             styles={{
                               root: {
-                                color: "light-dark(#121214, #fff)"
-                              }
+                                color: "light-dark(#121214, #fff)",
+                              },
                             }}
                           >
                             {/* <NumberFormatter
@@ -297,7 +298,7 @@ export function BidOrderBookTrade() {
                   transform: "translateY(-50%)",
                   clipPath:
                     "polygon(0 0, 100% 0, calc(100% - 5px) 100%, 0% 100%)",
-                  background: "light-dark(#e7f6ed, #172b23)"
+                  background: "light-dark(#e7f6ed, #172b23)",
                 }}
               />
               <Box
@@ -310,7 +311,7 @@ export function BidOrderBookTrade() {
                   transform: "translateY(-50%)",
                   clipPath:
                     "polygon(calc(0% + 5px) 0, 100% 0, 100% 100%, 0% 100%)",
-                  background: "light-dark(#feeaea, #35191e)"
+                  background: "light-dark(#feeaea, #35191e)",
                 }}
               />
               <Flex
@@ -497,7 +498,7 @@ export function AskOrderBookTrade() {
                         w={`${Math.random() * 100}%`}
                         pos={"absolute"}
                         style={{
-                          background: "light-dark(#feeaea, #35191d)"
+                          background: "light-dark(#feeaea, #35191d)",
                         }}
                       ></Box>
                       <Flex
@@ -510,8 +511,8 @@ export function AskOrderBookTrade() {
                           fz={12}
                           styles={{
                             root: {
-                              color: "light-dark(#484849, #fff)"
-                            }
+                              color: "light-dark(#484849, #fff)",
+                            },
                           }}
                         >
                           <NumberFormatter
@@ -533,7 +534,8 @@ export function AskOrderBookTrade() {
                           w={`${Math.random() * 100}%`}
                           pos={"absolute"}
                           style={{
-                            background: "light-dark(#feeaea, #35191d)"
+                            background:
+                              "light-dark(#feeaea, #35191d)",
                           }}
                         ></Box>
                         <Flex
@@ -546,8 +548,8 @@ export function AskOrderBookTrade() {
                             fz={12}
                             styles={{
                               root: {
-                                color: "light-dark(#484849, #fff)"
-                              }
+                                color: "light-dark(#484849, #fff)",
+                              },
                             }}
                           >
                             {/* <NumberFormatter
@@ -577,8 +579,8 @@ export function AskOrderBookTrade() {
                       fw={"bold"}
                       styles={{
                         root: {
-                          color: "light-dark(#484849, #fff)"
-                        }
+                          color: "light-dark(#484849, #fff)",
+                        },
                       }}
                     >
                       = 61,423.93
@@ -591,8 +593,8 @@ export function AskOrderBookTrade() {
                       fw={"bold"}
                       styles={{
                         root: {
-                          color: "light-dark(#484849, #fff)"
-                        }
+                          color: "light-dark(#484849, #fff)",
+                        },
                       }}
                     >
                       0.885551
@@ -605,8 +607,8 @@ export function AskOrderBookTrade() {
                       fw={"bold"}
                       styles={{
                         root: {
-                          color: "light-dark(#484849, #fff)"
-                        }
+                          color: "light-dark(#484849, #fff)",
+                        },
                       }}
                     >
                       54.394K
@@ -690,7 +692,7 @@ export function AskOrderBookTrade() {
                   transform: "translateY(-50%)",
                   clipPath:
                     "polygon(0 0, 100% 0, calc(100% - 5px) 100%, 0% 100%)",
-                  background: "light-dark(#e7f6ed, #172b23)"
+                  background: "light-dark(#e7f6ed, #172b23)",
                 }}
               />
               <Box
@@ -703,7 +705,7 @@ export function AskOrderBookTrade() {
                   transform: "translateY(-50%)",
                   clipPath:
                     "polygon(calc(0% + 5px) 0, 100% 0, 100% 100%, 0% 100%)",
-                  background: "light-dark(#feeaea, #35191e)"
+                  background: "light-dark(#feeaea, #35191e)",
                 }}
               />
               <Flex
@@ -894,7 +896,7 @@ export function OrderAllOrderBookTrade() {
                         w={`${Math.random() * 100}%`}
                         pos={"absolute"}
                         style={{
-                          background: "light-dark(#feeaea, #35191d)"
+                          background: "light-dark(#feeaea, #35191d)",
                         }}
                       ></Box>
                       <Flex
@@ -907,8 +909,8 @@ export function OrderAllOrderBookTrade() {
                           fz={12}
                           styles={{
                             root: {
-                              color: "light-dark(#000, #ffffff)"
-                            }
+                              color: "light-dark(#000, #ffffff)",
+                            },
                           }}
                         >
                           <NumberFormatter
@@ -935,7 +937,8 @@ export function OrderAllOrderBookTrade() {
                           w={`${Math.random() * 100}%`}
                           pos={"absolute"}
                           style={{
-                            background: "light-dark(#feeaea, #35191d)"
+                            background:
+                              "light-dark(#feeaea, #35191d)",
                           }}
                         ></Box>
                         <Flex
@@ -948,8 +951,8 @@ export function OrderAllOrderBookTrade() {
                             fz={12}
                             styles={{
                               root: {
-                                color: "light-dark(#000, #ffffff)"
-                              }
+                                color: "light-dark(#000, #ffffff)",
+                              },
                             }}
                           >
                             {/* <NumberFormatter
@@ -979,8 +982,8 @@ export function OrderAllOrderBookTrade() {
                       fw={"bold"}
                       styles={{
                         root: {
-                          color: "light-dark(#121214, #fff)"
-                        }
+                          color: "light-dark(#121214, #fff)",
+                        },
                       }}
                     >
                       = 61,423.93
@@ -993,8 +996,8 @@ export function OrderAllOrderBookTrade() {
                       fw={"bold"}
                       styles={{
                         root: {
-                          color: "light-dark(#121214, #fff)"
-                        }
+                          color: "light-dark(#121214, #fff)",
+                        },
                       }}
                     >
                       0.885551
@@ -1007,8 +1010,8 @@ export function OrderAllOrderBookTrade() {
                       fw={"bold"}
                       styles={{
                         root: {
-                          color: "light-dark(#121214, #fff)"
-                        }
+                          color: "light-dark(#121214, #fff)",
+                        },
                       }}
                     >
                       54.394K
@@ -1116,7 +1119,7 @@ export function OrderAllOrderBookTrade() {
                         w={`${Math.random() * 100}%`}
                         pos={"absolute"}
                         style={{
-                          background: "light-dark(#e7f6ed, #162a24)"
+                          background: "light-dark(#e7f6ed, #162a24)",
                         }}
                       ></Box>
                       <Flex
@@ -1129,8 +1132,8 @@ export function OrderAllOrderBookTrade() {
                           fz={12}
                           styles={{
                             root: {
-                              color: "light-dark(#121214, #fff)"
-                            }
+                              color: "light-dark(#121214, #fff)",
+                            },
                           }}
                         >
                           <NumberFormatter
@@ -1157,7 +1160,8 @@ export function OrderAllOrderBookTrade() {
                           w={`${Math.random() * 100}%`}
                           pos={"absolute"}
                           style={{
-                            background: "light-dark(#e7f6ed, #162a24)"
+                            background:
+                              "light-dark(#e7f6ed, #162a24)",
                           }}
                         ></Box>
                         <Flex
@@ -1170,8 +1174,8 @@ export function OrderAllOrderBookTrade() {
                             fz={12}
                             styles={{
                               root: {
-                                color: "light-dark(#121214, #fff)"
-                              }
+                                color: "light-dark(#121214, #fff)",
+                              },
                             }}
                           >
                             {/* <NumberFormatter
@@ -1201,8 +1205,8 @@ export function OrderAllOrderBookTrade() {
                       fw={"bold"}
                       styles={{
                         root: {
-                          color: "light-dark(#121214, #fff)"
-                        }
+                          color: "light-dark(#121214, #fff)",
+                        },
                       }}
                     >
                       = 61,423.93
@@ -1215,8 +1219,8 @@ export function OrderAllOrderBookTrade() {
                       fw={"bold"}
                       styles={{
                         root: {
-                          color: "light-dark(#121214, #fff)"
-                        }
+                          color: "light-dark(#121214, #fff)",
+                        },
                       }}
                     >
                       0.885551
@@ -1229,8 +1233,8 @@ export function OrderAllOrderBookTrade() {
                       fw={"bold"}
                       styles={{
                         root: {
-                          color: "light-dark(#121214, #fff)"
-                        }
+                          color: "light-dark(#121214, #fff)",
+                        },
                       }}
                     >
                       54.394K
@@ -1266,7 +1270,7 @@ export function OrderAllOrderBookTrade() {
                   transform: "translateY(-50%)",
                   clipPath:
                     "polygon(0 0, 100% 0, calc(100% - 5px) 100%, 0% 100%)",
-                  background: "light-dark(#e7f6ed, #172b23)"
+                  background: "light-dark(#e7f6ed, #172b23)",
                 }}
               />
               <Box
@@ -1279,7 +1283,7 @@ export function OrderAllOrderBookTrade() {
                   transform: "translateY(-50%)",
                   clipPath:
                     "polygon(calc(0% + 5px) 0, 100% 0, 100% 100%, 0% 100%)",
-                  background: "light-dark(#feeaea, #35191e)"
+                  background: "light-dark(#feeaea, #35191e)",
                 }}
               />
               <Flex
@@ -1470,7 +1474,8 @@ export function OrderHorizontalOrderBookTrade() {
                           w={`${Math.random() * 100}%`}
                           pos={"absolute"}
                           style={{
-                            background: "light-dark(#e7f6ed, #162a24)"
+                            background:
+                              "light-dark(#e7f6ed, #162a24)",
                           }}
                         ></Box>
                         <Flex
@@ -1483,8 +1488,8 @@ export function OrderHorizontalOrderBookTrade() {
                             fz={12}
                             styles={{
                               root: {
-                                color: "light-dark(#121214, #fff)"
-                              }
+                                color: "light-dark(#121214, #fff)",
+                              },
                             }}
                           >
                             <NumberFormatter
@@ -1507,8 +1512,9 @@ export function OrderHorizontalOrderBookTrade() {
                           w={`${Math.random() * 100}%`}
                           pos={"absolute"}
                           style={{
-                            background: "light-dark(#e7f6ed, #162a24)",
-                            zIndex: 0
+                            background:
+                              "light-dark(#e7f6ed, #162a24)",
+                            zIndex: 0,
                           }}
                         ></Box>
                         <Flex
@@ -1551,8 +1557,8 @@ export function OrderHorizontalOrderBookTrade() {
                         fw={"bold"}
                         styles={{
                           root: {
-                            color: "light-dark(#121214, #fff)"
-                          }
+                            color: "light-dark(#121214, #fff)",
+                          },
                         }}
                       >
                         = 61,423.93
@@ -1565,8 +1571,8 @@ export function OrderHorizontalOrderBookTrade() {
                         fw={"bold"}
                         styles={{
                           root: {
-                            color: "light-dark(#121214, #fff)"
-                          }
+                            color: "light-dark(#121214, #fff)",
+                          },
                         }}
                       >
                         0.885551
@@ -1579,8 +1585,8 @@ export function OrderHorizontalOrderBookTrade() {
                         fw={"bold"}
                         styles={{
                           root: {
-                            color: "light-dark(#121214, #fff)"
-                          }
+                            color: "light-dark(#121214, #fff)",
+                          },
                         }}
                       >
                         54.394K
@@ -1644,8 +1650,9 @@ export function OrderHorizontalOrderBookTrade() {
                           w={`${Math.random() * 100}%`}
                           pos={"absolute"}
                           style={{
-                            background: "light-dark(#feeaea, #35191d)",
-                            zIndex: 0
+                            background:
+                              "light-dark(#feeaea, #35191d)",
+                            zIndex: 0,
                           }}
                         ></Box>
                         <Flex
@@ -1677,7 +1684,8 @@ export function OrderHorizontalOrderBookTrade() {
                           w={`${Math.random() * 100}%`}
                           pos={"absolute"}
                           style={{
-                            background: "light-dark(#feeaea, #35191d)"
+                            background:
+                              "light-dark(#feeaea, #35191d)",
                           }}
                         ></Box>
                         <Flex
@@ -1690,8 +1698,8 @@ export function OrderHorizontalOrderBookTrade() {
                             fz={12}
                             styles={{
                               root: {
-                                color: "light-dark(#151517, #ffffff)"
-                              }
+                                color: "light-dark(#151517, #ffffff)",
+                              },
                             }}
                           >
                             <NumberFormatter
@@ -1721,8 +1729,8 @@ export function OrderHorizontalOrderBookTrade() {
                         fw={"bold"}
                         styles={{
                           root: {
-                            color: "light-dark(#121214, #fff)"
-                          }
+                            color: "light-dark(#121214, #fff)",
+                          },
                         }}
                       >
                         = 61,423.93
@@ -1735,8 +1743,8 @@ export function OrderHorizontalOrderBookTrade() {
                         fw={"bold"}
                         styles={{
                           root: {
-                            color: "light-dark(#121214, #fff)"
-                          }
+                            color: "light-dark(#121214, #fff)",
+                          },
                         }}
                       >
                         0.885551
@@ -1749,8 +1757,8 @@ export function OrderHorizontalOrderBookTrade() {
                         fw={"bold"}
                         styles={{
                           root: {
-                            color: "light-dark(#121214, #fff)"
-                          }
+                            color: "light-dark(#121214, #fff)",
+                          },
                         }}
                       >
                         54.394K
@@ -1788,7 +1796,7 @@ export function OrderHorizontalOrderBookTrade() {
                   transform: "translateY(-50%)",
                   clipPath:
                     "polygon(0 0, 100% 0, calc(100% - 5px) 100%, 0% 100%)",
-                  background: "light-dark(#e7f6ed, #172b23)"
+                  background: "light-dark(#e7f6ed, #172b23)",
                 }}
               />
               <Box
@@ -1801,7 +1809,7 @@ export function OrderHorizontalOrderBookTrade() {
                   transform: "translateY(-50%)",
                   clipPath:
                     "polygon(calc(0% + 5px) 0, 100% 0, 100% 100%, 0% 100%)",
-                  background: "light-dark(#feeaea, #35191e)"
+                  background: "light-dark(#feeaea, #35191e)",
                 }}
               />
               <Flex

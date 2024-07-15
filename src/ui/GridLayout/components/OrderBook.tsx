@@ -8,7 +8,6 @@ import orderBuyLight from "@/assets/images/icon/orderBuy-light.svg";
 import orderHorizontalLight from "@/assets/images/icon/orderHorizontal-light.svg";
 import orderSellLight from "@/assets/images/icon/orderSell-light.svg";
 
-
 import AppTabs from "@/ui/Tabs";
 import {
   Box,

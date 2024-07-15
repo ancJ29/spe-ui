@@ -28,8 +28,9 @@ export function DepositForm(props: {
           uiSchema={schema.DepositSchema.uiSchema}
           onSubmit={props.onClose}
           formData={{
-            ...schema.WithdrawSchema.formData,
-            coin: props.coin || schema.WithdrawSchema.formData.coin,
+            ...schema.DepositSchema.formData,
+            coin:
+              props.coin || schema.DepositSchema.formData || "USDT",
           }}
           showJsonOutput
         />

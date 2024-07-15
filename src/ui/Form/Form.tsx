@@ -1,5 +1,5 @@
 import { GenericObject } from "@/common/types";
-import axios from "@/services/apis/api";
+import axios from "@/services/apis";
 import logger from "@/services/logger";
 import { SPEResponse } from "@/types";
 import { Box, LoadingOverlay, rem } from "@mantine/core";
@@ -20,6 +20,7 @@ import React, {
   FormEvent,
   forwardRef,
   useCallback,
+  useEffect,
   useImperativeHandle,
   useRef,
   useState,
@@ -46,6 +47,7 @@ type AppFormProps = OmittedForm & {
   formData: GenericObject;
   onSuccess?: (res: any) => void; // eslint-disable-line
   formDataConverter?: (res: any) => any; // eslint-disable-line
+  xFlag?: boolean;
   msgSuccess?: string;
   showJsonOutput?: boolean;
   messages?: {
@@ -59,12 +61,15 @@ type AppFormProps = OmittedForm & {
 // TODO: refactor typed of this component
 // eslint-disable-next-line react/display-name
 const AppForm = forwardRef(
-  ({ showJsonOutput = false, ...props }: AppFormProps, ref) => {
+  (
+    { xFlag = false, showJsonOutput = false, ...props }: AppFormProps,
+    ref,
+  ) => {
     const [visible, { toggle, close }] = useDisclosure(false);
     const [counter, setCounter] = useState(0);
     const [schema, setSchema] = useState<RJSFSchema>(props.schema);
-    const [lockUntil, setLockUntil] = useState(0);
     const [uiSchema, setUiSchema] = useState(props.uiSchema);
+    const [paused, setPause] = useState(false);
     const [formData, updateFormData] = useState({
       ...props.formData,
     });
@@ -133,29 +138,38 @@ const AppForm = forwardRef(
 
     const onFormDataChange = useCallback(
       (props: IChangeEvent, id?: string) => {
-        id && logger.debug("Field changed, id: ", id, props);
-        if (lockUntil < Date.now()) {
-          updateFormData(props.formData);
-          // setCounter((prev) => prev + 1);
+        if (paused) {
+          return;
         }
+        id && logger.trace("Field changed, id: ", id, props);
+        updateFormData(props.formData);
       },
-      [lockUntil],
+      [paused],
     );
 
+    useEffect(() => {
+      updateFormData(props.formData);
+    }, [props.formData]);
+
+    // TODO: remove XFlag
     const updateFields = useCallback(
       (updated: Record<string, unknown>) => {
-        logger.debug("updateFields", updated);
-        setLockUntil(Date.now() + 300);
-        updateFormData((prevFormData: unknown) => {
-          let d = cloneDeep(prevFormData) as Record<string, unknown>;
-          Object.entries(updated).forEach(([field, value]) => {
-            d = set(d, field, value);
+        if (xFlag) {
+          setPause(true);
+        }
+        Object.entries(updated).forEach(([field, value]) => {
+          updateFormData((prevFormData: unknown) => {
+            const d = cloneDeep(prevFormData) as GenericObject;
+            const v = set(d, field, value);
+            return { ...v };
           });
-          return { ...d };
         });
-        setCounter((prev) => prev + 1);
+        if (xFlag) {
+          setPause(false);
+          setCounter((prev) => prev + 1);
+        }
       },
-      [],
+      [xFlag],
     );
 
     useImperativeHandle(
@@ -201,6 +215,10 @@ const AppForm = forwardRef(
               formData,
               updateFields,
               updateFormData,
+              updateField: (field: string, value: unknown) => {
+                updateFields({ [field]: value });
+              },
+              submit: () => formRef.current?.submit(),
             }}
             onBlur={(id: string, value: string) =>
               logger.debug(`Touched ${id} with value ${value}`)
@@ -212,13 +230,13 @@ const AppForm = forwardRef(
               logger.debug("errors", errorList)
             }
           />
+          <LoadingOverlay
+            visible={visible}
+            zIndex={1000}
+            overlayProps={{ radius: "sm", blur: 2 }}
+          />
         </Box>
         {showJsonOutput && test && <JsonForm formData={formData} />}
-        <LoadingOverlay
-          visible={visible}
-          zIndex={1000}
-          overlayProps={{ radius: "sm", blur: 2 }}
-        />
       </>
     );
   },

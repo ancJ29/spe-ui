@@ -1,2 +1,5 @@
-
-export type StatusTransaction = "PENDING" | "PROCESSING" | "DONE" | "FAILED";
+export type StatusTransaction =
+  | "PENDING"
+  | "PROCESSING"
+  | "DONE"
+  | "FAILED";

@@ -8,7 +8,8 @@ import {
 } from "@/domain/marketPrice";
 import useTranslation from "@/hooks/useTranslation";
 import { fetchDepositAddressApi } from "@/services/apis";
-import { useTradeStorageInfo } from "@/services/tradeAdapter";
+import { assetStore } from "@/store/assets";
+import tradeStore from "@/store/trade";
 import NumberFormat from "@/ui/NumberFormat";
 import {
   ActionIcon,
@@ -202,8 +203,8 @@ export function QrCodeWidget(props: WidgetProps) {
   } = props;
   const t = useTranslation();
   useEffect(() => {
-    const coin = formData.coin;
-    const chain = formData?.[`info${coin}`]?.chain;
+    const coin = formData.coin || "USDT";
+    const chain = formData?.[`info${coin}`]?.chain || "Ethereum";
     if (coin && chain) {
       fetchDepositAddressApi({ coin, chain }).then(
         (depositAddress) => {
@@ -284,235 +285,38 @@ export function QrCodeWidget(props: WidgetProps) {
   );
 }
 
-export function AmountWidget(props: WidgetProps) {
-  const {
-    formContext: { formData },
-  } = props;
-
-  return (
-    <>
-      <NumberInput
-        hideControls
-        onChange={(v) => props.onChange(v)}
-        styles={{
-          input: {
-            background: "#f3f5f7",
-            border: "none",
-            fontWeight: "bolder",
-          },
-        }}
-        rightSectionWidth={80}
-        rightSection={<Text fw={"bold"}>{formData?.coin}</Text>}
-        label={props.label ? props.label : ""}
-        withAsterisk={props.required}
-        {...(props.options?.props as any)} // eslint-disable-line
-      />
-    </>
-  );
-}
-
-export function AmountToWithdrawWidget({
+export function AmountWidget({
   value,
   label,
   required,
-  options,
-  onChange,
   formContext: { formData },
+  ...props
 }: WidgetProps) {
-  const t = useTranslation();
-  const { fundingBalances } = useTradeStorageInfo();
-  const balanceByCoin = useMemo(() => {
-    if (!formData.coin) {
-      return 0;
-    }
-    return freeAmount(
-      fundingBalances.find((el) => el.coin === formData.coin) || {},
-    );
-  }, [fundingBalances, formData?.coin]);
-
-  const isZero = useMemo(
-    () => Number(balanceByCoin) === 0,
-    [balanceByCoin],
-  );
-
   return (
-    <>
-      <Box pos={"relative"}>
-        <NumberInput
-          hideControls
-          value={value}
-          disabled={isZero}
-          label={label || ""}
-          withAsterisk={required}
-          rightSectionWidth={120}
-          onChange={(v) => onChange(v)}
-          rightSectionPointerEvents="all"
-          styles={{
-            label: {
-              fontSize: "14px",
-            },
-            input: {
-              cursor: isZero ? "not-allowed" : "pointer",
-              background: "#f3f5f7",
-              border: "none",
-              fontWeight: "bolder",
-            },
-          }}
-          rightSection={
-            <Flex
-              w={"100%"}
-              gap={8}
-              justify={"end"}
-              pr={10}
-              align={"center"}
-            >
-              <Text
-                fw="bold"
-                c="primary"
-                className={isZero ? "" : "cursor-pointer"}
-                onClick={() => !isZero && onChange(balanceByCoin)}
-              >
-                {t("All")}
-              </Text>
-              <Divider h={12} c={"red"} bg={"gray"} w={1} />
-              <Text fw={"bold"}>{formData?.coin}</Text>
-            </Flex>
-          }
-          {...(options?.props as any)} // eslint-disable-line
-        />
-        <Flex
-          justify={"end"}
-          pos={"absolute"}
-          top={"calc(100% + 5px)"}
-          right={0}
-        >
-          <Text fz={12} fw={"bold"} c="dimmed">
-            {t("Total")}:{" "}
-            <NumberFormat value={balanceByCoin} decimalPlaces={8} />{" "}
-            {formData?.coin}
-          </Text>
-        </Flex>
-      </Box>
-    </>
-  );
-}
-
-export function AmountToTransferWidget({
-  value,
-  label,
-  required,
-  options,
-  onChange,
-  formContext: { formData },
-}: WidgetProps) {
-  const t = useTranslation();
-  const { balances } = useTradeStorageInfo();
-  const balanceByCoin = useMemo(() => {
-    if (!formData.fromAccountId || !formData.coin) {
-      return 0;
-    }
-    return freeAmount(
-      balances
-        .filter((el) => el.accountId === formData.fromAccountId)
-        .find((el) => el.coin === formData.coin) || {},
-    );
-  }, [balances, formData?.coin, formData.fromAccountId]);
-
-  const isZero = useMemo(
-    () => Number(balanceByCoin) === 0,
-    [balanceByCoin],
-  );
-
-  return (
-    <>
-      <Box pos={"relative"}>
-        <NumberInput
-          hideControls
-          value={value}
-          disabled={isZero}
-          label={label || ""}
-          withAsterisk={required}
-          rightSectionWidth={120}
-          onChange={(v) => onChange(v)}
-          rightSectionPointerEvents="all"
-          styles={{
-            label: {
-              fontSize: "14px",
-            },
-            input: {
-              fontSize: "14px",
-              cursor: isZero ? "not-allowed" : "pointer",
-              background: "#f3f5f7",
-              border: "none",
-              fontWeight: "bolder",
-            },
-          }}
-          rightSection={
-            <Flex
-              w={"100%"}
-              gap={8}
-              justify={"end"}
-              pr={10}
-              align={"center"}
-            >
-              <Text
-                fw="bold"
-                c="primary"
-                className={isZero ? "" : "cursor-pointer"}
-                onClick={() => !isZero && onChange(balanceByCoin)}
-              >
-                {t("All")}
-              </Text>
-              <Divider h={12} c={"red"} bg={"gray"} w={1} />
-              <Text fw={"bold"}>{formData?.coin}</Text>
-            </Flex>
-          }
-          {...(options?.props as any)} // eslint-disable-line
-        />
-        <Flex
-          justify={"end"}
-          pos={"absolute"}
-          top={"calc(100% + 5px)"}
-          right={0}
-        >
-          <Text fz={12} fw={"bold"} c="dimmed">
-            {t("Total")}:{" "}
-            <NumberFormat value={balanceByCoin} decimalPlaces={8} />{" "}
-            {formData?.coin}
-          </Text>
-        </Flex>
-      </Box>
-    </>
-  );
-}
-
-export function WithdrawAddressWidget(props: WidgetProps) {
-  return (
-    <>
-      <TextInput
-        onChange={(v) => props.onChange(v.target.value)}
-        value={props.value}
-        styles={{
-          label: {
-            fontSize: "14px",
-          },
-          input: {
-            fontSize: "14px",
-            background: "#f3f5f7",
-            border: "none",
-            fontWeight: "bolder",
-          },
-        }}
-        label={props.label ? props.label : ""}
-        withAsterisk={props.required}
-        {...(props.options?.props as any)} // eslint-disable-line
-      />
-    </>
+    <NumberInput
+      label={label}
+      value={value || ""}
+      rightSectionWidth={80}
+      thousandSeparator=","
+      decimalSeparator="."
+      hideControls
+      onChange={(v) => props.onChange(v)}
+      styles={{
+        input: {
+          background: "#f3f5f7",
+          border: "none",
+          fontWeight: "bolder",
+        },
+      }}
+      withAsterisk={required}
+      rightSection={<Text fw={"bold"}>{formData?.coin}</Text>}
+      {...(props.options?.props as any)} // eslint-disable-line
+    />
   );
 }
 
 export function SelectAccountWidget(props: WidgetProps) {
-  const { accounts } = useTradeStorageInfo();
+  const { accounts } = assetStore();
   const options = useMemo(
     () => buildOptions(accounts, "name", "id"),
     [accounts],
@@ -568,14 +372,212 @@ export function SelectAccountWidget(props: WidgetProps) {
   );
 }
 
-export function CoinSwapWidget(props: WidgetProps) {
+export function AmountToWithdrawWidget({
+  value,
+  label,
+  required,
+  options,
+  onChange,
+  formContext: { formData },
+}: WidgetProps) {
+  const t = useTranslation();
+  const { fundingBalances } = assetStore();
+  const balanceByCoin = useMemo(() => {
+    if (!formData.coin) {
+      return 0;
+    }
+    return freeAmount(
+      fundingBalances.find((el) => el.coin === formData.coin) || {},
+    );
+  }, [fundingBalances, formData?.coin]);
+
+  const isZero = useMemo(
+    () => Number(balanceByCoin) === 0,
+    [balanceByCoin],
+  );
+
+  return (
+    <Box pos={"relative"}>
+      <NumberInput
+        label={label}
+        value={value || ""}
+        rightSectionWidth={120}
+        hideControls
+        thousandSeparator=","
+        decimalSeparator="."
+        disabled={isZero}
+        withAsterisk={required}
+        onChange={(v) => onChange(v)}
+        rightSectionPointerEvents="all"
+        styles={{
+          label: {
+            fontSize: "14px",
+          },
+          input: {
+            cursor: isZero ? "not-allowed" : "pointer",
+            background: "#f3f5f7",
+            border: "none",
+            fontWeight: "bolder",
+          },
+        }}
+        rightSection={
+          <Flex
+            w={"100%"}
+            gap={8}
+            justify={"end"}
+            pr={10}
+            align={"center"}
+          >
+            <Text
+              fw="bold"
+              c="primary"
+              className={isZero ? "" : "cursor-pointer"}
+              onClick={() => !isZero && onChange(balanceByCoin)}
+            >
+              {t("All")}
+            </Text>
+            <Divider h={12} c={"red"} bg={"gray"} w={1} />
+            <Text fw={"bold"}>{formData?.coin}</Text>
+          </Flex>
+        }
+        {...(options?.props as any)} // eslint-disable-line
+      />
+      <Flex
+        justify={"end"}
+        pos={"absolute"}
+        top={"calc(100% + 5px)"}
+        right={0}
+      >
+        <Text fz={12} fw={"bold"} c="dimmed">
+          {t("Total")}:{" "}
+          <NumberFormat value={balanceByCoin} decimalPlaces={8} />{" "}
+          {formData?.coin}
+        </Text>
+      </Flex>
+    </Box>
+  );
+}
+
+export function AmountToTransferWidget({
+  value,
+  label,
+  required,
+  options,
+  onChange,
+  formContext: { formData },
+}: WidgetProps) {
+  const t = useTranslation();
+  const { balances } = assetStore();
+  const balanceByCoin = useMemo(() => {
+    if (!formData.fromAccountId || !formData.coin) {
+      return 0;
+    }
+    return freeAmount(
+      balances
+        .filter((el) => el.accountId === formData.fromAccountId)
+        .find((el) => el.coin === formData.coin) || {},
+    );
+  }, [balances, formData?.coin, formData.fromAccountId]);
+
+  const isZero = useMemo(
+    () => Number(balanceByCoin) === 0,
+    [balanceByCoin],
+  );
+
+  return (
+    <Box pos={"relative"}>
+      <NumberInput
+        hideControls
+        thousandSeparator=","
+        decimalSeparator="."
+        value={value || ""}
+        disabled={isZero}
+        label={label || ""}
+        withAsterisk={required}
+        rightSectionWidth={120}
+        onChange={(v) => onChange(v)}
+        rightSectionPointerEvents="all"
+        styles={{
+          label: {
+            fontSize: "14px",
+          },
+          input: {
+            fontSize: "14px",
+            cursor: isZero ? "not-allowed" : "pointer",
+            background: "#f3f5f7",
+            border: "none",
+            fontWeight: "bolder",
+          },
+        }}
+        rightSection={
+          <Flex
+            w={"100%"}
+            gap={8}
+            justify={"end"}
+            pr={10}
+            align={"center"}
+          >
+            <Text
+              fw="bold"
+              c="primary"
+              className={isZero ? "" : "cursor-pointer"}
+              onClick={() => !isZero && onChange(balanceByCoin)}
+            >
+              {t("All")}
+            </Text>
+            <Divider h={12} c={"red"} bg={"gray"} w={1} />
+            <Text fw={"bold"}>{formData?.coin}</Text>
+          </Flex>
+        }
+        {...(options?.props as any)} // eslint-disable-line
+      />
+      <Flex
+        justify={"end"}
+        pos={"absolute"}
+        top={"calc(100% + 5px)"}
+        right={0}
+      >
+        <Text fz={12} fw={"bold"} c="dimmed">
+          {t("Total")}:{" "}
+          <NumberFormat value={balanceByCoin} decimalPlaces={8} />{" "}
+          {formData?.coin}
+        </Text>
+      </Flex>
+    </Box>
+  );
+}
+
+export function WithdrawAddressWidget(props: WidgetProps) {
+  return (
+    <TextInput
+      onChange={(v) => props.onChange(v.target.value || "")}
+      value={props.value}
+      styles={{
+        label: {
+          fontSize: "14px",
+        },
+        input: {
+          fontSize: "14px",
+          background: "#f3f5f7",
+          border: "none",
+          fontWeight: "bolder",
+        },
+      }}
+      label={props.label ? props.label : ""}
+      withAsterisk={props.required}
+      {...(props.options?.props as any)} // eslint-disable-line
+    />
+  );
+}
+
+export function CoinSwapWidget({
+  formContext: { formData, updateFields },
+  ...props
+}: WidgetProps) {
   const t = useTranslation();
   const focusTrapRef = useFocusTrap();
-
-  const {
-    formContext: { formData, updateFields },
-  } = props;
-  const { fundingBalances, marketPrices } = useTradeStorageInfo();
+  const { fundingBalances } = assetStore();
+  const { marketPrices } = tradeStore();
 
   useEffect(() => {
     const coinFirst = props.options.enumOptions?.[0].value;
@@ -810,12 +812,14 @@ export function CoinSwapWidget(props: WidgetProps) {
           >
             <NumberInput
               hideControls
+              thousandSeparator=","
+              decimalSeparator="."
               size="xs"
               ref={focusTrapRef}
               placeholder={isFrom ? "0.0005-2.9999" : "--"}
               rightSectionWidth={isFrom ? 30 : 0}
               disabled={!isFrom}
-              value={isFrom ? formData.volume : outputAmount}
+              value={(isFrom ? formData.volume : outputAmount) || 0}
               onChange={(amount) => updateFields({ volume: amount })}
               styles={{
                 input: {
@@ -898,7 +902,7 @@ export function SwapSwitchWidget({
 }
 
 export function FundingAccountWidget(props: WidgetProps) {
-  const { fundingAccount } = useTradeStorageInfo();
+  const { fundingAccount } = assetStore();
   useEffect(() => {
     if (fundingAccount) {
       props.onChange(fundingAccount.id);
@@ -910,7 +914,7 @@ export function FundingAccountWidget(props: WidgetProps) {
 export function MarketPriceInfoWidget() {
   // props: WidgetProps
   const t = useTranslation();
-  // const { marketPrices } = useTradeStorageInfo();
+  // const { marketPrices } = assetStore();
   // const {
   //   formContext: { formData },
   // } = props;

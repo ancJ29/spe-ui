@@ -20,7 +20,7 @@ const NewOrderOfMarketTradeSchema: FormSchema = {
       },
       volume: {
         type: "string",
-        title: "Volume"
+        title: "Volume",
       },
       leverage: {
         type: "number",
@@ -110,7 +110,7 @@ const NewOrderOfMarketTradeSchema: FormSchema = {
     },
     "price": {
       "ui:options": {
-        widget: "OrderPriceWidget",
+        widget: "OrderPriceInputFieldWidget",
         label: false,
       },
     },

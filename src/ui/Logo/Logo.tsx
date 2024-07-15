@@ -10,3 +10,5 @@ export function AppLogo() {
     </>
   );
 }
+
+export { svgLogo, svgLogoLight };

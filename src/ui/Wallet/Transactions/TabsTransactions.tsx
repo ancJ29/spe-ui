@@ -1,5 +1,5 @@
 import useTranslation from "@/hooks/useTranslation";
-import useAuthStore from "@/store/auth";
+import authStore from "@/store/auth";
 import AppTabs from "@/ui/Tabs";
 import { useCallback, useEffect, useState } from "react";
 import {
@@ -13,7 +13,7 @@ import { SwapRecords } from "./SwapRecords";
 import { WithdrawRecords } from "./WithdrawRecords";
 
 export function TabsTransactions() {
-  const { me } = useAuthStore();
+  const { me } = authStore();
 
   const t = useTranslation();
   const [tab, setTab] = useState<string | null>("swap");

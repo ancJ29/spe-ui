@@ -2,8 +2,8 @@ import BN from "./big-number";
 import { GenericObject } from "./types";
 
 export function t(dictionary: Record<string, string>, key?: string) {
-  if (localStorage.___CHECK_LANGUAGE___ === '1') {
-    return 'xxxxxxxxxxxxxxxxxxxxxxxx';
+  if (localStorage.___CHECK_LANGUAGE___ === "1") {
+    return "xxxxxxxxxxxxxxxxxxxxxxxx";
   }
   if (!key) {
     return "";
@@ -16,11 +16,14 @@ export function t(dictionary: Record<string, string>, key?: string) {
 }
 
 export function randomAddress(chain?: string) {
-  let list = '0123456789abcdef'.split('');
+  let list = "0123456789abcdef".split("");
   let length = 40;
   let prefix = "0x";
   if (chain === "Bitcoin") {
-    list = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    list =
+      "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".split(
+        "",
+      );
     prefix = "3";
     length = 33;
   }
@@ -52,7 +55,9 @@ export function cleanObj<T extends Record<string, unknown>>(obj: T) {
 }
 
 export function code(length = 6) {
-  return Math.random().toString().slice(2, 2 + length);
+  return Math.random()
+    .toString()
+    .slice(2, 2 + length);
 }
 
 export function last<T>(arr: T[]) {
@@ -93,7 +98,11 @@ export function buildContentFromTemplate(
   }, template);
 }
 
-export function buildOptions<T extends GenericObject>(arr: T[], key: string, value: string) {
+export function buildOptions<T extends GenericObject>(
+  arr: T[],
+  key: string,
+  value: string,
+) {
   return arr.map((item) => ({
     label: item[key] as string,
     value: item[value] as string,
@@ -104,8 +113,8 @@ export function freeAmount({
   amount,
   locked,
 }: {
-  amount?: number | string,
-  locked?: number | string,
+  amount?: number | string;
+  locked?: number | string;
 }) {
   return BN.sub(amount || 0, locked || 0);
 }
@@ -118,5 +127,5 @@ export function masking(text: string): string {
     }
     return `${username.slice(0, 1)}***@${masking(domain)}`;
   }
-  return text.replace(/.(?=.{4})/g, '*');
+  return text.replace(/.(?=.{4})/g, "*");
 }

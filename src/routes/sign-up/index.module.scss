@@ -1,10 +1,10 @@
 .bggray {
   @include light {
-    background: var(--mantine-color-gray-2);
+    // background: var(--mantine-color-gray-2);
     // background: white;
   }
   @include dark {
-    background: var(--mantine-color-dark);
+    // background: var(--mantine-color-dark-2);
   }
   background: black;
   height: 100vh;

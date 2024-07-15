@@ -20,7 +20,7 @@ const NewOrderOfLimitTradeSchema: FormSchema = {
       },
       volume: {
         type: "string",
-        title: "Volume"
+        title: "Volume",
       },
       price: {
         type: "string",
@@ -127,7 +127,7 @@ const NewOrderOfLimitTradeSchema: FormSchema = {
     },
     "price": {
       "ui:options": {
-        widget: "OrderPriceWidget",
+        widget: "OrderPriceInputFieldWidget",
         label: false,
       },
     },

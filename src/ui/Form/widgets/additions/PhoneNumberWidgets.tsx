@@ -1,4 +1,5 @@
-import checkMfa from "@/services/apis/check-mfa";
+import { checkMfa } from "@/services/apis";
+import logger from "@/services/logger";
 import { debounceBuilder, extractPhoneNumber } from "@/utils/utility";
 import {
   Box,
@@ -102,8 +103,8 @@ export function PhoneNumber2FAWidget({
             "mobile.is2fa": hasMfa,
           });
         })
-        .catch(() => {
-          // console.log(err);
+        .catch((error) => {
+          logger.error("Error checking 2FA", error);
         })
         .finally(() => setLoading(false));
     },

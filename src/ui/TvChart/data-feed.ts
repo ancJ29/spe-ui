@@ -26,25 +26,36 @@ export default (symbol: string, isSpot: boolean) => {
   const SPOT_KLINE = "https://api.binance.com/api/v3/klines";
   const FUTURE_KLINE = "https://fapi.binance.com/fapi/v1/klines";
 
-  const url = `${isSpot ? SPOT_KLINE : FUTURE_KLINE}?symbol=${SYMBOL_MAP.BINANCE[symbol]}`;
+  const url = `${isSpot ? SPOT_KLINE : FUTURE_KLINE}?symbol=${
+    SYMBOL_MAP.BINANCE[symbol]
+  }`;
   logger.debug("data-feed", symbol, url);
 
   return {
     searchSymbols: (
-      userInput: string, exchange: string, symbolType: string, onResult: SearchSymbolsCallback
+      userInput: string,
+      exchange: string,
+      symbolType: string,
+      onResult: SearchSymbolsCallback,
     ) => {
-      if (symbolType !== "crypto" || exchange !== "SPE" || !symbol.includes(userInput)) {
+      if (
+        symbolType !== "crypto" ||
+        exchange !== "SPE" ||
+        !symbol.includes(userInput)
+      ) {
         onResult([]);
         return;
       }
-      onResult([{
-        symbol,
-        full_name: symbol,
-        description: "",
-        exchange: "SPE",
-        ticker: symbol,
-        type: "crypto",
-      }]);
+      onResult([
+        {
+          symbol,
+          full_name: symbol,
+          description: "",
+          exchange: "SPE",
+          ticker: symbol,
+          type: "crypto",
+        },
+      ]);
     },
     resolveSymbol: (
       symbolName: string,
@@ -77,7 +88,11 @@ export default (symbol: string, isSpot: boolean) => {
       });
     },
     getBars: (
-      _: LibrarySymbolInfo, resolution: ResolutionString, periodParams: PeriodParams, onResult: HistoryCallback, onError: ErrorCallback
+      _: LibrarySymbolInfo,
+      resolution: ResolutionString,
+      periodParams: PeriodParams,
+      onResult: HistoryCallback,
+      onError: ErrorCallback,
     ) => {
       const { from, to, countBack, firstDataRequest } = periodParams;
       const step = steps[resolution];
@@ -89,29 +104,42 @@ export default (symbol: string, isSpot: boolean) => {
       const _url = firstDataRequest
         ? `${base}&startTime=${startTime}`
         : `${base}&limit=${limit}`;
-      axios.get<KLine>(_url).then((response) => {
-        const bars: Bar[] = response.data.map((kline) => ({
-          time: kline[0],
-          close: parseFloat(kline[4]),
-          open: parseFloat(kline[1]),
-          high: parseFloat(kline[2]),
-          low: parseFloat(kline[3]),
-          volume: parseFloat(kline[5]),
-        }));
-        onResult(bars, { noData: !bars.length });
-      }).catch((error) => {
-        logger.error("getBars", error);
-        onError("Cannot get bar!!!");
-      });
+      axios
+        .get<KLine>(_url)
+        .then((response) => {
+          const bars: Bar[] = response.data.map((kline) => ({
+            time: kline[0],
+            close: parseFloat(kline[4]),
+            open: parseFloat(kline[1]),
+            high: parseFloat(kline[2]),
+            low: parseFloat(kline[3]),
+            volume: parseFloat(kline[5]),
+          }));
+          onResult(bars, { noData: !bars.length });
+        })
+        .catch((error) => {
+          logger.error("getBars", error);
+          onError("Cannot get bar!!!");
+        });
     },
     subscribeBars: (
       symbolInfo: LibrarySymbolInfo,
       resolution: ResolutionString,
       onTick: SubscribeBarsCallback,
       listenerGuid: string,
-      onResetCacheNeededCallback: () => void
+      onResetCacheNeededCallback: () => void,
     ) => {
-      timers.set(listenerGuid, setTimeout(_sync, 5e3, listenerGuid, resolution, onTick, onResetCacheNeededCallback));
+      timers.set(
+        listenerGuid,
+        setTimeout(
+          _sync,
+          5e3,
+          listenerGuid,
+          resolution,
+          onTick,
+          onResetCacheNeededCallback,
+        ),
+      );
     },
     unsubscribeBars: (listenerGuid: string) => {
       clearTimeout(timers.get(listenerGuid));
@@ -119,11 +147,13 @@ export default (symbol: string, isSpot: boolean) => {
     onReady: (callback: OnReadyCallback) => {
       callback({
         supported_resolutions,
-        exchanges: [{
-          value: "SPE",
-          name: "SPE",
-          desc: "SPE",
-        }],
+        exchanges: [
+          {
+            value: "SPE",
+            name: "SPE",
+            desc: "SPE",
+          },
+        ],
       });
     },
   } satisfies IBasicDataFeed;
@@ -132,27 +162,40 @@ export default (symbol: string, isSpot: boolean) => {
     listenerGuid: string,
     resolution: ResolutionString,
     onTick: SubscribeBarsCallback,
-    onResetCacheNeededCallback: () => void
+    onResetCacheNeededCallback: () => void,
   ) {
     const interval = intervals[resolution];
     const endTime = Math.floor(Date.now() / 1e3) * 1e3;
     const _url = `${url}&interval=${interval}&endTime=${endTime}&limit=1`;
-    axios.get<KLine>(_url).then((response) => {
-      const bars: Bar[] = response.data.map((kline) => ({
-        time: kline[0],
-        close: parseFloat(kline[4]),
-        open: parseFloat(kline[1]),
-        high: parseFloat(kline[2]),
-        low: parseFloat(kline[3]),
-        volume: parseFloat(kline[5]),
-      }));
-      const lastBar = last(bars);
-      lastBar && onTick(lastBar);
-    }).catch((error) => {
-      logger.error("getBars", error);
-      onResetCacheNeededCallback();
-    });
+    axios
+      .get<KLine>(_url)
+      .then((response) => {
+        const bars: Bar[] = response.data.map((kline) => ({
+          time: kline[0],
+          close: parseFloat(kline[4]),
+          open: parseFloat(kline[1]),
+          high: parseFloat(kline[2]),
+          low: parseFloat(kline[3]),
+          volume: parseFloat(kline[5]),
+        }));
+        const lastBar = last(bars);
+        lastBar && onTick(lastBar);
+      })
+      .catch((error) => {
+        logger.error("getBars", error);
+        onResetCacheNeededCallback();
+      });
 
-    timers.set(listenerGuid, setTimeout(_sync, 5e3, listenerGuid, resolution, onTick, onResetCacheNeededCallback));
+    timers.set(
+      listenerGuid,
+      setTimeout(
+        _sync,
+        5e3,
+        listenerGuid,
+        resolution,
+        onTick,
+        onResetCacheNeededCallback,
+      ),
+    );
   }
 };

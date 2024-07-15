@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import logger from "@/services/logger";
 import AppButton from "@/ui/Button/AppButton";
 import { AppPopover } from "@/ui/Popover/AppPopover";
 import AppText from "@/ui/Text/AppText";
@@ -164,7 +165,7 @@ function TradeForm({ tradeType }: { tradeType: TradeType }) {
         <CreateOrderTradeByLimitForm
           onSubmit={(res) => {
             // eslint-disable-next-line no-console
-            console.log("CreateOrderTradeByLimitForm", res);
+            logger.debug("CreateOrderTradeByLimitForm", res);
           }}
         />
       )}
@@ -172,7 +173,7 @@ function TradeForm({ tradeType }: { tradeType: TradeType }) {
         <CreateOrderTradeByMarketForm
           onSubmit={(res) => {
             // eslint-disable-next-line no-console
-            console.log("CreateOrderTradeByMarketForm", res);
+            logger.debug("CreateOrderTradeByMarketForm", res);
           }}
         />
       )}
@@ -180,7 +181,7 @@ function TradeForm({ tradeType }: { tradeType: TradeType }) {
         <CreateOrderTradeByConditionalForm
           onSubmit={(res) => {
             // eslint-disable-next-line no-console
-            console.log("CreateOrderTradeByConditionalForm", res);
+            logger.debug("CreateOrderTradeByConditionalForm", res);
           }}
         />
       )}
@@ -471,8 +472,8 @@ function BoxInfoTradeFoot() {
           styles={{
             root: {
               background: "light-dark(#e9edf3, #414347)",
-              color: "light-dark(black, white)"
-            }
+              color: "light-dark(black, white)",
+            },
           }}
           size="xs"
         >
@@ -482,8 +483,8 @@ function BoxInfoTradeFoot() {
           styles={{
             root: {
               background: "light-dark(#e9edf3, #414347)",
-              color: "light-dark(black, white)"
-            }
+              color: "light-dark(black, white)",
+            },
           }}
           size="xs"
         >
@@ -493,8 +494,8 @@ function BoxInfoTradeFoot() {
           styles={{
             root: {
               background: "light-dark(#e9edf3, #414347)",
-              color: "light-dark(black, white)"
-            }
+              color: "light-dark(black, white)",
+            },
           }}
           size="xs"
         >

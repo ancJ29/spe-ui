@@ -1,3 +1,5 @@
+import logger from "@/services/logger";
+import { useSpotTradeStorage } from "@/services/spotTradeAdapter";
 import AppButton from "@/ui/Button/AppButton";
 import AppText from "@/ui/Text/AppText";
 import { extractSuffix } from "@/utils/utility";
@@ -5,7 +7,6 @@ import {
   Box,
   Button,
   Flex,
-  HoverCard,
   InputLabel,
   Modal,
   NumberFormatter,
@@ -19,10 +20,11 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { WidgetProps } from "@rjsf/utils";
 import { IconCaretDownFilled } from "@tabler/icons-react";
-import { useCallback } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+
+const isBuyOrLong = ["Long", "BUY"];
 
 export function TradeBuySellSwitchTPLimitWidget(props: WidgetProps) {
-  const isBuyOrLong = ["Long", "BUY"];
   return (
     <>
       <SegmentedControl
@@ -48,7 +50,7 @@ export function TradeBuySellSwitchTPLimitWidget(props: WidgetProps) {
           },
           label: {
             fontWeight: "bolder",
-            // color: isBuyOrLong.includes(props.value) ? "white" : "gray"
+            // color: (isSell || isBuy) ? "white" : "black"
           },
         }}
       />
@@ -56,7 +58,7 @@ export function TradeBuySellSwitchTPLimitWidget(props: WidgetProps) {
   );
 }
 
-export function TradeSpotByModeWidget(props: WidgetProps) {
+export function TradetriggerBuyModeWidget(props: WidgetProps) {
   return (
     <>
       <SegmentedControl
@@ -88,46 +90,6 @@ export function TradeSpotByModeWidget(props: WidgetProps) {
   );
 }
 
-export function UiBalanceWidget(props: WidgetProps) {
-  const {
-    formContext: { formData },
-  } = props;
-  return (
-    <>
-      <Flex justify={"space-between"} align={"center"} pt={10}>
-        <HoverCard
-          width={280}
-          shadow="md"
-          position="top"
-          withArrow
-          arrowSize={12}
-        >
-          <HoverCard.Target>
-            <InputLabel className="text-label-form">
-              Available Balance
-            </InputLabel>
-          </HoverCard.Target>
-          <HoverCard.Dropdown>
-            <Text size="sm">
-              Bonuses are not reflected in the Available Balance for
-              Spot Trading
-            </Text>
-          </HoverCard.Dropdown>
-        </HoverCard>
-        <Text fw={"bolder"} fz={12}>
-          {formData?.spotType === "BUY"
-            ? "56,138.15306945USDT"
-            : "1BTC"}
-        </Text>
-      </Flex>
-    </>
-  );
-}
-
-export function UiBalanceBTCWidget() {
-  return <>Available Balance</>;
-}
-
 export function NumberSimpleWidget(props: WidgetProps) {
   return (
     <>
@@ -148,60 +110,41 @@ export function NumberSimpleWidget(props: WidgetProps) {
   );
 }
 
-export function QtyPercentWidget(props: WidgetProps) {
-  return (
-    <>
-      <Box>
-        <NumberInput
-          thousandSeparator=","
-          decimalSeparator="."
-          classNames={{
-            label: "text-label-form",
-          }}
-          label={props.label ? props.label : "Order by Value"}
-          value={props.value}
-          onChange={(_value) => {
-            props.onChange(_value.toString());
-          }}
-          rightSectionWidth={60}
-          rightSection={
-            <AppText fz={12} fw={"bold"}>
-              {extractSuffix(props?.options?.props)}
-            </AppText>
-          }
-          size="sm"
-        ></NumberInput>
-        <Box py={20} mb={10} px={2}>
-          <Slider
-            onChange={() =>
-              props.onChange(Math.floor(Math.random() * 1000))
-            }
-            color="primary"
-            size="sm"
-            max={100}
-            marks={[
-              { value: 0, label: "0%" },
-              { value: 25, label: "20%" },
-              { value: 50, label: "50%" },
-              { value: 75, label: "75%" },
-              { value: 100, label: "100%" },
-            ]}
-            styles={{
-              label: {
-                fontSize: "10px",
-              },
-              markLabel: {
-                fontSize: "10px",
-              },
-            }}
-          />
-        </Box>
-      </Box>
-    </>
-  );
-}
-
 export function VolumeInputPercentFieldWidget(props: WidgetProps) {
+  const [, setPercentQty] = useState(0);
+  const { pairToken, baseToken } = useSpotTradeStorage();
+  const {
+    formContext: { formData },
+  } = props;
+  const isBuy = useMemo(() => {
+    return formData?.orderSide === "BUY";
+  }, [formData?.orderSide]);
+
+  const info = useMemo(() => {
+    const rightTitle = isBuy ? pairToken : baseToken;
+    return {
+      rightTitle,
+    };
+  }, [baseToken, isBuy, pairToken]);
+
+  const onChangePercent = (v: string) => {
+    logger.debug("onChangePercent", v);
+  };
+
+  const onChangeInput = (v: string) => {
+    logger.debug("onChangeInput", v);
+  };
+
+  const reset = () => {
+    setPercentQty(0);
+  };
+
+  useEffect(() => {
+    if (["", undefined, NaN, 0].includes(props.value)) {
+      reset();
+    }
+  }, [props.value]);
+
   return (
     <>
       <Box>
@@ -214,12 +157,12 @@ export function VolumeInputPercentFieldWidget(props: WidgetProps) {
           label={props.label ? props.label : "Order by Value"}
           value={props.value}
           onChange={(_value) => {
-            props.onChange(_value.toString());
+            onChangeInput(_value.toString());
           }}
           rightSectionWidth={60}
           rightSection={
             <AppText fz={12} fw={"bold"}>
-              {extractSuffix(props?.options?.props)}
+              {info.rightTitle}
             </AppText>
           }
         ></NumberInput>
@@ -229,8 +172,8 @@ export function VolumeInputPercentFieldWidget(props: WidgetProps) {
           color="primary"
           size="sm"
           max={100}
-          onChange={() => {
-            props.onChange(Math.floor(Math.random() * 1000));
+          onChange={(v) => {
+            onChangePercent(v.toString());
           }}
           marks={[
             { value: 0, label: "0%" },
@@ -254,7 +197,6 @@ export function VolumeInputPercentFieldWidget(props: WidgetProps) {
 }
 
 export function VolumeInputHintFieldWidget(props: WidgetProps) {
-  // console.log("VolumeInputFieldWidget", )
   return (
     <>
       <Box className="space-y-10">

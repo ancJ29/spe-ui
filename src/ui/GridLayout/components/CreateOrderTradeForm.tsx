@@ -10,8 +10,7 @@ interface CreateOrderTradeFormProps {
 export function CreateOrderTradeByLimitForm({
   ...props
 }: CreateOrderTradeFormProps) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const formRef = useRef<any>(null);
+  const formRef = useRef<unknown>(null);
   return (
     <>
       <Box className="space-y-20">
@@ -39,8 +38,7 @@ export function CreateOrderTradeByLimitForm({
 export function CreateOrderTradeByMarketForm({
   ...props
 }: CreateOrderTradeFormProps) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const formRef = useRef<any>(null);
+  const formRef = useRef<unknown>(null);
   return (
     <>
       <Box className="space-y-20">
@@ -67,8 +65,7 @@ export function CreateOrderTradeByMarketForm({
 export function CreateOrderTradeByConditionalForm({
   ...props
 }: CreateOrderTradeFormProps) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const formRef = useRef<any>(null);
+  const formRef = useRef<unknown>(null);
   return (
     <>
       <Box className="space-y-20">

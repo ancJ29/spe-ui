@@ -2,8 +2,7 @@ import BN from "@/common/big-number";
 import { STATUS_COLORS } from "@/common/configs";
 import { TransactionType } from "@/common/enums";
 import useTranslation from "@/hooks/useTranslation";
-import { useTradeStorageInfo } from "@/services/tradeAdapter";
-import { useAssetStore } from "@/store/assets";
+import { assetStore } from "@/store/assets";
 import { Asset } from "@/ui/Asset/Asset";
 import { NoDataRecord } from "@/ui/NoData";
 import NumberFormat from "@/ui/NumberFormat";
@@ -12,9 +11,9 @@ import { useEffect, useMemo } from "react";
 
 export function SwapRecords() {
   const t = useTranslation();
-  const { transactions } = useTradeStorageInfo();
+  const { transactions } = assetStore();
   useEffect(() => {
-    useAssetStore.getState().fetchTransactionsHistory({
+    assetStore.getState().fetchTransactionsHistory({
       type: TransactionType.SWAP,
     });
   }, []);

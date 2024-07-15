@@ -18,7 +18,7 @@ export function GridRecentTrade() {
             styles={{
               thead: {
                 // background: "#101014",
-                background: "light-dark(#ffffff, #101014)"
+                background: "light-dark(#ffffff, #101014)",
               },
               th: {
                 fontSize: "12px",

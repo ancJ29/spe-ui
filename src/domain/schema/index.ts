@@ -12,11 +12,9 @@ import AddTPandSLOfTrade from "./trades/AddTPandSLOfTradeSchema";
 import NewOrderOfConditionalTradeSchema from "./trades/NewOrderOfConditionalTradeSchema";
 import NewOrderOfLimitTradeSchema from "./trades/NewOrderOfLimitTradeSchema";
 import NewOrderOfMarketTradeSchema from "./trades/NewOrderOfMarketTradeSchema";
-import NewOrderOfSpotMarginTradeSchema from "./trades/NewOrderOfSpotMarginTradeSchema";
-import NewOrderOfSpotTradeSchema from "./trades/NewOrderOfSpotTradeSchema";
+import PostOrderSchema from "./trades/PostOrderSchema";
 
 const _schema: Record<string, FormSchema> = {
-  Blank: { schema: {}, uiSchema: {}, formData: {} },
   SignUp: SignUp,
   ForgotPassword: ForgotPassword,
   ResetPassword: ResetPassword,
@@ -25,13 +23,11 @@ const _schema: Record<string, FormSchema> = {
   NewOrderOfLimitTradeSchema,
   NewOrderOfConditionalTradeSchema,
   AddTPandSLOfTrade,
-  NewOrderOfSpotTradeSchema,
-  NewOrderOfSpotMarginTradeSchema,
+  PostOrderSchema,
   DepositSchema,
   SwapSchema,
   TransferSchema,
-  WithdrawSchema
-
+  WithdrawSchema,
 };
 
 export const schema = deepFreeze(_schema);

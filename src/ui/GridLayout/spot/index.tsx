@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import AppTabs from "@/ui/Tabs";
+import OrderForm from "@/ui/OrderForm";
 import { TVChart } from "@/ui/TvChart";
 import {
   ActionIcon,
@@ -28,13 +28,7 @@ import "react-resizable/css/styles.css";
 import AppButton from "../../Button/AppButton";
 import { AppPopover } from "../../Popover/AppPopover";
 import AppText from "../../Text/AppText";
-import {
-  CreateOrderSpotMarginTradeForm,
-  CreateOrderSpotTradeForm,
-  OrderBook,
-  TabsOfTradeHistory,
-  TopBar,
-} from "../components";
+import { OrderBook, TabsOfTradeHistory, TopBar } from "../components";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const initialLayouts =
@@ -106,90 +100,42 @@ export function GridTradeSpot() {
           </Grid>
         </Grid.Col>
         <Grid.Col span={5}>
-          <Box className="bg-trade" h={"100%"} py={0}>
-            <Box>
-              <Forms />
-            </Box>
-          </Box>
+          <OrderPanel
+            symbol="BTC_USDT_SPOT"
+            base="BTC"
+            quote="USDT"
+          />
+          {/* TODO: hardcode */}
         </Grid.Col>
       </Grid>
     </>
   );
 }
 
-function Forms() {
+function OrderPanel(props: {
+  symbol: string;
+  base: string;
+  quote: string;
+}) {
   return (
-    <>
-      <Box className="space-y-10" pt={10}>
-        <AppTabs
-          instancetype="WithMediumNoBorder"
-          className="noBg"
-          defaultValue={"1"}
-          showPanel
-          items={[
-            {
-              data: {
-                label: "Spot",
-                value: "1",
-              },
-              tabsPanelProps: {
-                children: (
-                  <>
-                    <Box px={10}>
-                      <Space mt={10} />
-                      <CreateOrderSpotTradeForm
-                        onSubmit={(res) => {
-                          // eslint-disable-next-line no-console
-                          console.log(
-                            "CreateOrderSpotTradeForm",
-                            res,
-                          );
-                        }}
-                      />
-                      <BoxInfoTradeFoot />
-                    </Box>
-                  </>
-                ),
-                value: "positions",
-              },
-            },
-            {
-              data: {
-                label: "Margin",
-                value: "2",
-              },
-              tabsPanelProps: {
-                children: (
-                  <>
-                    <Box px={10}>
-                      <Space mt={10} />
-                      <CreateOrderSpotMarginTradeForm
-                        onSubmit={(res) => {
-                          // eslint-disable-next-line no-console
-                          console.log(
-                            "CreateOrderSpotMarginTradeForm",
-                            res,
-                          );
-                        }}
-                      />
-                      <BoxInfoTradeFoot />
-                    </Box>
-                  </>
-                ),
-                value: "2",
-              },
-            },
-          ]}
-        />
-      </Box>
-    </>
+    <Box
+      className="bg-trade space-y-10"
+      h={"100%"}
+      py={0}
+      pt={10}
+      px={10}
+    >
+      <Space mt={10} />
+      <OrderForm future={false} {...props} />
+      <BoxInfoTradeFoot />
+    </Box>
   );
 }
 
 function BoxInfoTradeFoot() {
   const [isOf, setOff] = useState<boolean>(false);
   return (
-    <Box className="space-y-20">
+    <Box className="space-y-20" mt={50}>
       <Flex justify={"space-between"}>
         <Flex align={"center"}>
           <AppText fz={14} fw={"bold"}>

@@ -1,4 +1,4 @@
-import checkMfa from "@/services/apis/check-mfa";
+import { checkMfa } from "@/services/apis";
 import { debounceBuilder } from "@/utils/utility";
 import { Loader, TextInput } from "@mantine/core";
 import { WidgetProps } from "@rjsf/utils";

@@ -1,7 +1,6 @@
 import { FormSchema } from "@/types";
 import { REGEX } from "@/utils/regex";
 
-
 const ResetPasswordSchema: FormSchema = {
   schema: {
     definitions: {
