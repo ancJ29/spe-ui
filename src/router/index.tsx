@@ -30,6 +30,7 @@ const componentMap: Record<string, LazyExoticComponent> = {
   TopPage: lazy(() => import("@/routes/top-page")),
   CopyTrade: lazy(() => import("@/routes/copy-trade")),
   CopyTradeDetail: lazy(() => import("@/routes/copy-trade-detail")),
+  Trade: lazy(() => import("@/routes/trade")),
   SpotTrade: lazy(() => import("@/routes/spot")),
   FutureTrade: lazy(() => import("@/routes/future")),
   Deposit: lazy(() => import("@/routes/deposit")),

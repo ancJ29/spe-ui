@@ -1,8 +1,5 @@
 /* eslint-disable react/prop-types */
-import logger from "@/services/logger";
-import AppButton from "@/ui/Button/AppButton";
-import { AppPopover } from "@/ui/Popover/AppPopover";
-import AppText from "@/ui/Text/AppText";
+import OrderForm from "@/ui/OrderForm";
 import { TVChart } from "@/ui/TvChart";
 import {
   ActionIcon,
@@ -11,8 +8,8 @@ import {
   Grid,
   InputLabel,
   Progress,
-  SegmentedControl,
   SimpleGrid,
+  Space,
   Spoiler,
 } from "@mantine/core";
 import {
@@ -28,21 +25,27 @@ import { useCallback, useState } from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
-import {
-  CreateOrderTradeByConditionalForm,
-  CreateOrderTradeByLimitForm,
-  CreateOrderTradeByMarketForm,
-  OrderBook,
-  TabsOfTradeHistory,
-  TopBar,
-} from "../components";
+import AppButton from "../../Button/AppButton";
+import { AppPopover } from "../../Popover/AppPopover";
+import AppText from "../../Text/AppText";
+import { OrderBook, TabsOfTradeHistory, TopBar } from "../components";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const initialLayouts =
   // prettier-ignore
   "{\"lg\":[{\"x\":4,\"y\":0,\"w\":2,\"h\":5,\"i\":\"0\",\"static\":false},{\"x\":8,\"y\":0,\"w\":2,\"h\":5,\"i\":\"1\",\"static\":false},{\"x\":6,\"y\":0,\"w\":2,\"h\":4,\"i\":\"2\",\"static\":false}],\"md\":[{\"w\":7,\"h\":12,\"x\":0,\"y\":0,\"i\":\"0\",\"moved\":false,\"static\":false},{\"w\":3,\"h\":12,\"x\":7,\"y\":0,\"i\":\"1\",\"moved\":false,\"static\":false},{\"w\":10,\"h\":8,\"x\":0,\"y\":12,\"i\":\"2\",\"moved\":false,\"static\":false}]}";
 
-export function GridTrade() {
+export function GridTradeSpot({
+  base,
+  quote,
+  symbol,
+  isSpot,
+}: {
+  isSpot?: boolean;
+  symbol: string;
+  base: string;
+  quote: string;
+}) {
   const [layouts, setLayouts] = useState(
     JSON.parse(
       (localStorage.getItem("layoutTrade") as string) ??
@@ -79,8 +82,11 @@ export function GridTrade() {
                 draggableHandle=".grid-item-drag-handle"
               >
                 <div key={0} className="grid-item-box">
-                  <TVChart />
-                  {/* xxx */}
+                  <TVChart
+                    base={base}
+                    quote={quote}
+                    isSpot={isSpot}
+                  />
                   <div className="grid-item-drag-handle">
                     <ActionIcon size={"xs"} variant="light">
                       <IconGripHorizontal size={18} />
@@ -88,7 +94,7 @@ export function GridTrade() {
                   </div>
                 </div>
                 <div key={1} className="grid-item-box">
-                  <OrderBook />
+                  <OrderBook {...{ base, quote, symbol, isSpot }} />
                   <div className="grid-item-drag-handle">
                     <ActionIcon size={"xs"} variant="light">
                       <IconGripHorizontal size={18} />
@@ -108,92 +114,42 @@ export function GridTrade() {
           </Grid>
         </Grid.Col>
         <Grid.Col span={5}>
-          <Box className="bg-trade" h={"100%"} p={10}>
-            <Forms />
-          </Box>
+          <OrderPanel
+            symbol="BTC_USDT_SPOT"
+            base="BTC"
+            quote="USDT"
+          />
+          {/* TODO: hardcode */}
         </Grid.Col>
       </Grid>
     </>
   );
 }
 
-type TradeType = "Limit" | "Market" | "Conditional";
-function Forms() {
-  const [type, setType] = useState<TradeType>("Limit");
+function OrderPanel(props: {
+  symbol: string;
+  base: string;
+  quote: string;
+}) {
   return (
-    <>
-      <Box className="space-y-10" pt={10}>
-        <SegmentedControl
-          onChange={(v) => setType(v as TradeType)}
-          className="control-segment-percent"
-          data={["Limit", "Market", "Conditional"]}
-          size="sm"
-          styles={{
-            root: {
-              gap: "20px",
-              padding: "0px",
-              background: "none",
-            },
-            label: {
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontWeight: "bold",
-              fontSize: "14px",
-              padding: "0px",
-            },
-            indicator: {
-              display: "none",
-            },
-            // innerLabel: {
-            //     height: "100%",
-
-            // }
-          }}
-          withItemsBorders={false}
-        />
-        <TradeForm tradeType={type} />
-      </Box>
-    </>
-  );
-}
-
-function TradeForm({ tradeType }: { tradeType: TradeType }) {
-  return (
-    <>
-      {tradeType === "Limit" && (
-        <CreateOrderTradeByLimitForm
-          onSubmit={(res) => {
-            // eslint-disable-next-line no-console
-            logger.trace("CreateOrderTradeByLimitForm", res);
-          }}
-        />
-      )}
-      {tradeType === "Market" && (
-        <CreateOrderTradeByMarketForm
-          onSubmit={(res) => {
-            // eslint-disable-next-line no-console
-            logger.trace("CreateOrderTradeByMarketForm", res);
-          }}
-        />
-      )}
-      {tradeType === "Conditional" && (
-        <CreateOrderTradeByConditionalForm
-          onSubmit={(res) => {
-            // eslint-disable-next-line no-console
-            logger.trace("CreateOrderTradeByConditionalForm", res);
-          }}
-        />
-      )}
+    <Box
+      className="bg-trade space-y-10"
+      h={"100%"}
+      py={0}
+      pt={10}
+      px={10}
+    >
+      <Space mt={10} />
+      <OrderForm future={false} {...props} />
       <BoxInfoTradeFoot />
-    </>
+    </Box>
   );
 }
 
 function BoxInfoTradeFoot() {
   const [isOf, setOff] = useState<boolean>(false);
   return (
-    <Box className="space-y-20">
+    <Box className="space-y-20" mt={50}>
       <Flex justify={"space-between"}>
         <Flex align={"center"}>
           <AppText fz={14} fw={"bold"}>
