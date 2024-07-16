@@ -41,6 +41,7 @@ export function GridTradeSpot({
   symbol,
   isSpot,
 }: {
+  isFuture?: boolean;
   isSpot?: boolean;
   symbol: string;
   base: string;
@@ -62,67 +63,56 @@ export function GridTradeSpot({
   );
 
   return (
-    <>
-      <Grid columns={24} gutter={4} p={4}>
-        <Grid.Col span={19}>
-          <Grid gutter={4}>
-            <Grid.Col>
-              <TopBar />
-            </Grid.Col>
-            <Grid.Col>
-              <ResponsiveReactGridLayout
-                className="layout_trade"
-                rowHeight={30}
-                onLayoutChange={onLayoutChange}
-                measureBeforeMount={false}
-                cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
-                margin={[4, 4]}
-                containerPadding={[0, 0]}
-                layouts={layouts}
-                draggableHandle=".grid-item-drag-handle"
-              >
-                <div key={0} className="grid-item-box">
-                  <TVChart
-                    base={base}
-                    quote={quote}
-                    isSpot={isSpot}
-                  />
-                  <div className="grid-item-drag-handle">
-                    <ActionIcon size={"xs"} variant="light">
-                      <IconGripHorizontal size={18} />
-                    </ActionIcon>
-                  </div>
+    <Grid columns={24} gutter={4} p={4}>
+      <Grid.Col span={19}>
+        <Grid gutter={4}>
+          <Grid.Col>
+            <TopBar />
+          </Grid.Col>
+          <Grid.Col>
+            <ResponsiveReactGridLayout
+              className="layout_trade"
+              rowHeight={30}
+              onLayoutChange={onLayoutChange}
+              measureBeforeMount={false}
+              cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
+              margin={[4, 4]}
+              containerPadding={[0, 0]}
+              layouts={layouts}
+              draggableHandle=".grid-item-drag-handle"
+            >
+              <div key={0} className="grid-item-box">
+                <TVChart base={base} quote={quote} isSpot={isSpot} />
+                <div className="grid-item-drag-handle">
+                  <ActionIcon size={"xs"} variant="light">
+                    <IconGripHorizontal size={18} />
+                  </ActionIcon>
                 </div>
-                <div key={1} className="grid-item-box">
-                  <OrderBook {...{ base, quote, symbol, isSpot }} />
-                  <div className="grid-item-drag-handle">
-                    <ActionIcon size={"xs"} variant="light">
-                      <IconGripHorizontal size={18} />
-                    </ActionIcon>
-                  </div>
+              </div>
+              <div key={1} className="grid-item-box">
+                <OrderBook {...{ base, quote, symbol, isSpot }} />
+                <div className="grid-item-drag-handle">
+                  <ActionIcon size={"xs"} variant="light">
+                    <IconGripHorizontal size={18} />
+                  </ActionIcon>
                 </div>
-                <div key={2} className="grid-item-box">
-                  <TabsOfTradeHistory />
-                  <div className="grid-item-drag-handle">
-                    <ActionIcon size={"xs"} variant="light">
-                      <IconGripHorizontal size={18} />
-                    </ActionIcon>
-                  </div>
+              </div>
+              <div key={2} className="grid-item-box">
+                <TabsOfTradeHistory />
+                <div className="grid-item-drag-handle">
+                  <ActionIcon size={"xs"} variant="light">
+                    <IconGripHorizontal size={18} />
+                  </ActionIcon>
                 </div>
-              </ResponsiveReactGridLayout>
-            </Grid.Col>
-          </Grid>
-        </Grid.Col>
-        <Grid.Col span={5}>
-          <OrderPanel
-            symbol="BTC_USDT_SPOT"
-            base="BTC"
-            quote="USDT"
-          />
-          {/* TODO: hardcode */}
-        </Grid.Col>
-      </Grid>
-    </>
+              </div>
+            </ResponsiveReactGridLayout>
+          </Grid.Col>
+        </Grid>
+      </Grid.Col>
+      <Grid.Col span={5}>
+        <OrderPanel symbol={symbol} base={base} quote={quote} />
+      </Grid.Col>
+    </Grid>
   );
 }
 

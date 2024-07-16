@@ -18,7 +18,7 @@ export function t(dictionary: Record<string, string>, key?: string, ...args: (st
 function _convert(template: string, ...args: (string | number)[]): string {
   let result = template;
   args.forEach((arg) => {
-    result = result.replace("%s", arg.toString());
+    result = arg ? result.replace("%s", (arg || "").toString()) : result;
   });
   return result;
 }
