@@ -1,12 +1,12 @@
-import { GridTradeSpot } from "@/ui/GridLayout/spot";
+import { GridTrade } from "@/ui/GridLayout/trade";
 import { Box } from "@mantine/core";
 import { useParams } from "react-router-dom";
 
-export default function IndexPage() {
+export default function SpotPage() {
   const { base, quote } = useParams();
   return (
     <Box className="bg-dark">
-      <GridTradeSpot
+      <GridTrade
         isSpot
         symbol={`${base || ""}_${quote || ""}_SPOT`}
         base={base || ""}

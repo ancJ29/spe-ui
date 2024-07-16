@@ -12,7 +12,7 @@ import {
 } from "@mantine/core";
 import { IconArrowRight } from "@tabler/icons-react";
 import { Fragment, useMemo, useState } from "react";
-import { dataHistories } from "../trade/tradeHistory";
+import { dataHistories } from "../trade.local/tradeHistory";
 import { FilterGroupButtons } from "./FilterGroupButtons";
 
 export function TabsOfTradeHistory() {
