@@ -48,3 +48,50 @@ export const FEE = {
     TAKER: 0.0005,
   },
 };
+
+
+export const SYMBOL_LISTS = [
+  {
+    icon: "/images/btc.svg",
+    symbol: "BTCUSDT",
+    isFuture: true,
+    base: "BTC",
+    quote: "USDT",
+    dayChange: 1,
+    volume: 0,
+  },
+  {
+    icon: "/images/eth.svg",
+    symbol: "ETHUSDT",
+    isFuture: true,
+    base: "ETH",
+    quote: "USDT",
+    dayChange: 1,
+    volume: 0,
+  },
+  {
+    icon: "/images/bnb.svg",
+    symbol: "BNBUSDT",
+    isFuture: true,
+    base: "BNB",
+    quote: "USDT",
+    dayChange: 1,
+    volume: 0,
+  },
+  {
+    icon: "/images/btc.svg",
+    symbol: "BTC_USDT_SPOT",
+    isFuture: false,
+    base: "BTC",
+    quote: "USDT",
+    dayChange: 1,
+    volume: 0,
+  },
+  {
+    icon: "/images/eth.svg",
+    symbol: "ETH_USDT_SPOT",
+    isFuture: false,
+    base: "ETH",
+    quote: "USDT",
+  },
+];

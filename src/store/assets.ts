@@ -23,6 +23,7 @@ interface AssetState {
   tradingBalances: Balance[];
   fundingAccount?: Account;
   tradingAccount?: Account;
+  tradingBalanceMap: Record<string, Balance>;
   fetchBalances: () => Promise<void>;
   fetchAccounts: () => Promise<void>;
   fetchTransactionsHistory: (
@@ -30,7 +31,7 @@ interface AssetState {
   ) => Promise<void>;
 }
 
-export const assetStore = create<AssetState>((set) => ({
+export const assetStore = create<AssetState>((set, get) => ({
   overview: {
     all: {
       totalInBtc: "0",
@@ -43,6 +44,7 @@ export const assetStore = create<AssetState>((set) => ({
   accounts: [],
   accountById: {},
   transactions: [],
+  tradingBalanceMap: {},
   marketPrices: {
     BNBUSDT: 0,
     BTCUSDT: 0,
@@ -52,44 +54,41 @@ export const assetStore = create<AssetState>((set) => ({
   },
   async fetchBalances() {
     const { balances, overview } = await fetchBalancesApi();
-
-    set((state) => {
-      const fundingBalances = balances.filter(
-        (balance) =>
-          balance.accountId === state.fundingAccount?.id || "",
-      );
-      const tradingBalances = balances.filter(
-        (balance) =>
-          balance.accountId === state.tradingAccount?.id || "",
-      );
-      return {
-        ...state,
-        balances,
-        overview,
-        fundingBalances,
-        tradingBalances,
-      };
+    const state = get();
+    const fundingBalances = balances.filter(
+      (balance) =>
+        balance.accountId === state.fundingAccount?.id || "",
+    );
+    const tradingBalances = balances.filter(
+      (balance) =>
+        balance.accountId === state.tradingAccount?.id || "",
+    );
+    const tradingBalanceMap = Object.fromEntries(tradingBalances.map((balance) => {
+      return [balance.coin, balance];
+    }));
+    set({
+      balances,
+      overview,
+      fundingBalances,
+      tradingBalances,
+      tradingBalanceMap
     });
   },
   async fetchAccounts() {
     const accounts = await fetchAccountsApi();
-    set((state) => ({
-      ...state,
+    set({
       accounts,
       accountById: Object.fromEntries(
         accounts.map((account) => [account.id, account]),
       ),
       fundingAccount: accounts.find(isFundingAccount),
       tradingAccount: accounts.find(isTradingAccount),
-    }));
+    });
   },
   fetchTransactionsHistory: async (queryParams) => {
     const transactions = await fetchTransactionsHistoryApi(
       queryParams,
     );
-    set((state) => ({
-      ...state,
-      transactions: transactions,
-    }));
+    set({ transactions });
   },
 }));

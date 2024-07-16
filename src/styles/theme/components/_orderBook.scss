@@ -121,7 +121,7 @@
       &[aria-level="2000"] {
         transition: 2s ease-in-out;
       }
-        
+
       &.isUp {
         background: light-dark(#e7f6ed, #162a24);
       }
@@ -142,7 +142,7 @@
   // display: table-cell;
   // vertical-align: middle;
   overflow: hidden;
-  &>* {
+  & > * {
     max-width: 100%;
     overflow: hidden;
   }

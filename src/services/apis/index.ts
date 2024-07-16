@@ -5,6 +5,7 @@ import {
   AuthenticationPayload,
   Balance,
   BalanceOverview,
+  MarketInformation,
   MarketPrice,
   SpeTransaction,
   SymbolConfig,
@@ -136,9 +137,18 @@ export function fetch<T>(url: string) {
 }
 
 export function fetchOrderBooks(symbol: string) {
-  return getApi<{ a: [number, number, number, number][]; b: [number, number, number, number][] }>(
-    `/api/market/order-book?symbol=${symbol}`,
-  );
+  return getApi<{
+    a: [number, number, number, number][];
+    b: [number, number, number, number][];
+  }>(`/api/market/order-book?symbol=${symbol}`);
+}
+
+export function fetchAllMarketInformation() {
+  return getApi<MarketInformation[]>("/api/market/information/all");
+}
+
+export function fetchMarketInformation(symbol: string) {
+  return getApi<MarketInformation>(`/api/market/information?symbol=${symbol}`);
 }
 
 export default axios;

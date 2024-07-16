@@ -1,5 +1,13 @@
-/* eslint-disable react/prop-types */
+import BN from "@/common/big-number";
+import useTranslation from "@/hooks/useTranslation";
+import { assetStore } from "@/store/assets";
+import tradeStore from "@/store/trade";
+import { GridTradeProps } from "@/types";
+import AppButton from "@/ui/Button/AppButton";
+import NumberFormat from "@/ui/NumberFormat";
 import OrderForm from "@/ui/OrderForm";
+import { AppPopover } from "@/ui/Popover/AppPopover";
+import AppText from "@/ui/Text/AppText";
 import { TVChart } from "@/ui/TvChart";
 import {
   ActionIcon,
@@ -7,27 +15,20 @@ import {
   Flex,
   Grid,
   InputLabel,
-  Progress,
   SimpleGrid,
   Space,
   Spoiler,
 } from "@mantine/core";
+import { useInterval } from "@mantine/hooks";
 import {
-  IconChartHistogram,
-  IconChevronRight,
   IconChevronsDown,
   IconChevronsUp,
-  IconEye,
-  IconEyeOff,
   IconGripHorizontal,
 } from "@tabler/icons-react";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
-import AppButton from "../../Button/AppButton";
-import { AppPopover } from "../../Popover/AppPopover";
-import AppText from "../../Text/AppText";
 import { OrderBook, TabsOfTradeHistory, TopBar } from "../components";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
@@ -35,18 +36,13 @@ const initialLayouts =
   // prettier-ignore
   "{\"lg\":[{\"x\":4,\"y\":0,\"w\":2,\"h\":5,\"i\":\"0\",\"static\":false},{\"x\":8,\"y\":0,\"w\":2,\"h\":5,\"i\":\"1\",\"static\":false},{\"x\":6,\"y\":0,\"w\":2,\"h\":4,\"i\":\"2\",\"static\":false}],\"md\":[{\"w\":7,\"h\":12,\"x\":0,\"y\":0,\"i\":\"0\",\"moved\":false,\"static\":false},{\"w\":3,\"h\":12,\"x\":7,\"y\":0,\"i\":\"1\",\"moved\":false,\"static\":false},{\"w\":10,\"h\":8,\"x\":0,\"y\":12,\"i\":\"2\",\"moved\":false,\"static\":false}]}";
 
-export function GridTradeSpot({
+export function GridTrade({
   base,
   quote,
   symbol,
-  isSpot,
-}: {
-  isFuture?: boolean;
-  isSpot?: boolean;
-  symbol: string;
-  base: string;
-  quote: string;
-}) {
+  isSpot = false,
+  isFuture = false,
+}: GridTradeProps) {
   const [layouts, setLayouts] = useState(
     JSON.parse(
       (localStorage.getItem("layoutTrade") as string) ??
@@ -62,12 +58,33 @@ export function GridTradeSpot({
     [setLayouts],
   );
 
+  useEffect(() => {
+    tradeStore.getState().loadMarketInformation(symbol);
+  }, [symbol]);
+
+  const interval = useInterval(() => {
+    tradeStore.getState().loadMarketInformation(symbol);
+  }, 10e3);
+
+  useEffect(() => {
+    interval.start();
+    return interval.stop;
+  }, [interval, symbol]);
+
   return (
-    <Grid columns={24} gutter={4} p={4}>
+    <Grid columns={24} gutter={4} p={4} key={symbol}>
       <Grid.Col span={19}>
         <Grid gutter={4}>
           <Grid.Col>
-            <TopBar />
+            <TopBar
+              {...{
+                isFuture,
+                isSpot,
+                symbol,
+                base,
+                quote,
+              }}
+            />
           </Grid.Col>
           <Grid.Col>
             <ResponsiveReactGridLayout
@@ -110,17 +127,19 @@ export function GridTradeSpot({
         </Grid>
       </Grid.Col>
       <Grid.Col span={5}>
-        <OrderPanel symbol={symbol} base={base} quote={quote} />
+        <OrderPanel
+          symbol={symbol}
+          base={base}
+          quote={quote}
+          isFuture={isFuture}
+          isSpot={isSpot}
+        />
       </Grid.Col>
     </Grid>
   );
 }
 
-function OrderPanel(props: {
-  symbol: string;
-  base: string;
-  quote: string;
-}) {
+function OrderPanel(props: GridTradeProps) {
   return (
     <Box
       className="bg-trade space-y-10"
@@ -130,40 +149,39 @@ function OrderPanel(props: {
       px={10}
     >
       <Space mt={10} />
-      <OrderForm future={false} {...props} />
-      <BoxInfoTradeFoot />
+      <OrderForm {...props} />
+      <BoxInfoTradeFoot {...props} />
     </Box>
   );
 }
 
-function BoxInfoTradeFoot() {
-  const [isOf, setOff] = useState<boolean>(false);
+function BoxInfoTradeFoot({
+  symbol,
+  isSpot,
+  base,
+  quote,
+}: GridTradeProps) {
+  const t = useTranslation();
+  const { marketInformation } = tradeStore();
+  const { tradingBalanceMap } = assetStore();
+
   return (
     <Box className="space-y-20" mt={50}>
       <Flex justify={"space-between"}>
-        <Flex align={"center"}>
-          <AppText fz={14} fw={"bold"}>
-            Unified Trading Account
-          </AppText>
-          <ActionIcon
-            onClick={() => setOff(!isOf)}
-            variant="transparent"
-          >
-            {isOf ? (
-              <IconEyeOff color="white" size={14} />
-            ) : (
-              <IconEye color="white" size={14} />
-            )}
-          </ActionIcon>
-        </Flex>
-        <Flex align={"center"} gap={5}>
+        <AppText fz={14} fw={"bold"}>
+          {t("Trading Account")}
+        </AppText>
+        <>
+          {/* <Flex align={"center"} gap={5} hidden>
           <IconChartHistogram color="orange" size={16} />
           <AppText fz={12} c={"orange"}>
-            P&L
+            {t("P&L")}
           </AppText>
-        </Flex>
+        </Flex> */}
+        </>
       </Flex>
-      <Box className="space-y-10">
+      <>
+        {/* <Box className="space-y-10">
         <Flex justify={"space-between"}>
           <InputLabel className="text-label-form">
             Margin Mode
@@ -174,8 +192,10 @@ function BoxInfoTradeFoot() {
           </Flex>
         </Flex>
         <Box h={"1"} className="border-bottom-dark"></Box>
-      </Box>
-      <Grid columns={24} align="center" gutter={0}>
+      </Box> */}
+      </>
+      <>
+        {/* <Grid columns={24} align="center" gutter={0}>
         <Grid.Col span={10}>
           <AppPopover
             withArrow={false}
@@ -223,7 +243,7 @@ function BoxInfoTradeFoot() {
                 </div>
               ),
             })}
-          ></AppPopover>
+          />
         </Grid.Col>
         <Grid.Col span={9}>
           <Progress value={30} color="green" />
@@ -309,7 +329,8 @@ function BoxInfoTradeFoot() {
             0.00%
           </AppText>
         </Grid.Col>
-      </Grid>
+      </Grid> */}
+      </>
       <Box h={"1"} className="border-bottom-dark"></Box>
       <Box className="space-y-10">
         <Flex justify={"space-between"} align={"center"}>
@@ -325,7 +346,7 @@ function BoxInfoTradeFoot() {
                   onMouseEnter={props.open}
                   fz={12}
                 >
-                  Margin Balance
+                  {t("Margin Balance")}
                 </AppText>
               ),
             })}
@@ -340,23 +361,33 @@ function BoxInfoTradeFoot() {
                       },
                     }}
                   >
-                    Margin Balance = Wallet Balance + Unrealized P&L
-                    (Perpetual + Futures) <br />
-                    Liquidation will be triggered when margin balance
-                    falls below the maintenance margin. <br />
-                    Initial Margin Rate (IMR) = Initial Margin /
-                    (Margin Balance - Haircut Loss) * 100% <br />
+                    {t(
+                      "Margin Balance = Wallet Balance + Unrealized P&L (Perpetual + Futures)",
+                    )}
                     <br />
-                    Margin balance under the Unified Trading Account
-                    is denominated in USDT, calculated in real time
-                    based on the total assets in the account.
+                    {t(
+                      "Liquidation will be triggered when margin balance falls below the maintenance margin.",
+                    )}{" "}
+                    <br />
+                    {t(
+                      "Initial Margin Rate (IMR) = Initial Margin / (Margin Balance - Haircut Loss) * 100%",
+                    )}{" "}
+                    <br />
+                    <br />
+                    {t(
+                      "Margin balance under the Unified Trading Account is denominated in %, calculated in real time based on the total assets in the account.",
+                      quote,
+                    )}
                   </AppText>
                 </div>
               ),
             })}
           ></AppPopover>
           <AppText fw={"bold"} fz={12}>
-            108,351.5411 USDC
+            <NumberFormat
+              value={BN.add(tradingBalanceMap[quote]?.equity || 0)}
+            />{" "}
+            {quote}
           </AppText>
         </Flex>
         <Flex justify={"space-between"} align={"center"}>
@@ -372,7 +403,7 @@ function BoxInfoTradeFoot() {
                   onMouseEnter={props.open}
                   fz={12}
                 >
-                  Available Balance
+                  {t("Available Balance")}
                 </AppText>
               ),
             })}
@@ -387,22 +418,28 @@ function BoxInfoTradeFoot() {
                       },
                     }}
                   >
-                    The amount of balance that can be used to open
-                    positions.
+                    {t(
+                      "The amount of balance that can be used to open positions.",
+                    )}
                     <br />
-                    Available Balance = Margin Balance - Initial
-                    Margin - Haircut Loss
+                    {t(
+                      "Available Balance = Margin Balance - Initial Margin - Haircut Loss",
+                    )}
                     <br />
-                    Available balance under the Unified Trading
-                    Account is denominated in USDC, calculated in real
-                    time based on the total assets in the account.
+                    {t(
+                      "Available balance under the Trading Account is denominated in %, calculated in real time based on the total assets in the account.",
+                      quote,
+                    )}
                   </AppText>
                 </div>
               ),
             })}
           ></AppPopover>
           <AppText fw={"bold"} fz={12}>
-            106,244.6318 USDC
+            <NumberFormat
+              value={tradingBalanceMap[quote]?.availableMargin || 0}
+            />{" "}
+            {quote}
           </AppText>
         </Flex>
       </Box>
@@ -423,7 +460,7 @@ function BoxInfoTradeFoot() {
           }}
           size="xs"
         >
-          Deposit
+          {t("Deposit")}
         </AppButton>
         <AppButton
           styles={{
@@ -434,7 +471,7 @@ function BoxInfoTradeFoot() {
           }}
           size="xs"
         >
-          Convert
+          {t("Convert")}
         </AppButton>
         <AppButton
           styles={{
@@ -445,14 +482,14 @@ function BoxInfoTradeFoot() {
           }}
           size="xs"
         >
-          Transfer
+          {t("Transfer")}
         </AppButton>
       </SimpleGrid>
       <Box h={"1"} className="border-bottom-dark"></Box>
-      <Box className="space-y-16">
+      <Box className="space-y-16" hidden={isSpot}>
         <Box>
           <AppText fz={16} fw={"bold"}>
-            Contract Details BTCUSDT
+            {t("Contract Details")} {symbol}
           </AppText>
         </Box>
         <Spoiler
@@ -498,7 +535,7 @@ function BoxInfoTradeFoot() {
           >
             <Box>
               <AppText c={"#71757a"} fw={"bold"} fz={12}>
-                Expiration Date
+                {t("Expiration Date")}
               </AppText>
             </Box>
             <Box>
@@ -511,12 +548,12 @@ function BoxInfoTradeFoot() {
                   },
                 }}
               >
-                Perpetual
+                {t("Perpetual")}
               </AppText>
             </Box>
             <Box>
               <AppText c={"#71757a"} fw={"bold"} fz={12}>
-                Index Price
+                {t("Index Price")}
               </AppText>
             </Box>
             <Box>
@@ -529,12 +566,15 @@ function BoxInfoTradeFoot() {
                   },
                 }}
               >
-                65,224.58
+                <NumberFormat
+                  value={marketInformation[symbol]?.indexPrice || 0}
+                  decimalPlaces={2}
+                />
               </AppText>
             </Box>
             <Box>
               <AppText c={"#71757a"} fw={"bold"} fz={12}>
-                Mark Price
+                {t("Mark Price")}
               </AppText>
             </Box>
             <Box>
@@ -547,12 +587,15 @@ function BoxInfoTradeFoot() {
                   },
                 }}
               >
-                65,203.88
+                <NumberFormat
+                  value={marketInformation[symbol]?.markPrice || 0}
+                  decimalPlaces={2}
+                />
               </AppText>
             </Box>
             <Box>
               <AppText c={"#71757a"} fw={"bold"} fz={12}>
-                Open Interest
+                {t("Open Interest")}
               </AppText>
             </Box>
             <Box>
@@ -565,12 +608,17 @@ function BoxInfoTradeFoot() {
                   },
                 }}
               >
-                65,192.072 BTC
+                {/* <NumberFormat
+                  value={marketInformation[symbol]?.openInterest || 0}
+                  decimalPlaces={2}
+                />
+                {base} */}
+                {t("N/A")}
               </AppText>
             </Box>
             <Box>
               <AppText c={"#71757a"} fw={"bold"} fz={12}>
-                24H Turnover
+                {t("24H Turnover")}
               </AppText>
             </Box>
             <Box>
@@ -583,12 +631,17 @@ function BoxInfoTradeFoot() {
                   },
                 }}
               >
-                53,549.431 BTC
+                {/* <NumberFormat
+                  value={marketInformation[symbol]?.turnOver || 0}
+                  decimalPlaces={2}
+                />
+                {base} */}
+                {t("N/A")}
               </AppText>
             </Box>
             <Box>
               <AppText c={"#71757a"} fw={"bold"} fz={12}>
-                Risk Limit
+                {t("Risk Limit")}
               </AppText>
             </Box>
             <Box>
@@ -601,12 +654,12 @@ function BoxInfoTradeFoot() {
                   },
                 }}
               >
-                2,000,000 USDT
+                2,000,000 {quote}
               </AppText>
             </Box>
             <Box>
               <AppText c={"#71757a"} fw={"bold"} fz={12}>
-                Contract Value
+                {t("Contract Value")}
               </AppText>
             </Box>
             <Box>
@@ -619,7 +672,7 @@ function BoxInfoTradeFoot() {
                   },
                 }}
               >
-                1 BTC
+                1 {base}
               </AppText>
             </Box>
           </SimpleGrid>

@@ -14,3 +14,11 @@ export type SPEResponse = {
   message: string;
   result: unknown | null;
 };
+
+export type GridTradeProps = {
+  isFuture?: boolean;
+  isSpot?: boolean;
+  symbol: string;
+  base: string;
+  quote: string;
+};

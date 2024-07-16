@@ -73,7 +73,6 @@ const PostOrderSchema: FormSchema = {
           properties: {
             orderPrice: {
               type: "number",
-              title: t(dictionary, "Order Price"),
             },
           },
         },

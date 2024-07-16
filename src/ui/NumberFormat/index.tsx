@@ -5,7 +5,7 @@ import { useMemo } from "react";
 export default function NumberFormat({
   decimalPlaces = 2,
   ...props
-}: NumberFormatterProps & { decimalPlaces: number }) {
+}: NumberFormatterProps & { decimalPlaces?: number }) {
   const value = useMemo(() => {
     return BN.formatNumberWithCommas(
       props.value as string,

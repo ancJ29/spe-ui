@@ -1,7 +1,11 @@
 import BN from "./big-number";
 import { GenericObject } from "./types";
 
-export function t(dictionary: Record<string, string>, key?: string, ...args: (string | number)[]) {
+export function t(
+  dictionary: Record<string, string>,
+  key?: string,
+  ...args: (string | number)[]
+) {
   if (localStorage.___CHECK_LANGUAGE___ === "1") {
     return "xxxxxxxxx";
   }
@@ -15,10 +19,15 @@ export function t(dictionary: Record<string, string>, key?: string, ...args: (st
   }
 }
 
-function _convert(template: string, ...args: (string | number)[]): string {
+function _convert(
+  template: string,
+  ...args: (string | number)[]
+): string {
   let result = template;
   args.forEach((arg) => {
-    result = arg ? result.replace("%s", (arg || "").toString()) : result;
+    result = arg
+      ? result.replace("%s", (arg || "").toString())
+      : result;
   });
   return result;
 }
@@ -136,4 +145,10 @@ export function masking(text: string): string {
     return `${username.slice(0, 1)}***@${masking(domain)}`;
   }
   return text.replace(/.(?=.{4})/g, "*");
+}
+
+export function dailyChange(lastPrice: number, high: number, low: number) {
+  const change24h = Number(BN.sub(high, low));
+  const percent = low ? Number(BN.div(BN.mul(change24h, 100), low)) : 0;
+  return { change24h, percent }
 }

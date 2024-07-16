@@ -4,7 +4,6 @@ import { OrderSide } from "@/common/enums";
 import { last } from "@/common/utils";
 import useTranslation from "@/hooks/useTranslation";
 import { fetchOrderBooks } from "@/services/apis";
-import logger from "@/services/logger";
 import { formatCurrency } from "@/utils";
 import {
   Box,
@@ -84,13 +83,6 @@ export function OrderBookTable({
           const total = Number(BN.add(totalAsk, totalBid)) / 100 || 1;
           const askRate = Number(BN.div(totalAsk, total, 0));
           const bidRate = Number(BN.div(totalBid, total, 0));
-          logger.debug({
-            askRate,
-            bidRate,
-            totalAsk,
-            totalBid,
-            total,
-          });
           return {
             green: a,
             red: b,

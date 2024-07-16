@@ -69,17 +69,6 @@ export function OrderTypeWidget({
   );
 }
 
-function _orderSideLabel(side: OrderSide, isFuture: boolean) {
-  if (isFuture) {
-    switch (side) {
-      case OrderSide.BUY:
-        return "LONG";
-      case OrderSide.SELL:
-        return "SHORT";
-    }
-  }
-  return side;
-}
 export function OrderSideWidget({
   name,
   value,
@@ -91,7 +80,9 @@ export function OrderSideWidget({
       fullWidth
       value={_orderSideLabel(value, formData.isFuture)}
       data={
-        formData.isFuture ? LONG_SHORT.map(t) : BUY_AND_SELL.map(t)
+        formData.isFuture
+          ? LONG_SHORT.map((el) => t(el))
+          : BUY_AND_SELL.map((el) => t(el))
       }
       onChange={(side: string) => {
         const sideMap: Record<string, OrderSide> = {
@@ -126,6 +117,7 @@ export function OrderPriceInputFieldWidget({
   onChange,
   formContext: { formData },
 }: WidgetProps) {
+  const t = useTranslation();
   const changeByLast = useCallback(() => {
     const lastPrice =
       tradeStore.getState().marketPrices?.[formData.symbol] || 0;
@@ -134,7 +126,7 @@ export function OrderPriceInputFieldWidget({
   return (
     <>
       <NumberInput
-        label="Order Price"
+        label={t("Order Price")}
         classNames={{ label: "text-label-form" }}
         thousandSeparator=","
         decimalSeparator="."
@@ -264,24 +256,27 @@ export function VolumeInputFieldWidget({
 export function UiBalanceWidget({
   formContext: { formData },
 }: WidgetProps) {
-  const { tradingBalances } = assetStore();
+  const { tradingBalanceMap } = assetStore();
   const t = useTranslation();
   const { coin, availableBalance } = useMemo(() => {
     const isBuy = _isBuy(formData?.orderSide || "BUY");
-    const coin = isBuy ? formData.quote : formData.base;
+    let coin = isBuy ? formData.quote : formData.base;
+    if (formData.isFuture) {
+      coin = formData.quote;
+    }
+    const availableBalance =
+      tradingBalanceMap[coin]?.availableMargin || 0;
     return {
       isBuy,
       coin,
-      availableBalance:
-        tradingBalances.find((el) => {
-          return el.coin === coin;
-        })?.availableMargin || 0,
+      availableBalance,
     };
   }, [
     formData.base,
+    formData.isFuture,
     formData?.orderSide,
     formData.quote,
-    tradingBalances,
+    tradingBalanceMap,
   ]);
 
   return (
@@ -412,6 +407,14 @@ export function PlaceOrderButtonsWidget({
   const isBuy = useMemo(() => {
     return formData?.orderSide === "BUY";
   }, [formData?.orderSide]);
+  const label = useMemo(() => {
+    if (formData.isFuture) {
+      return isBuy ? t("BUY / LONG") : t("SELL / SHORT");
+    }
+    return isBuy
+      ? `${t("BUY")} ${formData.base}`
+      : `${t("SELL")} ${formData.base}`;
+  }, [formData.base, formData.isFuture, isBuy, t]);
 
   return (
     <AppButton
@@ -432,9 +435,7 @@ export function PlaceOrderButtonsWidget({
         fw={"bolder"}
         fz={14}
       >
-        {isBuy
-          ? `${t("BUY")} ${formData.base}`
-          : `${t("SELL")} ${formData.base}`}
+        {label}
       </Text>
     </AppButton>
   );
@@ -493,4 +494,16 @@ function ActionOnlyWidget(
 
 function _isBuy(value: string) {
   return ["BUY", "LONG"].includes(value);
+}
+
+function _orderSideLabel(side: OrderSide, isFuture: boolean) {
+  if (isFuture) {
+    switch (side) {
+      case OrderSide.BUY:
+        return "LONG";
+      case OrderSide.SELL:
+        return "SHORT";
+    }
+  }
+  return side;
 }

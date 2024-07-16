@@ -20,6 +20,20 @@ export enum Side {
   SELL = "SELL",
 }
 
+export type MarketInformation = {
+  symbol: string;
+  lastPrice: number;
+  high: number;
+  low: number;
+  volume: number;
+  turnOver: number;
+  openInterest: number;
+  fundingRate: number;
+  markPrice: number;
+  indexPrice: number;
+  nextFundingTime: number;
+}
+
 export type SymbolConfig = {
   name: string;
   symbol: string;
