@@ -1,15 +1,15 @@
 .table-root {
-  display: table;
+  // display: table;
   width: 100%;
-  border-collapse: collapse;
+  // border-collapse: collapse;
 
   .table-header {
-    display: table-header-group;
+    // display: table-header-group;
     font-weight: bold;
   }
 
   .table-body {
-    display: table-row-group;
+    // display: table-row-group;
     .table-cell {
       padding: 0.5px;
       cursor: pointer;
@@ -86,15 +86,66 @@
       }
     }
   }
+
+  &.newData {
+    .progress_bar {
+      &.progress_bar--static {
+        opacity: 1;
+      }
+    }
+  }
+  .progress_bar {
+    &.progress_bar--static {
+      opacity: 0;
+      // transition: opacity 0.25s ease-in-out;
+      // @include generate-transitions(20);
+      // [100, 300, 600, 400, 1000, 1200, 2000]
+      &[aria-level="100"] {
+        transition: 0.1s ease-in-out;
+      }
+      &[aria-level="300"] {
+        transition: 0.3s ease-in-out;
+      }
+      &[aria-level="600"] {
+        transition: 0.6s ease-in-out;
+      }
+      &[aria-level="400"] {
+        transition: 0.4s ease-in-out;
+      }
+      &[aria-level="1000"] {
+        transition: 1s ease-in-out;
+      }
+      &[aria-level="1200"] {
+        transition: 1.2s ease-in-out;
+      }
+      &[aria-level="2000"] {
+        transition: 2s ease-in-out;
+      }
+        
+      &.isUp {
+        background: light-dark(#e7f6ed, #162a24);
+      }
+      &.isDown {
+        background: light-dark(#feeaea, #35191d);
+      }
+    }
+  }
 }
 
 .table-row {
-  display: table-row;
+  // display: table-row;
+  width: 100%;
+  overflow: hidden;
 }
 
 .table-cell {
-  display: table-cell;
-  vertical-align: middle;
+  // display: table-cell;
+  // vertical-align: middle;
+  overflow: hidden;
+  &>* {
+    max-width: 100%;
+    overflow: hidden;
+  }
   .row-item-head--text {
     padding-left: 5px;
   }
@@ -120,8 +171,7 @@
     color: #a45558;
   }
 }
-.progress_bar {
-}
+
 .progress_bar_text {
   position: relative;
   z-index: 1;

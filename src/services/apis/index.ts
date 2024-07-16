@@ -129,10 +129,16 @@ export async function checkMfa({
     });
 }
 
-export function fetchMetadata<T>(url: string) {
+export function fetch<T>(url: string) {
   return axios
     .get<{ result: T }>(url)
     .then((response) => response.data.result);
+}
+
+export function fetchOrderBooks(symbol: string) {
+  return getApi<{ a: [number, number, number, number][]; b: [number, number, number, number][] }>(
+    `/api/market/order-book?symbol=${symbol}`,
+  );
 }
 
 export default axios;

@@ -10,8 +10,8 @@ export function ButtonSubmitSpotWidget(props: WidgetProps) {
   const {
     formContext: { formData, submit },
   } = props;
-  const { pairToken, baseToken, orderPrice } = useSpotTradeStorage();
-  logger.debug("ButtonSubmitSpotWidget", props);
+  const { quote, base, orderPrice } = useSpotTradeStorage();
+  logger.trace("ButtonSubmitSpotWidget", props);
   const isBuy = useMemo(() => {
     return formData?.orderSide === "BUY";
   }, [formData?.orderSide]);
@@ -26,18 +26,18 @@ export function ButtonSubmitSpotWidget(props: WidgetProps) {
       ? "Max. buying amount"
       : "Max. selling amount";
     const value = isBuy ? maxBuyingAmount : maxSellingAmount;
-    const token = isBuy ? baseToken : pairToken;
+    const token = isBuy ? base : quote;
     const color = isBuy ? "#23b26b" : "#f0444b";
     const label = isBuy ? "Buy" : "Sell";
-    logger.debug("FECTH", formData);
+    logger.trace("FECTH", formData);
     return {
       title,
       value,
       token,
-      labelBtn: `${label} ${baseToken}`,
+      labelBtn: `${label} ${base}`,
       color,
     };
-  }, [baseToken, formData, isBuy, orderPrice, pairToken]);
+  }, [base, formData, isBuy, orderPrice, quote]);
 
   const onSubmit = async () => {
     submit();

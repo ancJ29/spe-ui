@@ -8,7 +8,7 @@ export function VolumeInputSpotWidget(props: WidgetProps) {
   const {
     formContext: { formData, updateField },
   } = props;
-  const { baseToken, orderPrice } = useSpotTradeStorage();
+  const { base, orderPrice } = useSpotTradeStorage();
   const isBuy = useMemo(() => {
     return formData?.orderSide === "BUY";
   }, [formData?.orderSide]);
@@ -22,8 +22,8 @@ export function VolumeInputSpotWidget(props: WidgetProps) {
     );
   };
   const token = useMemo(() => {
-    return baseToken;
-  }, [baseToken]);
+    return base;
+  }, [base]);
 
   return (
     <>

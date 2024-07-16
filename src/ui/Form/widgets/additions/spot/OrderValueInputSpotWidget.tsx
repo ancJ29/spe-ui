@@ -14,7 +14,7 @@ export function OrderValueInputSpotWidget(props: WidgetProps) {
   const {
     formContext: { formData, updateField },
   } = props;
-  const { orderValue, pairToken } = useSpotTradeStorage();
+  const { orderValue, quote } = useSpotTradeStorage();
   const isBuy = useMemo(() => {
     return formData?.orderSide === "BUY";
   }, [formData?.orderSide]);
@@ -43,7 +43,7 @@ export function OrderValueInputSpotWidget(props: WidgetProps) {
           rightSectionWidth={60}
           rightSection={
             <AppText fz={12} fw={"bold"}>
-              {pairToken}
+              {quote}
             </AppText>
           }
           size="sm"

@@ -41,8 +41,8 @@ import classes from "./index.module.scss";
 type Gainer = {
   id: string;
   token: string;
-  pairToken: string;
-  baseToken: string;
+  quote: string;
+  base: string;
   lastPrice: number;
   change: number;
   icon: string;
@@ -356,7 +356,7 @@ function renderCell(
       <AppButton
         instancetype="WithOutlinedColor"
         component="a"
-        href={`/trade/futures/${element.baseToken}/${element.pairToken}`}
+        href={`/trade/futures/${element.base}/${element.quote}`}
       >
         Trade
       </AppButton>

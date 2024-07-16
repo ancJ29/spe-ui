@@ -19,8 +19,8 @@ type TableHistory = Partial<{
 
 const row = {
   icon: "https://www.bybit.com/bycsi-root/fop/9e97acce-0ffd-4148-8248-1720f6758fa0.svg",
-  baseToken: "BTC",
-  pairToken: "USDT",
+  base: "BTC",
+  quote: "USDT",
   qty: -960.551 + Math.floor(Math.random() * 20),
   actualQty: -960.551 + Math.floor(Math.random() * 20),
   entryPrice: 67534.1 + Math.floor(Math.random() * 20),
@@ -142,8 +142,8 @@ export const dataHistories: TableHistory = {
       .map(
         (
           {
-            baseToken,
-            pairToken,
+            base,
+            quote,
             entryPrice,
             qty,
             isBuy,
@@ -165,8 +165,8 @@ export const dataHistories: TableHistory = {
             <Box bg={isBuy ? "green" : "red"} w={"2px"} h={30} />
             <div>
               <AppText instancetype="WithCellToken" fz={12}>
-                {baseToken}
-                {pairToken}
+                {base}
+                {quote}
               </AppText>
               <AppText
                 c={isBuy ? "green" : "red"}
@@ -498,8 +498,8 @@ export const dataHistories: TableHistory = {
       .map(
         (
           {
-            baseToken,
-            pairToken,
+            base,
+            quote,
             entryPrice,
             qty,
             isBuy,
@@ -515,8 +515,8 @@ export const dataHistories: TableHistory = {
             <Box bg={isBuy ? "green" : "red"} w={"2px"} h={30} />
             <div>
               <AppText instancetype="WithCellToken" fz={12}>
-                {baseToken}
-                {pairToken}
+                {base}
+                {quote}
               </AppText>
             </div>
           </Flex>,
@@ -643,8 +643,8 @@ export const dataHistories: TableHistory = {
           .map(
             (
               {
-                baseToken,
-                pairToken,
+                base,
+                quote,
                 qty,
                 isBuy,
                 tradeType,
@@ -663,8 +663,8 @@ export const dataHistories: TableHistory = {
                 <Box bg={isBuy ? "green" : "red"} w={"2px"} h={30} />
                 <div>
                   <AppText instancetype="WithCellToken" fz={12}>
-                    {baseToken}
-                    {pairToken}
+                    {base}
+                    {quote}
                   </AppText>
                 </div>
               </Flex>,
@@ -676,7 +676,7 @@ export const dataHistories: TableHistory = {
                 gap={10}
               >
                 <AppText instancetype="WithCellToken" fz={12}>
-                  {qty} {baseToken}
+                  {qty} {base}
                 </AppText>
               </Flex>,
 
@@ -845,8 +845,8 @@ export const dataHistories: TableHistory = {
         rows: [...Array(20)]
           .map(() => ({
             icon: "https://www.bybit.com/bycsi-root/fop/9e97acce-0ffd-4148-8248-1720f6758fa0.svg",
-            baseToken: "BTC",
-            pairToken: "USDT",
+            base: "BTC",
+            quote: "USDT",
             qty: -960.551 + Math.floor(Math.random() * 20),
             entryPrice: 67534.1 + Math.floor(Math.random() * 20),
             exitPrice: 67534.1 + Math.floor(Math.random() * 20),
@@ -880,8 +880,8 @@ export const dataHistories: TableHistory = {
           .map(
             (
               {
-                baseToken,
-                pairToken,
+                base,
+                quote,
                 qty,
                 isBuy,
                 tradeType,
@@ -900,8 +900,8 @@ export const dataHistories: TableHistory = {
                 <Box bg={isBuy ? "green" : "red"} w={"2px"} h={30} />
                 <div>
                   <AppText instancetype="WithCellToken" fz={12}>
-                    {baseToken}
-                    {pairToken}
+                    {base}
+                    {quote}
                   </AppText>
                 </div>
               </Flex>,
@@ -913,7 +913,7 @@ export const dataHistories: TableHistory = {
                 gap={10}
               >
                 <AppText instancetype="WithCellToken" fz={12}>
-                  {qty} {baseToken}
+                  {qty} {base}
                 </AppText>
                 <Box>
                   <AppButton
@@ -1101,8 +1101,8 @@ export const dataHistories: TableHistory = {
           .map(
             (
               {
-                baseToken,
-                pairToken,
+                base,
+                quote,
                 qty,
                 isBuy,
                 tradeType,
@@ -1116,8 +1116,8 @@ export const dataHistories: TableHistory = {
                 <Box bg={isBuy ? "green" : "red"} w={"2px"} h={30} />
                 <div>
                   <AppText instancetype="WithCellToken" fz={12}>
-                    {baseToken}
-                    {pairToken}
+                    {base}
+                    {quote}
                   </AppText>
                 </div>
               </Flex>,
@@ -1203,8 +1203,8 @@ export const dataHistories: TableHistory = {
           .map(
             (
               {
-                baseToken,
-                pairToken,
+                base,
+                quote,
                 qty,
                 isBuy,
                 tradeType,
@@ -1223,8 +1223,8 @@ export const dataHistories: TableHistory = {
                 <Box bg={isBuy ? "green" : "red"} w={"2px"} h={30} />
                 <div>
                   <AppText instancetype="WithCellToken" fz={12}>
-                    {baseToken}
-                    {pairToken}
+                    {base}
+                    {quote}
                   </AppText>
                 </div>
               </Flex>,
@@ -1236,7 +1236,7 @@ export const dataHistories: TableHistory = {
                 gap={10}
               >
                 <AppText instancetype="WithCellToken" fz={12}>
-                  {qty} {baseToken}
+                  {qty} {base}
                 </AppText>
               </Flex>,
 
@@ -1408,8 +1408,8 @@ export const dataHistories: TableHistory = {
           .map(
             (
               {
-                baseToken,
-                pairToken,
+                base,
+                quote,
 
                 qty,
                 isBuy,
@@ -1425,8 +1425,8 @@ export const dataHistories: TableHistory = {
                 <Box bg={isBuy ? "green" : "red"} w={"2px"} h={30} />
                 <div>
                   <AppText instancetype="WithCellToken" fz={12}>
-                    {baseToken}
-                    {pairToken}
+                    {base}
+                    {quote}
                   </AppText>
                 </div>
               </Flex>,
@@ -1569,8 +1569,8 @@ export const dataHistories: TableHistory = {
           .map(
             (
               {
-                baseToken,
-                pairToken,
+                base,
+                quote,
                 isBuy,
                 tradeType,
                 orderTime,
@@ -1585,8 +1585,8 @@ export const dataHistories: TableHistory = {
                 <Box bg={isBuy ? "green" : "red"} w={"2px"} h={30} />
                 <div>
                   <AppText instancetype="WithCellToken" fz={12}>
-                    {baseToken}
-                    {pairToken}
+                    {base}
+                    {quote}
                   </AppText>
                 </div>
               </Flex>,
@@ -1662,8 +1662,8 @@ export const dataHistories: TableHistory = {
               />
               <div>
                 <AppText instancetype="WithCellToken" fz={12}>
-                  {props.baseToken}
-                  {props.pairToken}
+                  {props.base}
+                  {props.quote}
                 </AppText>
               </div>
             </Flex>,
@@ -1738,8 +1738,8 @@ export const dataHistories: TableHistory = {
               />
               <div>
                 <AppText instancetype="WithCellToken" fz={12}>
-                  {props.baseToken}
-                  {props.pairToken}
+                  {props.base}
+                  {props.quote}
                 </AppText>
               </div>
             </Flex>,
@@ -1814,8 +1814,8 @@ export const dataHistories: TableHistory = {
               />
               <div>
                 <AppText instancetype="WithCellToken" fz={12}>
-                  {props.baseToken}
-                  {props.pairToken}
+                  {props.base}
+                  {props.quote}
                 </AppText>
               </div>
             </Flex>,
@@ -1890,8 +1890,8 @@ export const dataHistories: TableHistory = {
               />
               <div>
                 <AppText instancetype="WithCellToken" fz={12}>
-                  {props.baseToken}
-                  {props.pairToken}
+                  {props.base}
+                  {props.quote}
                 </AppText>
               </div>
             </Flex>,
@@ -2014,8 +2014,8 @@ export const dataHistories: TableHistory = {
           <Box bg={props.isBuy ? "green" : "red"} w={"2px"} h={30} />
           <div>
             <AppText instancetype="WithCellToken" fz={12}>
-              {props.baseToken}
-              {props.pairToken}
+              {props.base}
+              {props.quote}
             </AppText>
           </div>
         </Flex>,

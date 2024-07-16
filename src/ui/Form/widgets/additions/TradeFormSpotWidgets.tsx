@@ -112,7 +112,7 @@ export function NumberSimpleWidget(props: WidgetProps) {
 
 export function VolumeInputPercentFieldWidget(props: WidgetProps) {
   const [, setPercentQty] = useState(0);
-  const { pairToken, baseToken } = useSpotTradeStorage();
+  const { quote, base } = useSpotTradeStorage();
   const {
     formContext: { formData },
   } = props;
@@ -121,18 +121,18 @@ export function VolumeInputPercentFieldWidget(props: WidgetProps) {
   }, [formData?.orderSide]);
 
   const info = useMemo(() => {
-    const rightTitle = isBuy ? pairToken : baseToken;
+    const rightTitle = isBuy ? quote : base;
     return {
       rightTitle,
     };
-  }, [baseToken, isBuy, pairToken]);
+  }, [base, isBuy, quote]);
 
   const onChangePercent = (v: string) => {
-    logger.debug("onChangePercent", v);
+    logger.trace("onChangePercent", v);
   };
 
   const onChangeInput = (v: string) => {
-    logger.debug("onChangeInput", v);
+    logger.trace("onChangeInput", v);
   };
 
   const reset = () => {

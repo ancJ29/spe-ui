@@ -164,7 +164,7 @@ function TradeForm({ tradeType }: { tradeType: TradeType }) {
         <CreateOrderTradeByLimitForm
           onSubmit={(res) => {
             // eslint-disable-next-line no-console
-            logger.debug("CreateOrderTradeByLimitForm", res);
+            logger.trace("CreateOrderTradeByLimitForm", res);
           }}
         />
       )}
@@ -172,7 +172,7 @@ function TradeForm({ tradeType }: { tradeType: TradeType }) {
         <CreateOrderTradeByMarketForm
           onSubmit={(res) => {
             // eslint-disable-next-line no-console
-            logger.debug("CreateOrderTradeByMarketForm", res);
+            logger.trace("CreateOrderTradeByMarketForm", res);
           }}
         />
       )}

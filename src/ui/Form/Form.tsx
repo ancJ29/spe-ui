@@ -78,8 +78,8 @@ const AppForm = forwardRef(
 
     const onFormDataSubmit = useCallback(
       (evt: IChangeEvent, event: FormEvent<unknown>) => {
-        logger.debug("submitted formData", evt.formData);
-        logger.debug("submit event", event);
+        logger.trace("submitted formData", evt.formData);
+        logger.trace("submit event", event);
         if (props.api) {
           const rawData = { ...evt.formData };
           const params =
@@ -221,13 +221,13 @@ const AppForm = forwardRef(
               submit: () => formRef.current?.submit(),
             }}
             onBlur={(id: string, value: string) =>
-              logger.debug(`Touched ${id} with value ${value}`)
+              logger.trace(`Touched ${id} with value ${value}`)
             }
             onFocus={(id: string, value: string) =>
-              logger.debug(`Focused ${id} with value ${value}`)
+              logger.trace(`Focused ${id} with value ${value}`)
             }
             onError={(errorList: RJSFValidationError[]) =>
-              logger.debug("errors", errorList)
+              logger.trace("errors", errorList)
             }
           />
           <LoadingOverlay

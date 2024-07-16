@@ -11,17 +11,17 @@ export interface AccountService {
 }
 
 export interface MarketPricesStorageService {
-  baseToken: string;
-  pairToken: string;
+  base: string;
+  quote: string;
   getAvailableBalanceByToken: (token: string) => string;
 }
 
 type BN = string | number;
 export interface SpotTradeFormulaService {
-  baseToken: string;
-  pairToken: string;
-  pairTokenAvailable: string;
-  baseTokenAvailable: string;
+  base: string;
+  quote: string;
+  quoteAvailable: string;
+  baseAvailable: string;
   lastPrices: {
     spot: BN;
     future: BN;

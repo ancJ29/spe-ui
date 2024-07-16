@@ -160,7 +160,7 @@ const items = [
 ];
 
 export function MenuToken() {
-  const { baseToken, pairToken } = useParams();
+  const { base, quote } = useParams();
   return (
     <>
       <Menu
@@ -181,8 +181,8 @@ export function MenuToken() {
             <div>
               <Flex align={"center"} gap={5}>
                 <AppText instancetype="WithTokenIcon">
-                  {baseToken}
-                  {pairToken}
+                  {base}
+                  {quote}
                 </AppText>
                 <AppPopover
                   withArrow={false}
@@ -347,32 +347,32 @@ export function TableTokens() {
     const rows = [
       {
         icon: "https://www.bybit.com/bycsi-root/fop/9e97acce-0ffd-4148-8248-1720f6758fa0.svg",
-        baseToken: "BTC",
-        pairToken: "USDT",
+        base: "BTC",
+        quote: "USDT",
         price: 67534.1,
         dayChange: -0.05,
         volume: 1000000000,
       },
       {
         icon: "https://www.bybit.com/bycsi-root/assets/image/coins/dark/skl.svg",
-        baseToken: "SKL",
-        pairToken: "USDT",
+        base: "SKL",
+        quote: "USDT",
         price: 67534.1,
         dayChange: -0.05,
         volume: 1000000000,
       },
       {
         icon: "https://www.bybit.com/bycsi-root/assets/image/coins/dark/crv.svg",
-        baseToken: "CRV",
-        pairToken: "USDT",
+        base: "CRV",
+        quote: "USDT",
         price: 67534.1,
         dayChange: -0.05,
         volume: 1000000000,
       },
       {
         icon: "https://www.bybit.com/bycsi-root/fop/6876d6bf-9409-43cb-85ed-9e63a0ca2022.svg",
-        baseToken: "OMIT",
-        pairToken: "USDT",
+        base: "OMIT",
+        quote: "USDT",
         price: 67534.1,
         dayChange: -0.05,
         volume: 1000000000,
@@ -381,40 +381,35 @@ export function TableTokens() {
     const _rows = [
       ...shuffleArray(rows, 20),
       ...shuffleArray(rows, 20),
-    ].map(
-      (
-        { baseToken, dayChange, icon, pairToken, price, volume },
-        idx,
-      ) => [
-        <Flex key={`${idx}.1`} align={"center"} gap={10}>
-          <IconStar size={15} />
-          <Group gap={7} align="center">
-            <Avatar src={icon} size={20} />
-            <AppText instancetype="WithCellTokenInMenu">
-              {`${baseToken}${pairToken}`}
-            </AppText>
-          </Group>
-        </Flex>,
-        <AppText key={1} fz={12} instancetype="withPriceCardTrade">
-          {price}
-        </AppText>,
-        <AppText
-          key={`${idx}.2`}
-          fz={12}
-          instancetype="withPriceCardTrade"
-          c={dayChange > 0 ? "green" : dayChange < 0 ? "red" : ""}
-        >
-          {dayChange > 0 ? "+" : ""} {dayChange}%
-        </AppText>,
-        <AppText
-          key={`${idx}.3`}
-          fz={12}
-          instancetype="withPriceCardTrade"
-        >
-          {volume}
-        </AppText>,
-      ],
-    );
+    ].map(({ base, dayChange, icon, quote, price, volume }, idx) => [
+      <Flex key={`${idx}.1`} align={"center"} gap={10}>
+        <IconStar size={15} />
+        <Group gap={7} align="center">
+          <Avatar src={icon} size={20} />
+          <AppText instancetype="WithCellTokenInMenu">
+            {`${base}${quote}`}
+          </AppText>
+        </Group>
+      </Flex>,
+      <AppText key={1} fz={12} instancetype="withPriceCardTrade">
+        {price}
+      </AppText>,
+      <AppText
+        key={`${idx}.2`}
+        fz={12}
+        instancetype="withPriceCardTrade"
+        c={dayChange > 0 ? "green" : dayChange < 0 ? "red" : ""}
+      >
+        {dayChange > 0 ? "+" : ""} {dayChange}%
+      </AppText>,
+      <AppText
+        key={`${idx}.3`}
+        fz={12}
+        instancetype="withPriceCardTrade"
+      >
+        {volume}
+      </AppText>,
+    ]);
     return {
       head: _items.map(([text], i) => {
         return (

@@ -6,7 +6,7 @@ import {
 } from "@/types";
 
 export function convertToSwapFormData(formData: SwapFormData) {
-  logger.debug("convertToSwapFormData", formData);
+  logger.trace("convertToSwapFormData", formData);
   const symbol =
     formData.side === "SELL"
       ? `${formData.symbolFrom}_${formData.symbolTo}_SPOT`

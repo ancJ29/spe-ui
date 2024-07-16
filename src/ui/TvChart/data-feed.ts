@@ -29,7 +29,7 @@ export default (symbol: string, isSpot: boolean) => {
   const url = `${isSpot ? SPOT_KLINE : FUTURE_KLINE}?symbol=${
     SYMBOL_MAP.BINANCE[symbol]
   }`;
-  logger.debug("data-feed", symbol, url);
+  logger.trace("data-feed", symbol, url);
 
   return {
     searchSymbols: (

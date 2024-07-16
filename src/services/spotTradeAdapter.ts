@@ -6,13 +6,13 @@ import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 
 interface TypePriceOfTrade {
-  baseToken: string;
-  pairToken: string;
+  base: string;
+  quote: string;
   getAvailableBalanceByToken: (token: string) => string;
 }
 export function usePricesOfTrade(): TypePriceOfTrade {
   const store = assetStore();
-  const { baseToken, pairToken } = useParams();
+  const { base, quote } = useParams();
   const getAvailableBalanceByToken = (token: string) => {
     const balances = store.balances;
     const fundingAccount = store.accounts.find(
@@ -28,37 +28,37 @@ export function usePricesOfTrade(): TypePriceOfTrade {
     return balance?.amount ?? "";
   };
   return {
-    baseToken: baseToken as string,
-    pairToken: pairToken as string,
+    base: base as string,
+    quote: quote as string,
     getAvailableBalanceByToken,
   };
 }
 
 export function useSpotTradeStorage(): SpotTradeFormulaService {
-  const { baseToken, pairToken, getAvailableBalanceByToken } =
+  const { base, quote, getAvailableBalanceByToken } =
     usePricesOfTrade();
   const { marketPrices } = tradeStore();
 
   const prices = useMemo(() => {
-    const usdtAvailable = getAvailableBalanceByToken(pairToken);
-    const btcAvailable = getAvailableBalanceByToken(baseToken);
+    const usdtAvailable = getAvailableBalanceByToken(quote);
+    const btcAvailable = getAvailableBalanceByToken(base);
     return {
-      pairTokenAvailable: usdtAvailable,
-      baseTokenAvailable: btcAvailable,
+      quoteAvailable: usdtAvailable,
+      baseAvailable: btcAvailable,
     };
-  }, [baseToken, getAvailableBalanceByToken, pairToken]);
+  }, [base, getAvailableBalanceByToken, quote]);
 
   const lastPrices = useMemo(() => {
-    const _kSpot = `${baseToken}_${pairToken}`;
+    const _kSpot = `${base}_${quote}`;
     return {
       spot: marketPrices[`${_kSpot}_SPOT`],
       future: marketPrices[_kSpot],
     };
-  }, [marketPrices, baseToken, pairToken]);
+  }, [marketPrices, base, quote]);
 
   return {
-    baseToken,
-    pairToken,
+    base,
+    quote,
     ...prices,
     lastPrices,
     getAvailableBalanceByToken,
@@ -66,8 +66,8 @@ export function useSpotTradeStorage(): SpotTradeFormulaService {
       return bigNumber.TradeFormula.SPOT_LIMIT.orderPrice(
         orderPrice,
         qty,
-        prices.pairTokenAvailable,
-        prices.baseTokenAvailable,
+        prices.quoteAvailable,
+        prices.baseAvailable,
         isBuying,
       );
     },
@@ -75,16 +75,16 @@ export function useSpotTradeStorage(): SpotTradeFormulaService {
       return bigNumber.TradeFormula.SPOT_LIMIT.orderValue(
         value,
         orderPrice,
-        prices.pairTokenAvailable,
-        prices.baseTokenAvailable,
+        prices.quoteAvailable,
+        prices.baseAvailable,
         isBuying,
       );
     },
     percentQty(percent, orderPrice, isBuying) {
       return bigNumber.TradeFormula.SPOT_LIMIT.percentQty(
         percent,
-        prices.pairTokenAvailable,
-        prices.baseTokenAvailable,
+        prices.quoteAvailable,
+        prices.baseAvailable,
         orderPrice,
         isBuying,
       );
@@ -93,8 +93,8 @@ export function useSpotTradeStorage(): SpotTradeFormulaService {
       return bigNumber.TradeFormula.SPOT_LIMIT.qty(
         qty,
         orderPrice,
-        prices.pairTokenAvailable,
-        prices.baseTokenAvailable,
+        prices.quoteAvailable,
+        prices.baseAvailable,
         isBuying,
       );
     },

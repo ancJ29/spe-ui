@@ -147,3 +147,10 @@ export type SpeTransaction = {
   createdAt: number;
   updatedAt: number;
 };
+
+export type TradeList = {
+  price: string;
+  volume: string;
+  side: Side;
+  timestamp: number;
+};

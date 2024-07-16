@@ -4,7 +4,6 @@ export * from "./FilterGroupButtons";
 export * from "./OrderBook";
 export * from "./TabsOfTradeHistory";
 export * from "./MenuToken";
-export * from "./BidOrderBookTrade";
 export * from "./RecentTrades";
 export * from "./TopBar";
 export * from "./spot";

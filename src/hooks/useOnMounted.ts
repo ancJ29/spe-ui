@@ -5,7 +5,7 @@ import { useBoolean } from "usehooks-ts";
 export default function useOnMounted(callback: () => void, key = "") {
   const { value: loaded, setFalse } = useBoolean(false);
   useEffect(() => {
-    key && logger.debug(`useOnMounted ${key} ${loaded}`);
+    key && logger.trace(`useOnMounted ${key} ${loaded}`);
     if (!loaded) {
       setFalse();
       callback();

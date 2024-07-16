@@ -1,7 +1,7 @@
 import Decimal from "decimal.js";
 
-export function formatCurrency(num: number) {
-  const decimal = new Decimal(num);
+export function formatCurrency(num: number | string) {
+  const decimal = new Decimal(num ?? "0");
 
   if (decimal.greaterThanOrEqualTo(1e12)) {
     return (

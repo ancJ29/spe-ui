@@ -11,8 +11,7 @@ export function OrderValuePercentSpotWidget(props: WidgetProps) {
   const {
     formContext: { formData, updateField },
   } = props;
-  const { orderValue, pairToken, pairTokenAvailable } =
-    useSpotTradeStorage();
+  const { orderValue, quote, quoteAvailable } = useSpotTradeStorage();
 
   const isBuy = useMemo(() => {
     return formData?.orderSide === "BUY";
@@ -20,16 +19,16 @@ export function OrderValuePercentSpotWidget(props: WidgetProps) {
 
   const info = useMemo(() => {
     return {
-      rightTitle: pairToken,
+      rightTitle: quote,
     };
-  }, [pairToken]);
+  }, [quote]);
 
   const onChangePercentValue = (percent: string) => {
     if (isNaN(parseFloat(percent))) {
       percent = "0";
     }
     const orderValueFromPercent = bigNumber.div(
-      bigNumber.mul(pairTokenAvailable, percent),
+      bigNumber.mul(quoteAvailable, percent),
       100,
     );
     const values = orderValue(
@@ -49,7 +48,7 @@ export function OrderValuePercentSpotWidget(props: WidgetProps) {
       _qty = "0";
     }
     const values = orderValue(_qty, formData?.orderPrice, isBuy);
-    logger.debug("onChangePercentQty", values, formData);
+    logger.trace("onChangePercentQty", values, formData);
     const _orderValue =
       values.orderValue == "0" ? "" : values.orderValue;
     setValues(_orderValue as string);

@@ -73,7 +73,7 @@ export const TVChart = ({
     try {
       widget?.changeTheme(colorScheme as theme);
     } catch (e: unknown) {
-      logger.debug(e);
+      logger.trace(e);
     }
   }, [colorScheme, widget]);
 

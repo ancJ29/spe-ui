@@ -58,12 +58,12 @@ const configs: Config[] = [
     wrapper: "ServiceWrapper",
   },
   {
-    path: "/trade/spot/:baseToken/:pairToken",
+    path: "/trade/spot/:base/:quote",
     element: "SpotTrade",
     wrapper: "TradeWrapper",
   },
   {
-    path: "/trade/futures/:baseToken/:pairToken",
+    path: "/trade/futures/:base/:quote",
     element: "FutureTrade",
     wrapper: "TradeWrapper",
   },

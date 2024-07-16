@@ -26,7 +26,7 @@ import { WidgetProps } from "@rjsf/utils";
 import { IconCaretDownFilled } from "@tabler/icons-react";
 import { useCallback, useMemo, useState } from "react";
 
-const BUY_SELL = ["BUY", "SELL"];
+const BUY_AND_SELL = ["BUY", "SELL"];
 const LONG_SHORT = ["LONG", "SHORT"];
 
 export function OrderTypeWidget({
@@ -90,7 +90,9 @@ export function OrderSideWidget({
     <SegmentedControl
       fullWidth
       value={_orderSideLabel(value, formData.isFuture)}
-      data={formData.isFuture ? LONG_SHORT.map(t) : BUY_SELL.map(t)}
+      data={
+        formData.isFuture ? LONG_SHORT.map(t) : BUY_AND_SELL.map(t)
+      }
       onChange={(side: string) => {
         const sideMap: Record<string, OrderSide> = {
           BUY: OrderSide.BUY,
@@ -98,7 +100,7 @@ export function OrderSideWidget({
           LONG: OrderSide.BUY,
           SHORT: OrderSide.SELL,
         };
-        logger.debug("side", side);
+        logger.trace("side", side);
         updateFields({ [name]: sideMap[side] });
       }}
       classNames={{
@@ -178,12 +180,13 @@ export function VolumeInputFieldWidget({
     const free = Number(freeAmount(balance));
     const { max } = maxVolume(
       free,
-      marketPrices[formData.symbol],
+      Number(formData.orderPrice) || marketPrices[formData.symbol],
       formData.orderSide,
     );
     return { max, config: symbolMap[formData.symbol] };
   }, [
     formData.base,
+    formData.orderPrice,
     formData.orderSide,
     formData.quote,
     formData.symbol,

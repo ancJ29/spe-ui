@@ -554,9 +554,9 @@ function MenuUserInfo() {
                 </Text>
                 <Flex align={"center"} gap={0}>
                   <Text fz={12} c={"gray.5"}>
-                    UID: {me?.uid}
+                    UID: {me.uid || ""}
                   </Text>
-                  <CopyButton value="UID: 194260796">
+                  <CopyButton value={`UID: ${me.uid || ""}`}>
                     {({ copied, copy }) => (
                       <Tooltip
                         label={copied ? "Copied" : "Copy"}

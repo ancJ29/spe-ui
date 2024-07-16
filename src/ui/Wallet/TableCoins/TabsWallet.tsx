@@ -16,7 +16,7 @@ export function TabsWallet() {
       <Box pos={"relative"}>
         <AppTabs
           className="noBg"
-          defaultValue={"Wallet"}
+          defaultValue={"Funding Account"}
           showPanel
           classNames={{
             root: "tabBorderSmall",
@@ -30,12 +30,12 @@ export function TabsWallet() {
           items={[
             {
               data: {
-                label: t("Wallet"),
-                value: "Wallet",
+                label: t("Funding Account"),
+                value: "Funding Account",
               },
               tabsPanelProps: {
                 children: <FundAssetsTable hideZero={hideZero} />,
-                value: "Wallet",
+                value: "Funding Account",
               },
             },
             {

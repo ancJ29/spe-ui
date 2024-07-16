@@ -1,12 +1,45 @@
+import BN from "@/common/big-number";
+import useMarketInformation from "@/hooks/useMarketInformation";
+import NumberFormat from "@/ui/NumberFormat";
 import { AppPopover } from "@/ui/Popover/AppPopover";
 import AppText from "@/ui/Text/AppText";
 import { Box, Divider, Flex, HoverCard } from "@mantine/core";
 import { useHover } from "@mantine/hooks";
 import { IconDots } from "@tabler/icons-react";
+import { useMemo } from "react";
 import { MenuToken } from "./MenuToken";
 
+function _colorAndSb(percent: string) {
+  const p = Number(percent);
+  if (p > 0) {
+    return { color: "#22ae6a", sb: "+" };
+  }
+  if (p < 0) {
+    return { color: "#ea4549", sb: "-" };
+  }
+  return { color: "#6627e7", sb: "" };
+}
 export function TopBar() {
   const { hovered, ref } = useHover();
+  const { data } = useMarketInformation();
+  const info = useMemo(() => {
+    let change24h = "";
+    let percent = "";
+    if (data) {
+      change24h = BN.div(data.lastPrice, data.low);
+      percent = BN.mul(
+        BN.div(BN.sub(data?.high, data?.low), data?.low),
+        100,
+      );
+    }
+    const { color, sb } = _colorAndSb(percent) || "0";
+    return {
+      change24h,
+      color,
+      percent,
+      sb,
+    };
+  }, [data]);
   return (
     <>
       <Flex className="bg-trade" align={"center"} gap={20} p={10}>
@@ -14,7 +47,7 @@ export function TopBar() {
         <Divider orientation="vertical" />
         <div>
           <AppText instancetype="withPriceLong" c={"green"}>
-            3,541.57
+            <NumberFormat value={data?.lastPrice} decimalPlaces={2} />
           </AppText>
           <AppPopover
             withArrow={false}
@@ -30,7 +63,10 @@ export function TopBar() {
                   instancetype="WithTextSubtitle"
                   fw={"bold"}
                 >
-                  3,540.91
+                  <NumberFormat
+                    value={data?.markPrice}
+                    decimalPlaces={2}
+                  />
                 </AppText>
               ),
             })}
@@ -60,7 +96,10 @@ export function TopBar() {
             Index Price
           </AppText>
           <AppText instancetype="WithTextSubtitle" fw={"bold"}>
-            66,232.09
+            <NumberFormat
+              value={data?.indexPrice}
+              decimalPlaces={2}
+            />
           </AppText>
         </div>
         <Box
@@ -74,8 +113,25 @@ export function TopBar() {
               <AppText instancetype="withPriceTextStatus">
                 24H Change %
               </AppText>
-              <AppText instancetype="WithTextSubtitle" fw={"bold"}>
-                +124.08 <span>(+3.61%)</span>
+              <AppText
+                instancetype="WithTextSubtitle"
+                fw={"bold"}
+                c={info.color}
+              >
+                {/* +124.08 <span>(+3.61%)</span> */}
+                {info.sb}
+                <NumberFormat
+                  value={info.change24h}
+                  decimalPlaces={2}
+                />{" "}
+                <span>
+                  ({info.sb}
+                  <NumberFormat
+                    value={info.percent}
+                    decimalPlaces={2}
+                  />
+                  %)
+                </span>
               </AppText>
             </div>
             <div>
@@ -83,7 +139,7 @@ export function TopBar() {
                 24H High
               </AppText>
               <AppText instancetype="WithTextSubtitle" fw={"bold"}>
-                3,655.35
+                <NumberFormat value={data?.high} decimalPlaces={2} />
               </AppText>
             </div>
             <div>
@@ -91,7 +147,7 @@ export function TopBar() {
                 24H Low
               </AppText>
               <AppText instancetype="WithTextSubtitle" fw={"bold"}>
-                3,428.56
+                <NumberFormat value={data?.low} decimalPlaces={2} />
               </AppText>
             </div>
             <div ref={ref}>
@@ -104,7 +160,10 @@ export function TopBar() {
                     instancetype="WithTextSubtitle"
                     fw={"bold"}
                   >
-                    1,455,440,962.99
+                    <NumberFormat
+                      value={data?.turnOver}
+                      decimalPlaces={2}
+                    />
                   </AppText>
                 </div>
               ) : (
@@ -126,7 +185,10 @@ export function TopBar() {
                 Open Interest(BTC)
               </AppText>
               <AppText instancetype="WithTextSubtitle" fw={"bold"}>
-                1,455,440,962.99
+                <NumberFormat
+                  value={data?.openInterest}
+                  decimalPlaces={2}
+                />
               </AppText>
             </div>
           </Flex>
@@ -229,7 +291,10 @@ export function TopBar() {
                     instancetype="WithTextSubtitle"
                     fw={"bold"}
                   >
-                    3,655.35
+                    <NumberFormat
+                      value={data?.high}
+                      decimalPlaces={2}
+                    />
                   </AppText>
                 </div>
                 <div>
@@ -240,7 +305,10 @@ export function TopBar() {
                     instancetype="WithTextSubtitle"
                     fw={"bold"}
                   >
-                    3,428.56
+                    <NumberFormat
+                      value={data?.low}
+                      decimalPlaces={2}
+                    />
                   </AppText>
                 </div>
                 <div ref={ref}>
@@ -253,7 +321,10 @@ export function TopBar() {
                         instancetype="WithTextSubtitle"
                         fw={"bold"}
                       >
-                        1,455,440,962.99
+                        <NumberFormat
+                          value={data?.turnOver}
+                          decimalPlaces={2}
+                        />
                       </AppText>
                     </div>
                   ) : (
@@ -265,7 +336,10 @@ export function TopBar() {
                         instancetype="WithTextSubtitle"
                         fw={"bold"}
                       >
-                        1,455,440,962.99
+                        <NumberFormat
+                          value={data?.volume}
+                          decimalPlaces={2}
+                        />
                       </AppText>
                     </div>
                   )}
@@ -278,7 +352,10 @@ export function TopBar() {
                     instancetype="WithTextSubtitle"
                     fw={"bold"}
                   >
-                    1,455,440,962.99
+                    <NumberFormat
+                      value={data?.openInterest}
+                      decimalPlaces={2}
+                    />
                   </AppText>
                 </div>
               </Flex>

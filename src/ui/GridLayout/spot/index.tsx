@@ -35,7 +35,17 @@ const initialLayouts =
   // prettier-ignore
   "{\"lg\":[{\"x\":4,\"y\":0,\"w\":2,\"h\":5,\"i\":\"0\",\"static\":false},{\"x\":8,\"y\":0,\"w\":2,\"h\":5,\"i\":\"1\",\"static\":false},{\"x\":6,\"y\":0,\"w\":2,\"h\":4,\"i\":\"2\",\"static\":false}],\"md\":[{\"w\":7,\"h\":12,\"x\":0,\"y\":0,\"i\":\"0\",\"moved\":false,\"static\":false},{\"w\":3,\"h\":12,\"x\":7,\"y\":0,\"i\":\"1\",\"moved\":false,\"static\":false},{\"w\":10,\"h\":8,\"x\":0,\"y\":12,\"i\":\"2\",\"moved\":false,\"static\":false}]}";
 
-export function GridTradeSpot() {
+export function GridTradeSpot({
+  base,
+  quote,
+  symbol,
+  isSpot,
+}: {
+  isSpot?: boolean;
+  symbol: string;
+  base: string;
+  quote: string;
+}) {
   const [layouts, setLayouts] = useState(
     JSON.parse(
       (localStorage.getItem("layoutTrade") as string) ??
@@ -72,7 +82,11 @@ export function GridTradeSpot() {
                 draggableHandle=".grid-item-drag-handle"
               >
                 <div key={0} className="grid-item-box">
-                  <TVChart />
+                  <TVChart
+                    base={base}
+                    quote={quote}
+                    isSpot={isSpot}
+                  />
                   <div className="grid-item-drag-handle">
                     <ActionIcon size={"xs"} variant="light">
                       <IconGripHorizontal size={18} />
@@ -80,7 +94,7 @@ export function GridTradeSpot() {
                   </div>
                 </div>
                 <div key={1} className="grid-item-box">
-                  <OrderBook />
+                  <OrderBook {...{ base, quote, symbol, isSpot }} />
                   <div className="grid-item-drag-handle">
                     <ActionIcon size={"xs"} variant="light">
                       <IconGripHorizontal size={18} />

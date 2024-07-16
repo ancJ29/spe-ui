@@ -27,7 +27,7 @@ export function extractPhoneNumber({
   phoneLocale?: string;
   mobile?: string;
 } = {}) {
-  logger.debug("extractPhoneNumber", phoneLocale, mobile);
+  logger.trace("extractPhoneNumber", phoneLocale, mobile);
   const region = `+${parseInt(phoneLocale || "1")}`;
   return `${region}${(mobile || "").replace(/^0/g, "")}`;
 }

@@ -1,18 +1,26 @@
 import BN from "./big-number";
 import { GenericObject } from "./types";
 
-export function t(dictionary: Record<string, string>, key?: string) {
+export function t(dictionary: Record<string, string>, key?: string, ...args: (string | number)[]) {
   if (localStorage.___CHECK_LANGUAGE___ === "1") {
-    return "xxxxxxxxxxxxxxxxxxxxxxxx";
+    return "xxxxxxxxx";
   }
   if (!key) {
     return "";
   }
   if (dictionary[key]) {
-    return dictionary[key];
+    return _convert(dictionary[key], ...args);
   } else {
-    return key;
+    return _convert(key, ...args);
   }
+}
+
+function _convert(template: string, ...args: (string | number)[]): string {
+  let result = template;
+  args.forEach((arg) => {
+    result = result.replace("%s", arg.toString());
+  });
+  return result;
 }
 
 export function randomAddress(chain?: string) {
