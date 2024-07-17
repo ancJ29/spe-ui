@@ -8,9 +8,11 @@ import {
   BalanceOverview,
   MarketInformation,
   MarketPrice,
-  Order, Position, SpeTransaction,
+  Order,
+  Position,
+  SpeTransaction,
   SymbolConfig,
-  Trade
+  Trade,
 } from "@/common/types";
 import { assetStore } from "@/store/assets";
 import { TransactionsHistoryFormData } from "@/types";
@@ -99,44 +101,53 @@ export async function cancelOrderApi(orderId: string) {
     await delay(10);
     return;
   }
-  await axios.post("/api/order/cancel", { orderId, accountId }).then((res) => {
-    if (res.data.code !== 0) {
-      throw new Error("Failed to cancel order");
-    }
-  });
+  await axios
+    .post("/api/order/cancel", { orderId, accountId })
+    .then((res) => {
+      if (res.data.code !== 0) {
+        throw new Error("Failed to cancel order");
+      }
+    });
 }
 
-export async function closeOrderApi(symbol: string, volume: string, side: OrderSide) {
+export async function closeOrderApi(
+  symbol: string,
+  volume: string,
+  side: OrderSide,
+) {
   const accountId = assetStore.getState().tradingAccount?.id;
   if (!accountId) {
     await delay(10);
     return;
   }
-  await axios.post("/api/order/create", {
-    accountId,
-    symbol,
-    side,
-    volume,
-    type: OrderType.MARKET,
-  }).then((res) => {
-    if (res.data.code !== 0) {
-      throw new Error("Failed to close order");
-    }
-  });
+  await axios
+    .post("/api/order/create", {
+      accountId,
+      symbol,
+      side,
+      volume,
+      type: OrderType.MARKET,
+    })
+    .then((res) => {
+      if (res.data.code !== 0) {
+        throw new Error("Failed to close order");
+      }
+    });
 }
 
-export async function fetchTrades(
-  symbol?: string,
-) {
+export async function fetchTrades(symbol?: string) {
   const accountId = assetStore.getState().tradingAccount?.id;
   if (!accountId) {
     await delay(10);
     return [] as Trade[];
   }
   try {
-    const trades = await getApi<{ trades: Trade[] }>("/api/trades/list", {
-      params: { accountId, symbol, limit: 100 },
-    }).then(res => res.trades);
+    const trades = await getApi<{ trades: Trade[] }>(
+      "/api/trades/list",
+      {
+        params: { accountId, symbol, limit: 100 },
+      },
+    ).then((res) => res.trades);
     return trades;
   } catch (err) {
     logger.error("Failed to fetch trades", err);
@@ -144,9 +155,7 @@ export async function fetchTrades(
   }
 }
 
-export async function fetchClosedPositions(
-  symbol?: string,
-) {
+export async function fetchClosedPositions(symbol?: string) {
   const accountId = assetStore.getState().tradingAccount?.id;
   if (!accountId) {
     await delay(10);
@@ -154,12 +163,10 @@ export async function fetchClosedPositions(
   }
   return getApi<{ positions: Position[] }>("/api/positions/closed", {
     params: { accountId, symbol, limit: 100 },
-  }).then(res => res.positions);
+  }).then((res) => res.positions);
 }
 
-export async function fetchOpenPositions(
-  symbol?: string,
-) {
+export async function fetchOpenPositions(symbol?: string) {
   const accountId = assetStore.getState().tradingAccount?.id;
   if (!accountId) {
     await delay(10);
@@ -167,12 +174,10 @@ export async function fetchOpenPositions(
   }
   return getApi<{ positions: Position[] }>("/api/positions/open", {
     params: { accountId, symbol, limit: 100 },
-  }).then(res => res.positions);
+  }).then((res) => res.positions);
 }
 
-export async function fetchActiveOrders(
-  symbol?: string,
-) {
+export async function fetchActiveOrders(symbol?: string) {
   const accountId = assetStore.getState().tradingAccount?.id;
   if (!accountId) {
     await delay(10);
@@ -180,20 +185,21 @@ export async function fetchActiveOrders(
   }
   return getApi<{ orders: Order[] }>("/api/orders/active", {
     params: { accountId, symbol, limit: 100 },
-  }).then(res => res.orders);
+  }).then((res) => res.orders);
 }
 
-export async function fetchOrders(
-  symbol?: string,
-) {
+export async function fetchOrders(symbol?: string) {
   const accountId = assetStore.getState().tradingAccount?.id;
   if (!accountId) {
     await delay(10);
     return [] as Order[];
   }
-  const orders = await getApi<{ orders: Order[] }>("/api/orders/list", {
-    params: { accountId, symbol, limit: 100 },
-  }).then(res => res?.orders || []);
+  const orders = await getApi<{ orders: Order[] }>(
+    "/api/orders/list",
+    {
+      params: { accountId, symbol, limit: 100 },
+    },
+  ).then((res) => res?.orders || []);
   logger.debug("Fetched orders", orders);
   return orders;
 }

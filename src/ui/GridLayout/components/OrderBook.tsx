@@ -47,27 +47,27 @@ export function OrderBook(props: {
       <AppTabs
         instancetype="WithMediumNoBorder"
         className="noBg"
-        defaultValue={"1"}
+        defaultValue={"orderBooks"}
         showPanel
         items={[
           {
             data: {
               label: t("Order Book"),
-              value: "1",
+              value: "orderBooks",
             },
             tabsPanelProps: {
               children: <GridOrderBook {...props} />,
-              value: "positions",
+              value: "orderBooks",
             },
           },
           {
             data: {
               label: t("Recent Trades"),
-              value: "2",
+              value: "trades",
             },
             tabsPanelProps: {
               children: <GridRecentTrade />,
-              value: "2",
+              value: "trades",
             },
           },
         ]}

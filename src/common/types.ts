@@ -119,7 +119,7 @@ export type Position = {
   unRealizedPnl: number;
   createdAt: number;
   closedAt?: number;
-}
+};
 
 export type Order = {
   symbol: string;

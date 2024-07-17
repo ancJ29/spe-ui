@@ -5,6 +5,7 @@ import { last } from "@/common/utils";
 import { IS_DEV } from "@/domain/config";
 import useTranslation from "@/hooks/useTranslation";
 import { fetchOrderBooks } from "@/services/apis";
+import logger from "@/services/logger";
 import tradeStore from "@/store/trade";
 import { formatCurrency } from "@/utils";
 import {
@@ -24,9 +25,19 @@ import {
 } from "@tabler/icons-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import NumberFormat from "../NumberFormat";
-import { ProgressBarStatic } from "./progress";
 
 export type OrderBookType = "ASK ONLY" | "BID ONLY" | "ASK & BID";
+
+type X = [number, number, number, number];
+type OrderBookData = {
+  green: X[];
+  red: X[];
+  status: "newData" | "";
+  latest: number;
+  askRate: number;
+  bidRate: number;
+  side: OrderSide;
+};
 
 export function OrderBookTable({
   isSpot,
@@ -47,15 +58,7 @@ export function OrderBookTable({
   const [
     { green, red, status, latest, side, askRate, bidRate },
     setData,
-  ] = useState<{
-    green: [number, number, number, number][];
-    red: [number, number, number, number][];
-    status: "newData" | "";
-    latest: number;
-    askRate: number;
-    bidRate: number;
-    side: OrderSide;
-  }>({
+  ] = useState<OrderBookData>({
     green: [],
     red: [],
     status: "",
@@ -67,61 +70,53 @@ export function OrderBookTable({
 
   const fetch = useCallback(() => {
     fetchOrderBooks(symbol).then(({ a, b }) => {
-      a &&
-        b &&
-        setData((data) => {
-          const latestAsk: number = last(a)?.[0] || 0;
-          const latestBid: number = b?.[0]?.[0] || 0;
-          let latest = data.latest;
-          let side = data.side;
-          if (latestBid && latestAsk) {
-            if (latest < latestBid) {
-              latest = latestBid;
-              side = OrderSide.BUY;
-            }
-            if (latest > latestAsk) {
-              latest = latestAsk;
-              side = OrderSide.SELL;
-            }
-            const totalAsk = a[0]?.[2] || 0;
-            const totalBid = last(b)?.[2] || 0;
-            const total =
-              Number(BN.add(totalAsk, totalBid)) / 100 || 1;
-            const askRate = Number(BN.div(totalAsk, total, 0));
-            const bidRate = Number(BN.div(totalBid, total, 0));
-            return {
-              green: a,
-              red: b,
-              status: data.status === "newData" ? "" : "newData",
-              latest,
-              side,
-              askRate,
-              bidRate,
-            };
+      if (!a || !b) {
+        return;
+      }
+      setData((data) => {
+        const numberOfRow = display === "ASK & BID" ? 10 : 30;
+        const latestAsk: number = last(a)?.[0] || 0;
+        const latestBid: number = b?.[0]?.[0] || 0;
+        let latest = data.latest;
+        let side = data.side;
+        if (latestBid && latestAsk) {
+          if (latest < latestBid) {
+            latest = latestBid;
+            side = OrderSide.BUY;
           }
-          return data;
-        });
+          if (latest > latestAsk) {
+            latest = latestAsk;
+            side = OrderSide.SELL;
+          }
+          const totalAsk = a[0]?.[2] || 0;
+          const totalBid = last(b)?.[2] || 0;
+          logger.debug("OrderBookTable", { totalAsk, totalBid });
+          const total = Number(BN.add(totalAsk, totalBid)) / 100 || 1;
+          const askRate = Number(BN.div(totalAsk, total, 0));
+          const bidRate = Number(BN.div(totalBid, total, 0));
+          return {
+            green: b.slice(0, numberOfRow),
+            red: a.slice(-numberOfRow),
+            status: data.status === "newData" ? "" : "newData",
+            latest,
+            side,
+            askRate,
+            bidRate,
+          };
+        }
+        return data;
+      });
     });
-  }, [symbol]);
+  }, [display, symbol]);
 
-  const interval = useInterval(
-    () => {
-      fetch();
-    },
-    IS_DEV ? 10e3 : 1e3,
-  );
-
+  const interval = useInterval(fetch, IS_DEV ? 1e3 : 1e3);
   useEffect(() => {
     interval.start();
     return interval.stop;
   }, [interval]);
-
   useEffect(() => {
     fetch();
   }, [fetch]);
-
-  const numberOfRow = display === "ASK & BID" ? 10 : 30;
-  // scroll to the middle of the table
 
   const pricePanel = useMemo(() => {
     return (
@@ -284,13 +279,13 @@ export function OrderBookTable({
       <div className={`table-root ${status}`}>
         <div className="table-body">
           {display !== "ASK ONLY" &&
-            Array.from({ length: numberOfRow }).map((_, i) => (
+            red.map(([price, vol, agg], idx) => (
               <HoverCard
                 width={230}
                 openDelay={0}
                 closeDelay={0}
                 shadow="md"
-                key={i}
+                key={idx}
                 position="left"
                 withinPortal
                 withArrow
@@ -308,7 +303,7 @@ export function OrderBookTable({
                           <div className="cell-text long">
                             <Text fz={12} c={"#f0444b"}>
                               <NumberFormat
-                                value={red[i]?.[0]}
+                                value={price}
                                 decimalPlaces={3}
                               />
                             </Text>
@@ -337,10 +332,8 @@ export function OrderBookTable({
                             }}
                           >
                             <NumberFormat
-                              value={red[i]?.[1]}
-                              decimalPlaces={
-                                red[i]?.[2] > 10e6 ? 2 : 6
-                              }
+                              value={vol}
+                              decimalPlaces={agg > 10e6 ? 2 : 6}
                             />
                           </Text>
                         </Flex>
@@ -378,7 +371,7 @@ export function OrderBookTable({
                               },
                             }}
                           >
-                            {formatCurrency(red[i]?.[2])}
+                            {formatCurrency(agg)}
                           </Text>
                         </Flex>
                       </Box>
@@ -404,7 +397,7 @@ export function OrderBookTable({
                           },
                         }}
                       >
-                        {formatCurrency(red[i]?.[0] ?? 0)}
+                        {formatCurrency(price ?? 0)}
                       </Text>
                     </Flex>
                     <Flex justify={"space-between"}>
@@ -420,7 +413,7 @@ export function OrderBookTable({
                           },
                         }}
                       >
-                        {red[i]?.[2]}
+                        {agg}
                       </Text>
                     </Flex>
                   </Box>
@@ -441,9 +434,9 @@ export function OrderBookTable({
       <div className={`table-root ${status}`}>
         <div className="table-body">
           {display !== "BID ONLY" &&
-            Array.from({ length: numberOfRow }).map((_, i) => (
+            green.map(([price, vol, agg], idx) => (
               <HoverCard
-                key={i}
+                key={idx}
                 width={230}
                 openDelay={0}
                 closeDelay={0}
@@ -462,14 +455,14 @@ export function OrderBookTable({
                     >
                       <Box pl={5}>
                         <Flex align={"center"}>
-                          <div className="cell-text long">
+                          <span className="cell-text long">
                             <Text fz={12} c={"#23b26b"}>
                               <NumberFormat
-                                value={green[i]?.[0]}
+                                value={price}
                                 decimalPlaces={2}
                               />
                             </Text>
-                          </div>
+                          </span>
                         </Flex>
                       </Box>
                     </Box>
@@ -493,15 +486,9 @@ export function OrderBookTable({
                               },
                             }}
                           >
-                            {/* <NumberFormatter
-                            thousandSeparator
-                            value={(Math.random() * 10e6).toFixed(2)}
-                          /> */}
                             <NumberFormat
-                              value={red[i]?.[1]}
-                              decimalPlaces={
-                                red[i]?.[2] > 10e6 ? 2 : 6
-                              }
+                              value={vol}
+                              decimalPlaces={agg > 10e6 ? 2 : 6}
                             />
                           </Text>
                         </Flex>
@@ -540,12 +527,7 @@ export function OrderBookTable({
                               },
                             }}
                           >
-                            {/* <NumberFormatter
-                                  decimalSeparator=","
-                                  value={Math.random() * 10e6}
-                                /> */}
-                            {/* <NumberFormat value={green[i]?.[2]} decimalPlaces={2}/> */}
-                            {formatCurrency(green[i]?.[2] ?? 0)}
+                            {formatCurrency(agg ?? 0)}
                           </Text>
                         </Flex>
                       </Box>
@@ -571,7 +553,7 @@ export function OrderBookTable({
                           },
                         }}
                       >
-                        {formatCurrency(green[i]?.[0] ?? 0)}
+                        {formatCurrency(price ?? 0)}
                       </Text>
                     </Flex>
                     <Flex justify={"space-between"}>
@@ -587,7 +569,7 @@ export function OrderBookTable({
                           },
                         }}
                       >
-                        {green[i]?.[2]}
+                        {agg}
                       </Text>
                     </Flex>
                     <Flex justify={"space-between"}>
@@ -725,6 +707,25 @@ export function OrderBookTable({
           </HoverCard>
         </>
       )}
+    </>
+  );
+}
+
+const transitions = [100, 300, 600, 400, 1000, 1200, 2000];
+function ProgressBarStatic({ isAsk }: { isAsk?: boolean }) {
+  return (
+    <>
+      <Box
+        h={"100%"}
+        aria-level={transitions[Math.floor(Math.random() * 7)]}
+        className={`progress_bar progress_bar--static ${
+          isAsk ? "isDown" : "isUp"
+        }`}
+        right={0}
+        top={0}
+        w={`${100}%`}
+        pos={"absolute"}
+      ></Box>
     </>
   );
 }

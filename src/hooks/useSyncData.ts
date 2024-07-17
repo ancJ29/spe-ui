@@ -1,13 +1,18 @@
-import logger from "@/services/logger";
 import { useInterval } from "@mantine/hooks";
 import { useCallback, useEffect, useState } from "react";
 
-export default function useSyncData<T>(fetchData: () => Promise<T[]>, intervalTime = 30e3) {
-  const [data, setData] = useState<T[]>([]);
+export default function useSyncData<T>(
+  fetchData: () => Promise<T | undefined>,
+  intervalTime = 30e3,
+  _defaultData?: T,
+) {
+  const [{ data }, setData] = useState<{ data?: T }>({
+    data: _defaultData,
+  });
 
   const fetch = useCallback(() => {
     return fetchData().then((data) => {
-      setData(data);
+      data && setData({ data });
     });
   }, [fetchData]);
 
@@ -21,7 +26,6 @@ export default function useSyncData<T>(fetchData: () => Promise<T[]>, intervalTi
   }, [interval]);
 
   useEffect(() => {
-    logger.debug("Fetching data");
     fetch();
   }, [fetch]);
 

@@ -244,7 +244,7 @@ export function TabsOfTradeHistory({
 
 function TradeHistory({ symbol }: TabProps) {
   const fetch = useCallback(() => fetchTrades(symbol), [symbol]);
-  const trades = useSyncData<Trade>(fetch);
+  const trades = useSyncData<Trade[]>(fetch);
   return (
     <SPETable
       tableData={{
@@ -256,7 +256,7 @@ function TradeHistory({ symbol }: TabProps) {
           "Fee",
           "Transaction Time",
         ],
-        body: trades.map((trade) => {
+        body: trades?.map((trade) => {
           const isBuy = trade.side === "BUY";
           const color = isBuy ? "green" : "red";
           return [
@@ -299,7 +299,7 @@ function TradeHistory({ symbol }: TabProps) {
 
 function OrderHistory({ symbol, isFuture }: TabProps) {
   const fetch = useCallback(() => fetchOrders(symbol), [symbol]);
-  const orders = useSyncData<Order>(fetch);
+  const orders = useSyncData<Order[]>(fetch);
   return (
     <SPETable
       tableData={{
@@ -314,7 +314,7 @@ function OrderHistory({ symbol, isFuture }: TabProps) {
           isFuture ? "Reduce Only" : undefined,
           "Order Time",
         ].filter(Boolean) as string[],
-        body: orders.map((order) => {
+        body: orders?.map((order) => {
           const isBuy = order.side === "BUY";
           const color = isBuy ? "green" : "red";
           return [
@@ -375,7 +375,7 @@ function CurrentOrders({ symbol, isFuture }: TabProps) {
     () => fetchActiveOrders(symbol),
     [symbol],
   );
-  const orders = useSyncData<Order>(fetch);
+  const orders = useSyncData<Order[]>(fetch);
   return (
     <SPETable
       tableData={{
@@ -391,7 +391,7 @@ function CurrentOrders({ symbol, isFuture }: TabProps) {
           "Order Time",
           "Action",
         ].filter(Boolean) as string[],
-        body: orders.map((order) => {
+        body: orders?.map((order) => {
           const isBuy = order.side === "BUY";
           const color = isBuy ? "green" : "red";
           return [
@@ -504,7 +504,7 @@ function Positions({ symbol }: TabProps) {
     () => fetchOpenPositions(symbol),
     [symbol],
   );
-  const positions = useSyncData<Position>(fetch);
+  const positions = useSyncData<Position[]>(fetch);
   return (
     <SPETable
       tableData={{
@@ -521,7 +521,7 @@ function Positions({ symbol }: TabProps) {
           "Action",
           fetchOpenPositions,
         ].filter(Boolean) as string[],
-        body: positions.map((position) => {
+        body: positions?.map((position) => {
           const isBuy = position.side === "BUY";
           const color = isBuy ? "green" : "red";
           return [
@@ -635,7 +635,7 @@ function ClosedPnL({ symbol }: TabProps) {
     () => fetchClosedPositions(symbol),
     [symbol],
   );
-  const positions = useSyncData<Position>(fetch);
+  const positions = useSyncData<Position[]>(fetch);
   return (
     <SPETable
       tableData={{
@@ -650,7 +650,7 @@ function ClosedPnL({ symbol }: TabProps) {
           "Closed Time",
           fetchOpenPositions,
         ].filter(Boolean) as string[],
-        body: positions.map((position) => {
+        body: positions?.map((position) => {
           const isBuy = position.side === "BUY";
           const color = isBuy ? "green" : "red";
           return [

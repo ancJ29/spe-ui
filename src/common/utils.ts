@@ -77,7 +77,7 @@ export function code(length = 6) {
     .slice(2, 2 + length);
 }
 
-export function last<T>(arr: T[]) {
+export function last<T>(arr: T[] = []) {
   return arr.length ? arr[arr.length - 1] : undefined;
 }
 
