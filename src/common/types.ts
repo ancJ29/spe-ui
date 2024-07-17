@@ -1,6 +1,9 @@
 import { z } from "zod";
 import {
   AccountType,
+  OrderSide,
+  OrderStatus,
+  OrderType,
   TransactionStatus,
   TransactionType,
 } from "./enums";
@@ -22,17 +25,19 @@ export enum Side {
 
 export type MarketInformation = {
   symbol: string;
+  markPrice: number;
+  indexPrice: number;
   lastPrice: number;
+  change: number;
+  percent: number;
   high: number;
   low: number;
   volume: number;
-  turnOver: number;
-  openInterest: number;
   fundingRate: number;
-  markPrice: number;
-  indexPrice: number;
+  turnOver: number;
   nextFundingTime: number;
-}
+  openInterest: number;
+};
 
 export type SymbolConfig = {
   name: string;
@@ -79,6 +84,69 @@ export type BalanceOverview = {
 // "BTC_USDT_SPOT": number,
 export type MarketPrice = Record<string, number>;
 
+export type Position = {
+  // symbol: string;
+  // volume: string;
+  // side: OrderSide;
+  // entryPrice: string;
+  // liquidationPrice?: string;
+  // margin?: string;
+  // marginLevel?: string;
+  // unRealizedPnl?: string;
+  // realizedPnl?: string;
+  // closedVolume?: string;
+  // maxOpenInterest?: string;
+  // accountId: string;
+  positionId: string;
+  symbol: string;
+  side: OrderSide;
+  volume: number;
+  closedVolume: number;
+  averageClosePrice: number;
+  maxOpenInterest: number;
+  fee: number;
+  entryPrice: number;
+  markPrice: number;
+  takeProfitPrice: number;
+  stopLossPrice: number;
+  trailingStop: number;
+  liquidationPrice: number;
+  leverage: number;
+  margin: number;
+  marginLevel: number;
+  accumulatedFee: number;
+  realizedPnl: number;
+  unRealizedPnl: number;
+  createdAt: number;
+  closedAt?: number;
+}
+
+export type Order = {
+  symbol: string;
+  orderId: string;
+  type: OrderType;
+  status: OrderStatus;
+  side: OrderSide;
+  volume: string;
+  filled?: string;
+  avgPrice?: string;
+  price?: string;
+  reduceOnly?: boolean;
+  postOnly?: boolean;
+  createdAt: number;
+};
+
+export type Trade = {
+  symbol: string;
+  tradeId: string;
+  volume?: string;
+  side: OrderSide;
+  price?: string;
+  fee?: string;
+  isMaker?: boolean;
+  createdAt: number;
+};
+
 export type Balance = {
   accountId: string;
   name: string;
@@ -111,20 +179,6 @@ export type ApplicationFooter = z.infer<
 >;
 
 export type { Menu } from "./schema";
-
-export type SymbolInformation = {
-  symbol: string;
-  markPrice: number;
-  indexPrice: number;
-  lastPrice: number;
-  high: number;
-  low: number;
-  volume: number;
-  fundingRate: number;
-  turnOver: number;
-  nextFundingTime: number;
-  openInterest: number;
-};
 
 // https://binance-docs.github.io/apidocs/futures/en/#kline-candlestick-data
 export type KLine = [

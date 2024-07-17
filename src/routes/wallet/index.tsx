@@ -64,14 +64,14 @@ export default function Wallet() {
                   <span
                     style={{ fontSize: "14px", fontWeight: "bold" }}
                   >
-                    USD
+                    {t("USD")}
                   </span>
                 </Text>
               </Flex>
               <Text c={"dimmed"}>
                 ~{" "}
                 <NumberFormat decimalPlaces={8} value={totalInBtc} />{" "}
-                BTC
+                {t("BTC")}
               </Text>
             </Card>
           </Box>
@@ -92,7 +92,7 @@ export default function Wallet() {
                   <span
                     style={{ fontSize: "14px", fontWeight: "bold" }}
                   >
-                    USD
+                    {t("USD")}
                   </span>
                 </Text>
               </Flex>
@@ -102,7 +102,7 @@ export default function Wallet() {
                   decimalPlaces={8}
                   value={availableInBtc}
                 />{" "}
-                BTC
+                {t("BTC")}
               </Text>
             </Card>
           </Box>

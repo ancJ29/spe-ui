@@ -49,7 +49,6 @@ export const FEE = {
   },
 };
 
-
 export const SYMBOL_LISTS = [
   {
     icon: "/images/btc.svg",

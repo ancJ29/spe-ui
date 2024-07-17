@@ -1,5 +1,4 @@
 import BN from "@/common/big-number";
-import { dailyChange } from "@/common/utils";
 import useTranslation from "@/hooks/useTranslation";
 import tradeStore from "@/store/trade";
 import { GridTradeProps } from "@/types";
@@ -33,17 +32,11 @@ export function TopBar({
         sb: "",
       };
     }
-    const { change24h, percent } = dailyChange(
-      data.lastPrice,
-      data.high,
-      data.low,
-    );
-    const { color, sb } = _colorAndSb(percent) || "0";
+
+    const { color, sb } = _colorAndSb(Number(data.percent)) || "0";
     return {
       data,
-      change24h,
       color,
-      percent,
       sb,
     };
   }, [marketInformation, symbol]);
@@ -123,7 +116,7 @@ export function TopBar({
           <Flex align={"center"} gap={20}>
             <div>
               <AppText instancetype="withPriceTextStatus">
-                24H Change %
+                {t("24H Change %")}
               </AppText>
               <AppText
                 instancetype="WithTextSubtitle"
@@ -133,13 +126,13 @@ export function TopBar({
                 {/* +124.08 <span>(+3.61%)</span> */}
                 {info.sb}
                 <NumberFormat
-                  value={info.change24h}
+                  value={info.data?.change}
                   decimalPlaces={2}
                 />{" "}
                 <span>
                   ({info.sb}
                   <NumberFormat
-                    value={info.percent}
+                    value={info.data?.percent}
                     decimalPlaces={2}
                   />
                   %)
@@ -311,7 +304,7 @@ export function TopBar({
               <Flex align={"center"} gap={20}>
                 <div>
                   <AppText instancetype="withPriceTextStatus">
-                    24H Change %
+                    {t("24H Change %")}
                   </AppText>
                   <AppText
                     instancetype="WithTextSubtitle"
@@ -322,7 +315,7 @@ export function TopBar({
                 </div>
                 <div>
                   <AppText instancetype="withPriceTextStatus">
-                    24H High
+                    {t("24H High")}
                   </AppText>
                   <AppText
                     instancetype="WithTextSubtitle"
@@ -336,7 +329,7 @@ export function TopBar({
                 </div>
                 <div>
                   <AppText instancetype="withPriceTextStatus">
-                    24H Low
+                    {t("24H Low")}
                   </AppText>
                   <AppText
                     instancetype="WithTextSubtitle"

@@ -63,15 +63,17 @@ export const assetStore = create<AssetState>((set, get) => ({
       (balance) =>
         balance.accountId === state.tradingAccount?.id || "",
     );
-    const tradingBalanceMap = Object.fromEntries(tradingBalances.map((balance) => {
-      return [balance.coin, balance];
-    }));
+    const tradingBalanceMap = Object.fromEntries(
+      tradingBalances.map((balance) => {
+        return [balance.coin, balance];
+      }),
+    );
     set({
       balances,
       overview,
       fundingBalances,
       tradingBalances,
-      tradingBalanceMap
+      tradingBalanceMap,
     });
   },
   async fetchAccounts() {

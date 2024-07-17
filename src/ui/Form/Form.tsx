@@ -1,4 +1,5 @@
 import { GenericObject } from "@/common/types";
+import useTranslation from "@/hooks/useTranslation";
 import axios from "@/services/apis";
 import logger from "@/services/logger";
 import { SPEResponse } from "@/types";
@@ -65,6 +66,7 @@ const AppForm = forwardRef(
     { xFlag = false, showJsonOutput = false, ...props }: AppFormProps,
     ref,
   ) => {
+    const t = useTranslation();
     const [visible, { toggle, close }] = useDisclosure(false);
     const [counter, setCounter] = useState(0);
     const [schema, setSchema] = useState<RJSFSchema>(props.schema);
@@ -94,7 +96,7 @@ const AppForm = forwardRef(
                   color: "red",
                   title:
                     props.messages?.titleError ??
-                    "Something went wrong",
+                    t("Something went wrong"),
                   message:
                     props.messages?.msgError ?? res.data.message,
                   icon: (
@@ -112,10 +114,10 @@ const AppForm = forwardRef(
                 color: "teal",
                 title:
                   props.messages?.titleSuccess ??
-                  "The form was submitted successfully.",
+                  t("The form was submitted successfully."),
                 message:
                   props.messages?.msgSuccess ??
-                  "The action was success",
+                  t("The action was success"),
                 icon: (
                   <IconCheck
                     style={{ width: rem(18), height: rem(18) }}
@@ -133,7 +135,7 @@ const AppForm = forwardRef(
           close();
         }
       },
-      [close, props, toggle],
+      [close, props, t, toggle],
     );
 
     const onFormDataChange = useCallback(

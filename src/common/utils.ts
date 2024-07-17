@@ -146,9 +146,3 @@ export function masking(text: string): string {
   }
   return text.replace(/.(?=.{4})/g, "*");
 }
-
-export function dailyChange(lastPrice: number, high: number, low: number) {
-  const change24h = Number(BN.sub(high, low));
-  const percent = low ? Number(BN.div(BN.mul(change24h, 100), low)) : 0;
-  return { change24h, percent }
-}

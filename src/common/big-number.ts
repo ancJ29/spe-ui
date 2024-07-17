@@ -90,7 +90,7 @@ const TradeFormula = {
       qty: BN,
       usdtAvailable: BN,
       btcAvailable: BN,
-      isBuying: boolean,
+      isBuying: boolean, // eslint-disable-line
     ) => {
       const orderValue = mul(qty, price); // qty * price;
       const percentQtyBuy = mul(div(orderValue, usdtAvailable), 100); // (orderValue / usdtAvailable) * 100;
@@ -124,8 +124,8 @@ const TradeFormula = {
         orderPrice = "0";
       }
       if (isBuying) {
-        let orderValue = mul(qty, orderPrice); // qty * orderPrice;
-        let percentQty = mul(div(orderValue, usdtAvailable), 100); // (orderValue / usdtAvailable) * 100;
+        const orderValue = mul(qty, orderPrice); // qty * orderPrice;
+        const percentQty = mul(div(orderValue, usdtAvailable), 100); // (orderValue / usdtAvailable) * 100;
         return { qty, orderValue, percentQty };
       } else {
         const orderValue = mul(qty, orderPrice);

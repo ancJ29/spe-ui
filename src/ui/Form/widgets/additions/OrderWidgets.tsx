@@ -5,6 +5,7 @@ import { freeAmount } from "@/common/utils";
 import useTranslation from "@/hooks/useTranslation";
 import logger from "@/services/logger";
 import { assetStore } from "@/store/assets";
+import authStore from "@/store/auth";
 import tradeStore from "@/store/trade";
 import AppButton from "@/ui/Button/AppButton";
 import NumberFormat from "@/ui/NumberFormat";
@@ -25,6 +26,7 @@ import {
 import { WidgetProps } from "@rjsf/utils";
 import { IconCaretDownFilled } from "@tabler/icons-react";
 import { useCallback, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const BUY_AND_SELL = ["BUY", "SELL"];
 const LONG_SHORT = ["LONG", "SHORT"];
@@ -118,6 +120,7 @@ export function OrderPriceInputFieldWidget({
   formContext: { formData },
 }: WidgetProps) {
   const t = useTranslation();
+  const { isLogin } = authStore();
   const changeByLast = useCallback(() => {
     const lastPrice =
       tradeStore.getState().marketPrices?.[formData.symbol] || 0;
@@ -126,6 +129,7 @@ export function OrderPriceInputFieldWidget({
   return (
     <>
       <NumberInput
+        disabled={!isLogin}
         label={t("Order Price")}
         classNames={{ label: "text-label-form" }}
         thousandSeparator=","
@@ -158,6 +162,7 @@ export function VolumeInputFieldWidget({
   formContext: { formData },
 }: WidgetProps) {
   const t = useTranslation();
+  const { isLogin } = authStore();
   const [percent, setPercent] = useState(0);
   const { marketPrices, symbolMap } = tradeStore();
   const { tradingBalances } = assetStore();
@@ -190,6 +195,7 @@ export function VolumeInputFieldWidget({
   return (
     <Box className="space-y-10">
       <NumberInput
+        disabled={!isLogin}
         thousandSeparator=","
         decimalSeparator="."
         classNames={{ label: "text-label-form" }}
@@ -224,6 +230,7 @@ export function VolumeInputFieldWidget({
       </Flex>
       <Box py={20}>
         <Slider
+          disabled={!isLogin}
           onChange={(percent) => {
             setPercent(percent);
             onChange(Number(BN.div(BN.mul(max, percent), 100, 3)));
@@ -311,10 +318,8 @@ export function UiBalanceWidget({
         </HoverCard.Dropdown>
       </HoverCard>
       <Text fw={"bolder"} fz={12}>
-        <Box style={{ textAlign: "right" }} fz={12}>
-          <NumberFormat value={availableBalance} decimalPlaces={6} />{" "}
-          {coin}
-        </Box>
+        <NumberFormat value={availableBalance} decimalPlaces={4} />{" "}
+        <span>{coin}</span>
       </Text>
     </Flex>
   );
@@ -354,6 +359,7 @@ export function ReduceOnlyWidget({
 
 export function TimeInForceWidget(props: WidgetProps) {
   const t = useTranslation();
+  const { isLogin } = authStore();
 
   return (
     <Flex gap={5} align={"center"} justify={"start"}>
@@ -361,6 +367,7 @@ export function TimeInForceWidget(props: WidgetProps) {
         {t("Time in Force")}
       </InputLabel>
       <Select
+        disabled={!isLogin}
         w={"80px"}
         value={props.value}
         data={props.schema.enum as string[]}
@@ -403,22 +410,38 @@ export function TimeInForceWidget(props: WidgetProps) {
 export function PlaceOrderButtonsWidget({
   formContext: { formData, submit },
 }: WidgetProps) {
+  const { isLogin } = authStore();
+  const navigate = useNavigate();
   const t = useTranslation();
   const isBuy = useMemo(() => {
     return formData?.orderSide === "BUY";
   }, [formData?.orderSide]);
   const label = useMemo(() => {
+    if (!isLogin) {
+      return t("Login to Trade");
+    }
     if (formData.isFuture) {
       return isBuy ? t("BUY / LONG") : t("SELL / SHORT");
     }
     return isBuy
       ? `${t("BUY")} ${formData.base}`
       : `${t("SELL")} ${formData.base}`;
-  }, [formData.base, formData.isFuture, isBuy, t]);
+  }, [formData.base, formData.isFuture, isBuy, isLogin, t]);
 
   return (
     <AppButton
-      onClick={submit}
+      onClick={() => {
+        if (isLogin) {
+          submit();
+        } else {
+          const { pathname, search } = window.location;
+          navigate(
+            `/login?redirect=${encodeURIComponent(
+              pathname + search,
+            )}`,
+          );
+        }
+      }}
       fullWidth
       bg={isBuy ? "#23b26b" : "#f0444b"}
       styles={{
@@ -447,9 +470,11 @@ function ActionOnlyWidget(
     tooltip?: string;
   },
 ) {
+  const { isLogin } = authStore();
   return (
     <Box className="space-y-10">
       <Checkbox
+        disabled={!isLogin}
         checked={props.value}
         onChange={(event) => {
           props.onChange(event.currentTarget.checked);

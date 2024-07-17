@@ -1,6 +1,8 @@
 import BN from "@/common/big-number";
+import { IS_DEV } from "@/domain/config";
 import useTranslation from "@/hooks/useTranslation";
 import { assetStore } from "@/store/assets";
+import authStore from "@/store/auth";
 import tradeStore from "@/store/trade";
 import { GridTradeProps } from "@/types";
 import AppButton from "@/ui/Button/AppButton";
@@ -9,6 +11,7 @@ import OrderForm from "@/ui/OrderForm";
 import { AppPopover } from "@/ui/Popover/AppPopover";
 import AppText from "@/ui/Text/AppText";
 import { TVChart } from "@/ui/TvChart";
+import { DepositForm, SwapForm, TransferForm } from "@/ui/Wallet";
 import {
   ActionIcon,
   Box,
@@ -20,6 +23,7 @@ import {
   Spoiler,
 } from "@mantine/core";
 import { useInterval } from "@mantine/hooks";
+import { modals } from "@mantine/modals";
 import {
   IconChevronsDown,
   IconChevronsUp,
@@ -62,9 +66,12 @@ export function GridTrade({
     tradeStore.getState().loadMarketInformation(symbol);
   }, [symbol]);
 
-  const interval = useInterval(() => {
-    tradeStore.getState().loadMarketInformation(symbol);
-  }, 10e3);
+  const interval = useInterval(
+    () => {
+      tradeStore.getState().loadMarketInformation(symbol);
+    },
+    IS_DEV ? 10e3 : 1e3,
+  );
 
   useEffect(() => {
     interval.start();
@@ -115,7 +122,13 @@ export function GridTrade({
                 </div>
               </div>
               <div key={2} className="grid-item-box">
-                <TabsOfTradeHistory />
+                <TabsOfTradeHistory
+                  isFuture={isFuture}
+                  isSpot={isSpot}
+                  symbol={symbol}
+                  base={base}
+                  quote={quote}
+                />
                 <div className="grid-item-drag-handle">
                   <ActionIcon size={"xs"} variant="light">
                     <IconGripHorizontal size={18} />
@@ -163,7 +176,9 @@ function BoxInfoTradeFoot({
 }: GridTradeProps) {
   const t = useTranslation();
   const { marketInformation } = tradeStore();
-  const { tradingBalanceMap } = assetStore();
+  const { isLogin } = authStore();
+  const { tradingBalanceMap, tradingAccount, fundingAccount } =
+    assetStore();
 
   return (
     <Box className="space-y-20" mt={50}>
@@ -452,35 +467,122 @@ function BoxInfoTradeFoot({
         }}
       >
         <AppButton
+          disabled={!isLogin}
+          size="xs"
           styles={{
             root: {
               background: "light-dark(#e9edf3, #414347)",
               color: "light-dark(black, white)",
             },
           }}
-          size="xs"
+          onClick={() => {
+            modals.open({
+              size: "lg",
+              centered: true,
+              styles: {
+                header: {
+                  display: "none",
+                },
+                content: {
+                  padding: 0,
+                },
+                body: {
+                  padding: 0,
+                },
+                root: {
+                  width: "100%",
+                  padding: 0,
+                },
+              },
+              children: <DepositForm coin={quote} />,
+            });
+          }}
         >
           {t("Deposit")}
         </AppButton>
         <AppButton
+          disabled={!isLogin}
+          size="xs"
           styles={{
             root: {
               background: "light-dark(#e9edf3, #414347)",
               color: "light-dark(black, white)",
             },
           }}
-          size="xs"
+          onClick={() => {
+            modals.open({
+              size: "lg",
+              centered: true,
+              styles: {
+                header: {
+                  display: "none",
+                },
+                content: {
+                  padding: 0,
+                },
+                body: {
+                  padding: 0,
+                },
+                root: {
+                  width: "100%",
+                  padding: 0,
+                },
+              },
+              children: (
+                <SwapForm
+                  coin={quote}
+                  onSubmit={() => {
+                    assetStore.getState().fetchBalances();
+                  }}
+                />
+              ),
+            });
+          }}
         >
           {t("Convert")}
         </AppButton>
         <AppButton
+          disabled={!isLogin}
+          size="xs"
           styles={{
             root: {
               background: "light-dark(#e9edf3, #414347)",
               color: "light-dark(black, white)",
             },
           }}
-          size="xs"
+          onClick={() => {
+            modals.open({
+              size: "lg",
+              centered: true,
+              styles: {
+                header: {
+                  display: "none",
+                },
+                content: {
+                  padding: 0,
+                },
+                body: {
+                  padding: 0,
+                },
+                root: {
+                  width: "100%",
+                  padding: 0,
+                },
+              },
+              children: (
+                <TransferForm
+                  coin={quote}
+                  accountIds={[
+                    fundingAccount?.id || "",
+                    tradingAccount?.id || "",
+                  ]}
+                  onSubmit={() => {
+                    assetStore.getState().fetchBalances();
+                  }}
+                />
+              ),
+            });
+          }}
         >
           {t("Transfer")}
         </AppButton>

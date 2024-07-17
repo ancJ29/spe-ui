@@ -1,5 +1,5 @@
+import noDataImg from "@/assets/images/undraw_no_data_re_kwbl.svg"; // cspell:disable-line
 import { Flex, Image, Title } from "@mantine/core";
-import noDataImg from "@/assets/images/undraw_no_data_re_kwbl.svg";
 
 export function NoDataRecord() {
   return (

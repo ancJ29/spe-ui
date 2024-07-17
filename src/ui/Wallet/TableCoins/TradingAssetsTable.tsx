@@ -64,73 +64,66 @@ export function TradingAssetsTable({
         // "Experience Fund",
         "Actions",
       ].map((el) => t(el)),
-      body: [
-        ...rows.map((row) => {
-          return [
-            <>
-              <Flex align={"center"} gap={10}>
-                <Box>
-                  <Image w={30} h={30} src={COIN_IMAGES[row.coin]} />
-                </Box>
-                <Box>
-                  <Title order={6}>{row.coin}</Title>
-                  <Text c="dimmed">{ASSET_COIN_LIST[row.coin]}</Text>
-                </Box>
-              </Flex>
-            </>,
-            <>
-              <Title order={6}>
-                <NumberFormat decimalPlaces={8} value={row.amount} />
-              </Title>
-              <Text c="dimmed" size="xs">
-                ~ $
-                <NumberFormat
-                  decimalPlaces={3}
-                  value={row.usdValue}
-                />
-              </Text>
-            </>,
-            <>
-              <Title order={6}>
-                <NumberFormat decimalPlaces={8} value={row.equity} />
-              </Title>
-            </>,
-            <>
-              <Title order={6}>
-                <NumberFormat
-                  decimalPlaces={8}
-                  value={row.availableMargin}
-                />
-              </Title>
-            </>,
-            <>
-              <Title order={6}>
-                <NumberFormat decimalPlaces={8} value={row.margin} />
-              </Title>
-            </>,
-            <>
-              <Title order={6}>
-                <NumberFormat
-                  decimalPlaces={8}
-                  value={row.unRealizedPnl}
-                />
-              </Title>
-            </>,
-            <>
-              <Flex gap={5}>
-                <Button
-                  onClick={() => openModal(row.coin)}
-                  p={0}
-                  size="xs"
-                  variant="transparent"
-                >
-                  {t("Transfer")}
-                </Button>
-              </Flex>
-            </>,
-          ];
-        }),
-      ],
+      body: rows.map((row) => [
+        <>
+          <Flex align={"center"} gap={10}>
+            <Box>
+              <Image w={30} h={30} src={COIN_IMAGES[row.coin]} />
+            </Box>
+            <Box>
+              <Title order={6}>{row.coin}</Title>
+              <Text c="dimmed">{ASSET_COIN_LIST[row.coin]}</Text>
+            </Box>
+          </Flex>
+        </>,
+        <>
+          <Title order={6}>
+            <NumberFormat decimalPlaces={8} value={row.amount} />
+          </Title>
+          <Text c="dimmed" size="xs">
+            ~ $
+            <NumberFormat decimalPlaces={3} value={row.usdValue} />
+          </Text>
+        </>,
+        <>
+          <Title order={6}>
+            <NumberFormat decimalPlaces={8} value={row.equity} />
+          </Title>
+        </>,
+        <>
+          <Title order={6}>
+            <NumberFormat
+              decimalPlaces={8}
+              value={row.availableMargin}
+            />
+          </Title>
+        </>,
+        <>
+          <Title order={6}>
+            <NumberFormat decimalPlaces={8} value={row.margin} />
+          </Title>
+        </>,
+        <>
+          <Title order={6}>
+            <NumberFormat
+              decimalPlaces={8}
+              value={row.unRealizedPnl}
+            />
+          </Title>
+        </>,
+        <>
+          <Flex gap={5}>
+            <Button
+              onClick={() => openModal(row.coin)}
+              p={0}
+              size="xs"
+              variant="transparent"
+            >
+              {t("Transfer")}
+            </Button>
+          </Flex>
+        </>,
+      ]),
     };
   }, [accounts, balances, hideZero, openModal, t]);
 
@@ -157,7 +150,7 @@ export function TradingAssetsTable({
               table: "table-sticky-column",
             }}
           />
-          <>{tableData.body?.length === 0 && <NoDataRecord />}</>
+          {tableData.body?.length === 0 && <NoDataRecord />}
         </Table.ScrollContainer>
       </Box>
       <Modal

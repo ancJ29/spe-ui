@@ -52,7 +52,7 @@ const Page = () => {
                 <div>
                   {t("You already registered?")}{" "}
                   <Text component="a" href="/login" fw={"bold"}>
-                    {t("Login")}
+                    {t("Log In")}
                   </Text>
                 </div>
               </Group>

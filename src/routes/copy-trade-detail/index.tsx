@@ -1,10 +1,14 @@
 /* eslint-disable react/prop-types */
 import useMetadata from "@/hooks/useMetadata";
+import useTranslation from "@/hooks/useTranslation";
 import AppButton from "@/ui/Button/AppButton";
 import AppCard from "@/ui/Card/AppCard";
+import AppChart from "@/ui/Chart/Chart";
+import { Header } from "@/ui/Header";
 import AppPill from "@/ui/Pill/AppPill";
 import { AppPopover } from "@/ui/Popover/AppPopover";
 import AppText from "@/ui/Text/AppText";
+import { shuffleArray } from "@/utils";
 import {
   Avatar,
   Box,
@@ -19,6 +23,8 @@ import {
   Select,
   SimpleGrid,
   Space,
+  Table,
+  TableData,
   Tabs,
 } from "@mantine/core";
 import {
@@ -30,9 +36,11 @@ import {
   IconShare,
   IconStar,
 } from "@tabler/icons-react";
+import _ from "lodash";
 import { Fragment, useState } from "react";
 import { OptionFilter } from "../copy-trade";
 import { Footer } from "../top-page";
+import { getSeriesValue } from "./config";
 import "./index.module.scss";
 
 export default function CopyTradeDetail() {
@@ -971,6 +979,7 @@ function TabsUI() {
     ["JASMYUSDT", "UNIUSDT", "GOLDUSDT"],
     [44, 55, 13],
   ];
+  const t = useTranslation();
   const [mode, setMode] = useState<1 | 2 | 3>(1);
 
   return (
@@ -1409,14 +1418,6 @@ function TabsUI() {
     </>
   );
 }
-
-import AppChart from "@/ui/Chart/Chart";
-import { Header } from "@/ui/Header";
-import { shuffleArray } from "@/utils";
-import { Table, TableData } from "@mantine/core";
-import _ from "lodash";
-import { getSeriesValue } from "./config";
-import { t } from "@/common/utils";
 
 const tableData = (): TableData => {
   const _items = [

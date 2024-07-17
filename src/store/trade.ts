@@ -1,9 +1,13 @@
-import { MarketInformation, MarketPrice, SymbolConfig } from "@/common/types";
+import {
+  MarketInformation,
+  MarketPrice,
+  SymbolConfig,
+} from "@/common/types";
 import {
   fetchAllMarketInformation,
+  fetchAllSymbolsApi,
   fetchMarketInformation,
   fetchMarketPricesApi,
-  getAllSymbolsApi,
 } from "@/services/apis";
 import { create } from "zustand";
 
@@ -24,7 +28,7 @@ const tradeStore = create<TradeState>((set, get) => ({
   marketPrices: {},
   marketInformation: {},
   async loadSymbols() {
-    const symbols = await getAllSymbolsApi();
+    const symbols = await fetchAllSymbolsApi();
     set({
       symbols,
       symbolMap: Object.fromEntries(
@@ -51,7 +55,7 @@ const tradeStore = create<TradeState>((set, get) => ({
       marketInformation: {
         ...get().marketInformation,
         [symbol]: data,
-      }
+      },
     });
   },
 }));

@@ -174,7 +174,7 @@ export function FundAssetsTable({ hideZero }: { hideZero: boolean }) {
               },
             }}
           />
-          <>{tableData.body?.length === 0 && <NoDataRecord />}</>
+          {tableData.body?.length === 0 && <NoDataRecord />}
         </Table.ScrollContainer>
       </Box>
       <Modal

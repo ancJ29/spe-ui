@@ -1,5 +1,6 @@
-export * as axios from "./axios";
+export * as axios from "./_axios";
 
+import { OrderSide, OrderType } from "@/common/enums";
 import {
   Account,
   AuthenticationPayload,
@@ -7,13 +8,15 @@ import {
   BalanceOverview,
   MarketInformation,
   MarketPrice,
-  SpeTransaction,
+  Order, Position, SpeTransaction,
   SymbolConfig,
+  Trade
 } from "@/common/types";
+import { assetStore } from "@/store/assets";
 import { TransactionsHistoryFormData } from "@/types";
 import { delay } from "@/utils";
 import logger from "../logger";
-import axios, { getApi } from "./axios";
+import axios, { getApi } from "./_axios";
 
 export async function fetchDepositAddressApi(params: {
   chain: string;
@@ -80,6 +83,121 @@ export function fetchTransactionsHistoryApi(
   });
 }
 
+export function fetchAllSymbolsApi() {
+  return getApi<{ symbols: SymbolConfig[] }>(
+    "/api/information/symbols",
+  ).then((res) => res.symbols);
+}
+
+export function fetchMarketPricesApi() {
+  return getApi<MarketPrice>("/api/market/prices");
+}
+
+export async function cancelOrderApi(orderId: string) {
+  const accountId = assetStore.getState().tradingAccount?.id;
+  if (!accountId) {
+    await delay(10);
+    return;
+  }
+  await axios.post("/api/order/cancel", { orderId, accountId }).then((res) => {
+    if (res.data.code !== 0) {
+      throw new Error("Failed to cancel order");
+    }
+  });
+}
+
+export async function closeOrderApi(symbol: string, volume: string, side: OrderSide) {
+  const accountId = assetStore.getState().tradingAccount?.id;
+  if (!accountId) {
+    await delay(10);
+    return;
+  }
+  await axios.post("/api/order/create", {
+    accountId,
+    symbol,
+    side,
+    volume,
+    type: OrderType.MARKET,
+  }).then((res) => {
+    if (res.data.code !== 0) {
+      throw new Error("Failed to close order");
+    }
+  });
+}
+
+export async function fetchTrades(
+  symbol?: string,
+) {
+  const accountId = assetStore.getState().tradingAccount?.id;
+  if (!accountId) {
+    await delay(10);
+    return [] as Trade[];
+  }
+  try {
+    const trades = await getApi<{ trades: Trade[] }>("/api/trades/list", {
+      params: { accountId, symbol, limit: 100 },
+    }).then(res => res.trades);
+    return trades;
+  } catch (err) {
+    logger.error("Failed to fetch trades", err);
+    return [] as Trade[];
+  }
+}
+
+export async function fetchClosedPositions(
+  symbol?: string,
+) {
+  const accountId = assetStore.getState().tradingAccount?.id;
+  if (!accountId) {
+    await delay(10);
+    return [] as Position[];
+  }
+  return getApi<{ positions: Position[] }>("/api/positions/closed", {
+    params: { accountId, symbol, limit: 100 },
+  }).then(res => res.positions);
+}
+
+export async function fetchOpenPositions(
+  symbol?: string,
+) {
+  const accountId = assetStore.getState().tradingAccount?.id;
+  if (!accountId) {
+    await delay(10);
+    return [] as Position[];
+  }
+  return getApi<{ positions: Position[] }>("/api/positions/open", {
+    params: { accountId, symbol, limit: 100 },
+  }).then(res => res.positions);
+}
+
+export async function fetchActiveOrders(
+  symbol?: string,
+) {
+  const accountId = assetStore.getState().tradingAccount?.id;
+  if (!accountId) {
+    await delay(10);
+    return [] as Order[];
+  }
+  return getApi<{ orders: Order[] }>("/api/orders/active", {
+    params: { accountId, symbol, limit: 100 },
+  }).then(res => res.orders);
+}
+
+export async function fetchOrders(
+  symbol?: string,
+) {
+  const accountId = assetStore.getState().tradingAccount?.id;
+  if (!accountId) {
+    await delay(10);
+    return [] as Order[];
+  }
+  const orders = await getApi<{ orders: Order[] }>("/api/orders/list", {
+    params: { accountId, symbol, limit: 100 },
+  }).then(res => res?.orders || []);
+  logger.debug("Fetched orders", orders);
+  return orders;
+}
+
 export async function getMe(): Promise<AuthenticationPayload> {
   if (!localStorage.__TOKEN__) {
     throw new Error("Not logged in");
@@ -91,15 +209,6 @@ export async function getMe(): Promise<AuthenticationPayload> {
   return me;
 }
 
-export function getAllSymbolsApi() {
-  return getApi<{ symbols: SymbolConfig[] }>(
-    "/api/information/symbols",
-  ).then((res) => res.symbols);
-}
-
-export function fetchMarketPricesApi() {
-  return getApi<MarketPrice>("/api/market/prices");
-}
 export async function checkMfa({
   email,
   mobile,
@@ -148,7 +257,9 @@ export function fetchAllMarketInformation() {
 }
 
 export function fetchMarketInformation(symbol: string) {
-  return getApi<MarketInformation>(`/api/market/information?symbol=${symbol}`);
+  return getApi<MarketInformation>(
+    `/api/market/information?symbol=${symbol}`,
+  );
 }
 
 export default axios;

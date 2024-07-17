@@ -8,6 +8,10 @@ export const numberSchema = z.number();
 
 export const optionalStringSchema = stringSchema.optional();
 
+export const limitSchema = stringSchema.or(numberSchema).default(100).transform((v: string | number) => {
+  return Math.max(Math.min(Number(v), 100), 1);
+});
+
 export const speNumberSchema = stringSchema.or(numberSchema);
 
 export const coinSchema = z.enum(["BTC", "ETH", "USDT"]);

@@ -34,7 +34,9 @@ export function TabsWallet() {
                 value: "Funding Account",
               },
               tabsPanelProps: {
-                children: <FundAssetsTable hideZero={hideZero} />,
+                childrenRenderer: () => (
+                  <FundAssetsTable hideZero={hideZero} />
+                ),
                 value: "Funding Account",
               },
             },
@@ -44,7 +46,9 @@ export function TabsWallet() {
                 value: "Trading",
               },
               tabsPanelProps: {
-                children: <TradingAssetsTable hideZero={hideZero} />,
+                childrenRenderer: () => (
+                  <TradingAssetsTable hideZero={hideZero} />
+                ),
                 value: "Trading",
               },
             },

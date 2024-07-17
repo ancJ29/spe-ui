@@ -2,8 +2,10 @@ import BN from "@/common/big-number";
 import { ORDER_BOOK_LIMIT } from "@/common/configs";
 import { OrderSide } from "@/common/enums";
 import { last } from "@/common/utils";
+import { IS_DEV } from "@/domain/config";
 import useTranslation from "@/hooks/useTranslation";
 import { fetchOrderBooks } from "@/services/apis";
+import tradeStore from "@/store/trade";
 import { formatCurrency } from "@/utils";
 import {
   Box,
@@ -20,7 +22,7 @@ import {
   IconCaretDownFilled,
   IconFlagFilled,
 } from "@tabler/icons-react";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import NumberFormat from "../NumberFormat";
 import { ProgressBarStatic } from "./progress";
 
@@ -40,6 +42,7 @@ export function OrderBookTable({
   symbol: string;
 }) {
   const t = useTranslation();
+  const { marketInformation } = tradeStore();
 
   const [
     { green, red, status, latest, side, askRate, bidRate },
@@ -62,48 +65,63 @@ export function OrderBookTable({
     side: OrderSide.BUY,
   });
 
-  const interval = useInterval(() => {
+  const fetch = useCallback(() => {
     fetchOrderBooks(symbol).then(({ a, b }) => {
-      setData((data) => {
-        const latestAsk: number = last(a)?.[0] || 0;
-        const latestBid: number = b?.[0]?.[0] || 0;
-        let latest = data.latest;
-        let side = data.side;
-        if (latestBid && latestAsk) {
-          if (latest < latestBid) {
-            latest = latestBid;
-            side = OrderSide.BUY;
+      a &&
+        b &&
+        setData((data) => {
+          const latestAsk: number = last(a)?.[0] || 0;
+          const latestBid: number = b?.[0]?.[0] || 0;
+          let latest = data.latest;
+          let side = data.side;
+          if (latestBid && latestAsk) {
+            if (latest < latestBid) {
+              latest = latestBid;
+              side = OrderSide.BUY;
+            }
+            if (latest > latestAsk) {
+              latest = latestAsk;
+              side = OrderSide.SELL;
+            }
+            const totalAsk = a[0]?.[2] || 0;
+            const totalBid = last(b)?.[2] || 0;
+            const total =
+              Number(BN.add(totalAsk, totalBid)) / 100 || 1;
+            const askRate = Number(BN.div(totalAsk, total, 0));
+            const bidRate = Number(BN.div(totalBid, total, 0));
+            return {
+              green: a,
+              red: b,
+              status: data.status === "newData" ? "" : "newData",
+              latest,
+              side,
+              askRate,
+              bidRate,
+            };
           }
-          if (latest > latestAsk) {
-            latest = latestAsk;
-            side = OrderSide.SELL;
-          }
-          const totalAsk = a[0]?.[2] || 0;
-          const totalBid = last(b)?.[2] || 0;
-          const total = Number(BN.add(totalAsk, totalBid)) / 100 || 1;
-          const askRate = Number(BN.div(totalAsk, total, 0));
-          const bidRate = Number(BN.div(totalBid, total, 0));
-          return {
-            green: a,
-            red: b,
-            status: data.status === "newData" ? "" : "newData",
-            latest,
-            side,
-            askRate,
-            bidRate,
-          };
-        }
-        return data;
-      });
+          return data;
+        });
     });
-  }, 1e3);
+  }, [symbol]);
+
+  const interval = useInterval(
+    () => {
+      fetch();
+    },
+    IS_DEV ? 10e3 : 1e3,
+  );
 
   useEffect(() => {
     interval.start();
     return interval.stop;
   }, [interval]);
 
+  useEffect(() => {
+    fetch();
+  }, [fetch]);
+
   const numberOfRow = display === "ASK & BID" ? 10 : 30;
+  // scroll to the middle of the table
 
   const pricePanel = useMemo(() => {
     return (
@@ -147,27 +165,29 @@ export function OrderBookTable({
                 <IconFlagFilled color="#f6a600" size={16} />
                 <Box style={{ borderBottom: "dashed 1px #f6a600" }}>
                   <Text fw={"bolder"} fz={16} c={"#f6a600"}>
-                    0.022832
+                    {marketInformation[
+                      symbol
+                    ]?.markPrice?.toLocaleString() || "-"}
                   </Text>
                 </Box>
               </Flex>
             </HoverCard.Target>
             <HoverCard.Dropdown>
               <Text fz={12}>
-                Mark price is derived by index price and funding rate,
-                and reflects the fair market price. Liquidation is
-                triggered by mark price.
+                {t(
+                  "Mark price is derived by index price and funding rate, and reflects the fair market price. Liquidation is triggered by mark price.",
+                )}
               </Text>
-              <Space mb={10} />
+              {/* <Space mb={10} />
               <Text c={"#f6a600"} fz={12} className="cursor-pointer">
-                Click here for details
-              </Text>
+                {t("Click here for details")}
+              </Text> */}
             </HoverCard.Dropdown>
           </HoverCard>
         )}
       </Flex>
     );
-  }, [isSpot, latest, side]);
+  }, [isSpot, latest, marketInformation, side, symbol, t]);
 
   return (
     <>

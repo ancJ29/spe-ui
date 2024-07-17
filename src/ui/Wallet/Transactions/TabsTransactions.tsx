@@ -66,7 +66,7 @@ export function TabsTransactions() {
               value: "swap",
             },
             tabsPanelProps: {
-              children: <SwapRecords />,
+              childrenRenderer: () => <SwapRecords />,
               value: "swap",
             },
           },
@@ -76,7 +76,7 @@ export function TabsTransactions() {
               value: "deposit",
             },
             tabsPanelProps: {
-              children: <DepositRecords />,
+              childrenRenderer: () => <DepositRecords />,
               value: "deposit",
             },
           },
@@ -86,7 +86,7 @@ export function TabsTransactions() {
               value: "withdraw",
             },
             tabsPanelProps: {
-              children: <WithdrawRecords />,
+              childrenRenderer: () => <WithdrawRecords />,
               value: "withdraw",
             },
           },
@@ -97,7 +97,7 @@ export function TabsTransactions() {
               value: "fiat-deposit",
             },
             tabsPanelProps: {
-              children: <WithdrawRecords />,
+              childrenRenderer: () => <WithdrawRecords />,
               value: "fiat-deposit",
             },
           },
@@ -107,7 +107,7 @@ export function TabsTransactions() {
               value: "others",
             },
             tabsPanelProps: {
-              children: <OtherRecords />,
+              childrenRenderer: () => <OtherRecords />,
               value: "others",
             },
           },
