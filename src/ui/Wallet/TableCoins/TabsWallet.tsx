@@ -27,7 +27,7 @@ export function TabsWallet() {
               fontSize: "20px",
             },
           }}
-          items={[
+          tabs={[
             {
               data: {
                 label: t("Funding Account"),

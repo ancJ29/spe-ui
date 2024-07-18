@@ -8,6 +8,7 @@ import {
   BalanceOverview,
   MarketInformation,
   MarketPrice,
+  OpenTrades,
   Order,
   Position,
   SpeTransaction,
@@ -133,6 +134,17 @@ export async function closeOrderApi(
         throw new Error("Failed to close order");
       }
     });
+}
+
+export async function fetchOpenTrades() {
+  const accountId = assetStore.getState().tradingAccount?.id;
+  if (!accountId) {
+    await delay(10);
+    return {
+      openOrders: {}, openPositions: {}
+    } as OpenTrades;
+  }
+  return getApi<OpenTrades>("/api/trades/open", { params: { accountId } });
 }
 
 export async function fetchTrades(symbol?: string) {

@@ -1,8 +1,8 @@
 import { schema } from "@/domain/schema";
+import { GridTradeProps } from "@/types";
 import AppForm from "@/ui/Form/Form";
 import { Box } from "@mantine/core";
 import { convertToSpotTradeFormData } from "./config";
-import { GridTradeProps } from "@/types";
 
 export default function OrderForm({
   symbol,
@@ -17,6 +17,10 @@ export default function OrderForm({
         schema={schema.PostOrderSchema.schema}
         uiSchema={schema.PostOrderSchema.uiSchema}
         formData={{
+          type: "Market",
+          triggerPrice: 0,
+          orderPrice: 0,
+          leverage: isFuture ? 5 : 1,
           orderSide: "BUY",
           isFuture,
           symbol,
@@ -25,7 +29,7 @@ export default function OrderForm({
         }}
         api="/api/order/create"
         formDataConverter={convertToSpotTradeFormData}
-        showJsonOutput={false}
+        showJsonOutput
       />
     </Box>
   );

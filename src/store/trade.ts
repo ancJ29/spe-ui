@@ -1,6 +1,7 @@
 import {
   MarketInformation,
   MarketPrice,
+  OpenTrades,
   SymbolConfig,
 } from "@/common/types";
 import {
@@ -8,6 +9,7 @@ import {
   fetchAllSymbolsApi,
   fetchMarketInformation,
   fetchMarketPricesApi,
+  fetchOpenTrades,
 } from "@/services/apis";
 import { create } from "zustand";
 
@@ -16,7 +18,9 @@ interface TradeState {
   symbolMap: Record<string, SymbolConfig>;
   marketPrices: MarketPrice;
   marketInformation: Record<string, MarketInformation>;
+  openTrades: OpenTrades;
   loadSymbols: () => Promise<void>;
+  loadOpenTrades: () => Promise<void>;
   loadMarketPrices: () => Promise<void>;
   loadMarketInformation: (symbol: string) => Promise<void>;
   loadAllMarketInformation: () => Promise<void>;
@@ -27,6 +31,10 @@ const tradeStore = create<TradeState>((set, get) => ({
   symbolMap: {},
   marketPrices: {},
   marketInformation: {},
+  openTrades: {
+    openOrders: {},
+    openPositions: {},
+  },
   async loadSymbols() {
     const symbols = await fetchAllSymbolsApi();
     set({
@@ -38,6 +46,10 @@ const tradeStore = create<TradeState>((set, get) => ({
   },
   async loadMarketPrices() {
     set({ marketPrices: await fetchMarketPricesApi() });
+  },
+
+  async loadOpenTrades() {
+    set({ openTrades: await fetchOpenTrades() });
   },
 
   async loadAllMarketInformation() {

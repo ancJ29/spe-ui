@@ -15,6 +15,7 @@ export function convertToSpotTradeFormData(data: OrderFormData) {
     postOnly: data.postOnly,
     reduceOnly: data.reduceOnly,
     timeInForce: data.timeInForce,
+    leverage: data.leverage || 1,
     // leverage
     // triggerPrice
     // triggerBy
@@ -25,21 +26,4 @@ export function convertToSpotTradeFormData(data: OrderFormData) {
     // stopLossTriggerBy
     // clientOrderId
   });
-}
-
-export function convertToSpotMarginTradeFormData(data: any) {
-  // orderType
-  let type = data.orderType;
-  if (["Conditional", "TP/SL"].includes(data.orderType)) {
-    type = data.orderTriggerBy;
-  }
-  type = type?.toUpperCase();
-  return {
-    accountId: data.accountId, //"{{TRADING_ACCOUNT_ID}}",
-    symbol: data.symbol,
-    side: data.orderSide, // "SELL",
-    volume: data.qty,
-    type: type,
-    leverage: data.margin,
-  };
 }

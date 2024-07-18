@@ -1,4 +1,5 @@
 import { OrderSide } from "@/common/enums";
+import { profit } from "@/common/logic";
 import { IS_DEV } from "@/domain/config";
 import useSyncData from "@/hooks/useSyncData";
 import useTranslation from "@/hooks/useTranslation";
@@ -20,6 +21,7 @@ import { NoDataRecord } from "@/ui/NoData";
 import NumberFormat from "@/ui/NumberFormat";
 import AppTabs from "@/ui/Tabs";
 import AppText from "@/ui/Text/AppText";
+import { TradingAssetsTable } from "@/ui/Wallet";
 import { splitAndFormatString } from "@/utils/utility";
 import {
   Box,
@@ -49,13 +51,23 @@ export function TabsOfTradeHistory({
   const [activeTab, setActiveTab] = useState(
     IS_DEV ? "tradeHistory" : isSpot ? "currentOrders" : "positions",
   );
+  const t = useTranslation();
+  const { openTrades } = tradeStore();
+  const { totalOpenOrders, totalOpenPositions } = useMemo(() => {
+    const totalOpenOrders = openTrades.openOrders[symbol] || 0;
+    const totalOpenPositions = openTrades.openPositions[symbol]
+      ? 1
+      : 0;
+    return { totalOpenOrders, totalOpenPositions };
+  }, [openTrades.openOrders, openTrades.openPositions, symbol]);
+
   const { isLogin } = authStore();
   const tabs = useMemo(() => {
     return [
       {
         data: {
           value: "positions",
-          label: "Positions (0)",
+          label: `${t("Positions")} (${totalOpenPositions})`,
           futureOnly: true,
           options: {
             actions: [],
@@ -71,7 +83,7 @@ export function TabsOfTradeHistory({
       {
         data: {
           value: "PnL",
-          label: "P&L",
+          label: `${t("P&L")}`,
           futureOnly: true,
           options: {
             actions: [],
@@ -87,7 +99,7 @@ export function TabsOfTradeHistory({
       {
         data: {
           value: "currentOrders",
-          label: "Current Orders (0)",
+          label: `${t("Current Orders")} (${totalOpenOrders})`,
           options: {
             actions: [],
           },
@@ -105,7 +117,7 @@ export function TabsOfTradeHistory({
       {
         data: {
           value: "orderHistory",
-          label: "Order History",
+          label: `${t("Order History")}`,
           options: {
             actions: [],
           },
@@ -123,7 +135,7 @@ export function TabsOfTradeHistory({
       {
         data: {
           value: "tradeHistory",
-          label: "Trade History",
+          label: `${t("Trade History")}`,
           options: {
             actions: [],
           },
@@ -138,10 +150,32 @@ export function TabsOfTradeHistory({
           value: "tradeHistory",
         },
       },
+      {
+        data: {
+          value: "assets",
+          label: `${t("Assets")}`,
+          spotOnly: true,
+          options: {
+            actions: [],
+          },
+        },
+        tabsPanelProps: {
+          childrenRenderer: () => (
+            <TradingAssetsTable
+              hideZero={true}
+              defaultTransferType="transferIn"
+            />
+          ),
+          value: "assets",
+        },
+      },
     ]
       .filter((el) => {
         if (!isFuture) {
           return el.data.futureOnly !== true;
+        }
+        if (isFuture) {
+          return el.data.spotOnly !== true;
         }
         return true;
       })
@@ -157,7 +191,14 @@ export function TabsOfTradeHistory({
           },
         };
       });
-  }, [isLogin, isFuture, symbol]);
+  }, [
+    t,
+    totalOpenPositions,
+    totalOpenOrders,
+    isFuture,
+    symbol,
+    isLogin,
+  ]);
 
   const rightOptions = useMemo(() => {
     return tabs
@@ -234,9 +275,9 @@ export function TabsOfTradeHistory({
             ""
           )
         }
-        items={tabs}
+        tabs={tabs}
         defaultValue={activeTab}
-        instancetype="WithMediumNoBorder"
+        variant="WithMediumNoBorder"
       />
     </>
   );
@@ -561,9 +602,9 @@ function Positions({ symbol }: TabProps) {
               key={`${position.positionId}.marginLevel`}
               value={position.margin}
             />,
-            <SPETableNumber
+            <SPEUnrealizedPnL
               key={`${position.positionId}.unRealizedPnl`}
-              value={position.unRealizedPnl}
+              position={position}
             />,
             <AppButton
               key={`${position.positionId}.action`}
@@ -680,7 +721,7 @@ function ClosedPnL({ symbol }: TabProps) {
               value={position.averageClosePrice || 1}
             />,
             <SPETableNumber
-              maw={50}
+              maw={120}
               key={`${position.positionId}.realizedPnl`}
               value={position.realizedPnl}
             />,
@@ -849,7 +890,7 @@ function SPETableNumber({
   value,
   color,
   maw,
-  decimalPlaces = 2,
+  decimalPlaces = 4,
 }: {
   decimalPlaces?: number;
   maw?: number;
@@ -857,7 +898,7 @@ function SPETableNumber({
   color?: string;
 }) {
   return (
-    <Flex maw={maw} align={"center"} justify={"end"}>
+    <Flex maw={maw} align={"center"} justify={"start"}>
       <AppText instancetype="WithCellToken" fz={12} c={color}>
         {!value ? (
           "---"
@@ -966,5 +1007,30 @@ function SPETable({ tableData }: { tableData: TableData }) {
       </Table.ScrollContainer>
       {tableData.body?.length === 100 && <More />}
     </Flex>
+  );
+}
+
+function SPEUnrealizedPnL({ position }: { position: Position }) {
+  const { marketInformation } = tradeStore();
+  const unRealizedPnl = useMemo(() => {
+    return profit(
+      position.entryPrice,
+      marketInformation[position.symbol]?.markPrice || 0,
+      position.volume,
+      position.side,
+      position.fee,
+    );
+  }, [
+    marketInformation,
+    position.entryPrice,
+    position.fee,
+    position.side,
+    position.symbol,
+    position.volume,
+  ]);
+  return (
+    <>
+      <SPETableNumber value={unRealizedPnl} />
+    </>
   );
 }

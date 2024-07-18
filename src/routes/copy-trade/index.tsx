@@ -54,6 +54,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Footer } from "../top-page";
 import classes from "./index.module.scss";
 import { Header } from "@/ui/Header";
+import { Link } from "react-router-dom";
 
 const sizeContainer = "xl";
 
@@ -164,7 +165,15 @@ const IndexPage = () => {
                     radius={"0 12px"}
                     fz={10}
                   >
-                    My copy trading
+                    <Link
+                      style={{
+                        all: "unset",
+                        display: "block"
+                      }}
+                      to={"/copy-trade/mine/my-taker"}
+                    >
+                      My copy trading
+                    </Link>
                   </AppButton>
                   <Image
                     pos={"absolute"}
@@ -228,6 +237,7 @@ const IndexPage = () => {
         <Container size={sizeContainer}>
           <Flex justify={"space-between"}>
             <Tabs
+              keepMounted
               defaultValue={mode}
               classNames={classes}
               onChange={(v) => setMode(v as "1" | "2")}

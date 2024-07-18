@@ -294,7 +294,7 @@ export function TopBar({
           </div>
         )}
         <Box hiddenFrom="xl">
-          <HoverCard>
+          <HoverCard openDelay={200}>
             <HoverCard.Target>
               <Box display={"flex"}>
                 <IconDots />

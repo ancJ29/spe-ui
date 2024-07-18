@@ -222,3 +222,8 @@ export type TradeList = {
   side: Side;
   timestamp: number;
 };
+
+export type OpenTrades = {
+  openOrders: Record<string, number>;
+  openPositions: Record<string, number>;
+};

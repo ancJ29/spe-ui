@@ -7,9 +7,35 @@ const dictionary = getDictionary();
 const PostOrderSchema: FormSchema = {
   schema: {
     type: "object",
+    definitions: {
+      reduceOnly: {
+        type: "boolean",
+        default: false,
+      },
+      orderPrice: {
+        type: "number",
+      },
+      triggerPrice: {
+        type: "number",
+      },
+      triggerDirection: {
+        type: "string",
+        enum: ["UP", "DOWN"],
+        default: "UP",
+      },
+      leverage: {
+        type: "number",
+        enum: [1, 5, 10, 20, 50, 100],
+        default: 5,
+      },
+    },
     properties: {
       symbol: {
         type: "string",
+      },
+      uiBalance: {
+        type: ["number", "string"],
+        readOnly: true,
       },
       base: {
         type: "string",
@@ -24,23 +50,14 @@ const PostOrderSchema: FormSchema = {
       },
       orderType: {
         type: "string",
-        // enum: ["Market", "Limit", "Conditional"],
-        enum: ["Market", "Limit"],
+        enum: ["Market", "Limit", "Conditional"],
         default: "Market",
-      },
-      uiBalance: {
-        type: ["number", "string"],
-        readOnly: true,
       },
       volume: {
         type: "number",
         title: t(dictionary, "Volume"),
       },
       postOnly: {
-        type: "boolean",
-        default: false,
-      },
-      reduceOnly: {
         type: "boolean",
         default: false,
       },
@@ -62,17 +79,71 @@ const PostOrderSchema: FormSchema = {
       {
         if: {
           properties: {
-            orderType: {
+            isFuture: {
+              const: true,
+            },
+          },
+        },
+        then: {
+          properties: {
+            leverage: {
+              $ref: "#/definitions/leverage",
+            },
+            reduceOnly: {
+              $ref: "#/definitions/reduceOnly",
+            },
+          },
+        },
+      },
+      {
+        if: {
+          properties: {
+            type: {
               not: {
-                const: "Market",
-              },
+                const: "Conditional",
+              }
+            },
+          },
+        },
+        then: {
+          properties: {
+            triggerPrice: {
+              $ref: "#/definitions/triggerPrice",
+            },
+            triggerDirection: {
+              $ref: "#/definitions/triggerDirection",
+            },
+          },
+        },
+      },
+      {
+        if: {
+          properties: {
+            orderType: {
+              const: "Conditional",
             },
           },
         },
         then: {
           properties: {
             orderPrice: {
-              type: "number",
+              $ref: "#/definitions/orderPrice",
+            },
+          },
+        },
+      },
+      {
+        if: {
+          properties: {
+            orderType: {
+              const: "Limit",
+            },
+          },
+        },
+        then: {
+          properties: {
+            orderPrice: {
+              $ref: "#/definitions/orderPrice",
             },
           },
         },
@@ -84,6 +155,9 @@ const PostOrderSchema: FormSchema = {
       "orderSide",
       "orderType",
       "uiBalance",
+      "leverage",
+      "triggerPrice",
+      "triggerDirection",
       "orderPrice",
       "volume",
       "postOnly",
@@ -100,6 +174,12 @@ const PostOrderSchema: FormSchema = {
     },
     "symbol": {
       "ui:widget": "hidden",
+    },
+    "leverage": {
+      "ui:options": {
+        widget: "LeverageWidget",
+        label: false,
+      },
     },
     "base": {
       "ui:widget": "hidden",
@@ -125,6 +205,21 @@ const PostOrderSchema: FormSchema = {
     "uiBalance": {
       "ui:options": {
         widget: "UiBalanceWidget",
+        label: false,
+      },
+    },
+    "triggerPrice": {
+      "ui:options": {
+        widget: "TriggerPriceInputFieldWidget",
+        label: false,
+        props: {
+          suffix: "USDT",
+        },
+      },
+    },
+    "triggerDirection": {
+      "ui:options": {
+        widget: "TriggerDirectionWidget",
         label: false,
       },
     },

@@ -2,5 +2,8 @@
   "Logout": "Logout",
   "Login": "Login",
   "Hello": "Hello",
-  "Deposit": "Deposit"
+  "Password": "Password",
+  "Field is required": "Field is required",
+  "Deposit": "Deposit",
+  "Confirm": "Confirm"
 }

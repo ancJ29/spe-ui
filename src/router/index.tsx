@@ -22,6 +22,7 @@ export const wrapperMap: Record<string, Wrapper> = {
   ServiceWrapper: lazy(() => import("@/layouts/ServiceWrapper")) as Wrapper,
   TradeWrapper: lazy(() => import("@/layouts/TradeWrapper")) as Wrapper,
   AssetWrapper: lazy(() => import("@/layouts/AssetWrapper")) as Wrapper,
+  CopyTradeWrapper: lazy(() => import("@/layouts/CopyTradeWrapper")) as Wrapper,
 };
 
 // prettier-ignore
@@ -43,6 +44,15 @@ const componentMap: Record<string, LazyExoticComponent> = {
   SignUp: lazy(() => import("@/routes/sign-up")),
   ResetPassword: lazy(() => import("@/routes/reset-password")),
   ForgotPassword: lazy(() => import("@/routes/forgot-password")),
+
+  CopyTradeFundFlow: lazy(() => import("@/routes/copy-trade-fund-flow")),
+  CopyTradeHistory: lazy(() => import("@/routes/copy-trade-history")),
+  CopyTradeMe: lazy(() => import("@/routes/copy-trade-me")),
+  CopyTradeMyPosition: lazy(() => import("@/routes/copy-trade-my-positions")),
+  CopyTradeMyPromotion: lazy(() => import("@/routes/copy-trade-my-promotion")),
+  CopyTradeMyTaker: lazy(() => import("@/routes/copy-trade-my-taker")),
+  CopyTradePositions: lazy(() => import("@/routes/copy-trade-position")),
+
 };
 
 const configs: Config[] = [
@@ -128,6 +138,42 @@ const configs: Config[] = [
     path: "/forgot-password",
     element: "ForgotPassword",
     guestOnly: true,
+  },
+  {
+    path: "/copy-trade/mine/fund-flow",
+    element: "CopyTradeFundFlow",
+    wrapper: "CopyTradeWrapper",
+  },
+  {
+    path: "/copy-trade/mine/copy-history",
+    element: "CopyTradeHistory",
+    wrapper: "CopyTradeWrapper",
+  },
+  {
+    path: "/copy-trade/mine/my-copy",
+    element: "CopyTradeMe",
+    wrapper: "CopyTradeWrapper",
+  },
+  {
+    path: "/copy-trade/mine/my-positions",
+    element: "CopyTradeMyPosition",
+    wrapper: "CopyTradeWrapper",
+  },
+  {
+    path: "/copy-trade/mine/my-promotion",
+    element: "CopyTradeMyPromotion",
+    wrapper: "CopyTradeWrapper",
+  },
+
+  {
+    path: "/copy-trade/mine/my-taker",
+    element: "CopyTradeMyTaker",
+    wrapper: "CopyTradeWrapper",
+  },
+  {
+    path: "/copy-trade/mine/copy-position",
+    element: "CopyTradePositions",
+    wrapper: "CopyTradeWrapper",
   },
   {
     path: "/*",

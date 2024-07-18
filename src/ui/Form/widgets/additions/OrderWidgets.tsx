@@ -1,6 +1,5 @@
 import BN from "@/common/big-number";
 import { OrderSide } from "@/common/enums";
-import { maxVolume } from "@/common/logic";
 import { freeAmount } from "@/common/utils";
 import useTranslation from "@/hooks/useTranslation";
 import logger from "@/services/logger";
@@ -114,6 +113,89 @@ export function OrderSideWidget({
   );
 }
 
+export function TriggerPriceInputFieldWidget({
+  value,
+  onChange,
+  formContext: { formData },
+}: WidgetProps) {
+  const t = useTranslation();
+  const { isLogin } = authStore();
+
+  if (formData.orderType !== "Conditional") {
+    return <></>;
+  }
+
+  return (
+    <NumberInput
+      disabled={!isLogin}
+      label={t("Trigger Price")}
+      classNames={{ label: "text-label-form" }}
+      thousandSeparator=","
+      decimalSeparator="."
+      step={0.01}
+      rightSectionWidth={50}
+      value={value || _lastPrice(formData.symbol)}
+      onChange={(value) => onChange(Number(value))}
+      size="sm"
+      rightSection={<></>}
+    />
+  );
+}
+
+export function TriggerDirectionWidget(props: WidgetProps) {
+  const t = useTranslation();
+  const { isLogin } = authStore();
+
+  if (props.formContext?.formData?.orderType !== "Conditional") {
+    return <></>;
+  }
+
+  return (
+    <Flex gap={5} align="center" justify="space-between" w={"100%"}>
+      <InputLabel className="text-label-form">
+        {t("Trigger direction")}
+      </InputLabel>
+      <Select
+        disabled={!isLogin}
+        w={"80px"}
+        value={props.value}
+        data={props.schema.enum as string[]}
+        onChange={(v) => props.onChange(v)}
+        defaultValue="Good-Till-Canceled"
+        withCheckIcon={false}
+        rightSection={<IconCaretDownFilled size={14} />}
+        rightSectionWidth={30}
+        allowDeselect={false}
+        size="xs"
+        classNames={{
+          root: "app-select",
+          option: "app-select-option",
+        }}
+        comboboxProps={{
+          position: "bottom",
+          offset: 0,
+          withinPortal: true,
+          width: "auto",
+        }}
+        styles={{
+          input: {
+            border: "none",
+            fontSize: "12px",
+            textAlign: "right",
+            paddingTop: 0,
+            paddingBottom: 0,
+            paddingLeft: 0,
+            background: "light-dark(rgba(0,0,0, 0.05), #26282c)",
+          },
+          option: {
+            fontSize: "12px",
+          },
+        }}
+      />
+    </Flex>
+  );
+}
+
 export function OrderPriceInputFieldWidget({
   value,
   onChange,
@@ -122,36 +204,83 @@ export function OrderPriceInputFieldWidget({
   const t = useTranslation();
   const { isLogin } = authStore();
   const changeByLast = useCallback(() => {
-    const lastPrice =
-      tradeStore.getState().marketPrices?.[formData.symbol] || 0;
-    onChange(Number(lastPrice));
+    onChange(_lastPrice(formData.symbol));
   }, [formData.symbol, onChange]);
+  if (formData.orderType === "Market") {
+    return <></>;
+  }
+  return (
+    <NumberInput
+      disabled={!isLogin}
+      label={t("Order Price")}
+      classNames={{ label: "text-label-form" }}
+      thousandSeparator=","
+      decimalSeparator="."
+      rightSectionWidth={50}
+      value={value || _lastPrice(formData.symbol)}
+      step={0.001}
+      onChange={(value) => onChange(Number(value))}
+      size="sm"
+      rightSection={
+        <AppText
+          onClick={changeByLast}
+          style={{
+            cursor: "pointer",
+          }}
+          fz={12}
+          c={"primary"}
+          fw={"bold"}
+        >
+          Last
+        </AppText>
+      }
+    />
+  );
+}
+
+export function LeverageWidget(props: WidgetProps) {
+  const t = useTranslation();
+  const { isLogin } = authStore();
+
+  const options = useMemo(() => {
+    return (
+      props.schema?.enum?.map((item) => `${item?.toString()}x`) ?? []
+    );
+  }, [props.schema.enum]);
   return (
     <>
-      <NumberInput
-        disabled={!isLogin}
-        label={t("Order Price")}
-        classNames={{ label: "text-label-form" }}
-        thousandSeparator=","
-        decimalSeparator="."
-        rightSectionWidth={50}
-        value={value || ""}
-        onChange={(value) => onChange(Number(value))}
-        size="sm"
-        rightSection={
-          <AppText
-            onClick={changeByLast}
-            style={{
-              cursor: "pointer",
-            }}
-            fz={12}
-            c={"primary"}
-            fw={"bold"}
-          >
-            Last
-          </AppText>
-        }
-      />
+      <Box>
+        <AppText fz={12} fw="bold">
+          {t("Leverage")}
+        </AppText>
+        <SegmentedControl
+          disabled={!isLogin}
+          value={`${props.value}x`}
+          onChange={(v) => {
+            props.onChange(parseFloat(v));
+          }}
+          className="control-segment-percent"
+          w={"100%"}
+          h={25}
+          data={options}
+          size="xs"
+          styles={{
+            label: {
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: 0,
+              fontSize: "10px",
+            },
+            indicator: {},
+            innerLabel: {
+              height: "100%",
+              fontSize: "12px",
+            },
+          }}
+          withItemsBorders={false}
+        />
+      </Box>
     </>
   );
 }
@@ -164,30 +293,67 @@ export function VolumeInputFieldWidget({
   const t = useTranslation();
   const { isLogin } = authStore();
   const [percent, setPercent] = useState(0);
-  const { marketPrices, symbolMap } = tradeStore();
+  const { openTrades, marketPrices, symbolMap } = tradeStore();
   const { tradingBalances } = assetStore();
   const { max, config } = useMemo(() => {
-    const coin = _isBuy(formData.orderSide)
-      ? formData.quote
-      : formData.base;
+    if (formData.reduceOnly && formData.isFuture) {
+      const max = Number(
+        openTrades.openPositions[formData.symbol] || 0,
+      );
+      const k = Math.sign(max);
+      if (k > 0 && formData.orderSide === OrderSide.BUY) {
+        return { max: 0, config: symbolMap[formData.symbol] };
+      }
+      if (k < 0 && formData.orderSide === OrderSide.SELL) {
+        return { max: 0, config: symbolMap[formData.symbol] };
+      }
+      return {
+        max: Math.abs(max),
+        config: symbolMap[formData.symbol],
+      };
+    }
+
+    let coin = formData.quote;
+    if (!formData.isFuture) {
+      coin = _isBuy(formData.orderSide)
+        ? formData.quote
+        : formData.base;
+    }
     const balance = tradingBalances.find((el) => el.coin === coin);
     if (!balance) {
       return { max: 0, precision: 0 };
     }
-    const free = Number(freeAmount(balance));
-    const { max } = maxVolume(
-      free,
-      Number(formData.orderPrice) || marketPrices[formData.symbol],
-      formData.orderSide,
-    );
-    return { max, config: symbolMap[formData.symbol] };
+
+    let max = 0;
+    const free = freeAmount(balance);
+    const price =
+      Number(formData.orderPrice) || marketPrices[formData.symbol];
+    if (!formData.isFuture) {
+      max = Number(free);
+      if (formData.orderSide === OrderSide.BUY) {
+        max = Number(BN.div(max, price));
+      }
+    } else {
+      max = Number(
+        BN.div(BN.mul(formData.leverage || 1, free), price),
+      );
+    }
+
+    return {
+      max: Number(max || 0),
+      config: symbolMap[formData.symbol],
+    };
   }, [
     formData.base,
+    formData.isFuture,
+    formData.leverage,
     formData.orderPrice,
     formData.orderSide,
     formData.quote,
+    formData.reduceOnly,
     formData.symbol,
     marketPrices,
+    openTrades.openPositions,
     symbolMap,
     tradingBalances,
   ]);
@@ -195,13 +361,14 @@ export function VolumeInputFieldWidget({
   return (
     <Box className="space-y-10">
       <NumberInput
+        max={max}
         disabled={!isLogin}
         thousandSeparator=","
         decimalSeparator="."
         classNames={{ label: "text-label-form" }}
         label={t("Volume")}
         step={Number(config?.volumeStepSize) || 1}
-        value={value || 0}
+        value={value}
         min={Number(config?.minVolume) || 0.001}
         onChange={(value) => {
           setPercent(
@@ -212,6 +379,7 @@ export function VolumeInputFieldWidget({
           );
           onChange(Number(value));
         }}
+        error={value > max ? t("Volume too large") : false}
         rightSectionWidth={60}
         size="sm"
         rightSection={
@@ -220,12 +388,12 @@ export function VolumeInputFieldWidget({
           </AppText>
         }
       />
-      <Flex px={2} gap={2} align={"center"} justify={"end"}>
+      <Flex px={2} gap={2} align="center" justify="end">
         <Text size="xs" c="gray">
           {t("Max Volume")}:
         </Text>
         <Text size="xs" c="gray">
-          <NumberFormat decimalPlaces={3} value={max} />
+          <NumberFormat decimalPlaces={8} value={max} />
         </Text>
       </Flex>
       <Box py={20}>
@@ -287,8 +455,9 @@ export function UiBalanceWidget({
   ]);
 
   return (
-    <Flex justify={"space-between"} align={"center"} pt={10}>
+    <Flex justify="space-between" align="center" pt={10}>
       <HoverCard
+        openDelay={200}
         width={280}
         shadow="md"
         position="top"
@@ -317,7 +486,7 @@ export function UiBalanceWidget({
           </Text>
         </HoverCard.Dropdown>
       </HoverCard>
-      <Text fw={"bolder"} fz={12}>
+      <Text fw="bolder" fz={12}>
         <NumberFormat value={availableBalance} decimalPlaces={4} />{" "}
         <span>{coin}</span>
       </Text>
@@ -325,34 +494,28 @@ export function UiBalanceWidget({
   );
 }
 
-export function PostOnlyWidget({
-  label, // eslint-disable-line
-  ...props
-}: WidgetProps) {
+export function PostOnlyWidget(props: WidgetProps) {
   const t = useTranslation();
   return (
     <ActionOnlyWidget
       tooltip={t(
         "The Post-Only order will only be executed as a maker order. If it can be executed immediately as a taker order, it will be automatically canceled",
       )}
-      label={t("Post Only")}
       {...props}
+      label={t("Post Only")}
     />
   );
 }
 
-export function ReduceOnlyWidget({
-  label, // eslint-disable-line
-  ...props
-}: WidgetProps) {
+export function ReduceOnlyWidget(props: WidgetProps) {
   const t = useTranslation();
   return (
     <ActionOnlyWidget
       tooltip={t(
         "The reduce-only order will only reduce your position size. Any order that might increase your position size will be canceled or adjusted",
       )}
-      label={t("Reduce Only")}
       {...props}
+      label={t("Reduce Only")}
     />
   );
 }
@@ -362,7 +525,7 @@ export function TimeInForceWidget(props: WidgetProps) {
   const { isLogin } = authStore();
 
   return (
-    <Flex gap={5} align={"center"} justify={"start"}>
+    <Flex gap={5} align="center" justify="space-between">
       <InputLabel className="text-label-form">
         {t("Time in Force")}
       </InputLabel>
@@ -472,7 +635,7 @@ function ActionOnlyWidget(
 ) {
   const { isLogin } = authStore();
   return (
-    <Box className="space-y-10">
+    <Box className="space-y-10" hidden={props.hidden}>
       <Checkbox
         disabled={!isLogin}
         checked={props.value}
@@ -531,4 +694,10 @@ function _orderSideLabel(side: OrderSide, isFuture: boolean) {
     }
   }
   return side;
+}
+
+function _lastPrice(symbol: string) {
+  return Math.floor(
+    Number(tradeStore.getState().marketPrices?.[symbol] || 0),
+  );
 }

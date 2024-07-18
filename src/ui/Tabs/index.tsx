@@ -9,14 +9,18 @@ import {
 import cx from "clsx";
 import { ReactNode, useState } from "react";
 
-type INSTANCE_TYPE =
+type Variant =
   | "Default"
   | "WithCopyTradeDetail"
   | "WithSmallOnMenu"
   | "WithMediumNoBorder";
 
 type TabType = {
-  data: Partial<{ value: string; label: string; options: unknown }>;
+  data: Partial<{
+    value: string;
+    label: string | React.JSX.Element;
+    options: unknown;
+  }>;
   tabProp: TabsTabProps;
   tabsPanelProps: Omit<TabsPanelProps, "children"> & {
     children?: ReactNode;
@@ -25,8 +29,8 @@ type TabType = {
 };
 
 type CustomAppTabsProps = {
-  instancetype?: INSTANCE_TYPE; // TODO: rename instancetype to variants
-  items: Partial<TabType>[]; // TODO: rename items to tabs
+  variant?: Variant;
+  tabs: Partial<TabType>[];
   tablist: TabsListProps;
   showPanel: boolean;
   leftSection: ReactNode;
@@ -35,7 +39,7 @@ type CustomAppTabsProps = {
 
 type AppTabsProps = TabsProps & Partial<CustomAppTabsProps>;
 
-const CLASS_NAMES: Record<INSTANCE_TYPE, string> = {
+const CLASS_NAMES: Record<Variant, string> = {
   Default: "",
   WithCopyTradeDetail: "WithCopyTradeDetail",
   WithSmallOnMenu: "WithSmallOnMenu",
@@ -48,7 +52,7 @@ export default function AppTabs({
   showPanel,
   value,
   defaultValue,
-  instancetype = "Default",
+  variant = "Default",
   onChange,
   tablist,
   ...props
@@ -60,7 +64,7 @@ export default function AppTabs({
     <Tabs
       value={value}
       defaultValue={defaultValue}
-      className={cx(CLASS_NAMES[instancetype] || "", props.className)}
+      className={cx(CLASS_NAMES[variant] || "", props.className)}
       onChange={(value) => {
         setActiveTab(value || "");
         onChange?.(value);
@@ -70,7 +74,7 @@ export default function AppTabs({
       <Flex align={"center"} gap={10} className="tabs-header">
         {leftSection}
         <Tabs.List {...tablist} flex={1}>
-          {(props.items as TabType[]).map((item, idx) => (
+          {(props.tabs as TabType[]).map((item, idx) => (
             <Tabs.Tab
               {...item.tabProp}
               key={idx}
@@ -83,7 +87,7 @@ export default function AppTabs({
         {rightSection}
       </Flex>
       {Boolean(showPanel) &&
-        (props.items as TabType[]).map(
+        (props.tabs as TabType[]).map(
           (
             {
               data,

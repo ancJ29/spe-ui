@@ -1,43 +1,50 @@
-import { REGEX } from "@/utils/regex";
+import useTranslation from "@/hooks/useTranslation";
 import { Text } from "@mantine/core";
 import { FieldErrorProps } from "@rjsf/utils";
-import { useMemo } from "react";
-
-// TODO
 
 // prettier-ignore
-const excludes = [
-  "must match \"then\" schema",
-  "must match \"if\" schema",
-  "must match \"else\" schema",
-];
+// const excludes = [
+//   "must match \"then\" schema",
+//   "must match \"if\" schema",
+//   "must match \"else\" schema",
+// ];
 
-const toMsg = (msg: string) => {
-  if (msg.includes(REGEX.EMAIL)) {
-    return "Email invalid, please try again";
-  } else if (excludes.includes(msg)) {
-    return "";
-  } else {
-    return msg;
+function _convert (str: string) {
+  if (str.includes("must have required property")) {
+    return "Field is required";
   }
-};
-export function FieldErrorTemplate(props: FieldErrorProps) {
-  const { errors } = props;
-  const isRoot = useMemo<boolean>(() => {
-    return props.idSchema.$id === "root";
-  }, [props.idSchema.$id]);
-  return (
-    <>
-      {!isRoot && (
-        <Text
-          fz={"xs"}
-          c={"red"}
-          style={{ position: "absolute", top: "100%", left: "0" }}
-        >
-          {errors?.[0] &&
-            toMsg(errors?.[0].toLocaleString() as string)}
-        </Text>
-      )}
-    </>
-  );
+  return str;
+}
+function ErrorMessages({
+  errors,
+}: {
+  errors: FieldErrorProps["errors"];
+}) {
+  const t = useTranslation();
+  const errorMessage = errors?.[0] ?? <></>;
+  if (typeof errorMessage === "string") {
+    // must have required property 'Email'
+
+    return (
+      <Text
+        fz={"xs"}
+        c={"red"}
+        style={{ position: "absolute", top: "100%", left: "0" }}
+      >
+        {t(_convert(errorMessage))}
+      </Text>
+    );
+  }
+  return errorMessage;
+}
+
+export function FieldErrorTemplate({
+  errors,
+  idSchema,
+}: FieldErrorProps) {
+  // const t = useTranslation();
+  if (idSchema.$id === "root") {
+    return <></>;
+  }
+  return <ErrorMessages errors={errors} />;
 }

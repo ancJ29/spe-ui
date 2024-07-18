@@ -70,6 +70,7 @@ export function FiatDepositModal() {
         </SimpleGrid>
         <Space mb={20} />
         <HoverCard
+          openDelay={200}
           shadow="md"
           position="top"
           width={300}

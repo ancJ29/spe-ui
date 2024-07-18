@@ -23,8 +23,13 @@ function mod(a: BN, b: BN) {
   return new BigNumber(a).mod(b).dp(8).toString();
 }
 
-function sub(a: BN, b: BN) {
-  return new BigNumber(a).minus(b).dp(8).toString();
+function sub(a: BN, ...b: [BN, ...BN[]]) {
+  return b
+    .reduce((res, v) => {
+      return res.minus(v);
+    }, new BigNumber(a))
+    .dp(8)
+    .toString();
 }
 
 function mul(...b: [BN, ...BN[]]) {

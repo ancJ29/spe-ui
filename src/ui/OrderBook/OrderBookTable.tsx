@@ -5,7 +5,6 @@ import { last } from "@/common/utils";
 import { IS_DEV } from "@/domain/config";
 import useTranslation from "@/hooks/useTranslation";
 import { fetchOrderBooks } from "@/services/apis";
-import logger from "@/services/logger";
 import tradeStore from "@/store/trade";
 import { formatCurrency } from "@/utils";
 import {
@@ -90,7 +89,6 @@ export function OrderBookTable({
           }
           const totalAsk = a[0]?.[2] || 0;
           const totalBid = last(b)?.[2] || 0;
-          logger.debug("OrderBookTable", { totalAsk, totalBid });
           const total = Number(BN.add(totalAsk, totalBid)) / 100 || 1;
           const askRate = Number(BN.div(totalAsk, total, 0));
           const bidRate = Number(BN.div(totalBid, total, 0));
@@ -140,6 +138,7 @@ export function OrderBookTable({
         {!isSpot && (
           <HoverCard
             width={200}
+            openDelay={200}
             position="top"
             styles={{
               dropdown: {
@@ -281,8 +280,8 @@ export function OrderBookTable({
           {display !== "ASK ONLY" &&
             red.map(([price, vol, agg], idx) => (
               <HoverCard
+                openDelay={200}
                 width={230}
-                openDelay={0}
                 closeDelay={0}
                 shadow="md"
                 key={idx}
@@ -438,7 +437,7 @@ export function OrderBookTable({
               <HoverCard
                 key={idx}
                 width={230}
-                openDelay={0}
+                openDelay={200}
                 closeDelay={0}
                 shadow="md"
                 position="left"
@@ -596,6 +595,7 @@ export function OrderBookTable({
         <>
           <Space mt={10} />
           <HoverCard
+            openDelay={200}
             width={280}
             shadow="md"
             position="top"

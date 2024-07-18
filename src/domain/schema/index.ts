@@ -8,10 +8,6 @@ import ForgotPassword from "./authentication/ForgotPasswordSchema";
 import LoginForm from "./authentication/LoginFormSchema";
 import ResetPassword from "./authentication/ResetPasswordSchema";
 import SignUp from "./authentication/SignUpSchema";
-import AddTPandSLOfTrade from "./trades/AddTPandSLOfTradeSchema";
-import NewOrderOfConditionalTradeSchema from "./trades/NewOrderOfConditionalTradeSchema";
-import NewOrderOfLimitTradeSchema from "./trades/NewOrderOfLimitTradeSchema";
-import NewOrderOfMarketTradeSchema from "./trades/NewOrderOfMarketTradeSchema";
 import PostOrderSchema from "./trades/PostOrderSchema";
 
 const _schema: Record<string, FormSchema> = {
@@ -19,10 +15,6 @@ const _schema: Record<string, FormSchema> = {
   ForgotPassword: ForgotPassword,
   ResetPassword: ResetPassword,
   Login: LoginForm,
-  NewOrderOfMarketTradeSchema,
-  NewOrderOfLimitTradeSchema,
-  NewOrderOfConditionalTradeSchema,
-  AddTPandSLOfTrade,
   PostOrderSchema,
   DepositSchema,
   SwapSchema,

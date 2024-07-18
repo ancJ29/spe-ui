@@ -46,10 +46,10 @@ export const TVChart = ({
         autosize: true,
 
         overrides: {
-          "paneProperties.background": "#ff0000",
+          // "paneProperties.background": "#ff0000",
         },
         studies_overrides: {
-          "paneProperties.background": "#ff0000",
+          // "paneProperties.background": "#ff0000",
         },
         disabled_features: [
           "symbol_info",

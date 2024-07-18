@@ -2,6 +2,7 @@ import { SYMBOL_MAP } from "@/common/configs";
 import { KLine } from "@/common/types";
 import { last } from "@/common/utils";
 import logger from "@/services/logger";
+import { delay } from "@/utils";
 import axios from "axios";
 import {
   Bar,
@@ -26,9 +27,7 @@ export default (symbol: string, isSpot: boolean) => {
   const SPOT_KLINE = "https://api.binance.com/api/v3/klines";
   const FUTURE_KLINE = "https://fapi.binance.com/fapi/v1/klines";
 
-  const url = `${isSpot ? SPOT_KLINE : FUTURE_KLINE}?symbol=${
-    SYMBOL_MAP.BINANCE[symbol]
-  }`;
+  const url = `${isSpot ? SPOT_KLINE : FUTURE_KLINE}?symbol=${SYMBOL_MAP.BINANCE[symbol]}`;
   logger.trace("data-feed", symbol, url);
 
   return {
@@ -57,7 +56,7 @@ export default (symbol: string, isSpot: boolean) => {
         },
       ]);
     },
-    resolveSymbol: (
+    resolveSymbol: async (
       symbolName: string,
       onResolve: ResolveCallback,
       onError: ErrorCallback,
@@ -67,6 +66,7 @@ export default (symbol: string, isSpot: boolean) => {
       if (symbolName !== symbol) {
         onError("Invalid Symbol!!!");
       }
+      await delay(100);
       onResolve({
         // cspell: ignore minmov, pricescale, has_intraday
         ticker: symbolName,
@@ -144,7 +144,8 @@ export default (symbol: string, isSpot: boolean) => {
     unsubscribeBars: (listenerGuid: string) => {
       clearTimeout(timers.get(listenerGuid));
     },
-    onReady: (callback: OnReadyCallback) => {
+    onReady: async (callback: OnReadyCallback) => {
+      await delay(100);
       callback({
         supported_resolutions,
         exchanges: [

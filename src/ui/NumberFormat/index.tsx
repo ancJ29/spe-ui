@@ -1,16 +1,32 @@
 import BN from "@/common/big-number";
-import { NumberFormatterProps } from "@mantine/core";
+
+type NumberFormatProps = {
+  decimalPlaces?: number;
+  isOff?: boolean;
+  prefix?: string;
+  suffix?: string;
+  value: string | number | undefined;
+};
 
 export default function NumberFormat({
   decimalPlaces = 2,
-  ...props
-}: NumberFormatterProps & { decimalPlaces?: number }) {
+  isOff,
+  prefix = "",
+  suffix = "",
+  value,
+}: NumberFormatProps) {
+  if (isOff) {
+    return <span>****</span>;
+  }
+  if (value === undefined) {
+    return "--";
+  }
   return (
     <span>
-      {BN.formatNumberWithCommas(
-        props.value as string,
+      {`${prefix}${BN.formatNumberWithCommas(
+        value,
         decimalPlaces,
-      )}
+      )} ${suffix}`}
     </span>
   );
 }

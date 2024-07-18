@@ -1,8 +1,11 @@
+import useTranslation from "@/hooks/useTranslation";
 import { Center, SegmentedControl, rem } from "@mantine/core";
 import { WidgetProps } from "@rjsf/utils";
 import { IconMailHeart, IconPhone } from "@tabler/icons-react";
 
 export function TabWidget(props: WidgetProps) {
+  const t = useTranslation();
+
   return (
     <>
       <SegmentedControl
@@ -19,7 +22,7 @@ export function TabWidget(props: WidgetProps) {
                 <IconMailHeart
                   style={{ width: rem(16), height: rem(16) }}
                 />
-                <span>Email</span>
+                <span>{t("Email")}</span>
               </Center>
             ),
           },
@@ -30,7 +33,7 @@ export function TabWidget(props: WidgetProps) {
                 <IconPhone
                   style={{ width: rem(16), height: rem(16) }}
                 />
-                <span>Mobile</span>
+                <span>{t("Mobile")}</span>
               </Center>
             ),
           },

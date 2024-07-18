@@ -7,6 +7,7 @@ const axios = _axios.create({
     "Content-type": "application/json",
     "X-API-KEY": "jsuG@wPZ6scs8VCuKJsVdw5",
   },
+
 });
 
 axios.interceptors.request.use(
@@ -28,4 +29,16 @@ export function getApi<T>(...args: Parameters<typeof axios.get>) {
     .then((res) => res.data.result);
 }
 
+
+export const getReuseHeaders = (method: "GET" | "POST", url: string, params: any) => {
+  return {
+    headers: {
+      ...axios.defaults.headers.common,
+      Authorization: `Bearer ${localStorage.getItem("__TOKEN__")}`,
+    },
+    method: method,
+    url: `${axios.getUri()}${url}`,
+    params: params ?? {},
+  };
+};
 export default axios;

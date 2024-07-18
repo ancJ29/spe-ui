@@ -1,5 +1,9 @@
+import { t } from "@/common/utils";
+import { getDictionary } from "@/services/languages";
 import { FormSchema } from "@/types";
 import { REGEX } from "@/utils/regex";
+
+const dictionary = getDictionary();
 
 const LoginFormSchema: FormSchema = {
   schema: {
@@ -12,7 +16,7 @@ const LoginFormSchema: FormSchema = {
             $ref: "#/definitions/PhoneLocal",
           },
           mobile: {
-            title: "Phone",
+            title: t(dictionary, "Phone"),
             type: "string",
           },
           is2fa: {
@@ -46,7 +50,7 @@ const LoginFormSchema: FormSchema = {
         properties: {
           email: {
             type: "string",
-            title: "Email",
+            title: t(dictionary, "Email"),
             pattern: REGEX.EMAIL,
           },
           is2fa: {
@@ -76,7 +80,7 @@ const LoginFormSchema: FormSchema = {
       },
       Password: {
         type: "string",
-        title: "Password",
+        title: t(dictionary, "Password"),
         minLength: 6,
       },
       type: {

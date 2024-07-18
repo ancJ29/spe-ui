@@ -59,7 +59,7 @@ export function TabsTransactions() {
             fontSize: "20px",
           },
         }}
-        items={[
+        tabs={[
           {
             data: {
               label: t("Swap"),

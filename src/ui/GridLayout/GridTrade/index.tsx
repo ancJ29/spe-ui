@@ -63,11 +63,13 @@ export function GridTrade({
   );
 
   useEffect(() => {
+    tradeStore.getState().loadOpenTrades();
     tradeStore.getState().loadMarketInformation(symbol);
   }, [symbol]);
 
   const interval = useInterval(
     () => {
+      tradeStore.getState().loadOpenTrades();
       tradeStore.getState().loadMarketInformation(symbol);
     },
     IS_DEV ? 10e3 : 1e3,

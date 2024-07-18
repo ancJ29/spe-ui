@@ -146,3 +146,27 @@ export function masking(text: string): string {
   }
   return text.replace(/.(?=.{4})/g, "*");
 }
+
+export function priceDisplay(val: string | number) {
+  const _v = parseFloat(val.toString());
+  return {
+    lt: _v > 0,
+    isZero: _v === 0,
+    sub: _v > 0 ? "+" : _v < 0 ? "-" : "",
+    color: _v > 0 ? "green" : _v < 0 ? "red" : "",
+  };
+}
+
+export function groupBy<T extends GenericObject>(
+  arr: T[],
+  key: string,
+): Record<string, T[]> {
+  return arr.reduce((acc, item) => {
+    const group = item[key] as string;
+    if (!acc[group]) {
+      acc[group] = [];
+    }
+    acc[group].push(item);
+    return acc;
+  }, {} as Record<string, T[]>);
+}

@@ -5,6 +5,7 @@ export type OrderFormData = {
   symbol: string;
   orderPrice?: number;
   orderSide: OrderSide;
+  leverage?: number;
   volume: number;
   postOnly?: boolean;
   reduceOnly?: boolean;

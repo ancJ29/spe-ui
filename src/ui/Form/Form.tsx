@@ -1,4 +1,5 @@
 import { GenericObject } from "@/common/types";
+import { delay } from "@/common/utils";
 import useTranslation from "@/hooks/useTranslation";
 import axios from "@/services/apis";
 import logger from "@/services/logger";
@@ -63,7 +64,16 @@ type AppFormProps = OmittedForm & {
 // eslint-disable-next-line react/display-name
 const AppForm = forwardRef(
   (
-    { xFlag = false, showJsonOutput = false, ...props }: AppFormProps,
+    {
+      api,
+      xFlag = false,
+      showJsonOutput = false,
+      messages,
+      onSubmit,
+      onSuccess,
+      formDataConverter,
+      ...props
+    }: AppFormProps,
     ref,
   ) => {
     const t = useTranslation();
@@ -79,26 +89,28 @@ const AppForm = forwardRef(
     const formRef = useRef<React.ElementRef<typeof Form>>(null);
 
     const onFormDataSubmit = useCallback(
-      (evt: IChangeEvent, event: FormEvent<unknown>) => {
+      async (evt: IChangeEvent, event: FormEvent<unknown>) => {
+        await delay(300); // TODO: do we need this?
+        if (onSubmit) {
+          onSubmit(evt, event);
+          return;
+        }
         logger.trace("submitted formData", evt.formData);
         logger.trace("submit event", event);
-        if (props.api) {
+        if (api) {
           const rawData = { ...evt.formData };
-          const params =
-            props.formDataConverter?.(rawData) ?? rawData;
+          const params = formDataConverter?.(rawData) ?? rawData;
           toggle();
           axios
-            .post<SPEResponse>(props.api, params)
+            .post<SPEResponse>(api, params)
             .then((res) => {
               if (res.data.code !== 0) {
                 // Error handling
                 return notifications.show({
                   color: "red",
                   title:
-                    props.messages?.titleError ??
-                    t("Something went wrong"),
-                  message:
-                    props.messages?.msgError ?? res.data.message,
+                    messages?.titleError ?? t("Something went wrong"),
+                  message: messages?.msgError ?? res.data.message,
                   icon: (
                     <IconCheck
                       style={{ width: rem(18), height: rem(18) }}
@@ -109,15 +121,14 @@ const AppForm = forwardRef(
                   position: "top-center",
                 });
               }
-              props.onSuccess?.(res.data.result);
+              onSuccess?.(res.data.result);
               notifications.show({
                 color: "teal",
                 title:
-                  props.messages?.titleSuccess ??
+                  messages?.titleSuccess ??
                   t("The form was submitted successfully."),
                 message:
-                  props.messages?.msgSuccess ??
-                  t("The action was success"),
+                  messages?.msgSuccess ?? t("The action was success"),
                 icon: (
                   <IconCheck
                     style={{ width: rem(18), height: rem(18) }}
@@ -135,7 +146,16 @@ const AppForm = forwardRef(
           close();
         }
       },
-      [close, props, t, toggle],
+      [
+        api,
+        close,
+        onSuccess,
+        formDataConverter,
+        messages,
+        onSubmit,
+        t,
+        toggle,
+      ],
     );
 
     const onFormDataChange = useCallback(
@@ -194,6 +214,7 @@ const AppForm = forwardRef(
       <>
         <Box w={props.w ?? 500} pos="relative">
           <Form
+            disabled={paused}
             key={counter}
             ref={formRef}
             schema={schema}
@@ -212,7 +233,7 @@ const AppForm = forwardRef(
             extraErrorsBlockSubmit={false}
             extraErrors={{}}
             onChange={onFormDataChange}
-            onSubmit={props.onSubmit ?? onFormDataSubmit}
+            onSubmit={onFormDataSubmit}
             formContext={{
               formData,
               updateFields,

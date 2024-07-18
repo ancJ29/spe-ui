@@ -1,4 +1,11 @@
 {
+  "Logout": "Logout",
+  "Login": "Login",
+  "Hello": "Hello",
+  "Field is required": "必須項目です。",
+  "Email": "メールアドレス",
+  "Password": "パスワード",
+  "Mobile": "携帯電話",
   "Deposit": "入金",
   "Confirm": "確認"
 }

@@ -45,11 +45,11 @@ export function OrderBook(props: {
   return (
     <>
       <AppTabs
-        instancetype="WithMediumNoBorder"
+        variant="WithMediumNoBorder"
         className="noBg"
         defaultValue={"orderBooks"}
         showPanel
-        items={[
+        tabs={[
           {
             data: {
               label: t("Order Book"),

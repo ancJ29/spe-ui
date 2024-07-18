@@ -164,6 +164,7 @@ export function Header(props: Partial<{ metadata: Application }>) {
                     {item.type === "panel" && (
                       <HoverCard
                         width={600}
+                        openDelay={200}
                         position="bottom-start"
                         radius="md"
                         shadow="md"

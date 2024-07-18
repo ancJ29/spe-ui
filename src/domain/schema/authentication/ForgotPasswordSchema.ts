@@ -1,5 +1,9 @@
+import { t } from "@/common/utils";
+import { getDictionary } from "@/services/languages";
 import { FormSchema } from "@/types";
 import { REGEX } from "@/utils/regex";
+
+const dictionary = getDictionary();
 
 const ForgotPasswordSchema: FormSchema = {
   schema: {
@@ -24,7 +28,7 @@ const ForgotPasswordSchema: FormSchema = {
         properties: {
           email: {
             type: "string",
-            title: "Email",
+            title: t(dictionary, "Email"),
             pattern: REGEX.EMAIL,
           },
         },

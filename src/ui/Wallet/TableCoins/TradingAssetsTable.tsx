@@ -25,8 +25,10 @@ import { TransferForm } from "../Form";
 
 export function TradingAssetsTable({
   hideZero,
+  defaultTransferType = "transferOut",
 }: {
   hideZero: boolean;
+  defaultTransferType?: "transferIn" | "transferOut";
 }) {
   const t = useTranslation();
   const [opened, { open, close }] = useDisclosure(false);
@@ -59,9 +61,7 @@ export function TradingAssetsTable({
         "Total Equity",
         "Available Margin",
         "Position Margin",
-        // "Order Margin",
         "Unrealized PnL",
-        // "Experience Fund",
         "Actions",
       ].map((el) => t(el)),
       body: rows.map((row) => [
@@ -196,10 +196,11 @@ export function TradingAssetsTable({
           </ActionIcon>
           <TransferForm
             coin={coin}
-            accountIds={[
-              tradingAccount?.id || "",
-              fundingAccount?.id || "",
-            ]}
+            accountIds={
+              defaultTransferType === "transferIn"
+                ? [fundingAccount?.id || "", tradingAccount?.id || ""]
+                : [tradingAccount?.id || "", fundingAccount?.id || ""]
+            }
             onSubmit={onSubmit}
           />
         </Box>
