@@ -85,8 +85,30 @@ export type BalanceOverview = {
 export type MarketPrice = Record<string, number>;
 
 export type CopyPosition = Position & {
+  followerAverageEntryPrice: number;
   followerVolume: number;
+  followerMargin: number;
+  followerFee: number;
 }
+
+export type CopyOrder = Order & {
+  totalFollowers: number;
+}
+
+export type FollowerInformation = {
+  accountId: string;
+  uid: string;
+  invested: number;
+  current: number;
+  settled: number;
+  unSettled: number;
+  totalCopyPositions: number;
+  unrealizedPnl: number;
+  realizedPnl: number;
+  followFrom: number;
+  remark?: string;
+  pausedByMaster?: boolean;
+};
 
 export type Position = {
   positionId: string;

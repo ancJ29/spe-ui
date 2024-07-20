@@ -3,25 +3,20 @@ import useTranslation from "@/hooks/useTranslation";
 import axios from "@/services/apis";
 import logger from "@/services/logger";
 import { SPEResponse } from "@/types";
-import { Box, LoadingOverlay, rem } from "@mantine/core";
+import { ONE_MINUTE } from "@/utils";
+import { error, success } from "@/utils/notifications";
+import { Box, LoadingOverlay } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { notifications } from "@mantine/notifications";
 import MonacoEditor from "@monaco-editor/react";
 import Form, { FormProps, IChangeEvent } from "@rjsf/core";
-import {
-  RJSFSchema,
-  RJSFValidationError,
-  RegistryWidgetsType,
-} from "@rjsf/utils";
+import { RJSFSchema, RegistryWidgetsType } from "@rjsf/utils";
 import { customizeValidator } from "@rjsf/validator-ajv8";
-import { IconCheck } from "@tabler/icons-react";
 import Ajv2020 from "ajv/dist/2020.js";
 import { cloneDeep, set } from "lodash";
 import React, {
   FormEvent,
   forwardRef,
   useCallback,
-  useEffect,
   useImperativeHandle,
   useRef,
   useState,
@@ -71,10 +66,10 @@ const AppForm = forwardRef(
     const [counter, setCounter] = useState(0);
     const [schema, setSchema] = useState<RJSFSchema>(props.schema);
     const [uiSchema, setUiSchema] = useState(props.uiSchema);
-    const [paused, setPause] = useState(false);
-    const [formData, updateFormData] = useState({
-      ...props.formData,
-    });
+    const [paused, setPause] = useState(0);
+    const [formData, updateFormData] = useState(
+      cloneDeep(props.formData),
+    );
 
     const formRef = useRef<React.ElementRef<typeof Form>>(null);
 
@@ -90,43 +85,22 @@ const AppForm = forwardRef(
           axios
             .post<SPEResponse>(props.api, params)
             .then((res) => {
-              if (res.data.code !== 0) {
-                // Error handling
-                return notifications.show({
-                  color: "red",
-                  title:
-                    props.messages?.titleError ??
-                    t("Something went wrong"),
-                  message:
-                    props.messages?.msgError ?? res.data.message,
-                  icon: (
-                    <IconCheck
-                      style={{ width: rem(18), height: rem(18) }}
-                    />
-                  ),
-                  loading: false,
-                  autoClose: 5000,
-                  position: "top-center",
-                });
-              }
-              props.onSuccess?.(res.data.result);
-              notifications.show({
-                color: "teal",
-                title:
+              if (res.data.code === 0) {
+                props.onSuccess?.(res.data.result);
+                success(
                   props.messages?.titleSuccess ??
-                  t("The form was submitted successfully."),
-                message:
+                    t("The form was submitted successfully."),
                   props.messages?.msgSuccess ??
-                  t("The action was success"),
-                icon: (
-                  <IconCheck
-                    style={{ width: rem(18), height: rem(18) }}
-                  />
-                ),
-                loading: false,
-                autoClose: 5000,
-                position: "top-center",
-              });
+                    t("The action was success"),
+                );
+              } else {
+                // Error handling
+                error(
+                  props.messages?.titleError ??
+                    t("Something went wrong"),
+                  props.messages?.msgError ?? res.data.message,
+                );
+              }
             })
             .finally(() => {
               close();
@@ -140,34 +114,32 @@ const AppForm = forwardRef(
 
     const onFormDataChange = useCallback(
       (props: IChangeEvent, id?: string) => {
-        if (paused) {
+        if (paused > Date.now()) {
           return;
         }
         id && logger.trace("Field changed, id: ", id, props);
+        // logger.debug(
+        //   "1 formData updated (onFormDataChange)",
+        //   props.formData,
+        // );
         updateFormData(props.formData);
       },
       [paused],
     );
 
-    useEffect(() => {
-      updateFormData(props.formData);
-    }, [props.formData]);
-
     // TODO: remove XFlag
     const updateFields = useCallback(
       (updated: Record<string, unknown>) => {
-        if (xFlag) {
-          setPause(true);
-        }
-        Object.entries(updated).forEach(([field, value]) => {
-          updateFormData((prevFormData: unknown) => {
-            const d = cloneDeep(prevFormData) as GenericObject;
-            const v = set(d, field, value);
-            return { ...v };
+        xFlag && setPause(Date.now() + ONE_MINUTE);
+        updateFormData((prevFormData: unknown) => {
+          let d = cloneDeep(prevFormData) as GenericObject;
+          Object.entries(updated).forEach(([field, value]) => {
+            d = set(d, field, value);
           });
+          return { ...d };
         });
         if (xFlag) {
-          setPause(false);
+          setPause(0);
           setCounter((prev) => prev + 1);
         }
       },
@@ -194,6 +166,7 @@ const AppForm = forwardRef(
       <>
         <Box w={props.w ?? 500} pos="relative">
           <Form
+            disabled={paused > 0}
             key={counter}
             ref={formRef}
             schema={schema}
@@ -222,15 +195,15 @@ const AppForm = forwardRef(
               },
               submit: () => formRef.current?.submit(),
             }}
-            onBlur={(id: string, value: string) =>
-              logger.trace(`Touched ${id} with value ${value}`)
-            }
-            onFocus={(id: string, value: string) =>
-              logger.trace(`Focused ${id} with value ${value}`)
-            }
-            onError={(errorList: RJSFValidationError[]) =>
-              logger.trace("errors", errorList)
-            }
+            // onBlur={(id: string, value: string) =>
+            //   logger.trace(`Touched ${id} with value ${value}`)
+            // }
+            // onFocus={(id: string, value: string) =>
+            //   logger.trace(`Focused ${id} with value ${value}`)
+            // }
+            // onError={(errorList: RJSFValidationError[]) =>
+            //   logger.trace("errors", errorList)
+            // }
           />
           <LoadingOverlay
             visible={visible}

@@ -1,8 +1,8 @@
 import { priceDisplay } from "@/common/utils";
 import useTranslation from "@/hooks/useTranslation";
 import { assetStore } from "@/store/assets";
-import { NoDataRecord } from "@/ui/NoData";
 import NumberFormat from "@/ui/NumberFormat";
+import { NoDataRecord } from "@/ui/SPEMisc";
 import {
   Badge,
   Box,
@@ -13,13 +13,21 @@ import {
   Space,
   Table,
   TableData,
-  Text,
   Title,
 } from "@mantine/core";
 import { modals } from "@mantine/modals";
-import { IconLogout, IconPlus, IconSettings2, IconX } from "@tabler/icons-react";
+import {
+  IconLogout,
+  IconPlus,
+  IconSettings2,
+  IconX,
+} from "@tabler/icons-react";
 import { useMemo } from "react";
-import { AddFundForm, CopyTradingSettingsForm, WithdrawFundsForm } from "../Forms";
+import {
+  AddFundForm,
+  CopyTradingSettingsForm,
+  WithdrawFundsForm,
+} from "../Forms";
 
 type ModalType = "AddFund" | "SettingCopy" | "Withdraw" | "Close";
 type PropsType = {};
@@ -28,7 +36,7 @@ export function TableCopyTradeMyMasters(props: PropsType) {
   const { accounts, balances, fundingAccount, tradingAccount } =
     assetStore();
   const openModal = (type: ModalType) => {
-    if(type === "Close") {
+    if (type === "Close") {
       return alert("TODO: CLOSE");
     }
     modals.open({
@@ -37,19 +45,17 @@ export function TableCopyTradeMyMasters(props: PropsType) {
       withinPortal: true,
       size: "lg",
       padding: "xl",
-      portalProps: {
-
-      },
+      portalProps: {},
       styles: {
         title: {
-          fontSize: "20px"
+          fontSize: "20px",
         },
       },
       children: (
         <>
-          {type === "AddFund" && <AddFundForm/>}
-          {type === "SettingCopy" && <CopyTradingSettingsForm/>}
-          {type === "Withdraw" && <WithdrawFundsForm/>}
+          {type === "AddFund" && <AddFundForm />}
+          {type === "SettingCopy" && <CopyTradingSettingsForm />}
+          {type === "Withdraw" && <WithdrawFundsForm />}
         </>
       ),
     });
@@ -57,10 +63,11 @@ export function TableCopyTradeMyMasters(props: PropsType) {
   const tableData: TableData = useMemo(() => {
     const _row = () => ({
       master: {
-        avatar: "https://www.bybit.com/bycsi-root/app/assets/token/1a4ad541f3bf738a65de4ddb1e5d603b.svg",
+        avatar:
+          "https://www.bybit.com/bycsi-root/app/assets/token/1a4ad541f3bf738a65de4ddb1e5d603b.svg",
         name: "DeFiLong",
         p1: 20,
-        p2: 30
+        p2: 30,
       },
       assets: Math.random() * 200000,
       netPl: Math.random() * 200000,
@@ -81,9 +88,10 @@ export function TableCopyTradeMyMasters(props: PropsType) {
         "Action",
       ].map((el) => {
         return (
-          <Box style={{
-            whiteSpace: "pre"
-          }}
+          <Box
+            style={{
+              whiteSpace: "pre",
+            }}
           >
             {t(el)}
           </Box>
@@ -102,8 +110,22 @@ export function TableCopyTradeMyMasters(props: PropsType) {
                   <Title order={6}>{row.master.name}</Title>
                   <Space mb={5} />
                   <Flex gap={5}>
-                    <Badge radius={4} variant="light" size="xs">{t("Master")} <NumberFormat value={row.master.p1} decimalPlaces={0} suffix="%" /> </Badge>
-                    <Badge radius={4} variant="light" size="xs">{t("Promoter")} <NumberFormat value={row.master.p2} decimalPlaces={0} suffix="%" /></Badge>
+                    <Badge radius={4} variant="light" size="xs">
+                      {t("Master")}{" "}
+                      <NumberFormat
+                        value={row.master.p1}
+                        decimalPlaces={0}
+                        suffix="%"
+                      />{" "}
+                    </Badge>
+                    <Badge radius={4} variant="light" size="xs">
+                      {t("Promoter")}{" "}
+                      <NumberFormat
+                        value={row.master.p2}
+                        decimalPlaces={0}
+                        suffix="%"
+                      />
+                    </Badge>
                   </Flex>
                 </Box>
               </Flex>
@@ -115,7 +137,11 @@ export function TableCopyTradeMyMasters(props: PropsType) {
             </>,
             <>
               <Title order={6} c={priceDisplay(row.netPl).color}>
-                <NumberFormat prefix={priceDisplay(row.netPl).sub} decimalPlaces={2} value={row.netPl} />
+                <NumberFormat
+                  prefix={priceDisplay(row.netPl).sub}
+                  decimalPlaces={2}
+                  value={row.netPl}
+                />
               </Title>
             </>,
             <>
@@ -128,7 +154,10 @@ export function TableCopyTradeMyMasters(props: PropsType) {
             </>,
             <>
               <Title order={6}>
-                <NumberFormat decimalPlaces={8} value={row.investment} />
+                <NumberFormat
+                  decimalPlaces={8}
+                  value={row.investment}
+                />
               </Title>
             </>,
             <>

@@ -2,6 +2,7 @@ import BN from "@/common/big-number";
 import useTranslation from "@/hooks/useTranslation";
 import copyStore from "@/store/copy";
 import tradeStore from "@/store/trade";
+import { MasterSettingForm } from "@/ui/Copy";
 import {
   ActionIcon,
   Box,
@@ -23,7 +24,6 @@ import {
 } from "@tabler/icons-react";
 import { useMemo } from "react";
 import NumberFormat from "../NumberFormat";
-import { MasterSettingForm } from "./Forms";
 
 export function MaterInformation() {
   const t = useTranslation();
@@ -134,7 +134,6 @@ export function MaterInformation() {
           <Button
             onClick={() => {
               modals.open({
-                // title: t("Copy Master Settings"),
                 centered: true,
                 withinPortal: true,
                 size: "lg",

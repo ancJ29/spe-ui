@@ -16,8 +16,8 @@ import authStore from "@/store/auth";
 import tradeStore from "@/store/trade";
 import { GridTradeProps, Order, Position, Trade } from "@/types";
 import AppButton from "@/ui/Button/AppButton";
-import { NoDataRecord } from "@/ui/NoData";
 import {
+  NoDataRecord,
   SPETableDateTime,
   SPETableDoubleNumbers,
   SPETableHeader,

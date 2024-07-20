@@ -8,7 +8,9 @@ import {
   BalanceOverview,
   CopyMasterDetail,
   CopyMasterSetting,
+  CopyOrder,
   CopyPosition,
+  FollowerInformation,
   MarketInformation,
   MarketPrice,
   OpenTrades,
@@ -16,7 +18,7 @@ import {
   Position,
   SpeTransaction,
   SymbolConfig,
-  Trade,
+  Trade
 } from "@/common/types";
 import { assetStore } from "@/store/assets";
 import { TransactionsHistoryFormData } from "@/types";
@@ -139,6 +141,37 @@ export async function closeOrderApi(
     });
 }
 
+export async function remarkFollowerApi(
+  accountId: string,
+  remark: string,
+) {
+  await axios
+    .post("/api/copy/master/remark", {
+      accountId,
+      remark,
+    })
+    .then((res) => {
+      if (res.data.code !== 0) {
+        throw new Error("Failed to pause follower");
+      }
+    });
+}
+
+export async function pauseFollowerApi(
+  accountId: string,
+) {
+  await axios
+    .post("/api/copy/master/pause", {
+      accountId,
+      pausedByMaster: true,
+    })
+    .then((res) => {
+      if (res.data.code !== 0) {
+        throw new Error("Failed to pause follower");
+      }
+    });
+}
+
 export async function fetchMyMasterDetail() {
   return getApi<CopyMasterDetail>("/api/copy/master/me");
 }
@@ -193,15 +226,19 @@ export async function fetchOpenCopyPositions() {
   const path = "/api/copy/master/me/positions/open";
   return getApi<{ positions: CopyPosition[] }>(path).then((res) => res.positions);
 }
+export async function fetchCopyOrders() {
+  const path = "/api/copy/master/me/orders";
+  return getApi<{ orders: CopyOrder[] }>(path).then((res) => res.orders);
+}
 
 export async function fetchClosedCopyPositions() {
   const path = "/api/copy/master/me/positions/history";
   return getApi<{ positions: CopyPosition[] }>(path).then((res) => res.positions);
 }
 
-export async function fetchFollowersPositions() {
-  const path = "/api/copy/master/me/positions/followers";
-  return getApi<{ positions: CopyPosition[] }>(path).then((res) => res.positions);
+export async function fetchFollowerInformation() {
+  const path = "/api/copy/master/me/followers";
+  return getApi<{ accounts: FollowerInformation[] }>(path).then((res) => res.accounts);
 }
 
 

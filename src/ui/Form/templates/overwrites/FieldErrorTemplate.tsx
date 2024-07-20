@@ -13,6 +13,9 @@ function _convert (str: string) {
   if (str.includes("must have required property")) {
     return "Field is required";
   }
+  if (str.includes("must match")) {
+    return "Invalid value";
+  }
   return str;
 }
 function ErrorMessages({
@@ -24,7 +27,7 @@ function ErrorMessages({
   const errorMessage = errors?.[0] ?? <></>;
   if (typeof errorMessage === "string") {
     // must have required property 'Email'
-
+    errorMessage.includes("Field is required");
     return (
       <Text
         fz={"xs"}

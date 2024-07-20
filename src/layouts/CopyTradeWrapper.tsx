@@ -1,10 +1,13 @@
 import useMetadata from "@/hooks/useMetadata";
 import useOnMounted from "@/hooks/useOnMounted";
+import useSPEInterval from "@/hooks/useSPEInterval";
 import authStore from "@/store/auth";
 import copyStore from "@/store/copy";
+import tradeStore from "@/store/trade";
 import { CopyTradeInfo, TabsCopyTrade } from "@/ui/CopyTrade";
 import TabControl from "@/ui/CopyTrade/TabControl";
 import { Header } from "@/ui/Header";
+import { ONE_MINUTE } from "@/utils";
 import {
   Box,
   Card,
@@ -23,15 +26,22 @@ const CopyTradeWrapper = ({
   const { data } = useMetadata();
   const [mounted, setMounted] = useState(false);
   const { me } = authStore();
+
   useOnMounted(() => {
     setMounted(true);
   });
+
   useEffect(() => {
     me?.isCopyMaster &&
       setTimeout(() => {
         copyStore.getState().loadMaster();
       }, 500);
   }, [me?.isCopyMaster]);
+
+  useSPEInterval(() => {
+    tradeStore.getState().loadAllMarketInformation();
+  }, ONE_MINUTE);
+
   return (
     <Suspense
       fallback={

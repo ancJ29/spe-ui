@@ -36,6 +36,7 @@ export function TransferForm(props: {
         <Title order={3}>{t("Transfer")}</Title>
         <Space my={10} />
         <AppForm
+          xFlag
           w={"100%"}
           schema={schema.TransferSchema.schema}
           uiSchema={schema.TransferSchema.uiSchema}

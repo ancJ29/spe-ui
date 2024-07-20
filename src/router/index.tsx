@@ -45,10 +45,11 @@ const componentMap: Record<string, LazyExoticComponent> = {
   ResetPassword: lazy(() => import("@/routes/reset-password")),
   ForgotPassword: lazy(() => import("@/routes/forgot-password")),
 
+  MasterPosition: lazy(() => import("@/routes/copy/master-positions")),
+  FollowerPositions: lazy(() => import("@/routes/copy/followers-positions")),
+  MasterOrders: lazy(() => import("@/routes/copy/master-orders")),
+
   CopyTradeFundFlow: lazy(() => import("@/routes/copy-trade-fund-flow")),
-  CopyTradeHistory: lazy(() => import("@/routes/copy-trade-history")),
-  FollowerPositions: lazy(() => import("@/routes/copy/followers-position")),
-  CopyTradeMyPosition: lazy(() => import("@/routes/copy-trade-my-positions")),
   CopyTradeMyPromotion: lazy(() => import("@/routes/copy-trade-my-promotion")),
   CopyTradeMyTaker: lazy(() => import("@/routes/copy-trade-my-taker")),
   CopyTradePositions: lazy(() => import("@/routes/copy-trade-position")),
@@ -140,23 +141,27 @@ const configs: Config[] = [
     guestOnly: true,
   },
   {
-    path: "/copy-trade/mine/fund-flow",
-    element: "CopyTradeFundFlow",
-    wrapper: "CopyTradeWrapper",
-  },
-  {
-    path: "/copy-trade/mine/copy-history",
-    element: "CopyTradeHistory",
+    path: "/copy-trade/mine/my-positions",
+    element: "MasterPosition",
+    authOnly: true,
     wrapper: "CopyTradeWrapper",
   },
   {
     path: "/copy-trade/mine/my-copy",
     element: "FollowerPositions",
+    authOnly: true,
     wrapper: "CopyTradeWrapper",
   },
   {
-    path: "/copy-trade/mine/my-positions",
-    element: "CopyTradeMyPosition",
+    path: "/copy-trade/mine/copy-history",
+    element: "MasterOrders",
+    authOnly: true,
+    wrapper: "CopyTradeWrapper",
+  },
+  // xxx
+  {
+    path: "/copy-trade/mine/fund-flow",
+    element: "CopyTradeFundFlow",
     wrapper: "CopyTradeWrapper",
   },
   {

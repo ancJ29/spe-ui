@@ -1,7 +1,7 @@
 import useTranslation from "@/hooks/useTranslation";
 import { assetStore } from "@/store/assets";
-import { NoDataRecord } from "@/ui/NoData";
 import NumberFormat from "@/ui/NumberFormat";
+import { NoDataRecord } from "@/ui/SPEMisc";
 import { TransferForm } from "@/ui/Wallet";
 import {
   ActionIcon,

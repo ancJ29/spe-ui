@@ -1,6 +1,6 @@
 import { fetch } from "@/services/apis";
 import { TradeList } from "@/types";
-import { NoDataRecord } from "@/ui/NoData";
+import { NoDataRecord } from "@/ui/SPEMisc";
 import {
   Box,
   Flex,

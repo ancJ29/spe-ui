@@ -76,6 +76,6 @@ function _authenticated(res: { token: string }) {
   const token = res?.token || "";
   if (token) {
     localStorage.__TOKEN__ = token;
+    window.location.href = redirectPath;
   }
-  window.location.href = redirectPath;
 }

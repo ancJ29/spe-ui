@@ -1,13 +1,18 @@
 import { profit } from "@/common/logic";
 import tradeStore from "@/store/trade";
-import { Position } from "@/types";
 import { useMemo } from "react";
 import { SPETableNumber } from "./SPETableNumber";
 
 export function SPEUnrealizedPnL({
   position,
 }: {
-  position: Position;
+  position: {
+    symbol: string;
+    side: string;
+    volume: number;
+    entryPrice: number;
+    fee: number;
+  };
 }) {
   const { marketInformation } = tradeStore();
   const unRealizedPnl = useMemo(() => {

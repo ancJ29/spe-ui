@@ -11,7 +11,7 @@ export function SPETableText({
   color?: string;
 }) {
   return (
-    <Flex maw={maw} align={"center"} justify={"end"}>
+    <Flex maw={maw} align={"center"} justify={"start"}>
       <AppText instancetype="WithCellToken" fz={12} c={color}>
         {value}
       </AppText>

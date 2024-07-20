@@ -1,27 +1,26 @@
-import BN from "@/common/big-number";
-import { ASSET_COIN_LIST } from "@/common/configs";
-import { COIN_IMAGES } from "@/domain/config";
 import useTranslation from "@/hooks/useTranslation";
 import { assetStore } from "@/store/assets";
-import { NoDataRecord } from "@/ui/NoData";
 import NumberFormat from "@/ui/NumberFormat";
+import { NoDataRecord } from "@/ui/SPEMisc";
 import { TransferForm } from "@/ui/Wallet";
 import {
   ActionIcon,
   Box,
   Button,
   Flex,
-  Image,
   Modal,
   Pagination,
   ScrollArea,
   Table,
   TableData,
-  Text,
   Title,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconExternalLink, IconPlus, IconX } from "@tabler/icons-react";
+import {
+  IconExternalLink,
+  IconPlus,
+  IconX,
+} from "@tabler/icons-react";
 import { useCallback, useMemo, useState } from "react";
 import { v4 } from "uuid";
 
@@ -42,17 +41,14 @@ export function TableCopyTradePromotion(prosp: PropsType) {
   );
 
   const tableData: TableData = useMemo(() => {
-
-    const _row = () => (
-      {
-        time: Date.now() * Math.floor(Math.random() * 100),
-        uuid: v4(),
-        follower: Math.floor(Math.random() * 100),
-        followersPrice: Math.random() * 100000,
-        settledProfit: Math.random() * 100000,
-        unsettledProfit: Math.random() * 100000,
-      }
-    );
+    const _row = () => ({
+      time: Date.now() * Math.floor(Math.random() * 100),
+      uuid: v4(),
+      follower: Math.floor(Math.random() * 100),
+      followersPrice: Math.random() * 100000,
+      settledProfit: Math.random() * 100000,
+      unsettledProfit: Math.random() * 100000,
+    });
     return {
       head: [
         "Time",
@@ -67,9 +63,10 @@ Unsettled Profit Sharing`,
         "Promoter Link",
       ].map((el) => {
         return (
-          <Box style={{
-            whiteSpace: "pre"
-          }}
+          <Box
+            style={{
+              whiteSpace: "pre",
+            }}
           >
             {t(el)}
           </Box>
@@ -85,13 +82,14 @@ Unsettled Profit Sharing`,
               </Title>
             </>,
             <>
-              <Title order={6}>
-                {row.uuid}
-              </Title>
+              <Title order={6}>{row.uuid}</Title>
             </>,
             <>
               <Title order={6}>
-                <NumberFormat decimalPlaces={0} value={row.follower} />
+                <NumberFormat
+                  decimalPlaces={0}
+                  value={row.follower}
+                />
               </Title>
             </>,
             <>
@@ -104,10 +102,16 @@ Unsettled Profit Sharing`,
             </>,
             <>
               <Title order={6}>
-                <NumberFormat decimalPlaces={8} value={row.settledProfit} />
+                <NumberFormat
+                  decimalPlaces={8}
+                  value={row.settledProfit}
+                />
               </Title>
               <Title order={6} c={"primary"}>
-                <NumberFormat decimalPlaces={8} value={row.unsettledProfit} />
+                <NumberFormat
+                  decimalPlaces={8}
+                  value={row.unsettledProfit}
+                />
               </Title>
             </>,
             <>
@@ -118,12 +122,8 @@ Unsettled Profit Sharing`,
             </>,
             <>
               <Flex gap={5}>
-                <Button
-                  p={0}
-                  size="xs"
-                  variant="transparent"
-                >
-                  <IconExternalLink/>
+                <Button p={0} size="xs" variant="transparent">
+                  <IconExternalLink />
                 </Button>
               </Flex>
             </>,
