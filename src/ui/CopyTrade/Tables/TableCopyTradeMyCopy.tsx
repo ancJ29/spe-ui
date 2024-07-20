@@ -130,8 +130,8 @@ Unrealized PnL (USDT/%)`,
                   row.pnlTotal > 0
                     ? "green"
                     : row.pnlTotal < 0
-                    ? "red"
-                    : "dimmed"
+                      ? "red"
+                      : "dimmed"
                 }
               >
                 <NumberFormat
@@ -145,8 +145,8 @@ Unrealized PnL (USDT/%)`,
                   row.pnlTotal > 0
                     ? "green"
                     : row.pnlTotal < 0
-                    ? "red"
-                    : "dimmed"
+                      ? "red"
+                      : "dimmed"
                 }
               >
                 <NumberFormat

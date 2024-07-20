@@ -24,6 +24,8 @@ const timers = new Map<string, NodeJS.Timeout>();
 
 /* eslint-disable @typescript-eslint/no-empty-function */
 export default (symbol: string, isSpot: boolean) => {
+  let lastBar: Bar | undefined = undefined;
+  let lastCheck = 0;
   const SPOT_KLINE = "https://api.binance.com/api/v3/klines";
   const FUTURE_KLINE = "https://fapi.binance.com/fapi/v1/klines";
 
@@ -133,8 +135,9 @@ export default (symbol: string, isSpot: boolean) => {
         listenerGuid,
         setTimeout(
           _sync,
-          5e3,
+          1e3,
           listenerGuid,
+          symbolInfo.name,
           resolution,
           onTick,
           onResetCacheNeededCallback,
@@ -161,38 +164,53 @@ export default (symbol: string, isSpot: boolean) => {
 
   function _sync(
     listenerGuid: string,
+    symbolName: string,
     resolution: ResolutionString,
     onTick: SubscribeBarsCallback,
     onResetCacheNeededCallback: () => void,
   ) {
+    logger.debug("sync...");
+    const latestPrice = Number(localStorage[`__LAST_PRICE_${symbolName}__`] || 0);
+    logger.debug("latestPrice", latestPrice);
     const interval = intervals[resolution];
     const endTime = Math.floor(Date.now() / 1e3) * 1e3;
     const _url = `${url}&interval=${interval}&endTime=${endTime}&limit=1`;
-    axios
-      .get<KLine>(_url)
-      .then((response) => {
-        const bars: Bar[] = response.data.map((kline) => ({
-          time: kline[0],
-          close: parseFloat(kline[4]),
-          open: parseFloat(kline[1]),
-          high: parseFloat(kline[2]),
-          low: parseFloat(kline[3]),
-          volume: parseFloat(kline[5]),
-        }));
-        const lastBar = last(bars);
-        lastBar && onTick(lastBar);
-      })
-      .catch((error) => {
-        logger.error("getBars", error);
-        onResetCacheNeededCallback();
-      });
-
+    if (lastBar && lastCheck + 30e3 > Date.now()) {
+      if (latestPrice !== lastBar.close) {
+        lastBar.close = latestPrice;
+        onTick(lastBar);
+      }
+    } else {
+      axios
+        .get<KLine>(_url)
+        .then((response) => {
+          lastCheck = Date.now();
+          const bars: Bar[] = response.data.map((kline) => ({
+            time: kline[0],
+            close: parseFloat(kline[4]),
+            open: parseFloat(kline[1]),
+            high: parseFloat(kline[2]),
+            low: parseFloat(kline[3]),
+            volume: parseFloat(kline[5]),
+          }));
+          lastBar = last(bars);
+          if (lastBar) {
+            lastBar.close = latestPrice || lastBar.close;
+            onTick(lastBar);
+          }
+        })
+        .catch((error) => {
+          logger.error("getBars", error);
+          onResetCacheNeededCallback();
+        });
+    }
     timers.set(
       listenerGuid,
       setTimeout(
         _sync,
-        5e3,
+        1e3,
         listenerGuid,
+        symbolName,
         resolution,
         onTick,
         onResetCacheNeededCallback,

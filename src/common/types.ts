@@ -183,6 +183,9 @@ export type SPEOrderBook = Record<
   {
     a: number[][];
     b: number[][];
+    T?: number;
+    last?: number;
+    lastUpdated?: number;
   }
 >;
 

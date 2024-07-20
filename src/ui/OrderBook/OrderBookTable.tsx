@@ -87,6 +87,8 @@ export function OrderBookTable({
             latest = latestAsk;
             side = OrderSide.SELL;
           }
+          // logger.debug("save", `__LAST_PRICE_${symbol}__`, latest);
+          localStorage[`__LAST_PRICE_${symbol}__`] = latest;
           const totalAsk = a[0]?.[2] || 0;
           const totalBid = last(b)?.[2] || 0;
           const total = Number(BN.add(totalAsk, totalBid)) / 100 || 1;
