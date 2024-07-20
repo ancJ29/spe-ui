@@ -47,7 +47,7 @@ const componentMap: Record<string, LazyExoticComponent> = {
 
   CopyTradeFundFlow: lazy(() => import("@/routes/copy-trade-fund-flow")),
   CopyTradeHistory: lazy(() => import("@/routes/copy-trade-history")),
-  CopyTradeMe: lazy(() => import("@/routes/copy-trade-me")),
+  FollowerPositions: lazy(() => import("@/routes/copy/followers-position")),
   CopyTradeMyPosition: lazy(() => import("@/routes/copy-trade-my-positions")),
   CopyTradeMyPromotion: lazy(() => import("@/routes/copy-trade-my-promotion")),
   CopyTradeMyTaker: lazy(() => import("@/routes/copy-trade-my-taker")),
@@ -151,7 +151,7 @@ const configs: Config[] = [
   },
   {
     path: "/copy-trade/mine/my-copy",
-    element: "CopyTradeMe",
+    element: "FollowerPositions",
     wrapper: "CopyTradeWrapper",
   },
   {

@@ -66,7 +66,7 @@ export default (symbol: string, isSpot: boolean) => {
       if (symbolName !== symbol) {
         onError("Invalid Symbol!!!");
       }
-      await delay(100);
+      await delay(10);
       onResolve({
         // cspell: ignore minmov, pricescale, has_intraday
         ticker: symbolName,
@@ -145,7 +145,7 @@ export default (symbol: string, isSpot: boolean) => {
       clearTimeout(timers.get(listenerGuid));
     },
     onReady: async (callback: OnReadyCallback) => {
-      await delay(100);
+      await delay(10);
       callback({
         supported_resolutions,
         exchanges: [

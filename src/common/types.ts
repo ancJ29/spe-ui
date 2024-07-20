@@ -84,19 +84,11 @@ export type BalanceOverview = {
 // "BTC_USDT_SPOT": number,
 export type MarketPrice = Record<string, number>;
 
+export type CopyPosition = Position & {
+  followerVolume: number;
+}
+
 export type Position = {
-  // symbol: string;
-  // volume: string;
-  // side: OrderSide;
-  // entryPrice: string;
-  // liquidationPrice?: string;
-  // margin?: string;
-  // marginLevel?: string;
-  // unRealizedPnl?: string;
-  // realizedPnl?: string;
-  // closedVolume?: string;
-  // maxOpenInterest?: string;
-  // accountId: string;
   positionId: string;
   symbol: string;
   side: OrderSide;
@@ -226,4 +218,41 @@ export type TradeList = {
 export type OpenTrades = {
   openOrders: Record<string, number>;
   openPositions: Record<string, number>;
+};
+
+export type CopyMasterDetail = {
+  imageUrl: string;
+  name: string;
+  publicProfile: boolean;
+  shareHistory: boolean;
+  minAmount: number;
+  maxAmount: number;
+  bio: string;
+  profitSharing: {
+    total: number;
+    settled: number;
+    unSettled: number;
+  };
+  promoters: number;
+  followers: {
+    current: number;
+    max: number;
+    cum: number;
+    aum: number;
+  };
+  shares: {
+    master: number,
+    promoter: number,
+  };
+}
+
+export type CopyMasterSetting = {
+  imageUrl: string;
+  name: string;
+  bio: string;
+  maxAmount: number;
+  minAmount: number;
+  maxFollowers: number;
+  shareHistory: boolean;
+  publicProfile: boolean;
 };

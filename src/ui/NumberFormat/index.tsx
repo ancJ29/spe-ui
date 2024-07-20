@@ -2,7 +2,7 @@ import BN from "@/common/big-number";
 
 type NumberFormatProps = {
   decimalPlaces?: number;
-  isOff?: boolean;
+  hidden?: boolean;
   prefix?: string;
   suffix?: string;
   value: string | number | undefined;
@@ -10,12 +10,12 @@ type NumberFormatProps = {
 
 export default function NumberFormat({
   decimalPlaces = 2,
-  isOff,
+  hidden,
   prefix = "",
   suffix = "",
   value,
 }: NumberFormatProps) {
-  if (isOff) {
+  if (hidden) {
     return <span>****</span>;
   }
   if (value === undefined) {

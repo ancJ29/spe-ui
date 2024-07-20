@@ -1,5 +1,6 @@
 import BN from "@/common/big-number";
 import { IS_DEV } from "@/domain/config";
+import useSPEInterval from "@/hooks/useSPEInterval";
 import useTranslation from "@/hooks/useTranslation";
 import { assetStore } from "@/store/assets";
 import authStore from "@/store/auth";
@@ -22,14 +23,13 @@ import {
   Space,
   Spoiler,
 } from "@mantine/core";
-import { useInterval } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import {
   IconChevronsDown,
   IconChevronsUp,
   IconGripHorizontal,
 } from "@tabler/icons-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
@@ -62,23 +62,13 @@ export function GridTrade({
     [setLayouts],
   );
 
-  useEffect(() => {
-    tradeStore.getState().loadOpenTrades();
-    tradeStore.getState().loadMarketInformation(symbol);
-  }, [symbol]);
-
-  const interval = useInterval(
+  useSPEInterval(
     () => {
       tradeStore.getState().loadOpenTrades();
       tradeStore.getState().loadMarketInformation(symbol);
     },
     IS_DEV ? 10e3 : 1e3,
   );
-
-  useEffect(() => {
-    interval.start();
-    return interval.stop;
-  }, [interval, symbol]);
 
   return (
     <Grid columns={24} gutter={4} p={4} key={symbol}>

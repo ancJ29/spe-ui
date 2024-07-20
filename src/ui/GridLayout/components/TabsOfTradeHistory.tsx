@@ -1,5 +1,4 @@
 import { OrderSide } from "@/common/enums";
-import { profit } from "@/common/logic";
 import { IS_DEV } from "@/domain/config";
 import useSyncData from "@/hooks/useSyncData";
 import useTranslation from "@/hooks/useTranslation";
@@ -18,7 +17,17 @@ import tradeStore from "@/store/trade";
 import { GridTradeProps, Order, Position, Trade } from "@/types";
 import AppButton from "@/ui/Button/AppButton";
 import { NoDataRecord } from "@/ui/NoData";
-import NumberFormat from "@/ui/NumberFormat";
+import {
+  SPETableDateTime,
+  SPETableDoubleNumbers,
+  SPETableHeader,
+  SPETableMarkPrice,
+  SPETableNumber,
+  SPETableSide,
+  SPETableSymbol,
+  SPETableText,
+  SPEUnrealizedPnL,
+} from "@/ui/SPEMisc";
 import AppTabs from "@/ui/Tabs";
 import AppText from "@/ui/Text/AppText";
 import { TradingAssetsTable } from "@/ui/Wallet";
@@ -28,7 +37,6 @@ import {
   Checkbox,
   Divider,
   Flex,
-  NumberFormatter,
   rem,
   Table,
   TableData,
@@ -283,14 +291,14 @@ export function TabsOfTradeHistory({
   );
 }
 
-function TradeHistory({ symbol }: TabProps) {
+function TradeHistory({ symbol, isFuture }: TabProps) {
   const fetch = useCallback(() => fetchTrades(symbol), [symbol]);
   const trades = useSyncData<Trade[]>(fetch);
   return (
     <SPETable
       tableData={{
         head: [
-          "Symbol",
+          isFuture ? "Contract" : "Symbol",
           "Direction",
           "Filled Price",
           "Filled",
@@ -301,13 +309,13 @@ function TradeHistory({ symbol }: TabProps) {
           const isBuy = trade.side === "BUY";
           const color = isBuy ? "green" : "red";
           return [
-            <Symbol
+            <SPETableSymbol
               key={`${trade.tradeId}.symbol`}
               symbol={trade.symbol}
               color={color}
               miw={80}
             />,
-            <Side
+            <SPETableSide
               key={`${trade.tradeId}.side`}
               side={trade.side}
               color={color}
@@ -345,7 +353,7 @@ function OrderHistory({ symbol, isFuture }: TabProps) {
     <SPETable
       tableData={{
         head: [
-          "Symbol",
+          isFuture ? "Contract" : "Symbol",
           "Type",
           "Direction",
           "Filled / Volume",
@@ -359,7 +367,7 @@ function OrderHistory({ symbol, isFuture }: TabProps) {
           const isBuy = order.side === "BUY";
           const color = isBuy ? "green" : "red";
           return [
-            <Symbol
+            <SPETableSymbol
               key={`${order.orderId}.symbol`}
               symbol={order.symbol}
               color={color}
@@ -369,7 +377,7 @@ function OrderHistory({ symbol, isFuture }: TabProps) {
               key={`${order.orderId}.type`}
               value={order.type}
             />,
-            <Side
+            <SPETableSide
               key={`${order.orderId}.side`}
               side={order.side}
               color={color}
@@ -421,7 +429,7 @@ function CurrentOrders({ symbol, isFuture }: TabProps) {
     <SPETable
       tableData={{
         head: [
-          "Symbol",
+          isFuture ? "Contract" : "Symbol",
           "Type",
           "Direction",
           "Filled / Volume",
@@ -436,7 +444,7 @@ function CurrentOrders({ symbol, isFuture }: TabProps) {
           const isBuy = order.side === "BUY";
           const color = isBuy ? "green" : "red";
           return [
-            <Symbol
+            <SPETableSymbol
               key={`${order.orderId}.symbol`}
               symbol={order.symbol}
               color={color}
@@ -446,7 +454,7 @@ function CurrentOrders({ symbol, isFuture }: TabProps) {
               key={`${order.orderId}.type`}
               value={order.type}
             />,
-            <Side
+            <SPETableSide
               key={`${order.orderId}.side`}
               side={order.side}
               color={color}
@@ -539,7 +547,7 @@ function CurrentOrders({ symbol, isFuture }: TabProps) {
   );
 }
 
-function Positions({ symbol }: TabProps) {
+function Positions({ symbol, isFuture }: TabProps) {
   const t = useTranslation();
   const fetch = useCallback(
     () => fetchOpenPositions(symbol),
@@ -550,7 +558,7 @@ function Positions({ symbol }: TabProps) {
     <SPETable
       tableData={{
         head: [
-          "Symbol",
+          isFuture ? "Contract" : "Symbol",
           "Direction",
           "Position Size",
           "Entry Price",
@@ -560,18 +568,17 @@ function Positions({ symbol }: TabProps) {
           "Margin Level",
           "Unrealized PnL(%)",
           "Action",
-          fetchOpenPositions,
         ].filter(Boolean) as string[],
         body: positions?.map((position) => {
           const isBuy = position.side === "BUY";
           const color = isBuy ? "green" : "red";
           return [
-            <Symbol
+            <SPETableSymbol
               key={`${position.positionId}.symbol`}
               symbol={position.symbol}
               color={color}
             />,
-            <Side
+            <SPETableSide
               key={`${position.positionId}.side`}
               side={position.side}
               color={color}
@@ -585,7 +592,7 @@ function Positions({ symbol }: TabProps) {
               key={`${position.positionId}.entryPrice`}
               value={position.entryPrice}
             />,
-            <MarkPrice
+            <SPETableMarkPrice
               key={`${position.positionId}.markPrice`}
               symbol={position.symbol}
             />,
@@ -671,7 +678,7 @@ function Positions({ symbol }: TabProps) {
   );
 }
 
-function ClosedPnL({ symbol }: TabProps) {
+function ClosedPnL({ symbol, isFuture }: TabProps) {
   const fetch = useCallback(
     () => fetchClosedPositions(symbol),
     [symbol],
@@ -681,7 +688,7 @@ function ClosedPnL({ symbol }: TabProps) {
     <SPETable
       tableData={{
         head: [
-          "Symbol",
+          isFuture ? "Contract" : "Symbol",
           "Direction",
           "Position Size",
           "Entry Price",
@@ -689,18 +696,17 @@ function ClosedPnL({ symbol }: TabProps) {
           "PnL(%)",
           "Entry Time",
           "Closed Time",
-          fetchOpenPositions,
         ].filter(Boolean) as string[],
         body: positions?.map((position) => {
           const isBuy = position.side === "BUY";
           const color = isBuy ? "green" : "red";
           return [
-            <Symbol
+            <SPETableSymbol
               key={`${position.positionId}.symbol`}
               symbol={position.symbol}
               color={color}
             />,
-            <Side
+            <SPETableSide
               key={`${position.positionId}.side`}
               side={position.side}
               color={color}
@@ -855,130 +861,13 @@ function More() {
   );
 }
 
-function Side({ side, color }: { color: string; side: string }) {
-  return (
-    <Flex align={"center"}>
-      <AppText instancetype="WithCellToken" fz={12} c={color}>
-        {side}
-      </AppText>
-    </Flex>
-  );
-}
-
-function Symbol({
-  symbol,
-  color,
-  miw,
+function SPETable({
+  tableData,
 }: {
-  miw?: number;
-  color: string;
-  symbol: string;
+  tableData: Omit<TableData, "head"> & {
+    head: string[];
+  };
 }) {
-  return (
-    <Flex align={"center"} gap={8}>
-      <Box bg={color} w={"2px"} h={30} />
-      <Box miw={miw}>
-        <AppText instancetype="WithCellToken" fz={12}>
-          {symbol}
-        </AppText>
-      </Box>
-    </Flex>
-  );
-}
-
-function SPETableNumber({
-  value,
-  color,
-  maw,
-  decimalPlaces = 4,
-}: {
-  decimalPlaces?: number;
-  maw?: number;
-  value?: string | number;
-  color?: string;
-}) {
-  return (
-    <Flex maw={maw} align={"center"} justify={"start"}>
-      <AppText instancetype="WithCellToken" fz={12} c={color}>
-        {!value ? (
-          "---"
-        ) : (
-          <NumberFormat
-            value={value || 0}
-            decimalPlaces={decimalPlaces}
-          />
-        )}
-      </AppText>
-    </Flex>
-  );
-}
-
-function SPETableDoubleNumbers({
-  values,
-  color,
-  maw,
-}: {
-  maw?: number;
-  values: [string | number, string | number];
-  color?: string;
-}) {
-  return (
-    <Flex maw={maw} align={"center"} justify={"end"}>
-      <AppText instancetype="WithCellToken" fz={12} c={color}>
-        {values[0] ? (
-          <NumberFormatter thousandSeparator value={values[0]} />
-        ) : (
-          "---"
-        )}
-        {" / "}
-        {values[1] ? (
-          <NumberFormatter thousandSeparator value={values[1]} />
-        ) : (
-          "---"
-        )}
-      </AppText>
-    </Flex>
-  );
-}
-
-function SPETableText({
-  value,
-  color,
-  maw,
-}: {
-  maw?: number;
-  value: string;
-  color?: string;
-}) {
-  return (
-    <Flex maw={maw} align={"center"} justify={"end"}>
-      <AppText instancetype="WithCellToken" fz={12} c={color}>
-        {value}
-      </AppText>
-    </Flex>
-  );
-}
-
-function SPETableDateTime({ time }: { time: number }) {
-  return (
-    <Flex align={"end"}>
-      <AppText instancetype="WithCellToken" fz={12}>
-        {time ? new Date(time).toLocaleString() : "---"}
-      </AppText>
-    </Flex>
-  );
-}
-
-function MarkPrice({ symbol }: { symbol: string }) {
-  const { marketInformation } = tradeStore();
-  return (
-    <SPETableNumber value={marketInformation[symbol]?.markPrice} />
-  );
-}
-
-function SPETable({ tableData }: { tableData: TableData }) {
-  const t = useTranslation();
-
   return (
     <Flex direction={"column"} h={"100%"}>
       <Table.ScrollContainer minWidth={"100%"} h={"100%"}>
@@ -994,12 +883,11 @@ function SPETable({ tableData }: { tableData: TableData }) {
           withRowBorders={false}
           data={{
             ...tableData,
-            head: tableData.head?.filter(Boolean).map((el) => {
-              if (typeof el === "string") {
-                return t(el);
-              }
-              return el;
-            }),
+            head: tableData.head
+              ?.filter(Boolean)
+              .map((label: string, idx) => (
+                <SPETableHeader key={idx} label={label || ""} />
+              )),
           }}
           verticalSpacing={"xs"}
         />
@@ -1007,30 +895,5 @@ function SPETable({ tableData }: { tableData: TableData }) {
       </Table.ScrollContainer>
       {tableData.body?.length === 100 && <More />}
     </Flex>
-  );
-}
-
-function SPEUnrealizedPnL({ position }: { position: Position }) {
-  const { marketInformation } = tradeStore();
-  const unRealizedPnl = useMemo(() => {
-    return profit(
-      position.entryPrice,
-      marketInformation[position.symbol]?.markPrice || 0,
-      position.volume,
-      position.side,
-      position.fee,
-    );
-  }, [
-    marketInformation,
-    position.entryPrice,
-    position.fee,
-    position.side,
-    position.symbol,
-    position.volume,
-  ]);
-  return (
-    <>
-      <SPETableNumber value={unRealizedPnl} />
-    </>
   );
 }

@@ -1,14 +1,5 @@
-import { MyPostions } from "@/ui/CopyTrade";
-import { Box } from "@mantine/core";
-import { useLocation } from "react-router-dom";
+import { MasterPositions } from "@/ui/CopyTrade";
 
 export default function Page() {
-  const location = useLocation();
-
-  return (
-    <>
-      <Box hidden>{location.pathname}</Box>
-      <MyPostions/>
-    </>
-  );
+  return <MasterPositions />;
 }

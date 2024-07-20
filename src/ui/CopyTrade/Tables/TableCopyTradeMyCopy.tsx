@@ -1,6 +1,3 @@
-import BN from "@/common/big-number";
-import { ASSET_COIN_LIST } from "@/common/configs";
-import { COIN_IMAGES } from "@/domain/config";
 import useTranslation from "@/hooks/useTranslation";
 import { assetStore } from "@/store/assets";
 import { NoDataRecord } from "@/ui/NoData";
@@ -11,13 +8,11 @@ import {
   Box,
   Button,
   Flex,
-  Image,
   Modal,
   Pagination,
   ScrollArea,
   Table,
   TableData,
-  Text,
   Title,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -41,19 +36,17 @@ export function TableCopyTradeMyCopy(props: PropsType) {
   );
 
   const tableData: TableData = useMemo(() => {
-    const _row = () => (
-      {
-        time: Date.now() * Math.floor(Math.random() * 200),
-        followersId: v4(),
-        positions: [0, 1][Math.floor(Math.random() * 1)],
-        investment: 350,
-        currAssets: 350,
-        settled: 0,
-        unSettled: 0,
-        pnlTotal: 1321321.22,
-        pnlunrealized: 21321.22
-      }
-    );
+    const _row = () => ({
+      time: Date.now() * Math.floor(Math.random() * 200),
+      followersId: v4(),
+      positions: [0, 1][Math.floor(Math.random() * 1)],
+      investment: 350,
+      currAssets: 350,
+      settled: 0,
+      unSettled: 0,
+      pnlTotal: 1321321.22,
+      pnlunrealized: 21321.22,
+    });
 
     return {
       head: [
@@ -69,12 +62,13 @@ Unsettled Profit Sharing`,
 Unrealized PnL (USDT/%)`,
         // "Experience Fund",
         "Remark",
-        "Action"
+        "Action",
       ].map((el) => {
         return (
-          <Box style={{
-            whiteSpace: "pre"
-          }}
+          <Box
+            style={{
+              whiteSpace: "pre",
+            }}
           >
             {t(el)}
           </Box>
@@ -87,28 +81,26 @@ Unrealized PnL (USDT/%)`,
             <>
               <Flex align={"center"} gap={10}>
                 <Box>
-                  <Title order={6} >{new Date(row.time).toLocaleString()}</Title>
+                  <Title order={6}>
+                    {new Date(row.time).toLocaleString()}
+                  </Title>
                 </Box>
               </Flex>
             </>,
             <>
-              <Title order={6} >
-                {row.followersId}
-              </Title>
+              <Title order={6}>{row.followersId}</Title>
             </>,
             <>
-              <Title order={6} >
-                {row.positions}
-              </Title>
+              <Title order={6}>{row.positions}</Title>
             </>,
             <>
-              <Title order={6} >
+              <Title order={6}>
                 <NumberFormat
                   decimalPlaces={2}
                   value={row.investment}
                 />
               </Title>
-              <Title order={6} >
+              <Title order={6}>
                 <NumberFormat
                   decimalPlaces={2}
                   value={row.currAssets}
@@ -116,14 +108,14 @@ Unrealized PnL (USDT/%)`,
               </Title>
             </>,
             <>
-              <Title order={6} >
+              <Title order={6}>
                 <NumberFormat
                   decimalPlaces={2}
                   value={row.settled}
                   suffix="USDT"
                 />
               </Title>
-              <Title order={6} >
+              <Title order={6}>
                 <NumberFormat
                   decimalPlaces={2}
                   value={row.unSettled}
@@ -132,13 +124,31 @@ Unrealized PnL (USDT/%)`,
               </Title>
             </>,
             <>
-              <Title order={6} c={row.pnlTotal > 0 ? "green" : row.pnlTotal < 0 ? "red" : "dimmed"}>
+              <Title
+                order={6}
+                c={
+                  row.pnlTotal > 0
+                    ? "green"
+                    : row.pnlTotal < 0
+                    ? "red"
+                    : "dimmed"
+                }
+              >
                 <NumberFormat
                   decimalPlaces={8}
                   value={row.pnlTotal}
                 />
               </Title>
-              <Title order={6} c={row.pnlTotal > 0 ? "green" : row.pnlTotal < 0 ? "red" : "dimmed"}>
+              <Title
+                order={6}
+                c={
+                  row.pnlTotal > 0
+                    ? "green"
+                    : row.pnlTotal < 0
+                    ? "red"
+                    : "dimmed"
+                }
+              >
                 <NumberFormat
                   decimalPlaces={8}
                   value={row.pnlunrealized}

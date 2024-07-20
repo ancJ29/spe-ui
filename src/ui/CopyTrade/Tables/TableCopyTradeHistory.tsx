@@ -1,7 +1,4 @@
-import BN from "@/common/big-number";
-import { ASSET_COIN_LIST } from "@/common/configs";
 import { priceDisplay } from "@/common/utils";
-import { COIN_IMAGES } from "@/domain/config";
 import useTranslation from "@/hooks/useTranslation";
 import { assetStore } from "@/store/assets";
 import { NoDataRecord } from "@/ui/NoData";
@@ -10,10 +7,8 @@ import { TransferForm } from "@/ui/Wallet";
 import {
   ActionIcon,
   Box,
-  Button,
   Divider,
   Flex,
-  Image,
   Modal,
   Pagination,
   ScrollArea,
@@ -26,8 +21,10 @@ import { useDisclosure } from "@mantine/hooks";
 import { IconX } from "@tabler/icons-react";
 import { useCallback, useMemo, useState } from "react";
 
-type PropsType = {};
-export function TableCopyTradeHistory(props: PropsType) {
+type PropsType = {
+  //
+};
+export function TableCopyTradeHistory() {
   const t = useTranslation();
   const [opened, { open, close }] = useDisclosure(false);
   const [coin, setCoin] = useState("");
@@ -43,20 +40,20 @@ export function TableCopyTradeHistory(props: PropsType) {
   );
 
   const tableData: TableData = useMemo(() => {
-    const _row = () => (
-      {
-        coin: "BTC",
-        quote: "USDT",
-        bias: ["long", "short"][Math.floor(Math.random() * 1)],
-        biasVal: "5x",
-        master: ["Avalanche", "Helios Tech", "Defi Long"][Math.floor(Math.random() * 2)],
-        price: Math.random() * 200000,
-        qty: Math.random() * 3,
-        margin: Math.random() * 200000,
-        unrealizedPnL: Math.random() * 200000,
-        time: Date.now() * (Math.random() * 100)
-      }
-    );
+    const _row = () => ({
+      coin: "BTC",
+      quote: "USDT",
+      bias: ["long", "short"][Math.floor(Math.random() * 1)],
+      biasVal: "5x",
+      master: ["Avalanche", "Helios Tech", "Defi Long"][
+        Math.floor(Math.random() * 2)
+      ],
+      price: Math.random() * 200000,
+      qty: Math.random() * 3,
+      margin: Math.random() * 200000,
+      unrealizedPnL: Math.random() * 200000,
+      time: Date.now() * (Math.random() * 100),
+    });
     return {
       head: [
         "Contract",
@@ -67,9 +64,10 @@ export function TableCopyTradeHistory(props: PropsType) {
         "Realized PnL",
       ].map((el) => {
         return (
-          <Box style={{
-            whiteSpace: "pre"
-          }}
+          <Box
+            style={{
+              whiteSpace: "pre",
+            }}
           >
             {t(el)}
           </Box>
@@ -83,13 +81,35 @@ export function TableCopyTradeHistory(props: PropsType) {
               <Flex align={"center"} gap={10}>
                 <Flex h={"100%"}>
                   <Box>
-                    {row.bias.toLowerCase().startsWith("long") && <Divider h={"calc(100% - 5px)"} w={4} bg={"green"} />}
-                    {row.bias.toLowerCase().startsWith("short") && <Divider h={"calc(100% - 5px)"} w={4} bg={"red"} />}
+                    {row.bias.toLowerCase().startsWith("long") && (
+                      <Divider
+                        h={"calc(100% - 5px)"}
+                        w={4}
+                        bg={"green"}
+                      />
+                    )}
+                    {row.bias.toLowerCase().startsWith("short") && (
+                      <Divider
+                        h={"calc(100% - 5px)"}
+                        w={4}
+                        bg={"red"}
+                      />
+                    )}
                   </Box>
                   <Box pl={10}>
-                    <Title order={6}>{row.coin}/{row.quote}</Title>
-                    {row.bias.toLowerCase().startsWith("long") && <Text c={"green"}>{row.bias} {row.biasVal}</Text>}
-                    {row.bias.toLowerCase().startsWith("short") && <Text c={"red"}>{row.bias} {row.biasVal}</Text>}
+                    <Title order={6}>
+                      {row.coin}/{row.quote}
+                    </Title>
+                    {row.bias.toLowerCase().startsWith("long") && (
+                      <Text c={"green"}>
+                        {row.bias} {row.biasVal}
+                      </Text>
+                    )}
+                    {row.bias.toLowerCase().startsWith("short") && (
+                      <Text c={"red"}>
+                        {row.bias} {row.biasVal}
+                      </Text>
+                    )}
                   </Box>
                 </Flex>
               </Flex>
@@ -101,7 +121,11 @@ export function TableCopyTradeHistory(props: PropsType) {
             </>,
             <>
               <Title order={6}>
-                <NumberFormat decimalPlaces={2} value={row.price} suffix="USDT" />
+                <NumberFormat
+                  decimalPlaces={2}
+                  value={row.price}
+                  suffix="USDT"
+                />
               </Title>
             </>,
             <>
@@ -119,7 +143,10 @@ export function TableCopyTradeHistory(props: PropsType) {
               </Title>
             </>,
             <>
-              <Title order={6} c={priceDisplay(row.unrealizedPnL).color}>
+              <Title
+                order={6}
+                c={priceDisplay(row.unrealizedPnL).color}
+              >
                 <NumberFormat
                   prefix={priceDisplay(row.unrealizedPnL).sub}
                   decimalPlaces={2}
@@ -161,7 +188,6 @@ export function TableCopyTradeHistory(props: PropsType) {
           <Flex justify={"center"} mt={20}>
             <Pagination total={10} />
           </Flex>
-
         </Table.ScrollContainer>
       </Box>
       <Modal

@@ -40,7 +40,7 @@ import {
 } from "@tabler/icons-react";
 import { cloneDeep } from "lodash";
 import { QRCodeSVG } from "qrcode.react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 
 const lines: Record<string, string[]> = {
   USDT: [
@@ -468,7 +468,6 @@ export function AmountToTransferWidget({
 }: WidgetProps) {
   const t = useTranslation();
   const { balances } = assetStore();
-  const [amount, setAmount] = useState(value);
   const balanceByCoin = useMemo(() => {
     if (!formData.fromAccountId || !formData.coin) {
       return 0;
@@ -491,15 +490,12 @@ export function AmountToTransferWidget({
         hideControls
         thousandSeparator=","
         decimalSeparator="."
-        value={amount || ""}
+        value={value || ""}
         disabled={isZero}
         label={label || ""}
         withAsterisk={required}
         rightSectionWidth={120}
-        onChange={(v) => {
-          onChange(v);
-          setAmount(v);
-        }}
+        onChange={(v) => onChange(v)}
         rightSectionPointerEvents="all"
         styles={{
           label: {
@@ -525,12 +521,7 @@ export function AmountToTransferWidget({
               fw="bold"
               c="primary"
               className={isZero ? "" : "cursor-pointer"}
-              onClick={() => {
-                if (!isZero) {
-                  setAmount(Number(balanceByCoin));
-                  onChange(Number(balanceByCoin));
-                }
-              }}
+              onClick={() => !isZero && onChange(balanceByCoin)}
             >
               {t("All")}
             </Text>

@@ -1,16 +1,8 @@
-import { CopyHistory } from "@/ui/CopyTrade";
-import { Box } from "@mantine/core";
-import { useLocation } from "react-router-dom";
+import { useCopyTradeMode } from "@/hooks/useCopyTradeMode";
+import { MasterOrders } from "@/ui/CopyTrade";
 
 export default function Page() {
-  const location = useLocation();
+  const { type } = useCopyTradeMode();
 
-  return (
-    <>
-      <Box hidden>
-        {location.pathname}
-      </Box>
-      <CopyHistory />
-    </>
-  );
+  return type.isMaster ? <MasterOrders /> : <MasterOrders />;
 }

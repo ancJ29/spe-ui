@@ -6,6 +6,9 @@ import {
   AuthenticationPayload,
   Balance,
   BalanceOverview,
+  CopyMasterDetail,
+  CopyMasterSetting,
+  CopyPosition,
   MarketInformation,
   MarketPrice,
   OpenTrades,
@@ -136,6 +139,14 @@ export async function closeOrderApi(
     });
 }
 
+export async function fetchMyMasterDetail() {
+  return getApi<CopyMasterDetail>("/api/copy/master/me");
+}
+
+export async function updateMasterSettingApi(params: CopyMasterSetting) {
+  await axios.post("/api/copy/master/me/update", params);
+}
+
 export async function fetchOpenTrades() {
   const accountId = assetStore.getState().tradingAccount?.id;
   if (!accountId) {
@@ -177,6 +188,22 @@ export async function fetchClosedPositions(symbol?: string) {
     params: { accountId, symbol, limit: 100 },
   }).then((res) => res.positions);
 }
+
+export async function fetchOpenCopyPositions() {
+  const path = "/api/copy/master/me/positions/open";
+  return getApi<{ positions: CopyPosition[] }>(path).then((res) => res.positions);
+}
+
+export async function fetchClosedCopyPositions() {
+  const path = "/api/copy/master/me/positions/history";
+  return getApi<{ positions: CopyPosition[] }>(path).then((res) => res.positions);
+}
+
+export async function fetchFollowersPositions() {
+  const path = "/api/copy/master/me/positions/followers";
+  return getApi<{ positions: CopyPosition[] }>(path).then((res) => res.positions);
+}
+
 
 export async function fetchOpenPositions(symbol?: string) {
   const accountId = assetStore.getState().tradingAccount?.id;

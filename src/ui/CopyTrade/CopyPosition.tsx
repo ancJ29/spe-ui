@@ -1,6 +1,6 @@
 import { TableCopyTradePosition } from "./Tables/TableCopyTradePosition";
 
-export function CopyPostion() {
+export function CopyPosition() {
   return (
     <>
       <TableCopyTradePosition />

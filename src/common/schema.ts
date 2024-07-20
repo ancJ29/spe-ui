@@ -94,6 +94,7 @@ export const nullablePositiveInteger = z
 export const authenticationPayloadSchema = z.object({
   id: stringSchema,
   uid: stringSchema,
+  depositCode: stringSchema,
   fiatDepositMemo: optionalStringSchema,
   affiliateCode: stringSchema,
   emailVerified: booleanSchema,
@@ -102,6 +103,8 @@ export const authenticationPayloadSchema = z.object({
   kycLevel: numberSchema.int().positive().min(0).max(4),
   email: optionalStringSchema,
   mobile: optionalStringSchema,
+  isCopyMaster: booleanSchema,
+  masterAccountId: optionalStringSchema,
   config: userConfigSchema.optional(),
   accounts: z
     .object({

@@ -4,10 +4,12 @@ import moneyIcon from "@/assets/images/money.svg";
 import topTradeIcon from "@/assets/images/toptrader.svg";
 import trade_icon from "@/assets/images/trade_icon.png";
 import useMetadata from "@/hooks/useMetadata";
+import authStore from "@/store/auth";
 import AppButton from "@/ui/Button/AppButton";
 import AppCard from "@/ui/Card/AppCard";
 import { AppCarousel } from "@/ui/Carousel/Carousel";
 import AppChart from "@/ui/Chart/Chart";
+import { Header } from "@/ui/Header";
 import AppPill from "@/ui/Pill/AppPill";
 import AppText from "@/ui/Text/AppText";
 import { Carousel } from "@mantine/carousel";
@@ -50,11 +52,10 @@ import {
   IconStarFilled,
 } from "@tabler/icons-react";
 import { ReactNode, useCallback, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { Footer } from "../top-page";
 import classes from "./index.module.scss";
-import { Header } from "@/ui/Header";
-import { Link } from "react-router-dom";
 
 const sizeContainer = "xl";
 
@@ -90,6 +91,7 @@ const IndexPage = () => {
   const { data } = useMetadata();
   const [opened, { close, open }] = useDisclosure(false);
   const [mode, setMode] = useState<"1" | "2">("1");
+  const { me } = authStore();
   return (
     <>
       <Header metadata={data} />
@@ -168,9 +170,13 @@ const IndexPage = () => {
                     <Link
                       style={{
                         all: "unset",
-                        display: "block"
+                        display: "block",
                       }}
-                      to={"/copy-trade/mine/my-taker"}
+                      to={
+                        me?.isCopyMaster
+                          ? "/copy-trade/mine/my-positions?type=1"
+                          : "/copy-trade/mine/my-taker?type=1"
+                      }
                     >
                       My copy trading
                     </Link>
