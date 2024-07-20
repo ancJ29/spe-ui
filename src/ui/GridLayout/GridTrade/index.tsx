@@ -67,7 +67,7 @@ export function GridTrade({
       tradeStore.getState().loadOpenTrades();
       tradeStore.getState().loadMarketInformation(symbol);
     },
-    IS_DEV ? 10e3 : 1e3,
+    IS_DEV ? 10e3 : 5e3,
   );
 
   return (

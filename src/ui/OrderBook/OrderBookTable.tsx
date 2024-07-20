@@ -2,7 +2,7 @@ import BN from "@/common/big-number";
 import { ORDER_BOOK_LIMIT } from "@/common/configs";
 import { OrderSide } from "@/common/enums";
 import { last } from "@/common/utils";
-import { IS_DEV } from "@/domain/config";
+import useSPEInterval from "@/hooks/useSPEInterval";
 import useTranslation from "@/hooks/useTranslation";
 import { fetchOrderBooks } from "@/services/apis";
 import tradeStore from "@/store/trade";
@@ -15,14 +15,13 @@ import {
   Space,
   Text,
 } from "@mantine/core";
-import { useInterval } from "@mantine/hooks";
 import {
   IconArrowDown,
   IconArrowUp,
   IconCaretDownFilled,
   IconFlagFilled,
 } from "@tabler/icons-react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import NumberFormat from "../NumberFormat";
 
 export type OrderBookType = "ASK ONLY" | "BID ONLY" | "ASK & BID";
@@ -109,14 +108,7 @@ export function OrderBookTable({
     });
   }, [display, symbol]);
 
-  const interval = useInterval(fetch, IS_DEV ? 1e3 : 1e3);
-  useEffect(() => {
-    interval.start();
-    return interval.stop;
-  }, [interval]);
-  useEffect(() => {
-    fetch();
-  }, [fetch]);
+  useSPEInterval(fetch, 1e3);
 
   const pricePanel = useMemo(() => {
     return (
