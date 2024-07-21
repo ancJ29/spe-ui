@@ -293,7 +293,7 @@ export function TabsOfTradeHistory({
 
 function TradeHistory({ symbol, isFuture }: TabProps) {
   const fetch = useCallback(() => fetchTrades(symbol), [symbol]);
-  const trades = useSyncData<Trade[]>(fetch);
+  const trades = useSyncData<Trade[]>(fetch, 15e3);
   return (
     <SPETable
       tableData={{
@@ -348,7 +348,7 @@ function TradeHistory({ symbol, isFuture }: TabProps) {
 
 function OrderHistory({ symbol, isFuture }: TabProps) {
   const fetch = useCallback(() => fetchOrders(symbol), [symbol]);
-  const orders = useSyncData<Order[]>(fetch);
+  const orders = useSyncData<Order[]>(fetch, 15e3);
   return (
     <SPETable
       tableData={{
@@ -424,7 +424,7 @@ function CurrentOrders({ symbol, isFuture }: TabProps) {
     () => fetchActiveOrders(symbol),
     [symbol],
   );
-  const orders = useSyncData<Order[]>(fetch);
+  const orders = useSyncData<Order[]>(fetch, 15e3);
   return (
     <SPETable
       tableData={{
@@ -553,7 +553,7 @@ function Positions({ symbol, isFuture }: TabProps) {
     () => fetchOpenPositions(symbol),
     [symbol],
   );
-  const positions = useSyncData<Position[]>(fetch);
+  const positions = useSyncData<Position[]>(fetch, 10);
   return (
     <SPETable
       tableData={{
@@ -683,7 +683,7 @@ function ClosedPnL({ symbol, isFuture }: TabProps) {
     () => fetchClosedPositions(symbol),
     [symbol],
   );
-  const positions = useSyncData<Position[]>(fetch);
+  const positions = useSyncData<Position[]>(fetch, 15e3);
   return (
     <SPETable
       tableData={{

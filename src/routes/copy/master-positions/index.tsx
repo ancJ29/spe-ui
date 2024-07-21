@@ -15,8 +15,11 @@ import { Box, Table, TableData } from "@mantine/core";
 import { useCallback, useMemo } from "react";
 
 export default function MasterPositions() {
-  const fetch = useCallback(() => fetchOpenCopyPositions(), []);
-  const positions = useSyncData<CopyPosition[]>(fetch);
+  const fetch = useCallback(() => {
+    return fetchOpenCopyPositions();
+  }, []);
+  const positions = useSyncData<CopyPosition[]>(fetch, 15e3);
+
   const tableData: TableData = useMemo(() => {
     return {
       head: [

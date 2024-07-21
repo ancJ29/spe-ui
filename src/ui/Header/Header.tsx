@@ -598,7 +598,7 @@ function MenuUserInfo() {
             Switch/Create Account
           </Menu.Item> */}
           <Menu.Divider />
-          <Menu.Item fw={"bold"}>Settings</Menu.Item>
+          <Menu.Item fw={"bold"} component="a" href="/user">Settings</Menu.Item>
           <Menu.Item fw={"bold"} component="a" href="/wallet">
             {t("Assets")}
           </Menu.Item>

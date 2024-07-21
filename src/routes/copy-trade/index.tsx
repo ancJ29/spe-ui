@@ -56,6 +56,7 @@ import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { Footer } from "../top-page";
 import classes from "./index.module.scss";
+import useTranslation from "@/hooks/useTranslation";
 
 const sizeContainer = "xl";
 
@@ -88,6 +89,7 @@ const traders = [
 ];
 
 const IndexPage = () => {
+  const t = useTranslation();
   const { data } = useMetadata();
   const [opened, { close, open }] = useDisclosure(false);
   const [mode, setMode] = useState<"1" | "2">("1");
@@ -178,7 +180,7 @@ const IndexPage = () => {
                           : "/copy-trade/mine/my-taker?type=1"
                       }
                     >
-                      My copy trading
+                      {t("My copy trading")}
                     </Link>
                   </AppButton>
                   <Image

@@ -1,6 +1,5 @@
 import { delay } from "@/common/utils";
 import useMetadata from "@/hooks/useMetadata";
-import tradeStore from "@/store/trade";
 import { Header } from "@/ui/Header";
 import { Box, Loader, Transition } from "@mantine/core";
 import React, { Suspense, useEffect, useState } from "react";
@@ -13,11 +12,7 @@ const TradeWrapper = ({
   const { data } = useMetadata();
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
-    tradeStore
-      .getState()
-      .loadAllMarketInformation()
-      .then(() => delay(500))
-      .then(() => setMounted(true));
+    delay(500).then(() => setMounted(true));
   }, []);
 
   if (!mounted) {

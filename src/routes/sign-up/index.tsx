@@ -29,9 +29,10 @@ import {
   IconPhoneCalling,
   IconTruckLoading,
 } from "@tabler/icons-react";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { convertToSignUpFormData } from "./config";
 import classes from "./index.module.scss";
+import { SwitchDarkLightMode } from "@/ui/SwitchDarkLight";
 
 const links = [
   {
@@ -62,40 +63,48 @@ const checkIcon = (
 
 const SignUp = () => {
   const t = useTranslation();
-  const { setColorScheme } = useMantineColorScheme();
-  useEffect(() => {
-    setColorScheme("dark");
-  }, [setColorScheme]);
+  const { setColorScheme, colorScheme } = useMantineColorScheme();
+  const isDark = useMemo(() => {
+    return colorScheme === "dark"
+  }, [colorScheme])
   return (
     <>
       <Box className={classes.bggray}>
-        <Box className="sticky-top" px={20}>
+        <Box className="sticky-top" px={20} bg={"black"}>
           <Group justify="space-between">
             <a href="/top-page">
               <Image src={svgLogo} w={140} />
             </a>
             <Group>
               <SwitchLanguage />
+              <SwitchDarkLightMode />
             </Group>
           </Group>
         </Box>
         <Container size={"lg"}>
-          <Grid>
+          <Grid py={10}>
             <Grid.Col span={12}>
-              <Alert variant="filled" color={"dark"} icon={checkIcon}>
+              <Alert variant="filled" color={isDark ? "dark" : "black"}
+                bg={isDark ? "dark" : "rgba(0, 0, 0, 0.3)"}
+                icon={checkIcon}>
                 {t(
                   "Referral code is invalid within this link, please check the invitation information or continue to sign up.",
                 )}
               </Alert>
             </Grid.Col>
             <Grid.Col span={7}>
-              <Card color="dark" radius={"lg"} p={"xl"}>
+              <Card radius={"lg"} p={"xl"}>
                 <Title order={3}>
                   {t("Never Miss a Beat, With Simple Exchange")}
                 </Title>
                 <Space h={30} />
                 <Card
-                  bg={lighten("white", 0.2)}
+                  styles={{
+                    root: {
+                      // lighten("white", 0.2)
+                      background: "light-dark(rgba(0, 0, 0, 0.1), rgba(255,255,255, 0.2))"
+                    }
+                  }}
                   p={"xl"}
                   radius={"lg"}
                 >

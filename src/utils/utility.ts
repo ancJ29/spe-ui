@@ -35,3 +35,20 @@ export function extractPhoneNumber({
 export function extractSuffix(obj: unknown) {
   return (obj as { suffix?: string })?.suffix || "USDT";
 }
+
+export function generateUri2FA(type: "hotp" | "totp", label: string, secret: string, issuer: string, counter: string) {
+  let s = `otpauth://${type}/${encodeURIComponent(label)}?secret=${secret.replace(/ /g, '')}`;
+  if (issuer !== "") {
+      s += `&issuer=${encodeURIComponent(issuer)}`;
+  }
+  if (type === "hotp") {
+      s += `&counter=${counter || "0"}`;
+  }
+  // if (advanced_options_checked) {
+  //   s += `&algorithm=${algorithm}&digits=${digits}`;
+  //   if (type === "totp") {
+  //     s += `&period=${period || "30"}`;
+  //   }
+  // }
+  return s;
+}

@@ -1,5 +1,4 @@
 import BN from "@/common/big-number";
-import { IS_DEV } from "@/domain/config";
 import useSPEInterval from "@/hooks/useSPEInterval";
 import useTranslation from "@/hooks/useTranslation";
 import { assetStore } from "@/store/assets";
@@ -62,13 +61,10 @@ export function GridTrade({
     [setLayouts],
   );
 
-  useSPEInterval(
-    () => {
-      tradeStore.getState().loadOpenTrades();
-      tradeStore.getState().loadMarketInformation(symbol);
-    },
-    IS_DEV ? 10e3 : 5e3,
-  );
+  useSPEInterval(() => {
+    tradeStore.getState().loadOpenTrades();
+    tradeStore.getState().loadMarketInformation(symbol);
+  }, 10e3);
 
   return (
     <Grid columns={24} gutter={4} p={4} key={symbol}>
@@ -477,14 +473,18 @@ function BoxInfoTradeFoot({
                 },
                 content: {
                   padding: 0,
+                  background: "none"
                 },
                 body: {
                   padding: 0,
+                  background: "none"
                 },
                 root: {
                   width: "100%",
                   padding: 0,
+                  background: "none"
                 },
+
               },
               children: <DepositForm coin={quote} />,
             });
@@ -511,13 +511,16 @@ function BoxInfoTradeFoot({
                 },
                 content: {
                   padding: 0,
+                  background: "none"
                 },
                 body: {
                   padding: 0,
+                  background: "none"
                 },
                 root: {
                   width: "100%",
                   padding: 0,
+                  background: "none"
                 },
               },
               children: (

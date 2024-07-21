@@ -13,6 +13,8 @@ import {
   default as tradeStore,
   default as useTradeStore,
 } from "./store/trade";
+import useSPEInterval from "./hooks/useSPEInterval";
+import { ONE_MINUTE } from "./utils";
 
 const App = () => {
   const { value: loaded, setTrue } = useBoolean(false);
@@ -44,6 +46,10 @@ const App = () => {
   const routes = useMemo(() => {
     return _buildRoutes(loaded);
   }, [loaded]);
+
+  useSPEInterval(() => {
+    tradeStore.getState().loadAllMarketInformation();
+  }, ONE_MINUTE);
 
   return (
     <MantineProvider

@@ -83,7 +83,7 @@ const _props: Partial<InstancePropsByType> = {
       fontWeight: "600",
       fontSize: "24px",
       lineHeight: "32px",
-      color: "#121214",
+      color: "light-dark(#121214, white)",
       display: "flex",
       alignItems: "center",
     },

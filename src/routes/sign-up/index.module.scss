@@ -1,12 +1,13 @@
 .bggray {
   @include light {
     // background: var(--mantine-color-gray-2);
-    // background: white;
+    background: white;
   }
   @include dark {
     // background: var(--mantine-color-dark-2);
+    background: black;
   }
-  background: black;
+  
   height: 100vh;
   overflow-y: auto;
 }

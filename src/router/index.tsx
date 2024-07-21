@@ -53,7 +53,10 @@ const componentMap: Record<string, LazyExoticComponent> = {
   CopyTradeMyPromotion: lazy(() => import("@/routes/copy-trade-my-promotion")),
   CopyTradeMyTaker: lazy(() => import("@/routes/copy-trade-my-taker")),
   CopyTradePositions: lazy(() => import("@/routes/copy-trade-position")),
-
+  User: lazy(() => import("@/routes/user")),
+  BindGA: lazy(() => import("@/routes/user-bind-ga")),
+  KYC: lazy(() => import("@/routes/user-kyc")),
+  ModifyPassword: lazy(() => import("@/routes/user-modify-password")),
 };
 
 const configs: Config[] = [
@@ -180,6 +183,27 @@ const configs: Config[] = [
     element: "CopyTradePositions",
     wrapper: "CopyTradeWrapper",
   },
+  {
+    path: "/user",
+    element: "User",
+    wrapper: "TradeWrapper"
+  },
+  {
+    path: "/user/bind-ga",
+    element: "BindGA",
+    wrapper: "TradeWrapper"
+  },
+  {
+    path: "/user/kyc",
+    element: "KYC",
+    wrapper: "TradeWrapper"
+  },
+  {
+    path: "/user/modify-password",
+    element: "ModifyPassword",
+    wrapper: "TradeWrapper"
+  },
+  
   {
     path: "/*",
     element: "TopPage",

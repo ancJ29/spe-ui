@@ -45,9 +45,15 @@ export const theme = createTheme({
         size: "lg",
         styles: {
           input: {
-            background: "light-dark(rgba(0,0,0, 0.05), #26282c)",
+            // background: "light-dark(rgba(0,0,0, 0.05), #26282c)",
+            // fontSize: "14px",
+
+            border: "none",
+            boxShadow: "none",
+            borderRadius: "0px",
+            background: "light-dark(#f3f5f7, #26282c)",
+            fontWeight: "bold",
             fontSize: "14px",
-            // border: "none"
           },
         },
       },
@@ -57,9 +63,15 @@ export const theme = createTheme({
         size: "lg",
         styles: {
           input: {
-            background: "light-dark(rgba(0,0,0, 0.05), #26282c)",
+            // background: "light-dark(rgba(0,0,0, 0.05), #26282c)",
+            // fontSize: "14px",
+
+            border: "none",
+            boxShadow: "none",
+            borderRadius: "0px",
+            background: "light-dark(#f3f5f7, #26282c)",
+            fontWeight: "bold",
             fontSize: "14px",
-            // border: "none",
           },
         },
       },
@@ -72,9 +84,15 @@ export const theme = createTheme({
             // border: "solid 1px red"
           },
           input: {
-            background: "light-dark(rgba(0,0,0, 0.05), #26282c)",
+            // background: "light-dark(rgba(0,0,0, 0.05), #26282c)",
+            // fontSize: "14px",
+
+            border: "none",
+            boxShadow: "none",
+            borderRadius: "0px",
+            background: "light-dark(#f3f5f7, #26282c)",
+            fontWeight: "bold",
             fontSize: "14px",
-            // border: "none"
           },
         },
       },

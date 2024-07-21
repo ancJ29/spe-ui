@@ -130,7 +130,7 @@ export function SelectCoinWidget(props: WidgetProps) {
             border: "none",
             boxShadow: "none",
             borderRadius: "0px",
-            background: "#f3f5f7",
+            background: "light-dark(#f3f5f7, #26282c)",
             fontWeight: "bold",
           },
           dropdown: {
@@ -165,7 +165,11 @@ export function SelectChainWidget(props: WidgetProps) {
             <Text
               fz={16}
               fw={"bold"}
-              c={checked ? "primary" : "dark"}
+              styles={{
+                root: {
+                  color: checked ? "#f29525" : "light-dark(#81858c, white)"
+                }
+              }}
             >
               {option.value}
             </Text>
@@ -181,7 +185,7 @@ export function SelectChainWidget(props: WidgetProps) {
             border: "none",
             boxShadow: "none",
             borderRadius: "0px",
-            background: "#f3f5f7",
+            background: "light-dark(#f3f5f7, #26282c)",
             fontWeight: "bold",
           },
           dropdown: {
@@ -229,7 +233,7 @@ export function QrCodeWidget(props: WidgetProps) {
         gap={20}
         styles={{
           root: {
-            background: "#f3f5f7",
+            background: "light-dark(#f3f5f7, #26282c)",
             borderRadius: "10px",
           },
         }}
@@ -238,7 +242,7 @@ export function QrCodeWidget(props: WidgetProps) {
           <TextInput
             styles={{
               input: {
-                background: "light-dark(white, white)",
+                background: "light-dark(white, black)",
                 border: "none",
                 fontWeight: "bolder",
                 fontSize: "14px",
@@ -303,7 +307,7 @@ export function AmountWidget({
       onChange={(v) => props.onChange(v)}
       styles={{
         input: {
-          background: "#f3f5f7",
+          background: "light-dark(#f3f5f7, #26282c)",
           border: "none",
           fontWeight: "bolder",
         },
@@ -358,7 +362,7 @@ export function SelectAccountWidget(props: WidgetProps) {
           border: "none",
           boxShadow: "none",
           borderRadius: "0px",
-          background: "#f3f5f7",
+          background: "light-dark(#f3f5f7, #26282c)",
           fontWeight: "bold",
         },
         dropdown: {
@@ -415,7 +419,7 @@ export function AmountToWithdrawWidget({
           },
           input: {
             cursor: isZero ? "not-allowed" : "pointer",
-            background: "#f3f5f7",
+            background: "light-dark(#f3f5f7, #26282c)",
             border: "none",
             fontWeight: "bolder",
           },
@@ -508,7 +512,7 @@ export function AmountToTransferWidget({
           input: {
             fontSize: "14px",
             cursor: isZero ? "not-allowed" : "pointer",
-            background: "#f3f5f7",
+            background: "light-dark(#f3f5f7, #26282c)",
             border: "none",
             fontWeight: "bolder",
           },
@@ -568,7 +572,7 @@ export function WithdrawAddressWidget(props: WidgetProps) {
         },
         input: {
           fontSize: "14px",
-          background: "#f3f5f7",
+          background: "light-dark(#f3f5f7, #26282c)",
           border: "none",
           fontWeight: "bolder",
         },
@@ -654,7 +658,7 @@ export function CoinSwapWidget({
         styles={{
           root: {
             background:
-              "light-dark(#f3f5f7, var(--mantine-color-dark-2))",
+              "light-dark(#f3f5f7, rgba(0, 0, 0, 0.1))",
             overflow: "visible",
           },
         }}
@@ -690,7 +694,7 @@ export function CoinSwapWidget({
               left={0}
               styles={{
                 root: {
-                  background: "#f3f5f7",
+                  background: "light-dark(#f3f5f7, rgba(0, 0, 0, 0.04))",
                   color: "black",
                   zIndex: 2,
                   width: "fit-content",
@@ -762,11 +766,20 @@ export function CoinSwapWidget({
                           <Text
                             fz={14}
                             fw={"bold"}
-                            c={checked ? "primary" : "dark"}
+                            styles={{
+                              root: {
+                                // var(--mantine-color-dark-2)
+                                color: checked ? "var(--mantine-color-primary-5)" : "light-dark(var(--mantine-color-dark-2), var(--mantine-color-dark-1))"
+                              }
+                            }}
                           >
                             {option.value}
                           </Text>
-                          <Text fz={12} c={"#81858c"}>
+                          <Text fz={12} styles={{
+                            root: {
+                              color: "light-dark(#81858c, white)"
+                            }
+                          }}>
                             {ASSET_COIN_LIST[option.value]}
                           </Text>
                         </Flex>
@@ -794,7 +807,7 @@ export function CoinSwapWidget({
                   border: "none",
                   boxShadow: "none",
                   borderRadius: "0px",
-                  background: "#f3f5f7",
+                  background: "light-dark(#f3f5f7, #26282c)",
                   fontWeight: "bold",
                   opacity: 0,
                 },
@@ -836,7 +849,7 @@ export function CoinSwapWidget({
                   border: "none",
                   background: "none",
                   fontWeight: "bold",
-                  color: "#121214",
+                  color: "light-dark(#121214, white)",
                   textAlign: "right",
                 },
               }}
@@ -996,10 +1009,18 @@ function renderCoinSelectOption({
           />
         </Box>
         <Box>
-          <Text fz={16} fw={"bold"} c={checked ? "primary" : "dark"}>
+          <Text fz={16} fw={"bold"} styles={{
+            root: {
+              color: checked ? "#f29525" : "light-dark(#81858c, white)"
+            }
+          }}>
             {option.value}
           </Text>
-          <Text fz={12} c={"#81858c"}>
+          <Text fz={12} styles={{
+            root: {
+              color: "light-dark(#81858c, white)"
+            }
+          }}>
             {ASSET_COIN_LIST[option.value]}
           </Text>
         </Box>
