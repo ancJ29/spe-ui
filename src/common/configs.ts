@@ -17,7 +17,7 @@ export const DEFAULT_LEVERAGE = 20;
 
 export const SWAP_RATE = 0.01;
 
-export const ROWS_PER_PAGE = 20;
+export const ROWS_PER_PAGE = 10;
 
 export const ORDER_BOOK_LIMIT = 100;
 

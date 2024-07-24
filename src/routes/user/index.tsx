@@ -32,8 +32,10 @@ import {
 } from "@tabler/icons-react";
 
 export default function Page() {
+
   const t = useTranslation();
   const { me } = authStore();
+
   return (
     <>
       <Container>
@@ -128,6 +130,7 @@ export default function Page() {
               </Grid.Col>
               <Grid.Col span={6}>
                 <Flex justify={"end"} align={"center"} h={"100%"}>
+
                   <Button
                     component="a"
                     href="/user/modify-password"
@@ -229,6 +232,7 @@ export default function Page() {
               </Grid.Col>
               <Grid.Col span={6}>
                 <Flex justify={"end"} align={"center"} h={"100%"}>
+
                   <Button
                     variant="gradient"
                     miw={150}
@@ -278,7 +282,9 @@ export default function Page() {
               </Grid.Col>
               <Grid.Col span={6}>
                 <Flex justify={"end"} align={"center"} h={"100%"}>
+
                   <BindPhoneForm />
+
                 </Flex>
               </Grid.Col>
 
@@ -317,6 +323,7 @@ export default function Page() {
               </Grid.Col>
               <Grid.Col span={6}>
                 <Flex justify={"end"} align={"center"} h={"100%"}>
+
                   <Button
                     component="a"
                     href="/user/bind-ga"
@@ -329,6 +336,7 @@ export default function Page() {
                       deg: 90,
                     }}
                   >
+
                     {t("Bind GA")}
                   </Button>
                 </Flex>
@@ -369,7 +377,9 @@ export default function Page() {
               </Grid.Col>
               <Grid.Col span={6}>
                 <Flex justify={"end"} align={"center"} h={"100%"}>
+
                   <AntiPhishingCodeSettingsForm />
+
                 </Flex>
               </Grid.Col>
 

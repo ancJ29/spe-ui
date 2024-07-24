@@ -48,6 +48,7 @@ import AppButton from "../Button/AppButton";
 import { SwitchDarkLightMode } from "../SwitchDarkLight";
 import SwitchLanguage from "../SwitchLanguage/SwitchLanguage";
 import classes from "./index.module.scss";
+import { Link } from "react-router-dom";
 
 export function Header(props: Partial<{ metadata: Application }>) {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
@@ -75,9 +76,9 @@ export function Header(props: Partial<{ metadata: Application }>) {
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
           <Group h="100%">
-            <a href="/">
+            <Box component={Link} to={"/"}>
               <Image src={svgLogo} w={100} />
-            </a>
+            </Box>
             <Group h="100%" gap={0} visibleFrom="sm">
               {menu.map((item, idx) => {
                 return (
@@ -92,10 +93,7 @@ export function Header(props: Partial<{ metadata: Application }>) {
                         offset={0}
                       >
                         <Menu.Target>
-                          <a
-                            href={item.url || "/#"}
-                            className={classes.link}
-                          >
+                          <Box component={Link} to={item.url || "/#"} className={classes.link}>
                             <Center inline>
                               <Box component="span" mr={5}>
                                 {item.label}
@@ -115,7 +113,7 @@ export function Header(props: Partial<{ metadata: Application }>) {
                                 )}
                               />
                             </Center>
-                          </a>
+                          </Box>
                         </Menu.Target>
                         <Menu.Dropdown
                           bg={"#16181e"}
@@ -154,12 +152,13 @@ export function Header(props: Partial<{ metadata: Application }>) {
                       </Menu>
                     )}
                     {item.type === "link" && (
-                      <a
-                        href={item.url || "/#"}
+                      <Box
+                        component={Link}
+                        to={item.url || "/#"}
                         className={classes.link}
                       >
                         {item.label}
-                      </a>
+                      </Box>
                     )}
                     {item.type === "panel" && (
                       <HoverCard
@@ -172,8 +171,9 @@ export function Header(props: Partial<{ metadata: Application }>) {
                         offset={0}
                       >
                         <HoverCard.Target>
-                          <a
-                            href={item.url || "/#"}
+                          <Box
+                            component={Link}
+                            to={item.url || "/#"}
                             className={classes.link}
                           >
                             <Center inline>
@@ -195,7 +195,7 @@ export function Header(props: Partial<{ metadata: Application }>) {
                                 )}
                               />
                             </Center>
-                          </a>
+                          </Box>
                         </HoverCard.Target>
 
                         <HoverCard.Dropdown
@@ -402,12 +402,13 @@ export function Header(props: Partial<{ metadata: Application }>) {
                   </>
                 )}
                 {item.type === "link" && (
-                  <a
-                    href={item.url || "/#"}
+                  <Box
+                    component={Link}
+                    to={item.url || "/#"}
                     className={cx(classes.link, classes.colorDefault)}
                   >
                     {item.label}
-                  </a>
+                  </Box>
                 )}
                 {item.type === "panel" && (
                   <>
@@ -600,16 +601,18 @@ function MenuUserInfo() {
             Switch/Create Account
           </Menu.Item> */}
           <Menu.Divider />
+
           <Menu.Item fw={"bold"} component="a" href="/user">
             Settings
           </Menu.Item>
           <Menu.Item fw={"bold"} component="a" href="/wallet">
+
             {t("Assets")}
           </Menu.Item>
           <Menu.Item
             fw={"bold"}
-            component="a"
-            href="/user/assets/deposit"
+            component={Link}
+            to="/user/assets/deposit"
           >
             Deposit
           </Menu.Item>
@@ -645,12 +648,12 @@ function GroupLinkAuth() {
       <AppButton
         instancetype="Ghost"
         color="white"
-        component="a"
-        href="/login"
+        component={Link}
+        to="/login"
       >
         Log In
       </AppButton>
-      <AppButton component="a" href="/register">
+      <AppButton component={Link} to="/register">
         Sign up
       </AppButton>
     </>

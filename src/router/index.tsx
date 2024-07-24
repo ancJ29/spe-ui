@@ -29,17 +29,24 @@ export const wrapperMap: Record<string, Wrapper> = {
 const componentMap: Record<string, LazyExoticComponent> = {
   BlankPage: lazy(() => import("@/routes/blank-page")),
   TopPage: lazy(() => import("@/routes/top-page")),
+  TopPageInvest: lazy(() => import("@/routes/top-page-invest")),
+  Agreement: lazy(() => import("@/routes/terms-service-agreement")),
+  About: lazy(() => import("@/routes/about")),
+  TermsConditions: lazy(() => import("@/routes/terms-service-conditions")),
+  RiskDisclosure: lazy(() => import("@/routes/terms-service-risk-disclosure")),
   CopyTrade: lazy(() => import("@/routes/copy-trade")),
+  CopyTradeInvest: lazy(() => import("@/routes/copy-trade-invest")),
+  CopyTradeDetailInvest: lazy(() => import("@/routes/copy-trade-detail-invest")),
   CopyTradeDetail: lazy(() => import("@/routes/copy-trade-detail")),
   SpotTrade: lazy(() => import("@/routes/spot")),
   FutureTrade: lazy(() => import("@/routes/future")),
   Deposit: lazy(() => import("@/routes/deposit")),
   Wallet: lazy(() => import("@/routes/wallet")),
-  FiatDeposit: lazy(() => import("@/routes/walletHistories/fiat-deposit")),
-  WalletHistorySwap: lazy(() => import("@/routes/walletHistories/swap")),
-  WalletHistoryDeposit: lazy(() => import("@/routes/walletHistories/deposit")),
-  WalletHistoryWithdraw: lazy(() => import("@/routes/walletHistories/withdraw")),
-  WalletHistoryOthers: lazy(() => import("@/routes/walletHistories/others")),
+  FiatDeposit: lazy(() => import("@/routes/wallet/history/fiat-deposit")),
+  SwapHistory: lazy(() => import("@/routes/wallet/history/swap")),
+  DepositHistory: lazy(() => import("@/routes/wallet/history/deposit")),
+  WithdrawHistory: lazy(() => import("@/routes/wallet/history/withdraw")),
+  OthersHistory: lazy(() => import("@/routes/wallet/history/others")),
   Login: lazy(() => import("@/routes/login")),
   SignUp: lazy(() => import("@/routes/sign-up")),
   ResetPassword: lazy(() => import("@/routes/reset-password")),
@@ -59,21 +66,35 @@ const componentMap: Record<string, LazyExoticComponent> = {
   BindGA: lazy(() => import("@/routes/user-bind-ga")),
   KYC: lazy(() => import("@/routes/user-kyc")),
   ModifyPassword: lazy(() => import("@/routes/user-modify-password")),
+  Inquiry: lazy(() => import("@/routes/inquiry")),
+  
 };
 
 const configs: Config[] = [
   {
+
     path: "/",
-    element: "TopPage",
+    element: "TopPageInvest",
     wrapper: "ServiceWrapper",
   },
+  // {
+  //   path: "/copy-trading",
+
+  //   element: "CopyTrade",
+  //   wrapper: "ServiceWrapper",
+  // },
   {
     path: "/copy-trading",
-    element: "CopyTrade",
+    element: "CopyTradeInvest",
     wrapper: "ServiceWrapper",
   },
   {
     path: "/copy-trading/:id",
+    element: "CopyTradeDetailInvest",
+    wrapper: "ServiceWrapper",
+  },
+  {
+    path: "/copy-trading-old/:id",
     element: "CopyTradeDetail",
     wrapper: "ServiceWrapper",
   },
@@ -95,13 +116,13 @@ const configs: Config[] = [
   },
   {
     path: "/wallet/records/swap",
-    element: "WalletHistorySwap",
+    element: "SwapHistory",
     wrapper: "HistoryWrapper",
     authOnly: true,
   },
   {
     path: "/wallet/records/deposit",
-    element: "WalletHistoryDeposit",
+    element: "DepositHistory",
     wrapper: "HistoryWrapper",
     authOnly: true,
   },
@@ -113,13 +134,13 @@ const configs: Config[] = [
   },
   {
     path: "/wallet/records/withdraw",
-    element: "WalletHistoryWithdraw",
+    element: "WithdrawHistory",
     wrapper: "HistoryWrapper",
     authOnly: true,
   },
   {
     path: "/wallet/records/others",
-    element: "WalletHistoryOthers",
+    element: "OthersHistory",
     wrapper: "HistoryWrapper",
     authOnly: true,
   },
@@ -235,9 +256,37 @@ const configs: Config[] = [
     wrapper: "TradeWrapper",
     authOnly: true,
   },
+
+  {
+    path: "/agreement",
+    element: "Agreement",
+    wrapper: "ServiceWrapper",
+  },
+  {
+    path: "/terms-conditions",
+    element: "TermsConditions",
+    wrapper: "ServiceWrapper",
+  },
+  {
+    path: "/risk-disclosure",
+    element: "RiskDisclosure",
+    wrapper: "ServiceWrapper",
+  },
+  {
+    path: "/about",
+    element: "About",
+    wrapper: "ServiceWrapper",
+  },
+  {
+    path: "/inquiry",
+    element: "Inquiry",
+    wrapper: "ServiceWrapper",
+  },
+  
   {
     path: "/*",
     element: "BlankPage",
+
     wrapper: "ServiceWrapper",
   },
 ];

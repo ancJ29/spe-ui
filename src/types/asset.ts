@@ -71,5 +71,6 @@ export type TransactionsHistoryFormData = {
   types?: TransactionType[];
   accountId?: string;
   limit?: number;
-  cursor?: number;
+  cursor?: number | string;
+  reverse?: boolean;
 };

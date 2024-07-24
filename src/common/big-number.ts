@@ -85,7 +85,7 @@ function format(number: BN, decimalPlaces = 2) {
   if (!bigNumber.isFinite()) {
     return "--";
   }
-  return bigNumber.toFormat(decimalPlaces);
+  return bigNumber.abs().toFormat(decimalPlaces);
 }
 
 function isZero(a?: BN | null) {

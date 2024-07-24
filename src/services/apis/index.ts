@@ -1,6 +1,7 @@
 export * as axios from "./_axios";
 
 import { OrderSide, OrderType } from "@/common/enums";
+import { updateUserPayloadSchema } from "@/common/schema";
 import {
   Account,
   AuthenticationPayload,
@@ -15,7 +16,6 @@ import {
   CopySetting,
   CopyTransaction,
   FollowerInformation,
-  GenericObject,
   MarketInformation,
   MarketPrice,
   MasterTraderInformation,
@@ -25,14 +25,17 @@ import {
   SpeTransaction,
   SymbolConfig,
   Trade,
-  UserUpdateType,
+  UserUpdateType
 } from "@/common/types";
 import { assetStore } from "@/store/assets";
 import authStore from "@/store/auth";
 import { TransactionsHistoryFormData } from "@/types";
 import { delay } from "@/utils";
+import { z } from "zod";
 import logger from "../logger";
 import axios, { getApi } from "./_axios";
+
+type UserUpdatePayload = z.infer<typeof updateUserPayloadSchema>;
 
 export async function fetchDepositAddressApi(params: {
   chain: string;
@@ -86,10 +89,11 @@ export async function fetchAccountsApi() {
   });
 }
 
-export function fetchTransactionsHistoryApi(
+export async function fetchTransactionsHistoryApi(
   formData: TransactionsHistoryFormData,
 ) {
   if (!localStorage.__TOKEN__) {
+    await delay(10);
     return [] as SpeTransaction[];
   }
   return getApi<SpeTransaction[]>("/api/transactions/list", {
@@ -153,7 +157,7 @@ export async function closeOrderApi(
 
 export function updateUserApi(
   type: UserUpdateType,
-  payload: GenericObject,
+  payload: Omit<UserUpdatePayload, "type">,
 ) {
   return axios.post("/api/me/update", {
     type,
@@ -445,8 +449,7 @@ export async function fetchCopyOrders(
 ) {
   const base = "/api/copy/mine/orders";
   return getApi<{ orders: CopyOrder[] }>(
-    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
-      limit || 10
+    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${limit || 10
     }`,
   ).then((res) => res.orders);
 }
@@ -458,21 +461,19 @@ export async function fetchCopyTransactions(
 ) {
   const base = "/api/copy/master/me/transactions";
   return getApi<{ transactions: CopyTransaction[] }>(
-    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
-      limit || 10
+    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${limit || 10
     }`,
   ).then((res) => res.transactions);
 }
 
 export async function fetchMasterCopyOrders(
   cursor: string,
-  limit: number,
   reverse: boolean,
+  limit: number,
 ) {
   const base = "/api/copy/master/me/orders";
   return getApi<{ orders: CopyOrder[] }>(
-    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
-      limit || 10
+    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${limit || 10
     }`,
   ).then((res) => res.orders);
 }

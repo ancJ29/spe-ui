@@ -114,7 +114,6 @@ export function AppCarousel(props: Partial<CarouselProps>) {
     <>
       <Box>
         <Carousel
-          className="app-carousel"
           translate="yes"
           plugins={[autoplay.current]}
           slideSize="25%"
@@ -142,6 +141,7 @@ export function AppCarousel(props: Partial<CarouselProps>) {
             },
           }}
           {...props}
+          className={`app-carousel ${props.className}`}
         >
           {props.children}
         </Carousel>

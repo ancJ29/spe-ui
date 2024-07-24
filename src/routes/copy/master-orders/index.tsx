@@ -28,7 +28,7 @@ export default function MasterOrders() {
   const [havePreviousPage, setHavePreviousPage] = useState(false);
   useEffect(() => {
     const limit = ROWS_PER_PAGE + (reverse ? 2 : 1);
-    fetchMasterCopyOrders(cursor, limit, reverse).then((data) => {
+    fetchMasterCopyOrders(cursor, reverse, limit).then((data) => {
       logger.debug(
         "fetchMasterCopyOrders\n",
         data.map((el) => new Date(el.createdAt)).join("\n "),

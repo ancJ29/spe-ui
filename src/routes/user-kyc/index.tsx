@@ -38,7 +38,9 @@ export default function Page() {
           mx={"auto"}
         >
           <Title order={3}>Basic KYC</Title>
+
           <Space my={"lg"} />
+
           <Box>
             <Text>TODO: Implement</Text>
           </Box>

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { UserUpdateType } from "./types";
 
 export const booleanSchema = z.boolean();
 
@@ -247,3 +248,30 @@ export const applicationSchema = z.object({
     }),
   }),
 });
+
+export const updateUserPayloadSchema = z
+  .object({
+    type: z.enum([
+      UserUpdateType.NICK_NAME,
+      UserUpdateType.UPDATE_PASSWORD,
+      UserUpdateType.KYC_DATA,
+      UserUpdateType.ADD_EMAIL,
+      UserUpdateType.ADD_MOBILE,
+      UserUpdateType.ADD_MFA,
+      UserUpdateType.UPDATE_MFA,
+      UserUpdateType.VERIFY_EMAIL,
+      UserUpdateType.VERIFY_MOBILE,
+      UserUpdateType.UPDATE_ANTI_PHISHING_CODE,
+    ]),
+    nickName: optionalStringSchema,
+    kycData: userKycDataSchema.optional(),
+    mobile: optionalStringSchema,
+    antiPhishingCode: optionalStringSchema,
+    email: z.string().email().optional(),
+    password: optionalStringSchema,
+    currentPassword: optionalStringSchema,
+    mfaSecret: optionalStringSchema,
+    mfaCode: optionalStringSchema,
+    oldMfaCode: optionalStringSchema,
+    verificationCode: optionalStringSchema,
+  }).partial().required({ type: true });

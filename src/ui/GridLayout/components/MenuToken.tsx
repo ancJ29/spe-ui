@@ -1,9 +1,9 @@
 import { ASSET_COIN_LIST, SYMBOL_LISTS } from "@/common/configs";
 import useTranslation from "@/hooks/useTranslation";
-import { IconSortUpDown } from "@/routes/copy-trade";
 import tradeStore from "@/store/trade";
 import { GridTradeProps } from "@/types";
 import { AppCarousel } from "@/ui/Carousel/Carousel";
+import { IconSortUpDown } from "@/ui/IconSortUpDown/IconSortUpDown";
 import NumberFormat from "@/ui/NumberFormat";
 import { AppPopover } from "@/ui/Popover/AppPopover";
 import AppText from "@/ui/Text/AppText";
@@ -175,7 +175,7 @@ export function TableTokens() {
               prefix={change24h > 0 ? "+" : ""}
               value={change24h}
               suffix="%"
-              decimalScale={2}
+              decimalPlaces={2}
             />
           </AppText>,
           <AppText

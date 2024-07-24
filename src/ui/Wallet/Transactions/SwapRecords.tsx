@@ -1,24 +1,50 @@
 import BN from "@/common/big-number";
-import { STATUS_COLORS } from "@/common/configs";
+import { ROWS_PER_PAGE, STATUS_COLORS } from "@/common/configs";
 import { TransactionType } from "@/common/enums";
+import useSPEPagination from "@/hooks/usePagination";
 import useTranslation from "@/hooks/useTranslation";
-import { assetStore } from "@/store/assets";
+import { fetchTransactionsHistoryApi } from "@/services/apis";
 import { Asset } from "@/ui/Asset/Asset";
 import NumberFormat from "@/ui/NumberFormat";
 import { NoDataRecord } from "@/ui/SPEMisc";
-import { Badge, Box, Table, TableData, Title } from "@mantine/core";
-import { useEffect, useMemo } from "react";
+import {
+  Badge,
+  Box,
+  Button,
+  Flex,
+  Table,
+  TableData,
+  Title,
+} from "@mantine/core";
+import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
+import { useCallback, useMemo } from "react";
 
 export function SwapRecords() {
   const t = useTranslation();
-  const { transactions } = assetStore();
-  useEffect(() => {
-    assetStore.getState().fetchTransactionsHistory({
-      type: TransactionType.SWAP,
-    });
-  }, []);
+
+  const fetch = useCallback(
+    (cursor: string, limit: number, reverse: boolean) => {
+      return fetchTransactionsHistoryApi({
+        type: TransactionType.SWAP,
+        cursor,
+        limit,
+        reverse,
+      });
+    },
+    [],
+  );
+  const {
+    data: transactions,
+    haveNextPage,
+    reverse,
+    havePreviousPage,
+    setCursor,
+    setHaveNextPage,
+    setHavePreviousPage,
+  } = useSPEPagination(fetch);
 
   const tableData: TableData = useMemo(() => {
+    const from = reverse ? 1 : 0;
     return {
       head: [
         "Time",
@@ -30,6 +56,7 @@ export function SwapRecords() {
         "Status",
       ].map((el) => t(el)),
       body: transactions
+        .slice(from, from + ROWS_PER_PAGE)
         .filter((el) => el.type === TransactionType.SWAP)
         .map((row) => {
           return [
@@ -67,7 +94,7 @@ export function SwapRecords() {
           ];
         }),
     };
-  }, [t, transactions]);
+  }, [reverse, t, transactions]);
 
   return (
     <Box h={"100%"} w={"100%"}>
@@ -87,6 +114,39 @@ export function SwapRecords() {
           }}
         />
         <>{transactions.length === 0 && <NoDataRecord />}</>
+        {haveNextPage || havePreviousPage ? (
+          <Flex justify={"center"} mt={20} gap={10}>
+            {" "}
+            <Button
+              size="xs"
+              disabled={!havePreviousPage}
+              onClick={() => {
+                setHaveNextPage(true);
+                setCursor({
+                  cursor: transactions[0].id,
+                  reverse: true,
+                });
+              }}
+            >
+              <IconArrowLeft size={16} /> {t("Previous page")}
+            </Button>
+            <Button
+              size="xs"
+              disabled={!haveNextPage}
+              onClick={() => {
+                setHavePreviousPage(true);
+                setCursor({
+                  reverse: false,
+                  cursor: transactions[transactions.length - 1].id,
+                });
+              }}
+            >
+              {t("Next page")} <IconArrowRight size={16} />
+            </Button>
+          </Flex>
+        ) : (
+          <> </>
+        )}
       </Table.ScrollContainer>
     </Box>
   );

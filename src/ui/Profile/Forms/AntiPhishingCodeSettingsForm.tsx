@@ -17,12 +17,15 @@ export function AntiPhishingCodeSettingsForm() {
   const openModal = () => {
     return modals.open({
       title: t("Anti-Phishing Code Settings"),
+
       children: <AntiPhishingCodeSettingsModal />,
       centered: true,
+
     });
   };
   return (
     <>
+
       <Button
         onClick={openModal}
         variant="gradient"
@@ -40,11 +43,13 @@ export function AntiPhishingCodeSettingsModal() {
   const t = useTranslation();
   return (
     <Center h={"100%"}>
+
       <Box>
         <SimpleGrid
           cols={1}
           styles={{
             container: {
+
               gap: "10px",
             },
           }}
@@ -52,6 +57,7 @@ export function AntiPhishingCodeSettingsModal() {
           <Alert
             variant="light"
             color="primary"
+
             icon={<IconInfoCircle />}
           >
             {t(
@@ -69,9 +75,11 @@ export function AntiPhishingCodeSettingsModal() {
             rightSectionWidth={60}
             rightSection={
               <Flex px={10} w={"100%"}>
+
                 <Button p={0} variant="transparent">
                   {t("Send")}
                 </Button>
+
               </Flex>
             }
           />
@@ -84,9 +92,11 @@ export function AntiPhishingCodeSettingsModal() {
               gradient={{ from: "primary", to: "yellow", deg: 90 }}
               fullWidth
               onClick={() => alert("OK")}
+
             >
               {t("Confirm")}
             </Button>
+
           </Box>
         </SimpleGrid>
       </Box>

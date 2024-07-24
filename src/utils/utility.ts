@@ -42,6 +42,7 @@ export function extractSuffix(obj: unknown) {
   return (obj as { suffix?: string })?.suffix || "USDT";
 }
 
+
 export function generateUri2FA(
   // cspell:disable
   type: "hotp" | "totp",
@@ -53,6 +54,7 @@ export function generateUri2FA(
   let s = `otpauth://${type}/${encodeURIComponent(
     label,
   )}?secret=${secret.replace(/ /g, "")}`;
+
   if (issuer !== "") {
     s += `&issuer=${encodeURIComponent(issuer)}`;
   }
