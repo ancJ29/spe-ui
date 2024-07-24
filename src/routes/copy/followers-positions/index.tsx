@@ -1,4 +1,5 @@
 import { ROWS_PER_PAGE } from "@/common/configs";
+import { MODAL_STYLES } from "@/domain/config";
 import useSyncData from "@/hooks/useSyncData";
 import useTranslation from "@/hooks/useTranslation";
 import {
@@ -13,6 +14,7 @@ import {
   SPETableDateTime,
   SPETableDoubleNumbers,
   SPETableHeader,
+  SPETableNumber,
   SPETableText,
 } from "@/ui/SPEMisc";
 import { error, success } from "@/utils/notifications";
@@ -28,7 +30,7 @@ import { modals } from "@mantine/modals";
 import { IconDeviceFloppy, IconUserX } from "@tabler/icons-react";
 import { useCallback, useMemo, useState } from "react";
 
-export default function MyFollowerPositions() {
+export default function FollowerPositions() {
   const t = useTranslation();
   const fetch = useCallback(() => fetchFollowerInformation(), []);
   const followers = useSyncData<FollowerInformation[]>(fetch);
@@ -59,9 +61,10 @@ export default function MyFollowerPositions() {
             time={follower.followFrom}
           />,
           <SPETableText key={`${idx}.uid`} value={follower.uid} />,
-          <span key={`${idx}.positions`}>
-            {follower.totalCopyPositions.toLocaleString()}
-          </span>,
+          <SPETableNumber
+            key={`${idx}.positions`}
+            value={follower.totalCopyPositions}
+          />,
           <SPETableDoubleNumbers
             maw={200}
             key={`${idx}.asset`}
@@ -74,7 +77,7 @@ export default function MyFollowerPositions() {
           />,
           <SPETableDoubleNumbers
             maw={200}
-            key={`${idx}.profit`}
+            key={`${idx}.pnl`}
             values={[
               follower.realizedPnl || 0,
               follower.unrealizedPnl || 0,
@@ -91,17 +94,8 @@ export default function MyFollowerPositions() {
             variant="transparent"
             onClick={() => {
               modals.open({
+                ...MODAL_STYLES,
                 title: t("Remove follower"),
-                centered: true,
-                withinPortal: true,
-                size: "lg",
-                padding: "xl",
-                portalProps: {},
-                styles: {
-                  title: {
-                    fontSize: "20px",
-                  },
-                },
                 children: (
                   <RemoveFollowerForm
                     uid={follower.uid}
@@ -177,12 +171,12 @@ function Remark({
           onClick={() => {
             remarkFollowerApi(accountId, value)
               .then(() => {
-                success(t("Success"), t("Follower has been removed"));
+                success(t("Success"), t("Remark updated"));
               })
               .catch(() => {
                 error(
                   t("Something went wrong"),
-                  t("Cannot remove the follower"),
+                  t("Cannot add remark"),
                 );
               });
           }}

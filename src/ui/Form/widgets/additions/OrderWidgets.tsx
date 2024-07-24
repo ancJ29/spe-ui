@@ -296,19 +296,19 @@ export function VolumeInputFieldWidget({
   const { openTrades, marketPrices, symbolMap } = tradeStore();
   const { tradingBalances } = assetStore();
   const { max, config } = useMemo(() => {
+    const open = Number(
+      openTrades.openPositions[formData.symbol] || 0,
+    );
+    const k = Math.sign(open);
+    const currentSide = open < 0 ? OrderSide.SELL : OrderSide.BUY;
+    const isReverse = k !== 0 && currentSide !== formData.orderSide;
+
     if (formData.reduceOnly && formData.isFuture) {
-      const max = Number(
-        openTrades.openPositions[formData.symbol] || 0,
-      );
-      const k = Math.sign(max);
-      if (k > 0 && formData.orderSide === OrderSide.BUY) {
-        return { max: 0, config: symbolMap[formData.symbol] };
-      }
-      if (k < 0 && formData.orderSide === OrderSide.SELL) {
+      if (!isReverse) {
         return { max: 0, config: symbolMap[formData.symbol] };
       }
       return {
-        max: Math.abs(max),
+        max: Math.abs(open),
         config: symbolMap[formData.symbol],
       };
     }
@@ -339,6 +339,9 @@ export function VolumeInputFieldWidget({
       );
     }
 
+    if (formData.isFuture && isReverse) {
+      max += Math.abs(open);
+    }
     return {
       max: Number(max || 0),
       config: symbolMap[formData.symbol],

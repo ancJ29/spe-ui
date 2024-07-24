@@ -29,7 +29,9 @@ export default (symbol: string, isSpot: boolean) => {
   const SPOT_KLINE = "https://api.binance.com/api/v3/klines";
   const FUTURE_KLINE = "https://fapi.binance.com/fapi/v1/klines";
 
-  const url = `${isSpot ? SPOT_KLINE : FUTURE_KLINE}?symbol=${SYMBOL_MAP.BINANCE[symbol]}`;
+  const url = `${isSpot ? SPOT_KLINE : FUTURE_KLINE}?symbol=${
+    SYMBOL_MAP.BINANCE[symbol]
+  }`;
   logger.trace("data-feed", symbol, url);
 
   return {
@@ -170,7 +172,9 @@ export default (symbol: string, isSpot: boolean) => {
     onResetCacheNeededCallback: () => void,
   ) {
     logger.debug("sync...");
-    const latestPrice = Number(localStorage[`__LAST_PRICE_${symbolName}__`] || 0);
+    const latestPrice = Number(
+      localStorage[`__LAST_PRICE_${symbolName}__`] || 0,
+    );
     logger.debug("latestPrice", latestPrice);
     const interval = intervals[resolution];
     const endTime = Math.floor(Date.now() / 1e3) * 1e3;

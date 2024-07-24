@@ -1,3 +1,4 @@
+import { buildArray } from "@/common/utils";
 import useTranslation from "@/hooks/useTranslation";
 import { Box } from "@mantine/core";
 
@@ -9,12 +10,12 @@ export function SPETableHeader({
   const t = useTranslation();
   return (
     <Box
-      py={3}
+      py={5}
       style={{
         whiteSpace: "pre",
       }}
     >
-      {(Array.isArray(label) ? label : [label]).map((label, idx) => (
+      {buildArray(label).map((label, idx) => (
         <span key={idx}>
           {t(label)}
           <br />

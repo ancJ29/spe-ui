@@ -1,13 +1,5 @@
-import useTranslation from "@/hooks/useTranslation";
-import { Center } from "@mantine/core";
+import { Navigate } from "react-router-dom";
 
-const BlankPage = () => {
-  const t = useTranslation();
-  return (
-    <Center style={{ minHeight: "100vh" }}>
-      {t("This is a blank page. You can use it to create new pages.")}
-    </Center>
-  );
-};
-
-export default BlankPage;
+export default function BlankPage() {
+  return <Navigate to="/" />;
+}

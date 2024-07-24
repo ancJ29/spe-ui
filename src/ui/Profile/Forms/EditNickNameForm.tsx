@@ -1,52 +1,123 @@
-import useTranslation from "@/hooks/useTranslation";
-import { Avatar, Badge, Box, Button, Flex, rem, SimpleGrid, Text, TextInput } from "@mantine/core";
 import defaultAvatar from "@/assets/images/defaultAvatar.png";
-import { IconCircleCheck, IconEdit } from "@tabler/icons-react";
+import useTranslation from "@/hooks/useTranslation";
+import { updateUserApi } from "@/services/apis";
+import authStore from "@/store/auth";
+import { UserUpdateType } from "@/types";
+import { error, success } from "@/utils/notifications";
+import { reloadWindow } from "@/utils/utility";
+import {
+  Avatar,
+  Badge,
+  Box,
+  Button,
+  Flex,
+  rem,
+  SimpleGrid,
+  Text,
+  TextInput,
+} from "@mantine/core";
 import { modals } from "@mantine/modals";
+import { IconCircleCheck, IconEdit } from "@tabler/icons-react";
+import { useState } from "react";
 
 export function EditNickNameForm() {
-    const t = useTranslation()
-    const onChangeNickName = () => {
-        modals.open({
-            title: t("Add a nickname"),
-            children: <ModalNickName />,
-            centered: true
-        })
-    }
-    return (
-        <>
-            <Flex gap={12} align={"center"}>
-                <Box>
-                    <Avatar w={72} h={72} src={defaultAvatar}></Avatar>
-                </Box>
-                <Box>
-                    <Flex align={"center"} gap={10}>
-                        <Text fz={24} fw={600}>
-                            duc***@****
-                        </Text>
-                        <Button onClick={onChangeNickName} p={0} m={0} variant="transparent">
-                            <IconEdit size={16} color="gray" />
-                        </Button>
-                    </Flex>
-                    <Badge tt={"capitalize"} fw={"normal"} variant="light" color={"#20b26c"} c={"#20b26c"} leftSection={
-                        <IconCircleCheck style={{ width: rem(12), height: rem(12) }} />
-                    }>Identity Verification Lv.1</Badge>
-                </Box>
-            </Flex>
-        </>
-    )
+  const t = useTranslation();
+  const { avatar, me, displayName } = authStore();
+  const onChangeNickName = () => {
+    modals.open({
+      title: t("Add a nickname"),
+      children: <ModalNickName nickName={me?.nickName || ""} />,
+      centered: true,
+    });
+  };
+  return (
+    <>
+      <Flex gap={12} align={"center"}>
+        <Box>
+          <Avatar
+            w={72}
+            h={72}
+            src={avatar || defaultAvatar}
+          ></Avatar>
+        </Box>
+        <Box>
+          <Flex align={"center"} gap={10}>
+            <Text fz={24} fw={600}>
+              {displayName}
+            </Text>
+            <Button
+              onClick={onChangeNickName}
+              p={0}
+              m={0}
+              variant="transparent"
+            >
+              <IconEdit size={16} color="gray" />
+            </Button>
+          </Flex>
+          <Badge
+            tt={"capitalize"}
+            fw={"normal"}
+            variant="light"
+            color={"#33006c"}
+            leftSection={
+              <IconCircleCheck
+                style={{ width: rem(12), height: rem(12) }}
+              />
+            }
+          >
+            {t("Identity Verification Lv.")} {me?.kycLevel || 0}
+          </Badge>
+        </Box>
+      </Flex>
+    </>
+  );
 }
 
-
-export function ModalNickName() {
-    const t = useTranslation()
-    return (
-        <>
-            <TextInput label={t("Nickname")} />
-            <SimpleGrid cols={2} mt={"xl"}>
-                <Button fullWidth onClick={() => modals.closeAll()}>{t("Confirm")}</Button>
-                <Button color="gray" variant="outline" fullWidth onClick={() => modals.closeAll()}>{t("Cancel")}</Button>
-            </SimpleGrid>
-        </>
-    )
+export function ModalNickName({ nickName }: { nickName: string }) {
+  const t = useTranslation();
+  const [newNickName, setNewNickName] = useState(nickName);
+  return (
+    <>
+      <TextInput
+        label={t("Nickname")}
+        value={newNickName}
+        onChange={(e) => setNewNickName(e.currentTarget.value)}
+      />
+      <SimpleGrid cols={2} mt={"xl"}>
+        <Button
+          fullWidth
+          onClick={() => {
+            updateUserApi(UserUpdateType.NICK_NAME, {
+              nickName: newNickName,
+            })
+              .then(() => {
+                success(t("Success"), t("Nickname updated"));
+                reloadWindow();
+              })
+              .catch(() => {
+                error(
+                  t("Something went wrong"),
+                  t("Cannot update your nickname"),
+                );
+              })
+              .finally(() => {
+                modals.closeAll();
+              });
+          }}
+        >
+          {t("Confirm")}
+        </Button>
+        <Button
+          color="gray"
+          variant="outline"
+          fullWidth
+          onClick={() => {
+            modals.closeAll();
+          }}
+        >
+          {t("Cancel")}
+        </Button>
+      </SimpleGrid>
+    </>
+  );
 }

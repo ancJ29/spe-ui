@@ -1,9 +1,7 @@
 import useMetadata from "@/hooks/useMetadata";
 import useOnMounted from "@/hooks/useOnMounted";
-import authStore from "@/store/auth";
-import copyStore from "@/store/copy";
-import { CopyTradeInfo, TabsCopyTrade } from "@/ui/CopyTrade";
-import TabControl from "@/ui/CopyTrade/TabControl";
+import { CopyInformation, Tabs } from "@/ui/Copy";
+import TabControl from "@/ui/Copy/TabControl";
 import { Header } from "@/ui/Header";
 import {
   Box,
@@ -13,7 +11,7 @@ import {
   Space,
   Transition,
 } from "@mantine/core";
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useState } from "react";
 
 const CopyTradeWrapper = ({
   children,
@@ -22,18 +20,9 @@ const CopyTradeWrapper = ({
 }) => {
   const { data } = useMetadata();
   const [mounted, setMounted] = useState(false);
-  const { me } = authStore();
-
   useOnMounted(() => {
     setMounted(true);
   });
-
-  useEffect(() => {
-    me?.isCopyMaster &&
-      setTimeout(() => {
-        copyStore.getState().loadMaster();
-      }, 500);
-  }, [me?.isCopyMaster]);
 
   return (
     <Suspense
@@ -63,7 +52,7 @@ const CopyTradeWrapper = ({
             <Space mb={"xl"} />
             <TabControl />
             <Space mb={"xl"} />
-            <CopyTradeInfo />
+            <CopyInformation />
             <Space mb={"xl"} />
             <Container fluid>
               <Card
@@ -72,7 +61,7 @@ const CopyTradeWrapper = ({
                 radius="25px"
                 w={"100%"}
               >
-                <TabsCopyTrade />
+                <Tabs />
                 <Box>{children}</Box>
               </Card>
             </Container>

@@ -1,13 +1,13 @@
 import defaultAvatar from "@/assets/images/defaultAvatar.png";
 import svgLogo from "@/assets/images/logo.svg";
 import { Application } from "@/common/types";
-import { masking } from "@/common/utils";
 import { getHeaderMenu } from "@/domain/Application";
 import useTranslation from "@/hooks/useTranslation";
 import { default as authStore } from "@/store/auth";
 import {
   ActionIcon,
   Anchor,
+  Avatar,
   Box,
   Burger,
   Button,
@@ -510,7 +510,7 @@ export function Header(props: Partial<{ metadata: Application }>) {
 }
 
 function MenuUserInfo() {
-  const { me } = authStore();
+  const { avatar, me, displayName } = authStore();
   const t = useTranslation();
 
   if (!me?.id) {
@@ -527,7 +527,7 @@ function MenuUserInfo() {
       >
         <Menu.Target>
           <ActionIcon variant="transparent" size="xl">
-            <Image src={defaultAvatar} w={28} h={28} />
+            <Avatar size={28} src={avatar || defaultAvatar} />
           </ActionIcon>
         </Menu.Target>
 
@@ -546,13 +546,15 @@ function MenuUserInfo() {
             <Flex gap={10}>
               <Box>
                 <ActionIcon variant="transparent" size="xl">
-                  <Image src={defaultAvatar} w={38} h={38} />
+                  <Avatar
+                    src={avatar || defaultAvatar}
+                    w={38}
+                    h={38}
+                  />
                 </ActionIcon>
               </Box>
               <Box>
-                <Text fz={14}>
-                  {masking(me?.email || me?.mobile || "")}
-                </Text>
+                <Text fz={14}>{displayName || ""}</Text>
                 <Flex align={"center"} gap={0}>
                   <Text fz={12} c={"gray.5"}>
                     UID: {me.depositCode || ""}
@@ -598,7 +600,9 @@ function MenuUserInfo() {
             Switch/Create Account
           </Menu.Item> */}
           <Menu.Divider />
-          <Menu.Item fw={"bold"} component="a" href="/user">Settings</Menu.Item>
+          <Menu.Item fw={"bold"} component="a" href="/user">
+            Settings
+          </Menu.Item>
           <Menu.Item fw={"bold"} component="a" href="/wallet">
             {t("Assets")}
           </Menu.Item>

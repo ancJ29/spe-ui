@@ -473,18 +473,17 @@ function BoxInfoTradeFoot({
                 },
                 content: {
                   padding: 0,
-                  background: "none"
+                  background: "none",
                 },
                 body: {
                   padding: 0,
-                  background: "none"
+                  background: "none",
                 },
                 root: {
                   width: "100%",
                   padding: 0,
-                  background: "none"
+                  background: "none",
                 },
-
               },
               children: <DepositForm coin={quote} />,
             });
@@ -511,16 +510,16 @@ function BoxInfoTradeFoot({
                 },
                 content: {
                   padding: 0,
-                  background: "none"
+                  background: "none",
                 },
                 body: {
                   padding: 0,
-                  background: "none"
+                  background: "none",
                 },
                 root: {
                   width: "100%",
                   padding: 0,
-                  background: "none"
+                  background: "none",
                 },
               },
               children: (
@@ -528,6 +527,7 @@ function BoxInfoTradeFoot({
                   coin={quote}
                   onSubmit={() => {
                     assetStore.getState().fetchBalances();
+                    modals.closeAll();
                   }}
                 />
               ),
@@ -573,6 +573,7 @@ function BoxInfoTradeFoot({
                   ]}
                   onSubmit={() => {
                     assetStore.getState().fetchBalances();
+                    modals.closeAll();
                   }}
                 />
               ),

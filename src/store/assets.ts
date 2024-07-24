@@ -3,11 +3,13 @@ import {
   Account,
   Balance,
   BalanceOverview,
+  MasterTraderInformation,
   SpeTransaction,
 } from "@/common/types";
 import {
   fetchAccountsApi,
   fetchBalancesApi,
+  fetchMasterTraders,
   fetchTransactionsHistoryApi,
 } from "@/services/apis";
 import { TransactionsHistoryFormData } from "@/types";
@@ -17,6 +19,7 @@ interface AssetState {
   balances: Balance[];
   overview: BalanceOverview;
   accounts: Account[];
+  masterTraders: MasterTraderInformation[];
   accountById: Record<string, Account>;
   transactions: SpeTransaction[];
   fundingBalances: Balance[];
@@ -40,6 +43,7 @@ export const assetStore = create<AssetState>((set, get) => ({
   },
   fundingBalances: [],
   tradingBalances: [],
+  masterTraders: [],
   balances: [],
   accounts: [],
   accountById: {},
@@ -78,8 +82,10 @@ export const assetStore = create<AssetState>((set, get) => ({
   },
   async fetchAccounts() {
     const accounts = await fetchAccountsApi();
+    const masterTraders = await fetchMasterTraders();
     set({
       accounts,
+      masterTraders,
       accountById: Object.fromEntries(
         accounts.map((account) => [account.id, account]),
       ),

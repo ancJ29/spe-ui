@@ -1,3 +1,5 @@
+import BN from "@/common/big-number";
+import { OrderSide } from "@/common/enums";
 import { profit } from "@/common/logic";
 import tradeStore from "@/store/trade";
 import { useMemo } from "react";
@@ -8,21 +10,27 @@ export function SPEUnrealizedPnL({
 }: {
   position: {
     symbol: string;
-    side: string;
+    side: OrderSide;
     volume: number;
     entryPrice: number;
     fee: number;
   };
 }) {
   const { marketInformation } = tradeStore();
-  const unRealizedPnl = useMemo(() => {
-    return profit(
+  const { prefix, unRealizedPnl, color } = useMemo(() => {
+    const unRealizedPnl = profit(
       position.entryPrice,
       marketInformation[position.symbol]?.markPrice || 0,
       position.volume,
       position.side,
       position.fee,
     );
+    const isProfit = BN.gt(unRealizedPnl, 0);
+    return {
+      unRealizedPnl,
+      color: isProfit ? "green" : "red",
+      prefix: isProfit ? "+" : "",
+    };
   }, [
     marketInformation,
     position.entryPrice,
@@ -33,7 +41,11 @@ export function SPEUnrealizedPnL({
   ]);
   return (
     <>
-      <SPETableNumber value={unRealizedPnl} />
+      <SPETableNumber
+        prefix={prefix}
+        value={unRealizedPnl}
+        color={color}
+      />
     </>
   );
 }

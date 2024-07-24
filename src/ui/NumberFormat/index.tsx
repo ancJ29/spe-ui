@@ -23,10 +23,7 @@ export default function NumberFormat({
   }
   return (
     <span>
-      {`${prefix}${BN.formatNumberWithCommas(
-        value,
-        decimalPlaces,
-      )} ${suffix}`}
+      {`${prefix}${BN.format(value, decimalPlaces)} ${suffix}`}
     </span>
   );
 }

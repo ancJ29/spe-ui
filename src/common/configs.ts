@@ -1,5 +1,18 @@
 import { TransactionStatus } from "./enums";
 
+export const MMR = [
+  [10000, 0.02],
+  [30000, 0.03],
+  [50000, 0.05],
+];
+
+export const PROFILE_IMAGE_PREFIX =
+  "https://crypto-copy-invest.s3.ap-southeast-1.amazonaws.com/images/profiles";
+
+export const MASTER_SHARE_PERCENT = 10;
+
+export const PROMOTER_SHARE_PERCENT = 10;
+
 export const DEFAULT_LEVERAGE = 20;
 
 export const SWAP_RATE = 0.01;

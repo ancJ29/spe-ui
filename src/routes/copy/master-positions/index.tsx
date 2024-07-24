@@ -59,7 +59,7 @@ export default function MasterPositions() {
             value={position.entryPrice}
           />,
           <SPETableMarkPrice
-            key={`${idx}.price`}
+            key={`${idx}.markPrice`}
             symbol={position.symbol}
           />,
           <Box key={`${idx}.margin`}>

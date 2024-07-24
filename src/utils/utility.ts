@@ -1,5 +1,11 @@
 import logger from "@/services/logger";
-import { debounce } from "lodash";
+import debounce from "lodash/debounce";
+
+export function reloadWindow(delay = 500) {
+  setTimeout(() => {
+    window.location.reload();
+  }, delay);
+}
 
 export function splitAndFormatString(str: string) {
   str = str.replace(/^linkTo/, "");
@@ -36,13 +42,22 @@ export function extractSuffix(obj: unknown) {
   return (obj as { suffix?: string })?.suffix || "USDT";
 }
 
-export function generateUri2FA(type: "hotp" | "totp", label: string, secret: string, issuer: string, counter: string) {
-  let s = `otpauth://${type}/${encodeURIComponent(label)}?secret=${secret.replace(/ /g, '')}`;
+export function generateUri2FA(
+  // cspell:disable
+  type: "hotp" | "totp",
+  label: string,
+  secret: string,
+  issuer: string,
+  counter: string,
+) {
+  let s = `otpauth://${type}/${encodeURIComponent(
+    label,
+  )}?secret=${secret.replace(/ /g, "")}`;
   if (issuer !== "") {
-      s += `&issuer=${encodeURIComponent(issuer)}`;
+    s += `&issuer=${encodeURIComponent(issuer)}`;
   }
   if (type === "hotp") {
-      s += `&counter=${counter || "0"}`;
+    s += `&counter=${counter || "0"}`;
   }
   // if (advanced_options_checked) {
   //   s += `&algorithm=${algorithm}&digits=${digits}`;
@@ -51,4 +66,5 @@ export function generateUri2FA(type: "hotp" | "totp", label: string, secret: str
   //   }
   // }
   return s;
+  // cspell:enable
 }

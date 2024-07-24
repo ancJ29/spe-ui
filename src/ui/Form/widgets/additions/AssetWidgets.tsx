@@ -167,8 +167,10 @@ export function SelectChainWidget(props: WidgetProps) {
               fw={"bold"}
               styles={{
                 root: {
-                  color: checked ? "#f29525" : "light-dark(#81858c, white)"
-                }
+                  color: checked
+                    ? "#f29525"
+                    : "light-dark(#81858c, white)",
+                },
               }}
             >
               {option.value}
@@ -657,8 +659,7 @@ export function CoinSwapWidget({
         radius={"16px"}
         styles={{
           root: {
-            background:
-              "light-dark(#f3f5f7, rgba(0, 0, 0, 0.1))",
+            background: "light-dark(#f3f5f7, rgba(0, 0, 0, 0.1))",
             overflow: "visible",
           },
         }}
@@ -694,7 +695,8 @@ export function CoinSwapWidget({
               left={0}
               styles={{
                 root: {
-                  background: "light-dark(#f3f5f7, rgba(0, 0, 0, 0.04))",
+                  background:
+                    "light-dark(#f3f5f7, rgba(0, 0, 0, 0.04))",
                   color: "black",
                   zIndex: 2,
                   width: "fit-content",
@@ -769,17 +771,22 @@ export function CoinSwapWidget({
                             styles={{
                               root: {
                                 // var(--mantine-color-dark-2)
-                                color: checked ? "var(--mantine-color-primary-5)" : "light-dark(var(--mantine-color-dark-2), var(--mantine-color-dark-1))"
-                              }
+                                color: checked
+                                  ? "var(--mantine-color-primary-5)"
+                                  : "light-dark(var(--mantine-color-dark-2), var(--mantine-color-dark-1))",
+                              },
                             }}
                           >
                             {option.value}
                           </Text>
-                          <Text fz={12} styles={{
-                            root: {
-                              color: "light-dark(#81858c, white)"
-                            }
-                          }}>
+                          <Text
+                            fz={12}
+                            styles={{
+                              root: {
+                                color: "light-dark(#81858c, white)",
+                              },
+                            }}
+                          >
                             {ASSET_COIN_LIST[option.value]}
                           </Text>
                         </Flex>
@@ -1009,18 +1016,27 @@ function renderCoinSelectOption({
           />
         </Box>
         <Box>
-          <Text fz={16} fw={"bold"} styles={{
-            root: {
-              color: checked ? "#f29525" : "light-dark(#81858c, white)"
-            }
-          }}>
+          <Text
+            fz={16}
+            fw={"bold"}
+            styles={{
+              root: {
+                color: checked
+                  ? "#f29525"
+                  : "light-dark(#81858c, white)",
+              },
+            }}
+          >
             {option.value}
           </Text>
-          <Text fz={12} styles={{
-            root: {
-              color: "light-dark(#81858c, white)"
-            }
-          }}>
+          <Text
+            fz={12}
+            styles={{
+              root: {
+                color: "light-dark(#81858c, white)",
+              },
+            }}
+          >
             {ASSET_COIN_LIST[option.value]}
           </Text>
         </Box>

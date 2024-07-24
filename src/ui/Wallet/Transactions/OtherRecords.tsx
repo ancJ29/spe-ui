@@ -1,3 +1,4 @@
+import BN from "@/common/big-number";
 import { TransactionType } from "@/common/enums";
 import useTranslation from "@/hooks/useTranslation";
 import { assetStore } from "@/store/assets";
@@ -12,6 +13,8 @@ const TRANSACTION_TYPES = [
   TransactionType.TRANSFER_OUT,
   TransactionType.REALIZED_PNL,
   TransactionType.FUNDING_FEE,
+  TransactionType.DEPOSIT_COPY_FUND,
+  TransactionType.WITHDRAW_COPY_FUND,
   TransactionType.COMMISSION_FEE,
   TransactionType.LIQUIDATION_CLEARANCE,
   TransactionType.REFERRAL_KICKBACK,
@@ -29,35 +32,32 @@ export function OtherRecords() {
 
   const tableData: TableData = useMemo(() => {
     return {
-      head: ["Coin", "Time", "Account", "Type", "Amount"].map((el) =>
-        t(el),
-      ),
+      head: [
+        "Time",
+        "Coin",
+        "Account",
+        "Amount",
+        "Transaction Type",
+      ].map((el) => t(el)),
       body: transactions
         .filter((el) => TRANSACTION_TYPES.includes(el.type))
         .map((row) => [
-          <>
-            <Asset asset={row.asset} />
-          </>,
-          <>
-            <Title order={6} fz={12}>
-              {new Date(row.updatedAt).toLocaleString()}
-            </Title>
-          </>,
-          <>
-            <Title order={6} fz={12}>
-              {accountById[row.accountId]?.name || "--"}
-            </Title>
-          </>,
-          <>
-            <Title order={6} fz={12}>
-              {row.type}
-            </Title>
-          </>,
-          <>
-            <Title order={6} fz={12}>
-              <NumberFormat decimalPlaces={8} value={row.amount} />
-            </Title>
-          </>,
+          <Title order={6} fz={12} key={`${row.id}.time`}>
+            {new Date(row.updatedAt).toLocaleString()}
+          </Title>,
+          <Asset asset={row.asset} key={`${row.id}.asset`} />,
+          <Title order={6} fz={12} key={`${row.id}.account`}>
+            {accountById[row.accountId]?.name || "--"}
+          </Title>,
+          <Title order={6} fz={12} key={`${row.id}.amount`}>
+            <NumberFormat
+              decimalPlaces={8}
+              value={BN.add(row.amount, row.fee || 0)}
+            />
+          </Title>,
+          <Title order={6} fz={12} key={`${row.id}.type`}>
+            {row.type}
+          </Title>,
         ]),
     };
   }, [accountById, t, transactions]);

@@ -1,5 +1,6 @@
 import BN from "@/common/big-number";
 import { ASSET_COIN_LIST } from "@/common/configs";
+import { AccountType } from "@/common/enums";
 import { COIN_IMAGES } from "@/domain/config";
 import useTranslation from "@/hooks/useTranslation";
 import { assetStore } from "@/store/assets";
@@ -46,7 +47,7 @@ export function TradingAssetsTable({
 
   const tableData: TableData = useMemo(() => {
     const accountId = accounts.find(
-      (el) => !el.isFunding && !el.isCopyMaster,
+      (el) => !el.isFunding && el.type === AccountType.MAIN,
     )?.id;
     const rows = balances.filter((el) => {
       if (accountId && el.accountId === accountId) {

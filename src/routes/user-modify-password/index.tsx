@@ -1,16 +1,15 @@
-import { useLocation } from "react-router-dom";
-import { Anchor, Box, Breadcrumbs, Container, } from "@mantine/core";
 import useTranslation from "@/hooks/useTranslation";
 import { UserChangePasswordForm } from "@/ui/Profile";
+import { Anchor, Box, Breadcrumbs, Container } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
 
 export default function Page() {
-  const location = useLocation();
-  const t = useTranslation()
+  const t = useTranslation();
   return (
     <>
       <Container>
-        <Breadcrumbs my={20}
+        <Breadcrumbs
+          my={20}
           separator={<IconChevronRight color="gray" size={14} />}
         >
           <Anchor fz={16} fw={400} href="/user">

@@ -7,39 +7,49 @@ import { Notifications } from "@mantine/notifications";
 import { useEffect, useMemo } from "react";
 import { RouteObject, useRoutes } from "react-router-dom";
 import { useBoolean } from "usehooks-ts";
+import useSPEInterval from "./hooks/useSPEInterval";
+import logger from "./services/logger";
 import { assetStore } from "./store/assets";
 import authStore from "./store/auth";
 import {
   default as tradeStore,
   default as useTradeStore,
 } from "./store/trade";
-import useSPEInterval from "./hooks/useSPEInterval";
 import { ONE_MINUTE } from "./utils";
 
+async function _getMe(retry = 3) {
+  try {
+    await getMe().then((me) => authStore.getState().setMe(me));
+  } catch (e) {
+    if (retry > 0) {
+      await _getMe(retry - 1);
+      return;
+    }
+    authStore.getState().logout();
+    throw e;
+  }
+}
 const App = () => {
   const { value: loaded, setTrue } = useBoolean(false);
 
-  useEffect(() => {
-    _loadPrices();
-    const timer = setInterval(_loadPrices, 10e3);
-    return () => clearInterval(timer);
-  }, []);
+  useSPEInterval(_loadPrices, 10e3, true);
 
   useEffect(() => {
     if (loaded) {
       return;
     }
     if (localStorage.__TOKEN__) {
-      getMe()
-        .then((me) => authStore.getState().setMe(me))
-        .catch(() => {
-          authStore.getState().logout();
+      _getMe()
+        .catch((e) => {
+          logger.error(e);
         })
         .finally(() => {
           setTrue();
+          _loadPrices();
         });
     } else {
       setTrue();
+      _loadPrices();
     }
   }, [loaded, setTrue]);
 

@@ -1,4 +1,5 @@
 import { OrderSide } from "@/common/enums";
+import { cleanEmpty } from "@/common/utils";
 import { IS_DEV } from "@/domain/config";
 import useSyncData from "@/hooks/useSyncData";
 import useTranslation from "@/hooks/useTranslation";
@@ -12,6 +13,7 @@ import {
   fetchTrades,
 } from "@/services/apis";
 import { Language } from "@/services/languages";
+import logger from "@/services/logger";
 import authStore from "@/store/auth";
 import tradeStore from "@/store/trade";
 import { GridTradeProps, Order, Position, Trade } from "@/types";
@@ -31,18 +33,17 @@ import {
 import AppTabs from "@/ui/Tabs";
 import AppText from "@/ui/Text/AppText";
 import { TradingAssetsTable } from "@/ui/Wallet";
+import { error, success } from "@/utils/notifications";
 import { splitAndFormatString } from "@/utils/utility";
 import {
   Box,
   Checkbox,
   Divider,
   Flex,
-  rem,
   Table,
   TableData,
 } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
-import { IconArrowRight, IconCheck } from "@tabler/icons-react";
+import { IconArrowRight } from "@tabler/icons-react";
 import { Fragment, useCallback, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -71,6 +72,7 @@ export function TabsOfTradeHistory({
 
   const { isLogin } = authStore();
   const tabs = useMemo(() => {
+    logger.debug("...reload tabs");
     return [
       {
         data: {
@@ -308,7 +310,7 @@ function TradeHistory({ symbol, isFuture }: TabProps) {
         body: trades?.map((trade) => {
           const isBuy = trade.side === "BUY";
           const color = isBuy ? "green" : "red";
-          return [
+          return cleanEmpty([
             <SPETableSymbol
               key={`${trade.tradeId}.symbol`}
               symbol={trade.symbol}
@@ -339,7 +341,7 @@ function TradeHistory({ symbol, isFuture }: TabProps) {
               key={`${trade.tradeId}.createdAt`}
               time={trade.createdAt}
             />,
-          ].filter(Boolean) as JSX.Element[];
+          ]);
         }),
       }}
     />
@@ -352,7 +354,7 @@ function OrderHistory({ symbol, isFuture }: TabProps) {
   return (
     <SPETable
       tableData={{
-        head: [
+        head: cleanEmpty([
           isFuture ? "Contract" : "Symbol",
           "Type",
           "Direction",
@@ -362,11 +364,11 @@ function OrderHistory({ symbol, isFuture }: TabProps) {
           "Post Only",
           isFuture ? "Reduce Only" : undefined,
           "Order Time",
-        ].filter(Boolean) as string[],
+        ]),
         body: orders?.map((order) => {
           const isBuy = order.side === "BUY";
           const color = isBuy ? "green" : "red";
-          return [
+          return cleanEmpty([
             <SPETableSymbol
               key={`${order.orderId}.symbol`}
               symbol={order.symbol}
@@ -411,7 +413,7 @@ function OrderHistory({ symbol, isFuture }: TabProps) {
               key={`${order.orderId}.createdAt`}
               time={order.createdAt}
             />,
-          ].filter(Boolean) as JSX.Element[];
+          ]);
         }),
       }}
     />
@@ -428,7 +430,7 @@ function CurrentOrders({ symbol, isFuture }: TabProps) {
   return (
     <SPETable
       tableData={{
-        head: [
+        head: cleanEmpty([
           isFuture ? "Contract" : "Symbol",
           "Type",
           "Direction",
@@ -439,11 +441,11 @@ function CurrentOrders({ symbol, isFuture }: TabProps) {
           isFuture ? "Reduce Only" : undefined,
           "Order Time",
           "Action",
-        ].filter(Boolean) as string[],
+        ]),
         body: orders?.map((order) => {
           const isBuy = order.side === "BUY";
           const color = isBuy ? "green" : "red";
-          return [
+          return cleanEmpty([
             <SPETableSymbol
               key={`${order.orderId}.symbol`}
               symbol={order.symbol}
@@ -501,46 +503,22 @@ function CurrentOrders({ symbol, isFuture }: TabProps) {
               onClick={() => {
                 cancelOrderApi(order.orderId)
                   .then(() => {
-                    notifications.show({
-                      color: "green",
-                      title: t("Order canceled"),
-                      message: t("Order has been canceled"),
-                      icon: (
-                        <IconCheck
-                          style={{
-                            width: rem(18),
-                            height: rem(18),
-                          }}
-                        />
-                      ),
-                      loading: false,
-                      autoClose: 5000,
-                      position: "top-center",
-                    });
+                    success(
+                      t("Order canceled"),
+                      t("Order has been canceled"),
+                    );
                   })
                   .catch(() => {
-                    notifications.show({
-                      color: "red",
-                      title: t("Something went wrong"),
-                      message: t("Cannot cancel order"),
-                      icon: (
-                        <IconCheck
-                          style={{
-                            width: rem(18),
-                            height: rem(18),
-                          }}
-                        />
-                      ),
-                      loading: false,
-                      autoClose: 5000,
-                      position: "top-center",
-                    });
+                    error(
+                      t("Something went wrong"),
+                      t("Cannot cancel order"),
+                    );
                   });
               }}
             >
               {t("Cancel")}
             </AppButton>,
-          ].filter(Boolean) as JSX.Element[];
+          ]);
         }),
       }}
     />
@@ -549,15 +527,15 @@ function CurrentOrders({ symbol, isFuture }: TabProps) {
 
 function Positions({ symbol, isFuture }: TabProps) {
   const t = useTranslation();
-  const fetch = useCallback(
-    () => fetchOpenPositions(symbol),
-    [symbol],
-  );
-  const positions = useSyncData<Position[]>(fetch, 10);
+  const fetch = useCallback(() => {
+    logger.debug("fetching open positions", symbol);
+    return fetchOpenPositions(symbol);
+  }, [symbol]);
+  const positions = useSyncData<Position[]>(fetch, 10e3, []);
   return (
     <SPETable
       tableData={{
-        head: [
+        head: cleanEmpty([
           isFuture ? "Contract" : "Symbol",
           "Direction",
           "Position Size",
@@ -568,11 +546,11 @@ function Positions({ symbol, isFuture }: TabProps) {
           "Margin Level",
           "Unrealized PnL(%)",
           "Action",
-        ].filter(Boolean) as string[],
+        ]),
         body: positions?.map((position) => {
           const isBuy = position.side === "BUY";
           const color = isBuy ? "green" : "red";
-          return [
+          return cleanEmpty([
             <SPETableSymbol
               key={`${position.positionId}.symbol`}
               symbol={position.symbol}
@@ -632,46 +610,22 @@ function Positions({ symbol, isFuture }: TabProps) {
                     : OrderSide.BUY,
                 )
                   .then(() => {
-                    notifications.show({
-                      color: "green",
-                      title: t("Position closed"),
-                      message: t("Position has been "),
-                      icon: (
-                        <IconCheck
-                          style={{
-                            width: rem(18),
-                            height: rem(18),
-                          }}
-                        />
-                      ),
-                      loading: false,
-                      autoClose: 5000,
-                      position: "top-center",
-                    });
+                    success(
+                      t("Position closed"),
+                      t("Position has been "),
+                    );
                   })
                   .catch(() => {
-                    notifications.show({
-                      color: "red",
-                      title: t("Something went wrong"),
-                      message: t("Cannot close position"),
-                      icon: (
-                        <IconCheck
-                          style={{
-                            width: rem(18),
-                            height: rem(18),
-                          }}
-                        />
-                      ),
-                      loading: false,
-                      autoClose: 5000,
-                      position: "top-center",
-                    });
+                    error(
+                      t("Something went wrong"),
+                      t("Cannot close position"),
+                    );
                   });
               }}
             >
               {t("Close")}
             </AppButton>,
-          ].filter(Boolean) as JSX.Element[];
+          ]);
         }),
       }}
     />
@@ -687,7 +641,7 @@ function ClosedPnL({ symbol, isFuture }: TabProps) {
   return (
     <SPETable
       tableData={{
-        head: [
+        head: cleanEmpty([
           isFuture ? "Contract" : "Symbol",
           "Direction",
           "Position Size",
@@ -696,11 +650,11 @@ function ClosedPnL({ symbol, isFuture }: TabProps) {
           "PnL(%)",
           "Entry Time",
           "Closed Time",
-        ].filter(Boolean) as string[],
+        ]),
         body: positions?.map((position) => {
           const isBuy = position.side === "BUY";
           const color = isBuy ? "green" : "red";
-          return [
+          return cleanEmpty([
             <SPETableSymbol
               key={`${position.positionId}.symbol`}
               symbol={position.symbol}
@@ -739,7 +693,7 @@ function ClosedPnL({ symbol, isFuture }: TabProps) {
               key={`${position.positionId}.closedAt`}
               time={position.closedAt || 0}
             />,
-          ].filter(Boolean) as JSX.Element[];
+          ]);
         }),
       }}
     />
@@ -883,11 +837,11 @@ function SPETable({
           withRowBorders={false}
           data={{
             ...tableData,
-            head: tableData.head
-              ?.filter(Boolean)
-              .map((label: string, idx) => (
+            head: cleanEmpty(tableData.head || []).map(
+              (label: string, idx) => (
                 <SPETableHeader key={idx} label={label || ""} />
-              )),
+              ),
+            ),
           }}
           verticalSpacing={"xs"}
         />

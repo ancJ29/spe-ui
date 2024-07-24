@@ -18,7 +18,7 @@ export default function useSyncData<T>(
 
   const interval = useInterval(() => {
     fetch();
-  }, intervalTime);
+  }, Math.min(intervalTime, 2e3));
 
   useEffect(() => {
     interval.start();

@@ -2,6 +2,7 @@ import { schema } from "@/domain/schema";
 import useTranslation from "@/hooks/useTranslation";
 import AppForm from "@/ui/Form/Form";
 import { svgLogo } from "@/ui/Logo/Logo";
+import { SwitchDarkLightMode } from "@/ui/SwitchDarkLight";
 import SwitchLanguage from "@/ui/SwitchLanguage/SwitchLanguage";
 import {
   Alert,
@@ -19,7 +20,6 @@ import {
   ThemeIcon,
   Title,
   UnstyledButton,
-  lighten,
   rem,
   useMantineColorScheme,
 } from "@mantine/core";
@@ -29,10 +29,9 @@ import {
   IconPhoneCalling,
   IconTruckLoading,
 } from "@tabler/icons-react";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { convertToSignUpFormData } from "./config";
 import classes from "./index.module.scss";
-import { SwitchDarkLightMode } from "@/ui/SwitchDarkLight";
 
 const links = [
   {
@@ -63,10 +62,10 @@ const checkIcon = (
 
 const SignUp = () => {
   const t = useTranslation();
-  const { setColorScheme, colorScheme } = useMantineColorScheme();
+  const { colorScheme } = useMantineColorScheme();
   const isDark = useMemo(() => {
-    return colorScheme === "dark"
-  }, [colorScheme])
+    return colorScheme === "dark";
+  }, [colorScheme]);
   return (
     <>
       <Box className={classes.bggray}>
@@ -84,9 +83,12 @@ const SignUp = () => {
         <Container size={"lg"}>
           <Grid py={10}>
             <Grid.Col span={12}>
-              <Alert variant="filled" color={isDark ? "dark" : "black"}
+              <Alert
+                variant="filled"
+                color={isDark ? "dark" : "black"}
                 bg={isDark ? "dark" : "rgba(0, 0, 0, 0.3)"}
-                icon={checkIcon}>
+                icon={checkIcon}
+              >
                 {t(
                   "Referral code is invalid within this link, please check the invitation information or continue to sign up.",
                 )}
@@ -102,8 +104,9 @@ const SignUp = () => {
                   styles={{
                     root: {
                       // lighten("white", 0.2)
-                      background: "light-dark(rgba(0, 0, 0, 0.1), rgba(255,255,255, 0.2))"
-                    }
+                      background:
+                        "light-dark(rgba(0, 0, 0, 0.1), rgba(255,255,255, 0.2))",
+                    },
                   }}
                   p={"xl"}
                   radius={"lg"}

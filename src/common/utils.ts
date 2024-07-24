@@ -170,3 +170,18 @@ export function groupBy<T extends GenericObject>(
     return acc;
   }, {} as Record<string, T[]>);
 }
+
+export function buildMap<T extends { [s: string]: unknown }>(
+  arr: T[],
+  key: string,
+): Map<string, T> {
+  return new Map(arr.map((item) => [item[key] as string, item]));
+}
+
+export function buildArray<T>(item: T | T[]): T[] {
+  return Array.isArray(item) ? item : [item];
+}
+
+export function cleanEmpty<T>(arr: (T | undefined | null)[]) {
+  return arr.filter((item) => !!item) as T[];
+}

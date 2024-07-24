@@ -1,4 +1,6 @@
 import useTranslation from "@/hooks/useTranslation";
+import MyTraders from "@/routes/copy/my-traders";
+import { assetStore } from "@/store/assets";
 import authStore from "@/store/auth";
 import AppTabs from "@/ui/Tabs";
 import { Box, Checkbox, Flex } from "@mantine/core";
@@ -6,10 +8,10 @@ import { useState } from "react";
 import { FiatDepositModal } from "./FiatDepositModal";
 import { FundAssetsTable } from "./FundAssetsTable";
 import { TradingAssetsTable } from "./TradingAssetsTable";
-
 export function TabsWallet() {
   const { me } = authStore();
   const [hideZero, setHideZero] = useState(false);
+  const { masterTraders } = assetStore();
   const t = useTranslation();
   return (
     <>
@@ -42,7 +44,9 @@ export function TabsWallet() {
             },
             {
               data: {
-                label: t("Trading Account"),
+                label: me?.isCopyMaster
+                  ? t("Copy Master Account")
+                  : t("Trading Account"),
                 value: "Trading",
               },
               tabsPanelProps: {
@@ -52,7 +56,18 @@ export function TabsWallet() {
                 value: "Trading",
               },
             },
-          ]}
+            {
+              hidden: masterTraders.length < 1,
+              data: {
+                label: t("Copy Accounts"),
+                value: "Copy Accounts",
+              },
+              tabsPanelProps: {
+                childrenRenderer: () => <MyTraders />,
+                value: "Copy Accounts",
+              },
+            },
+          ].filter((el) => !el.hidden)}
         />
         <Box h={42} pos={"absolute"} right={0} top={0}>
           <Flex align={"center"} gap={20}>

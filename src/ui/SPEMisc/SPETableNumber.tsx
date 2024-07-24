@@ -6,8 +6,10 @@ export function SPETableNumber({
   value,
   color,
   maw,
+  prefix,
   decimalPlaces = 4,
 }: {
+  prefix?: string;
   decimalPlaces?: number;
   maw?: number;
   value?: string | number;
@@ -20,6 +22,7 @@ export function SPETableNumber({
           "---"
         ) : (
           <NumberFormat
+            prefix={prefix}
             value={value || 0}
             decimalPlaces={decimalPlaces}
           />

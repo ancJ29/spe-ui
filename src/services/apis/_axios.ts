@@ -7,7 +7,6 @@ const axios = _axios.create({
     "Content-type": "application/json",
     "X-API-KEY": "jsuG@wPZ6scs8VCuKJsVdw5",
   },
-
 });
 
 axios.interceptors.request.use(

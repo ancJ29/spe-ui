@@ -73,7 +73,7 @@ function eq(a: BN, b: BN) {
   return new BigNumber(a).eq(b);
 }
 
-function formatNumberWithCommas(number: BN, decimalPlaces = 2) {
+function format(number: BN, decimalPlaces = 2) {
   BigNumber.config({
     FORMAT: {
       decimalSeparator: ".",
@@ -88,92 +88,9 @@ function formatNumberWithCommas(number: BN, decimalPlaces = 2) {
   return bigNumber.toFormat(decimalPlaces);
 }
 
-const TradeFormula = {
-  SPOT_LIMIT: {
-    orderPrice: (
-      price: BN,
-      qty: BN,
-      usdtAvailable: BN,
-      btcAvailable: BN,
-      isBuying: boolean, // eslint-disable-line
-    ) => {
-      const orderValue = mul(qty, price); // qty * price;
-      const percentQtyBuy = mul(div(orderValue, usdtAvailable), 100); // (orderValue / usdtAvailable) * 100;
-      const percentQtySell = mul(div(qty, btcAvailable), 100); // (qty / btcAvailable) * 100;
-      const maxBuyingAmount = div(usdtAvailable, price);
-      const maxSellingAmount = mul(btcAvailable, price);
-      return {
-        orderPrice: price,
-        orderValue,
-        percentQtyBuy,
-        percentQtySell,
-        maxBuyingAmount,
-        maxSellingAmount,
-      };
-    },
-    qty: (
-      qty: BN,
-      orderPrice: BN,
-      usdtAvailable: BN,
-      btcAvailable: BN,
-      isBuying: boolean,
-    ) => {
-      const ic = ["", undefined, "NaN"];
-      if (ic.includes(qty as string)) {
-        qty = "0";
-      }
-      if (ic.includes(orderPrice as string)) {
-        orderPrice = "0";
-      }
-      if (ic.includes(orderPrice as string)) {
-        orderPrice = "0";
-      }
-      if (isBuying) {
-        const orderValue = mul(qty, orderPrice); // qty * orderPrice;
-        const percentQty = mul(div(orderValue, usdtAvailable), 100); // (orderValue / usdtAvailable) * 100;
-        return { qty, orderValue, percentQty };
-      } else {
-        const orderValue = mul(qty, orderPrice);
-        const percentQty = div(mul(btcAvailable, qty), 100);
-        return { qty, orderValue, percentQty };
-      }
-    },
-    percentQty: (
-      percent: BN,
-      usdtAvailable: BN,
-      btcAvailable: BN,
-      orderPrice: BN,
-      isBuying: boolean,
-    ) => {
-      if (isBuying) {
-        const orderValue = mul(div(percent, 100), usdtAvailable);
-        const qty = div(orderValue, orderPrice);
-        return { percentQty: percent, orderValue, qty };
-      } else {
-        const qty = mul(div(percent, 100), btcAvailable); // (percent / 100) * state.btcAvailable;
-        const orderValue = mul(qty, orderPrice); // qty * state.orderPrice;
-        return { percentQty: percent, orderValue, qty };
-      }
-    },
-    orderValue: (
-      value: BN,
-      orderPrice: BN,
-      usdtAvailable: BN,
-      btcAvailable: BN,
-      isBuying: boolean,
-    ) => {
-      if (isBuying) {
-        const qty = div(value, orderPrice); // value / state.orderPrice;
-        const percentQty = mul(div(value, usdtAvailable), 100); //(value / state.usdtAvailable) * 100;
-        return { orderValue: value, qty, percentQty };
-      } else {
-        const qty = div(value, orderPrice); // value / state.orderPrice;
-        const percentQty = mul(div(qty, btcAvailable), 100); // (qty / state.btcAvailable) * 100;
-        return { orderValue: value, qty, percentQty };
-      }
-    },
-  },
-};
+function isZero(a?: BN | null) {
+  return new BigNumber(a || 0).isZero();
+}
 
 export default {
   eq,
@@ -189,7 +106,7 @@ export default {
   lt,
   lte,
   mul,
+  isZero,
   precision,
-  formatNumberWithCommas,
-  TradeFormula,
+  format,
 };

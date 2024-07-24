@@ -6,7 +6,13 @@ export const stringSchema = z.string();
 
 export const numberSchema = z.number();
 
+export const optionalNumberSchema = z.number().optional();
+
 export const optionalStringSchema = stringSchema.optional();
+
+export const reverseSchema = stringSchema
+  .transform((v) => v === "true")
+  .optional();
 
 export const limitSchema = stringSchema
   .or(numberSchema)
@@ -14,6 +20,12 @@ export const limitSchema = stringSchema
   .transform((v: string | number) => {
     return Math.max(Math.min(Number(v), 100), 1);
   });
+
+export const querySchema = z.object({
+  reverse: reverseSchema,
+  cursor: optionalStringSchema,
+  limit: limitSchema,
+});
 
 export const speNumberSchema = stringSchema.or(numberSchema);
 
@@ -91,9 +103,18 @@ export const nullablePositiveInteger = z
   .optional()
   .transform((val) => val ?? null);
 
+export const copyMasterPerformanceSchema = z.object({
+  aum: optionalNumberSchema,
+  totalProfitSharing: optionalNumberSchema,
+  settledAmount: optionalNumberSchema,
+  unSettledAmount: optionalNumberSchema,
+});
+
 export const authenticationPayloadSchema = z.object({
   id: stringSchema,
   uid: stringSchema,
+  nickName: optionalStringSchema,
+  avatar: optionalStringSchema,
   depositCode: stringSchema,
   fiatDepositMemo: optionalStringSchema,
   affiliateCode: stringSchema,

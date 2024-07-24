@@ -1,15 +1,16 @@
 import { useInterval } from "@mantine/hooks";
 import { useEffect } from "react";
 
-export default function useSPEInterval(fetch: () => void, intervalTime: number) {
+export default function useSPEInterval(
+  fetch: () => void,
+  intervalTime: number,
+  skipFirstFetch = false,
+) {
   useEffect(() => {
-    fetch();
-  }, [fetch]);
+    !skipFirstFetch && fetch();
+  }, [fetch, skipFirstFetch]);
 
-  const interval = useInterval(
-    fetch,
-    intervalTime,
-  );
+  const interval = useInterval(fetch, intervalTime);
 
   useEffect(() => {
     interval.start();

@@ -45,14 +45,16 @@ const componentMap: Record<string, LazyExoticComponent> = {
   ResetPassword: lazy(() => import("@/routes/reset-password")),
   ForgotPassword: lazy(() => import("@/routes/forgot-password")),
 
-  MasterPosition: lazy(() => import("@/routes/copy/master-positions")),
+  MasterPositions: lazy(() => import("@/routes/copy/master-positions")),
   FollowerPositions: lazy(() => import("@/routes/copy/followers-positions")),
   MasterOrders: lazy(() => import("@/routes/copy/master-orders")),
+  MasterPromoters: lazy(() => import("@/routes/copy/master-promoters")),
+  MasterTransactions: lazy(() => import("@/routes/copy/master-transactions")),
+  MyTraders: lazy(() => import("@/routes/copy/my-traders")),
+  MyPositions: lazy(() => import("@/routes/copy/my-positions")),
+  MyOrders: lazy(() => import("@/routes/copy/my-orders")),
+  MyTransactions: lazy(() => import("@/routes/copy/my-transactions")),
 
-  CopyTradeFundFlow: lazy(() => import("@/routes/copy-trade-fund-flow")),
-  CopyTradeMyPromotion: lazy(() => import("@/routes/copy-trade-my-promotion")),
-  CopyTradeMyTaker: lazy(() => import("@/routes/copy-trade-my-taker")),
-  CopyTradePositions: lazy(() => import("@/routes/copy-trade-position")),
   User: lazy(() => import("@/routes/user")),
   BindGA: lazy(() => import("@/routes/user-bind-ga")),
   KYC: lazy(() => import("@/routes/user-kyc")),
@@ -60,6 +62,11 @@ const componentMap: Record<string, LazyExoticComponent> = {
 };
 
 const configs: Config[] = [
+  {
+    path: "/",
+    element: "TopPage",
+    wrapper: "ServiceWrapper",
+  },
   {
     path: "/copy-trading",
     element: "CopyTrade",
@@ -144,69 +151,93 @@ const configs: Config[] = [
     guestOnly: true,
   },
   {
-    path: "/copy-trade/mine/my-positions",
-    element: "MasterPosition",
-    authOnly: true,
+    path: "/copy/master/positions",
+    element: "MasterPositions",
     wrapper: "CopyTradeWrapper",
+    authOnly: true,
   },
   {
-    path: "/copy-trade/mine/my-copy",
+    path: "/copy/master/followers",
     element: "FollowerPositions",
-    authOnly: true,
     wrapper: "CopyTradeWrapper",
+    authOnly: true,
   },
   {
-    path: "/copy-trade/mine/copy-history",
+    path: "/copy/master/orders",
     element: "MasterOrders",
+    wrapper: "CopyTradeWrapper",
     authOnly: true,
-    wrapper: "CopyTradeWrapper",
-  },
-  // xxx
-  {
-    path: "/copy-trade/mine/fund-flow",
-    element: "CopyTradeFundFlow",
-    wrapper: "CopyTradeWrapper",
   },
   {
-    path: "/copy-trade/mine/my-promotion",
-    element: "CopyTradeMyPromotion",
+    path: "/copy/master/promoters",
+    element: "MasterPromoters",
     wrapper: "CopyTradeWrapper",
+    authOnly: true,
+  },
+  {
+    path: "/copy/master/transactions",
+    element: "MasterTransactions",
+    wrapper: "CopyTradeWrapper",
+    authOnly: true,
+  },
+  {
+    path: "/copy/mine/traders",
+    element: "MyTraders",
+    wrapper: "CopyTradeWrapper",
+    authOnly: true,
+  },
+  {
+    path: "/copy/mine/positions",
+    element: "MyPositions",
+    wrapper: "CopyTradeWrapper",
+    authOnly: true,
+  },
+  {
+    path: "/copy/mine/orders",
+    element: "MyOrders",
+    wrapper: "CopyTradeWrapper",
+    authOnly: true,
+  },
+  {
+    path: "/copy/mine/transactions",
+    element: "MyTransactions",
+    wrapper: "CopyTradeWrapper",
+    authOnly: true,
   },
 
   {
-    path: "/copy-trade/mine/my-taker",
-    element: "CopyTradeMyTaker",
-    wrapper: "CopyTradeWrapper",
-  },
-  {
-    path: "/copy-trade/mine/copy-position",
+    path: "/copy/mine/copy-position",
     element: "CopyTradePositions",
     wrapper: "CopyTradeWrapper",
+    authOnly: true,
   },
   {
     path: "/user",
     element: "User",
-    wrapper: "TradeWrapper"
+    wrapper: "TradeWrapper",
+    authOnly: true,
   },
   {
     path: "/user/bind-ga",
     element: "BindGA",
-    wrapper: "TradeWrapper"
+    wrapper: "TradeWrapper",
+    authOnly: true,
   },
   {
     path: "/user/kyc",
     element: "KYC",
-    wrapper: "TradeWrapper"
+    wrapper: "TradeWrapper",
+    authOnly: true,
   },
   {
     path: "/user/modify-password",
     element: "ModifyPassword",
-    wrapper: "TradeWrapper"
+    wrapper: "TradeWrapper",
+    authOnly: true,
   },
-  
   {
     path: "/*",
-    element: "TopPage",
+    element: "BlankPage",
     wrapper: "ServiceWrapper",
   },
 ];

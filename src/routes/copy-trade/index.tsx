@@ -4,6 +4,7 @@ import moneyIcon from "@/assets/images/money.svg";
 import topTradeIcon from "@/assets/images/toptrader.svg";
 import trade_icon from "@/assets/images/trade_icon.png";
 import useMetadata from "@/hooks/useMetadata";
+import useTranslation from "@/hooks/useTranslation";
 import authStore from "@/store/auth";
 import AppButton from "@/ui/Button/AppButton";
 import AppCard from "@/ui/Card/AppCard";
@@ -56,7 +57,6 @@ import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { Footer } from "../top-page";
 import classes from "./index.module.scss";
-import useTranslation from "@/hooks/useTranslation";
 
 const sizeContainer = "xl";
 
@@ -176,8 +176,8 @@ const IndexPage = () => {
                       }}
                       to={
                         me?.isCopyMaster
-                          ? "/copy-trade/mine/my-positions?type=1"
-                          : "/copy-trade/mine/my-taker?type=1"
+                          ? "/copy/master/positions"
+                          : "/copy/mine/traders"
                       }
                     >
                       {t("My copy trading")}

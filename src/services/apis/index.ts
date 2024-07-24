@@ -6,21 +6,29 @@ import {
   AuthenticationPayload,
   Balance,
   BalanceOverview,
+  CopyInformation,
   CopyMasterDetail,
   CopyMasterSetting,
   CopyOrder,
   CopyPosition,
+  CopyPromoter,
+  CopySetting,
+  CopyTransaction,
   FollowerInformation,
+  GenericObject,
   MarketInformation,
   MarketPrice,
+  MasterTraderInformation,
   OpenTrades,
   Order,
   Position,
   SpeTransaction,
   SymbolConfig,
-  Trade
+  Trade,
+  UserUpdateType,
 } from "@/common/types";
 import { assetStore } from "@/store/assets";
+import authStore from "@/store/auth";
 import { TransactionsHistoryFormData } from "@/types";
 import { delay } from "@/utils";
 import logger from "../logger";
@@ -48,8 +56,9 @@ export async function fetchDepositAddressApi(params: {
     });
 }
 
-export function fetchBalancesApi() {
-  if (!localStorage.__TOKEN__) {
+export async function fetchBalancesApi() {
+  if (!authStore.getState().me?.id) {
+    await delay(10);
     return {
       balances: [],
       overview: { all: { totalInBtc: "0", totalInUsd: "0" } },
@@ -64,8 +73,9 @@ export function fetchBalancesApi() {
   }>("/api/balances");
 }
 
-export function fetchAccountsApi() {
-  if (!localStorage.__TOKEN__) {
+export async function fetchAccountsApi() {
+  if (!authStore.getState().me?.id) {
+    await delay(10);
     return [] as Account[];
   }
   return getApi<{
@@ -141,43 +151,14 @@ export async function closeOrderApi(
     });
 }
 
-export async function remarkFollowerApi(
-  accountId: string,
-  remark: string,
+export function updateUserApi(
+  type: UserUpdateType,
+  payload: GenericObject,
 ) {
-  await axios
-    .post("/api/copy/master/remark", {
-      accountId,
-      remark,
-    })
-    .then((res) => {
-      if (res.data.code !== 0) {
-        throw new Error("Failed to pause follower");
-      }
-    });
-}
-
-export async function pauseFollowerApi(
-  accountId: string,
-) {
-  await axios
-    .post("/api/copy/master/pause", {
-      accountId,
-      pausedByMaster: true,
-    })
-    .then((res) => {
-      if (res.data.code !== 0) {
-        throw new Error("Failed to pause follower");
-      }
-    });
-}
-
-export async function fetchMyMasterDetail() {
-  return getApi<CopyMasterDetail>("/api/copy/master/me");
-}
-
-export async function updateMasterSettingApi(params: CopyMasterSetting) {
-  await axios.post("/api/copy/master/me/update", params);
+  return axios.post("/api/me/update", {
+    type,
+    ...payload,
+  });
 }
 
 export async function fetchOpenTrades() {
@@ -185,10 +166,13 @@ export async function fetchOpenTrades() {
   if (!accountId) {
     await delay(10);
     return {
-      openOrders: {}, openPositions: {}
+      openOrders: {},
+      openPositions: {},
     } as OpenTrades;
   }
-  return getApi<OpenTrades>("/api/trades/open", { params: { accountId } });
+  return getApi<OpenTrades>("/api/trades/open", {
+    params: { accountId },
+  });
 }
 
 export async function fetchTrades(symbol?: string) {
@@ -222,29 +206,10 @@ export async function fetchClosedPositions(symbol?: string) {
   }).then((res) => res.positions);
 }
 
-export async function fetchOpenCopyPositions() {
-  const path = "/api/copy/master/me/positions/open";
-  return getApi<{ positions: CopyPosition[] }>(path).then((res) => res.positions);
-}
-export async function fetchCopyOrders() {
-  const path = "/api/copy/master/me/orders";
-  return getApi<{ orders: CopyOrder[] }>(path).then((res) => res.orders);
-}
-
-export async function fetchClosedCopyPositions() {
-  const path = "/api/copy/master/me/positions/history";
-  return getApi<{ positions: CopyPosition[] }>(path).then((res) => res.positions);
-}
-
-export async function fetchFollowerInformation() {
-  const path = "/api/copy/master/me/followers";
-  return getApi<{ accounts: FollowerInformation[] }>(path).then((res) => res.accounts);
-}
-
-
 export async function fetchOpenPositions(symbol?: string) {
   const accountId = assetStore.getState().tradingAccount?.id;
-  if (!accountId) {
+  const debug = true;
+  if (!accountId || debug) {
     await delay(10);
     return [] as Position[];
   }
@@ -342,6 +307,217 @@ export function fetchMarketInformation(symbol: string) {
   return getApi<MarketInformation>(
     `/api/market/information?symbol=${symbol}`,
   );
+}
+
+// Copy API
+//
+export async function remarkPromoterApi(
+  promoterId: string,
+  remark: string,
+) {
+  await axios
+    .post("/api/copy/master/promoter/remark", {
+      promoterId,
+      remark,
+    })
+    .then((res) => {
+      if (res.data.code !== 0) {
+        throw new Error("Failed to pause follower");
+      }
+    });
+}
+export async function remarkFollowerApi(
+  accountId: string,
+  remark: string,
+) {
+  await axios
+    .post("/api/copy/master/follower/remark", {
+      accountId,
+      remark,
+    })
+    .then((res) => {
+      if (res.data.code !== 0) {
+        throw new Error("Failed to pause follower");
+      }
+    });
+}
+
+export async function addCopyFundApi(
+  masterAccountId: string,
+  fromAccountId: string,
+  amount: number,
+) {
+  await axios
+    .post("/api/copy/fund", {
+      masterAccountId,
+      fromAccountId,
+      amount,
+    })
+    .then((res) => {
+      if (res.data.code !== 0) {
+        throw new Error("Failed to add fund");
+      }
+    });
+}
+
+export async function withdrawCopyFundApi(
+  masterAccountId: string,
+  fromAccountId: string,
+  amount: number,
+) {
+  await axios
+    .post("/api/copy/fund/withdraw", {
+      masterAccountId,
+      fromAccountId,
+      amount,
+    })
+    .then((res) => {
+      if (res.data.code !== 0) {
+        throw new Error("Failed to add fund");
+      }
+    });
+}
+
+export function fetchCopySetting(masterAccountId: string) {
+  return getApi<CopySetting>(
+    `/api/copy/mine/setting?masterAccountId=${masterAccountId}`,
+  );
+}
+
+export function saveCopySetting(setting: CopySetting) {
+  return axios.post("/api/copy/mine/setting", setting).then((res) => {
+    if (res.data.code !== 0) {
+      throw new Error("Failed to pause follower");
+    }
+  });
+}
+
+export function unFollowApi(masterAccountId: string) {
+  return axios
+    .post("/api/copy/un-follow", {
+      masterAccountId,
+    })
+    .then((res) => {
+      if (res.data.code !== 0) {
+        throw new Error("Failed to pause follower");
+      }
+    });
+}
+
+export async function pauseFollowerApi(accountId: string) {
+  await axios
+    .post("/api/copy/master/pause", {
+      accountId,
+      pausedByMaster: true,
+    })
+    .then((res) => {
+      if (res.data.code !== 0) {
+        throw new Error("Failed to pause follower");
+      }
+    });
+}
+
+export async function fetchMyMasterDetail() {
+  return getApi<CopyMasterDetail>("/api/copy/master/me");
+}
+
+export async function fetchMyCopyInformation() {
+  return getApi<CopyInformation>("/api/copy/mine/information");
+}
+
+export async function updateMasterSettingApi(
+  params: CopyMasterSetting,
+) {
+  await axios.post("/api/copy/master/me/update", params);
+}
+
+export async function fetchOpenCopyPositions() {
+  const path = "/api/copy/master/me/positions/open";
+  return getApi<{ positions: CopyPosition[] }>(path).then(
+    (res) => res.positions,
+  );
+}
+
+export async function fetchCopyOrders(
+  cursor: string,
+  limit: number,
+  reverse: boolean,
+) {
+  const base = "/api/copy/mine/orders";
+  return getApi<{ orders: CopyOrder[] }>(
+    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
+      limit || 10
+    }`,
+  ).then((res) => res.orders);
+}
+
+export async function fetchCopyTransactions(
+  cursor: string,
+  limit: number,
+  reverse: boolean,
+) {
+  const base = "/api/copy/master/me/transactions";
+  return getApi<{ transactions: CopyTransaction[] }>(
+    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
+      limit || 10
+    }`,
+  ).then((res) => res.transactions);
+}
+
+export async function fetchMasterCopyOrders(
+  cursor: string,
+  limit: number,
+  reverse: boolean,
+) {
+  const base = "/api/copy/master/me/orders";
+  return getApi<{ orders: CopyOrder[] }>(
+    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
+      limit || 10
+    }`,
+  ).then((res) => res.orders);
+}
+
+export async function fetchCopyOpenPositions(
+  masterAccountId?: string,
+) {
+  let path = "/api/copy/mine/positions";
+  if (masterAccountId) {
+    path = `/api/copy/master/positions/open?masterAccountId=${masterAccountId}`;
+  }
+  return getApi<{ positions: CopyPosition[] }>(path).then(
+    (res) => res.positions,
+  );
+}
+
+export async function fetchClosedCopyPositions() {
+  const path = "/api/copy/master/me/positions/history";
+  return getApi<{ positions: CopyPosition[] }>(path).then(
+    (res) => res.positions,
+  );
+}
+
+export async function fetchFollowerInformation() {
+  const path = "/api/copy/master/me/followers";
+  return getApi<{ accounts: FollowerInformation[] }>(path).then(
+    (res) => res.accounts,
+  );
+}
+
+export async function fetchPromoters() {
+  const path = "/api/copy/master/me/promoters";
+  return getApi<{ promoters: CopyPromoter[] }>(path).then(
+    (res) => res.promoters,
+  );
+}
+
+export async function fetchMasterTraders() {
+  const me = authStore.getState().me;
+  if (!me || me.isCopyMaster) {
+    return [] as MasterTraderInformation[];
+  }
+  return getApi<{ traders: MasterTraderInformation[] }>(
+    "/api/copy/mine/traders",
+  ).then((res) => res.traders);
 }
 
 export default axios;

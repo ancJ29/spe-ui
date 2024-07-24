@@ -21,60 +21,49 @@ export function SwapRecords() {
   const tableData: TableData = useMemo(() => {
     return {
       head: [
+        "Time",
         "Coin Received",
         "Amount Received",
         "Coin Paid",
         "Amount Paid",
         "Exchange Rate",
-        "Time",
         "Status",
       ].map((el) => t(el)),
       body: transactions
         .filter((el) => el.type === TransactionType.SWAP)
         .map((row) => {
           return [
-            <>
-              <Asset asset={row.toAsset} />
-            </>,
-            <>
-              <Title order={6} fz={12}>
-                {row.toAmount}
-              </Title>
-            </>,
-            <>
-              <Asset asset={row.asset} />
-            </>,
-            <>
-              <Title order={6} fz={12}>
-                <NumberFormat decimalPlaces={8} value={row.amount} />
-              </Title>
-            </>,
-            <>
-              <Title order={6} fz={12}>
-                <NumberFormat
-                  decimalPlaces={8}
-                  value={
-                    row.toAsset === "USDT"
-                      ? BN.div(row.toAmount, row.amount)
-                      : BN.div(row.amount, row.toAmount)
-                  }
-                />
-              </Title>
-            </>,
-            <>
-              <Title order={6} fz={12}>
-                {new Date(row.updatedAt).toLocaleString()}
-              </Title>
-            </>,
-            <>
-              {row.status ? (
-                <Badge color={STATUS_COLORS[row.status]}>
-                  {row.status}
-                </Badge>
-              ) : (
-                "-"
-              )}
-            </>,
+            <Title order={6} fz={12} key={`${row.id}.time`}>
+              {new Date(row.updatedAt).toLocaleString()}
+            </Title>,
+            <Asset asset={row.toAsset} key={`${row.id}.to`} />,
+            <Title order={6} fz={12} key={`${row.id}.toAmount`}>
+              {row.toAmount}
+            </Title>,
+            <Asset asset={row.asset} key={`${row.id}.from`} />,
+            <Title order={6} fz={12} key={`${row.id}.fromAmount`}>
+              <NumberFormat decimalPlaces={8} value={row.amount} />
+            </Title>,
+            <Title order={6} fz={12} key={`${row.id}.rate`}>
+              <NumberFormat
+                decimalPlaces={8}
+                value={
+                  row.toAsset === "USDT"
+                    ? BN.div(row.toAmount, row.amount)
+                    : BN.div(row.amount, row.toAmount)
+                }
+              />
+            </Title>,
+            row.status ? (
+              <Badge
+                key={`${row.id}.status`}
+                color={STATUS_COLORS[row.status]}
+              >
+                {row.status}
+              </Badge>
+            ) : (
+              <span key={`${row.id}.status`}>-</span>
+            ),
           ];
         }),
     };

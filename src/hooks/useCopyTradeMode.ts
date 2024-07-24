@@ -2,10 +2,10 @@ import { useMemo } from "react";
 import { useLocation } from "react-router-dom";
 export type CopyTradeModeType = "1" | "3";
 export type CopyTradeType = {
-  isMaster: boolean,
-  isNormal: boolean
-  isElse: boolean
-  type: CopyTradeModeType
+  isMaster: boolean;
+  isNormal: boolean;
+  isElse: boolean;
+  type: CopyTradeModeType;
 };
 export function useCopyTradeMode() {
   const location = useLocation();
@@ -19,10 +19,10 @@ export function useCopyTradeMode() {
       isMaster,
       isNormal,
       isElse,
-      type: type
+      type: type,
     };
   }, [location]);
   return {
-    type: info
+    type: info,
   };
 }

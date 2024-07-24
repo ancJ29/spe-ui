@@ -14,6 +14,19 @@ import {
   userConfigSchema,
 } from "./schema";
 
+export enum UserUpdateType {
+  NICK_NAME = "NICK_NAME",
+  UPDATE_PASSWORD = "UPDATE_PASSWORD",
+  KYC_DATA = "KYC_DATA",
+  ADD_EMAIL = "ADD_EMAIL",
+  ADD_MOBILE = "ADD_MOBILE",
+  ADD_MFA = "ADD_MFA",
+  UPDATE_MFA = "UPDATE_MFA",
+  VERIFY_EMAIL = "VERIFY_EMAIL",
+  VERIFY_MOBILE = "VERIFY_MOBILE",
+  UPDATE_ANTI_PHISHING_CODE = "UPDATE_ANTI_PHISHING_CODE",
+}
+
 export type GenericObject = Record<string, unknown>;
 
 export type SPENumber = string | number;
@@ -89,11 +102,29 @@ export type CopyPosition = Position & {
   followerVolume: number;
   followerMargin: number;
   followerFee: number;
-}
+  trader?: {
+    name: string;
+    avatar: string;
+  };
+};
 
 export type CopyOrder = Order & {
   totalFollowers: number;
-}
+  realizedPnl?: number;
+  trader?: {
+    name: string;
+    avatar: string;
+  };
+};
+
+export type CopyTransaction = {
+  id: string;
+  createdAt: number;
+  uid: string;
+  remark?: string;
+  type: string;
+  amount: number;
+};
 
 export type FollowerInformation = {
   accountId: string;
@@ -145,6 +176,7 @@ export type Order = {
   filled?: string;
   avgPrice?: string;
   price?: string;
+  leverage?: number;
   reduceOnly?: boolean;
   postOnly?: boolean;
   createdAt: number;
@@ -184,6 +216,7 @@ export type SPEOrderBook = Record<
     a: number[][];
     b: number[][];
     T?: number;
+    d?: number;
     last?: number;
     lastUpdated?: number;
   }
@@ -227,6 +260,7 @@ export type SpeTransaction = {
   asset: string;
   toAsset: string;
   amount: string;
+  fee: string;
   toAmount: string;
   jpyAmount: string;
   createdAt: number;
@@ -245,8 +279,46 @@ export type OpenTrades = {
   openPositions: Record<string, number>;
 };
 
+export type CopySetting = {
+  masterAccountId: string;
+  ratio: number; // in percentage
+  maxAmount: number;
+  minAmount: number;
+  maxMarginPerMonth: number;
+  tpRatio: number; // in percentage
+  slRatio: number; // in percentage
+};
+
+export type MasterTraderInformation = {
+  masterAccountId: string;
+  name: string;
+  shares: {
+    master: number;
+    promoter: number;
+  };
+  ratio: number;
+  paused: boolean;
+  avatar: string;
+  asset: number;
+  netPnL: number;
+  totalPositions: number;
+  invested: number;
+  withdraw: number;
+  withDrawable: number;
+};
+
+export type CopyInformation = {
+  total: number;
+  unRealizedPnl: number;
+  netPnL: number;
+  available: number;
+  withDrawable: number;
+  settled: number;
+  unSettled: number;
+};
+
 export type CopyMasterDetail = {
-  imageUrl: string;
+  avatar: string;
   name: string;
   publicProfile: boolean;
   shareHistory: boolean;
@@ -266,13 +338,25 @@ export type CopyMasterDetail = {
     aum: number;
   };
   shares: {
-    master: number,
-    promoter: number,
+    master: number;
+    promoter: number;
   };
-}
+};
+
+export type CopyPromoter = {
+  id: string;
+  uid: string;
+  createdAt: number;
+  followers: number;
+  followersAum: number;
+  settled: number;
+  unSettled: number;
+  remark?: string;
+  link?: string;
+};
 
 export type CopyMasterSetting = {
-  imageUrl: string;
+  avatar: string;
   name: string;
   bio: string;
   maxAmount: number;

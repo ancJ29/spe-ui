@@ -1,4 +1,4 @@
-import { ASSET_COIN_LIST, STATUS_COLORS } from "@/common/configs";
+import { STATUS_COLORS } from "@/common/configs";
 import { TransactionType } from "@/common/enums";
 import useTranslation from "@/hooks/useTranslation";
 import { assetStore } from "@/store/assets";
@@ -43,12 +43,11 @@ export function DepositRecords() {
   const tableData: TableData = useMemo(() => {
     return {
       head: [
-        "Coin",
         "Time",
+        "Coin",
         "Amount",
-        "Address",
-        "Chain Name",
-        "Progress",
+        "From Address",
+
         "Status",
         "Action",
       ].map((el) => t(el)),
@@ -56,51 +55,36 @@ export function DepositRecords() {
       body: transactions
         .filter((el) => el.type === TransactionType.DEPOSIT)
         .map((row) => [
-          <>
-            <Asset asset={row.asset} />
-          </>,
-          <>
-            <Title order={6} fz={12}>
-              {new Date(row.updatedAt).toLocaleString()}
-            </Title>
-          </>,
+          <Title order={6} fz={12} key={`${row.id}.time`}>
+            {new Date(row.updatedAt).toLocaleString()}
+          </Title>,
+          <Asset asset={row.asset} key={`${row.id}.asset`} />,
           <>
             <Title order={6} fz={12}>
               <NumberFormat decimalPlaces={8} value={row.amount} />
             </Title>
           </>,
           <>
-            <Title order={6} fz={12}>
+            <Title order={6} fz={12} key={`${row.id}.from`}>
               {row.from || "N/A"}
             </Title>
           </>,
-          <>
-            <Title order={6} fz={12}>
-              {ASSET_COIN_LIST[row.asset]}
-            </Title>
-          </>,
-          <>
-            <Title order={6} fz={12}>
-              {row.status}
-            </Title>
-          </>,
-          <>
-            <Badge color={STATUS_COLORS[row.status]}>
-              {row.status}
-            </Badge>
-          </>,
-          <>
-            <Flex gap={5}>
-              <Button
-                onClick={() => openModal(row.asset)}
-                p={0}
-                size="xs"
-                variant="transparent"
-              >
-                {t("Deposit")}
-              </Button>
-            </Flex>
-          </>,
+          <Badge
+            color={STATUS_COLORS[row.status]}
+            key={`${row.id}.status`}
+          >
+            {row.status}
+          </Badge>,
+          <Flex gap={5} key={`${row.id}.action`}>
+            <Button
+              onClick={() => openModal(row.asset)}
+              p={0}
+              size="xs"
+              variant="transparent"
+            >
+              {t("Deposit")}
+            </Button>
+          </Flex>,
         ]),
     };
   }, [openModal, t, transactions]);

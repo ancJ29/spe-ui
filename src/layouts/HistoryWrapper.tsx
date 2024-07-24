@@ -29,15 +29,15 @@ const HistoryWrapper = ({
             separator={<IconChevronRight color="gray" size={14} />}
           >
             <Anchor fz={14} fw={400} href="/wallet">
-              {t("Funding")}
+              {t("Assets")}
             </Anchor>
             <Anchor fz={14} fw={400}>
-              {t("Funding Account History")}
+              {t("History")}
             </Anchor>
           </Breadcrumbs>
           <Box py={20}>
             <Title order={2} fz={"24px"}>
-              {t("Funding Account History")}
+              {t("History")}
             </Title>
           </Box>
           <Box>

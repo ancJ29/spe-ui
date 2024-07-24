@@ -8,6 +8,7 @@ import { convertToSwapFormData } from "./config";
 type SwapFormProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   coin?: string;
+  onClose?: () => void;
   onSubmit: (res: IChangeEvent) => void;
 };
 export function SwapForm(props: SwapFormProps) {

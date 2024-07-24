@@ -101,7 +101,7 @@ const PostOrderSchema: FormSchema = {
             type: {
               not: {
                 const: "Conditional",
-              }
+              },
             },
           },
         },
