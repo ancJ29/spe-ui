@@ -5,6 +5,7 @@ import AppButton from "@/ui/Button/AppButton";
 import AppCard from "@/ui/Card/AppCard";
 import AppChart from "@/ui/Chart/Chart";
 import { Header } from "@/ui/Header";
+import { OptionFilter } from "@/ui/OptionFilter";
 import AppPill from "@/ui/Pill/AppPill";
 import { AppPopover } from "@/ui/Popover/AppPopover";
 import AppText from "@/ui/Text/AppText";
@@ -41,7 +42,6 @@ import { Fragment, useState } from "react";
 import { Footer } from "../top-page";
 import { getSeriesValue } from "./config";
 import "./index.module.scss";
-import { OptionFilter } from "@/ui/OptionFilter";
 
 export default function CopyTradeDetail() {
   const { data } = useMetadata();
@@ -70,7 +70,7 @@ export default function CopyTradeDetail() {
           </Grid>
         </Container>
       </Box>
-      {data && <Footer metadata={data} />}
+      <Footer metadata={data} />
     </>
   );
 }
@@ -497,44 +497,46 @@ function Banner() {
   );
 }
 
+const performanceItems = [
+  [
+    "Profit-to-Loss Ratio",
+    "3.41 : 1",
+    "The ratio of average profit per winning order to average loss per losing order.",
+  ],
+  [
+    "Weekly Trades",
+    "1.39",
+    "The average number of trades the Master Trader made weekly in the last month.",
+  ],
+  [
+    "Avg. Holding Time",
+    "1.71Days",
+    "The average position holding period of all closed positions",
+  ],
+  [
+    "ROI Volatility",
+    "22.11%",
+    "Higher value indicates less stable returns.",
+  ],
+  [
+    "Sharpe Ratio",
+    "0.08",
+    "Higher value indicates better returns at same level of ROI volatility.",
+  ],
+  [
+    "Sortino Ratio",
+    "3.10",
+    "Higher value indicates better returns at same level of risk of loss.",
+  ],
+  [
+    "Last Traded at",
+    "2024-06-07 02:12:08",
+    "The last time the Master Trader opened or closed a position.",
+  ],
+];
+
 function Performance() {
-  const items = [
-    [
-      "Profit-to-Loss Ratio",
-      "3.41 : 1",
-      "The ratio of average profit per winning order to average loss per losing order.",
-    ],
-    [
-      "Weekly Trades",
-      "1.39",
-      "The average number of trades the Master Trader made weekly in the last month.",
-    ],
-    [
-      "Avg. Holding Time",
-      "1.71Days",
-      "The average position holding period of all closed positions",
-    ],
-    [
-      "ROI Volatility",
-      "22.11%",
-      "Higher value indicates less stable returns.",
-    ],
-    [
-      "Sharpe Ratio",
-      "0.08",
-      "Higher value indicates better returns at same level of ROI volatility.",
-    ],
-    [
-      "Sortino Ratio",
-      "3.10",
-      "Higher value indicates better returns at same level of risk of loss.",
-    ],
-    [
-      "Last Traded at",
-      "2024-06-07 02:12:08",
-      "The last time the Master Trader opened or closed a position.",
-    ],
-  ];
+  const t = useTranslation();
   return (
     <>
       <Group justify="space-between" p={0} m={0}>
@@ -689,7 +691,7 @@ function Performance() {
                   onMouseEnter={props.open}
                   onMouseLeave={props.close}
                 >
-                  Max. Drawdown
+                  {t("Max. Drawdown")}
                 </AppText>
               ),
             })}
@@ -717,17 +719,16 @@ function Performance() {
                   onMouseEnter={props.open}
                   onMouseLeave={props.close}
                 >
-                  Avg. PnL per Trade
+                  {t("Avg. PnL per Trade")}
                 </AppText>
               ),
             })}
             dropdown={() => ({
               children: (
                 <AppText instancetype="WithTextTooltip">
-                  The average profit and loss of all the closed
-                  positions made by a Master Trader. A higher value
-                  indicates that the Master Trader has a good
-                  performance in terms of profit.
+                  {t(
+                    "The average profit and loss of all the closed positions made by a Master Trader. A higher value indicates that the Master Trader has a good performance in terms of profit.",
+                  )}
                 </AppText>
               ),
             })}
@@ -770,7 +771,7 @@ function Performance() {
       </Box>
       <Space mb={20} />
       <SimpleGrid cols={2}>
-        {items.map(([v1, v2, v3], i) => (
+        {performanceItems.map(([v1, v2, v3], i) => (
           <Fragment key={i}>
             <>
               <AppPopover
@@ -818,54 +819,53 @@ function Performance() {
 }
 
 function Statistics() {
-  return (
-    <>
-      <TabsUI />
-    </>
-  );
+  return <TabsUI />;
 }
 
+// cspell:disable
+const profitItems = [
+  {
+    v1: "cyp**@***",
+    v12: "The total profit earned from copy trades initiated by this Master Trader",
+    v13: "+2,181.36",
+    v2: "+265.58%",
+    v21: "The total profit from copy trades initiated by this Master Trader / The cumulative margin required to copy these trades",
+    isGreen: true,
+  },
+  {
+    v1: "theolge",
+    v12: "The total profit earned from copy trades initiated by this Master Trader",
+    v13: "0.00",
+    v2: "0.00%",
+    v21: "The total profit from copy trades initiated by this Master Trader / The cumulative margin required to copy these trades",
+  },
+  {
+    v1: "SyraIO",
+    v12: "The total profit earned from copy trades initiated by this Master Trader",
+    v13: "0.00",
+    v2: "0.00%",
+    v21: "The total profit from copy trades initiated by this Master Trader / The cumulative margin required to copy these trades",
+  },
+  {
+    v1: "rev**@***",
+    v12: "The total profit earned from copy trades initiated by this Master Trader",
+    v13: "0.00",
+    v2: "0.00%",
+    v21: "The total profit from copy trades initiated by this Master Trader / The cumulative margin required to copy these trades",
+  },
+  {
+    v1: "87x**@***",
+    v12: "The total profit earned from copy trades initiated by this Master Trader",
+    v13: "0.00",
+    v2: "0.00%",
+    v21: "The total profit from copy trades initiated by this Master Trader / The cumulative margin required to copy these trades",
+  },
+];
+// cspell:enable
+
 function Profit() {
-  // cspell:disable
-  const items = [
-    {
-      v1: "cyp**@***",
-      v12: "The total profit earned from copy trades initiated by this Master Trader",
-      v13: "+2,181.36",
-      v2: "+265.58%",
-      v21: "The total profit from copy trades initiated by this Master Trader / The cumulative margin required to copy these trades",
-      isGreen: true,
-    },
-    {
-      v1: "theolge",
-      v12: "The total profit earned from copy trades initiated by this Master Trader",
-      v13: "0.00",
-      v2: "0.00%",
-      v21: "The total profit from copy trades initiated by this Master Trader / The cumulative margin required to copy these trades",
-    },
-    {
-      v1: "SyraIO",
-      v12: "The total profit earned from copy trades initiated by this Master Trader",
-      v13: "0.00",
-      v2: "0.00%",
-      v21: "The total profit from copy trades initiated by this Master Trader / The cumulative margin required to copy these trades",
-    },
-    {
-      v1: "rev**@***",
-      v12: "The total profit earned from copy trades initiated by this Master Trader",
-      v13: "0.00",
-      v2: "0.00%",
-      v21: "The total profit from copy trades initiated by this Master Trader / The cumulative margin required to copy these trades",
-    },
-    {
-      v1: "87x**@***",
-      v12: "The total profit earned from copy trades initiated by this Master Trader",
-      v13: "0.00",
-      v2: "0.00%",
-      v21: "The total profit from copy trades initiated by this Master Trader / The cumulative margin required to copy these trades",
-    },
-  ];
-  // cspell:enable
+  const t = useTranslation();
+
   return (
     <>
       <Group justify="space-between" p={0}>
@@ -879,14 +879,14 @@ function Profit() {
           p={0}
           rightSection={<IconChevronRight size={20} />}
         >
-          View All
+          {t("View All")}
         </AppButton>
       </Group>
       <Space mb={10} />
       <Divider h={1} color="#f3f5f7" />
       <Space mb={10} />
       <SimpleGrid cols={2}>
-        {items.map(({ v1, v12, v13, v2, v21, isGreen }, i) => (
+        {profitItems.map(({ v1, v12, v13, v2, v21, isGreen }, i) => (
           <Fragment key={i}>
             <>
               <Flex direction={"column"}>

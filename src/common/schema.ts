@@ -274,4 +274,6 @@ export const updateUserPayloadSchema = z
     mfaCode: optionalStringSchema,
     oldMfaCode: optionalStringSchema,
     verificationCode: optionalStringSchema,
-  }).partial().required({ type: true });
+  })
+  .partial()
+  .required({ type: true });

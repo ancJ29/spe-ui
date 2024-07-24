@@ -30,7 +30,6 @@ export function UserChangePasswordForm() {
             cols={1}
             styles={{
               container: {
-
                 gap: "10px",
               },
             }}
@@ -45,7 +44,6 @@ export function UserChangePasswordForm() {
               {t(
                 "The withdrawal function will be disabled for 24 hours after you change your login password.",
               )}
-
             </Alert>
             <TextInput label={t("Current Password")} />
             <TextInput label={t("New Password")} />
@@ -59,11 +57,9 @@ export function UserChangePasswordForm() {
                 gradient={{ from: "primary", to: "yellow", deg: 90 }}
                 fullWidth
                 onClick={() => alert("OK")}
-
               >
                 {t("Confirm")}
               </Button>
-
             </Box>
           </SimpleGrid>
         </Card>

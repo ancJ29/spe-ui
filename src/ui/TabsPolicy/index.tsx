@@ -18,22 +18,30 @@ export default function TermsServiceWrapper() {
       >
         <Tabs.List>
           <Tabs.Tab value={"/agreement"}>
-            <AppText instancetype="TabText" component={Link} to={"/agreement"}>
+            <AppText
+              instancetype="TabText"
+              component={Link}
+              to={"/agreement"}
+            >
               {t("Privacy Policy ")}
             </AppText>
           </Tabs.Tab>
-          <Tabs.Tab
-            value={"/terms-conditions"}
-          >
-            <AppText instancetype="TabText" component={Link} to={"/terms-conditions"}>
+          <Tabs.Tab value={"/terms-conditions"}>
+            <AppText
+              instancetype="TabText"
+              component={Link}
+              to={"/terms-conditions"}
+            >
               {t("Terms and Conditions ")}
             </AppText>
           </Tabs.Tab>
 
-          <Tabs.Tab
-            value={"/risk-disclosure"}
-          >
-            <AppText instancetype="TabText" component={Link} to={"/risk-disclosure"}>
+          <Tabs.Tab value={"/risk-disclosure"}>
+            <AppText
+              instancetype="TabText"
+              component={Link}
+              to={"/risk-disclosure"}
+            >
               {t("Risk Disclosure Statement")}
             </AppText>
           </Tabs.Tab>

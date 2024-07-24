@@ -1,4 +1,13 @@
-import { alpha, Avatar, Box, Card, Flex, Space, Text, Title } from "@mantine/core";
+import {
+  alpha,
+  Avatar,
+  Box,
+  Card,
+  Flex,
+  Space,
+  Text,
+  Title,
+} from "@mantine/core";
 import AppButton from "../Button/AppButton";
 import AppPill from "../Pill/AppPill";
 
@@ -29,10 +38,10 @@ export function CardTradeDefault() {
       <Box>
         <Box>
           <Title order={6} fw={"normal"} c={"gray"}>
-                        7D ROI
+            7D ROI
           </Title>
           <Title order={4} fw={"bold"}>
-                        394.80%
+            394.80%
           </Title>
         </Box>
         <Space h={"sm"} />
@@ -41,16 +50,13 @@ export function CardTradeDefault() {
             {"7D followers' Pnl"}
           </Title>
           <Title order={4} fw={"bold"}>
-                        1,9444.23
+            1,9444.23
           </Title>
         </Box>
       </Box>
       <Space h={"md"} />
-      <AppButton
-        instancetype="GhostWithRightIcon"
-        size="lg"
-      >
-                Copy
+      <AppButton instancetype="GhostWithRightIcon" size="lg">
+        Copy
       </AppButton>
       <AppPill />
     </Card>

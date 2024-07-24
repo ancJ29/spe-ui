@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/iframe-has-title */
 import { Box } from "@mantine/core";
 
 const PdfViewer = ({ url }: { url: string }) => {
@@ -8,12 +9,10 @@ const PdfViewer = ({ url }: { url: string }) => {
         style={{
           display: "block",
           width: "100%",
-          height: "100%"
+          height: "100%",
         }}
       ></iframe>
     </Box>
-
-
   );
 };
 

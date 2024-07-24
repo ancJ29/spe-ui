@@ -5,6 +5,7 @@ import AppButton from "@/ui/Button/AppButton";
 import AppCard from "@/ui/Card/AppCard";
 import AppChart from "@/ui/Chart/Chart";
 import { Header } from "@/ui/Header";
+import { OptionFilter } from "@/ui/OptionFilter";
 import AppPill from "@/ui/Pill/AppPill";
 import { AppPopover } from "@/ui/Popover/AppPopover";
 import AppText from "@/ui/Text/AppText";
@@ -41,7 +42,6 @@ import { Fragment, useState } from "react";
 import { Footer } from "../top-page";
 import { getSeriesValue } from "./config";
 import "./index.module.scss";
-import { OptionFilter } from "@/ui/OptionFilter";
 
 export default function CopyTradeDetail() {
   const { data } = useMetadata();
@@ -70,7 +70,7 @@ export default function CopyTradeDetail() {
           </Grid>
         </Container>
       </Box>
-      {data && <Footer metadata={data} />}
+      <Footer metadata={data} />
     </>
   );
 }
@@ -498,6 +498,8 @@ function Banner() {
 }
 
 function Performance() {
+  const t = useTranslation();
+
   const items = [
     [
       "Profit-to-Loss Ratio",
@@ -689,7 +691,7 @@ function Performance() {
                   onMouseEnter={props.open}
                   onMouseLeave={props.close}
                 >
-                  Max. Drawdown
+                  {t("Max. Drawdown")}
                 </AppText>
               ),
             })}
@@ -717,17 +719,16 @@ function Performance() {
                   onMouseEnter={props.open}
                   onMouseLeave={props.close}
                 >
-                  Avg. PnL per Trade
+                  {t("Avg. PnL per Trade")}
                 </AppText>
               ),
             })}
             dropdown={() => ({
               children: (
                 <AppText instancetype="WithTextTooltip">
-                  The average profit and loss of all the closed
-                  positions made by a Master Trader. A higher value
-                  indicates that the Master Trader has a good
-                  performance in terms of profit.
+                  {t(
+                    "The average profit and loss of all the closed positions made by a Master Trader. A higher value indicates that the Master Trader has a good performance in terms of profit.",
+                  )}
                 </AppText>
               ),
             })}

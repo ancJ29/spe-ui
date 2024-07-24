@@ -215,7 +215,7 @@ export function FiatDepositModal() {
                 )}
               </strong>{" "}
               {t(
-                "Fiat to USDT conversions are subject to exchange rate fluctuations (quoted from Investing.com) and include certain handling fees. OMTrade reserves the right of any amendments or final interpretation regarding fiat to USDT conversion service. Thank you for your understanding.",
+                "Fiat to USDT conversions are subject to exchange rate fluctuations (quoted from Investing.com) and include certain handling fees. Crypto Copy Invest reserves the right of any amendments or final interpretation regarding fiat to USDT conversion service. Thank you for your understanding.",
               )}
             </Text>
           </li>

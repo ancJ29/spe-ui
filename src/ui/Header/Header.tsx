@@ -44,13 +44,14 @@ import {
 } from "@tabler/icons-react";
 import cx from "clsx";
 import { Fragment, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import AppButton from "../Button/AppButton";
 import { SwitchDarkLightMode } from "../SwitchDarkLight";
 import SwitchLanguage from "../SwitchLanguage/SwitchLanguage";
 import classes from "./index.module.scss";
-import { Link } from "react-router-dom";
 
 export function Header(props: Partial<{ metadata: Application }>) {
+  const t = useTranslation();
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const theme = useMantineTheme();
@@ -93,10 +94,14 @@ export function Header(props: Partial<{ metadata: Application }>) {
                         offset={0}
                       >
                         <Menu.Target>
-                          <Box component={Link} to={item.url || "/#"} className={classes.link}>
+                          <Box
+                            component={Link}
+                            to={item.url || "/#"}
+                            className={classes.link}
+                          >
                             <Center inline>
                               <Box component="span" mr={5}>
-                                {item.label}
+                                {t(item.label)}
                               </Box>
                               <IconCaretDownFilled
                                 style={{
@@ -157,7 +162,7 @@ export function Header(props: Partial<{ metadata: Application }>) {
                         to={item.url || "/#"}
                         className={classes.link}
                       >
-                        {item.label}
+                        {t(item.label)}
                       </Box>
                     )}
                     {item.type === "panel" && (
@@ -178,7 +183,7 @@ export function Header(props: Partial<{ metadata: Application }>) {
                           >
                             <Center inline>
                               <Box component="span" mr={5}>
-                                {item.label}
+                                {t(item.label)}
                               </Box>
                               <IconCaretDownFilled
                                 style={{
@@ -346,7 +351,7 @@ export function Header(props: Partial<{ metadata: Application }>) {
                     >
                       <Group justify="space-between" w={"100%"}>
                         <Box component="span" mr={5}>
-                          {item.label}
+                          {t(item.label)}
                         </Box>
                         <IconCaretDownFilled
                           style={{ width: rem(16), height: rem(16) }}
@@ -407,7 +412,7 @@ export function Header(props: Partial<{ metadata: Application }>) {
                     to={item.url || "/#"}
                     className={cx(classes.link, classes.colorDefault)}
                   >
-                    {item.label}
+                    {t(item.label)}
                   </Box>
                 )}
                 {item.type === "panel" && (
@@ -426,7 +431,7 @@ export function Header(props: Partial<{ metadata: Application }>) {
                     >
                       <Group justify="space-between" w={"100%"}>
                         <Box component="span" mr={5}>
-                          {item.label}
+                          {t(item.label)}
                         </Box>
                         <IconCaretDownFilled
                           style={{ width: rem(16), height: rem(16) }}
@@ -487,7 +492,7 @@ export function Header(props: Partial<{ metadata: Application }>) {
           <Divider my="sm" />
           <Group justify="center" grow pb="xl" px="md">
             <AppButton variant="default">Log in</AppButton>
-            <AppButton>Sign up</AppButton>
+            <AppButton>{t("Sign up")}</AppButton>
           </Group>
           <Group h="100%" gap={0}>
             <SwitchLanguage />
@@ -563,7 +568,7 @@ function MenuUserInfo() {
                   <CopyButton value={`UID: ${me.uid || ""}`}>
                     {({ copied, copy }) => (
                       <Tooltip
-                        label={copied ? "Copied" : "Copy"}
+                        label={t(copied ? "Copied" : "Copy")}
                         withArrow
                         position="right"
                       >
@@ -606,7 +611,6 @@ function MenuUserInfo() {
             Settings
           </Menu.Item>
           <Menu.Item fw={"bold"} component="a" href="/wallet">
-
             {t("Assets")}
           </Menu.Item>
           <Menu.Item
@@ -643,6 +647,8 @@ function MenuUserInfo() {
 }
 
 function GroupLinkAuth() {
+  const t = useTranslation();
+
   return (
     <>
       <AppButton
@@ -651,10 +657,10 @@ function GroupLinkAuth() {
         component={Link}
         to="/login"
       >
-        Log In
+        {t("Log In")}
       </AppButton>
       <AppButton component={Link} to="/register">
-        Sign up
+        {t("Sign up")}
       </AppButton>
     </>
   );

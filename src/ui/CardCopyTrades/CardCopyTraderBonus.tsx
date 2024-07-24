@@ -1,15 +1,30 @@
-
-import { Avatar, Badge, Box, Card, Flex, Group, Image, Space, Tooltip } from "@mantine/core";
-import classes from "./index.module.scss";
-import AppText from "../Text/AppText";
-import { IconCaretUpFilled, IconStarFilled } from "@tabler/icons-react";
+import trade_icon from "@/assets/images/trade_icon.png";
+import useTranslation from "@/hooks/useTranslation";
+import {
+  Avatar,
+  Badge,
+  Box,
+  Card,
+  Flex,
+  Group,
+  Image,
+  Space,
+  Tooltip,
+} from "@mantine/core";
+import {
+  IconCaretUpFilled,
+  IconStarFilled,
+} from "@tabler/icons-react";
+import { Link } from "react-router-dom";
+import { v4 } from "uuid";
 import AppButton from "../Button/AppButton";
 import AppChart from "../Chart/Chart";
-import trade_icon from "@/assets/images/trade_icon.png";
-import { v4 } from "uuid";
-import { Link } from "react-router-dom";
+import AppText from "../Text/AppText";
+import classes from "./index.module.scss";
 
 export function CardTraderBonus() {
+  const t = useTranslation();
+
   return (
     <>
       <Card
@@ -33,7 +48,7 @@ export function CardTraderBonus() {
             variant="gradient"
             gradient={{ from: "orange", to: "yellow", deg: 90 }}
           >
-              +10% Bonus
+            +10% Bonus
           </Badge>
         </Box>
         <Box>
@@ -49,19 +64,19 @@ export function CardTraderBonus() {
                 <Flex align={"center"} gap={5}>
                   <AppText fz={20} fw={"bolder"}>
                     {" "}
-                      DreamyCoin
+                    DreamyCoin
                   </AppText>
                   <Image w={20} src={trade_icon} />
                 </Flex>
                 <Space my={5} />
                 <Flex gap={10}>
                   <AppText instancetype="withTheadSmall">
-                      85 Follower(s)
+                    85 Follower(s)
                   </AppText>
                   <Flex align={"center"}>
                     <IconCaretUpFilled color="#20b26c" size={16} />
                     <AppText instancetype="withTheadSmall">
-                        400.00%
+                      400.00%
                     </AppText>
                   </Flex>
                 </Flex>
@@ -78,7 +93,9 @@ export function CardTraderBonus() {
                 bg={"gray.4"}
                 p={20}
                 transitionProps={{ duration: 200 }}
-                label="Expressed as a percentage and calculated by dividing an investment's net profit (or loss) by its initial cost. ROI is a performance measure used to evaluate the efficiency or profitability of an investment."
+                label={t(
+                  "Expressed as a percentage and calculated by dividing an investment's net profit (or loss) by its initial cost. ROI is a performance measure used to evaluate the efficiency or profitability of an investment.",
+                )}
               >
                 <AppButton
                   variant="transparent"
@@ -87,7 +104,7 @@ export function CardTraderBonus() {
                   h={"auto"}
                 >
                   <AppText instancetype="withTheadSmall">
-                      ROI{" "}
+                    ROI{" "}
                     <span
                       style={{
                         border: "solid 1px #adb1b8",
@@ -96,13 +113,13 @@ export function CardTraderBonus() {
                         padding: "0 4.2px",
                       }}
                     >
-                        7d
+                      7d
                     </span>
                   </AppText>
                 </AppButton>
               </Tooltip>
               <AppText instancetype="WithPriceCardTrader" c={"green"}>
-                  +422.55%
+                +422.55%
               </AppText>
             </Box>
             <AppChart
@@ -124,11 +141,13 @@ export function CardTraderBonus() {
               bg={"gray.4"}
               p={20}
               transitionProps={{ duration: 200 }}
-              label="Expressed as a percentage and calculated by dividing an investment's net profit (or loss) by its initial cost. ROI is a performance measure used to evaluate the efficiency or profitability of an investment."
+              label={t(
+                "Expressed as a percentage and calculated by dividing an investment's net profit (or loss) by its initial cost. ROI is a performance measure used to evaluate the efficiency or profitability of an investment.",
+              )}
             >
               <AppButton variant="transparent" p={0} m={0} h={"auto"}>
                 <AppText instancetype="withTheadSmall">
-                    ROI{" "}
+                  ROI{" "}
                   <span
                     style={{
                       border: "solid 1px #adb1b8",
@@ -137,13 +156,13 @@ export function CardTraderBonus() {
                       padding: "0 4.2px",
                     }}
                   >
-                      90d
+                    90d
                   </span>
                 </AppText>
               </AppButton>
             </Tooltip>
             <AppText instancetype="withPriceCardTrade">
-                +20.99%
+              +20.99%
             </AppText>
           </Flex>
           <Flex justify={"space-between"}>
@@ -155,11 +174,13 @@ export function CardTraderBonus() {
               bg={"gray.4"}
               p={20}
               transitionProps={{ duration: 200 }}
-              label="The maximum observed loss for the Master Trader in the last 30 days. A low maximum drawdown indicates that the loss incurred by the Master Trader's trades is relatively small."
+              label={t(
+                "The maximum observed loss for the Master Trader in the last 30 days. A low maximum drawdown indicates that the loss incurred by the Master Trader's trades is relatively small.",
+              )}
             >
               <AppButton variant="transparent" p={0} m={0} h={"auto"}>
                 <AppText instancetype="withTheadSmall">
-                    Drawdown{" "}
+                  {t("Drawdown")}{" "}
                   <span
                     style={{
                       border: "solid 1px #adb1b8",
@@ -168,13 +189,13 @@ export function CardTraderBonus() {
                       padding: "0 4.2px",
                     }}
                   >
-                      30d
+                    30d
                   </span>
                 </AppText>
               </AppButton>
             </Tooltip>
             <AppText instancetype="withPriceCardTrade" c={"green"}>
-                21.29%
+              21.29%
             </AppText>
           </Flex>
           <Flex justify={"space-between"}>
@@ -193,7 +214,7 @@ export function CardTraderBonus() {
               </AppButton>
             </Tooltip>
             <AppText instancetype="withPriceCardTrade">
-                25,478.00
+              25,478.00
             </AppText>
           </Flex>
           <Space h={20} />
@@ -202,7 +223,7 @@ export function CardTraderBonus() {
             fullWidth
             gradient={{ from: "primary", to: "yellow", deg: 90 }}
           >
-              Copy
+            Copy
           </AppButton>
         </Box>
       </Card>

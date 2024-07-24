@@ -1,15 +1,12 @@
-import { useLocation } from "react-router-dom";
-import { Anchor, Box, Breadcrumbs, Container } from "@mantine/core";
-import useTranslation from "@/hooks/useTranslation";
-import { UserChangePasswordForm } from "@/ui/Profile";
-import { IconChevronRight } from "@tabler/icons-react";
 import useMetadata from "@/hooks/useMetadata";
+import useTranslation from "@/hooks/useTranslation";
 import { Header } from "@/ui/Header";
-import { Footer } from "../top-page";
 import { InquiryForm } from "@/ui/Profile/Forms";
+import { Anchor, Box, Breadcrumbs, Container } from "@mantine/core";
+import { IconChevronRight } from "@tabler/icons-react";
+import { Footer } from "../top-page";
 
 export default function Page() {
-  const location = useLocation();
   const { data } = useMetadata();
   const t = useTranslation();
   return (
@@ -31,7 +28,7 @@ export default function Page() {
           <InquiryForm />
         </Box>
       </Container>
-      {data && <Footer metadata={data} />}
+      <Footer metadata={data} />
     </>
   );
 }

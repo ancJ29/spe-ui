@@ -1,5 +1,8 @@
 import { Box, Flex } from "@mantine/core";
-import { IconCaretDownFilled, IconCaretUpFilled } from "@tabler/icons-react";
+import {
+  IconCaretDownFilled,
+  IconCaretUpFilled,
+} from "@tabler/icons-react";
 import { useCallback, useState } from "react";
 
 export function IconSortUpDown({
@@ -21,7 +24,7 @@ export function IconSortUpDown({
         break;
     }
   }, [_status]);
-  
+
   return (
     <>
       <Flex
@@ -66,4 +69,3 @@ export function IconSortUpDown({
     </>
   );
 }
-  

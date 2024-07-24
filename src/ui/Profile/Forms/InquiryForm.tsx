@@ -1,7 +1,16 @@
 import useTranslation from "@/hooks/useTranslation";
-import { SelectAsMenu } from "@/ui/SelectAsMenu";
-import { Alert, Box, Button, Card, Center, Select, SimpleGrid, Space, Text, Textarea, TextInput, Title } from "@mantine/core";
-import { IconInfoCircle } from "@tabler/icons-react";
+import {
+  Box,
+  Button,
+  Card,
+  Center,
+  Select,
+  SimpleGrid,
+  Space,
+  Textarea,
+  TextInput,
+  Title,
+} from "@mantine/core";
 
 export function InquiryForm() {
   const t = useTranslation();
@@ -21,8 +30,8 @@ export function InquiryForm() {
             cols={1}
             styles={{
               container: {
-                gap: "10px"
-              }
+                gap: "10px",
+              },
             }}
           >
             <Title>{t("Inquiry")}</Title>
@@ -38,36 +47,40 @@ export function InquiryForm() {
                 data={[
                   {
                     label: "Trading",
-                    value: "1"
+                    value: "1",
                   },
                   {
                     label: "Copy Trade",
-                    value: "2"
-                  }
+                    value: "2",
+                  },
                 ]}
                 label="Subject"
                 defaultValue="1"
-                onChange={() => { }}
+                onChange={() => {
+                  //
+                }}
               />
               <Select
                 size="lg"
                 data={[
                   {
                     label: "Higher",
-                    value: "1"
+                    value: "1",
                   },
                   {
                     label: "Medium",
-                    value: "3"
+                    value: "3",
                   },
                   {
                     label: "Lower",
-                    value: "2"
-                  }
+                    value: "2",
+                  },
                 ]}
                 label="Priority Level"
                 defaultValue="1"
-                onChange={() => { }}
+                onChange={() => {
+                  //
+                }}
               />
             </SimpleGrid>
             <Textarea label="Message or Inquiry Details" size="lg" />
@@ -80,7 +93,9 @@ export function InquiryForm() {
                 gradient={{ from: "primary", to: "yellow", deg: 90 }}
                 fullWidth
                 onClick={() => alert("OK")}
-              >{t("Confirm")}</Button>
+              >
+                {t("Confirm")}
+              </Button>
             </Box>
           </SimpleGrid>
         </Card>

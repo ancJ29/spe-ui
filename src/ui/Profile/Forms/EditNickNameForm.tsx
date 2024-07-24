@@ -29,25 +29,21 @@ export function EditNickNameForm() {
       title: t("Add a nickname"),
       children: <ModalNickName nickName={me?.nickName || ""} />,
       centered: true,
-
     });
   };
   return (
     <>
       <Flex gap={12} align={"center"}>
         <Box>
-
           <Avatar
             w={72}
             h={72}
             src={avatar || defaultAvatar}
           ></Avatar>
-
         </Box>
         <Box>
           <Flex align={"center"} gap={10}>
             <Text fz={24} fw={600}>
-
               {displayName}
             </Text>
             <Button
@@ -56,7 +52,6 @@ export function EditNickNameForm() {
               m={0}
               variant="transparent"
             >
-
               <IconEdit size={16} color="gray" />
             </Button>
           </Flex>
@@ -64,7 +59,6 @@ export function EditNickNameForm() {
             tt={"capitalize"}
             fw={"normal"}
             variant="light"
-
             color={"#33006c"}
             leftSection={
               <IconCircleCheck
@@ -74,13 +68,11 @@ export function EditNickNameForm() {
           >
             {t("Identity Verification Lv.")} {me?.kycLevel || 0}
           </Badge>
-
         </Box>
       </Flex>
     </>
   );
 }
-
 
 export function ModalNickName({ nickName }: { nickName: string }) {
   const t = useTranslation();
@@ -126,7 +118,6 @@ export function ModalNickName({ nickName }: { nickName: string }) {
         >
           {t("Cancel")}
         </Button>
-
       </SimpleGrid>
     </>
   );

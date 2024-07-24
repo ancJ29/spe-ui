@@ -1,18 +1,14 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import alltraderIcon from "@/assets/images/alltrader.svg";
+import allTraderIcon from "@/assets/images/all-trader.svg";
 import moneyIcon from "@/assets/images/money.svg";
-import topTradeIcon from "@/assets/images/toptrader.svg";
+import topTradeIcon from "@/assets/images/top-trader.svg";
 import useMetadata from "@/hooks/useMetadata";
 import useTranslation from "@/hooks/useTranslation";
 import authStore from "@/store/auth";
 import AppButton from "@/ui/Button/AppButton";
 import AppCard from "@/ui/Card/AppCard";
 import { AppCarousel } from "@/ui/Carousel/Carousel";
-
-import AppChart from "@/ui/Chart/Chart";
 import { Header } from "@/ui/Header";
-import AppPill from "@/ui/Pill/AppPill";
-
 import AppText from "@/ui/Text/AppText";
 import { Carousel } from "@mantine/carousel";
 import {
@@ -39,18 +35,18 @@ import {
   IconSearch,
 } from "@tabler/icons-react";
 
-
+import {
+  CardTrader,
+  CardTraderBonus,
+  CardTraderTop1,
+} from "@/ui/CardCopyTrades";
+import { GridMasterTraders } from "@/ui/GridMasterTraders";
+import { OptionFilter } from "@/ui/OptionFilter";
+import { OptionFilterAsCheckbox } from "@/ui/OptionFilterAsCheckbox";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Footer } from "../top-page";
 import classes from "./index.module.scss";
-import { Header } from "@/ui/Header";
-import { Link } from "react-router-dom";
-import { CardTrader, CardTraderBonus, CardTraderTop1 } from "@/ui/CardCopyTrades";
-import { OptionFilterAsCheckbox } from "@/ui/OptionFilterAsCheckbox";
-import { OptionFilter } from "@/ui/OptionFilter";
-import { GridMasterTraders } from "@/ui/GridMasterTraders";
-import { ReactNode, useCallback, useMemo, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-
 
 const sizeContainer = "xl";
 
@@ -82,8 +78,7 @@ const traders = [
   },
 ];
 
-
-export default function Page(){
+export default function Page() {
   const t = useTranslation();
   const { data } = useMetadata();
   const [opened, { close, open }] = useDisclosure(false);
@@ -259,7 +254,7 @@ export default function Page(){
                 <Tabs.Tab
                   value="2"
                   leftSection={
-                    <Image width={30} src={alltraderIcon} />
+                    <Image width={30} src={allTraderIcon} />
                   }
                 >
                   <AppText instancetype="TabText">
@@ -716,9 +711,7 @@ export default function Page(){
           </Box>
         )}
       </Container>
-      {data && <Footer metadata={data} />}
+      <Footer metadata={data} />
     </>
   );
 }
-
-

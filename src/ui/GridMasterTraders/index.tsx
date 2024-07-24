@@ -41,7 +41,7 @@ export function GridMasterTraders() {
           <Box className="table-grid-cell">
             <Flex align={"center"} gap={5}>
               <AppText instancetype="withTheadSmall">
-                  7d Win Rate
+                7d Win Rate
               </AppText>
               <IconSortUpDown />
             </Flex>
@@ -49,7 +49,7 @@ export function GridMasterTraders() {
           <Box className="table-grid-cell">
             <Flex align={"center"} gap={5}>
               <AppText instancetype="withTheadSmall">
-                  Stability Index
+                Stability Index
               </AppText>
               <IconSortUpDown />
             </Flex>
@@ -57,7 +57,7 @@ export function GridMasterTraders() {
           <Box className="table-grid-cell">
             <Flex align={"center"} gap={5}>
               <AppText instancetype="withTheadSmall">
-                  Follower(s)
+                Follower(s)
               </AppText>
               <IconSortUpDown />
             </Flex>
@@ -78,14 +78,14 @@ export function GridMasterTraders() {
                 />
                 <Box maw={280}>
                   <AppText instancetype="WithCellToken">
-                      Pino89 {/* cspell:disable-line */}
+                    Pino89 {/* cspell:disable-line */}
                   </AppText>
                   <Flex gap={10}>
                     <AppPill instancetype="WithTagSmall">
-                        Stable
+                      Stable
                     </AppPill>
                     <AppPill instancetype="WithTagSmall">
-                        Trading Bots
+                      Trading Bots
                     </AppPill>
                   </Flex>
                 </Box>
@@ -93,27 +93,27 @@ export function GridMasterTraders() {
             </Box>
             <Box className="table-grid-cell">
               <AppText instancetype="WidthPriceNormal">
-                  +3.92%
+                +3.92%
               </AppText>
             </Box>
             <Box className="table-grid-cell">
               <AppText instancetype="WidthPriceNormal">
-                  +43,160.26
+                +43,160.26
               </AppText>
             </Box>
             <Box className="table-grid-cell">
               <AppText instancetype="WidthPriceNormal">
-                  +21,477.87
+                +21,477.87
               </AppText>
             </Box>
             <Box className="table-grid-cell">
               <AppText instancetype="WidthPriceNormal">
-                  +66.97%
+                +66.97%
               </AppText>
             </Box>
             <Box className="table-grid-cell">
               <AppText instancetype="WidthPriceNormal">
-                  5.0/5.0
+                5.0/5.0
               </AppText>
             </Box>
             <Box className="table-grid-cell">
@@ -127,7 +127,7 @@ export function GridMasterTraders() {
                 c={"dark"}
                 gradient={{ from: "primary", to: "yellow", deg: 90 }}
               >
-                  Copy
+                Copy
               </AppButton>
             </Box>
           </div>

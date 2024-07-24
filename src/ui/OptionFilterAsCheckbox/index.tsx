@@ -1,4 +1,12 @@
-import { Badge, Button, Checkbox, Flex, Grid, Menu } from "@mantine/core";
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import {
+  Badge,
+  Button,
+  Checkbox,
+  Flex,
+  Grid,
+  Menu,
+} from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
 import { ReactNode, useCallback, useMemo, useState } from "react";
 import AppButton from "../Button/AppButton";
@@ -96,7 +104,7 @@ export function OptionFilterAsCheckbox(
               />
             </Menu.Item>
           ))}
-  
+
           <Menu.Divider />
           <Menu.Item>
             <Grid>
@@ -110,7 +118,7 @@ export function OptionFilterAsCheckbox(
                   variant="default"
                   w={"100%"}
                 >
-                    Reset
+                  Reset
                 </AppButton>
               </Grid.Col>
               <Grid.Col span={6}>
@@ -118,7 +126,7 @@ export function OptionFilterAsCheckbox(
                   onClick={() => setConfirm(true)}
                   w={"100%"}
                 >
-                    Confirm
+                  Confirm
                 </AppButton>
               </Grid.Col>
             </Grid>

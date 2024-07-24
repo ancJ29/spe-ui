@@ -1,11 +1,9 @@
-
 import useTranslation from "@/hooks/useTranslation";
 import { UserChangePasswordForm } from "@/ui/Profile";
 import { Anchor, Box, Breadcrumbs, Container } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
 
 export default function Page() {
-
   const t = useTranslation();
   return (
     <>

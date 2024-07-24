@@ -1,11 +1,13 @@
 import { ROWS_PER_PAGE } from "@/common/configs";
 import { useEffect, useState } from "react";
 
-export default function useSPEPagination<T>(fetch: (
-  cursor: string,
-  limit: number,
-  reverse: boolean,
-) => Promise<T[]>) {
+export default function useSPEPagination<T>(
+  fetch: (
+    cursor: string,
+    limit: number,
+    reverse: boolean,
+  ) => Promise<T[]>,
+) {
   const [data, setData] = useState<T[]>([]);
   const [haveNextPage, setHaveNextPage] = useState(false);
   const [havePreviousPage, setHavePreviousPage] = useState(false);
@@ -15,11 +17,7 @@ export default function useSPEPagination<T>(fetch: (
   });
   useEffect(() => {
     const limit = ROWS_PER_PAGE + (reverse ? 2 : 1);
-    fetch(
-      cursor,
-      limit,
-      reverse,
-    ).then((data: T[]) => {
+    fetch(cursor, limit, reverse).then((data: T[]) => {
       setData(data);
       reverse
         ? setHavePreviousPage(data.length === limit)

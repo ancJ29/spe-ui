@@ -783,10 +783,8 @@ export function CoinSwapWidget({
                             fz={12}
                             styles={{
                               root: {
-
                                 color: "light-dark(#81858c, white)",
                               },
-
                             }}
                           >
                             {ASSET_COIN_LIST[option.value]}
@@ -1023,12 +1021,10 @@ function renderCoinSelectOption({
             fw={"bold"}
             styles={{
               root: {
-
                 color: checked
                   ? "#f29525"
                   : "light-dark(#81858c, white)",
               },
-
             }}
           >
             {option.value}
@@ -1037,10 +1033,8 @@ function renderCoinSelectOption({
             fz={12}
             styles={{
               root: {
-
                 color: "light-dark(#81858c, white)",
               },
-
             }}
           >
             {ASSET_COIN_LIST[option.value]}

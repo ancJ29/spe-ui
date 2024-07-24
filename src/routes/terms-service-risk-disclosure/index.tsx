@@ -1,13 +1,11 @@
 import useMetadata from "@/hooks/useMetadata";
 import { Header } from "@/ui/Header";
-import { Box, Container, Space } from "@mantine/core";
-import { useLocation } from "react-router-dom";
-import { Footer } from "../top-page";
 import TermsServiceWrapper from "@/ui/TabsPolicy";
+import { Container, Space } from "@mantine/core";
 import PdfViewer from "../terms-service-conditions/PdfViewer";
+import { Footer } from "../top-page";
 
 export default function Page() {
-  const location = useLocation();
   const { data } = useMetadata();
   return (
     <>
@@ -17,7 +15,7 @@ export default function Page() {
         <TermsServiceWrapper />
         <PdfViewer url="./docs/Risk_Disclosure_Statement_en.pdf" />
       </Container>
-      {data && <Footer metadata={data} />}
+      <Footer metadata={data} />
     </>
   );
 }

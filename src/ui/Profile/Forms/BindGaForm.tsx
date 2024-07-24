@@ -1,22 +1,31 @@
-import appstore from "@/assets/Download_on_the_App_Store_Badge.svg.png";
-import chplay from "@/assets/Google_Play_Store_badge_EN.svg.png";
+import appStore from "@/assets/Download_on_the_App_Store_Badge.svg.png";
+import chPlay from "@/assets/Google_Play_Store_badge_EN.svg.png";
 import useTranslation from "@/hooks/useTranslation";
 import { generateUri2FA } from "@/utils/utility";
 
-import { Avatar, Box, Button, Flex, Group, Image, Space, Text, TextInput, ThemeIcon, Timeline, Title } from "@mantine/core";
-import { IconSun, IconVideo } from "@tabler/icons-react";
+import {
+  Box,
+  Button,
+  Flex,
+  Image,
+  Space,
+  Text,
+  TextInput,
+  Timeline,
+  Title,
+} from "@mantine/core";
 import QRCode from "qrcode.react";
-import { useEffect } from "react";
 
-  
 export function BindGaForm() {
   const t = useTranslation();
+  // cspell:disable-next-line
   const secret = "KVKFKRCPNZQUYMLXOVYDSQKJKZDTSRLD";
 
   const label =
     "alice@spe.com_" + new Date(Date.now()).toLocaleString();
 
-  const otpauth = generateUri2FA("totp", label, secret, "spe", "100");
+  // cspell:disable-next-line
+  const otpAuth = generateUri2FA("totp", label, secret, "spe", "100");
   return (
     <>
       <Box py={40}>
@@ -28,7 +37,6 @@ export function BindGaForm() {
               background: "light-dark(black, white)",
             },
             itemTitle: {
-
               transform: "translateY(-3px)",
             },
           }}
@@ -45,7 +53,6 @@ export function BindGaForm() {
               <Text
                 styles={{
                   root: {
-
                     color: "light-dark(white, black)",
                   },
                 }}
@@ -57,10 +64,10 @@ export function BindGaForm() {
           >
             <Flex gap={10} align={"start"} h={"50px"}>
               <Box h={"100%"}>
-                <Image h={"100%"} src={appstore} />
+                <Image h={"100%"} src={appStore} />
               </Box>
               <Box h={"100%"}>
-                <Image h={"100%"} src={chplay} />
+                <Image h={"100%"} src={chPlay} />
               </Box>
             </Flex>
           </Timeline.Item>
@@ -81,7 +88,6 @@ export function BindGaForm() {
               <Text
                 styles={{
                   root: {
-
                     color: "light-dark(white, black)",
                   },
                 }}
@@ -93,11 +99,10 @@ export function BindGaForm() {
           >
             <Flex gap={50}>
               <Box>
-                <QRCode value={otpauth} size={120} />
+                <QRCode value={otpAuth} size={120} />
               </Box>
               <Box maw={"485px"} w={"100%"}>
                 <Text fz={14}>
-
                   {t(
                     "Launch Google Authenticator app and scan the QR code or enter the key.",
                   )}
@@ -117,24 +122,20 @@ export function BindGaForm() {
                   Write down your setup key in somewhere safe so that
                   you can regain access to your authenticator app if
                   you lose or switch your phone.
-
                 </Text>
               </Box>
             </Flex>
           </Timeline.Item>
           <Timeline.Item
             title={
-
               <Box mb={20}>
                 <Title order={3}>{t("Security Verification")}</Title>
               </Box>
-
             }
             bullet={
               <Text
                 styles={{
                   root: {
-
                     color: "light-dark(white, black)",
                   },
                 }}
@@ -142,7 +143,6 @@ export function BindGaForm() {
               >
                 3
               </Text>
-
             }
           >
             <Flex gap={50}>
@@ -155,7 +155,6 @@ export function BindGaForm() {
                   rightSectionWidth={60}
                   rightSection={
                     <Flex px={10} w={"100%"}>
-
                       <Button p={0} variant="transparent">
                         {t("Send")}
                       </Button>
@@ -181,7 +180,6 @@ export function BindGaForm() {
                 </Button>
               </Box>
             </Flex>
-
           </Timeline.Item>
         </Timeline>
       </Box>

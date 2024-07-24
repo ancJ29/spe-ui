@@ -30,7 +30,6 @@ export function BindPhoneForm() {
   };
   return (
     <>
-
       <Button
         onClick={openModal}
         variant="gradient"
@@ -38,7 +37,6 @@ export function BindPhoneForm() {
         px={"xs"}
         gradient={{ from: "orange", to: "yellow", deg: 90 }}
       >
-
         {t("Bind Phone")}
       </Button>
     </>
@@ -49,9 +47,7 @@ export function BindPhoneModal() {
   const t = useTranslation();
   const [region, setRegion] = useState("+81 Japan");
   const info = useMemo(() => {
-
     return phoneCode.find((v) => v.value === region);
-
   }, [region]);
   return (
     <Center h={"100%"} w={"100%"}>
@@ -60,10 +56,8 @@ export function BindPhoneModal() {
           cols={1}
           styles={{
             container: {
-
               gap: "10px",
             },
-
           }}
         >
           <Box>
@@ -91,30 +85,25 @@ export function BindPhoneModal() {
                       input: {
                         fontSize: "14px",
                       },
-
                     }}
                     rightSectionWidth={30}
                     rightSection={<IconChevronDown size={16} />}
                     renderOption={({ option, checked }) => (
-
                       <Flex
                         h={"100%"}
                         align={"center"}
                         gap={10}
                         w={"100%"}
                       >
-
                         <Box>
                           <Image w={20} src={option?.image} />
                         </Box>
                         <Text fz={12}>{option.label}</Text>
                         <Flex ml={"auto"} justify={"end"} flex={1}>
                           {checked && (
-
                             <IconCheck
                               style={{ marginInlineStart: "auto" }}
                             />
-
                           )}
                         </Flex>
                       </Flex>
@@ -125,9 +114,7 @@ export function BindPhoneModal() {
                 </Box>
               </Box>
               <Box flex={1}>
-
                 <TextInput placeholder={t("Phone number")} />
-
               </Box>
             </Flex>
           </Box>
@@ -137,21 +124,17 @@ export function BindPhoneModal() {
             rightSectionWidth={60}
             rightSection={
               <Flex px={10} w={"100%"}>
-
                 <Button p={0} variant="transparent">
                   {t("Send")}
                 </Button>
-
               </Flex>
             }
           />
           <TextInput
             styles={{
               label: {
-
                 width: "100%",
               },
-
             }}
             label={
               <Flex justify={"space-between"} w={"100%"}>
@@ -162,11 +145,9 @@ export function BindPhoneModal() {
             rightSectionWidth={60}
             rightSection={
               <Flex px={10} w={"100%"}>
-
                 <Button p={0} variant="transparent">
                   {t("Send")}
                 </Button>
-
               </Flex>
             }
             placeholder={t("Enter code")}
@@ -180,11 +161,9 @@ export function BindPhoneModal() {
               gradient={{ from: "primary", to: "yellow", deg: 90 }}
               fullWidth
               onClick={() => modals.closeAll()}
-
             >
               {t("Confirm")}
             </Button>
-
           </Box>
         </SimpleGrid>
       </Box>

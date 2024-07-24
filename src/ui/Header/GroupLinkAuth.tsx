@@ -1,6 +1,9 @@
+import useTranslation from "@/hooks/useTranslation";
 import AppButton from "../Button/AppButton";
 
 export default function GroupLinkAuth() {
+  const t = useTranslation();
+
   return (
     <>
       <AppButton
@@ -9,10 +12,10 @@ export default function GroupLinkAuth() {
         component="a"
         href="/login"
       >
-        Log In
+        {t("Log In")}
       </AppButton>
       <AppButton component="a" href="/register">
-        Sign up
+        {t("Sign up")}
       </AppButton>
     </>
   );

@@ -1,5 +1,9 @@
+import { t } from "@/common/utils";
+import { getDictionary } from "@/services/languages";
 import { FormSchema } from "@/types";
 import { REGEX } from "@/utils/regex";
+
+const dictionary = getDictionary();
 
 const SignUpSchema: FormSchema = {
   schema: {
@@ -88,7 +92,7 @@ const SignUpSchema: FormSchema = {
           fullWidth: true,
           size: "lg",
         },
-        submitText: "Sign up",
+        submitText: t(dictionary, "Sign up"),
       },
       // label: false,
       classNames: "grid-form-root gap-15",

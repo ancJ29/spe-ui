@@ -1,10 +1,13 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-import alltraderIcon from "@/assets/images/alltrader.svg";
-import topTradeIcon from "@/assets/images/toptrader.svg";
+import allTraderIcon from "@/assets/images/all-trader.svg";
+import topTradeIcon from "@/assets/images/top-trader.svg";
 import useMetadata from "@/hooks/useMetadata";
+import useTranslation from "@/hooks/useTranslation";
 import AppButton from "@/ui/Button/AppButton";
-import AppCard from "@/ui/Card/AppCard";
+import { CardTrader, CardTraderTop1 } from "@/ui/CardCopyTrades";
 import { AppCarousel } from "@/ui/Carousel/Carousel";
+import { Header } from "@/ui/Header";
+import NumberFormat from "@/ui/NumberFormat";
+import { OptionFilter } from "@/ui/OptionFilter";
 import AppText from "@/ui/Text/AppText";
 import { Carousel } from "@mantine/carousel";
 import {
@@ -27,21 +30,12 @@ import {
   Title,
   lighten,
 } from "@mantine/core";
-import { useDisclosure, useToggle } from "@mantine/hooks";
-import {
-  IconEye,
-  IconEyeOff,
-  IconSearch,
-} from "@tabler/icons-react";
+import { useToggle } from "@mantine/hooks";
+import { IconEye, IconEyeOff, IconSearch } from "@tabler/icons-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Footer } from "../top-page";
 import classes from "./index.module.scss";
-import { Header } from "@/ui/Header";
-import { Link } from "react-router-dom";
-import { CardTrader, CardTraderTop1 } from "@/ui/CardCopyTrades";
-import { OptionFilter } from "@/ui/OptionFilter";
-import useTranslation from "@/hooks/useTranslation";
-import NumberFormat from "@/ui/NumberFormat";
 
 const sizeContainer = "xl";
 
@@ -96,7 +90,9 @@ export default function Page() {
                       c={lighten("black", 1)}
                       instancetype="BannerTextSub"
                     >
-                      {t("Earning with ease by copying the moves of top traders.")}
+                      {t(
+                        "Earning with ease by copying the moves of top traders.",
+                      )}
                     </AppText>
                     <Space mb={20} />
                     <Flex gap={20}>
@@ -106,7 +102,7 @@ export default function Page() {
                       >
                         {t("Become a Master")}
                       </AppButton>
-                      {/* <AppButton 
+                      {/* <AppButton
                         instancetype="WithOutlinedColor"
                         size="md"
                         rightSection={<IconCopy />}
@@ -125,7 +121,9 @@ export default function Page() {
                 p={0}
                 c={"white"}
                 bd={"1px solid rgba(178,203,221, .3)"}
-                bg={"linear-gradient(289.57deg,rgba(15,19,35,.2) 6.82%,hsla(0,0%,100%,.092) 79.78%)"}
+                bg={
+                  "linear-gradient(289.57deg,rgba(15,19,35,.2) 6.82%,hsla(0,0%,100%,.092) 79.78%)"
+                }
               >
                 <Box
                   style={{
@@ -138,7 +136,13 @@ export default function Page() {
                       {t("My Copy Trading")}
                     </AppText>
                     <Box>
-                      <Button c={"white"} p={0} m={0} variant="transparent" onClick={() => togglePrice()}>
+                      <Button
+                        c={"white"}
+                        p={0}
+                        m={0}
+                        variant="transparent"
+                        onClick={() => togglePrice()}
+                      >
                         {isOffPrice ? <IconEyeOff /> : <IconEye />}
                       </Button>
                     </Box>
@@ -150,7 +154,11 @@ export default function Page() {
                         {t("Unrealized PnL(USDT)")}
                       </Text>
                       <Title order={4}>
-                        <NumberFormat value={0} decimalPlaces={2} isOff={isOffPrice} />
+                        <NumberFormat
+                          value={0}
+                          decimalPlaces={2}
+                          hidden={isOffPrice}
+                        />
                       </Title>
                     </Box>
                     <Box>
@@ -158,7 +166,11 @@ export default function Page() {
                         {t("Total Assets(USDT)")}
                       </Text>
                       <Title order={4}>
-                        <NumberFormat value={0} decimalPlaces={2} isOff={isOffPrice} />
+                        <NumberFormat
+                          value={0}
+                          decimalPlaces={2}
+                          hidden={isOffPrice}
+                        />
                       </Title>
                     </Box>
                   </Flex>
@@ -170,12 +182,18 @@ export default function Page() {
                     }}
                     to={"/copy-trade/mine/my-taker"}
                   >
-
-                    <AppButton fullWidth variant="gradient" gradient={{ from: "primary", to: "yellow", deg: 90 }}>
+                    <AppButton
+                      fullWidth
+                      variant="gradient"
+                      gradient={{
+                        from: "primary",
+                        to: "yellow",
+                        deg: 90,
+                      }}
+                    >
                       {t("View More")}
                     </AppButton>
                   </Link>
-
                 </Box>
               </Card>
             </Flex>
@@ -208,7 +226,7 @@ export default function Page() {
                 <Tabs.Tab
                   value="2"
                   leftSection={
-                    <Image width={30} src={alltraderIcon} />
+                    <Image width={30} src={allTraderIcon} />
                   }
                 >
                   <AppText instancetype="TabText">
@@ -244,7 +262,9 @@ export default function Page() {
                       {t("Highest PnL%")}
                     </AppText>
                     <AppText instancetype="WithSubTitleSectionTrade">
-                      {t("Maximize returns: Copy the top masters in percentage leaderboard")}
+                      {t(
+                        "Maximize returns: Copy the top masters in percentage leader-board",
+                      )}
                     </AppText>
                   </Box>
                   <AppButton
@@ -277,7 +297,9 @@ export default function Page() {
                       {t("Highest Abs. PnL")}
                     </AppText>
                     <AppText instancetype="WithSubTitleSectionTrade">
-                      {t("Leaders in absolute profit: Your pathway to substantial gains")}
+                      {t(
+                        "Leaders in absolute profit: Your pathway to substantial gains",
+                      )}
                     </AppText>
                   </Box>
                   <AppButton
@@ -310,7 +332,9 @@ export default function Page() {
                       {t("Highest Win Rate")}
                     </AppText>
                     <AppText instancetype="WithSubTitleSectionTrade">
-                      {t("Consistent success: Masters with the highest win ratios")}
+                      {t(
+                        "Consistent success: Masters with the highest win ratios",
+                      )}
                     </AppText>
                   </Box>
                   <AppButton
@@ -357,7 +381,7 @@ export default function Page() {
                   <OptionFilter
                     value="Overview"
                     menuProps={{
-                      trigger: "hover"
+                      trigger: "hover",
                     }}
                     label="Overview"
                     items={[
@@ -377,14 +401,19 @@ export default function Page() {
                   />
                 </Box>
                 <Box>
-                  <Divider orientation="vertical" h={"20px"} bg={"red"} c={"red"} />
+                  <Divider
+                    orientation="vertical"
+                    h={"20px"}
+                    bg={"red"}
+                    c={"red"}
+                  />
                 </Box>
                 <SegmentedControl
                   withItemsBorders={false}
                   styles={{
                     root: {
-                      background: "none"
-                    }
+                      background: "none",
+                    },
                   }}
                   color={"primary"}
                   data={[
@@ -395,8 +424,8 @@ export default function Page() {
                     "Drawdown",
                     "Avg. PnL",
                     "Avg. Holding Period",
-                    "Trading Frequency"
-                  ]}
+                    "Trading Frequency",
+                  ].map((el) => t(el))}
                 />
               </Flex>
             </Box>
@@ -408,11 +437,11 @@ export default function Page() {
                   lg: 3,
                   md: 2,
                   sm: 1,
-                  xs: 1
+                  xs: 1,
                 }}
               >
-                {[...Array(100)].map((_, k) => (
-                  <CardTrader />
+                {[...Array(100)].map((_, idx) => (
+                  <CardTrader key={idx} />
                 ))}
               </SimpleGrid>
             </Box>
@@ -420,9 +449,7 @@ export default function Page() {
         </Tabs.Panel>
       </Tabs>
       <Divider />
-      {data && <Footer metadata={data} />}
+      <Footer metadata={data} />
     </>
   );
 }
-
-

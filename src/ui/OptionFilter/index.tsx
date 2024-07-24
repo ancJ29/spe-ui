@@ -1,4 +1,10 @@
-import { Flex, Menu, MenuDropdownProps, MenuProps, MenuTargetProps } from "@mantine/core";
+import {
+  Flex,
+  Menu,
+  MenuDropdownProps,
+  MenuProps,
+  MenuTargetProps,
+} from "@mantine/core";
 import { ReactNode, useState } from "react";
 import AppButton from "../Button/AppButton";
 import { IconChevronDown } from "@tabler/icons-react";
@@ -38,8 +44,8 @@ export function OptionFilter(
             color="dark"
             styles={{
               label: {
-                color: "light-dark(black, white)"
-              }
+                color: "light-dark(black, white)",
+              },
             }}
           >
             <Flex align={"center"} gap={5}>
@@ -52,7 +58,7 @@ export function OptionFilter(
             </Flex>
           </AppButton>
         </Menu.Target>
-  
+
         <Menu.Dropdown {...props.menuDropdownProps}>
           {props.items?.map((item, i) => (
             <Menu.Item
@@ -60,7 +66,7 @@ export function OptionFilter(
               onClick={() => setValues(item.value)}
               fw={"bold"}
               value={item.value}
-              c={(item.value === values) ? "primary" : ""}
+              c={item.value === values ? "primary" : ""}
             >
               {item.label}
             </Menu.Item>

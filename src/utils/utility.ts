@@ -42,7 +42,6 @@ export function extractSuffix(obj: unknown) {
   return (obj as { suffix?: string })?.suffix || "USDT";
 }
 
-
 export function generateUri2FA(
   // cspell:disable
   type: "hotp" | "totp",

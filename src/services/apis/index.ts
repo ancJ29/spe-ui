@@ -16,6 +16,7 @@ import {
   CopySetting,
   CopyTransaction,
   FollowerInformation,
+  ImageType,
   MarketInformation,
   MarketPrice,
   MasterTraderInformation,
@@ -25,7 +26,7 @@ import {
   SpeTransaction,
   SymbolConfig,
   Trade,
-  UserUpdateType
+  UserUpdateType,
 } from "@/common/types";
 import { assetStore } from "@/store/assets";
 import authStore from "@/store/auth";
@@ -153,6 +154,12 @@ export async function closeOrderApi(
         throw new Error("Failed to close order");
       }
     });
+}
+
+export function getUploadUrlApi(type: ImageType) {
+  return getApi<{ url: string }>(`/api/upload/url?type=${type}`).then(
+    (res) => res.url,
+  );
 }
 
 export function updateUserApi(
@@ -449,7 +456,8 @@ export async function fetchCopyOrders(
 ) {
   const base = "/api/copy/mine/orders";
   return getApi<{ orders: CopyOrder[] }>(
-    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${limit || 10
+    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
+      limit || 10
     }`,
   ).then((res) => res.orders);
 }
@@ -461,7 +469,8 @@ export async function fetchCopyTransactions(
 ) {
   const base = "/api/copy/master/me/transactions";
   return getApi<{ transactions: CopyTransaction[] }>(
-    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${limit || 10
+    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
+      limit || 10
     }`,
   ).then((res) => res.transactions);
 }
@@ -473,7 +482,8 @@ export async function fetchMasterCopyOrders(
 ) {
   const base = "/api/copy/master/me/orders";
   return getApi<{ orders: CopyOrder[] }>(
-    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${limit || 10
+    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
+      limit || 10
     }`,
   ).then((res) => res.orders);
 }

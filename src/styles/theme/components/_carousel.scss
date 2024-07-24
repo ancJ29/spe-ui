@@ -52,11 +52,11 @@
     .mantine-Carousel-viewport {
       &::before {
         background: linear-gradient(
-        270deg,
-        light-dark(#fffbef, #1a1509),
-        hsla(0, 0%, 100%, 0) 94.95%
-      );
-      } 
+          270deg,
+          light-dark(#fffbef, #1a1509),
+          hsla(0, 0%, 100%, 0) 94.95%
+        );
+      }
     }
   }
 }

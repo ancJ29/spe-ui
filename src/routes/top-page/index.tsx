@@ -6,6 +6,7 @@ import {
   getFooter,
 } from "@/domain/Application";
 import useMetadata from "@/hooks/useMetadata";
+import useTranslation from "@/hooks/useTranslation";
 import AppButton from "@/ui/Button/AppButton";
 import CarouselPage from "@/ui/Carousel/Carousel";
 import AppChart, { randomizeArraySparkline } from "@/ui/Chart/Chart";
@@ -170,7 +171,7 @@ export default function TopPage() {
         </Container>
         <Space h={50} />
       </Box>
-      {data && <Footer metadata={data} />}
+      <Footer metadata={data} />
     </>
   );
 }
@@ -414,8 +415,9 @@ function TableBarNewListing(props: { items: Gainer[] }) {
   );
 }
 
+const items = [...Array(20)];
 function TrendingTraders() {
-  const items = [...Array(20)];
+  const t = useTranslation();
   return (
     <div>
       <Title order={2}>Trending traders</Title>
@@ -510,7 +512,7 @@ function TrendingTraders() {
                       instancetype="GhostWithRightIcon"
                       size="lg"
                     >
-                      Copy
+                      {t("Copy")}
                     </AppButton>
                     <AppPill />
                   </Card>
@@ -525,6 +527,8 @@ function TrendingTraders() {
 }
 
 function QuickStart() {
+  const t = useTranslation();
+
   return (
     <>
       <Card radius={"lg"} py={60}>
@@ -532,7 +536,7 @@ function QuickStart() {
           <Grid.Col span={6}>
             <Center h={"100%"}>
               <Box>
-                <Title order={1}>Get Started in Minutes</Title>
+                <Title order={1}>{t("Get Started in Minutes")}</Title>
                 <Space h={30} />
                 <Group justify="center">
                   <AppButton
@@ -540,7 +544,7 @@ function QuickStart() {
                     loaderProps={{ type: "bars" }}
                     instancetype="WithRightIcon"
                   >
-                    Start Now
+                    {t("Start Now")}
                   </AppButton>
                 </Group>
               </Box>
@@ -552,33 +556,42 @@ function QuickStart() {
                 bullet={<Title order={3}>1</Title>}
                 title={
                   <Title order={3} lineClamp={10}>
-                    Create a free OMTrade Account.{" "}
+                    {t("Create a free Crypto Copy Invest Account.")}{" "}
                   </Title>
                 }
               >
-                <Text>Create a free OMTrade Account.</Text>
+                <Text>
+                  {t("Create a free Crypto Copy Invest Account.")}
+                </Text>
               </Timeline.Item>
 
               <Timeline.Item
                 bullet={<Title order={3}>2</Title>}
                 title={
                   <Title order={3} lineClamp={10}>
-                    Find master traders that best serve your financial
-                    goals.
+                    {t(
+                      "Find master traders that best serve your financial goals.",
+                    )}
                   </Title>
                 }
               >
-                <Text>Create a free OMTrade Account.</Text>
+                <Text>
+                  {t("Create a free Crypto Copy Invest Account.")}
+                </Text>
               </Timeline.Item>
               <Timeline.Item
                 bullet={<Title order={3}>3</Title>}
                 title={
                   <Title order={3} lineClamp={10}>
-                    Start copy trading and watch your portfolio grow!
+                    {t(
+                      "Start copy trading and watch your portfolio grow!",
+                    )}
                   </Title>
                 }
               >
-                <Text>Create a free OMTrade Account.</Text>
+                <Text>
+                  {t("Create a free Crypto Copy Invest Account.")}
+                </Text>
               </Timeline.Item>
             </Timeline>
           </Grid.Col>
@@ -613,9 +626,15 @@ function PartnerSection() {
 }
 
 export function Footer(props: Partial<{ metadata: Application }>) {
+  const t = useTranslation();
   const footer = useMemo<ApplicationFooter>(() => {
     return getFooter(props.metadata);
   }, [props.metadata]);
+
+  if (!props.metadata) {
+    return <></>;
+  }
+
   return (
     <footer>
       <Box py={40} className="footer">
@@ -633,7 +652,7 @@ export function Footer(props: Partial<{ metadata: Application }>) {
                 <AppLogo />
               </Group>
               <Flex gap={10} mt={30}>
-                {footer.socials.map((s, i) => (
+                {footer.socials?.map((s, i) => (
                   <a
                     href={s.url ?? "/#"}
                     key={i}
@@ -655,7 +674,7 @@ export function Footer(props: Partial<{ metadata: Application }>) {
               }}
             >
               <Grid justify={"end"}>
-                {footer.groups.map((group, i) => (
+                {footer.groups?.map((group, i) => (
                   <Grid.Col
                     span={{
                       xs: 6,
@@ -665,7 +684,7 @@ export function Footer(props: Partial<{ metadata: Application }>) {
                     key={i}
                   >
                     <Title order={4} mb={14} c="primary">
-                      {group.name}
+                      {t(group.name)}
                     </Title>
                     <Group>
                       {group.links.map((link, i) => (
@@ -674,7 +693,7 @@ export function Footer(props: Partial<{ metadata: Application }>) {
                           key={i}
                           href={link.url || "/#"}
                         >
-                          <Text size="sm">{link.label}</Text>
+                          <Text size="sm">{t(link.label)}</Text>
                         </a>
                       ))}
                     </Group>
@@ -695,7 +714,7 @@ export function Footer(props: Partial<{ metadata: Application }>) {
               component="a"
               href={footer.termOfService.url}
             >
-              {footer.termOfService.label}
+              {t(footer.termOfService.label)}
             </Text>
             <Text
               className={"hoverlink"}
@@ -704,7 +723,7 @@ export function Footer(props: Partial<{ metadata: Application }>) {
               href={footer.privacyTerms.url}
               target="_blank"
             >
-              {footer.privacyTerms.label}
+              {t(footer.privacyTerms.label)}
             </Text>
           </Group>
         </Container>

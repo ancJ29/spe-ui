@@ -28,14 +28,17 @@ import {
   Timeline,
   Title,
 } from "@mantine/core";
+import {
+  IconChevronsRight,
+  IconCurrencyBitcoin,
+} from "@tabler/icons-react";
 import { useMemo } from "react";
-import { IconChevronsRight, IconCurrencyBitcoin } from "@tabler/icons-react";
 
-import classes from "./index.module.scss";
-import useTranslation from "@/hooks/useTranslation";
 import undraw_business_deal_re_up4u from "@/assets/images/undraw_business_deal_re_up4u.svg";
 import undraw_done_re_oak4 from "@/assets/images/undraw_done_re_oak4.svg";
 import undraw_product_iteration_kjok from "@/assets/images/undraw_product_iteration_kjok.svg";
+import useTranslation from "@/hooks/useTranslation";
+import classes from "./index.module.scss";
 
 import journey_detailed from "@/assets/images/journey/detailed.jpg";
 import journey_expertly from "@/assets/images/journey/expertly.jpg";
@@ -49,32 +52,18 @@ import partner_LayerBlack from "@/assets/images/partners/Layer-black.png";
 import partner_Meteorite from "@/assets/images/partners/Meteorite.png";
 import partner_Vector from "@/assets/images/partners/Vector.png";
 
-import { Link } from "react-router-dom";
-import { CardTrader } from "@/ui/CardCopyTrades";
 import { priceDisplay } from "@/common/utils";
+import { CardTrader } from "@/ui/CardCopyTrades";
 import NumberFormat from "@/ui/NumberFormat";
-
-
-
-type Gainer = {
-  id: string;
-  token: string;
-  quote: string;
-  base: string;
-  lastPrice: number;
-  change: number;
-  icon: string;
-};
+import { Link, useNavigate } from "react-router-dom";
 
 export default function TopPage() {
   const { data } = useMetadata();
-  const t = useTranslation();
 
   return (
     <>
       <Header metadata={data} />
       <Banner />
-      {/* <Announcement/> */}
       <SliderNotice />
 
       <Box
@@ -108,18 +97,24 @@ export default function TopPage() {
         </Container>
         <Space h={50} />
       </Box>
-      {data && <Footer metadata={data} />}
+      <Footer metadata={data} />
     </>
   );
 }
 
 function Banner() {
   const t = useTranslation();
+  const navigate = useNavigate();
   return (
     <>
       <Box className="banner" py={40}>
         <Container>
-          <Flex gap={"xl"} align={"center"} className="banner--box" justify={"space-between"}>
+          <Flex
+            gap={"xl"}
+            align={"center"}
+            className="banner--box"
+            justify={"space-between"}
+          >
             <Box maw={"50%"} w={"100%"}>
               <Box>
                 <Text fz={"55px"} pb={10} c={"white"} fw={"bolder"}>
@@ -133,12 +128,23 @@ function Banner() {
               <Space my={"md"} />
               <Grid w={"fit-content"} gutter={0}>
                 <Grid.Col span={6}>
-                  <AppButton size="xl" radius={"xl"}>
+                  <AppButton
+                    size="xl"
+                    radius={"xl"}
+                    onClick={() =>
+                      navigate("/trade/futures/BTC/USDT")
+                    }
+                  >
                     {t("Trade Now")}
                   </AppButton>
                 </Grid.Col>
                 <Grid.Col span={6}>
-                  <AppButton size="xl" radius={"xl"} variant="outline">
+                  <AppButton
+                    size="xl"
+                    radius={"xl"}
+                    variant="outline"
+                    onClick={() => navigate("/copy-trading")}
+                  >
                     {t("Copy Traders")}
                   </AppButton>
                 </Grid.Col>
@@ -169,7 +175,6 @@ function Banner() {
   );
 }
 
-
 function SliderNotice() {
   const t = useTranslation();
   return (
@@ -179,10 +184,14 @@ function SliderNotice() {
           <Group align="center" h="100%">
             <MarqueeList>
               <Text fw={700} px={10} c="black">
-                {t("Yahoo Finance: OMTrade Announces Seed Round Funding")}
+                {t(
+                  "Yahoo Finance: Crypto Copy Invest Announces Seed Round Funding",
+                )}
               </Text>
               <Text fw={700} px={10} c="black">
-                {t("Important Notice: Migration from OM Trade to CryptoCopyInvest")}
+                {t(
+                  "Important Notice: Migration from OM Trade to CryptoCopyInvest",
+                )}
               </Text>
             </MarqueeList>
           </Group>
@@ -193,8 +202,7 @@ function SliderNotice() {
 }
 
 function SliderCoins() {
-  const t = useTranslation();
-  const getPercent = () => Math.random() * (145 - (-35)) + (-35);
+  const getPercent = () => Math.random() * (145 - -35) + -35;
   const data = [
     ["SOL/USDT", 172.156, getPercent()],
     ["DOGE/USDT", 0.12902, getPercent()],
@@ -203,7 +211,7 @@ function SliderCoins() {
     ["MATIC/USDT", 0.5219, getPercent()],
     ["TRX/USDT", 0.13289, getPercent()],
     ["BTC/USDT", 65878.56, getPercent()],
-    ["ETH/USDT", 3411.23, getPercent()]
+    ["ETH/USDT", 3411.23, getPercent()],
   ];
   return (
     <>
@@ -213,14 +221,19 @@ function SliderCoins() {
           <MarqueeList>
             {data.map(([i, price, p], index) => (
               <Text key={index} fw={700} px={10} c={"white"}>
-                {i} <Text component="span" c={priceDisplay(price).color}>{price}</Text>
-                (<Text component="span" c={priceDisplay(p).color}><NumberFormat
-                  prefix={
-                    priceDisplay(p).isZero ? "" : priceDisplay(p).lt ? "+" : "-"
-                  }
-                  suffix="%"
-                  value={p}
-                                                                  /></Text>)
+                {i}{" "}
+                <Text component="span" c={priceDisplay(price).color}>
+                  {price}
+                </Text>
+                (
+                <Text component="span" c={priceDisplay(p).color}>
+                  <NumberFormat
+                    prefix={priceDisplay(p).sub}
+                    suffix="%"
+                    value={p}
+                  />
+                </Text>
+                )
               </Text>
             ))}
           </MarqueeList>
@@ -235,14 +248,16 @@ function CardsIntro() {
   return (
     <>
       <Space my={"xl"} />
-      <Title order={1} ta={"center"}>{t("Discover More Opportunities")}</Title>
+      <Title order={1} ta={"center"}>
+        {t("Discover More Opportunities")}
+      </Title>
       <Space my={"xl"} />
       <SimpleGrid
         cols={3}
         styles={{
           root: {
-            gap: "40px"
-          }
+            gap: "40px",
+          },
         }}
       >
         <Card radius="md">
@@ -260,11 +275,17 @@ function CardsIntro() {
               component={Title}
               order={4}
             >
-              {t("Invite friends and earn up to 40% commission for every trade they make in OMTRADE")}
+              {t(
+                "Invite friends and earn up to 40% commission for every trade they make in %s",
+                "Crypto Copy Invest",
+              )}
             </Highlight>
             <Space my={"md"} />
             <Box mt={"auto"}>
-              <Button variant="gradient" gradient={{ from: "primary", to: "yellow", deg: 90 }}>
+              <Button
+                variant="gradient"
+                gradient={{ from: "primary", to: "yellow", deg: 90 }}
+              >
                 {t("Start Inviting")}
                 <IconChevronsRight size={18} />
               </Button>
@@ -286,11 +307,16 @@ function CardsIntro() {
               component={Title}
               order={4}
             >
-              {t("Earn up to 10% profit sharing efforlessly with the Promoter referral link")}
+              {t(
+                "Earn up to 10% profit sharing effortlessly with the Promoter referral link",
+              )}
             </Highlight>
             <Space my={"md"} />
             <Box mt={"auto"}>
-              <Button variant="gradient" gradient={{ from: "primary", to: "yellow", deg: 90 }}>
+              <Button
+                variant="gradient"
+                gradient={{ from: "primary", to: "yellow", deg: 90 }}
+              >
                 {t("Find Out More")}
                 <IconChevronsRight size={18} />
               </Button>
@@ -312,11 +338,16 @@ function CardsIntro() {
               component={Title}
               order={4}
             >
-              {t("Seamlessly follow expert strategies! Maximize your profit with our COPY TRADING feature")}
+              {t(
+                "Seamlessly follow expert strategies! Maximize your profit with our COPY TRADING feature",
+              )}
             </Highlight>
             <Space my={"md"} />
             <Box mt={"auto"} component={Link} to={"/copy-trading"}>
-              <Button variant="gradient" gradient={{ from: "primary", to: "yellow", deg: 90 }}>
+              <Button
+                variant="gradient"
+                gradient={{ from: "primary", to: "yellow", deg: 90 }}
+              >
                 {t("Copy Now")}
                 <IconChevronsRight size={18} />
               </Button>
@@ -329,6 +360,8 @@ function CardsIntro() {
 }
 
 function QuickStart() {
+  const t = useTranslation();
+
   return (
     <>
       <Card radius={"lg"} py={60}>
@@ -336,7 +369,7 @@ function QuickStart() {
           <Grid.Col span={6}>
             <Center h={"100%"}>
               <Box>
-                <Title order={1}>Get Started in Minutes</Title>
+                <Title order={1}>{t("Get Started in Minutes")}</Title>
                 <Space h={30} />
                 <Group justify="center">
                   <AppButton
@@ -344,7 +377,7 @@ function QuickStart() {
                     loaderProps={{ type: "bars" }}
                     instancetype="WithRightIcon"
                   >
-                    Start Now
+                    {t("Start Now")}
                   </AppButton>
                 </Group>
               </Box>
@@ -356,33 +389,42 @@ function QuickStart() {
                 bullet={<Title order={3}>1</Title>}
                 title={
                   <Title order={3} lineClamp={10}>
-                    Create a free OMTrade Account.{" "}
+                    {t("Create a free Crypto Copy Invest Account.")}{" "}
                   </Title>
                 }
               >
-                <Text>Create a free OMTrade Account.</Text>
+                <Text>
+                  {t("Create a free Crypto Copy Invest Account.")}
+                </Text>
               </Timeline.Item>
 
               <Timeline.Item
                 bullet={<Title order={3}>2</Title>}
                 title={
                   <Title order={3} lineClamp={10}>
-                    Find master traders that best serve your financial
-                    goals.
+                    {t(
+                      "Find master traders that best serve your financial goals.",
+                    )}
                   </Title>
                 }
               >
-                <Text>Create a free OMTrade Account.</Text>
+                <Text>
+                  {t("Create a free Crypto Copy Invest Account.")}
+                </Text>
               </Timeline.Item>
               <Timeline.Item
                 bullet={<Title order={3}>3</Title>}
                 title={
                   <Title order={3} lineClamp={10}>
-                    Start copy trading and watch your portfolio grow!
+                    {t(
+                      "Start copy trading and watch your portfolio grow!",
+                    )}
                   </Title>
                 }
               >
-                <Text>Create a free OMTrade Account.</Text>
+                <Text>
+                  {t("Create a free Crypto Copy Invest Account.")}
+                </Text>
               </Timeline.Item>
             </Timeline>
           </Grid.Col>
@@ -404,13 +446,19 @@ function WhyCopyTradingSection() {
         <SimpleGrid cols={3}>
           <Box ta={"center"}>
             <Flex align={"center"} h={200}>
-              <Image mx={"auto"} w={200} src={undraw_product_iteration_kjok} />
+              <Image
+                mx={"auto"}
+                w={200}
+                src={undraw_product_iteration_kjok}
+              />
             </Flex>
             <Space my={"md"} />
             <Title order={2}>{t("Simple")}</Title>
             <Space my={"md"} />
             <Text>
-              {t("Identify pro traders aligned with your goals effortlessly and automatically copy their moves.")}
+              {t(
+                "Identify pro traders aligned with your goals effortlessly and automatically copy their moves.",
+              )}
             </Text>
           </Box>
           <Box ta={"center"}>
@@ -418,25 +466,29 @@ function WhyCopyTradingSection() {
               <Image mx={"auto"} w={200} src={undraw_done_re_oak4} />
             </Flex>
             <Space my={"md"} />
-            <Title order={2}>
-              {t("Success")}
-            </Title>
+            <Title order={2}>{t("Success")}</Title>
             <Space my={"md"} />
             <Text>
-              {t("Make smarter trades with insights from industry pros, giving you an edge in the market.")}
+              {t(
+                "Make smarter trades with insights from industry pros, giving you an edge in the market.",
+              )}
             </Text>
           </Box>
           <Box ta={"center"}>
             <Flex align={"center"} h={200}>
-              <Image mx={"auto"} w={200} src={undraw_business_deal_re_up4u} />
+              <Image
+                mx={"auto"}
+                w={200}
+                src={undraw_business_deal_re_up4u}
+              />
             </Flex>
             <Space my={"md"} />
             <Title order={2}>{t("Secure")}</Title>
             <Space my={"md"} />
             <Text>
-              {
-                t("Learn from the best, observe their strategies, and dive into the community with confidence.")
-              }
+              {t(
+                "Learn from the best, observe their strategies, and dive into the community with confidence.",
+              )}
             </Text>
           </Box>
         </SimpleGrid>
@@ -462,7 +514,9 @@ function JourneySection() {
             }
           >
             <Text c="dimmed" size="sm">
-              {t("Dream big and score fast wins with a day-trader? Or grow your portfolio steadily with a long-term investment fund? No problem, OMTrade welcomes users of any approach, any level, and any budget.")}
+              {t(
+                "Dream big and score fast wins with a day-trader? Or grow your portfolio steadily with a long-term investment fund? No problem, Crypto Copy Invest welcomes users of any approach, any level, and any budget.",
+              )}
             </Text>
             <Box>
               <Image maw={300} mx={"auto"} src={journey_unlimited} />
@@ -476,7 +530,7 @@ function JourneySection() {
             }
           >
             <Text c="dimmed" size="sm">
-              {t(`OMTrade revolutionized copy trading: you can now pool money with other investors into a fund directly managed by a skilled trader of your choice.
+              {t(`Crypto Copy Invest revolutionized copy trading: you can now pool money with other investors into a fund directly managed by a skilled trader of your choice.
 The trader receives a percentage of the profits they earn based on monthly high watermarks, incentivizing patient investments that benefit everyone.`)}
             </Text>
             <Box>
@@ -486,12 +540,12 @@ The trader receives a percentage of the profits they earn based on monthly high 
 
           <Timeline.Item
             bullet={<IconCurrencyBitcoin size={20} />}
-            title={
-              <Title order={2}>{t("Detailed Analytics")}</Title>
-            }
+            title={<Title order={2}>{t("Detailed Analytics")}</Title>}
           >
             <Text c="dimmed" size="sm">
-              {t("Dive into OMTrade's powerful copytrading dashboard. Discover, explore, and evaluate the best traders in the industry. Use key metrics to compare traders side-by-side to find your perfect match.")}
+              {t(
+                "Dive into Crypto Copy Invest's powerful copy trading dashboard. Discover, explore, and evaluate the best traders in the industry. Use key metrics to compare traders side-by-side to find your perfect match.",
+              )}
             </Text>
             <Box>
               <Image maw={300} mx={"auto"} src={journey_detailed} />
@@ -499,12 +553,12 @@ The trader receives a percentage of the profits they earn based on monthly high 
           </Timeline.Item>
           <Timeline.Item
             bullet={<IconCurrencyBitcoin size={20} />}
-            title={
-              <Title order={2}>{t("Total Transparency")}</Title>
-            }
+            title={<Title order={2}>{t("Total Transparency")}</Title>}
           >
             <Text c="dimmed" size="sm">
-              {t("No hidden fees, no tricky fine print, and no complicated liquidation windows. OMTrade makes copy trading straightforward and transparent. Access easily available trader information, clear rules, and a suite of tools for informed, data-driven decisions.")}
+              {t(
+                "No hidden fees, no tricky fine print, and no complicated liquidation windows. Crypto Copy Invest makes copy trading straightforward and transparent. Access easily available trader information, clear rules, and a suite of tools for informed, data-driven decisions.",
+              )}
             </Text>
             <Box>
               <Image maw={300} mx={"auto"} src={journey_total} />
@@ -522,12 +576,13 @@ function TrendingTraders() {
   return (
     <div>
       <Card radius={"lg"} py={60}>
-        <Title order={1} ta={"center"}>{t("Trending traders")}</Title>
+        <Title order={1} ta={"center"}>
+          {t("Trending traders")}
+        </Title>
         <Title order={5} ta={"center"}>
-          {
-            t("Find your favorite master. Invest along the best. It's simple - when they profit, you do too.")
-          }
-
+          {t(
+            "Find your favorite master. Invest along the best. It's simple - when they profit, you do too.",
+          )}
         </Title>
 
         <Card>
@@ -540,7 +595,12 @@ function TrendingTraders() {
           </MarqueeList>
         </Card>
         <Flex justify={"center"}>
-          <AppButton instancetype="WithRightIcon" size="md" variant="gradient" gradient={{ from: "primary", to: "yellow", deg: 90 }}>
+          <AppButton
+            instancetype="WithRightIcon"
+            size="md"
+            variant="gradient"
+            gradient={{ from: "primary", to: "yellow", deg: 90 }}
+          >
             {t("View All Masters")}
           </AppButton>
         </Flex>
@@ -573,10 +633,14 @@ function PartnerSection() {
   );
 }
 
-export function Footer(props: Partial<{ metadata: Application }>) {
+export function Footer(props: Partial<{ metadata?: Application }>) {
+  const t = useTranslation();
   const footer = useMemo<ApplicationFooter>(() => {
     return getFooter(props.metadata);
   }, [props.metadata]);
+  if (!props.metadata) {
+    return <></>;
+  }
   return (
     <footer>
       <Box py={40} className="footer">
@@ -594,7 +658,7 @@ export function Footer(props: Partial<{ metadata: Application }>) {
                 <AppLogo />
               </Group>
               <Flex gap={10} mt={30}>
-                {footer.socials.map((s, i) => (
+                {footer.socials?.map((s, i) => (
                   <a
                     href={s.url ?? "/#"}
                     key={i}
@@ -616,7 +680,7 @@ export function Footer(props: Partial<{ metadata: Application }>) {
               }}
             >
               <Grid justify={"end"}>
-                {footer.groups.map((group, i) => (
+                {footer.groups?.map((group, i) => (
                   <Grid.Col
                     span={{
                       xs: 6,
@@ -626,7 +690,7 @@ export function Footer(props: Partial<{ metadata: Application }>) {
                     key={i}
                   >
                     <Title order={4} mb={14} c="primary">
-                      {group.name}
+                      {t(group.name)}
                     </Title>
                     <Group>
                       {group.links.map((link, i) => (
@@ -635,7 +699,7 @@ export function Footer(props: Partial<{ metadata: Application }>) {
                           key={i}
                           href={link.url || "/#"}
                         >
-                          <Text size="sm">{link.label}</Text>
+                          <Text size="sm">{t(link.label)}</Text>
                         </a>
                       ))}
                     </Group>
@@ -656,7 +720,7 @@ export function Footer(props: Partial<{ metadata: Application }>) {
               component="a"
               href={footer.termOfService.url}
             >
-              {footer.termOfService.label}
+              {t(footer.termOfService.label)}
             </Text>
             <Text
               className={"hoverlink"}
@@ -665,7 +729,7 @@ export function Footer(props: Partial<{ metadata: Application }>) {
               href={footer.privacyTerms.url}
               target="_blank"
             >
-              {footer.privacyTerms.label}
+              {t(footer.privacyTerms.label)}
             </Text>
           </Group>
         </Container>

@@ -116,7 +116,7 @@ export function TopBar({
           <Flex align={"center"} gap={20}>
             <div>
               <AppText instancetype="withPriceTextStatus">
-                {t("24H Change %")}
+                {t("24H Change")}(%)
               </AppText>
               <AppText
                 instancetype="WithTextSubtitle"
@@ -304,7 +304,7 @@ export function TopBar({
               <Flex align={"center"} gap={20}>
                 <div>
                   <AppText instancetype="withPriceTextStatus">
-                    {t("24H Change %")}
+                    {t("24H Change")}(%)
                   </AppText>
                   <AppText
                     instancetype="WithTextSubtitle"

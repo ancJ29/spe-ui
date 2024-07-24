@@ -72,7 +72,6 @@ const componentMap: Record<string, LazyExoticComponent> = {
 
 const configs: Config[] = [
   {
-
     path: "/",
     element: "TopPageInvest",
     wrapper: "ServiceWrapper",
@@ -282,7 +281,7 @@ const configs: Config[] = [
     element: "Inquiry",
     wrapper: "ServiceWrapper",
   },
-  
+
   {
     path: "/*",
     element: "BlankPage",

@@ -27,6 +27,10 @@ export enum UserUpdateType {
   UPDATE_ANTI_PHISHING_CODE = "UPDATE_ANTI_PHISHING_CODE",
 }
 
+export enum ImageType {
+  AVATAR = "AVATAR",
+}
+
 export type GenericObject = Record<string, unknown>;
 
 export type SPENumber = string | number;
