@@ -46,7 +46,7 @@ const Page = () => {
             <Box w={"100%"}>
               <Card radius={"lg"} p={"xl"} w={500}>
                 <Title order={3} style={{ textAlign: "center" }}>
-                  {t("Reset Password to Simple Exchange!")}
+                  {t("Reset Password")}
                 </Title>
                 <Space h={30} />
                 <AppForm

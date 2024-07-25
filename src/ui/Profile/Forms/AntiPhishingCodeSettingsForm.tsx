@@ -56,7 +56,8 @@ export function AntiPhishingCodeSettingsModal() {
             icon={<IconInfoCircle />}
           >
             {t(
-              "Your unique Anti-Phishing Code will be displayed on all Crypto Copy Invest emails.",
+              "Your unique Anti-Phishing Code will be displayed on all %s emails.",
+              localStorage.__APP_NAME__,
             )}
           </Alert>
           <TextInput

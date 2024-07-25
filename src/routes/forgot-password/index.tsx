@@ -14,10 +14,11 @@ import {
 } from "@mantine/core";
 import { convertToForgotPasswordFormData } from "./config";
 import classes from "./index.module.scss";
+import { useNavigate } from "react-router-dom";
 
 const Page = () => {
   const t = useTranslation();
-
+  const navigate = useNavigate();
   return (
     <>
       <Header />
@@ -27,7 +28,7 @@ const Page = () => {
             <Box w={"100%"}>
               <Card radius={"lg"} p={"xl"} w={500}>
                 <Title order={3} style={{ textAlign: "center" }}>
-                  {t("Forgot Password Simple Exchange!")}
+                  {t("Send my password reset code")}
                 </Title>
                 <Space h={30} />
                 <AppForm
@@ -38,6 +39,9 @@ const Page = () => {
                   msgSuccess="You have successfully submitted a password change request."
                   api="/api/password/forgot"
                   formDataConverter={convertToForgotPasswordFormData}
+                  onSubmit={() => {
+                    navigate("/reset-password");
+                  }}
                   messages={{
                     titleSuccess: t(
                       "Account Registration Successful",

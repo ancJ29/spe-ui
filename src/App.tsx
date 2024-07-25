@@ -4,7 +4,7 @@ import { resolver, theme } from "@/styles/theme/mantine-theme";
 import { Loader, MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { RouteObject, useRoutes } from "react-router-dom";
 import { useBoolean } from "usehooks-ts";
 import useSPEInterval from "./hooks/useSPEInterval";
@@ -29,15 +29,24 @@ async function _getMe(retry = 3) {
     throw e;
   }
 }
+
 const App = () => {
+  const [loading, setLoading] = useState(true);
   const { value: loaded, setTrue } = useBoolean(false);
 
   useSPEInterval(_loadPrices, 10e3, true);
 
   useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 300);
+  }, []);
+
+  useEffect(() => {
     if (loaded) {
       return;
     }
+    localStorage.__APP_NAME__ = "Crypto Copy Invest";
     if (localStorage.__TOKEN__) {
       _getMe()
         .catch((e) => {
@@ -67,6 +76,20 @@ const App = () => {
       cssVariablesResolver={resolver}
       defaultColorScheme="dark"
     >
+      {loading && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+            width: "100vw",
+            opacity: 0.8,
+          }}
+        >
+          <Loader />
+        </div>
+      )}
       <ModalsProvider>{useRoutes(routes)}</ModalsProvider>
       <Notifications />
     </MantineProvider>

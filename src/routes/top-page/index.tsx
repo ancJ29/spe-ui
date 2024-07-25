@@ -37,6 +37,7 @@ import {
   alpha,
 } from "@mantine/core";
 import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import classes from "./index.module.scss";
 
 type Gainer = {
@@ -528,6 +529,7 @@ function TrendingTraders() {
 
 function QuickStart() {
   const t = useTranslation();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -543,6 +545,7 @@ function QuickStart() {
                     size="xl"
                     loaderProps={{ type: "bars" }}
                     instancetype="WithRightIcon"
+                    onClick={() => navigate("/register")}
                   >
                     {t("Start Now")}
                   </AppButton>
@@ -556,12 +559,18 @@ function QuickStart() {
                 bullet={<Title order={3}>1</Title>}
                 title={
                   <Title order={3} lineClamp={10}>
-                    {t("Create a free Crypto Copy Invest Account.")}{" "}
+                    {t(
+                      "Create a free %s Account.",
+                      localStorage.__APP_NAME__,
+                    )}{" "}
                   </Title>
                 }
               >
                 <Text>
-                  {t("Create a free Crypto Copy Invest Account.")}
+                  {t(
+                    "Create a free %s Account.",
+                    localStorage.__APP_NAME__,
+                  )}
                 </Text>
               </Timeline.Item>
 
@@ -576,7 +585,10 @@ function QuickStart() {
                 }
               >
                 <Text>
-                  {t("Create a free Crypto Copy Invest Account.")}
+                  {t(
+                    "Create a free %s Account.",
+                    localStorage.__APP_NAME__,
+                  )}
                 </Text>
               </Timeline.Item>
               <Timeline.Item
@@ -590,7 +602,10 @@ function QuickStart() {
                 }
               >
                 <Text>
-                  {t("Create a free Crypto Copy Invest Account.")}
+                  {t(
+                    "Create a free %s Account.",
+                    localStorage.__APP_NAME__,
+                  )}
                 </Text>
               </Timeline.Item>
             </Timeline>
@@ -646,9 +661,6 @@ export function Footer(props: Partial<{ metadata: Application }>) {
               }}
             >
               <Group gap={10}>
-                {/* <Avatar variant='filled' color="primary" radius="xl" size={30}>SE</Avatar> */}
-                {/* <Image src={svgLogoLight} w={150} /> */}
-                {/* <Title order={4}>Simple Exchange</Title> */}
                 <AppLogo />
               </Group>
               <Flex gap={10} mt={30}>

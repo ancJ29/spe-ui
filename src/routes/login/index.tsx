@@ -26,7 +26,7 @@ const Login = () => {
             <Box w={"100%"}>
               <Card radius={"lg"} p={"xl"} w={500}>
                 <Title order={3} style={{ textAlign: "center" }}>
-                  {t("You're enjoy to Simple Exchange!")}
+                  {t("You're enjoy %s!", localStorage.__APP_NAME__)}
                 </Title>
                 <Space h={30} />
                 <AppForm

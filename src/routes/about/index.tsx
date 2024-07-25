@@ -51,7 +51,8 @@ export default function Page() {
           <Box mx={"auto"} maw={"70%"}>
             <Text ta={"center"}>
               {t(
-                "At Crypto Copy Invest, we stand by a powerful belief: financial power and freedom should be within everyone's reach. By uniting traders, influencers, and everyday users, we've built a system that levels the playing field, turning the dream of winning big into an achievable reality.",
+                "At %s, we stand by a powerful belief: financial power and freedom should be within everyone's reach. By uniting traders, influencers, and everyday users, we've built a system that levels the playing field, turning the dream of winning big into an achievable reality.",
+                localStorage.__APP_NAME__,
               )}
             </Text>
           </Box>
@@ -186,7 +187,8 @@ export default function Page() {
           <Space my={100} />
           <Text c={"white"}>
             {t(
-              "Crypto Copy Invest is the proud proprietor of a licensed Digital Currency Exchange (DCE) accredited by the Australian Transaction Reports and Analysis Centre (AUSTRAC), identified by registration number DCE100812987-001.",
+              "%s is the proud proprietor of a licensed Digital Currency Exchange (DCE) accredited by the Australian Transaction Reports and Analysis Centre (AUSTRAC), identified by registration number DCE100812987-001.",
+              localStorage.__APP_NAME__,
             )}
           </Text>
         </Container>

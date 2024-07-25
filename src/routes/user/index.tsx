@@ -351,7 +351,8 @@ export default function Page() {
                     </Text>
                     <Text fz={14} fw={400} c={"dimmed"}>
                       {t(
-                        "Protect your account from phishing attempts by ensuring that emails are only from Crypto Copy Invest.",
+                        "Protect your account from phishing attempts by ensuring that emails are only from %s",
+                        localStorage.__APP_NAME__,
                       )}
                     </Text>
                   </Box>

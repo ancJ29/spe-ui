@@ -175,8 +175,12 @@ function Banner() {
   );
 }
 
-function SliderNotice() {
+function SliderNotice({ display = false }: { display?: boolean }) {
   const t = useTranslation();
+
+  if (!display) {
+    return <></>;
+  }
   return (
     <>
       <Box h={52} className={classes.contentmarquee}>
@@ -184,15 +188,13 @@ function SliderNotice() {
           <Group align="center" h="100%">
             <MarqueeList>
               <Text fw={700} px={10} c="black">
-                {t(
-                  "Yahoo Finance: Crypto Copy Invest Announces Seed Round Funding",
-                )}
+                {t("Yahoo Finance: %s Announces Seed Round Funding")}
               </Text>
-              <Text fw={700} px={10} c="black">
+              {/* <Text fw={700} px={10} c="black">
                 {t(
                   "Important Notice: Migration from OM Trade to CryptoCopyInvest",
                 )}
-              </Text>
+              </Text> */}
             </MarqueeList>
           </Group>
         </Container>
@@ -201,45 +203,46 @@ function SliderNotice() {
   );
 }
 
-function SliderCoins() {
-  const getPercent = () => Math.random() * (145 - -35) + -35;
-  const data = [
-    ["SOL/USDT", 172.156, getPercent()],
-    ["DOGE/USDT", 0.12902, getPercent()],
-    ["AAVE/USDT", 92.39, getPercent()],
-    ["ATOM/USDT", 6.116, getPercent()],
-    ["MATIC/USDT", 0.5219, getPercent()],
-    ["TRX/USDT", 0.13289, getPercent()],
-    ["BTC/USDT", 65878.56, getPercent()],
-    ["ETH/USDT", 3411.23, getPercent()],
-  ];
-  return (
-    <>
-      <Box h={52} bg={"dark"} c={"white"}>
-        <Group align="center" h="100%">
-          {/* DOGE/USDT 0.12902 (-7.57%) */}
-          <MarqueeList>
-            {data.map(([i, price, p], index) => (
-              <Text key={index} fw={700} px={10} c={"white"}>
-                {i}{" "}
-                <Text component="span" c={priceDisplay(price).color}>
-                  {price}
-                </Text>
-                (
-                <Text component="span" c={priceDisplay(p).color}>
-                  <NumberFormat
-                    prefix={priceDisplay(p).sub}
-                    suffix="%"
-                    value={p}
-                  />
-                </Text>
-                )
+const getPercent = () => Math.random() * (145 - -35) + -35;
+const sliderCoinsData = [
+  ["SOL/USDT", 172.156, getPercent()],
+  ["DOGE/USDT", 0.12902, getPercent()],
+  ["AAVE/USDT", 92.39, getPercent()],
+  ["ATOM/USDT", 6.116, getPercent()],
+  ["MATIC/USDT", 0.5219, getPercent()],
+  ["TRX/USDT", 0.13289, getPercent()],
+  ["BTC/USDT", 65878.56, getPercent()],
+  ["ETH/USDT", 3411.23, getPercent()],
+];
+
+function SliderCoins({ display = false }: { display?: boolean }) {
+  return !display ? (
+    <></>
+  ) : (
+    <Box h={52} bg={"dark"} c={"white"}>
+      <Group align="center" h="100%">
+        {/* DOGE/USDT 0.12902 (-7.57%) */}
+        <MarqueeList>
+          {sliderCoinsData.map(([i, price, p], index) => (
+            <Text key={index} fw={700} px={10} c={"white"}>
+              {i}{" "}
+              <Text component="span" c={priceDisplay(price).color}>
+                {price}
               </Text>
-            ))}
-          </MarqueeList>
-        </Group>
-      </Box>
-    </>
+              (
+              <Text component="span" c={priceDisplay(p).color}>
+                <NumberFormat
+                  prefix={priceDisplay(p).sub}
+                  suffix="%"
+                  value={p}
+                />
+              </Text>
+              )
+            </Text>
+          ))}
+        </MarqueeList>
+      </Group>
+    </Box>
   );
 }
 
@@ -277,7 +280,7 @@ function CardsIntro() {
             >
               {t(
                 "Invite friends and earn up to 40% commission for every trade they make in %s",
-                "Crypto Copy Invest",
+                localStorage.__APP_NAME__,
               )}
             </Highlight>
             <Space my={"md"} />
@@ -361,6 +364,7 @@ function CardsIntro() {
 
 function QuickStart() {
   const t = useTranslation();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -376,6 +380,7 @@ function QuickStart() {
                     size="xl"
                     loaderProps={{ type: "bars" }}
                     instancetype="WithRightIcon"
+                    onClick={() => navigate("/register")}
                   >
                     {t("Start Now")}
                   </AppButton>
@@ -389,12 +394,18 @@ function QuickStart() {
                 bullet={<Title order={3}>1</Title>}
                 title={
                   <Title order={3} lineClamp={10}>
-                    {t("Create a free Crypto Copy Invest Account.")}{" "}
+                    {t(
+                      "Create a free %s Account.",
+                      localStorage.__APP_NAME__,
+                    )}{" "}
                   </Title>
                 }
               >
                 <Text>
-                  {t("Create a free Crypto Copy Invest Account.")}
+                  {t(
+                    "Create a free %s Account.",
+                    localStorage.__APP_NAME__,
+                  )}
                 </Text>
               </Timeline.Item>
 
@@ -409,7 +420,10 @@ function QuickStart() {
                 }
               >
                 <Text>
-                  {t("Create a free Crypto Copy Invest Account.")}
+                  {t(
+                    "Create a free %s Account.",
+                    localStorage.__APP_NAME__,
+                  )}
                 </Text>
               </Timeline.Item>
               <Timeline.Item
@@ -423,7 +437,10 @@ function QuickStart() {
                 }
               >
                 <Text>
-                  {t("Create a free Crypto Copy Invest Account.")}
+                  {t(
+                    "Create a free %s Account.",
+                    localStorage.__APP_NAME__,
+                  )}
                 </Text>
               </Timeline.Item>
             </Timeline>
@@ -515,7 +532,7 @@ function JourneySection() {
           >
             <Text c="dimmed" size="sm">
               {t(
-                "Dream big and score fast wins with a day-trader? Or grow your portfolio steadily with a long-term investment fund? No problem, Crypto Copy Invest welcomes users of any approach, any level, and any budget.",
+                "Dream big and score fast wins with a day-trader? Or grow your portfolio steadily with a long-term investment fund? No problem, %s welcomes users of any approach, any level, and any budget.",
               )}
             </Text>
             <Box>
@@ -530,7 +547,7 @@ function JourneySection() {
             }
           >
             <Text c="dimmed" size="sm">
-              {t(`Crypto Copy Invest revolutionized copy trading: you can now pool money with other investors into a fund directly managed by a skilled trader of your choice.
+              {t(`%s revolutionized copy trading: you can now pool money with other investors into a fund directly managed by a skilled trader of your choice.
 The trader receives a percentage of the profits they earn based on monthly high watermarks, incentivizing patient investments that benefit everyone.`)}
             </Text>
             <Box>
@@ -544,7 +561,7 @@ The trader receives a percentage of the profits they earn based on monthly high 
           >
             <Text c="dimmed" size="sm">
               {t(
-                "Dive into Crypto Copy Invest's powerful copy trading dashboard. Discover, explore, and evaluate the best traders in the industry. Use key metrics to compare traders side-by-side to find your perfect match.",
+                "Dive into %s's powerful copy trading dashboard. Discover, explore, and evaluate the best traders in the industry. Use key metrics to compare traders side-by-side to find your perfect match.",
               )}
             </Text>
             <Box>
@@ -557,7 +574,7 @@ The trader receives a percentage of the profits they earn based on monthly high 
           >
             <Text c="dimmed" size="sm">
               {t(
-                "No hidden fees, no tricky fine print, and no complicated liquidation windows. Crypto Copy Invest makes copy trading straightforward and transparent. Access easily available trader information, clear rules, and a suite of tools for informed, data-driven decisions.",
+                "No hidden fees, no tricky fine print, and no complicated liquidation windows. %s makes copy trading straightforward and transparent. Access easily available trader information, clear rules, and a suite of tools for informed, data-driven decisions.",
               )}
             </Text>
             <Box>
@@ -652,9 +669,6 @@ export function Footer(props: Partial<{ metadata?: Application }>) {
               }}
             >
               <Group gap={10}>
-                {/* <Avatar variant='filled' color="primary" radius="xl" size={30}>SE</Avatar> */}
-                {/* <Image src={svgLogoLight} w={150} /> */}
-                {/* <Title order={4}>Simple Exchange</Title> */}
                 <AppLogo />
               </Group>
               <Flex gap={10} mt={30}>

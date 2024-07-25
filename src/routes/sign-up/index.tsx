@@ -84,6 +84,7 @@ const SignUp = () => {
           <Grid py={10}>
             <Grid.Col span={12}>
               <Alert
+                hidden
                 variant="filled"
                 color={isDark ? "dark" : "black"}
                 bg={isDark ? "dark" : "rgba(0, 0, 0, 0.3)"}
@@ -97,7 +98,10 @@ const SignUp = () => {
             <Grid.Col span={7}>
               <Card radius={"lg"} p={"xl"}>
                 <Title order={3}>
-                  {t("Never Miss a Beat, With Simple Exchange")}
+                  {t(
+                    "Never Miss a Beat, With %s",
+                    localStorage.__APP_NAME__,
+                  )}
                 </Title>
                 <Space h={30} />
                 <Card
@@ -169,7 +173,10 @@ const SignUp = () => {
               <Box w={"100%"}>
                 <Card radius={"lg"} p={"xl"}>
                   <Title order={3}>
-                    {t("You're invited to Simple Exchange!")}
+                    {t(
+                      "You're invited to %s!",
+                      localStorage.__APP_NAME__,
+                    )}
                   </Title>
                   <Space h={30} />
                   <AppForm
