@@ -775,7 +775,7 @@ function LoginOrRegister() {
 
 function More() {
   const t = useTranslation();
-  const debug = true;
+  const debug = false;
   if (debug) {
     return <></>;
   }

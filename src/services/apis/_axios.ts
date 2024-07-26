@@ -1,4 +1,6 @@
+import { IS_DEV } from "@/domain/config";
 import _axios from "axios";
+import logger from "../logger";
 
 const axios = _axios.create({
   baseURL:
@@ -14,6 +16,15 @@ axios.interceptors.request.use(
     const token = localStorage.__TOKEN__;
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    if (IS_DEV) {
+      logger.debug("Request", config);
+      if (config.params) {
+        config.params = {
+          ...config.params,
+          _path: config.url?.replace(/\//g, "_"),
+        };
+      }
     }
     return config;
   },

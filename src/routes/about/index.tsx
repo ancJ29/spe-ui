@@ -3,9 +3,7 @@ import svgLogoLight from "@/assets/images/logo_light.svg";
 import undraw_business_deal_re_up4u from "@/assets/images/undraw_business_deal_re_up4u.svg";
 import undraw_done_re_oak4 from "@/assets/images/undraw_done_re_oak4.svg";
 import undraw_product_iteration_kjok from "@/assets/images/undraw_product_iteration_kjok.svg";
-import useMetadata from "@/hooks/useMetadata";
 import useTranslation from "@/hooks/useTranslation";
-import { Header } from "@/ui/Header";
 import {
   Alert,
   Box,
@@ -19,7 +17,6 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { Footer } from "../top-page";
 
 import partner_FSL from "@/assets/images/partners/light/FSL.png";
 import partner_Isolation_Mode from "@/assets/images/partners/light/Isolation_Mode.png";
@@ -34,13 +31,16 @@ import partner_katman_1 from "@/assets/images/partners/light/katman_1.png";
 import partner_marketwatch from "@/assets/images/partners/light/marketwatch.png";
 
 import AboutImage from "@/assets/images/partners/light/about-image.png";
+import { useNavigate } from "react-router-dom";
 
-export default function Page() {
-  const { data } = useMetadata();
+const hidden = true;
+
+export default function About() {
   const t = useTranslation();
+  const navigate = useNavigate();
+
   return (
     <>
-      <Header metadata={data} />
       <Container>
         <Space my={"xl"} />
         <Box py={70}>
@@ -59,7 +59,7 @@ export default function Page() {
         </Box>
       </Container>
       <Box
-        mih={700}
+        mih={300}
         py={100}
         style={{
           background: `url(${AboutImage}) no-repeat 100% 0,linear-gradient(90deg,#f7b86c 0,#f18f14 95.7%)`,
@@ -85,106 +85,123 @@ export default function Page() {
               )}
             </Text>
           </SimpleGrid>
-          <Space my={60} />
-          <Title order={3} ta={"center"} c={"white"}>
-            {t("Our Investors")}
-          </Title>
-          <Flex gap={40} my={50} align={"center"}>
-            <Box
-              component="a"
-              href="https://fsl.com/"
-              target="_blank"
-            >
-              <Image src={partner_FSL} />
-            </Box>
-            <Box
-              component="a"
-              target="_blank"
-              href="https://www.folius.ventures/"
-            >
-              <Image src={partner_intro_backer2} />
-            </Box>
-            <Box
-              component="a"
-              target="_blank"
-              href="https://www.incuba.capital/"
-            >
-              <Image src={partner_intro_backer1} />
-            </Box>
-            <Box
-              component="a"
-              target="_blank"
-              href="https://www.meteoritelab.net/"
-            >
-              <Image src={partner_Meteorite} />
-            </Box>
-            <Box
-              component="a"
-              target="_blank"
-              href="https://www.kskangel.com/"
-            >
-              <Image src={partner_KSK} />
-            </Box>
-          </Flex>
-          <Space my={70} />
-          <Title order={3} ta={"center"} c={"white"}>
-            {t("As Featured in")}
-          </Title>
-          <SimpleGrid cols={3} my={"xl"}>
-            <Flex
-              align={"start"}
-              component="a"
-              target="_blank"
-              href="https://www.bloomberg.com/press-releases/2023-11-17/omtrade-announces-seed-round-funding-led-by-stepn-s-find-satoshi-lab-folius-ventures-and-incuba-alpha"
-            >
-              <Image mx={"auto"} w={200} src={partner_bloomberg} />
-            </Flex>
-            <Flex
-              align={"start"}
-              component="a"
-              target="_blank"
-              href="https://finance.yahoo.com/news/omtrade-announces-seed-round-funding-180000122.html?guccounter=1"
-            >
-              <Image mx={"auto"} w={200} src={partner_katman_1} />
-            </Flex>
-            <Flex
-              align={"start"}
-              component="a"
-              target="_blank"
-              href="https://www.morningstar.com/news/globe-newswire/8981598/omtrade-announces-seed-round-funding-led-by-stepns-find-satoshi-lab-folius-ventures-and-incuba-alpha"
-            >
-              <Image mx={"auto"} w={200} src={partner_Layer_1} />
-            </Flex>
-            <Flex
-              align={"end"}
-              component="a"
-              target="_blank"
-              href="https://www.marketwatch.com/press-release/omtrade-announces-seed-round-funding-led-by-stepn-s-find-satoshi-lab-folius-ventures-and-incuba-alpha-8b042b3b?mod=search_headline"
-            >
-              <Image mx={"auto"} w={200} src={partner_marketwatch} />
-            </Flex>
-            <Flex
-              align={"end"}
-              component="a"
-              target="_blank"
-              href="https://www.streetinsider.com/Globe+Newswire/Crypto Copy Invest+Announces+Seed+Round+Funding+Led+by+STEPN%E2%80%99s+Find+Satoshi+Lab%2C+Folius+Ventures%2C+and+Incuba+Alpha/22430575.html"
-            >
-              <Image mx={"auto"} w={200} src={partner_Rectangle} />
-            </Flex>
-            <Flex
-              align={"end"}
-              component="a"
-              target="_blank"
-              href="https://markets.businessinsider.com/news/stocks/omtrade-announces-seed-round-funding-led-by-stepn-s-find-satoshi-lab-folius-ventures-and-incuba-alpha-1032832450"
-            >
-              <Image
-                mx={"auto"}
-                w={200}
-                src={partner_Isolation_Mode}
-              />
-            </Flex>
-          </SimpleGrid>
-          <Space my={100} />
+          {!hidden && (
+            <>
+              <Space my={60} />
+              <Title order={3} ta={"center"} c={"white"}>
+                {t("Our Investors")}
+              </Title>
+              <Flex gap={40} my={50} align={"center"}>
+                <Box
+                  component="a"
+                  href="https://fsl.com/"
+                  target="_blank"
+                >
+                  <Image src={partner_FSL} />
+                </Box>
+                <Box
+                  component="a"
+                  target="_blank"
+                  href="https://www.folius.ventures/"
+                >
+                  <Image src={partner_intro_backer2} />
+                </Box>
+                <Box
+                  component="a"
+                  target="_blank"
+                  href="https://www.incuba.capital/"
+                >
+                  <Image src={partner_intro_backer1} />
+                </Box>
+                <Box
+                  component="a"
+                  target="_blank"
+                  href="https://www.meteoritelab.net/"
+                >
+                  <Image src={partner_Meteorite} />
+                </Box>
+                <Box
+                  component="a"
+                  target="_blank"
+                  href="https://www.kskangel.com/"
+                >
+                  <Image src={partner_KSK} />
+                </Box>
+              </Flex>
+              <Space my={70} />
+              <Title order={3} ta={"center"} c={"white"}>
+                {t("As Featured in")}
+              </Title>
+              <SimpleGrid cols={3} my={"xl"}>
+                <Flex
+                  align={"start"}
+                  component="a"
+                  target="_blank"
+                  href="https://www.bloomberg.com/press-releases/2023-11-17/omtrade-announces-seed-round-funding-led-by-stepn-s-find-satoshi-lab-folius-ventures-and-incuba-alpha"
+                >
+                  <Image
+                    mx={"auto"}
+                    w={200}
+                    src={partner_bloomberg}
+                  />
+                </Flex>
+                <Flex
+                  align={"start"}
+                  component="a"
+                  target="_blank"
+                  href="https://finance.yahoo.com/news/omtrade-announces-seed-round-funding-180000122.html?guccounter=1"
+                >
+                  <Image mx={"auto"} w={200} src={partner_katman_1} />
+                </Flex>
+                <Flex
+                  align={"start"}
+                  component="a"
+                  target="_blank"
+                  href="https://www.morningstar.com/news/globe-newswire/8981598/omtrade-announces-seed-round-funding-led-by-stepns-find-satoshi-lab-folius-ventures-and-incuba-alpha"
+                >
+                  <Image mx={"auto"} w={200} src={partner_Layer_1} />
+                </Flex>
+                <Flex
+                  align={"end"}
+                  component="a"
+                  target="_blank"
+                  href="https://www.marketwatch.com/press-release/omtrade-announces-seed-round-funding-led-by-stepn-s-find-satoshi-lab-folius-ventures-and-incuba-alpha-8b042b3b?mod=search_headline"
+                >
+                  <Image
+                    mx={"auto"}
+                    w={200}
+                    src={partner_marketwatch}
+                  />
+                </Flex>
+                <Flex
+                  align={"end"}
+                  component="a"
+                  target="_blank"
+                  href="https://www.streetinsider.com/Globe+Newswire/Crypto Copy Invest+Announces+Seed+Round+Funding+Led+by+STEPN%E2%80%99s+Find+Satoshi+Lab%2C+Folius+Ventures%2C+and+Incuba+Alpha/22430575.html"
+                >
+                  <Image
+                    mx={"auto"}
+                    w={200}
+                    src={partner_Rectangle}
+                  />
+                </Flex>
+                <Flex
+                  align={"end"}
+                  component="a"
+                  target="_blank"
+                  href="https://markets.businessinsider.com/news/stocks/omtrade-announces-seed-round-funding-led-by-stepn-s-find-satoshi-lab-folius-ventures-and-incuba-alpha-1032832450"
+                >
+                  <Image
+                    mx={"auto"}
+                    w={200}
+                    src={partner_Isolation_Mode}
+                  />
+                </Flex>
+              </SimpleGrid>
+              <Space my={100} />
+            </>
+          )}
+
           <Text c={"white"}>
             {t(
               "%s is the proud proprietor of a licensed Digital Currency Exchange (DCE) accredited by the Australian Transaction Reports and Analysis Centre (AUSTRAC), identified by registration number DCE100812987-001.",
@@ -202,13 +219,13 @@ export default function Page() {
                 "Join us on this journey towards financial empowerment.",
               )}
             </Title>
-            <Button>{t("Register Now")}</Button>
+            <Button onClick={() => navigate("/register")}>
+              {t("Register Now")}
+            </Button>
           </Flex>
         </Alert>
       </Container>
       <Space my={"xl"} />
-
-      <Footer metadata={data} />
     </>
   );
 }

@@ -2,7 +2,6 @@ import { Application } from "@/common/types";
 import { fetch } from "@/services/apis";
 import { useEffect, useState } from "react";
 
-
 export default function useMetadata() {
   const [data, setData] = useState<Application>();
 
@@ -18,6 +17,6 @@ export default function useMetadata() {
       localStorage.__INFORMATION__ = JSON.stringify(data);
       setData(data);
     });
-  });
+  }, []);
   return { data };
 }

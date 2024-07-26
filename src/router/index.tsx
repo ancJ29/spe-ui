@@ -55,7 +55,6 @@ const componentMap: Record<string, LazyExoticComponent> = {
   MasterPositions: lazy(() => import("@/routes/copy/master-positions")),
   FollowerPositions: lazy(() => import("@/routes/copy/followers-positions")),
   MasterOrders: lazy(() => import("@/routes/copy/master-orders")),
-  MasterPromoters: lazy(() => import("@/routes/copy/master-promoters")),
   MasterTransactions: lazy(() => import("@/routes/copy/master-transactions")),
   MyTraders: lazy(() => import("@/routes/copy/my-traders")),
   MyPositions: lazy(() => import("@/routes/copy/my-positions")),
@@ -67,7 +66,7 @@ const componentMap: Record<string, LazyExoticComponent> = {
   KYC: lazy(() => import("@/routes/user-kyc")),
   ModifyPassword: lazy(() => import("@/routes/user-modify-password")),
   Inquiry: lazy(() => import("@/routes/inquiry")),
-  
+
 };
 
 const configs: Config[] = [
@@ -76,12 +75,6 @@ const configs: Config[] = [
     element: "TopPageInvest",
     wrapper: "ServiceWrapper",
   },
-  // {
-  //   path: "/copy-trading",
-
-  //   element: "CopyTrade",
-  //   wrapper: "ServiceWrapper",
-  // },
   {
     path: "/copy-trading",
     element: "CopyTradeInvest",
@@ -189,12 +182,6 @@ const configs: Config[] = [
     authOnly: true,
   },
   {
-    path: "/copy/master/promoters",
-    element: "MasterPromoters",
-    wrapper: "CopyTradeWrapper",
-    authOnly: true,
-  },
-  {
     path: "/copy/master/transactions",
     element: "MasterTransactions",
     wrapper: "CopyTradeWrapper",
@@ -285,7 +272,6 @@ const configs: Config[] = [
   {
     path: "/*",
     element: "BlankPage",
-
     wrapper: "ServiceWrapper",
   },
 ];

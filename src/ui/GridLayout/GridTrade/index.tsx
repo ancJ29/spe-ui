@@ -15,6 +15,7 @@ import { DepositForm, SwapForm, TransferForm } from "@/ui/Wallet";
 import {
   ActionIcon,
   Box,
+  Button,
   Flex,
   Grid,
   InputLabel,
@@ -35,9 +36,63 @@ import "react-resizable/css/styles.css";
 import { OrderBook, TabsOfTradeHistory, TopBar } from "../components";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
-const initialLayouts =
-  // prettier-ignore
-  "{\"lg\":[{\"x\":4,\"y\":0,\"w\":2,\"h\":5,\"i\":\"0\",\"static\":false},{\"x\":8,\"y\":0,\"w\":2,\"h\":5,\"i\":\"1\",\"static\":false},{\"x\":6,\"y\":0,\"w\":2,\"h\":4,\"i\":\"2\",\"static\":false}],\"md\":[{\"w\":7,\"h\":12,\"x\":0,\"y\":0,\"i\":\"0\",\"moved\":false,\"static\":false},{\"w\":3,\"h\":12,\"x\":7,\"y\":0,\"i\":\"1\",\"moved\":false,\"static\":false},{\"w\":10,\"h\":8,\"x\":0,\"y\":12,\"i\":\"2\",\"moved\":false,\"static\":false}]}";
+const initialLayouts = {
+  lg: [
+    {
+      x: 4,
+      y: 0,
+      w: 2,
+      h: 5,
+      i: "0",
+      static: false,
+    },
+    {
+      x: 8,
+      y: 0,
+      w: 2,
+      h: 5,
+      i: "1",
+      static: false,
+    },
+    {
+      x: 6,
+      y: 0,
+      w: 2,
+      h: 4,
+      i: "2",
+      static: false,
+    },
+  ],
+  md: [
+    {
+      w: 7,
+      h: 12,
+      x: 0,
+      y: 0,
+      i: "0",
+      moved: false,
+      static: false,
+    },
+    {
+      w: 3,
+      h: 12,
+      x: 7,
+      y: 0,
+      i: "1",
+      moved: false,
+      static: false,
+    },
+    {
+      w: 10,
+      h: 8,
+      x: 0,
+      y: 12,
+      i: "2",
+      moved: false,
+      static: false,
+    },
+  ],
+};
 
 export function GridTrade({
   base,
@@ -46,19 +101,28 @@ export function GridTrade({
   isSpot = false,
   isFuture = false,
 }: GridTradeProps) {
+  const t = useTranslation();
   const [layouts, setLayouts] = useState(
-    JSON.parse(
-      (localStorage.getItem("layoutTrade") as string) ??
-        initialLayouts,
-    ),
+    localStorage.__TRADE_LAYOUT__
+      ? JSON.parse(localStorage.__TRADE_LAYOUT__)
+      : initialLayouts,
   );
+
+  const [customLayout, setCustomLayout] = useState(
+    !localStorage.__TRADE_LAYOUT__ ||
+      localStorage.__TRADE_LAYOUT__ !==
+        JSON.stringify(initialLayouts),
+  );
+
   const onLayoutChange = useCallback(
-    (...res: unknown[]) => {
-      const [, layouts] = res;
-      setLayouts(layouts);
-      localStorage.setItem("layoutTrade", JSON.stringify(layouts));
+    (_: unknown, layouts: unknown) => {
+      if (layouts) {
+        setCustomLayout(true);
+        setLayouts(layouts);
+        localStorage.__TRADE_LAYOUT__ = JSON.stringify(layouts);
+      }
     },
-    [setLayouts],
+    [],
   );
 
   useSPEInterval(() => {
@@ -70,16 +134,37 @@ export function GridTrade({
     <Grid columns={24} gutter={4} p={4} key={symbol}>
       <Grid.Col span={19}>
         <Grid gutter={4}>
-          <Grid.Col>
+          <Grid.Col
+            style={{
+              position: "relative",
+            }}
+          >
             <TopBar
-              {...{
-                isFuture,
-                isSpot,
-                symbol,
-                base,
-                quote,
-              }}
+              isFuture={isFuture}
+              isSpot={isSpot}
+              symbol={symbol}
+              base={base}
+              quote={quote}
             />
+            <Button
+              variant="outline"
+              size="xs"
+              fz={10}
+              h={"15px"}
+              onClick={() => {
+                delete localStorage.__TRADE_LAYOUT__;
+                setLayouts(initialLayouts);
+                setCustomLayout(false);
+              }}
+              style={{
+                display: customLayout ? undefined : "none",
+                position: "absolute",
+                bottom: 2,
+                right: 0,
+              }}
+            >
+              {t("Reset layout")}
+            </Button>
           </Grid.Col>
           <Grid.Col>
             <ResponsiveReactGridLayout

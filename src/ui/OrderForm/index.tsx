@@ -1,4 +1,5 @@
 import { schema } from "@/domain/schema";
+import tradeStore from "@/store/trade";
 import { GridTradeProps } from "@/types";
 import AppForm from "@/ui/Form/Form";
 import { Box } from "@mantine/core";
@@ -29,6 +30,14 @@ export default function OrderForm({
         }}
         api="/api/order/create"
         formDataConverter={convertToSpotTradeFormData}
+        onSubmit={() => {
+          setTimeout(() => {
+            tradeStore.getState().loadOpenTrades();
+            setTimeout(() => {
+              tradeStore.getState().loadOpenTrades();
+            }, 5e3);
+          }, 2e3);
+        }}
         showJsonOutput
       />
     </Box>

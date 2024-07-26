@@ -1,11 +1,10 @@
 import allTraderIcon from "@/assets/images/all-trader.svg";
 import topTradeIcon from "@/assets/images/top-trader.svg";
-import useMetadata from "@/hooks/useMetadata";
 import useTranslation from "@/hooks/useTranslation";
+import authStore from "@/store/auth";
 import AppButton from "@/ui/Button/AppButton";
 import { CardTrader, CardTraderTop1 } from "@/ui/CardCopyTrades";
 import { AppCarousel } from "@/ui/Carousel/Carousel";
-import { Header } from "@/ui/Header";
 import NumberFormat from "@/ui/NumberFormat";
 import { OptionFilter } from "@/ui/OptionFilter";
 import AppText from "@/ui/Text/AppText";
@@ -33,8 +32,7 @@ import {
 import { useToggle } from "@mantine/hooks";
 import { IconEye, IconEyeOff, IconSearch } from "@tabler/icons-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Footer } from "../top-page";
+import { Link, useNavigate } from "react-router-dom";
 import classes from "./index.module.scss";
 
 const sizeContainer = "xl";
@@ -68,13 +66,14 @@ const traders = [
 ];
 
 export default function Page() {
-  const { data } = useMetadata();
   const [mode, setMode] = useState<"1" | "2">("1");
   const t = useTranslation();
   const [isOffPrice, togglePrice] = useToggle([false, true]);
+  const navigate = useNavigate();
+  const { me } = authStore();
+
   return (
     <>
-      <Header metadata={data} />
       <Box className="banner-copy">
         <Center w={"100%"} h={"100%"}>
           <Container size={sizeContainer} w={"100%"}>
@@ -96,19 +95,27 @@ export default function Page() {
                     </AppText>
                     <Space mb={20} />
                     <Flex gap={20}>
-                      <AppButton
-                        instancetype="WithRightIcon"
-                        size="md"
-                      >
-                        {t("Become a Master")}
-                      </AppButton>
-                      {/* <AppButton
-                        instancetype="WithOutlinedColor"
-                        size="md"
-                        rightSection={<IconCopy />}
-                      >
-                        Refer to Earn 665 USDT
-                      </AppButton> */}
+                      {me?.isCopyMaster ? (
+                        <AppButton
+                          size="md"
+                          instancetype="WithRightIcon"
+                          onClick={() =>
+                            navigate("/copy/master/positions")
+                          }
+                        >
+                          {t("My Master Dashboard")}
+                        </AppButton>
+                      ) : (
+                        <AppButton
+                          size="md"
+                          instancetype="WithRightIcon"
+                          onClick={() =>
+                            navigate("/inquiry?type=CopyMaster")
+                          }
+                        >
+                          {t("Become a Master")}
+                        </AppButton>
+                      )}
                     </Flex>
                   </Box>
                 </Center>
@@ -180,7 +187,7 @@ export default function Page() {
                       all: "unset",
                       display: "block",
                     }}
-                    to={"/copy-trade/mine/my-taker"}
+                    to={"/copy/mine/traders"}
                   >
                     <AppButton
                       fullWidth
@@ -448,8 +455,6 @@ export default function Page() {
           </Container>
         </Tabs.Panel>
       </Tabs>
-      <Divider />
-      <Footer metadata={data} />
     </>
   );
 }

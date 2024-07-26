@@ -79,7 +79,7 @@ const elements = [
     quote: "GMT",
     base: "USDT",
     chart: "Yttrium",
-    icon: "/images/bybit/assets/b97e9838-e8df-4c98-8f20-adf3815b5b07.svg",
+    icon: "/images/bybit/assets/btc.svg",
   },
   {
     id: 56,

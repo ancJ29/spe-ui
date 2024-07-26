@@ -1,15 +1,10 @@
-import useMetadata from "@/hooks/useMetadata";
-import { Header } from "@/ui/Header";
 import TermsServiceWrapper from "@/ui/TabsPolicy";
 import { Box, Container, Space } from "@mantine/core";
-import { Footer } from "../top-page";
 import PdfViewer from "./PdfViewer";
 
 export default function Page() {
-  const { data } = useMetadata();
   return (
     <>
-      <Header metadata={data} />
       <Container>
         <Space my={"xl"} />
         <TermsServiceWrapper />
@@ -5668,7 +5663,6 @@ export default function Page() {
           </p>
         </Box>
       </Container>
-      <Footer metadata={data} />
     </>
   );
 }

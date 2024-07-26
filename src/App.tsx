@@ -1,10 +1,11 @@
 import routes from "@/router";
 import { getMe } from "@/services/apis";
+import appStore from "@/store/app";
 import { resolver, theme } from "@/styles/theme/mantine-theme";
 import { Loader, MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { RouteObject, useRoutes } from "react-router-dom";
 import { useBoolean } from "usehooks-ts";
 import useSPEInterval from "./hooks/useSPEInterval";
@@ -30,18 +31,10 @@ async function _getMe(retry = 3) {
   }
 }
 
-const App = () => {
-  const [loading, setLoading] = useState(true);
+export default function App() {
   const { value: loaded, setTrue } = useBoolean(false);
-
-  useSPEInterval(_loadPrices, 10e3, true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 300);
-  }, []);
-
+  const { loading } = appStore();
+  useSPEInterval(_loadAPIs, 30e3, true);
   useEffect(() => {
     if (loaded) {
       return;
@@ -54,12 +47,13 @@ const App = () => {
         })
         .finally(() => {
           setTrue();
-          _loadPrices();
+          _loadAPIs();
         });
     } else {
       setTrue();
-      _loadPrices();
+      _loadAPIs();
     }
+    useTradeStore.getState().loadSymbols();
   }, [loaded, setTrue]);
 
   const routes = useMemo(() => {
@@ -69,6 +63,7 @@ const App = () => {
   useSPEInterval(() => {
     tradeStore.getState().loadAllMarketInformation();
   }, ONE_MINUTE);
+  logger.debug("App loaded", loading);
 
   return (
     <MantineProvider
@@ -76,27 +71,11 @@ const App = () => {
       cssVariablesResolver={resolver}
       defaultColorScheme="dark"
     >
-      {loading && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
-            width: "100vw",
-            opacity: 0.8,
-          }}
-        >
-          <Loader />
-        </div>
-      )}
       <ModalsProvider>{useRoutes(routes)}</ModalsProvider>
       <Notifications />
     </MantineProvider>
   );
-};
-
-export default App;
+}
 
 function _buildRoutes(loaded: boolean) {
   if (!loaded) {
@@ -106,11 +85,15 @@ function _buildRoutes(loaded: boolean) {
         element: (
           <div
             style={{
+              position: "absolute",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
               height: "100vh",
               width: "100vw",
+              opacity: 0.8,
+              zIndex: 1000,
+              backgroundColor: "white",
             }}
           >
             <Loader />
@@ -122,8 +105,7 @@ function _buildRoutes(loaded: boolean) {
   return routes;
 }
 
-function _loadPrices() {
-  useTradeStore.getState().loadSymbols();
+function _loadAPIs() {
   tradeStore.getState().loadMarketPrices();
   assetStore
     .getState()

@@ -1,16 +1,10 @@
 // cspell: disable
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import {
-  Application,
-  ApplicationFooter,
-  getFooter,
-} from "@/domain/Application";
-import useMetadata from "@/hooks/useMetadata";
+import { Application } from "@/domain/Application";
 import useTranslation from "@/hooks/useTranslation";
 import AppButton from "@/ui/Button/AppButton";
 import CarouselPage from "@/ui/Carousel/Carousel";
 import AppChart, { randomizeArraySparkline } from "@/ui/Chart/Chart";
-import { Header } from "@/ui/Header";
 import { AppLogo } from "@/ui/Logo/Logo";
 import MarqueeList from "@/ui/Marquee/Marquee";
 import AppPill from "@/ui/Pill/AppPill";
@@ -54,11 +48,8 @@ export default function TopPage() {
   const [mainTokens, setMainTokens] = useState(generateItems(6));
   const [gainersTokens] = useState(generateItems(3));
   const [newListingsTokens] = useState(generateItems(3));
-  const { data } = useMetadata();
-
   return (
     <>
-      <Header metadata={data} />
       <Banner />
       <SliderNotice />
       <Box
@@ -172,7 +163,6 @@ export default function TopPage() {
         </Container>
         <Space h={50} />
       </Box>
-      <Footer metadata={data} />
     </>
   );
 }
@@ -642,11 +632,11 @@ function PartnerSection() {
 
 export function Footer(props: Partial<{ metadata: Application }>) {
   const t = useTranslation();
-  const footer = useMemo<ApplicationFooter>(() => {
-    return getFooter(props.metadata);
+  const footer = useMemo(() => {
+    return props.metadata?.applications.layout.footer?.common;
   }, [props.metadata]);
 
-  if (!props.metadata) {
+  if (!footer) {
     return <></>;
   }
 

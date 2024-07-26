@@ -1,10 +1,8 @@
 /* eslint-disable react/prop-types */
-import useMetadata from "@/hooks/useMetadata";
 import useTranslation from "@/hooks/useTranslation";
 import AppButton from "@/ui/Button/AppButton";
 import AppCard from "@/ui/Card/AppCard";
 import AppChart from "@/ui/Chart/Chart";
-import { Header } from "@/ui/Header";
 import { OptionFilter } from "@/ui/OptionFilter";
 import AppPill from "@/ui/Pill/AppPill";
 import { AppPopover } from "@/ui/Popover/AppPopover";
@@ -39,15 +37,12 @@ import {
 } from "@tabler/icons-react";
 import _ from "lodash";
 import { Fragment, useState } from "react";
-import { Footer } from "../top-page";
 import { getSeriesValue } from "./config";
 import "./index.module.scss";
 
 export default function CopyTradeDetail() {
-  const { data } = useMetadata();
   return (
     <>
-      <Header metadata={data} />
       <Banner />
       <Box className="bg-copy-trade">
         <Container>
@@ -70,7 +65,6 @@ export default function CopyTradeDetail() {
           </Grid>
         </Container>
       </Box>
-      <Footer metadata={data} />
     </>
   );
 }

@@ -108,7 +108,7 @@ export function OrderBookTable({
     });
   }, [display, symbol]);
 
-  useSPEInterval(fetch, 1e3);
+  useSPEInterval(fetch, 10e3);
 
   const pricePanel = useMemo(() => {
     return (

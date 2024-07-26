@@ -217,16 +217,6 @@ export function MaterInformation() {
           </Box>
           <Box>
             <Text fz={14} c={"dimmed"}>
-              {t("My Promoters")}
-            </Text>
-            <Flex align={"center"} gap={5}>
-              <Text fz={16} fw={600}>
-                {Math.floor(information?.promoters || 0)}
-              </Text>
-            </Flex>
-          </Box>
-          <Box>
-            <Text fz={14} c={"dimmed"}>
               {t("Settled Profit Sharing")}
             </Text>
             <Flex align={"center"} gap={5}>

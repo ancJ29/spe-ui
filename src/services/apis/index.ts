@@ -16,6 +16,7 @@ import {
   CopySetting,
   CopyTransaction,
   FollowerInformation,
+  GenericObject,
   ImageType,
   MarketInformation,
   MarketPrice,
@@ -156,6 +157,10 @@ export async function closeOrderApi(
     });
 }
 
+export async function inquiryApi(data: GenericObject) {
+  await axios.post("/api/inquiry", data);
+}
+
 export function getUploadUrlApi(type: ImageType) {
   return getApi<{ url: string }>(`/api/upload/url?type=${type}`).then(
     (res) => res.url,
@@ -219,8 +224,7 @@ export async function fetchClosedPositions(symbol?: string) {
 
 export async function fetchOpenPositions(symbol?: string) {
   const accountId = assetStore.getState().tradingAccount?.id;
-  const debug = true;
-  if (!accountId || debug) {
+  if (!accountId) {
     await delay(10);
     return [] as Position[];
   }

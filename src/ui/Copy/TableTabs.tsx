@@ -18,10 +18,6 @@ const MASTER_TABS = [
     link: "/copy/master/orders",
   },
   {
-    label: "My Promoters",
-    link: "/copy/master/promoters",
-  },
-  {
     label: "Transactions",
     link: "/copy/master/transactions",
   },

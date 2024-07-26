@@ -1,4 +1,4 @@
-import { Application, ApplicationFooter, Menu } from "@/common/types";
+import { Application, Menu } from "@/common/types";
 import { get } from "lodash";
 export type {
   Application,
@@ -14,12 +14,4 @@ export function getLogo(data?: Application): string {
 
 export function getHeaderMenu(data?: Application): Menu[] {
   return get(data, "applications.layout.header.common.menu", []);
-}
-
-export function getFooter(data?: Application): ApplicationFooter {
-  return get(
-    data,
-    "applications.layout.footer.common",
-    {},
-  ) as ApplicationFooter;
 }

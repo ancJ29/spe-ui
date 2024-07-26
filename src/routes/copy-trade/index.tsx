@@ -2,13 +2,11 @@
 import allTraderIcon from "@/assets/images/all-trader.svg";
 import moneyIcon from "@/assets/images/money.svg";
 import topTradeIcon from "@/assets/images/top-trader.svg";
-import useMetadata from "@/hooks/useMetadata";
 import useTranslation from "@/hooks/useTranslation";
 import authStore from "@/store/auth";
 import AppButton from "@/ui/Button/AppButton";
 import AppCard from "@/ui/Card/AppCard";
 import { AppCarousel } from "@/ui/Carousel/Carousel";
-import { Header } from "@/ui/Header";
 import AppText from "@/ui/Text/AppText";
 import { Carousel } from "@mantine/carousel";
 import {
@@ -45,7 +43,6 @@ import { OptionFilter } from "@/ui/OptionFilter";
 import { OptionFilterAsCheckbox } from "@/ui/OptionFilterAsCheckbox";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Footer } from "../top-page";
 import classes from "./index.module.scss";
 
 const sizeContainer = "xl";
@@ -78,15 +75,13 @@ const traders = [
   },
 ];
 
-export default function Page() {
+export default function CopyTrade() {
   const t = useTranslation();
-  const { data } = useMetadata();
   const [opened, { close, open }] = useDisclosure(false);
   const [mode, setMode] = useState<"1" | "2">("1");
   const { me } = authStore();
   return (
     <>
-      <Header metadata={data} />
       <Box className="banner-copy">
         <Center w={"100%"} h={"100%"}>
           <Container size={sizeContainer} w={"100%"}>
@@ -468,7 +463,7 @@ export default function Page() {
                   size="lg"
                   fw={"bold"}
                 >
-                  View More
+                  {t("View More")}
                 </AppButton>
               </Group>
               <Flex>
@@ -501,7 +496,7 @@ export default function Page() {
                   size="lg"
                   fw={"bold"}
                 >
-                  View More
+                  {t("View More")}
                 </AppButton>
               </Group>
               <Flex>
@@ -534,7 +529,7 @@ export default function Page() {
                   size="lg"
                   fw={"bold"}
                 >
-                  View More
+                  {t("View More")}
                 </AppButton>
               </Group>
               <Flex>
@@ -568,7 +563,7 @@ export default function Page() {
                   size="lg"
                   fw={"bold"}
                 >
-                  View More
+                  {t("View More")}
                 </AppButton>
               </Group>
               <Space mb={30} />
@@ -603,7 +598,7 @@ export default function Page() {
                   size="lg"
                   fw={"bold"}
                 >
-                  View More
+                  {t("View More")}
                 </AppButton>
               </Group>
               <Space mb={30} />
@@ -638,7 +633,7 @@ export default function Page() {
                   size="lg"
                   fw={"bold"}
                 >
-                  View More
+                  {t("View More")}
                 </AppButton>
               </Group>
               <Space mb={30} />
@@ -673,7 +668,7 @@ export default function Page() {
                   size="lg"
                   fw={"bold"}
                 >
-                  View More
+                  {t("View More")}
                 </AppButton>
               </Group>
               <Space mb={30} />
@@ -711,7 +706,6 @@ export default function Page() {
           </Box>
         )}
       </Container>
-      <Footer metadata={data} />
     </>
   );
 }

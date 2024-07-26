@@ -1,13 +1,7 @@
 // cspell: disable
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import {
-  Application,
-  ApplicationFooter,
-  getFooter,
-} from "@/domain/Application";
-import useMetadata from "@/hooks/useMetadata";
+import { Application } from "@/domain/Application";
 import AppButton from "@/ui/Button/AppButton";
-import { Header } from "@/ui/Header";
 import { AppLogo } from "@/ui/Logo/Logo";
 import MarqueeList from "@/ui/Marquee/Marquee";
 import {
@@ -45,27 +39,15 @@ import journey_expertly from "@/assets/images/journey/expertly.jpg";
 import journey_total from "@/assets/images/journey/total.jpg";
 import journey_unlimited from "@/assets/images/journey/unlimited.jpg";
 
-import partner_BloombergBlack from "@/assets/images/partners/Bloomberg-black.png";
-import partner_Incuba from "@/assets/images/partners/Incuba.png";
-import partner_KSK from "@/assets/images/partners/KSK.png";
-import partner_LayerBlack from "@/assets/images/partners/Layer-black.png";
-import partner_Meteorite from "@/assets/images/partners/Meteorite.png";
-import partner_Vector from "@/assets/images/partners/Vector.png";
-
 import { priceDisplay } from "@/common/utils";
 import { CardTrader } from "@/ui/CardCopyTrades";
 import NumberFormat from "@/ui/NumberFormat";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function TopPage() {
-  const { data } = useMetadata();
-
   return (
     <>
-      <Header metadata={data} />
       <Banner />
-      <SliderNotice />
-
       <Box
         className={classes.bgtopage}
         style={{ overflow: "hidden" }}
@@ -92,12 +74,8 @@ export default function TopPage() {
           <QuickStart />
         </Container>
         <Space h={50} />
-        <Container fluid>
-          <PartnerSection />
-        </Container>
         <Space h={50} />
       </Box>
-      <Footer metadata={data} />
     </>
   );
 }
@@ -175,34 +153,6 @@ function Banner() {
   );
 }
 
-function SliderNotice({ display = false }: { display?: boolean }) {
-  const t = useTranslation();
-
-  if (!display) {
-    return <></>;
-  }
-  return (
-    <>
-      <Box h={52} className={classes.contentmarquee}>
-        <Container h="100%">
-          <Group align="center" h="100%">
-            <MarqueeList>
-              <Text fw={700} px={10} c="black">
-                {t("Yahoo Finance: %s Announces Seed Round Funding")}
-              </Text>
-              {/* <Text fw={700} px={10} c="black">
-                {t(
-                  "Important Notice: Migration from OM Trade to CryptoCopyInvest",
-                )}
-              </Text> */}
-            </MarqueeList>
-          </Group>
-        </Container>
-      </Box>
-    </>
-  );
-}
-
 const getPercent = () => Math.random() * (145 - -35) + -35;
 const sliderCoinsData = [
   ["SOL/USDT", 172.156, getPercent()],
@@ -248,6 +198,7 @@ function SliderCoins({ display = false }: { display?: boolean }) {
 
 function CardsIntro() {
   const t = useTranslation();
+  const navigate = useNavigate();
   return (
     <>
       <Space my={"xl"} />
@@ -288,6 +239,12 @@ function CardsIntro() {
               <Button
                 variant="gradient"
                 gradient={{ from: "primary", to: "yellow", deg: 90 }}
+                onClick={() => {
+                  window.open(
+                    "https://omtrade.zendesk.com/hc/en-us/articles/8210959682319-OMTrade-Referral-Program",
+                    "_blank",
+                  );
+                }}
               >
                 {t("Start Inviting")}
                 <IconChevronsRight size={18} />
@@ -317,6 +274,12 @@ function CardsIntro() {
             <Space my={"md"} />
             <Box mt={"auto"}>
               <Button
+                onClick={() => {
+                  window.open(
+                    "https://omtrade.zendesk.com/hc/en-us/articles/8154033854095-Beginner-s-Guide-for-Copy-Trading-Referrals",
+                    "_blank",
+                  );
+                }}
                 variant="gradient"
                 gradient={{ from: "primary", to: "yellow", deg: 90 }}
               >
@@ -346,8 +309,10 @@ function CardsIntro() {
               )}
             </Highlight>
             <Space my={"md"} />
-            <Box mt={"auto"} component={Link} to={"/copy-trading"}>
+            <Box>
               <Button
+                mt={"auto"}
+                onClick={() => navigate("/copy-trading")}
                 variant="gradient"
                 gradient={{ from: "primary", to: "yellow", deg: 90 }}
               >
@@ -367,87 +332,68 @@ function QuickStart() {
   const navigate = useNavigate();
 
   return (
-    <>
-      <Card radius={"lg"} py={60}>
-        <Grid>
-          <Grid.Col span={6}>
-            <Center h={"100%"}>
-              <Box>
-                <Title order={1}>{t("Get Started in Minutes")}</Title>
-                <Space h={30} />
-                <Group justify="center">
-                  <AppButton
-                    size="xl"
-                    loaderProps={{ type: "bars" }}
-                    instancetype="WithRightIcon"
-                    onClick={() => navigate("/register")}
-                  >
-                    {t("Start Now")}
-                  </AppButton>
-                </Group>
-              </Box>
-            </Center>
-          </Grid.Col>
-          <Grid.Col span={6}>
-            <Timeline bulletSize={40} active={3}>
-              <Timeline.Item
-                bullet={<Title order={3}>1</Title>}
-                title={
-                  <Title order={3} lineClamp={10}>
-                    {t(
-                      "Create a free %s Account.",
-                      localStorage.__APP_NAME__,
-                    )}{" "}
-                  </Title>
-                }
-              >
-                <Text>
+    <Card radius={"lg"} py={60}>
+      <Grid>
+        <Grid.Col span={6}>
+          <Center h={"100%"}>
+            <Box>
+              <Title order={1}>{t("Get Started in Minutes")}</Title>
+              <Space h={30} />
+              <Group justify="center">
+                <AppButton
+                  size="xl"
+                  loaderProps={{ type: "bars" }}
+                  instancetype="WithRightIcon"
+                  onClick={() => navigate("/register")}
+                >
+                  {t("Start Now")}
+                </AppButton>
+              </Group>
+            </Box>
+          </Center>
+        </Grid.Col>
+        <Grid.Col span={6}>
+          <Timeline bulletSize={40} active={3}>
+            <Timeline.Item
+              h={100}
+              bullet={<Title order={3}>1</Title>}
+              title={
+                <Title order={3} lineClamp={10}>
                   {t(
                     "Create a free %s Account.",
                     localStorage.__APP_NAME__,
-                  )}
-                </Text>
-              </Timeline.Item>
+                  )}{" "}
+                </Title>
+              }
+            />
 
-              <Timeline.Item
-                bullet={<Title order={3}>2</Title>}
-                title={
-                  <Title order={3} lineClamp={10}>
-                    {t(
-                      "Find master traders that best serve your financial goals.",
-                    )}
-                  </Title>
-                }
-              >
-                <Text>
+            <Timeline.Item
+              h={100}
+              bullet={<Title order={3}>2</Title>}
+              title={
+                <Title order={3} lineClamp={10}>
                   {t(
-                    "Create a free %s Account.",
-                    localStorage.__APP_NAME__,
+                    "Find master traders that best serve your financial goals.",
                   )}
-                </Text>
-              </Timeline.Item>
-              <Timeline.Item
-                bullet={<Title order={3}>3</Title>}
-                title={
-                  <Title order={3} lineClamp={10}>
-                    {t(
-                      "Start copy trading and watch your portfolio grow!",
-                    )}
-                  </Title>
-                }
-              >
-                <Text>
+                </Title>
+              }
+            />
+
+            <Timeline.Item
+              h={100}
+              bullet={<Title order={3}>3</Title>}
+              title={
+                <Title order={3} lineClamp={10}>
                   {t(
-                    "Create a free %s Account.",
-                    localStorage.__APP_NAME__,
+                    "Start copy trading and watch your portfolio grow!",
                   )}
-                </Text>
-              </Timeline.Item>
-            </Timeline>
-          </Grid.Col>
-        </Grid>
-      </Card>
-    </>
+                </Title>
+              }
+            />
+          </Timeline>
+        </Grid.Col>
+      </Grid>
+    </Card>
   );
 }
 
@@ -589,7 +535,8 @@ The trader receives a percentage of the profits they earn based on monthly high 
 
 function TrendingTraders() {
   const t = useTranslation();
-  const items = [...Array(20)];
+  const navigate = useNavigate();
+
   return (
     <div>
       <Card radius={"lg"} py={60}>
@@ -604,7 +551,7 @@ function TrendingTraders() {
 
         <Card>
           <MarqueeList speed={100}>
-            {items.map((_, _k) => (
+            {Array.from({ length: 20 }).map((_, _k) => (
               <Box key={_k} py={30} px={15}>
                 <CardTrader />
               </Box>
@@ -617,6 +564,7 @@ function TrendingTraders() {
             size="md"
             variant="gradient"
             gradient={{ from: "primary", to: "yellow", deg: 90 }}
+            onClick={() => navigate("/copy-trading")}
           >
             {t("View All Masters")}
           </AppButton>
@@ -626,38 +574,16 @@ function TrendingTraders() {
   );
 }
 
-function PartnerSection() {
-  const items = [
-    partner_Incuba,
-    partner_Meteorite,
-    partner_BloombergBlack,
-    partner_KSK,
-    partner_LayerBlack,
-    partner_Vector,
-  ];
-  return (
-    <>
-      <Box style={{ overflow: "hidden" }} w={"100%"}>
-        <MarqueeList speed={90} loop={1000} pauseOnHover={false}>
-          {items.map((img, _k) => (
-            <Box opacity={0.4} mx={"xl"} key={_k}>
-              <Image src={img} />
-            </Box>
-          ))}
-        </MarqueeList>
-      </Box>
-    </>
-  );
-}
-
 export function Footer(props: Partial<{ metadata?: Application }>) {
   const t = useTranslation();
-  const footer = useMemo<ApplicationFooter>(() => {
-    return getFooter(props.metadata);
+  const footer = useMemo(() => {
+    return props.metadata?.applications.layout.footer?.common;
   }, [props.metadata]);
-  if (!props.metadata) {
+
+  if (!footer) {
     return <></>;
   }
+
   return (
     <footer>
       <Box py={40} className="footer">
