@@ -171,11 +171,11 @@ export default (symbol: string, isSpot: boolean) => {
     onTick: SubscribeBarsCallback,
     onResetCacheNeededCallback: () => void,
   ) {
-    logger.debug("sync...");
+    logger.trace("sync...");
     const latestPrice = Number(
       localStorage[`__LAST_PRICE_${symbolName}__`] || 0,
     );
-    logger.debug("latestPrice", latestPrice);
+    logger.trace("latestPrice", latestPrice);
     const interval = intervals[resolution];
     const endTime = Math.floor(Date.now() / 1e3) * 1e3;
     const _url = `${url}&interval=${interval}&endTime=${endTime}&limit=1`;

@@ -18,7 +18,7 @@ axios.interceptors.request.use(
       config.headers["Authorization"] = `Bearer ${token}`;
     }
     if (IS_DEV) {
-      logger.debug("Request", config);
+      logger.trace("Request", config);
       if (config.params) {
         config.params = {
           ...config.params,

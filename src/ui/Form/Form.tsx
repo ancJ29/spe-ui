@@ -118,7 +118,7 @@ const AppForm = forwardRef(
           return;
         }
         id && logger.trace("Field changed, id: ", id, props);
-        // logger.debug(
+        // logger.trace(
         //   "1 formData updated (onFormDataChange)",
         //   props.formData,
         // );

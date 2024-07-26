@@ -1,7 +1,7 @@
 import useMetadata from "@/hooks/useMetadata";
 import useTranslation from "@/hooks/useTranslation";
 import { Header } from "@/ui/Header";
-import { TabsTransactions } from "@/ui/Wallet";
+import { Tabs } from "@/ui/Wallet";
 import {
   Anchor,
   Box,
@@ -41,7 +41,7 @@ const HistoryWrapper = ({
             </Title>
           </Box>
           <Box>
-            <TabsTransactions />
+            <Tabs />
             <Space mb={10} />
             <Box>{children}</Box>
           </Box>

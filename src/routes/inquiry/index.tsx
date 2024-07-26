@@ -20,7 +20,7 @@ import { useSearchParams } from "react-router-dom";
 export default function Inquiry() {
   const t = useTranslation();
   const [searchParams] = useSearchParams();
-  logger.debug("type", searchParams.get("type"));
+  logger.trace("type", searchParams.get("type"));
   const [form, setForm] = useState({
     subject: "",
     fullName: "",

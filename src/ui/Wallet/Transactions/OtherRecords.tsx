@@ -1,12 +1,14 @@
 import BN from "@/common/big-number";
 import { TransactionType } from "@/common/enums";
+import useSPEPagination from "@/hooks/useSPEPagination";
 import useTranslation from "@/hooks/useTranslation";
+import { fetchTransactions } from "@/services/apis";
 import { assetStore } from "@/store/assets";
 import { Asset } from "@/ui/Asset/Asset";
 import NumberFormat from "@/ui/NumberFormat";
-import { NoDataRecord } from "@/ui/SPEMisc";
+import { NoDataRecord, SPEPagination } from "@/ui/SPEMisc";
 import { Box, Table, TableData, Title } from "@mantine/core";
-import { useEffect, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
 const TRANSACTION_TYPES = [
   TransactionType.TRANSFER_IN,
@@ -21,14 +23,28 @@ const TRANSACTION_TYPES = [
 ];
 
 export function OtherRecords() {
-  const { transactions, accountById } = assetStore();
+  const { accountById } = assetStore();
   const t = useTranslation();
 
-  useEffect(() => {
-    assetStore
-      .getState()
-      .fetchTransactionsHistory({ types: TRANSACTION_TYPES });
-  }, []);
+  const fetch = useCallback(
+    (cursor: string, limit: number, reverse: boolean) => {
+      return fetchTransactions(
+        TRANSACTION_TYPES,
+        limit,
+        cursor,
+        reverse,
+      );
+    },
+    [],
+  );
+
+  const {
+    data: transactions,
+    havePreviousPage,
+    haveNextPage,
+    goPrev,
+    goNext,
+  } = useSPEPagination(fetch);
 
   const tableData: TableData = useMemo(() => {
     return {
@@ -39,26 +55,24 @@ export function OtherRecords() {
         "Amount",
         "Transaction Type",
       ].map((el) => t(el)),
-      body: transactions
-        .filter((el) => TRANSACTION_TYPES.includes(el.type))
-        .map((row) => [
-          <Title order={6} fz={12} key={`${row.id}.time`}>
-            {new Date(row.updatedAt).toLocaleString()}
-          </Title>,
-          <Asset asset={row.asset} key={`${row.id}.asset`} />,
-          <Title order={6} fz={12} key={`${row.id}.account`}>
-            {accountById[row.accountId]?.name || "--"}
-          </Title>,
-          <Title order={6} fz={12} key={`${row.id}.amount`}>
-            <NumberFormat
-              decimalPlaces={8}
-              value={BN.add(row.amount, row.fee || 0)}
-            />
-          </Title>,
-          <Title order={6} fz={12} key={`${row.id}.type`}>
-            {row.type}
-          </Title>,
-        ]),
+      body: transactions.map((row) => [
+        <Title order={6} fz={12} key={`${row.id}.time`}>
+          {new Date(row.updatedAt).toLocaleString()}
+        </Title>,
+        <Asset asset={row.asset} key={`${row.id}.asset`} />,
+        <Title order={6} fz={12} key={`${row.id}.account`}>
+          {accountById[row.accountId]?.name || "--"}
+        </Title>,
+        <Title order={6} fz={12} key={`${row.id}.amount`}>
+          <NumberFormat
+            decimalPlaces={8}
+            value={BN.add(row.amount, row.fee || 0)}
+          />
+        </Title>,
+        <Title order={6} fz={12} key={`${row.id}.type`}>
+          {row.type}
+        </Title>,
+      ]),
     };
   }, [accountById, t, transactions]);
 
@@ -81,6 +95,12 @@ export function OtherRecords() {
           }}
         />
         <>{transactions.length === 0 && <NoDataRecord />}</>
+        <SPEPagination
+          goPrev={goPrev}
+          goNext={goNext}
+          havePreviousPage={havePreviousPage}
+          haveNextPage={haveNextPage}
+        />
       </Table.ScrollContainer>
     </Box>
   );

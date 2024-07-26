@@ -12,7 +12,7 @@ import { OtherRecords } from "./OtherRecords";
 import { SwapRecords } from "./SwapRecords";
 import { WithdrawRecords } from "./WithdrawRecords";
 
-export function TabsTransactions() {
+export function Tabs() {
   const { me } = authStore();
 
   const t = useTranslation();

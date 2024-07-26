@@ -1,4 +1,5 @@
 export * from "./NoDataRecord";
+export * from "./SPEPagination";
 export * from "./SPETableDateTime";
 export * from "./SPETableDoubleNumbers";
 export * from "./SPETableHeader";

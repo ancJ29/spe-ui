@@ -1,53 +1,44 @@
-import { ROWS_PER_PAGE } from "@/common/configs";
-import useTranslation from "@/hooks/useTranslation";
+import useSPEPagination from "@/hooks/useSPEPagination";
 import { fetchCopyTransactions } from "@/services/apis";
-import { CopyTransaction } from "@/types";
 import {
   NoDataRecord,
+  SPEPagination,
   SPETableDateTime,
   SPETableHeader,
 } from "@/ui/SPEMisc";
-import { Box, Button, Flex, Table, TableData } from "@mantine/core";
-import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
-import { useEffect, useMemo, useState } from "react";
+import { Box, Table, TableData } from "@mantine/core";
+import { useCallback, useMemo } from "react";
 
 export default function MyTransactions() {
-  const t = useTranslation();
-  const [transactions, setTransactions] = useState<CopyTransaction[]>(
+  const fetch = useCallback(
+    (cursor: string, limit: number, reverse: boolean) => {
+      return fetchCopyTransactions(cursor, limit, reverse);
+    },
     [],
   );
-  const [{ cursor, reverse }, setCursor] = useState({
-    cursor: "",
-    reverse: false,
-  });
-  const [haveNextPage, setHaveNextPage] = useState(false);
-  const [havePreviousPage, setHavePreviousPage] = useState(false);
-  useEffect(() => {
-    const limit = ROWS_PER_PAGE + (reverse ? 2 : 1);
-    fetchCopyTransactions(cursor, limit, reverse).then((data) => {
-      reverse
-        ? setHavePreviousPage(data.length === limit)
-        : setHaveNextPage(data.length === limit);
-      setTransactions(data);
-    });
-  }, [cursor, reverse]);
 
-  const tableData: TableData = useMemo(() => {
-    const from = reverse ? 1 : 0;
-    return {
+  const {
+    data: transactions,
+    havePreviousPage,
+    haveNextPage,
+    goPrev,
+    goNext,
+  } = useSPEPagination(fetch);
+
+  const tableData: TableData = useMemo(
+    () => ({
       head: ["Time", "Trader", "Type", "Amount (USDT)", "In/Out"].map(
         (label, idx) => <SPETableHeader key={idx} label={label} />,
       ),
-      body: transactions
-        .slice(from, from + ROWS_PER_PAGE)
-        .map((transaction) => [
-          <SPETableDateTime
-            key={`${transaction.id}.time`}
-            time={transaction.createdAt}
-          />,
-        ]),
-    };
-  }, [transactions, reverse]);
+      body: transactions.map((transaction) => [
+        <SPETableDateTime
+          key={`${transaction.id}.time`}
+          time={transaction.createdAt}
+        />,
+      ]),
+    }),
+    [transactions],
+  );
 
   return (
     <Box h={"100%"} w={"100%"}>
@@ -67,39 +58,12 @@ export default function MyTransactions() {
           }}
         />
         <>{tableData.body?.length === 0 && <NoDataRecord />}</>
-        {haveNextPage || havePreviousPage ? (
-          <Flex justify={"center"} mt={20} gap={10}>
-            {" "}
-            <Button
-              size="xs"
-              disabled={!havePreviousPage}
-              onClick={() => {
-                setHaveNextPage(true);
-                setCursor({
-                  cursor: transactions[0].id,
-                  reverse: true,
-                });
-              }}
-            >
-              <IconArrowLeft size={16} /> {t("Previous page")}
-            </Button>
-            <Button
-              size="xs"
-              disabled={!haveNextPage}
-              onClick={() => {
-                setHavePreviousPage(true);
-                setCursor({
-                  reverse: false,
-                  cursor: transactions[transactions.length - 1].id,
-                });
-              }}
-            >
-              {t("Next page")} <IconArrowRight size={16} />
-            </Button>
-          </Flex>
-        ) : (
-          <> </>
-        )}
+        <SPEPagination
+          goPrev={goPrev}
+          goNext={goNext}
+          havePreviousPage={havePreviousPage}
+          haveNextPage={haveNextPage}
+        />
       </Table.ScrollContainer>
     </Box>
   );

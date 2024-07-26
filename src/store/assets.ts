@@ -10,9 +10,7 @@ import {
   fetchAccountsApi,
   fetchBalancesApi,
   fetchMasterTraders,
-  fetchTransactionsHistoryApi,
 } from "@/services/apis";
-import { TransactionsHistoryFormData } from "@/types";
 import { create } from "zustand";
 
 interface AssetState {
@@ -29,9 +27,6 @@ interface AssetState {
   tradingBalanceMap: Record<string, Balance>;
   fetchBalances: () => Promise<void>;
   fetchAccounts: () => Promise<void>;
-  fetchTransactionsHistory: (
-    res: TransactionsHistoryFormData,
-  ) => Promise<void>;
 }
 
 export const assetStore = create<AssetState>((set, get) => ({
@@ -92,11 +87,5 @@ export const assetStore = create<AssetState>((set, get) => ({
       fundingAccount: accounts.find(isFundingAccount),
       tradingAccount: accounts.find(isTradingAccount),
     });
-  },
-  fetchTransactionsHistory: async (queryParams) => {
-    const transactions = await fetchTransactionsHistoryApi(
-      queryParams,
-    );
-    set({ transactions });
   },
 }));

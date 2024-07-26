@@ -12,7 +12,7 @@ export default create<AppStore>((set) => ({
   loading: true,
   language: Language.EN,
   toggleLoading: (value?: boolean) => {
-    logger.debug("Toggling loading", value);
+    logger.trace("Toggling loading", value);
     set((state) => ({ loading: value ?? !state.loading }));
   },
 }));

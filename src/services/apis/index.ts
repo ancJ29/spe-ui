@@ -31,7 +31,6 @@ import {
 } from "@/common/types";
 import { assetStore } from "@/store/assets";
 import authStore from "@/store/auth";
-import { TransactionsHistoryFormData } from "@/types";
 import { delay } from "@/utils";
 import { z } from "zod";
 import logger from "../logger";
@@ -91,19 +90,28 @@ export async function fetchAccountsApi() {
   });
 }
 
-export async function fetchTransactionsHistoryApi(
-  formData: TransactionsHistoryFormData,
+export async function fetchTransactions(
+  type: string | string[],
+  limit: number,
+  cursor: number | string,
+  reverse: boolean,
 ) {
-  if (!localStorage.__TOKEN__) {
-    await delay(10);
+  const accountId = assetStore.getState().tradingAccount?.id;
+  if (!accountId) {
+    logger.trace("No account found");
+    await delay(1);
     return [] as SpeTransaction[];
   }
   return getApi<SpeTransaction[]>("/api/transactions/list", {
     params: {
-      ...formData,
-      type: formData.type,
-      types: formData.types?.join(","),
+      types: Array.isArray(type) ? type.join(",") : type,
+      limit,
+      cursor,
+      reverse,
     },
+  }).then((data) => {
+    data.sort((a, b) => b.id.localeCompare(a.id));
+    return data;
   });
 }
 
@@ -256,7 +264,7 @@ export async function fetchOrders(symbol?: string) {
       params: { accountId, symbol, limit: 100 },
     },
   ).then((res) => res?.orders || []);
-  logger.debug("Fetched orders", orders);
+  logger.trace("Fetched orders", orders);
   return orders;
 }
 
@@ -455,8 +463,8 @@ export async function fetchOpenCopyPositions() {
 
 export async function fetchCopyOrders(
   cursor: string,
-  limit: number,
   reverse: boolean,
+  limit: number,
 ) {
   const base = "/api/copy/mine/orders";
   return getApi<{ orders: CopyOrder[] }>(

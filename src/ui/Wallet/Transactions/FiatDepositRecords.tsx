@@ -1,21 +1,37 @@
 import { STATUS_COLORS } from "@/common/configs";
 import { TransactionType } from "@/common/enums";
+import useSPEPagination from "@/hooks/useSPEPagination";
 import useTranslation from "@/hooks/useTranslation";
-import { assetStore } from "@/store/assets";
+import { fetchTransactions } from "@/services/apis";
 import { Asset } from "@/ui/Asset/Asset";
 import NumberFormat from "@/ui/NumberFormat";
-import { NoDataRecord } from "@/ui/SPEMisc";
+import { NoDataRecord, SPEPagination } from "@/ui/SPEMisc";
 import { Badge, Box, Table, TableData, Title } from "@mantine/core";
-import { useEffect, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
 export function FiatDepositRecords() {
   const t = useTranslation();
-  const { transactions } = assetStore();
-  useEffect(() => {
-    assetStore.getState().fetchTransactionsHistory({
-      type: TransactionType.FIAT_DEPOSIT,
-    });
-  }, []);
+
+  const fetch = useCallback(
+    (cursor: string, limit: number, reverse: boolean) => {
+      return fetchTransactions(
+        TransactionType.DEPOSIT,
+        limit,
+        cursor,
+        reverse,
+      );
+    },
+    [],
+  );
+
+  const {
+    data: transactions,
+    havePreviousPage,
+    haveNextPage,
+    goPrev,
+    goNext,
+  } = useSPEPagination(fetch);
+
   const tableData: TableData = useMemo(() => {
     return {
       head: [
@@ -74,6 +90,12 @@ export function FiatDepositRecords() {
           }}
         />
         <>{transactions.length === 0 && <NoDataRecord />}</>
+        <SPEPagination
+          goPrev={goPrev}
+          goNext={goNext}
+          havePreviousPage={havePreviousPage}
+          haveNextPage={haveNextPage}
+        />
       </Table.ScrollContainer>
     </Box>
   );

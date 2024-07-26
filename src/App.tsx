@@ -63,7 +63,7 @@ export default function App() {
   useSPEInterval(() => {
     tradeStore.getState().loadAllMarketInformation();
   }, ONE_MINUTE);
-  logger.debug("App loaded", loading);
+  logger.trace("App loaded", loading);
 
   return (
     <MantineProvider

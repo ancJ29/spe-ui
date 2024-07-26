@@ -72,7 +72,7 @@ export function TabsOfTradeHistory({
 
   const { isLogin } = authStore();
   const tabs = useMemo(() => {
-    logger.debug("...reload tabs");
+    logger.trace("...reload tabs");
     return [
       {
         data: {
@@ -528,7 +528,7 @@ function CurrentOrders({ symbol, isFuture }: TabProps) {
 function Positions({ symbol, isFuture }: TabProps) {
   const t = useTranslation();
   const fetch = useCallback(() => {
-    logger.debug("fetching open positions", symbol);
+    logger.trace("fetching open positions", symbol);
     return fetchOpenPositions(symbol);
   }, [symbol]);
   const positions = useSyncData<Position[]>(fetch, 10e3, []);

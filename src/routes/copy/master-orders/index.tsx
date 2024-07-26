@@ -1,49 +1,37 @@
-import { ROWS_PER_PAGE } from "@/common/configs";
 import { OrderSide } from "@/common/enums";
 import { positionMargin } from "@/common/logic";
-import useTranslation from "@/hooks/useTranslation";
+import useSPEPagination from "@/hooks/useSPEPagination";
 import { fetchMasterCopyOrders } from "@/services/apis";
-import logger from "@/services/logger";
-import { CopyOrder } from "@/types";
 import {
   NoDataRecord,
+  SPEPagination,
   SPETableDateTime,
   SPETableHeader,
   SPETableNumber,
   SPETableSide,
   SPETableSymbol,
 } from "@/ui/SPEMisc";
-import { Box, Button, Flex, Table, TableData } from "@mantine/core";
-import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
-import { useEffect, useMemo, useState } from "react";
+import { Box, Table, TableData } from "@mantine/core";
+import { useCallback, useMemo } from "react";
 
 export default function MasterOrders() {
-  const t = useTranslation();
-  const [orders, setOrders] = useState<CopyOrder[]>([]);
-  const [{ cursor, reverse }, setCursor] = useState({
-    cursor: "",
-    reverse: false,
-  });
-  const [haveNextPage, setHaveNextPage] = useState(false);
-  const [havePreviousPage, setHavePreviousPage] = useState(false);
-  useEffect(() => {
-    const limit = ROWS_PER_PAGE + (reverse ? 2 : 1);
-    fetchMasterCopyOrders(cursor, reverse, limit).then((data) => {
-      logger.debug(
-        "fetchMasterCopyOrders\n",
-        data.map((el) => new Date(el.createdAt)).join("\n "),
-      );
-      logger.debug("fetchMasterCopyOrders\n", data.length, limit);
-      reverse
-        ? setHavePreviousPage(data.length === limit)
-        : setHaveNextPage(data.length === limit);
-      setOrders(data);
-    });
-  }, [cursor, reverse]);
+  const fetch = useCallback(
+    (cursor: string, limit: number, reverse: boolean) => {
+      return fetchMasterCopyOrders(cursor, reverse, limit);
+    },
+    [],
+  );
 
-  const tableData: TableData = useMemo(() => {
-    const from = reverse ? 1 : 0;
-    return {
+  const {
+    data: orders,
+    havePreviousPage,
+    haveNextPage,
+    goPrev,
+    goNext,
+  } = useSPEPagination(fetch);
+
+  const tableData: TableData = useMemo(
+    () => ({
       head: [
         "Contract",
         "Side",
@@ -56,7 +44,7 @@ export default function MasterOrders() {
       ].map((label, idx) => (
         <SPETableHeader key={idx} label={label} />
       )),
-      body: orders.slice(from, from + ROWS_PER_PAGE).map((order) => {
+      body: orders.map((order) => {
         const color = order.side === OrderSide.BUY ? "green" : "red";
         return [
           <SPETableSymbol
@@ -98,8 +86,9 @@ export default function MasterOrders() {
           />,
         ];
       }),
-    };
-  }, [orders, reverse]);
+    }),
+    [orders],
+  );
 
   return (
     <Box h={"100%"} w={"100%"}>
@@ -119,39 +108,12 @@ export default function MasterOrders() {
           }}
         />
         <>{tableData.body?.length === 0 && <NoDataRecord />}</>
-        {haveNextPage || havePreviousPage ? (
-          <Flex justify={"center"} mt={20} gap={10}>
-            {" "}
-            <Button
-              size="xs"
-              disabled={!havePreviousPage}
-              onClick={() => {
-                setHaveNextPage(true);
-                setCursor({
-                  cursor: orders[0].orderId,
-                  reverse: true,
-                });
-              }}
-            >
-              <IconArrowLeft size={16} /> {t("Previous page")}
-            </Button>
-            <Button
-              size="xs"
-              disabled={!haveNextPage}
-              onClick={() => {
-                setHavePreviousPage(true);
-                setCursor({
-                  reverse: false,
-                  cursor: orders[orders.length - 1].orderId,
-                });
-              }}
-            >
-              {t("Next page")} <IconArrowRight size={16} />
-            </Button>
-          </Flex>
-        ) : (
-          <> </>
-        )}
+        <SPEPagination
+          goPrev={goPrev}
+          goNext={goNext}
+          havePreviousPage={havePreviousPage}
+          haveNextPage={haveNextPage}
+        />
       </Table.ScrollContainer>
     </Box>
   );

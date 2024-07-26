@@ -1,5 +1,3 @@
-import { TransactionType } from "@/common/enums";
-
 type WithdrawInfoFormData = {
   chain: string;
   address: string;
@@ -64,13 +62,4 @@ export type TransferFormData = {
   amount: number;
   toAccountId: string;
   fromAccountId: string;
-};
-
-export type TransactionsHistoryFormData = {
-  type?: TransactionType;
-  types?: TransactionType[];
-  accountId?: string;
-  limit?: number;
-  cursor?: number | string;
-  reverse?: boolean;
 };
