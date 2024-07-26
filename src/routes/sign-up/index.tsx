@@ -1,5 +1,5 @@
 import { schema } from "@/domain/schema";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import AppForm from "@/ui/Form/Form";
 import { svgLogo } from "@/ui/Logo/Logo";
 import { SwitchDarkLightMode } from "@/ui/SwitchDarkLight";
@@ -61,7 +61,7 @@ const checkIcon = (
 );
 
 const SignUp = () => {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const { colorScheme } = useMantineColorScheme();
   const isDark = useMemo(() => {
     return colorScheme === "dark";

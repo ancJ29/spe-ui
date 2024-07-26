@@ -1,7 +1,7 @@
 import { useInterval } from "@mantine/hooks";
 import { useCallback, useEffect, useState } from "react";
 
-export default function useSyncData<T>(
+export default function useSPESyncData<T>(
   fetchData: () => Promise<T | undefined>,
   intervalTime = 30e3,
   _defaultData?: T,

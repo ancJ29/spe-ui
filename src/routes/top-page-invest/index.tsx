@@ -31,7 +31,7 @@ import { useMemo } from "react";
 import undraw_business_deal_re_up4u from "@/assets/images/undraw_business_deal_re_up4u.svg";
 import undraw_done_re_oak4 from "@/assets/images/undraw_done_re_oak4.svg";
 import undraw_product_iteration_kjok from "@/assets/images/undraw_product_iteration_kjok.svg";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import classes from "./index.module.scss";
 
 import journey_detailed from "@/assets/images/journey/detailed.jpg";
@@ -81,7 +81,7 @@ export default function TopPage() {
 }
 
 function Banner() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const navigate = useNavigate();
   return (
     <>
@@ -197,7 +197,7 @@ function SliderCoins({ display = false }: { display?: boolean }) {
 }
 
 function CardsIntro() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const navigate = useNavigate();
   return (
     <>
@@ -328,7 +328,7 @@ function CardsIntro() {
 }
 
 function QuickStart() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const navigate = useNavigate();
 
   return (
@@ -398,7 +398,7 @@ function QuickStart() {
 }
 
 function WhyCopyTradingSection() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   return (
     <>
       <Card radius={"lg"} py={60}>
@@ -461,7 +461,7 @@ function WhyCopyTradingSection() {
 }
 
 function JourneySection() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   return (
     <>
       <Card radius={"lg"} py={60}>
@@ -534,7 +534,7 @@ The trader receives a percentage of the profits they earn based on monthly high 
 }
 
 function TrendingTraders() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const navigate = useNavigate();
 
   return (
@@ -575,7 +575,7 @@ function TrendingTraders() {
 }
 
 export function Footer(props: Partial<{ metadata?: Application }>) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const footer = useMemo(() => {
     return props.metadata?.applications.layout.footer?.common;
   }, [props.metadata]);

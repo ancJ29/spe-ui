@@ -1,4 +1,4 @@
-import useMetadata from "@/hooks/useMetadata";
+import useSPEMetadata from "@/hooks/useSPEMetadata";
 import { Header } from "@/ui/Header";
 import { Box } from "@mantine/core";
 import React from "react";
@@ -7,7 +7,7 @@ const AssetWrapper = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const { data } = useMetadata();
+  const { data } = useSPEMetadata();
   return (
     <>
       <Header metadata={data} />

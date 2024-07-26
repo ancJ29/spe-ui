@@ -1,10 +1,10 @@
 import { Tabs } from "@mantine/core";
 import AppText from "../Text/AppText";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function TermsServiceWrapper() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const l = useLocation();
   const navigate = useNavigate();
 

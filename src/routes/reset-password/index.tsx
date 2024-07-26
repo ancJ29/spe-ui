@@ -1,5 +1,5 @@
 import { schema } from "@/domain/schema";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import AppForm from "@/ui/Form/Form";
 import { Header } from "@/ui/Header";
 import {
@@ -17,7 +17,7 @@ import { convertToResetPasswordFormData } from "./config";
 import classes from "./index.module.scss";
 
 const Page = () => {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const formData = useMemo(() => {
     const searchParams = Object.fromEntries(
       window.location.search

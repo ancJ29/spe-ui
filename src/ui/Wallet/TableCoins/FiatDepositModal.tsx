@@ -1,29 +1,23 @@
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import authStore from "@/store/auth";
+import { SPECopyButton } from "@/ui/SPEMisc";
 import {
   Alert,
   Box,
   Button,
   Card,
-  CopyButton,
   Divider,
   Flex,
-  HoverCard,
   Modal,
   SimpleGrid,
-  Space,
   Text,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import {
-  IconAlertTriangle,
-  IconCopy,
-  IconHelp,
-} from "@tabler/icons-react";
+import { IconAlertTriangle } from "@tabler/icons-react";
 
 export function FiatDepositModal() {
   const [opened, { open, close }] = useDisclosure(false);
-  const t = useTranslation();
+  const t = useSPETranslation();
   const { me } = authStore();
 
   return (
@@ -33,6 +27,12 @@ export function FiatDepositModal() {
         onClose={close}
         title={t("Fiat Deposit")}
         centered
+        styles={{
+          close: {
+            display: "none",
+          },
+          header: {},
+        }}
         size={"lg"}
       >
         <SimpleGrid
@@ -67,39 +67,16 @@ export function FiatDepositModal() {
           <Box c={"dimmed"}>
             <Flex justify={"end"}>フクカワ（ド</Flex>
           </Box>
+          <Text
+            fz={14}
+            fw={"bold"}
+            w={"fit-content"}
+            className="cursor-pointer"
+          >
+            Transfer request
+          </Text>
         </SimpleGrid>
-        <Space mb={20} />
-        <HoverCard
-          openDelay={200}
-          shadow="md"
-          position="top"
-          width={300}
-          withArrow
-          arrowSize={12}
-        >
-          <HoverCard.Target>
-            <Flex w={"fit-content"} align={"center"} gap={5}>
-              <Text
-                fz={14}
-                fw={"bold"}
-                w={"fit-content"}
-                className="cursor-pointer"
-              >
-                Transfer request
-              </Text>
-              <IconHelp size={16} />
-            </Flex>
-          </HoverCard.Target>
-          <HoverCard.Dropdown>
-            <Text size="sm">
-              The minimum deposit amount is 10 USDT deposits below
-              this amount will not be credtied
-            </Text>
-          </HoverCard.Dropdown>
-        </HoverCard>
-        <Space mb={10} />
         <Card
-          py={10}
           px={20}
           styles={{
             root: {
@@ -115,47 +92,7 @@ export function FiatDepositModal() {
             </Box>
             <Text>{me?.fiatDepositMemo || "---"}</Text>
             <Box ml={"auto"}>
-              {/* <CopyButton value="">
-                {({ copied, copy }) => (
-                  <Button
-                    fullWidth
-                    p={0}
-                    variant="transparent"
-                    color={copied ? "teal" : "primary"}
-                    onClick={copy}
-                  >
-                    <Flex
-                      gap={5}
-                      align={"center"}
-                      justify={"end"}
-                      fz={12}
-                    >
-                      <IconCopy size={20} />
-                    </Flex>
-                  </Button>
-                )}
-              </CopyButton> */}
-              <CopyButton value={me?.fiatDepositMemo || ""}>
-                {({ copied, copy }) => (
-                  <Button
-                    fullWidth
-                    p={0}
-                    variant="transparent"
-                    color={copied ? "teal" : "primary"}
-                    onClick={copy}
-                  >
-                    <Flex
-                      gap={5}
-                      align={"center"}
-                      justify={"end"}
-                      fz={12}
-                    >
-                      {copied ? t("Copied") : t("Copy")}
-                      <IconCopy size={20} />
-                    </Flex>
-                  </Button>
-                )}
-              </CopyButton>
+              <SPECopyButton value={me?.fiatDepositMemo || ""} />
             </Box>
           </Flex>
         </Card>
@@ -178,9 +115,6 @@ export function FiatDepositModal() {
                 alignItems: "center",
                 gap: "20px",
               },
-              icon: {
-                // width: "50px"
-              },
             }}
           >
             <Text c={"red"}>
@@ -193,7 +127,13 @@ export function FiatDepositModal() {
         <Text fw={"bold"}>
           {t("Please take note of the following procedures")}:
         </Text>
-        <ul style={{ padding: "0 20px" }}>
+        <ul
+          style={{
+            padding: "0 20px",
+            overflow: "scroll",
+            maxHeight: 200,
+          }}
+        >
           <li>
             <Text fz={14}>
               <strong>

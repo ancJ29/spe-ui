@@ -1,13 +1,12 @@
 import { STATUS_COLORS } from "@/common/configs";
 import { TransactionType } from "@/common/enums";
 import useSPEPagination from "@/hooks/useSPEPagination";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import { fetchTransactions } from "@/services/apis";
 import { Asset } from "@/ui/Asset/Asset";
 import NumberFormat from "@/ui/NumberFormat";
 import { NoDataRecord, SPEPagination } from "@/ui/SPEMisc";
 import {
-  ActionIcon,
   Badge,
   Box,
   Button,
@@ -19,12 +18,11 @@ import {
   Title,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconX } from "@tabler/icons-react";
 import { useCallback, useMemo, useState } from "react";
 import { DepositForm } from "../Form";
 
 export function DepositRecords() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const [opened, { open, close }] = useDisclosure(false);
   const [coin, setCoin] = useState("");
   const openModal = useCallback(
@@ -148,24 +146,7 @@ export function DepositRecords() {
         }}
         scrollAreaComponent={ScrollArea.Autosize}
       >
-        <Box pos={"relative"}>
-          <ActionIcon
-            onClick={close}
-            radius={"xl"}
-            variant="transparent"
-            pos={"absolute"}
-            right={30}
-            top={30}
-            styles={{
-              root: {
-                zIndex: 2,
-              },
-            }}
-          >
-            <IconX color="gray" />
-          </ActionIcon>
-          <DepositForm maw={"100%"} coin={coin} onClose={close} />
-        </Box>
+        <DepositForm maw={"100%"} coin={coin} onClose={close} />
       </Modal>
     </>
   );

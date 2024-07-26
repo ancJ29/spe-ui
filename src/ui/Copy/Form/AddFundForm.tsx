@@ -1,7 +1,7 @@
 import BN from "@/common/big-number";
 import { AccountType } from "@/common/enums";
 import { buildOptions } from "@/common/utils";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import { addCopyFundApi } from "@/services/apis";
 import { assetStore } from "@/store/assets";
 import NumberFormat from "@/ui/NumberFormat";
@@ -25,7 +25,7 @@ export function AddFundForm({
 }: {
   masterAccountId: string;
 }) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const { accounts, balances } = assetStore();
   const options = useMemo(() => {
     return buildOptions(

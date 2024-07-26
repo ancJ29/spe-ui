@@ -1,5 +1,5 @@
 import { schema } from "@/domain/schema";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import AppForm from "@/ui/Form/Form";
 import { Card, Space, Title } from "@mantine/core";
 import { IChangeEvent } from "@rjsf/core";
@@ -11,7 +11,7 @@ export function TransferForm(props: {
   accountIds?: string[];
   onSubmit?: (res: IChangeEvent) => void;
 }) {
-  const t = useTranslation();
+  const t = useSPETranslation();
 
   const formData = useMemo(() => {
     return {

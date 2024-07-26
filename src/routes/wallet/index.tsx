@@ -1,5 +1,5 @@
 import BN from "@/common/big-number";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import { assetStore } from "@/store/assets";
 import NumberFormat from "@/ui/NumberFormat";
 import { TabsWallet } from "@/ui/Wallet";
@@ -17,7 +17,7 @@ import { IconHistory } from "@tabler/icons-react";
 import { useMemo } from "react";
 
 export default function Wallet() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const { overview, balances } = assetStore();
 
   const { totalInUsd, totalInBtc, availableInUsd, availableInBtc } =

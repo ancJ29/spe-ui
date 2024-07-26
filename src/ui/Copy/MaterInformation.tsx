@@ -1,6 +1,6 @@
 import BN from "@/common/big-number";
 import { MODAL_STYLES } from "@/domain/config";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import { fetchMyMasterDetail } from "@/services/apis";
 import tradeStore from "@/store/trade";
 import { CopyMasterDetail } from "@/types";
@@ -28,7 +28,7 @@ import { useEffect, useMemo, useState } from "react";
 import NumberFormat from "../NumberFormat";
 
 export function MaterInformation() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const [hidden, toggle] = useToggle([false, true]);
   const [isUsdt, toggleUsdt] = useToggle([true, false]);
   const [information, setInformation] = useState<CopyMasterDetail>();

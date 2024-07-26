@@ -1,6 +1,6 @@
 import appStore from "@/assets/Download_on_the_App_Store_Badge.svg.png";
 import chPlay from "@/assets/Google_Play_Store_badge_EN.svg.png";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import { generateUri2FA } from "@/utils/utility";
 
 import {
@@ -17,7 +17,7 @@ import {
 import QRCode from "qrcode.react";
 
 export function BindGaForm() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   // cspell:disable-next-line
   const secret = "KVKFKRCPNZQUYMLXOVYDSQKJKZDTSRLD";
 

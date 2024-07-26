@@ -1,5 +1,5 @@
-import useMetadata from "@/hooks/useMetadata";
-import useTranslation from "@/hooks/useTranslation";
+import useSPEMetadata from "@/hooks/useSPEMetadata";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import { Header } from "@/ui/Header";
 import { Tabs } from "@/ui/Wallet";
 import {
@@ -18,8 +18,8 @@ const HistoryWrapper = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const t = useTranslation();
-  const { data } = useMetadata();
+  const t = useSPETranslation();
+  const { data } = useSPEMetadata();
   return (
     <>
       <Header metadata={data} />

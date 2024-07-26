@@ -1,7 +1,7 @@
 import { STATUS_COLORS } from "@/common/configs";
 import { TransactionType } from "@/common/enums";
 import useSPEPagination from "@/hooks/useSPEPagination";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import { fetchTransactions } from "@/services/apis";
 import { Asset } from "@/ui/Asset/Asset";
 import NumberFormat from "@/ui/NumberFormat";
@@ -10,7 +10,7 @@ import { Badge, Box, Table, TableData, Title } from "@mantine/core";
 import { useCallback, useMemo } from "react";
 
 export function FiatDepositRecords() {
-  const t = useTranslation();
+  const t = useSPETranslation();
 
   const fetch = useCallback(
     (cursor: string, limit: number, reverse: boolean) => {

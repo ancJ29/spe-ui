@@ -1,5 +1,4 @@
-import useMetadata from "@/hooks/useMetadata";
-import useOnMounted from "@/hooks/useOnMounted";
+import useSPEMetadata from "@/hooks/useSPEMetadata";
 import { CopyInformation, Tabs } from "@/ui/Copy";
 import TabControl from "@/ui/Copy/TabControl";
 import { Header } from "@/ui/Header";
@@ -11,18 +10,18 @@ import {
   Space,
   Transition,
 } from "@mantine/core";
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 
 const CopyTradeWrapper = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  const { data } = useMetadata();
+  const { data } = useSPEMetadata();
   const [mounted, setMounted] = useState(false);
-  useOnMounted(() => {
+  useEffect(() => {
     setMounted(true);
-  });
+  }, []);
 
   return (
     <Suspense
@@ -34,6 +33,7 @@ const CopyTradeWrapper = ({
             alignItems: "center",
             height: "100vh",
             width: "100vw",
+            opacity: 0.5,
           }}
         >
           <Loader />
@@ -43,7 +43,7 @@ const CopyTradeWrapper = ({
       <Transition
         mounted={mounted}
         transition="fade"
-        duration={400}
+        duration={200}
         timingFunction="ease"
       >
         {(styles) => (

@@ -1,7 +1,7 @@
 import { STATUS_COLORS } from "@/common/configs";
 import { TransactionType } from "@/common/enums";
 import useSPEPagination from "@/hooks/useSPEPagination";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import { fetchTransactions } from "@/services/apis";
 import { Asset } from "@/ui/Asset/Asset";
 import NumberFormat from "@/ui/NumberFormat";
@@ -24,7 +24,7 @@ import { useCallback, useMemo, useState } from "react";
 import { WithdrawForm } from "../Form";
 
 export function WithdrawRecords() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const [opened, { open, close }] = useDisclosure(false);
   const [coin, setCoin] = useState("");
   const openModal = useCallback(

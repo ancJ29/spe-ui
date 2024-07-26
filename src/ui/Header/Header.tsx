@@ -2,7 +2,8 @@ import defaultAvatar from "@/assets/images/defaultAvatar.png";
 import svgLogo from "@/assets/images/logo.svg";
 import { Application } from "@/common/types";
 import { getHeaderMenu } from "@/domain/Application";
-import useTranslation from "@/hooks/useTranslation";
+import { MODAL_STYLES } from "@/domain/config";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import { default as authStore } from "@/store/auth";
 import {
   ActionIcon,
@@ -34,6 +35,7 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { modals } from "@mantine/modals";
 import {
   IconCaretDownFilled,
   IconCheck,
@@ -48,10 +50,11 @@ import { Link } from "react-router-dom";
 import AppButton from "../Button/AppButton";
 import { SwitchDarkLightMode } from "../SwitchDarkLight";
 import SwitchLanguage from "../SwitchLanguage/SwitchLanguage";
+import { DepositForm } from "../Wallet";
 import classes from "./index.module.scss";
 
 export function Header(props: Partial<{ metadata: Application }>) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const theme = useMantineTheme();
@@ -517,7 +520,7 @@ export function Header(props: Partial<{ metadata: Application }>) {
 
 function MenuUserInfo() {
   const { avatar, me, displayName } = authStore();
-  const t = useTranslation();
+  const t = useSPETranslation();
 
   if (!me?.id) {
     return <GroupLinkAuth />;
@@ -615,8 +618,26 @@ function MenuUserInfo() {
           </Menu.Item>
           <Menu.Item
             fw={"bold"}
-            component={Link}
-            to="/user/assets/deposit"
+            onClick={() => {
+              modals.open({
+                ...MODAL_STYLES,
+                styles: {
+                  ...MODAL_STYLES.styles,
+                  content: {
+                    background: "none",
+                    boxShadow: "none",
+                  },
+                },
+                withCloseButton: false,
+                shadow: "none",
+                children: (
+                  <DepositForm
+                    coin="USDT"
+                    onClose={() => modals.closeAll()}
+                  />
+                ),
+              });
+            }}
           >
             Deposit
           </Menu.Item>
@@ -647,7 +668,7 @@ function MenuUserInfo() {
 }
 
 function GroupLinkAuth() {
-  const t = useTranslation();
+  const t = useSPETranslation();
 
   return (
     <>

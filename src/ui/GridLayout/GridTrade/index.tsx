@@ -1,6 +1,6 @@
 import BN from "@/common/big-number";
 import useSPEInterval from "@/hooks/useSPEInterval";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import { assetStore } from "@/store/assets";
 import authStore from "@/store/auth";
 import tradeStore from "@/store/trade";
@@ -100,7 +100,7 @@ export function GridTrade({
   isSpot = false,
   isFuture = false,
 }: GridTradeProps) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const [layouts, setLayouts] = useState(
     localStorage.__TRADE_LAYOUT__
       ? JSON.parse(localStorage.__TRADE_LAYOUT__)
@@ -246,7 +246,7 @@ function BoxInfoTradeFoot({
   base,
   quote,
 }: GridTradeProps) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const { marketInformation } = tradeStore();
   const { isLogin } = authStore();
   const { tradingBalanceMap, tradingAccount, fundingAccount } =
@@ -562,6 +562,9 @@ function BoxInfoTradeFoot({
                 body: {
                   padding: 0,
                   background: "none",
+                },
+                close: {
+                  display: "none",
                 },
                 root: {
                   width: "100%",

@@ -1,6 +1,6 @@
 import allTraderIcon from "@/assets/images/all-trader.svg";
 import topTradeIcon from "@/assets/images/top-trader.svg";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import authStore from "@/store/auth";
 import AppButton from "@/ui/Button/AppButton";
 import { CardTrader, CardTraderTop1 } from "@/ui/CardCopyTrades";
@@ -67,7 +67,7 @@ const traders = [
 
 export default function Page() {
   const [mode, setMode] = useState<"1" | "2">("1");
-  const t = useTranslation();
+  const t = useSPETranslation();
   const [isOffPrice, togglePrice] = useToggle([false, true]);
   const navigate = useNavigate();
   const { me } = authStore();

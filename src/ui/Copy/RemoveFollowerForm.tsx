@@ -1,4 +1,4 @@
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import { pauseFollowerApi } from "@/services/apis";
 import { error, success } from "@/utils/notifications";
 import { Box, Button, Flex, Text } from "@mantine/core";
@@ -14,7 +14,7 @@ export function RemoveFollowerForm({
   uid: string;
   accountId: string;
 }) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   return (
     <Box className="space-y-10">
       <Box fz={14} color="dimmed">

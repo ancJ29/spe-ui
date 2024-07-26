@@ -1,5 +1,5 @@
 import { CopySetting } from "@/common/types";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import { fetchCopySetting, saveCopySetting } from "@/services/apis";
 import { error, success } from "@/utils/notifications";
 import {
@@ -17,7 +17,7 @@ export function CopySettingForm({
 }: {
   masterAccountId: string;
 }) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const [form, setForm] = useState<CopySetting>();
 
   useEffect(() => {

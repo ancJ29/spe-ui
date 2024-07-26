@@ -6,17 +6,17 @@ import {
   convertCoinToCoinUsingRate,
   SwapSideAsName,
 } from "@/domain/marketPrice";
-import useTranslation from "@/hooks/useTranslation";
+import useTranslation from "@/hooks/useSPETranslation";
 import { fetchDepositAddressApi } from "@/services/apis";
 import { assetStore } from "@/store/assets";
 import tradeStore from "@/store/trade";
 import NumberFormat from "@/ui/NumberFormat";
+import { SPECopyButton } from "@/ui/SPEMisc";
 import {
   ActionIcon,
   Box,
   Button,
   Card,
-  CopyButton,
   Divider,
   Flex,
   Image,
@@ -35,7 +35,6 @@ import { WidgetProps } from "@rjsf/utils";
 import {
   IconCaretDownFilled,
   IconCaretUpFilled,
-  IconCopy,
   IconSwitchVertical,
 } from "@tabler/icons-react";
 import { cloneDeep } from "lodash";
@@ -80,6 +79,10 @@ export function InfoDepositCoinWidget(props: WidgetProps) {
         <ol
           className="space-y-6"
           style={{
+            padding: "10px 40px",
+            border: "1px solid #e2e8f0",
+            overflow: "scroll",
+            maxHeight: 150,
             color: "gray",
           }}
         >
@@ -228,7 +231,7 @@ export function QrCodeWidget(props: WidgetProps) {
         </InputLabel>
       </Box>
       <Flex
-        py={20}
+        py={10}
         px={20}
         align={"center"}
         justify={"center"}
@@ -258,29 +261,7 @@ export function QrCodeWidget(props: WidgetProps) {
             value={props.value || ""}
             readOnly
             rightSectionWidth={80}
-            rightSection={
-              <CopyButton value={props.value || ""}>
-                {({ copied, copy }) => (
-                  <Button
-                    fullWidth
-                    p={0}
-                    variant="transparent"
-                    color={copied ? "teal" : "primary"}
-                    onClick={copy}
-                  >
-                    <Flex
-                      gap={5}
-                      align={"center"}
-                      justify={"end"}
-                      fz={12}
-                    >
-                      {copied ? t("Copied") : t("Copy")}
-                      <IconCopy size={20} />
-                    </Flex>
-                  </Button>
-                )}
-              </CopyButton>
-            }
+            rightSection={<SPECopyButton value={props.value || ""} />}
           />
         </Box>
         <Box>

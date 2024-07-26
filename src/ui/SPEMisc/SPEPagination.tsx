@@ -1,4 +1,4 @@
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import { Button, Flex } from "@mantine/core";
 import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
 
@@ -13,7 +13,7 @@ export function SPEPagination({
   goPrev: () => void;
   goNext: () => void;
 }) {
-  const t = useTranslation();
+  const t = useSPETranslation();
 
   return haveNextPage || havePreviousPage ? (
     <Flex justify={"center"} mt={20} gap={10}>

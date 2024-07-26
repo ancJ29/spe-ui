@@ -5,7 +5,7 @@ import orderBuy from "@/assets/images/icon/orderBuy.svg";
 import orderSellLight from "@/assets/images/icon/orderSell-light.svg";
 import orderSell from "@/assets/images/icon/orderSell.svg";
 
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import {
   OrderBookTable,
   type OrderBookType,
@@ -41,7 +41,7 @@ export function OrderBook(props: {
   base: string;
   quote: string;
 }) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   return (
     <>
       <AppTabs

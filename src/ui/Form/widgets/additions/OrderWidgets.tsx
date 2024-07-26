@@ -1,7 +1,7 @@
 import BN from "@/common/big-number";
 import { OrderSide } from "@/common/enums";
 import { freeAmount } from "@/common/utils";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import logger from "@/services/logger";
 import { assetStore } from "@/store/assets";
 import authStore from "@/store/auth";
@@ -75,7 +75,7 @@ export function OrderSideWidget({
   value,
   formContext: { formData, updateFields },
 }: WidgetProps) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   return (
     <SegmentedControl
       fullWidth
@@ -118,7 +118,7 @@ export function TriggerPriceInputFieldWidget({
   onChange,
   formContext: { formData },
 }: WidgetProps) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const { isLogin } = authStore();
 
   if (formData.orderType !== "Conditional") {
@@ -143,7 +143,7 @@ export function TriggerPriceInputFieldWidget({
 }
 
 export function TriggerDirectionWidget(props: WidgetProps) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const { isLogin } = authStore();
 
   if (props.formContext?.formData?.orderType !== "Conditional") {
@@ -201,7 +201,7 @@ export function OrderPriceInputFieldWidget({
   onChange,
   formContext: { formData },
 }: WidgetProps) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const { isLogin } = authStore();
   const changeByLast = useCallback(() => {
     onChange(_lastPrice(formData.symbol));
@@ -239,7 +239,7 @@ export function OrderPriceInputFieldWidget({
 }
 
 export function LeverageWidget(props: WidgetProps) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const { isLogin } = authStore();
 
   const options = useMemo(() => {
@@ -290,7 +290,7 @@ export function VolumeInputFieldWidget({
   onChange,
   formContext: { formData },
 }: WidgetProps) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const { isLogin } = authStore();
   const [percent, setPercent] = useState(0);
   const { openTrades, marketPrices, symbolMap } = tradeStore();
@@ -435,7 +435,7 @@ export function UiBalanceWidget({
   formContext: { formData },
 }: WidgetProps) {
   const { tradingBalanceMap } = assetStore();
-  const t = useTranslation();
+  const t = useSPETranslation();
   const { coin, availableBalance } = useMemo(() => {
     const isBuy = _isBuy(formData?.orderSide || "BUY");
     let coin = isBuy ? formData.quote : formData.base;
@@ -498,7 +498,7 @@ export function UiBalanceWidget({
 }
 
 export function PostOnlyWidget(props: WidgetProps) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   return (
     <ActionOnlyWidget
       tooltip={t(
@@ -511,7 +511,7 @@ export function PostOnlyWidget(props: WidgetProps) {
 }
 
 export function ReduceOnlyWidget(props: WidgetProps) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   return (
     <ActionOnlyWidget
       tooltip={t(
@@ -524,7 +524,7 @@ export function ReduceOnlyWidget(props: WidgetProps) {
 }
 
 export function TimeInForceWidget(props: WidgetProps) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const { isLogin } = authStore();
 
   return (
@@ -578,7 +578,7 @@ export function PlaceOrderButtonsWidget({
 }: WidgetProps) {
   const { isLogin } = authStore();
   const navigate = useNavigate();
-  const t = useTranslation();
+  const t = useSPETranslation();
   const isBuy = useMemo(() => {
     return formData?.orderSide === "BUY";
   }, [formData?.orderSide]);

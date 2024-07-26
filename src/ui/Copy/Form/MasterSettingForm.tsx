@@ -1,4 +1,4 @@
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import { updateMasterSettingApi } from "@/services/apis";
 import { CopyMasterDetail, CopyMasterSetting } from "@/types";
 import { error, success } from "@/utils/notifications";
@@ -22,7 +22,7 @@ export function MasterSettingForm({
 }: {
   information: CopyMasterDetail;
 }) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const [form, setForm] = useState<CopyMasterSetting>({
     avatar: information.avatar,
     name: information.name,

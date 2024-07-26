@@ -1,4 +1,4 @@
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import {
   Alert,
   Box,
@@ -13,7 +13,7 @@ import {
 import { IconInfoCircle } from "@tabler/icons-react";
 
 export function UserChangePasswordForm() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   return (
     <>
       <Center h={"100%"}>

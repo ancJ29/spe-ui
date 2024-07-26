@@ -1,7 +1,7 @@
 import { ROWS_PER_PAGE } from "@/common/configs";
 import { MODAL_STYLES } from "@/domain/config";
-import useSyncData from "@/hooks/useSyncData";
-import useTranslation from "@/hooks/useTranslation";
+import useSPESyncData from "@/hooks/useSPESyncData";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import {
   fetchFollowerInformation,
   remarkFollowerApi,
@@ -31,9 +31,9 @@ import { IconDeviceFloppy, IconUserX } from "@tabler/icons-react";
 import { useCallback, useMemo, useState } from "react";
 
 export default function FollowerPositions() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const fetch = useCallback(() => fetchFollowerInformation(), []);
-  const followers = useSyncData<FollowerInformation[]>(fetch);
+  const followers = useSPESyncData<FollowerInformation[]>(fetch);
   const total = useMemo(
     () => 1 + Math.floor((followers?.length || 0) / ROWS_PER_PAGE),
     [followers],
@@ -151,7 +151,7 @@ function Remark({
   remark: string;
   accountId: string;
 }) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const [value, setValue] = useState(remark || "");
 
   return (

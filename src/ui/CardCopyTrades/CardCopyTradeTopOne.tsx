@@ -1,5 +1,5 @@
 import trade_icon from "@/assets/images/trade_icon.png";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import {
   Avatar,
   Box,
@@ -21,7 +21,7 @@ import classes from "./index.module.scss";
 export function CardTraderTop1(
   props: Partial<{ avatar: string; userName: string; top: number }>,
 ) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const images = [
     "https://s1.bycsi.com/bybit/deadpool/704be805648811ed890b8e79ed0a92f0.png",
     "https://s1.bycsi.com/bybit/deadpool/84f87add648811ed890b8e79ed0a92f0.png",

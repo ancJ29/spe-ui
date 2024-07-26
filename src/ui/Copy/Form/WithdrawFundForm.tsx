@@ -1,6 +1,6 @@
 import { AccountType } from "@/common/enums";
 import { buildOptions } from "@/common/utils";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import {
   fetchCopyOpenPositions,
   withdrawCopyFundApi,
@@ -34,7 +34,7 @@ export function WithdrawFundForm({
   following?: boolean;
   masterAccountId: string;
 }) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const { accounts } = assetStore();
   const [positions, setPositions] = useState<CopyPosition[]>([]);
   const options = useMemo(() => {

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import AppButton from "@/ui/Button/AppButton";
 import AppCard from "@/ui/Card/AppCard";
 import AppChart from "@/ui/Chart/Chart";
@@ -530,7 +530,7 @@ const performanceItems = [
 ];
 
 function Performance() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   return (
     <>
       <Group justify="space-between" p={0} m={0}>
@@ -858,7 +858,7 @@ const profitItems = [
 // cspell:enable
 
 function Profit() {
-  const t = useTranslation();
+  const t = useSPETranslation();
 
   return (
     <>
@@ -973,7 +973,7 @@ function TabsUI() {
     ["JASMYUSDT", "UNIUSDT", "GOLDUSDT"],
     [44, 55, 13],
   ];
-  const t = useTranslation();
+  const t = useSPETranslation();
   const [mode, setMode] = useState<1 | 2 | 3>(1);
 
   return (

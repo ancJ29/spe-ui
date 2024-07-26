@@ -1,7 +1,7 @@
 import BN from "@/common/big-number";
 import { TransactionType } from "@/common/enums";
 import useSPEPagination from "@/hooks/useSPEPagination";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import { fetchTransactions } from "@/services/apis";
 import { assetStore } from "@/store/assets";
 import { Asset } from "@/ui/Asset/Asset";
@@ -24,7 +24,7 @@ const TRANSACTION_TYPES = [
 
 export function OtherRecords() {
   const { accountById } = assetStore();
-  const t = useTranslation();
+  const t = useSPETranslation();
 
   const fetch = useCallback(
     (cursor: string, limit: number, reverse: boolean) => {

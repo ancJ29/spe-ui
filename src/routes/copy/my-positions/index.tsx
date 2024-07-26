@@ -16,7 +16,7 @@ import { Box, Table, TableData } from "@mantine/core";
 import { useEffect, useMemo, useState } from "react";
 
 export default function MyOrders() {
-  // const t = useTranslation();
+  // const t = useSPETranslation();
   const [positions, setPositions] = useState<CopyPosition[]>([]);
   useEffect(() => {
     fetchCopyOpenPositions().then(setPositions);

@@ -1,4 +1,4 @@
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import MyTraders from "@/routes/copy/my-traders";
 import { assetStore } from "@/store/assets";
 import authStore from "@/store/auth";
@@ -12,7 +12,7 @@ export function TabsWallet() {
   const { me } = authStore();
   const [hideZero, setHideZero] = useState(false);
   const { masterTraders } = assetStore();
-  const t = useTranslation();
+  const t = useSPETranslation();
   return (
     <>
       <Box pos={"relative"}>

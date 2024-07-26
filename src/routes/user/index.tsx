@@ -1,5 +1,5 @@
 import { priceDisplay } from "@/common/utils";
-import useTranslation from "@/hooks/useTranslation";
+import useTranslation from "@/hooks/useSPETranslation";
 import authStore from "@/store/auth";
 import {
   AntiPhishingCodeSettingsForm,

@@ -1,4 +1,4 @@
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import authStore from "@/store/auth";
 import {
   Center,
@@ -10,7 +10,7 @@ import { IconCopyright, IconHome } from "@tabler/icons-react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 export default function TabControl() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const { me } = authStore();
   const { pathname } = useLocation();
   const navigate = useNavigate();

@@ -1,4 +1,4 @@
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import {
   Anchor,
   Box,
@@ -12,7 +12,7 @@ import {
 import { IconChevronRight } from "@tabler/icons-react";
 
 export default function Page() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   return (
     <>
       <Container>

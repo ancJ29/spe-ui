@@ -1,5 +1,5 @@
 import defaultAvatar from "@/assets/images/defaultAvatar.png";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import { updateUserApi } from "@/services/apis";
 import authStore from "@/store/auth";
 import { UserUpdateType } from "@/types";
@@ -21,7 +21,7 @@ import { IconCircleCheck, IconEdit } from "@tabler/icons-react";
 import { useState } from "react";
 
 export function EditNickNameForm() {
-  const t = useTranslation();
+  const t = useSPETranslation();
 
   const { avatar, me, displayName } = authStore();
   const onChangeNickName = () => {
@@ -75,7 +75,7 @@ export function EditNickNameForm() {
 }
 
 export function ModalNickName({ nickName }: { nickName: string }) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const [newNickName, setNewNickName] = useState(nickName);
   return (
     <>

@@ -3,7 +3,7 @@ import { ORDER_BOOK_LIMIT } from "@/common/configs";
 import { OrderSide } from "@/common/enums";
 import { last } from "@/common/utils";
 import useSPEInterval from "@/hooks/useSPEInterval";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import { fetchOrderBooks } from "@/services/apis";
 import tradeStore from "@/store/trade";
 import { formatCurrency } from "@/utils";
@@ -50,7 +50,7 @@ export function OrderBookTable({
   quote: string;
   symbol: string;
 }) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const { marketInformation } = tradeStore();
 
   const [

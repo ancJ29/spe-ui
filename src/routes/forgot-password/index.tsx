@@ -1,5 +1,5 @@
 import { schema } from "@/domain/schema";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import AppForm from "@/ui/Form/Form";
 import { Header } from "@/ui/Header";
 import {
@@ -17,7 +17,7 @@ import classes from "./index.module.scss";
 import { useNavigate } from "react-router-dom";
 
 const Page = () => {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const navigate = useNavigate();
   return (
     <>

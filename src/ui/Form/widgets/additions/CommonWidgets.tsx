@@ -1,10 +1,10 @@
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import { Center, SegmentedControl, rem } from "@mantine/core";
 import { WidgetProps } from "@rjsf/utils";
 import { IconMailHeart, IconPhone } from "@tabler/icons-react";
 
 export function TabWidget(props: WidgetProps) {
-  const t = useTranslation();
+  const t = useSPETranslation();
 
   return (
     <>

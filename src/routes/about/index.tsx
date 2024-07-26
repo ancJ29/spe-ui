@@ -3,7 +3,7 @@ import svgLogoLight from "@/assets/images/logo_light.svg";
 import undraw_business_deal_re_up4u from "@/assets/images/undraw_business_deal_re_up4u.svg";
 import undraw_done_re_oak4 from "@/assets/images/undraw_done_re_oak4.svg";
 import undraw_product_iteration_kjok from "@/assets/images/undraw_product_iteration_kjok.svg";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import {
   Alert,
   Box,
@@ -36,7 +36,7 @@ import { useNavigate } from "react-router-dom";
 const hidden = true;
 
 export default function About() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const navigate = useNavigate();
 
   return (
@@ -231,7 +231,7 @@ export default function About() {
 }
 
 function WhyCopyTradingSection() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   return (
     <>
       <Card radius={"lg"} py={60}>

@@ -1,5 +1,5 @@
 import BN from "@/common/big-number";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import { fetchMyCopyInformation } from "@/services/apis";
 import tradeStore from "@/store/trade";
 import { CopyInformation } from "@/types";
@@ -24,7 +24,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 
 export function FollowerInformation() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const [hidden, toggle] = useToggle([false, true]);
   const [isUsdt, toggleUsdt] = useToggle([true, false]);
   const [information, setInformation] = useState<CopyInformation>();

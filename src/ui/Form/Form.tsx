@@ -1,5 +1,5 @@
 import { GenericObject } from "@/common/types";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import axios from "@/services/apis";
 import logger from "@/services/logger";
 import { SPEResponse } from "@/types";
@@ -61,7 +61,7 @@ const AppForm = forwardRef(
     { xFlag = false, showJsonOutput = false, ...props }: AppFormProps,
     ref,
   ) => {
-    const t = useTranslation();
+    const t = useSPETranslation();
     const [visible, { toggle, close }] = useDisclosure(false);
     const [counter, setCounter] = useState(0);
     const [schema, setSchema] = useState<RJSFSchema>(props.schema);

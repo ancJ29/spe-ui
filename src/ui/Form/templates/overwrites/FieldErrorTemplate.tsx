@@ -1,4 +1,4 @@
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import { Text } from "@mantine/core";
 import { FieldErrorProps } from "@rjsf/utils";
 
@@ -23,7 +23,7 @@ function ErrorMessages({
 }: {
   errors: FieldErrorProps["errors"];
 }) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const errorMessage = errors?.[0] ?? <></>;
   if (typeof errorMessage === "string") {
     // must have required property 'Email'
@@ -45,7 +45,7 @@ export function FieldErrorTemplate({
   errors,
   idSchema,
 }: FieldErrorProps) {
-  // const t = useTranslation();
+  // const t = useSPETranslation();
   if (idSchema.$id === "root") {
     return <></>;
   }

@@ -1,4 +1,4 @@
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import phoneCode from "@/ui/Form/widgets/mocks/phone-code.json";
 import {
   Box,
@@ -18,7 +18,7 @@ import { IconCheck, IconChevronDown } from "@tabler/icons-react";
 import { useMemo, useState } from "react";
 
 export function BindPhoneForm() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const openModal = () => {
     return modals.open({
       title: t("Bind Phone"),
@@ -44,7 +44,7 @@ export function BindPhoneForm() {
 }
 
 export function BindPhoneModal() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const [region, setRegion] = useState("+81 Japan");
   const info = useMemo(() => {
     return phoneCode.find((v) => v.value === region);

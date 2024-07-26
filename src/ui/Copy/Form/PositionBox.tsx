@@ -2,7 +2,7 @@ import BN from "@/common/big-number";
 import { OrderSide } from "@/common/enums";
 import { profit } from "@/common/logic";
 import { COIN_IMAGES } from "@/domain/config";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import tradeStore from "@/store/trade";
 import { CopyPosition } from "@/types";
 import NumberFormat from "@/ui/NumberFormat";
@@ -14,7 +14,7 @@ export default function PositionBox({
 }: {
   position: CopyPosition;
 }) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const { marketInformation } = tradeStore();
   const { color, unRealizedPnl, pnlColor } = useMemo(() => {
     const color = position.side === OrderSide.BUY ? "green" : "red";

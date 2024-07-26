@@ -1,4 +1,4 @@
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import {
   Alert,
   Box,
@@ -13,7 +13,7 @@ import { modals } from "@mantine/modals";
 import { IconInfoCircle } from "@tabler/icons-react";
 
 export function AntiPhishingCodeSettingsForm() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const openModal = () => {
     return modals.open({
       title: t("Anti-Phishing Code Settings"),
@@ -38,7 +38,7 @@ export function AntiPhishingCodeSettingsForm() {
 }
 
 export function AntiPhishingCodeSettingsModal() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   return (
     <Center h={"100%"}>
       <Box>

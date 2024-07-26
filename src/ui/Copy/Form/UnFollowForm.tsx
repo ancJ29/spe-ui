@@ -2,7 +2,7 @@ import BN from "@/common/big-number";
 import { OrderSide } from "@/common/enums";
 import { profit } from "@/common/logic";
 import { COIN_IMAGES } from "@/domain/config";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import { fetchCopyOpenPositions, unFollowApi } from "@/services/apis";
 import tradeStore from "@/store/trade";
 import { CopyPosition } from "@/types";
@@ -29,7 +29,7 @@ export function UnFollowForm({
   name: string;
   masterAccountId: string;
 }) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const [positions, setPositions] = useState<CopyPosition[]>([]);
   const { marketInformation } = tradeStore();
   useEffect(() => {

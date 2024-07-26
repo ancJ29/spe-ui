@@ -1,5 +1,5 @@
 import { schema } from "@/domain/schema";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import AppForm from "@/ui/Form/Form";
 import { Header } from "@/ui/Header";
 import {
@@ -16,7 +16,7 @@ import { convertToLoginFormData } from "./config";
 import classes from "./login.module.scss";
 
 const Login = () => {
-  const t = useTranslation();
+  const t = useSPETranslation();
   return (
     <>
       <Header />

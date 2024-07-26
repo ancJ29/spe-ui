@@ -2,7 +2,7 @@
 import allTraderIcon from "@/assets/images/all-trader.svg";
 import moneyIcon from "@/assets/images/money.svg";
 import topTradeIcon from "@/assets/images/top-trader.svg";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import authStore from "@/store/auth";
 import AppButton from "@/ui/Button/AppButton";
 import AppCard from "@/ui/Card/AppCard";
@@ -76,7 +76,7 @@ const traders = [
 ];
 
 export default function CopyTrade() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const [opened, { close, open }] = useDisclosure(false);
   const [mode, setMode] = useState<"1" | "2">("1");
   const { me } = authStore();

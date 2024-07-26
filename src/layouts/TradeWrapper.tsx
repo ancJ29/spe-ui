@@ -1,5 +1,5 @@
 import { delay } from "@/common/utils";
-import useMetadata from "@/hooks/useMetadata";
+import useSPEMetadata from "@/hooks/useSPEMetadata";
 import { Header } from "@/ui/Header";
 import { Box, Loader, Transition } from "@mantine/core";
 import React, { Suspense, useEffect, useState } from "react";
@@ -9,7 +9,7 @@ const TradeWrapper = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const { data } = useMetadata();
+  const { data } = useSPEMetadata();
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     delay(500).then(() => setMounted(true));

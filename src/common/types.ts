@@ -171,6 +171,7 @@ export type Position = {
 };
 
 export type Order = {
+  id: string;
   symbol: string;
   orderId: string;
   type: OrderType;

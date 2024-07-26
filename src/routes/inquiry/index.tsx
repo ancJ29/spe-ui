@@ -1,4 +1,4 @@
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import { inquiryApi } from "@/services/apis";
 import logger from "@/services/logger";
 import { error, success } from "@/utils/notifications";
@@ -18,7 +18,7 @@ import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 export default function Inquiry() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const [searchParams] = useSearchParams();
   logger.trace("type", searchParams.get("type"));
   const [form, setForm] = useState({

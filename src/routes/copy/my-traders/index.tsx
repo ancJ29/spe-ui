@@ -1,5 +1,5 @@
 import { MODAL_STYLES } from "@/domain/config";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import { assetStore } from "@/store/assets";
 import AppButton from "@/ui/Button/AppButton";
 import {
@@ -25,7 +25,7 @@ import {
 import { useMemo } from "react";
 
 export default function MyTraders() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const { masterTraders: traders } = assetStore();
 
   const tableData: TableData = useMemo(() => {

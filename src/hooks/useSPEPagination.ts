@@ -9,8 +9,8 @@ export default function useSPEPagination<T extends GenericObject>(
     limit: number,
     reverse: boolean,
   ) => Promise<T[]>,
-  limit = ROWS_PER_PAGE,
   cursorKey = "id",
+  limit = ROWS_PER_PAGE,
 ) {
   const [init, setInit] = useState(true);
   const [data, setData] = useState<T[]>([]);

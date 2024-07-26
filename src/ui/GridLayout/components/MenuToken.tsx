@@ -1,5 +1,5 @@
 import { ASSET_COIN_LIST, SYMBOL_LISTS } from "@/common/configs";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import tradeStore from "@/store/trade";
 import { GridTradeProps } from "@/types";
 import { AppCarousel } from "@/ui/Carousel/Carousel";
@@ -25,7 +25,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 export function MenuToken({ symbol, base, quote }: GridTradeProps) {
-  const t = useTranslation();
+  const t = useSPETranslation();
 
   return (
     <Menu
@@ -123,7 +123,7 @@ export function ListCateAsSlide(props: Partial<{ items: string[] }>) {
 }
 
 export function TableTokens() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const { marketInformation } = tradeStore();
   const navigate = useNavigate();
   const tableData = (): TableData => {

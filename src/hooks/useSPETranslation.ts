@@ -1,7 +1,8 @@
 import { t as _t } from "@/common/utils";
 import { LanguageContext } from "@/context/LanguageContext";
 import { useCallback, useContext } from "react";
-export default function useTranslation(): (
+
+export default function useSPETranslation(): (
   key?: string,
   ...args: (string | number)[]
 ) => string {

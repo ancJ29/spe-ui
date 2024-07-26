@@ -1,11 +1,11 @@
-import useMetadata from "@/hooks/useMetadata";
+import useSPEMetadata from "@/hooks/useSPEMetadata";
 import { Footer } from "@/routes/top-page";
 import appStore from "@/store/app";
 import { Header } from "@/ui/Header";
+import { Divider } from "@mantine/core";
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import AppWrapper from "./AppWrapper";
-import { Divider } from "@mantine/core";
 
 export default function ServiceWrapper({
   children,
@@ -13,7 +13,7 @@ export default function ServiceWrapper({
   children: React.ReactNode;
 }) {
   const { pathname } = useLocation();
-  const { data } = useMetadata();
+  const { data } = useSPEMetadata();
 
   useEffect(() => {
     appStore.getState().toggleLoading(true);

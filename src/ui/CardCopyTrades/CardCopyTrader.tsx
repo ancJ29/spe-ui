@@ -1,5 +1,5 @@
 import trade_icon from "@/assets/images/trade_icon.png";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import {
   Avatar,
   Box,
@@ -19,7 +19,7 @@ import AppText from "../Text/AppText";
 import classes from "./index.module.scss";
 
 export function CardTrader() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   return (
     <>
       <Card

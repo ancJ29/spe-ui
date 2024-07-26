@@ -1,8 +1,8 @@
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import AppButton from "../Button/AppButton";
 
 export default function GroupLinkAuth() {
-  const t = useTranslation();
+  const t = useSPETranslation();
 
   return (
     <>

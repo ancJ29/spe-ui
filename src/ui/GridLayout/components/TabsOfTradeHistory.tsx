@@ -1,8 +1,8 @@
 import { OrderSide } from "@/common/enums";
 import { cleanEmpty } from "@/common/utils";
 import { IS_DEV } from "@/domain/config";
-import useSyncData from "@/hooks/useSyncData";
-import useTranslation from "@/hooks/useTranslation";
+import useSPESyncData from "@/hooks/useSPESyncData";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import {
   cancelOrderApi,
   closeOrderApi,
@@ -60,7 +60,7 @@ export function TabsOfTradeHistory({
   const [activeTab, setActiveTab] = useState(
     IS_DEV ? "tradeHistory" : isSpot ? "currentOrders" : "positions",
   );
-  const t = useTranslation();
+  const t = useSPETranslation();
   const { openTrades } = tradeStore();
   const { totalOpenOrders, totalOpenPositions } = useMemo(() => {
     const totalOpenOrders = openTrades.openOrders[symbol] || 0;
@@ -295,7 +295,7 @@ export function TabsOfTradeHistory({
 
 function TradeHistory({ symbol, isFuture }: TabProps) {
   const fetch = useCallback(() => fetchTrades(symbol), [symbol]);
-  const trades = useSyncData<Trade[]>(fetch, 15e3);
+  const trades = useSPESyncData<Trade[]>(fetch, 15e3);
   return (
     <SPETable
       tableData={{
@@ -350,7 +350,7 @@ function TradeHistory({ symbol, isFuture }: TabProps) {
 
 function OrderHistory({ symbol, isFuture }: TabProps) {
   const fetch = useCallback(() => fetchOrders(symbol), [symbol]);
-  const orders = useSyncData<Order[]>(fetch, 15e3);
+  const orders = useSPESyncData<Order[]>(fetch, 15e3);
   return (
     <SPETable
       tableData={{
@@ -421,12 +421,12 @@ function OrderHistory({ symbol, isFuture }: TabProps) {
 }
 
 function CurrentOrders({ symbol, isFuture }: TabProps) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const fetch = useCallback(
     () => fetchActiveOrders(symbol),
     [symbol],
   );
-  const orders = useSyncData<Order[]>(fetch, 15e3);
+  const orders = useSPESyncData<Order[]>(fetch, 15e3);
   return (
     <SPETable
       tableData={{
@@ -526,12 +526,12 @@ function CurrentOrders({ symbol, isFuture }: TabProps) {
 }
 
 function Positions({ symbol, isFuture }: TabProps) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const fetch = useCallback(() => {
     logger.trace("fetching open positions", symbol);
     return fetchOpenPositions(symbol);
   }, [symbol]);
-  const positions = useSyncData<Position[]>(fetch, 10e3, []);
+  const positions = useSPESyncData<Position[]>(fetch, 10e3, []);
   return (
     <SPETable
       tableData={{
@@ -637,7 +637,7 @@ function ClosedPnL({ symbol, isFuture }: TabProps) {
     () => fetchClosedPositions(symbol),
     [symbol],
   );
-  const positions = useSyncData<Position[]>(fetch, 15e3);
+  const positions = useSPESyncData<Position[]>(fetch, 15e3);
   return (
     <SPETable
       tableData={{
@@ -702,7 +702,7 @@ function ClosedPnL({ symbol, isFuture }: TabProps) {
 
 function LoginOrRegister() {
   const navigate = useNavigate();
-  const t = useTranslation();
+  const t = useSPETranslation();
 
   return (
     <Flex h={200} w={"100%"} align={"center"} justify={"center"}>
@@ -774,7 +774,7 @@ function LoginOrRegister() {
 }
 
 function More() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const debug = false;
   if (debug) {
     return <></>;

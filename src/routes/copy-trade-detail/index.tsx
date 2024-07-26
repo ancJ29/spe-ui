@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import AppButton from "@/ui/Button/AppButton";
 import AppCard from "@/ui/Card/AppCard";
 import AppChart from "@/ui/Chart/Chart";
@@ -492,7 +492,7 @@ function Banner() {
 }
 
 function Performance() {
-  const t = useTranslation();
+  const t = useSPETranslation();
 
   const items = [
     [
@@ -974,7 +974,7 @@ function TabsUI() {
     ["JASMYUSDT", "UNIUSDT", "GOLDUSDT"],
     [44, 55, 13],
   ];
-  const t = useTranslation();
+  const t = useSPETranslation();
   const [mode, setMode] = useState<1 | 2 | 3>(1);
 
   return (

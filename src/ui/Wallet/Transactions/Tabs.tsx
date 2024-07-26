@@ -1,4 +1,4 @@
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import authStore from "@/store/auth";
 import AppTabs from "@/ui/Tabs";
 import { useCallback, useEffect, useState } from "react";
@@ -15,7 +15,7 @@ import { WithdrawRecords } from "./WithdrawRecords";
 export function Tabs() {
   const { me } = authStore();
 
-  const t = useTranslation();
+  const t = useSPETranslation();
   const [tab, setTab] = useState<string | null>("swap");
   const navigate = useNavigate();
   const location = useLocation();

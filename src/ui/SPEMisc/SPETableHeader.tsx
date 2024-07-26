@@ -1,5 +1,5 @@
 import { buildArray } from "@/common/utils";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import { Box } from "@mantine/core";
 
 export function SPETableHeader({
@@ -7,7 +7,7 @@ export function SPETableHeader({
 }: {
   label: string | string[];
 }) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   return (
     <Box
       py={5}

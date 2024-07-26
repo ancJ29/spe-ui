@@ -1,5 +1,5 @@
 import { OrderSide } from "@/common/enums";
-import useSyncData from "@/hooks/useSyncData";
+import useSPESyncData from "@/hooks/useSPESyncData";
 import { fetchOpenCopyPositions } from "@/services/apis";
 import { CopyPosition } from "@/types";
 import {
@@ -18,7 +18,7 @@ export default function MasterPositions() {
   const fetch = useCallback(() => {
     return fetchOpenCopyPositions();
   }, []);
-  const positions = useSyncData<CopyPosition[]>(fetch, 15e3);
+  const positions = useSPESyncData<CopyPosition[]>(fetch, 15e3);
 
   const tableData: TableData = useMemo(() => {
     return {

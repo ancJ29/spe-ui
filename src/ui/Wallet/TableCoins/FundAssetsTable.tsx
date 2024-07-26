@@ -1,7 +1,7 @@
 import BN from "@/common/big-number";
 import { ASSET_COIN_LIST } from "@/common/configs";
 import { COIN_IMAGES } from "@/domain/config";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import { assetStore } from "@/store/assets";
 import NumberFormat from "@/ui/NumberFormat";
 import { NoDataRecord } from "@/ui/SPEMisc";
@@ -36,7 +36,7 @@ type ModalMode =
   | "ADDRESS";
 
 export function FundAssetsTable({ hideZero }: { hideZero: boolean }) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const { accounts, balances, fundingAccount, tradingAccount } =
     assetStore();
   const [modalMode, setModalMode] = useState<ModalMode>();
@@ -186,38 +186,32 @@ export function FundAssetsTable({ hideZero }: { hideZero: boolean }) {
         withCloseButton={false}
         size={"600px"}
         shadow="none"
+        scrollAreaComponent={ScrollArea.Autosize}
         styles={{
-          body: {
-            // border: "solid 1px red",
-          },
-          root: {
-            // border: "solid 1px blue",
-          },
           content: {
-            // border: "solid 1px orange",
             background: "none",
             boxShadow: "none",
-            // overflow: "hidden"
           },
         }}
-        scrollAreaComponent={ScrollArea.Autosize}
       >
         <Box pos={"relative"}>
-          <ActionIcon
-            onClick={close}
-            radius={"xl"}
-            variant="transparent"
-            pos={"absolute"}
-            right={30}
-            top={30}
-            styles={{
-              root: {
-                zIndex: 2,
-              },
-            }}
-          >
-            <IconX color="gray" />
-          </ActionIcon>
+          {modalMode !== "DEPOSIT" && (
+            <ActionIcon
+              onClick={close}
+              radius={"xl"}
+              variant="transparent"
+              pos={"absolute"}
+              right={30}
+              top={30}
+              styles={{
+                root: {
+                  zIndex: 2,
+                },
+              }}
+            >
+              <IconX color="gray" />
+            </ActionIcon>
+          )}
           {modalMode == "DEPOSIT" && (
             <DepositForm maw={"100%"} coin={coin} onClose={close} />
           )}

@@ -2,7 +2,7 @@ import BN from "@/common/big-number";
 import { ASSET_COIN_LIST } from "@/common/configs";
 import { AccountType } from "@/common/enums";
 import { COIN_IMAGES } from "@/domain/config";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import { assetStore } from "@/store/assets";
 import NumberFormat from "@/ui/NumberFormat";
 import { NoDataRecord } from "@/ui/SPEMisc";
@@ -31,7 +31,7 @@ export function TradingAssetsTable({
   hideZero: boolean;
   defaultTransferType?: "transferIn" | "transferOut";
 }) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const [opened, { open, close }] = useDisclosure(false);
   const [coin, setCoin] = useState("");
   const { accounts, balances, fundingAccount, tradingAccount } =

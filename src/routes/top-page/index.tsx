@@ -1,7 +1,7 @@
 // cspell: disable
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Application } from "@/domain/Application";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import AppButton from "@/ui/Button/AppButton";
 import CarouselPage from "@/ui/Carousel/Carousel";
 import AppChart, { randomizeArraySparkline } from "@/ui/Chart/Chart";
@@ -408,7 +408,7 @@ function TableBarNewListing(props: { items: Gainer[] }) {
 
 const items = [...Array(20)];
 function TrendingTraders() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   return (
     <div>
       <Title order={2}>Trending traders</Title>
@@ -518,7 +518,7 @@ function TrendingTraders() {
 }
 
 function QuickStart() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const navigate = useNavigate();
 
   return (
@@ -631,7 +631,7 @@ function PartnerSection() {
 }
 
 export function Footer(props: Partial<{ metadata: Application }>) {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const footer = useMemo(() => {
     return props.metadata?.applications.layout.footer?.common;
   }, [props.metadata]);

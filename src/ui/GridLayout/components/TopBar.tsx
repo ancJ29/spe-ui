@@ -1,5 +1,5 @@
 import BN from "@/common/big-number";
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import tradeStore from "@/store/trade";
 import { GridTradeProps } from "@/types";
 import NumberFormat from "@/ui/NumberFormat";
@@ -20,7 +20,7 @@ export function TopBar({
   quote,
 }: GridTradeProps) {
   const { hovered, ref } = useHover();
-  const t = useTranslation();
+  const t = useSPETranslation();
   const { marketInformation } = tradeStore();
   const info = useMemo(() => {
     const data = marketInformation[symbol];

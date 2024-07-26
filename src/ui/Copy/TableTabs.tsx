@@ -1,4 +1,4 @@
-import useTranslation from "@/hooks/useTranslation";
+import useSPETranslation from "@/hooks/useSPETranslation";
 import { last } from "lodash";
 import { useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -49,7 +49,7 @@ const FOLLOWER_TABS = [
 }));
 
 export function Tabs() {
-  const t = useTranslation();
+  const t = useSPETranslation();
   const { pathname } = useLocation();
   const tab = useMemo(() => {
     return last(pathname.split("/"));
