@@ -66,7 +66,7 @@ const initialLayouts = {
   md: [
     {
       w: 7,
-      h: 12,
+      h: 20,
       x: 0,
       y: 0,
       i: "0",
@@ -75,7 +75,7 @@ const initialLayouts = {
     },
     {
       w: 3,
-      h: 12,
+      h: 20,
       x: 7,
       y: 0,
       i: "1",
@@ -86,14 +86,13 @@ const initialLayouts = {
       w: 10,
       h: 8,
       x: 0,
-      y: 12,
+      y: 20,
       i: "2",
       moved: false,
       static: false,
     },
   ],
 };
-
 export function GridTrade({
   base,
   quote,

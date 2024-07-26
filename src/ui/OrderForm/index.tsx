@@ -30,7 +30,7 @@ export default function OrderForm({
         }}
         api="/api/order/create"
         formDataConverter={convertToSpotTradeFormData}
-        onSubmit={() => {
+        onSuccess={() => {
           setTimeout(() => {
             tradeStore.getState().loadOpenTrades();
             setTimeout(() => {
