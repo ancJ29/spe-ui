@@ -38,7 +38,7 @@ export function WithdrawRecords() {
   const fetch = useCallback(
     (cursor: string, limit: number, reverse: boolean) => {
       return fetchTransactions(
-        TransactionType.FIAT_DEPOSIT,
+        TransactionType.WITHDRAW,
         limit,
         cursor,
         reverse,
