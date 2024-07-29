@@ -1,6 +1,7 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
+  "rewrites": [{ "source": "/^((?!tv).)*$", "destination": "/index.html" }],
   "github": {
     "enabled": true
   }
 }
+
