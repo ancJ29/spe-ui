@@ -1,5 +1,4 @@
 import defaultAvatar from "@/assets/images/defaultAvatar.png";
-import svgLogo from "@/assets/images/logo.svg";
 import { Application } from "@/common/types";
 import { getHeaderMenu } from "@/domain/Application";
 import { MODAL_STYLES } from "@/domain/config";
@@ -24,8 +23,8 @@ import {
   lighten,
   Menu,
   rem,
-  ScrollArea,
   SimpleGrid,
+  Space,
   Text,
   ThemeIcon,
   Tooltip,
@@ -52,38 +51,25 @@ import { SwitchDarkLightMode } from "../SwitchDarkLight";
 import SwitchLanguage from "../SwitchLanguage/SwitchLanguage";
 import { DepositForm } from "../Wallet";
 import classes from "./index.module.scss";
+import { svgLogo } from "../Logo/Logo";
 
 export function Header(props: Partial<{ metadata: Application }>) {
   const t = useSPETranslation();
-  const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
-    useDisclosure(false);
   const theme = useMantineTheme();
-  const { setColorScheme } = useMantineColorScheme();
-  const computedColorScheme = useComputedColorScheme("dark", {
-    getInitialValueInEffect: true,
-  });
 
   const menu = useMemo(() => {
     return getHeaderMenu(props.metadata);
   }, [props.metadata]);
 
-  const [opened, setOpened] = useState<Record<string, unknown>>({});
-
-  const toggle = (id: string, _opened: boolean) => {
-    setOpened((pr: Record<string, unknown>) => {
-      return { ...pr, [id]: _opened };
-    });
-  };
-
   return (
     <>
       <header className={classes.header}>
-        <Group justify="space-between" h="100%">
+        <Group justify="space-between" h="100%" w={"100%"}>
           <Group h="100%">
             <Box component={Link} to={"/"}>
-              <Image src={svgLogo} w={100} />
+              <Image src={svgLogo} w={130} />
             </Box>
-            <Group h="100%" gap={0} visibleFrom="sm">
+            <Group visibleFrom="md" h="100%" gap={0}>
               {menu.map((item, idx) => {
                 return (
                   <Fragment key={idx}>
@@ -305,217 +291,268 @@ export function Header(props: Partial<{ metadata: Application }>) {
               })}
             </Group>
           </Group>
-
-          <Group visibleFrom="sm" h="100%">
+          <Group visibleFrom="md" h="100%">
             <Group h="100%" gap={2}>
               <MenuUserInfo />
             </Group>
             <Group h="100%" gap={0}>
-              <SwitchLanguage />
-              <SwitchDarkLightMode />
+              <SwitchLanguage onDarkMode />
+              <SwitchDarkLightMode onDarkMode />
             </Group>
           </Group>
-
-          <Burger
-            color="white"
-            opened={drawerOpened}
-            onClick={toggleDrawer}
-            hiddenFrom="sm"
-          />
+          <DrawerMenu metadata={props.metadata} />
         </Group>
       </header>
+
+    </>
+  );
+}
+
+function DrawerMenu(props: Partial<{ metadata: Application }>) {
+  const { avatar, me, displayName } = authStore();
+  const t = useSPETranslation();
+  const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
+    useDisclosure(false);
+  // if (!me?.id) {
+  //   return <GroupLinkAuth />;
+  // }
+  const [opened, setOpened] = useState<Record<string, unknown>>({});
+
+  const toggle = (id: string, _opened: boolean) => {
+    setOpened((pr: Record<string, unknown>) => {
+      return { ...pr, [id]: _opened };
+    });
+  };
+  const menu = useMemo(() => {
+    return getHeaderMenu(props.metadata);
+  }, [props.metadata]);
+
+  return (
+    <>
+      <Burger
+        color="white"
+        opened={drawerOpened}
+        onClick={toggleDrawer}
+        hiddenFrom="md"
+      />
       <Drawer
         opened={drawerOpened}
         onClose={closeDrawer}
         size="75%"
         padding="md"
         title="Navigation"
-        hiddenFrom="sm"
-        zIndex={1000000}
+        hiddenFrom="md"
+        styles={{
+          header: {
+            display: "none"
+          },
+          body: {
+            overflowX: "hidden",
+            height: "100%"
+
+          }
+        }}
       >
-        <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
-          <Divider />
-          {menu.map((item, idx) => {
-            return (
-              <Fragment key={idx}>
-                {item.type === "group" && (
-                  <>
-                    <UnstyledButton
-                      className={cx(
-                        classes.link,
-                        classes.colorDefault,
-                      )}
-                      onClick={() =>
-                        toggle(
-                          `${item.label}${item.type}`,
-                          !opened[`${item.label}${item.type}`],
-                        )
-                      }
-                    >
-                      <Group justify="space-between" w={"100%"}>
-                        <Box component="span" mr={5}>
+        <Flex direction={"column"} h={"100%"} styles={{
+          root: {
+            overflow: "hidden"
+          }
+        }}>
+          <Box>
+            <Box>
+              <Box>
+                <MenuUserInfo />
+              </Box>
+            </Box>
+            <Box style={{
+              overflow: "hidden",
+            }} flex={"1"}>
+              <Divider />
+              {menu.map((item, idx) => {
+                return (
+                  <Fragment key={idx}>
+                    {idx != 0 && <Divider my={"sm"} />}
+                    {item.type === "group" && (
+                      <>
+                        <Button
+                          onClick={() =>
+                            toggle(
+                              `${item.label}${item.type}`,
+                              !opened[`${item.label}${item.type}`],
+                            )
+                          }
+                        >
+                          <Group justify="space-between" w={"100%"}>
+                            <Box component="span" mr={5} fw={"bold"}>
+                              {t(item.label)}
+                            </Box>
+                            <IconCaretDownFilled
+                              style={{ width: rem(16), height: rem(16) }}
+                              className={cx(
+                                classes.icon,
+                                classes.translate,
+                              )}
+                            />
+                          </Group>
+                        </Button>
+                        <Collapse
+                          in={
+                            Boolean(
+                              opened[`${item.label}${item.type}`],
+                            ) === true
+                          }
+                        >
+                          {(item.children || []).map((_item, i) => (
+                            <UnstyledButton
+                              key={i}
+                              variant="transparent"
+                            >
+                              <Group wrap="nowrap" align="flex-start">
+                                <ThemeIcon
+                                  size={34}
+                                  variant="transparent"
+                                  radius="md"
+                                >
+                                  {/* <Icon instanceicon="IconCoin" style={{ width: rem(22), height: rem(22) }} /> */}
+                                  <IconCoin />
+                                </ThemeIcon>
+                                <div>
+                                  <Text
+                                    size="sm"
+                                    fw={500}
+                                  >
+                                    {_item?.label}
+                                  </Text>
+                                  <Text size="xs" c="dimmed">
+                                    Lorem ipsum dolor sit, amet
+                                    consectetur adipisicing elit.
+                                  </Text>
+                                </div>
+                              </Group>
+                            </UnstyledButton>
+                          ))}
+                        </Collapse>
+                      </>
+                    )}
+                    {item.type === "link" && (
+                      <Box mt={"sm"}>
+                        <Box
+                          component={Link}
+                          to={item.url || "/#"}
+                          px={"sm"}
+                          display={"block"} style={{
+                            all: "unset",
+                            display: "block",
+                            width: "100%"
+                          }} fw={"bold"}>
                           {t(item.label)}
                         </Box>
-                        <IconCaretDownFilled
-                          style={{ width: rem(16), height: rem(16) }}
-                          className={cx(
-                            classes.icon,
-                            classes.translate,
-                          )}
-                        />
-                      </Group>
-                    </UnstyledButton>
-                    <Collapse
-                      in={
-                        Boolean(
-                          opened[`${item.label}${item.type}`],
-                        ) === true
-                      }
-                    >
-                      {(item.children || []).map((_item, i) => (
+                      </Box>
+                    )}
+                    {item.type === "panel" && (
+                      <>
                         <UnstyledButton
-                          key={i}
-                          className={classes.subLink}
-                          variant="transparent"
+                          onClick={() =>
+                            toggle(
+                              `${item.label}${item.type}`,
+                              !opened[`${item.label}${item.type}`],
+                            )
+                          }
                         >
-                          <Group wrap="nowrap" align="flex-start">
-                            <ThemeIcon
-                              size={34}
-                              variant="transparent"
-                              radius="md"
-                            >
-                              {/* <Icon instanceicon="IconCoin" style={{ width: rem(22), height: rem(22) }} /> */}
-                              <IconCoin />
-                            </ThemeIcon>
-                            <div>
-                              <Text
-                                size="sm"
-                                fw={500}
-                                className={cx(
-                                  classes.subLinkTitle,
-                                  classes.defaultColor,
-                                )}
-                              >
-                                {_item?.label}
-                              </Text>
-                              <Text size="xs" c="dimmed">
-                                Lorem ipsum dolor sit, amet
-                                consectetur adipisicing elit.
-                              </Text>
-                            </div>
+                          <Group justify="space-between" w={"100%"}>
+                            <Box component="span" mr={5}>
+                              {t(item.label)}
+                            </Box>
+                            <IconCaretDownFilled
+                              style={{ width: rem(16), height: rem(16) }}
+                              className={cx(
+                                classes.icon,
+                                classes.translate,
+                              )}
+                            />
                           </Group>
                         </UnstyledButton>
-                      ))}
-                    </Collapse>
-                  </>
-                )}
-                {item.type === "link" && (
-                  <Box
+                        <Collapse
+                          in={
+                            Boolean(
+                              opened[`${item.label}${item.type}`],
+                            ) === true
+                          }
+                        >
+                          {(item.children || []).map((_item, i) => (
+                            <UnstyledButton
+                              key={i}
+                              className={classes.subLink}
+                              variant="transparent"
+                            >
+                              <Group wrap="nowrap" align="flex-start">
+                                <ThemeIcon
+                                  size={34}
+                                  variant="transparent"
+                                  radius="md"
+                                >
+                                  {/* <Icon instanceicon="IconCoin" style={{ width: rem(22), height: rem(22) }} /> */}
+                                  <IconCoin />
+                                </ThemeIcon>
+                                <div>
+                                  <Text
+                                    size="sm"
+                                    fw={500}
+                                    className={cx(
+                                      classes.subLinkTitle,
+                                      classes.defaultColor,
+                                    )}
+                                  >
+                                    {_item?.label}
+                                  </Text>
+                                  <Text size="xs" c="dimmed">
+                                    Lorem ipsum dolor sit, amet
+                                    consectetur adipisicing elit.
+                                  </Text>
+                                </div>
+                              </Group>
+                            </UnstyledButton>
+                          ))}
+                        </Collapse>
+                      </>
+                    )}
+                  </Fragment>
+                );
+              })}
+            </Box>
+            {!me?.id && (
+              <>
+                <Flex hiddenFrom="md" gap={10} my={"md"}>
+                  <AppButton
+                    variant="outline"
                     component={Link}
-                    to={item.url || "/#"}
-                    className={cx(classes.link, classes.colorDefault)}
+                    fullWidth
+                    to="/login"
                   >
-                    {t(item.label)}
-                  </Box>
-                )}
-                {item.type === "panel" && (
-                  <>
-                    <UnstyledButton
-                      className={cx(
-                        classes.link,
-                        classes.colorDefault,
-                      )}
-                      onClick={() =>
-                        toggle(
-                          `${item.label}${item.type}`,
-                          !opened[`${item.label}${item.type}`],
-                        )
-                      }
-                    >
-                      <Group justify="space-between" w={"100%"}>
-                        <Box component="span" mr={5}>
-                          {t(item.label)}
-                        </Box>
-                        <IconCaretDownFilled
-                          style={{ width: rem(16), height: rem(16) }}
-                          className={cx(
-                            classes.icon,
-                            classes.translate,
-                          )}
-                        />
-                      </Group>
-                    </UnstyledButton>
-                    <Collapse
-                      in={
-                        Boolean(
-                          opened[`${item.label}${item.type}`],
-                        ) === true
-                      }
-                    >
-                      {(item.children || []).map((_item, i) => (
-                        <UnstyledButton
-                          key={i}
-                          className={classes.subLink}
-                          variant="transparent"
-                        >
-                          <Group wrap="nowrap" align="flex-start">
-                            <ThemeIcon
-                              size={34}
-                              variant="transparent"
-                              radius="md"
-                            >
-                              {/* <Icon instanceicon="IconCoin" style={{ width: rem(22), height: rem(22) }} /> */}
-                              <IconCoin />
-                            </ThemeIcon>
-                            <div>
-                              <Text
-                                size="sm"
-                                fw={500}
-                                className={cx(
-                                  classes.subLinkTitle,
-                                  classes.defaultColor,
-                                )}
-                              >
-                                {_item?.label}
-                              </Text>
-                              <Text size="xs" c="dimmed">
-                                Lorem ipsum dolor sit, amet
-                                consectetur adipisicing elit.
-                              </Text>
-                            </div>
-                          </Group>
-                        </UnstyledButton>
-                      ))}
-                    </Collapse>
-                  </>
-                )}
-              </Fragment>
-            );
-          })}
-          <Divider my="sm" />
-          <Group justify="center" grow pb="xl" px="md">
-            <AppButton variant="default">Log in</AppButton>
-            <AppButton>{t("Sign up")}</AppButton>
-          </Group>
-          <Group h="100%" gap={0}>
-            <SwitchLanguage />
-            <ActionIcon
-              onClick={() =>
-                setColorScheme(
-                  computedColorScheme === "light" ? "dark" : "light",
-                )
+                    {t("Log In")}
+                  </AppButton>
+                  <AppButton component={Link} to="/register" fullWidth>
+                    {t("Sign up")}
+                  </AppButton>
+                </Flex>
+              </>
+            )}
+          </Box>
+          <Box mt={"auto"}>
+            <Divider />
+            <Flex mt={"xs"} styles={{
+              root: {
+                borderRadius: "5px"
               }
-              variant="transparent"
-              size="xl"
-              aria-label="Toggle color scheme"
-            >
-              <IconSun />
-            </ActionIcon>
-          </Group>
-        </ScrollArea>
+            }}>
+              <SwitchDarkLightMode onDarkMode={false} />
+              <SwitchLanguage onDarkMode={false} />
+            </Flex>
+          </Box>
+        </Flex>
       </Drawer>
     </>
-  );
+  )
 }
 
 function MenuUserInfo() {
@@ -527,31 +564,148 @@ function MenuUserInfo() {
   }
   return (
     <>
-      <Menu
-        shadow="md"
-        width={320}
-        trigger="hover"
-        offset={0}
-        closeDelay={100}
-      >
-        <Menu.Target>
-          <ActionIcon variant="transparent" size="xl">
-            <Avatar size={28} src={avatar || defaultAvatar} />
-          </ActionIcon>
-        </Menu.Target>
-
-        <Menu.Dropdown
-          styles={{
-            dropdown: {
-              height: "calc(100vh - 48px)",
-              background: "light-dark(#fff, #16181e)",
-              display: "flex",
-              flexDirection: "column",
-              border: "none",
-            },
-          }}
+      <Box visibleFrom="md">
+        <Menu
+          shadow="md"
+          width={320}
+          trigger="hover"
+          offset={0}
+          closeDelay={100}
         >
-          <Menu.Item>
+          <Menu.Target>
+            <ActionIcon variant="transparent" size="xl">
+              <Avatar size={28} src={avatar || defaultAvatar} />
+            </ActionIcon>
+          </Menu.Target>
+
+          <Menu.Dropdown
+            styles={{
+              dropdown: {
+                height: "calc(100vh - 48px)",
+                background: "light-dark(#fff, #16181e)",
+                display: "flex",
+                flexDirection: "column",
+                border: "none",
+              },
+            }}
+          >
+            <Menu.Item>
+              <Flex gap={10}>
+                <Box>
+                  <ActionIcon variant="transparent" size="xl">
+                    <Avatar
+                      src={avatar || defaultAvatar}
+                      w={38}
+                      h={38}
+                    />
+                  </ActionIcon>
+                </Box>
+                <Box>
+                  <Text fz={14}>{displayName || ""}</Text>
+                  <Flex align={"center"} gap={0}>
+                    <Text fz={12} c={"gray.5"}>
+                      UID: {me.depositCode || ""}
+                    </Text>
+                    <CopyButton value={`UID: ${me.uid || ""}`}>
+                      {({ copied, copy }) => (
+                        <Tooltip
+                          label={t(copied ? "Copied" : "Copy")}
+                          withArrow
+                          position="right"
+                        >
+                          <ActionIcon
+                            color={copied ? "teal" : "gray"}
+                            variant="subtle"
+                            onClick={copy}
+                          >
+                            {copied ? (
+                              <IconCheck style={{ width: rem(16) }} />
+                            ) : (
+                              <IconCopy
+                                color="orange"
+                                style={{ width: rem(16) }}
+                              />
+                            )}
+                          </ActionIcon>
+                        </Tooltip>
+                      )}
+                    </CopyButton>
+                  </Flex>
+                </Box>
+              </Flex>
+            </Menu.Item>
+            {/* <Menu.Item
+            c={"orange"}
+            fw={"bold"}
+            rightSection={
+              <IconArrowRight
+                color="gray"
+                style={{ width: rem(16) }}
+              />
+            }
+          >
+            Switch/Create Account
+          </Menu.Item> */}
+            <Menu.Divider />
+
+            <Menu.Item fw={"bold"} component="a" href="/user">
+              Settings
+            </Menu.Item>
+            <Menu.Item fw={"bold"} component="a" href="/wallet">
+              {t("Assets")}
+            </Menu.Item>
+            <Menu.Item
+              fw={"bold"}
+              onClick={() => {
+                modals.open({
+                  ...MODAL_STYLES,
+                  styles: {
+                    ...MODAL_STYLES.styles,
+                    content: {
+                      background: "none",
+                      boxShadow: "none",
+                    },
+                  },
+                  withCloseButton: false,
+                  shadow: "none",
+                  children: (
+                    <DepositForm
+                      coin="USDT"
+                      onClose={() => modals.closeAll()}
+                    />
+                  ),
+                });
+              }}
+            >
+              Deposit
+            </Menu.Item>
+            <Box
+              style={{
+                marginTop: "auto",
+              }}
+            >
+              <Menu.Divider />
+              <Menu.Item
+                onClick={authStore.getState().logout}
+                color="red"
+                fz={16}
+                fw={700}
+                leftSection={
+                  <IconLogout
+                    style={{ width: rem(14), height: rem(14) }}
+                  />
+                }
+              >
+                Logout
+              </Menu.Item>
+            </Box>
+          </Menu.Dropdown>
+        </Menu>
+      </Box>
+      <Box hiddenFrom="md" className="space-y-10">
+        <Divider />
+        <Box>
+          <Flex justify={"space-between"} align={"center"}>
             <Flex gap={10}>
               <Box>
                 <ActionIcon variant="transparent" size="xl">
@@ -595,28 +749,35 @@ function MenuUserInfo() {
                 </Flex>
               </Box>
             </Flex>
-          </Menu.Item>
-          {/* <Menu.Item
-            c={"orange"}
-            fw={"bold"}
-            rightSection={
-              <IconArrowRight
-                color="gray"
-                style={{ width: rem(16) }}
-              />
-            }
-          >
-            Switch/Create Account
-          </Menu.Item> */}
-          <Menu.Divider />
-
-          <Menu.Item fw={"bold"} component="a" href="/user">
-            Settings
-          </Menu.Item>
-          <Menu.Item fw={"bold"} component="a" href="/wallet">
+            <Box p={"sm"} hiddenFrom="md">
+              <ActionIcon size="xs"
+                onClick={authStore.getState().logout}
+                color="red" variant="transparent"
+              >
+                <IconLogout
+                    style={{ width: rem(14), height: rem(14) }}
+                  />
+              </ActionIcon>
+            </Box>
+          </Flex>
+        </Box>
+        <Divider />
+        <Box px={"sm"}>
+          <Box fw={"bold"} component={Link} style={{
+            all: "unset",
+            display: "block"
+          }} to="/user">
+            {t("Settings")}
+          </Box>
+          <Space my={"xs"} />
+          <Box style={{
+            all: "unset",
+            display: "block"
+          }} fw={"bold"} component={Link} to="/wallet">
             {t("Assets")}
-          </Menu.Item>
-          <Menu.Item
+          </Box>
+          <Space my={"xs"} />
+          <Box
             fw={"bold"}
             onClick={() => {
               modals.open({
@@ -639,30 +800,11 @@ function MenuUserInfo() {
               });
             }}
           >
-            Deposit
-          </Menu.Item>
-          <Box
-            style={{
-              marginTop: "auto",
-            }}
-          >
-            <Menu.Divider />
-            <Menu.Item
-              onClick={authStore.getState().logout}
-              color="red"
-              fz={16}
-              fw={700}
-              leftSection={
-                <IconLogout
-                  style={{ width: rem(14), height: rem(14) }}
-                />
-              }
-            >
-              Logout
-            </Menu.Item>
+            {t("Deposit")}
           </Box>
-        </Menu.Dropdown>
-      </Menu>
+          <Space my={"xs"} />
+        </Box>
+      </Box>
     </>
   );
 }
@@ -672,17 +814,19 @@ function GroupLinkAuth() {
 
   return (
     <>
-      <AppButton
-        instancetype="Ghost"
-        color="white"
-        component={Link}
-        to="/login"
-      >
-        {t("Log In")}
-      </AppButton>
-      <AppButton component={Link} to="/register">
-        {t("Sign up")}
-      </AppButton>
+      <Flex visibleFrom="md">
+        <AppButton
+          instancetype="Ghost"
+          color="white"
+          component={Link}
+          to="/login"
+        >
+          {t("Log In")}
+        </AppButton>
+        <AppButton component={Link} to="/register">
+          {t("Sign up")}
+        </AppButton>
+      </Flex>
     </>
   );
 }

@@ -31,12 +31,15 @@ import {
 } from "@/common/types";
 import { assetStore } from "@/store/assets";
 import authStore from "@/store/auth";
+import tradeStore from "@/store/trade";
 import { delay } from "@/utils";
 import { z } from "zod";
 import logger from "../logger";
 import axios, { getApi } from "./_axios";
 
 type UserUpdatePayload = z.infer<typeof updateUserPayloadSchema>;
+
+export default axios;
 
 export async function fetchDepositAddressApi(params: {
   chain: string;
@@ -74,7 +77,10 @@ export async function fetchBalancesApi() {
   return getApi<{
     overview: BalanceOverview;
     balances: Balance[];
-  }>("/api/balances");
+  }>("/api/balances").then((res) => {
+    res.balances.sort((a, b) => a.coin.localeCompare(b.coin));
+    return res;
+  });
 }
 
 export async function fetchAccountsApi() {
@@ -136,6 +142,8 @@ export async function cancelOrderApi(orderId: string) {
     .then((res) => {
       if (res.data.code !== 0) {
         throw new Error("Failed to cancel order");
+      } else {
+        _reloadOpenTrades();
       }
     });
 }
@@ -161,12 +169,20 @@ export async function closeOrderApi(
     .then((res) => {
       if (res.data.code !== 0) {
         throw new Error("Failed to close order");
+      } else {
+        _reloadOpenTrades();
       }
     });
 }
 
 export async function inquiryApi(data: GenericObject) {
-  await axios.post("/api/inquiry", data);
+  await axios.post("/api/inquiry", data).then((res) => {
+    if (res.data.code !== 0) {
+      throw new Error(
+        "Failed to send inquiry: You send too many requests",
+      );
+    }
+  });
 }
 
 export function getUploadUrlApi(type: ImageType) {
@@ -543,4 +559,8 @@ export async function fetchMasterTraders() {
   ).then((res) => res.traders);
 }
 
-export default axios;
+function _reloadOpenTrades() {
+  setTimeout(() => {
+    tradeStore.getState().loadOpenTrades();
+  }, 3e3);
+}

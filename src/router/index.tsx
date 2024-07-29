@@ -203,13 +203,6 @@ const configs: Config[] = [
     wrapper: "CopyTradeWrapper",
     authOnly: true,
   },
-
-  {
-    path: "/copy/mine/copy-position",
-    element: "CopyTradePositions",
-    wrapper: "CopyTradeWrapper",
-    authOnly: true,
-  },
   {
     path: "/user",
     element: "User",
@@ -275,7 +268,6 @@ function _buildRouteConfig(config: Config): RouteConfig {
     typeof config.element === "string"
       ? componentMap[config.element]
       : config.element;
-
   const Wrapper = wrapperMap[config.wrapper || ""];
   let element = Wrapper ? (
     <Wrapper>

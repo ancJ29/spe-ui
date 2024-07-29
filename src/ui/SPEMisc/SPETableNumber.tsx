@@ -1,3 +1,4 @@
+import BN from "@/common/big-number";
 import NumberFormat from "@/ui/NumberFormat";
 import AppText from "@/ui/Text/AppText";
 import { Flex } from "@mantine/core";
@@ -18,7 +19,7 @@ export function SPETableNumber({
   return (
     <Flex maw={maw} align={"center"} justify={"start"}>
       <AppText instancetype="WithCellToken" fz={12} c={color}>
-        {!value ? (
+        {BN.eq(value || 0, 0) ? (
           "---"
         ) : (
           <NumberFormat

@@ -3,29 +3,6 @@ import { MMR } from "./configs";
 import { AccountType, OrderSide } from "./enums";
 import { SPENumber } from "./types";
 
-export function maintenanceMargin(
-  price: SPENumber,
-  volume: SPENumber,
-) {
-  let value = BN.mul(price, volume);
-  return MMR.reduce((acc, [limit, rate]) => {
-    if (BN.eq(value, "0")) {
-      return acc;
-    }
-    const _val = BN.min(value, limit);
-    value = BN.sub(value, _val);
-    return BN.add(acc, BN.mul(_val, rate));
-  }, "0");
-}
-
-export function initialMargin(
-  price: SPENumber,
-  volume: SPENumber,
-  leverage: SPENumber,
-) {
-  return BN.div(BN.mul(price, volume), leverage);
-}
-
 export function positionMargin(
   price: SPENumber,
   volume: SPENumber,
@@ -35,6 +12,26 @@ export function positionMargin(
     initialMargin(price, volume, leverage),
     maintenanceMargin(price, volume),
   );
+
+  function initialMargin(
+    price: SPENumber,
+    volume: SPENumber,
+    leverage: SPENumber,
+  ) {
+    return BN.div(BN.mul(price, volume), leverage);
+  }
+
+  function maintenanceMargin(price: SPENumber, volume: SPENumber) {
+    let value = BN.mul(price, volume);
+    return MMR.reduce((acc, [limit, rate]) => {
+      if (BN.eq(value, "0")) {
+        return acc;
+      }
+      const _val = BN.min(value, limit);
+      value = BN.sub(value, _val);
+      return BN.add(acc, BN.mul(_val, rate));
+    }, "0");
+  }
 }
 
 export function isTradingAccount(account: {

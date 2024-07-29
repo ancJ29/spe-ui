@@ -126,16 +126,6 @@ export function MaterInformation() {
                   {information?.shares.master}%
                 </Text>
               </Box>
-              <Box
-                bg={"gray.2"}
-                p={"5px 10px"}
-                style={{ borderRadius: "5px" }}
-              >
-                <Text>
-                  {t("Promoter Profit Sharing")}:
-                  {information?.shares.promoter}%
-                </Text>
-              </Box>
             </SimpleGrid>
           </Flex>
           <Button
@@ -188,7 +178,7 @@ export function MaterInformation() {
                 <NumberFormat
                   hidden={hidden}
                   value={information?.followers.current || 0}
-                  decimalPlaces={2}
+                  decimalPlaces={0}
                 />
               </Text>
               /
@@ -196,7 +186,7 @@ export function MaterInformation() {
                 <NumberFormat
                   hidden={hidden}
                   value={information?.followers.max || 0}
-                  decimalPlaces={2}
+                  decimalPlaces={0}
                 />
               </Text>
             </Flex>

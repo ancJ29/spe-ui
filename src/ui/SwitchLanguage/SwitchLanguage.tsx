@@ -3,6 +3,8 @@ import {
   ActionIcon,
   Menu,
   lighten,
+  useComputedColorScheme,
+  useMantineColorScheme,
   useMantineTheme,
 } from "@mantine/core";
 import { IconWorld } from "@tabler/icons-react";
@@ -10,8 +12,18 @@ import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import classes from "./index.module.scss";
 
-export default function SwitchLanguage() {
+type PropsType = {
+  onDarkMode?: boolean
+}
+
+export default function SwitchLanguage(props: PropsType = {
+  onDarkMode: true
+}) {
   const theme = useMantineTheme();
+  const { colorScheme } = useMantineColorScheme();
+  const computedColorScheme = useComputedColorScheme("dark", {
+    getInitialValueInEffect: true,
+  });
   const navigate = useNavigate();
   const onChange = (lan: Language) => {
     localStorage.__LANGUAGE__ = lan;
@@ -30,7 +42,8 @@ export default function SwitchLanguage() {
     >
       <Menu.Target>
         <ActionIcon variant="transparent" size="xl" h={"100%"}>
-          <IconWorld color={lighten(theme.colors.dark[7], 1)} />
+          {props.onDarkMode && <IconWorld color={lighten(theme.colors.dark[7], 1)} />}
+          {!props.onDarkMode && <IconWorld color={computedColorScheme === "light" ? "black" : "white"}/>}
         </ActionIcon>
       </Menu.Target>
       <Menu.Dropdown

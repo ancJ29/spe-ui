@@ -114,7 +114,6 @@ export type CopyPosition = Position & {
 
 export type CopyOrder = Order & {
   totalFollowers: number;
-  realizedPnl?: number;
   trader?: {
     name: string;
     avatar: string;
@@ -178,10 +177,12 @@ export type Order = {
   status: OrderStatus;
   side: OrderSide;
   volume: string;
+  reduceVolume: string;
   filled?: string;
   avgPrice?: string;
   price?: string;
   leverage?: number;
+  realizedPnl?: number;
   reduceOnly?: boolean;
   postOnly?: boolean;
   createdAt: number;

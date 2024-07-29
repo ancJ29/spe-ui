@@ -1,6 +1,5 @@
 import useSPETranslation from "@/hooks/useSPETranslation";
 import { inquiryApi } from "@/services/apis";
-import logger from "@/services/logger";
 import { error, success } from "@/utils/notifications";
 import {
   Box,
@@ -16,11 +15,12 @@ import {
 } from "@mantine/core";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useBoolean } from "usehooks-ts";
 
 export default function Inquiry() {
   const t = useSPETranslation();
   const [searchParams] = useSearchParams();
-  logger.trace("type", searchParams.get("type"));
+  const { value: sent, setTrue } = useBoolean(false);
   const [form, setForm] = useState({
     subject: "",
     fullName: "",
@@ -144,24 +144,38 @@ export default function Inquiry() {
                 }
               />
             </SimpleGrid>
-            <Textarea label={t("Content")} size="sm" rows={10} />
+            <Textarea
+              value={form.content}
+              onChange={(el) =>
+                setForm({ ...form, content: el.target.value })
+              }
+              label={t("Content")}
+              size="sm"
+              rows={10}
+            />
             <Space />
             <Box>
               <Button
+                disabled={sent}
                 size="sm"
                 color="gray"
                 variant="gradient"
                 gradient={{ from: "primary", to: "yellow", deg: 90 }}
                 fullWidth
                 onClick={() => {
-                  inquiryApi({})
+                  setTrue();
+                  inquiryApi(form)
                     .then(() => {
-                      success(t("Success"), t("Inquiry sent"));
+                      success(
+                        t("Success"),
+                        t("Inquiry sent, we will contact you soon"),
+                      );
+                      setTimeout(() => window.history.back(), 2000);
                     })
-                    .catch(() => {
+                    .catch((err) => {
                       error(
                         t("Something went wrong"),
-                        t("Cannot send your inquiry"),
+                        t(err?.message || "Cannot send your inquiry"),
                       );
                     });
                 }}

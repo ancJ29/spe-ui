@@ -1,5 +1,6 @@
 import { Application } from "@/common/types";
 import { fetch } from "@/services/apis";
+import logger from "@/services/logger";
 import { useEffect, useState } from "react";
 
 export default function useSPEMetadata() {
@@ -7,8 +8,13 @@ export default function useSPEMetadata() {
 
   useEffect(() => {
     if (localStorage.__INFORMATION__) {
-      const data = JSON.parse(localStorage.__INFORMATION__);
-      setData(data);
+      try {
+        const data = JSON.parse(localStorage.__INFORMATION__);
+        setData(data);
+      } catch (e) {
+        logger.error(e);
+        delete localStorage.__INFORMATION__;
+      }
     }
   }, []);
 

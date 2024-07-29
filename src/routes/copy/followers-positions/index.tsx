@@ -47,7 +47,7 @@ export default function FollowerPositions() {
         "Positions",
         ["Investment (USDT)", "Current Assets (USDT)"],
         ["Settled Profit Sharing", "Unsettled Profit Sharing"],
-        ["Total PnL (USDT/%)", "Unrealized PnL (USDT/%)"],
+        ["Realized PnL (USDT)", "Unrealized PnL (USDT)"],
         "Remark",
         "Action",
       ].map((label, idx) => (
@@ -55,59 +55,66 @@ export default function FollowerPositions() {
       )),
       body: (followers || [])
         .slice((page - 1) * ROWS_PER_PAGE, page * ROWS_PER_PAGE)
-        .map((follower, idx) => [
-          <SPETableDateTime
-            key={`${idx}.followFrom`}
-            time={follower.followFrom}
-          />,
-          <SPETableText key={`${idx}.uid`} value={follower.uid} />,
-          <SPETableNumber
-            key={`${idx}.positions`}
-            value={follower.totalCopyPositions}
-          />,
-          <SPETableDoubleNumbers
-            maw={200}
-            key={`${idx}.asset`}
-            values={[follower.invested || 0, follower.current || 0]}
-          />,
-          <SPETableDoubleNumbers
-            maw={200}
-            key={`${idx}.profit`}
-            values={[follower.settled || 0, follower.unSettled || 0]}
-          />,
-          <SPETableDoubleNumbers
-            maw={200}
-            key={`${idx}.pnl`}
-            values={[
-              follower.realizedPnl || 0,
-              follower.unrealizedPnl || 0,
-            ]}
-          />,
-          <Remark
-            key={`${idx}.remark`}
-            accountId={follower.accountId}
-            remark={follower.remark || ""}
-          />,
-          <AppButton
-            key={`${idx}.action`}
-            instancetype="Default"
-            variant="transparent"
-            onClick={() => {
-              modals.open({
-                ...MODAL_STYLES,
-                title: t("Remove follower"),
-                children: (
-                  <RemoveFollowerForm
-                    uid={follower.uid}
-                    accountId={follower.accountId}
-                  />
-                ),
-              });
-            }}
-          >
-            <IconUserX />
-          </AppButton>,
-        ]),
+        .map((follower, idx) => {
+          return [
+            <SPETableDateTime
+              key={`${idx}.followFrom`}
+              time={follower.followFrom}
+            />,
+            <SPETableText key={`${idx}.uid`} value={follower.uid} />,
+            <SPETableNumber
+              key={`${idx}.positions`}
+              value={follower.totalCopyPositions}
+              decimalPlaces={0}
+            />,
+            <SPETableDoubleNumbers
+              maw={200}
+              key={`${idx}.asset`}
+              values={[follower.invested || 0, follower.current || 0]}
+            />,
+            <SPETableDoubleNumbers
+              maw={200}
+              key={`${idx}.profit`}
+              values={[
+                follower.settled || 0,
+                follower.unSettled || 0,
+              ]}
+            />,
+            <SPETableDoubleNumbers
+              maw={200}
+              key={`${idx}.pnl`}
+              decimalPlaces={2}
+              values={[
+                follower.realizedPnl || 0,
+                follower.unrealizedPnl || 0,
+              ]}
+            />,
+            <Remark
+              key={`${idx}.remark`}
+              accountId={follower.accountId}
+              remark={follower.remark || ""}
+            />,
+            <AppButton
+              key={`${idx}.action`}
+              instancetype="Default"
+              variant="transparent"
+              onClick={() => {
+                modals.open({
+                  ...MODAL_STYLES,
+                  title: t("Remove follower"),
+                  children: (
+                    <RemoveFollowerForm
+                      uid={follower.uid}
+                      accountId={follower.accountId}
+                    />
+                  ),
+                });
+              }}
+            >
+              <IconUserX />
+            </AppButton>,
+          ];
+        }),
     };
   }, [page, followers, t]);
 

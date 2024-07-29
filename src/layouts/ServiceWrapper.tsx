@@ -1,11 +1,11 @@
 import useSPEMetadata from "@/hooks/useSPEMetadata";
-import { Footer } from "@/routes/top-page";
 import appStore from "@/store/app";
 import { Header } from "@/ui/Header";
 import { Divider } from "@mantine/core";
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import AppWrapper from "./AppWrapper";
+import { Footer } from "@/ui/Footer";
 
 export default function ServiceWrapper({
   children,

@@ -1,5 +1,7 @@
+import BN from "@/common/big-number";
+import NumberFormat from "@/ui/NumberFormat";
 import AppText from "@/ui/Text/AppText";
-import { Flex, NumberFormatter } from "@mantine/core";
+import { Flex } from "@mantine/core";
 import React from "react";
 
 export function SPETableDoubleNumbers({
@@ -7,25 +9,33 @@ export function SPETableDoubleNumbers({
   color,
   separator = "/",
   maw,
+  decimalPlaces,
 }: {
   maw?: number;
   separator?: string | React.ReactNode;
   values: [string | number, string | number];
   color?: string;
+  decimalPlaces?: number;
 }) {
   return (
     <Flex maw={maw} align={"center"} justify={"start"}>
       <AppText instancetype="WithCellToken" fz={12} c={color}>
-        {values[0] ? (
-          <NumberFormatter thousandSeparator value={values[0]} />
-        ) : (
+        {BN.eq(values[0] || 0, 0) ? (
           "---"
+        ) : (
+          <NumberFormat
+            decimalPlaces={decimalPlaces}
+            value={values[0]}
+          />
         )}
-        {separator}
-        {values[1] ? (
-          <NumberFormatter thousandSeparator value={values[1]} />
-        ) : (
+        {` ${separator} `}
+        {BN.eq(values[1] || 0, 0) ? (
           "---"
+        ) : (
+          <NumberFormat
+            decimalPlaces={decimalPlaces}
+            value={values[1]}
+          />
         )}
       </AppText>
     </Flex>

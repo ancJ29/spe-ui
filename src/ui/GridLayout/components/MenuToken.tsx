@@ -10,6 +10,7 @@ import AppText from "@/ui/Text/AppText";
 import {
   ActionIcon,
   Avatar,
+  Box,
   Flex,
   Group,
   Menu,
@@ -36,8 +37,13 @@ export function MenuToken({ symbol, base, quote }: GridTradeProps) {
       closeDelay={300}
     >
       <Menu.Target>
-        <Flex align={"center"} gap={10}>
-          <IconMenu2 />
+        <Flex align={"center"} gap={{
+          xs: 4,
+          md: 10
+        }}>
+          <Box visibleFrom="md">
+            <IconMenu2 />
+          </Box>
           <Avatar src={`/images/${base.toLowerCase()}.svg`} />
           <div>
             <Flex align={"center"} gap={5}>

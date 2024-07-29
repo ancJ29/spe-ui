@@ -29,11 +29,12 @@ import {
   Title,
   lighten,
 } from "@mantine/core";
-import { useToggle } from "@mantine/hooks";
+import { useMediaQuery, useToggle } from "@mantine/hooks";
 import { IconEye, IconEyeOff, IconSearch } from "@tabler/icons-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import classes from "./index.module.scss";
+import { SelectAsMenu } from "@/ui/SelectAsMenu";
 
 const sizeContainer = "xl";
 
@@ -71,13 +72,17 @@ export default function Page() {
   const [isOffPrice, togglePrice] = useToggle([false, true]);
   const navigate = useNavigate();
   const { me } = authStore();
+  const a = useMediaQuery("")
 
   return (
     <>
       <Box className="banner-copy">
         <Center w={"100%"} h={"100%"}>
           <Container size={sizeContainer} w={"100%"}>
-            <Flex justify={"space-between"}>
+            <Flex justify={"space-between"} gap={20} wrap={{
+              xs: "wrap",
+              sm: "nowrap"
+            }}>
               <Box>
                 <Center h={"100%"}>
                   <Box>
@@ -122,8 +127,11 @@ export default function Page() {
               </Box>
               <Card
                 pos={"relative"}
-                w={394}
-                h={"176px"}
+                w={{
+                  xs: "100%",
+                  sm: 394
+                }}
+                mih={"176px"}
                 radius={12}
                 p={0}
                 c={"white"}
@@ -218,43 +226,79 @@ export default function Page() {
           className={classes.boxSticky}
         >
           <Container size={sizeContainer}>
-            <Flex justify={"space-between"} w={"100%"}>
-              <Tabs.List>
-                <Tabs.Tab
+            <Flex justify={"space-between"} w={"100%"} wrap={{
+              xs: "wrap",
+              sm: "nowrap"
+            }}>
+              <Tabs.List w={{
+                xs: "100%",
+                sm: "auto"
+              }}>
+                <Tabs.Tab w={"50%"} styles={{
+                  tab: {
+                    // padding: "5px 0"
+                  },
+                }}
                   value={"1"}
                   leftSection={
-                    <Image width={30} src={topTradeIcon} />
+                    <>
+                      <Image visibleFrom="md" width={30} src={topTradeIcon} />
+                    </>
                   }
                 >
-                  <AppText instancetype="TabText">
+                  <AppText instancetype="TabText" fz={{
+                    xs: "16px",
+                    md: "20px"
+                  }}>
                     {t("Top Master Traders")}
                   </AppText>
                 </Tabs.Tab>
-                <Tabs.Tab
+                <Tabs.Tab w={"50%"} styles={{
+                  tab: {
+                    // padding: "5px 0"
+                  },
+                }}
                   value="2"
                   leftSection={
-                    <Image width={30} src={allTraderIcon} />
+                    <Image visibleFrom="md" width={30} src={allTraderIcon} />
                   }
                 >
-                  <AppText instancetype="TabText">
-                    All Master Traders
+                  <AppText instancetype="TabText" fz={{
+                    xs: "16px",
+                    md: "20px"
+                  }}>
+                    {t("All Master Traders")}
                   </AppText>
                 </Tabs.Tab>
               </Tabs.List>
-              <Group gap={25}>
+              <Flex py={{
+                xs: 10,
+                sm: "0"
+              }} align={"center"} gap={25} w={{
+                xs: "100%",
+                sm: "auto"
+              }} direction={{
+                xs: "row-reverse",
+                sm: "unset"
+              }}>
                 {mode === "2" && <Checkbox label={t("Followable")} />}
-                <Input
-                  variant="filled"
-                  placeholder={t("Search traders")}
-                  rightSection={<IconSearch size={16} />}
-                />
+                <Box flex={{
+                  xs: 1,
+                  sm: "auto"
+                }}>
+                  <Input
+                    variant="filled"
+                    placeholder={t("Search traders")}
+                    rightSection={<IconSearch size={16} />}
+                  />
+                </Box>
                 {/* <AppButton
                 variant="gradient"
                 gradient={{ from: "primary", to: "yellow", deg: 90 }}
               >
                 Daily Picks
               </AppButton> */}
-              </Group>
+              </Flex>
             </Flex>
             <Divider />
           </Container>
@@ -383,7 +427,11 @@ export default function Page() {
         <Tabs.Panel value="2">
           <Container size={sizeContainer}>
             <Box py={10}>
-              <Flex gap={20} align={"center"}>
+              <Flex gap={{
+                xs: 20,
+                sm: 3,
+                md: 20
+              }} align={"center"}>
                 <Box>
                   <OptionFilter
                     value="Overview"
@@ -415,8 +463,9 @@ export default function Page() {
                     c={"red"}
                   />
                 </Box>
-                <SegmentedControl
+                <SegmentedControl visibleFrom="sm"
                   withItemsBorders={false}
+                  size="xs"
                   styles={{
                     root: {
                       background: "none",
@@ -434,17 +483,38 @@ export default function Page() {
                     "Trading Frequency",
                   ].map((el) => t(el))}
                 />
+                <Box hiddenFrom="sm">
+                  <OptionFilter
+                    menuProps={{
+                      trigger: "hover",
+                    }}
+                    label="Trader Types"
+                    items={[
+                      "PnL%",
+                      "Abs. PnL",
+                      "Followers",
+                      "Win Rate",
+                      "Drawdown",
+                      "Avg. PnL",
+                      "Avg. Holding Period",
+                      "Trading Frequency",
+                    ].map((el) => ({
+                      label: t(el),
+                      value: el
+                    }))}
+                  />
+                </Box>
               </Flex>
             </Box>
             <Box mb={30}>
               <SimpleGrid
                 py={30}
                 cols={{
-                  xl: 4,
-                  lg: 3,
-                  md: 2,
-                  sm: 1,
                   xs: 1,
+                  sm: 2,
+                  md: 3,
+                  lg: 3,
+                  xl: 4,
                 }}
               >
                 {[...Array(100)].map((_, idx) => (

@@ -1,3 +1,4 @@
+import BN from "@/common/big-number";
 import { OrderSide } from "@/common/enums";
 import { positionMargin } from "@/common/logic";
 import useSPEPagination from "@/hooks/useSPEPagination";
@@ -46,6 +47,11 @@ export default function MasterOrders() {
       )),
       body: orders.map((order) => {
         const color = order.side === OrderSide.BUY ? "green" : "red";
+        const margin = positionMargin(
+          order.avgPrice || 0,
+          BN.sub(order.volume, order.reduceVolume),
+          order.leverage || 1,
+        );
         return [
           <SPETableSymbol
             color={color}
@@ -67,11 +73,7 @@ export default function MasterOrders() {
           />,
           <SPETableNumber
             key={`${order.orderId}.margin`}
-            value={positionMargin(
-              order.avgPrice || 0,
-              order.volume,
-              order.leverage || 1,
-            )}
+            value={margin}
           />,
           <SPETableNumber
             key={`${order.orderId}.pnl`}

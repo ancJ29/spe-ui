@@ -47,7 +47,10 @@ export default function CopyTradeDetail() {
       <Box className="bg-copy-trade">
         <Container>
           <Grid gutter={21} py={21}>
-            <Grid.Col span={4}>
+            <Grid.Col span={{
+              xs: 12,
+              sm: 4,
+            }}>
               <Flex direction={"column"} gap={21}>
                 <AppCard>
                   <Performance />
@@ -57,7 +60,10 @@ export default function CopyTradeDetail() {
                 </AppCard>
               </Flex>
             </Grid.Col>
-            <Grid.Col span={8}>
+            <Grid.Col span={{
+              xs: 12,
+              sm: 8,
+            }}>
               <AppCard>
                 <Statistics />
               </AppCard>
@@ -72,18 +78,38 @@ export default function CopyTradeDetail() {
 function Banner() {
   return (
     <>
-      <Box className="banner-copy-detail">
+      <Box className="banner-copy-detail" py={{
+        xs: "30px",
+        md: "0"
+      }} h={{
+        xs: "auto",
+        md: "315px"
+      }}>
         <Container h={"100%"}>
           <Center w={"100%"} h={"100%"}>
-            <Flex w={"100%"} justify={"space-between"}>
+            <Flex w={"100%"} justify={"space-between"} wrap={{
+              xs: "wrap",
+              md: "nowrap"
+            }}>
               <Box>
-                <Flex gap={36}>
-                  <Avatar
-                    size={126}
-                    src={
-                      "https://www.bybit.com/bycsi-root/fop/copytrade/a6fc7bce-dc27-4bd0-94ec-38f9046c50b0.jpg?format=avif&quality=40"
-                    }
-                  />
+                <Flex gap={36} wrap={{
+                  xs: "wrap",
+                  md: "nowrap"
+                }}>
+                  <Box w={{
+                    xs: "100%",
+                    md: "unset"
+                  }}>
+                    <Avatar mx={{
+                      xs: "auto",
+                      md: "unset"
+                    }}
+                      size={126}
+                      src={
+                        "https://www.bybit.com/bycsi-root/fop/copytrade/a6fc7bce-dc27-4bd0-94ec-38f9046c50b0.jpg?format=avif&quality=40"
+                      }
+                    />
+                  </Box>
                   <Box>
                     <Group>
                       <AppText fz={32} c={"white"} fw={"bold"}>
@@ -252,7 +278,10 @@ function Banner() {
                     </Box>
                     <Space mb={30} />
                     <Box>
-                      <Flex gap={16} align={"center"}>
+                      <Flex gap={16} align={"center"} wrap={{
+                        xs: "wrap",
+                        md: "nowrap"
+                      }}>
                         <Box>
                           <Group align="center" gap={5}>
                             <IconCoinBitcoin
@@ -428,7 +457,17 @@ function Banner() {
                   </Box>
                 </Flex>
               </Box>
-              <Box>
+              <Box w={{
+                xs: "100%",
+                md: "unset"
+              }} py={{
+                xs: "30px",
+                md: "0"
+              }} pl={{
+                xs: "0",
+                md: "calc(126px + 30px)",
+                lg: "0"
+              }}>
                 <Flex gap={20} align={"center"}>
                   <Group gap={10} className="cursor-pointer">
                     <IconShare color="white" width={20} />
@@ -1027,15 +1066,11 @@ function TabsUI() {
               })}
             ></AppPopover>
           </Tabs.Tab>
-          <Tabs.Tab disabled value="settings">
-            Bots
-          </Tabs.Tab>
           <Tabs.Tab value="Follower">Follower(s)</Tabs.Tab>
         </Tabs.List>
         <Tabs.Panel value="gallery">
           <Space mt={20} />
-          <Grid gutter={15} w={"50%"}>
-            <Grid.Col span={4}>
+          <SimpleGrid cols={2} w={"fit-content"}>
               <AppButton
                 onClick={() => setMode(1)}
                 w={"100%"}
@@ -1045,8 +1080,6 @@ function TabsUI() {
               >
                 {t("All")}
               </AppButton>
-            </Grid.Col>
-            <Grid.Col span={4}>
               <AppButton
                 onClick={() => setMode(2)}
                 w={"100%"}
@@ -1056,20 +1089,7 @@ function TabsUI() {
               >
                 Traders
               </AppButton>
-            </Grid.Col>
-            <Grid.Col span={4}>
-              <AppButton
-                disabled
-                onClick={() => setMode(3)}
-                w={"100%"}
-                variant="light"
-                bg={mode == 3 ? "" : "gray.1"}
-                c={mode == 3 ? "" : "gray"}
-              >
-                Bots
-              </AppButton>
-            </Grid.Col>
-          </Grid>
+          </SimpleGrid>
           <Box h={320} w={"100%"} my={20} pos={"relative"}>
             <AppChart
               instancetype="Line"
@@ -1102,7 +1122,7 @@ function TabsUI() {
               <Flex align={"center"} gap={10}>
                 {mode === 2 && (
                   <>
-                    <AppText instancetype="WithTextTooltip">
+                    <AppText visibleFrom="sm" instancetype="WithTextTooltip">
                       Derivatives Pair
                     </AppText>
                     <Select
@@ -1163,7 +1183,7 @@ function TabsUI() {
               <Flex align={"center"} gap={10}>
                 {mode === 2 && (
                   <>
-                    <AppText instancetype="WithTextTooltip">
+                    <AppText instancetype="WithTextTooltip" visibleFrom="sm">
                       Derivatives Pair
                     </AppText>
                     <Select
@@ -1197,7 +1217,7 @@ function TabsUI() {
               <Flex align={"center"} gap={10}>
                 {mode === 2 && (
                   <>
-                    <AppText instancetype="WithTextTooltip">
+                    <AppText instancetype="WithTextTooltip" visibleFrom="sm">
                       Derivatives Pair
                     </AppText>
                     <Select

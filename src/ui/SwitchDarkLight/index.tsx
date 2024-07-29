@@ -7,7 +7,14 @@ import {
 } from "@mantine/core";
 import { IconMoon, IconSun } from "@tabler/icons-react";
 const debug = false;
-export function SwitchDarkLightMode() {
+
+type PropsType = {
+  onDarkMode?: boolean
+}
+
+export function SwitchDarkLightMode(props: PropsType = {
+  onDarkMode: true
+}) {
   const theme = useMantineTheme();
   const { setColorScheme, colorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme("dark", {
@@ -27,10 +34,16 @@ export function SwitchDarkLightMode() {
           aria-label="Toggle color scheme"
         >
           {colorScheme === "light" && (
-            <IconSun color={lighten(theme.colors.dark[7], 1)} />
+            <>
+              {props.onDarkMode && <IconSun color={lighten(theme.colors.dark[7], 1)} />}
+              {!props.onDarkMode && <IconSun color={computedColorScheme === "light" ? "black" : "white"} />}
+            </>
           )}
           {colorScheme === "dark" && (
-            <IconMoon color={lighten(theme.colors.dark[7], 1)} />
+            <>
+              {props.onDarkMode && <IconMoon color={lighten(theme.colors.dark[7], 1)} />}
+              {!props.onDarkMode && <IconMoon color={computedColorScheme === "light" ? "black" : "white"} />}
+            </>
           )}
         </ActionIcon>
       )}

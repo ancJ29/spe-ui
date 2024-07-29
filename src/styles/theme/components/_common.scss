@@ -96,3 +96,20 @@
   display: block; /* Đảm bảo canvas không bị khoảng cách ngoài */
   margin: 0 auto;
 }
+
+/* Container to apply perspective */
+.rotate-container {
+  perspective: 1000px;
+  position: relative;
+}
+
+/* Styles for the rotating image */
+.rotate-image {
+  transform: rotateY(-55deg) rotateX(10deg);
+  transform-style: preserve-3d;
+}
+
+.rotate-image-opz {
+  transform: rotateY(55deg) rotateX(10deg);
+  transform-style: preserve-3d;
+}

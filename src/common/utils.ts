@@ -107,11 +107,11 @@ export function chunk<T>(arr: T[], size: number) {
 
 export function buildContentFromTemplate(
   template: string,
-  params: Record<string, string>,
+  params: Record<string, string | number | boolean>,
 ) {
   return Object.entries(params).reduce((content, [key, value]) => {
     const regex = new RegExp(`{{${key}}}`, "g");
-    return content.replace(regex, value);
+    return content.replace(regex, value.toString());
   }, template);
 }
 

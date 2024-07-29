@@ -1,5 +1,3 @@
-import svgLogo from "@/assets/images/logo.svg";
-import svgLogoLight from "@/assets/images/logo_light.svg";
 import undraw_business_deal_re_up4u from "@/assets/images/undraw_business_deal_re_up4u.svg";
 import undraw_done_re_oak4 from "@/assets/images/undraw_done_re_oak4.svg";
 import undraw_product_iteration_kjok from "@/assets/images/undraw_product_iteration_kjok.svg";
@@ -32,6 +30,7 @@ import partner_marketwatch from "@/assets/images/partners/light/marketwatch.png"
 
 import AboutImage from "@/assets/images/partners/light/about-image.png";
 import { useNavigate } from "react-router-dom";
+import { svgLogo, svgLogoLight } from "@/ui/Logo/Logo";
 
 const hidden = true;
 
@@ -45,8 +44,8 @@ export default function About() {
         <Space my={"xl"} />
         <Box py={70}>
           <Flex justify={"center"}>
-            <Image src={svgLogo} lightHidden />
-            <Image src={svgLogoLight} darkHidden />
+            <Image src={svgLogo} lightHidden maw={420} />
+            <Image src={svgLogoLight} darkHidden maw={420} />
           </Flex>
           <Box mx={"auto"} maw={"70%"}>
             <Text ta={"center"}>
@@ -67,7 +66,10 @@ export default function About() {
       >
         <Container>
           <SimpleGrid
-            cols={2}
+            cols={{
+              xs: 1,
+              md: 2
+            }}
             styles={{
               root: {
                 gap: "100px",
@@ -239,7 +241,11 @@ function WhyCopyTradingSection() {
           {t("Our Values")}
         </Title>
         <Space my={"md"} />
-        <SimpleGrid cols={3}>
+        <SimpleGrid cols={{
+          xs: 1,
+          sm: 2,
+          md: 3
+        }}>
           <Box ta={"center"}>
             <Flex align={"center"} h={200}>
               <Image

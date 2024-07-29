@@ -1,10 +1,12 @@
 import useSPETranslation from "@/hooks/useSPETranslation";
 import MyTraders from "@/routes/copy/my-traders";
+import logger from "@/services/logger";
 import { assetStore } from "@/store/assets";
 import authStore from "@/store/auth";
 import AppTabs from "@/ui/Tabs";
 import { Box, Checkbox, Flex } from "@mantine/core";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { FiatDepositModal } from "./FiatDepositModal";
 import { FundAssetsTable } from "./FundAssetsTable";
 import { TradingAssetsTable } from "./TradingAssetsTable";
@@ -12,13 +14,18 @@ export function TabsWallet() {
   const { me } = authStore();
   const [hideZero, setHideZero] = useState(false);
   const { masterTraders } = assetStore();
+  const { hash } = useLocation();
+  logger.debug("TabsWallet", { hash }, hash?.slice(1));
   const t = useSPETranslation();
   return (
     <>
       <Box pos={"relative"}>
         <AppTabs
           className="noBg"
-          defaultValue={"Funding Account"}
+          value={hash?.slice(1) || "funding"}
+          onChange={(value) => {
+            value && (window.location.hash = value);
+          }}
           showPanel
           classNames={{
             root: "tabBorderSmall",
@@ -33,13 +40,13 @@ export function TabsWallet() {
             {
               data: {
                 label: t("Funding Account"),
-                value: "Funding Account",
+                value: "funding",
               },
               tabsPanelProps: {
                 childrenRenderer: () => (
                   <FundAssetsTable hideZero={hideZero} />
                 ),
-                value: "Funding Account",
+                value: "funding",
               },
             },
             {
@@ -47,24 +54,24 @@ export function TabsWallet() {
                 label: me?.isCopyMaster
                   ? t("Copy Master Account")
                   : t("Trading Account"),
-                value: "Trading",
+                value: "trading",
               },
               tabsPanelProps: {
                 childrenRenderer: () => (
                   <TradingAssetsTable hideZero={hideZero} />
                 ),
-                value: "Trading",
+                value: "trading",
               },
             },
             {
               hidden: masterTraders.length < 1,
               data: {
                 label: t("Copy Accounts"),
-                value: "Copy Accounts",
+                value: "copy",
               },
               tabsPanelProps: {
                 childrenRenderer: () => <MyTraders />,
-                value: "Copy Accounts",
+                value: "copy",
               },
             },
           ].filter((el) => !el.hidden)}

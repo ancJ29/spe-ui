@@ -42,7 +42,10 @@ export function TopBar({
   }, [marketInformation, symbol]);
   return (
     <>
-      <Flex className="bg-trade" align={"center"} gap={20} p={10}>
+      <Flex className="bg-trade" align={"center"} gap={{
+        xs: 10,
+        lg: 20,
+      }} p={10}>
         <MenuToken {...{ isFuture, isSpot, symbol, base, quote }} />
         <Divider orientation="vertical" />
         <div>
@@ -95,9 +98,9 @@ export function TopBar({
           ></AppPopover>
         </div>
         {isFuture && (
-          <div>
+          <Box visibleFrom="sm">
             <AppText instancetype="withPriceTextStatus">
-              Index Price
+              {t("Index Price")}
             </AppText>
             <AppText instancetype="WithTextSubtitle" fw={"bold"}>
               <NumberFormat
@@ -105,13 +108,10 @@ export function TopBar({
                 decimalPlaces={2}
               />
             </AppText>
-          </div>
+          </Box>
         )}
         <Box
-          hidden
-          display={{
-            xl: "block",
-          }}
+          visibleFrom="xl"
         >
           <Flex align={"center"} gap={20}>
             <div>
@@ -209,7 +209,7 @@ export function TopBar({
           </Flex>
         </Box>
         {isFuture && (
-          <div>
+          <Box visibleFrom="sm">
             <AppPopover
               withArrow={false}
               position="bottom-start"
@@ -291,7 +291,7 @@ export function TopBar({
                 ),
               })}
             ></AppPopover>
-          </div>
+          </Box>
         )}
         <Box hiddenFrom="xl">
           <HoverCard openDelay={200}>
@@ -300,8 +300,26 @@ export function TopBar({
                 <IconDots />
               </Box>
             </HoverCard.Target>
-            <HoverCard.Dropdown>
-              <Flex align={"center"} gap={20}>
+            <HoverCard.Dropdown styles={{
+              dropdown: {
+                maxWidth: "calc(100% - 20px)"
+              }
+            }}>
+              <Flex align={"center"} gap={20} wrap={"wrap"}>
+                <Box hiddenFrom="sm">
+                  <AppText instancetype="withPriceTextStatus">
+                    {t("Index Price")}(%)
+                  </AppText>
+                  <AppText
+                    instancetype="WithTextSubtitle"
+                    fw={"bold"}
+                  >
+                    <NumberFormat
+                      value={info.data?.indexPrice}
+                      decimalPlaces={2}
+                    />
+                  </AppText>
+                </Box>
                 <div>
                   <AppText instancetype="withPriceTextStatus">
                     {t("24H Change")}(%)
@@ -388,6 +406,89 @@ export function TopBar({
                     />
                   </AppText>
                 </div>
+                <Box hiddenFrom="sm">
+                  <AppPopover
+                    withArrow={false}
+                    position="bottom-start"
+                    target={(props) => ({
+                      children: (
+                        <div
+                          // eslint-disable-next-line react/prop-types
+                          onMouseLeave={props.close}
+                          style={{ cursor: "help" }}
+                          // eslint-disable-next-line react/prop-types
+                          onMouseEnter={props.open}
+                        >
+                          <AppText instancetype="withPriceTextStatus">
+                            <span>{t("Funding Rate")}</span>/{" "}
+                            {t("Countdown")}
+                          </AppText>
+                          <Flex gap={5}>
+                            <AppText
+                              instancetype="WithTextSubtitle"
+                              fw={"bold"}
+                              c={"primary"}
+                            >
+                              <NumberFormat
+                                value={BN.mul(
+                                  info.data?.fundingRate || 0,
+                                  100,
+                                )}
+                                decimalPlaces={5}
+                              />
+                              %
+                            </AppText>
+                            <AppText
+                              instancetype="WithTextSubtitle"
+                              fw={"bold"}
+                            >
+                              /
+                            </AppText>
+                            <AppText
+                              instancetype="WithTextSubtitle"
+                              fw={"bold"}
+                            >
+                              {info.data?.nextFundingTime ? (
+                                <CountDown
+                                  nextFundingTime={
+                                    info.data?.nextFundingTime
+                                  }
+                                />
+                              ) : (
+                                "N/A"
+                              )}
+                            </AppText>
+                          </Flex>
+                        </div>
+                      ),
+                    })}
+                    dropdown={() => ({
+                      children: (
+                        <div>
+                          <AppText instancetype="WithTextTooltip">
+                            <p>
+                              {t(
+                                "Funding fees will be exchanged between long and short position holders every 8 hours. Please note that the funding rate will fluctuate in real time every 8 hours. If the funding rate is positive upon settlement, long position holders will pay short position holders. If the funding rate is negative, short position holders will pay long position holders.",
+                              )}
+                            </p>
+
+                            <p>
+                              {t(
+                                "Your position value at the timestamp when funding is settled will be used to derive your funding fees.",
+                              )}
+                            </p>
+
+                            <p>
+                              {t(
+                                "Funding Fees = Position Value * Funding Rate",
+                              )}
+                            </p>
+                          </AppText>
+                        </div>
+                      ),
+                    })}
+                  ></AppPopover>
+                </Box>
               </Flex>
             </HoverCard.Dropdown>
           </HoverCard>
