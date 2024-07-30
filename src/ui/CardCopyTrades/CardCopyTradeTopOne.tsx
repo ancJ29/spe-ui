@@ -93,7 +93,7 @@ export function CardTraderTop1({
       </Box>
       <Box pos={"relative"} style={{ zIndex: 3 }}>
         <Box style={{}} mt={24}>
-          <Group>
+          <Group wrap="nowrap">
             <Avatar
               opacity={0}
               size={80}
@@ -104,7 +104,7 @@ export function CardTraderTop1({
             />
             <Box>
               <Flex align={"center"} gap={5}>
-                <AppText fz={20} fw={"bolder"} c={"dark"}>
+                <AppText fz={20} fw={"bolder"} c={"dark"} lineClamp={1} title={name}>
                   {` ${name} `}
                 </AppText>
                 <Image w={20} src={tradeIcon} />

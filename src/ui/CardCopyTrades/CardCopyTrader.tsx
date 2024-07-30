@@ -33,11 +33,11 @@ export function CardTrader(trader: CopyMaster) {
     >
       <Box>
         <Box>
-          <Group>
+          <Group wrap="nowrap">
             <Avatar size={60} src={trader.avatar} />
             <Box>
               <Flex align={"center"} gap={5}>
-                <AppText fz={20} fw={"bolder"}>
+                <AppText fz={20} fw={"bolder"} lineClamp={1} title={trader.name}>
                   {" "}
                   {trader.name}
                 </AppText>
