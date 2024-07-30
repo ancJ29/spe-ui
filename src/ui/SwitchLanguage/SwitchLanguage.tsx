@@ -4,7 +4,6 @@ import {
   Menu,
   lighten,
   useComputedColorScheme,
-  useMantineColorScheme,
   useMantineTheme,
 } from "@mantine/core";
 import { IconWorld } from "@tabler/icons-react";
@@ -13,14 +12,15 @@ import { useNavigate } from "react-router-dom";
 import classes from "./index.module.scss";
 
 type PropsType = {
-  onDarkMode?: boolean
-}
+  onDarkMode?: boolean;
+};
 
-export default function SwitchLanguage(props: PropsType = {
-  onDarkMode: true
-}) {
+export default function SwitchLanguage(
+  props: PropsType = {
+    onDarkMode: true,
+  },
+) {
   const theme = useMantineTheme();
-  const { colorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme("dark", {
     getInitialValueInEffect: true,
   });
@@ -42,8 +42,16 @@ export default function SwitchLanguage(props: PropsType = {
     >
       <Menu.Target>
         <ActionIcon variant="transparent" size="xl" h={"100%"}>
-          {props.onDarkMode && <IconWorld color={lighten(theme.colors.dark[7], 1)} />}
-          {!props.onDarkMode && <IconWorld color={computedColorScheme === "light" ? "black" : "white"}/>}
+          {props.onDarkMode && (
+            <IconWorld color={lighten(theme.colors.dark[7], 1)} />
+          )}
+          {!props.onDarkMode && (
+            <IconWorld
+              color={
+                computedColorScheme === "light" ? "black" : "white"
+              }
+            />
+          )}
         </ActionIcon>
       </Menu.Target>
       <Menu.Dropdown

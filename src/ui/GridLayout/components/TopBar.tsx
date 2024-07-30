@@ -42,10 +42,15 @@ export function TopBar({
   }, [marketInformation, symbol]);
   return (
     <>
-      <Flex className="bg-trade" align={"center"} gap={{
-        xs: 10,
-        lg: 20,
-      }} p={10}>
+      <Flex
+        className="bg-trade"
+        align={"center"}
+        gap={{
+          xs: 10,
+          lg: 20,
+        }}
+        p={10}
+      >
         <MenuToken {...{ isFuture, isSpot, symbol, base, quote }} />
         <Divider orientation="vertical" />
         <div>
@@ -110,9 +115,7 @@ export function TopBar({
             </AppText>
           </Box>
         )}
-        <Box
-          visibleFrom="xl"
-        >
+        <Box visibleFrom="xl">
           <Flex align={"center"} gap={20}>
             <div>
               <AppText instancetype="withPriceTextStatus">
@@ -300,11 +303,13 @@ export function TopBar({
                 <IconDots />
               </Box>
             </HoverCard.Target>
-            <HoverCard.Dropdown styles={{
-              dropdown: {
-                maxWidth: "calc(100% - 20px)"
-              }
-            }}>
+            <HoverCard.Dropdown
+              styles={{
+                dropdown: {
+                  maxWidth: "calc(100% - 20px)",
+                },
+              }}
+            >
               <Flex align={"center"} gap={20} wrap={"wrap"}>
                 <Box hiddenFrom="sm">
                   <AppText instancetype="withPriceTextStatus">

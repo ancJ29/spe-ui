@@ -158,6 +158,6 @@ export const theme = createTheme({
     sm: "768px",
     md: "992px",
     lg: "1200px",
-    xl: "1400px"
-  }
+    xl: "1400px",
+  },
 });

@@ -34,10 +34,8 @@ const componentMap: Record<string, LazyExoticComponent> = {
   About: lazy(() => import("@/routes/about")),
   TermsConditions: lazy(() => import("@/routes/terms-service-conditions")),
   RiskDisclosure: lazy(() => import("@/routes/terms-service-risk-disclosure")),
-  CopyTrade: lazy(() => import("@/routes/copy-trade")),
   CopyTradeInvest: lazy(() => import("@/routes/copy-trade-invest")),
   CopyTradeDetailInvest: lazy(() => import("@/routes/copy-trade-detail-invest")),
-  CopyTradeDetail: lazy(() => import("@/routes/copy-trade-detail")),
   SpotTrade: lazy(() => import("@/routes/spot")),
   FutureTrade: lazy(() => import("@/routes/future")),
   Wallet: lazy(() => import("@/routes/wallet")),
@@ -82,11 +80,6 @@ const configs: Config[] = [
   {
     path: "/copy-trading/:id",
     element: "CopyTradeDetailInvest",
-    wrapper: "ServiceWrapper",
-  },
-  {
-    path: "/copy-trading-old/:id",
-    element: "CopyTradeDetail",
     wrapper: "ServiceWrapper",
   },
   {

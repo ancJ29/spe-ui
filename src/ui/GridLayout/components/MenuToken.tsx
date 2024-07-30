@@ -37,10 +37,13 @@ export function MenuToken({ symbol, base, quote }: GridTradeProps) {
       closeDelay={300}
     >
       <Menu.Target>
-        <Flex align={"center"} gap={{
-          xs: 4,
-          md: 10
-        }}>
+        <Flex
+          align={"center"}
+          gap={{
+            xs: 4,
+            md: 10,
+          }}
+        >
           <Box visibleFrom="md">
             <IconMenu2 />
           </Box>

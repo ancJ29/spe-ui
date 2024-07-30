@@ -2,7 +2,7 @@ import routes from "@/router";
 import { getMe } from "@/services/apis";
 import appStore from "@/store/app";
 import { resolver, theme } from "@/styles/theme/mantine-theme";
-import { Loader, MantineProvider } from "@mantine/core";
+import { MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
 import { useEffect, useMemo } from "react";
@@ -12,10 +12,8 @@ import useSPEInterval from "./hooks/useSPEInterval";
 import logger from "./services/logger";
 import { assetStore } from "./store/assets";
 import authStore from "./store/auth";
-import {
-  default as tradeStore,
-  default as useTradeStore,
-} from "./store/trade";
+import tradeStore from "./store/trade";
+import { SPELoading } from "./ui/SPEMisc";
 import { ONE_MINUTE } from "./utils";
 
 async function _getMe(retry = 3) {
@@ -53,7 +51,7 @@ export default function App() {
       setTrue();
       _loadAPIs();
     }
-    useTradeStore.getState().loadSymbols();
+    tradeStore.getState().loadSymbols();
   }, [loaded, setTrue]);
 
   const routes = useMemo(() => {
@@ -82,23 +80,7 @@ function _buildRoutes(loaded: boolean) {
     return [
       {
         path: "/*",
-        element: (
-          <div
-            style={{
-              position: "absolute",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "100vh",
-              width: "100vw",
-              opacity: 0.8,
-              zIndex: 1000,
-              backgroundColor: "white",
-            }}
-          >
-            <Loader />
-          </div>
-        ),
+        element: <SPELoading />,
       } as RouteObject,
     ];
   }

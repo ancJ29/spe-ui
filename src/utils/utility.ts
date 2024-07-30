@@ -69,3 +69,7 @@ export function generateUri2FA(
   return s;
   // cspell:enable
 }
+
+export function valueColor(value: number) {
+  return value > 0 ? "green" : "red";
+}

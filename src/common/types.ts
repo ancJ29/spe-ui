@@ -142,6 +142,7 @@ export type FollowerInformation = {
   followFrom: number;
   remark?: string;
   pausedByMaster?: boolean;
+  positions?: Record<string, number>; // BTCUSDT: 0.1
 };
 
 export type Position = {
@@ -300,7 +301,6 @@ export type MasterTraderInformation = {
   name: string;
   shares: {
     master: number;
-    promoter: number;
   };
   ratio: number;
   paused: boolean;
@@ -336,7 +336,6 @@ export type CopyMasterDetail = {
     settled: number;
     unSettled: number;
   };
-  promoters: number;
   followers: {
     current: number;
     max: number;
@@ -345,20 +344,7 @@ export type CopyMasterDetail = {
   };
   shares: {
     master: number;
-    promoter: number;
   };
-};
-
-export type CopyPromoter = {
-  id: string;
-  uid: string;
-  createdAt: number;
-  followers: number;
-  followersAum: number;
-  settled: number;
-  unSettled: number;
-  remark?: string;
-  link?: string;
 };
 
 export type CopyMasterSetting = {
@@ -370,4 +356,49 @@ export type CopyMasterSetting = {
   maxFollowers: number;
   shareHistory: boolean;
   publicProfile: boolean;
+};
+
+export type CopyMaster = {
+  name: string;
+  avatar: string;
+  masterAccountId: string;
+  aum: number;
+  pnlRatio: number; // TODO: calculate pnl ratio
+  roi: number;
+  roi90d: number;
+  drawDown: number;
+  followers: number;
+  series: number[];
+  top?: number;
+};
+
+export type MasterPerformance = {
+  roi: number;
+  drawDown: number;
+  pnlRatio: number;
+  totalWin: number;
+  totalLoss: number;
+  followerPnL: number;
+  avgPnL: number;
+  pToL: number;
+  totalTrades: number;
+  avgHoldingTime: number;
+  volatility: number;
+  lastTrade: number; // timestamp
+};
+
+export type PublicCopyMasterDetail = {
+  name: string;
+  avatar: string;
+  masterAccountId: string;
+  aum: number;
+  sharing: number;
+  performance: {
+    w: MasterPerformance;
+    m: MasterPerformance;
+    q: MasterPerformance;
+  };
+  followers: number;
+  series: number[];
+  pnlRatio: number; // TODO: calculate pnl ratio
 };

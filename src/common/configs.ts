@@ -11,8 +11,6 @@ export const PROFILE_IMAGE_PREFIX =
 
 export const MASTER_SHARE_PERCENT = 10;
 
-export const PROMOTER_SHARE_PERCENT = 10;
-
 export const DEFAULT_LEVERAGE = 20;
 
 export const SWAP_RATE = 0.01;
@@ -40,7 +38,6 @@ export const ASSET_COIN_LIST: Record<string, string> = {
   USDT: "Tether (USDT)",
 };
 
-// cspell: disable
 export const SYMBOL_MAP = {
   BINANCE: {
     BTC_USDT_SPOT: "BTCUSDT",

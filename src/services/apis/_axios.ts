@@ -30,12 +30,25 @@ axios.interceptors.request.use(
       `${localStorage.__X_UID__}/${timestamp}`,
     );
     if (IS_DEV) {
-      // logger.debug("Request", config);
       if (config.method !== "get") {
         config.url = `${config.url}?_path=${config.url?.replace(
           /\//g,
           "_",
         )}`;
+      } else {
+        if (config.url?.includes("?")) {
+          const url = config.url?.split("?")[0];
+          config.url = `${config.url}&_path=${url?.replace(
+            /\//g,
+            "_",
+          )}`;
+        } else {
+          config.url = `${config.url}?_path=${config.url?.replace(
+            /\//g,
+            "_",
+          )}`;
+        }
+        // logger.debug("Request", config);
       }
     }
     return config;

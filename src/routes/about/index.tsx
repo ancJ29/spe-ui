@@ -68,7 +68,7 @@ export default function About() {
           <SimpleGrid
             cols={{
               xs: 1,
-              md: 2
+              md: 2,
             }}
             styles={{
               root: {
@@ -241,11 +241,13 @@ function WhyCopyTradingSection() {
           {t("Our Values")}
         </Title>
         <Space my={"md"} />
-        <SimpleGrid cols={{
-          xs: 1,
-          sm: 2,
-          md: 3
-        }}>
+        <SimpleGrid
+          cols={{
+            xs: 1,
+            sm: 2,
+            md: 3,
+          }}
+        >
           <Box ta={"center"}>
             <Flex align={"center"} h={200}>
               <Image

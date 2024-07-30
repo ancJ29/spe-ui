@@ -117,7 +117,7 @@ export function MasterSettingForm({
               {information.shares.master}%
             </Text>
           </Flex>
-          <Flex
+          {/* <Flex
             direction={"column"}
             styles={{
               root: {
@@ -135,7 +135,7 @@ export function MasterSettingForm({
             <Text fw={700} fz={16}>
               {information.shares.promoter}%
             </Text>
-          </Flex>
+          </Flex> */}
         </Flex>
         <Text c={"dimmed"} fz={12} mt={5}>
           {t("To modify the master's profit share, email us at")}

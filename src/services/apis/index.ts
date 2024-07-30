@@ -1,5 +1,6 @@
 export * as axios from "./_axios";
 
+import { PROFILE_IMAGE_PREFIX } from "@/common/configs";
 import { OrderSide, OrderType } from "@/common/enums";
 import { updateUserPayloadSchema } from "@/common/schema";
 import {
@@ -8,11 +9,11 @@ import {
   Balance,
   BalanceOverview,
   CopyInformation,
+  CopyMaster,
   CopyMasterDetail,
   CopyMasterSetting,
   CopyOrder,
   CopyPosition,
-  CopyPromoter,
   CopySetting,
   CopyTransaction,
   FollowerInformation,
@@ -24,6 +25,7 @@ import {
   OpenTrades,
   Order,
   Position,
+  PublicCopyMasterDetail,
   SpeTransaction,
   SymbolConfig,
   Trade,
@@ -32,7 +34,8 @@ import {
 import { assetStore } from "@/store/assets";
 import authStore from "@/store/auth";
 import tradeStore from "@/store/trade";
-import { delay } from "@/utils";
+import { delay, ONE_MINUTE } from "@/utils";
+import { LRUCache } from "lru-cache";
 import { z } from "zod";
 import logger from "../logger";
 import axios, { getApi } from "./_axios";
@@ -41,26 +44,102 @@ type UserUpdatePayload = z.infer<typeof updateUserPayloadSchema>;
 
 export default axios;
 
+const cache = new LRUCache({
+  max: 500,
+  updateAgeOnGet: true,
+  ttl: 30e3,
+});
+
+export function fetchAllTraders() {
+  return _fetchAndCache("traders", _fetch, 10 * ONE_MINUTE);
+  function _fetch() {
+    return getApi<{ traders: CopyMaster[] }>(
+      "/api/copy/traders",
+    ).then(({ traders }) =>
+      traders.map((el, idx) => ({
+        ...el,
+        top: idx + 1,
+        avatar: `${PROFILE_IMAGE_PREFIX}/${el?.avatar}`,
+      })),
+    );
+  }
+}
+
+export function fetchTrader(masterAccountId: string) {
+  return _fetchAndCache(
+    `traders:${masterAccountId}`,
+    _fetch,
+    10 * ONE_MINUTE,
+  );
+  function _fetch() {
+    return getApi<PublicCopyMasterDetail>(
+      `/api/copy/traders/${masterAccountId}`,
+    );
+  }
+}
+export function fetchAllSymbolsApi() {
+  logger.debug("Fetching all symbols");
+  return _fetchAndCache("symbols", _fetch);
+  function _fetch() {
+    return getApi<{ symbols: SymbolConfig[] }>(
+      "/api/information/symbols",
+    ).then((res) => res.symbols);
+  }
+}
+
+export function fetchOrderBooks(symbol: string) {
+  return _fetchAndCache(`orderbook.${symbol}`, _fetch);
+  function _fetch() {
+    return getApi<{
+      a: [number, number, number, number][];
+      b: [number, number, number, number][];
+    }>(`/api/market/order-book?symbol=${symbol}`);
+  }
+}
+
+export async function fetchAllMarketInformation() {
+  return _fetchAndCache("market.information", _fetch);
+  function _fetch() {
+    return getApi<MarketInformation[]>(
+      "/api/market/information/all?_k=1",
+    );
+  }
+}
+
+export function fetchMarketInformation(symbol: string) {
+  return _fetchAndCache(`market.information.${symbol}`, _fetch);
+  function _fetch() {
+    return getApi<MarketInformation>(
+      `/api/market/information?symbol=${symbol}`,
+    );
+  }
+}
+
+export function fetchMarketPricesApi() {
+  return _fetchAndCache("market.prices", _fetch);
+  function _fetch() {
+    return getApi<MarketPrice>("/api/market/prices");
+  }
+}
+
+// Auth API
 export async function fetchDepositAddressApi(params: {
   chain: string;
   coin: string;
 }) {
-  if (!localStorage.__TOKEN__) {
-    return "";
+  const { depositAddress } = await _fetchAndCache(
+    `deposit.address.${params.chain}`,
+    _fetch,
+    30e3,
+  );
+  return depositAddress;
+
+  function _fetch() {
+    return getApi<{ depositAddress: string }>(
+      "/api/deposit/address",
+      { params },
+    );
   }
-  await delay(10);
-  const key = `__ADDRESS__.${params.chain}`;
-  if (sessionStorage[key]) {
-    return sessionStorage[key];
-  }
-  type Response = { result: { depositAddress: string } };
-  return axios
-    .get<Response>("/api/deposit/address", { params })
-    .then((res) => {
-      const depositAddress = res.data.result.depositAddress;
-      sessionStorage[key] = depositAddress;
-      return depositAddress;
-    });
 }
 
 export async function fetchBalancesApi() {
@@ -88,12 +167,17 @@ export async function fetchAccountsApi() {
     await delay(10);
     return [] as Account[];
   }
-  return getApi<{
-    accounts: Account[];
-  }>("/api/accounts").then(({ accounts = [] }) => {
-    // Memo: funding account is always on top
-    return accounts.sort((a) => (a.isFunding ? -1 : 1));
-  });
+
+  return _fetchAndCache("accounts", _fetch, 60e3);
+
+  async function _fetch() {
+    return getApi<{
+      accounts: Account[];
+    }>("/api/accounts").then(({ accounts = [] }) => {
+      // Memo: funding account is always on top
+      return accounts.sort((a) => (a.isFunding ? -1 : 1));
+    });
+  }
 }
 
 export async function fetchTransactions(
@@ -119,16 +203,6 @@ export async function fetchTransactions(
     data.sort((a, b) => b.id.localeCompare(a.id));
     return data;
   });
-}
-
-export function fetchAllSymbolsApi() {
-  return getApi<{ symbols: SymbolConfig[] }>(
-    "/api/information/symbols",
-  ).then((res) => res.symbols);
-}
-
-export function fetchMarketPricesApi() {
-  return getApi<MarketPrice>("/api/market/prices");
 }
 
 export async function cancelOrderApi(orderId: string) {
@@ -319,9 +393,6 @@ export async function checkMfa({
     .catch((err) => {
       logger.error("Failed to check MFA", err);
       return { hasMfa: false };
-    })
-    .finally(() => {
-      // Do something
     });
 }
 
@@ -331,40 +402,9 @@ export function fetch<T>(url: string) {
     .then((response) => response.data.result);
 }
 
-export function fetchOrderBooks(symbol: string) {
-  return getApi<{
-    a: [number, number, number, number][];
-    b: [number, number, number, number][];
-  }>(`/api/market/order-book?symbol=${symbol}`);
-}
-
-export function fetchAllMarketInformation() {
-  return getApi<MarketInformation[]>("/api/market/information/all");
-}
-
-export function fetchMarketInformation(symbol: string) {
-  return getApi<MarketInformation>(
-    `/api/market/information?symbol=${symbol}`,
-  );
-}
-
 // Copy API
 //
-export async function remarkPromoterApi(
-  promoterId: string,
-  remark: string,
-) {
-  await axios
-    .post("/api/copy/master/promoter/remark", {
-      promoterId,
-      remark,
-    })
-    .then((res) => {
-      if (res.data.code !== 0) {
-        throw new Error("Failed to pause follower");
-      }
-    });
-}
+
 export async function remarkFollowerApi(
   accountId: string,
   remark: string,
@@ -542,16 +582,9 @@ export async function fetchFollowerInformation() {
   );
 }
 
-export async function fetchPromoters() {
-  const path = "/api/copy/master/me/promoters";
-  return getApi<{ promoters: CopyPromoter[] }>(path).then(
-    (res) => res.promoters,
-  );
-}
-
 export async function fetchMasterTraders() {
   const me = authStore.getState().me;
-  if (!me || me.isCopyMaster) {
+  if (!me || !me.isCopyMaster) {
     return [] as MasterTraderInformation[];
   }
   return getApi<{ traders: MasterTraderInformation[] }>(
@@ -563,4 +596,19 @@ function _reloadOpenTrades() {
   setTimeout(() => {
     tradeStore.getState().loadOpenTrades();
   }, 3e3);
+}
+
+async function _fetchAndCache<
+  T extends GenericObject | GenericObject[],
+>(key: string, fn: () => Promise<T>, ttl = 3e3) {
+  if (cache.has(key)) {
+    await delay(1);
+    const res = cache.get(key) as T;
+    logger.debug("Cache hit", key);
+    return res;
+  }
+  return fn().then((res) => {
+    cache.set(key, res, { ttl });
+    return res;
+  });
 }

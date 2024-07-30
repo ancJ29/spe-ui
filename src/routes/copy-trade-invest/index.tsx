@@ -1,12 +1,15 @@
-import allTraderIcon from "@/assets/images/all-trader.svg";
-import topTradeIcon from "@/assets/images/top-trader.svg";
+import allTradersIcon from "@/assets/images/all-traders.svg";
+import topTradersIcon from "@/assets/images/top-traders.svg";
 import useSPETranslation from "@/hooks/useSPETranslation";
+import { fetchAllTraders } from "@/services/apis";
 import authStore from "@/store/auth";
+import { CopyMaster } from "@/types";
 import AppButton from "@/ui/Button/AppButton";
 import { CardTrader, CardTraderTop1 } from "@/ui/CardCopyTrades";
 import { AppCarousel } from "@/ui/Carousel/Carousel";
 import NumberFormat from "@/ui/NumberFormat";
 import { OptionFilter } from "@/ui/OptionFilter";
+import { SPELoading } from "@/ui/SPEMisc";
 import AppText from "@/ui/Text/AppText";
 import { Carousel } from "@mantine/carousel";
 import {
@@ -29,281 +32,121 @@ import {
   Title,
   lighten,
 } from "@mantine/core";
-import { useMediaQuery, useToggle } from "@mantine/hooks";
+import { useToggle } from "@mantine/hooks";
 import { IconEye, IconEyeOff, IconSearch } from "@tabler/icons-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import classes from "./index.module.scss";
-import { SelectAsMenu } from "@/ui/SelectAsMenu";
+
+type Tab = "TOP" | "ALL";
 
 const sizeContainer = "xl";
 
-const traders = [
-  {
-    avatar: "/images/bybit/a6fc7bce-dc27-4bd0-94ec-38f9046c50b0.jpg",
-    userName: "KING 👑",
-    top: 1,
-  },
-  {
-    avatar: "/images/bybit/ff8f94ee-757d-4063-b741-4e75546a78ce.png",
-    userName: "₿eatTheFatCats",
-    top: 2,
-  },
-  {
-    avatar: "/images/bybit/5162cd0a-f072-45db-9b1c-d2d675ead6c8.jpg",
-    userName: "ThisIsAna",
-    top: 3,
-  },
-  {
-    avatar: "/images/bybit/a98158da-6d59-4666-aaad-9c745c5d87b3.png",
-    userName: "ᴛʀᴀᴅᴇʀ ʙʏʙɪᴛ🥇", // cspell: disable-line
-    top: 4,
-  },
-  {
-    avatar: "/images/bybit/cc074b0d-38a7-48ee-a1c8-8e12c56acf8c.jpg",
-    userName: "AI Pro Trade",
-    top: 5,
-  },
-];
-
 export default function Page() {
-  const [mode, setMode] = useState<"1" | "2">("1");
   const t = useSPETranslation();
-  const [isOffPrice, togglePrice] = useToggle([false, true]);
-  const navigate = useNavigate();
-  const { me } = authStore();
-  const a = useMediaQuery("")
+  const [traders, setTraders] = useState<CopyMaster[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [tab, setTab] = useState<Tab>("TOP");
+
+  useEffect(() => {
+    fetchAllTraders().then((traders) => {
+      setTraders(traders);
+      setTimeout(() => {
+        setLoading(false);
+      }, 100);
+    });
+  }, []);
 
   return (
     <>
-      <Box className="banner-copy">
-        <Center w={"100%"} h={"100%"}>
-          <Container size={sizeContainer} w={"100%"}>
-            <Flex justify={"space-between"} gap={20} wrap={{
-              xs: "wrap",
-              sm: "nowrap"
-            }}>
-              <Box>
-                <Center h={"100%"}>
-                  <Box>
-                    <Text className="textWithCopy">
-                      {t("Copy Trading")}
-                    </Text>
-                    <AppText
-                      fz={24}
-                      c={lighten("black", 1)}
-                      instancetype="BannerTextSub"
-                    >
-                      {t(
-                        "Earning with ease by copying the moves of top traders.",
-                      )}
-                    </AppText>
-                    <Space mb={20} />
-                    <Flex gap={20}>
-                      {me?.isCopyMaster ? (
-                        <AppButton
-                          size="md"
-                          instancetype="WithRightIcon"
-                          onClick={() =>
-                            navigate("/copy/master/positions")
-                          }
-                        >
-                          {t("My Master Dashboard")}
-                        </AppButton>
-                      ) : (
-                        <AppButton
-                          size="md"
-                          instancetype="WithRightIcon"
-                          onClick={() =>
-                            navigate("/inquiry?type=CopyMaster")
-                          }
-                        >
-                          {t("Become a Master")}
-                        </AppButton>
-                      )}
-                    </Flex>
-                  </Box>
-                </Center>
-              </Box>
-              <Card
-                pos={"relative"}
-                w={{
-                  xs: "100%",
-                  sm: 394
-                }}
-                mih={"176px"}
-                radius={12}
-                p={0}
-                c={"white"}
-                bd={"1px solid rgba(178,203,221, .3)"}
-                bg={
-                  "linear-gradient(289.57deg,rgba(15,19,35,.2) 6.82%,hsla(0,0%,100%,.092) 79.78%)"
-                }
-              >
-                <Box
-                  style={{
-                    padding: "20px 18px",
-                  }}
-                  pos={"relative"}
-                >
-                  <Flex align={"center"} gap={10}>
-                    <AppText fz={"20px"} fw={"bold"}>
-                      {t("My Copy Trading")}
-                    </AppText>
-                    <Box>
-                      <Button
-                        c={"white"}
-                        p={0}
-                        m={0}
-                        variant="transparent"
-                        onClick={() => togglePrice()}
-                      >
-                        {isOffPrice ? <IconEyeOff /> : <IconEye />}
-                      </Button>
-                    </Box>
-                  </Flex>
-                  <Space my={"sm"} />
-                  <Flex gap={40}>
-                    <Box>
-                      <Text fz={12} c={"dimmed"}>
-                        {t("Unrealized PnL(USDT)")}
-                      </Text>
-                      <Title order={4}>
-                        <NumberFormat
-                          value={0}
-                          decimalPlaces={2}
-                          hidden={isOffPrice}
-                        />
-                      </Title>
-                    </Box>
-                    <Box>
-                      <Text fz={12} c={"dimmed"}>
-                        {t("Total Assets(USDT)")}
-                      </Text>
-                      <Title order={4}>
-                        <NumberFormat
-                          value={0}
-                          decimalPlaces={2}
-                          hidden={isOffPrice}
-                        />
-                      </Title>
-                    </Box>
-                  </Flex>
-                  <Space my={"sm"} />
-                  <Link
-                    style={{
-                      all: "unset",
-                      display: "block",
-                    }}
-                    to={"/copy/mine/traders"}
-                  >
-                    <AppButton
-                      fullWidth
-                      variant="gradient"
-                      gradient={{
-                        from: "primary",
-                        to: "yellow",
-                        deg: 90,
-                      }}
-                    >
-                      {t("View More")}
-                    </AppButton>
-                  </Link>
-                </Box>
-              </Card>
-            </Flex>
-          </Container>
-        </Center>
-      </Box>
+      {loading && <SPELoading />}
+      <Banner />
       <Tabs
         keepMounted
-        defaultValue={mode}
+        value={tab}
         classNames={classes}
-        onChange={(v) => setMode(v as "1" | "2")}
+        onChange={(v) => setTab(v as Tab)}
       >
         <Box
           style={{ position: "sticky", top: 0, left: 0, zIndex: 9 }}
           className={classes.boxSticky}
         >
           <Container size={sizeContainer}>
-            <Flex justify={"space-between"} w={"100%"} wrap={{
-              xs: "wrap",
-              sm: "nowrap"
-            }}>
-              <Tabs.List w={{
-                xs: "100%",
-                sm: "auto"
-              }}>
-                <Tabs.Tab w={"50%"} styles={{
-                  tab: {
-                    // padding: "5px 0"
-                  },
-                }}
-                  value={"1"}
+            <Flex
+              justify={"space-between"}
+              w={"100%"}
+              wrap={{ xs: "wrap", sm: "nowrap" }}
+            >
+              <Tabs.List w={{ xs: "100%", sm: "auto" }}>
+                <Tabs.Tab
+                  w={"50%"}
+                  value={"TOP"}
                   leftSection={
-                    <>
-                      <Image visibleFrom="md" width={30} src={topTradeIcon} />
-                    </>
+                    <Image
+                      visibleFrom="md"
+                      width={30}
+                      src={topTradersIcon}
+                    />
                   }
                 >
-                  <AppText instancetype="TabText" fz={{
-                    xs: "16px",
-                    md: "20px"
-                  }}>
+                  <AppText
+                    instancetype="TabText"
+                    fz={{
+                      xs: "16px",
+                      md: "20px",
+                    }}
+                  >
                     {t("Top Master Traders")}
                   </AppText>
                 </Tabs.Tab>
-                <Tabs.Tab w={"50%"} styles={{
-                  tab: {
-                    // padding: "5px 0"
-                  },
-                }}
-                  value="2"
+                <Tabs.Tab
+                  w={"50%"}
+                  value="ALL"
                   leftSection={
-                    <Image visibleFrom="md" width={30} src={allTraderIcon} />
+                    <Image
+                      visibleFrom="md"
+                      width={30}
+                      src={allTradersIcon}
+                    />
                   }
                 >
-                  <AppText instancetype="TabText" fz={{
-                    xs: "16px",
-                    md: "20px"
-                  }}>
+                  <AppText
+                    instancetype="TabText"
+                    fz={{ xs: "16px", md: "20px" }}
+                    onClick={() => setTab("ALL")}
+                  >
                     {t("All Master Traders")}
                   </AppText>
                 </Tabs.Tab>
               </Tabs.List>
-              <Flex py={{
-                xs: 10,
-                sm: "0"
-              }} align={"center"} gap={25} w={{
-                xs: "100%",
-                sm: "auto"
-              }} direction={{
-                xs: "row-reverse",
-                sm: "unset"
-              }}>
-                {mode === "2" && <Checkbox label={t("Followable")} />}
-                <Box flex={{
-                  xs: 1,
-                  sm: "auto"
-                }}>
+              <Flex
+                py={{ xs: 10, sm: "0" }}
+                align={"center"}
+                gap={25}
+                w={{ xs: "100%", sm: "auto" }}
+                direction={{ xs: "row-reverse", sm: "unset" }}
+              >
+                {tab === "ALL" && (
+                  <Checkbox label={t("Followable")} />
+                )}
+                <Box
+                  flex={{
+                    xs: 1,
+                    sm: "auto",
+                  }}
+                >
                   <Input
                     variant="filled"
                     placeholder={t("Search traders")}
                     rightSection={<IconSearch size={16} />}
                   />
                 </Box>
-                {/* <AppButton
-                variant="gradient"
-                gradient={{ from: "primary", to: "yellow", deg: 90 }}
-              >
-                Daily Picks
-              </AppButton> */}
               </Flex>
             </Flex>
             <Divider />
           </Container>
         </Box>
-        <Tabs.Panel value="1">
+        <Tabs.Panel value="TOP">
           <Box py={10}>
             <Box pb={35}>
               <Container size={sizeContainer}>
@@ -318,24 +161,21 @@ export default function Page() {
                       )}
                     </AppText>
                   </Box>
-                  <AppButton
-                    variant="transparent"
-                    instancetype="WithRightIcon"
-                    size="lg"
-                    fw={"bold"}
-                  >
-                    View More
-                  </AppButton>
+                  <ViewMore onClick={() => setTab("ALL")} />
                 </Group>
                 <Flex>
                   <Box w={"100%"}>
-                    <AppCarousel>
-                      {[...traders].map((_, k) => (
-                        <Carousel.Slide key={k}>
-                          <CardTraderTop1 {..._} />
-                        </Carousel.Slide>
-                      ))}
-                    </AppCarousel>
+                    {traders.length && (
+                      <AppCarousel>
+                        {traders.slice(0, 10).map((trader) => (
+                          <Carousel.Slide
+                            key={trader.masterAccountId}
+                          >
+                            <CardTraderTop1 {...trader} />
+                          </Carousel.Slide>
+                        ))}
+                      </AppCarousel>
+                    )}
                   </Box>
                 </Flex>
               </Container>
@@ -353,24 +193,21 @@ export default function Page() {
                       )}
                     </AppText>
                   </Box>
-                  <AppButton
-                    variant="transparent"
-                    instancetype="WithRightIcon"
-                    size="lg"
-                    fw={"bold"}
-                  >
-                    View More
-                  </AppButton>
+                  <ViewMore onClick={() => setTab("ALL")} />
                 </Group>
                 <Flex>
                   <Box w={"100%"}>
-                    <AppCarousel className="app-carousel-orange">
-                      {[...Array(10)].map((_, k) => (
-                        <Carousel.Slide key={k}>
-                          <CardTrader />
-                        </Carousel.Slide>
-                      ))}
-                    </AppCarousel>
+                    {traders.length && (
+                      <AppCarousel className="app-carousel-orange">
+                        {traders.slice(0, 10).map((trader) => (
+                          <Carousel.Slide
+                            key={trader.masterAccountId}
+                          >
+                            <CardTrader {...trader} />
+                          </Carousel.Slide>
+                        ))}
+                      </AppCarousel>
+                    )}
                   </Box>
                 </Flex>
               </Container>
@@ -388,24 +225,21 @@ export default function Page() {
                       )}
                     </AppText>
                   </Box>
-                  <AppButton
-                    variant="transparent"
-                    instancetype="WithRightIcon"
-                    size="lg"
-                    fw={"bold"}
-                  >
-                    View More
-                  </AppButton>
+                  <ViewMore onClick={() => setTab("ALL")} />
                 </Group>
                 <Flex>
                   <Box w={"100%"}>
-                    <AppCarousel>
-                      {[...Array(10)].map((_, k) => (
-                        <Carousel.Slide key={k}>
-                          <CardTrader />
-                        </Carousel.Slide>
-                      ))}
-                    </AppCarousel>
+                    {traders.length && (
+                      <AppCarousel>
+                        {traders.slice(0, 10).map((trader) => (
+                          <Carousel.Slide
+                            key={trader.masterAccountId}
+                          >
+                            <CardTrader {...trader} />
+                          </Carousel.Slide>
+                        ))}
+                      </AppCarousel>
+                    )}
                   </Box>
                 </Flex>
               </Container>
@@ -417,39 +251,36 @@ export default function Page() {
                   size="md"
                   fullWidth
                   instancetype="WithRightIcon"
+                  onClick={() => setTab("ALL")}
                 >
-                  View All Master Traders
+                  {t("View All Master Traders")}
                 </AppButton>
               </Container>
             </Box>
           </Box>
         </Tabs.Panel>
-        <Tabs.Panel value="2">
+        <Tabs.Panel value="ALL">
           <Container size={sizeContainer}>
             <Box py={10}>
-              <Flex gap={{
-                xs: 20,
-                sm: 3,
-                md: 20
-              }} align={"center"}>
+              <Flex gap={{ xs: 20, sm: 3, md: 20 }} align={"center"}>
                 <Box>
                   <OptionFilter
                     value="Overview"
                     menuProps={{
                       trigger: "hover",
                     }}
-                    label="Overview"
+                    label={t("Overview")}
                     items={[
                       {
-                        label: "Overview",
+                        label: t("Overview"),
                         value: "Overview",
                       },
                       {
-                        label: "Daily Settlement",
+                        label: t("Daily Settlement"),
                         value: "Daily Settlement",
                       },
                       {
-                        label: "High-Water Mark",
+                        label: t("High-Water Mark"),
                         value: "High-Water Mark",
                       },
                     ]}
@@ -463,7 +294,8 @@ export default function Page() {
                     c={"red"}
                   />
                 </Box>
-                <SegmentedControl visibleFrom="sm"
+                <SegmentedControl
+                  visibleFrom="sm"
                   withItemsBorders={false}
                   size="xs"
                   styles={{
@@ -500,7 +332,7 @@ export default function Page() {
                       "Trading Frequency",
                     ].map((el) => ({
                       label: t(el),
-                      value: el
+                      value: el,
                     }))}
                   />
                 </Box>
@@ -517,14 +349,186 @@ export default function Page() {
                   xl: 4,
                 }}
               >
-                {[...Array(100)].map((_, idx) => (
-                  <CardTrader key={idx} />
-                ))}
+                {traders.length &&
+                  traders.map((trader) => (
+                    <CardTrader
+                      key={trader.masterAccountId}
+                      {...trader}
+                    />
+                  ))}
               </SimpleGrid>
             </Box>
           </Container>
         </Tabs.Panel>
       </Tabs>
     </>
+  );
+}
+
+function Banner() {
+  const t = useSPETranslation();
+  const { me } = authStore();
+  const navigate = useNavigate();
+  const [isOffPrice, togglePrice] = useToggle([true, false]);
+
+  return (
+    <Box className="banner-copy">
+      <Center w={"100%"} h={"100%"}>
+        <Container size={sizeContainer} w={"100%"}>
+          <Flex
+            justify={"space-between"}
+            gap={20}
+            wrap={{
+              xs: "wrap",
+              sm: "nowrap",
+            }}
+          >
+            <Box>
+              <Center h={"100%"}>
+                <Box>
+                  <Text className="textWithCopy">
+                    {t("Copy Trading")}
+                  </Text>
+                  <AppText
+                    fz={24}
+                    c={lighten("black", 1)}
+                    instancetype="BannerTextSub"
+                  >
+                    {t(
+                      "Earning with ease by copying the moves of top traders.",
+                    )}
+                  </AppText>
+                  <Space mb={20} />
+                  <Flex gap={20}>
+                    {me?.isCopyMaster ? (
+                      <AppButton
+                        size="md"
+                        instancetype="WithRightIcon"
+                        onClick={() =>
+                          navigate("/copy/master/positions")
+                        }
+                      >
+                        {t("My Master Dashboard")}
+                      </AppButton>
+                    ) : (
+                      <AppButton
+                        size="md"
+                        instancetype="WithRightIcon"
+                        onClick={() =>
+                          navigate("/inquiry?type=CopyMaster")
+                        }
+                      >
+                        {t("Become a Master")}
+                      </AppButton>
+                    )}
+                  </Flex>
+                </Box>
+              </Center>
+            </Box>
+            <Card
+              pos={"relative"}
+              w={{
+                xs: "100%",
+                sm: 394,
+              }}
+              mih={"176px"}
+              radius={12}
+              p={0}
+              c={"white"}
+              bd={"1px solid rgba(178,203,221, .3)"}
+              bg={
+                "linear-gradient(289.57deg,rgba(15,19,35,.2) 6.82%,hsla(0,0%,100%,.092) 79.78%)"
+              }
+            >
+              <Box
+                style={{
+                  padding: "20px 18px",
+                }}
+                pos={"relative"}
+              >
+                <Flex align={"center"} gap={10}>
+                  <AppText fz={"20px"} fw={"bold"}>
+                    {t("My Copy Trading")}
+                  </AppText>
+                  <Box>
+                    <Button
+                      c={"white"}
+                      p={0}
+                      m={0}
+                      variant="transparent"
+                      onClick={() => togglePrice()}
+                    >
+                      {isOffPrice ? <IconEyeOff /> : <IconEye />}
+                    </Button>
+                  </Box>
+                </Flex>
+                <Space my={"sm"} />
+                <Flex gap={40}>
+                  <Box>
+                    <Text fz={12} c={"dimmed"}>
+                      {t("Unrealized PnL(USDT)")}
+                    </Text>
+                    <Title order={4}>
+                      <NumberFormat
+                        value={0}
+                        decimalPlaces={2}
+                        hidden={isOffPrice}
+                      />
+                    </Title>
+                  </Box>
+                  <Box>
+                    <Text fz={12} c={"dimmed"}>
+                      {t("Total Assets(USDT)")}
+                    </Text>
+                    <Title order={4}>
+                      <NumberFormat
+                        value={0}
+                        decimalPlaces={2}
+                        hidden={isOffPrice}
+                      />
+                    </Title>
+                  </Box>
+                </Flex>
+                <Space my={"sm"} />
+                <Link
+                  style={{
+                    all: "unset",
+                    display: "block",
+                  }}
+                  to={"/copy/mine/traders"}
+                >
+                  <AppButton
+                    fullWidth
+                    variant="gradient"
+                    gradient={{
+                      from: "primary",
+                      to: "yellow",
+                      deg: 90,
+                    }}
+                  >
+                    {t("View More")}
+                  </AppButton>
+                </Link>
+              </Box>
+            </Card>
+          </Flex>
+        </Container>
+      </Center>
+    </Box>
+  );
+}
+
+function ViewMore({ onClick }: { onClick: () => void }) {
+  const t = useSPETranslation();
+  return (
+    <AppButton
+      variant="transparent"
+      instancetype="WithRightIcon"
+      size="lg"
+      fw={"bold"}
+      onClick={onClick}
+    >
+      {t("View More")}
+    </AppButton>
   );
 }

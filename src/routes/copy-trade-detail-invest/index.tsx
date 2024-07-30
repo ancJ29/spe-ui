@@ -1,5 +1,9 @@
 /* eslint-disable react/prop-types */
+import { PROFILE_IMAGE_PREFIX } from "@/common/configs";
 import useSPETranslation from "@/hooks/useSPETranslation";
+import { fetchTrader } from "@/services/apis";
+import logger from "@/services/logger";
+import { PublicCopyMasterDetail } from "@/types";
 import AppButton from "@/ui/Button/AppButton";
 import AppCard from "@/ui/Card/AppCard";
 import AppChart from "@/ui/Chart/Chart";
@@ -36,21 +40,37 @@ import {
   IconStar,
 } from "@tabler/icons-react";
 import _ from "lodash";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { getSeriesValue } from "./config";
 import "./index.module.scss";
 
 export default function CopyTradeDetail() {
+  const params = useParams();
+  const [trader, setTrader] = useState<PublicCopyMasterDetail>();
+  useEffect(() => {
+    logger.debug("params", params);
+    params.id &&
+      fetchTrader(params.id).then((trader) => {
+        logger.debug("trader", trader);
+        setTrader(trader);
+      });
+  }, [params]);
+  if (!trader) {
+    return <></>;
+  }
   return (
     <>
-      <Banner />
+      <Banner {...trader} />
       <Box className="bg-copy-trade">
         <Container>
           <Grid gutter={21} py={21}>
-            <Grid.Col span={{
-              xs: 12,
-              sm: 4,
-            }}>
+            <Grid.Col
+              span={{
+                xs: 12,
+                sm: 4,
+              }}
+            >
               <Flex direction={"column"} gap={21}>
                 <AppCard>
                   <Performance />
@@ -60,10 +80,12 @@ export default function CopyTradeDetail() {
                 </AppCard>
               </Flex>
             </Grid.Col>
-            <Grid.Col span={{
-              xs: 12,
-              sm: 8,
-            }}>
+            <Grid.Col
+              span={{
+                xs: 12,
+                sm: 8,
+              }}
+            >
               <AppCard>
                 <Statistics />
               </AppCard>
@@ -75,91 +97,59 @@ export default function CopyTradeDetail() {
   );
 }
 
-function Banner() {
+function Banner(trader: PublicCopyMasterDetail) {
+  const t = useSPETranslation();
+
   return (
     <>
-      <Box className="banner-copy-detail" py={{
-        xs: "30px",
-        md: "0"
-      }} h={{
-        xs: "auto",
-        md: "315px"
-      }}>
+      <Box
+        className="banner-copy-detail"
+        py={{
+          xs: "30px",
+          md: "0",
+        }}
+        h={{
+          xs: "auto",
+          md: "315px",
+        }}
+      >
         <Container h={"100%"}>
           <Center w={"100%"} h={"100%"}>
-            <Flex w={"100%"} justify={"space-between"} wrap={{
-              xs: "wrap",
-              md: "nowrap"
-            }}>
+            <Flex
+              w={"100%"}
+              justify={"space-between"}
+              wrap={{
+                xs: "wrap",
+                md: "nowrap",
+              }}
+            >
               <Box>
-                <Flex gap={36} wrap={{
-                  xs: "wrap",
-                  md: "nowrap"
-                }}>
-                  <Box w={{
-                    xs: "100%",
-                    md: "unset"
-                  }}>
-                    <Avatar mx={{
-                      xs: "auto",
-                      md: "unset"
+                <Flex
+                  gap={36}
+                  wrap={{
+                    xs: "wrap",
+                    md: "nowrap",
+                  }}
+                >
+                  <Box
+                    w={{
+                      xs: "100%",
+                      md: "unset",
                     }}
+                  >
+                    <Avatar
+                      mx={{
+                        xs: "auto",
+                        md: "unset",
+                      }}
                       size={126}
-                      src={
-                        "https://www.bybit.com/bycsi-root/fop/copytrade/a6fc7bce-dc27-4bd0-94ec-38f9046c50b0.jpg?format=avif&quality=40"
-                      }
+                      src={`${PROFILE_IMAGE_PREFIX}/${trader?.avatar}`}
                     />
                   </Box>
                   <Box>
-                    <Group>
-                      <AppText fz={32} c={"white"} fw={"bold"}>
-                        KING 👑
-                      </AppText>
-                      <AppPopover
-                        target={(props) => ({
-                          children: (
-                            <AppText
-                              className="cursor-pointer"
-                              fz={12}
-                              fw={"bold"}
-                              c={"white"}
-                              onMouseEnter={props.open}
-                              onMouseLeave={props.close}
-                              component="span"
-                            >
-                              Bronze
-                            </AppText>
-                          ),
-                        })}
-                        dropdown={() => ({
-                          children: (
-                            <Box>
-                              <AppText fz={16} fw={"bold"}>
-                                Master Trader Rank
-                              </AppText>
-                              <AppText fz={14} fw={"bold"}>
-                                Cadet to Bronze
-                              </AppText>
-                              <Space mb={5} />
-                              <AppText c={"gray"} fz={12} fw={"bold"}>
-                                Update Time 2024-06-08
-                              </AppText>
-                              <AppText c={"gray"} fz={12} fw={"bold"}>
-                                View{" "}
-                                <AppText
-                                  component="a"
-                                  href="#"
-                                  c={"primary"}
-                                  fz={12}
-                                >
-                                  Bybit Master Trader Level System
-                                </AppText>
-                              </AppText>
-                            </Box>
-                          ),
-                        })}
-                      ></AppPopover>
-                    </Group>
+                    <AppText fz={32} c={"white"} fw={"bold"}>
+                      {trader.name}
+                    </AppText>
                     <Space mb={10} />
                     <Box>
                       <Flex gap={24} align={"center"}>
@@ -175,7 +165,7 @@ function Banner() {
                                   onMouseLeave={props.close}
                                   component="span"
                                 >
-                                  Follower(s)
+                                  {t("Follower(s)")}
                                 </AppText>
                               ),
                             })}
@@ -185,13 +175,13 @@ function Banner() {
                                   fz={12}
                                   style={{ textAlign: "center" }}
                                 >
-                                  No. of Current Follower(s)
+                                  {t(" No. of Current Follower(s)")}
                                 </AppText>
                               ),
                             })}
                           ></AppPopover>
                           <AppText c={"white"} fw={"bolder"} fz={24}>
-                            122
+                            {trader.followers || 0}
                           </AppText>
                         </Box>
                         <Box>
@@ -213,7 +203,7 @@ function Banner() {
                                   onMouseEnter={props.open}
                                   onMouseLeave={props.close}
                                 >
-                                  Trading Days
+                                  {t("Trading Days")}
                                 </AppText>
                               ),
                             })}
@@ -252,7 +242,7 @@ function Banner() {
                                   onMouseEnter={props.open}
                                   onMouseLeave={props.close}
                                 >
-                                  Stability Index
+                                  {t("Stability Index")}
                                 </AppText>
                               ),
                             })}
@@ -262,10 +252,9 @@ function Banner() {
                                   fz={12}
                                   style={{ textAlign: "center" }}
                                 >
-                                  Using advanced analytics, the
-                                  Stability Index gauges how well
-                                  Master Traders are dealing with
-                                  volatility.
+                                  {t(
+                                    "Using advanced analytics, the Stability Index gauges how well Master Traders are dealing with volatility.",
+                                  )}
                                 </AppText>
                               ),
                             })}
@@ -278,10 +267,14 @@ function Banner() {
                     </Box>
                     <Space mb={30} />
                     <Box>
-                      <Flex gap={16} align={"center"} wrap={{
-                        xs: "wrap",
-                        md: "nowrap"
-                      }}>
+                      <Flex
+                        gap={16}
+                        align={"center"}
+                        wrap={{
+                          xs: "wrap",
+                          md: "nowrap",
+                        }}
+                      >
                         <Box>
                           <Group align="center" gap={5}>
                             <IconCoinBitcoin
@@ -289,7 +282,7 @@ function Banner() {
                               width={20}
                             />
                             <AppText c={"white"} fz={14}>
-                              AUM72,633.38 USDT
+                              {`AUM: ${trader.aum} USDT`}
                             </AppText>
                           </Group>
                         </Box>
@@ -379,7 +372,7 @@ function Banner() {
                           <Flex align={"center"} gap={10}>
                             <IconChartPie color="white" width={20} />
                             <AppText c={"white"} fz={14}>
-                              Profit Sharing 10%
+                              {t("Profit Sharing")} {trader.sharing}%
                             </AppText>
                           </Flex>
                         </Box>
@@ -457,17 +450,21 @@ function Banner() {
                   </Box>
                 </Flex>
               </Box>
-              <Box w={{
-                xs: "100%",
-                md: "unset"
-              }} py={{
-                xs: "30px",
-                md: "0"
-              }} pl={{
-                xs: "0",
-                md: "calc(126px + 30px)",
-                lg: "0"
-              }}>
+              <Box
+                w={{
+                  xs: "100%",
+                  md: "unset",
+                }}
+                py={{
+                  xs: "30px",
+                  md: "0",
+                }}
+                pl={{
+                  xs: "0",
+                  md: "calc(126px + 30px)",
+                  lg: "0",
+                }}
+              >
                 <Flex gap={20} align={"center"}>
                   <Group gap={10} className="cursor-pointer">
                     <IconShare color="white" width={20} />
@@ -512,14 +509,6 @@ function Banner() {
                     128
                   </AppText>{" "}
                   Slots Left
-                </AppText>
-                {/* <Space mb={10} /> */}
-                <AppText
-                  fz={12}
-                  style={{ textAlign: "center" }}
-                  c={"#595d61"}
-                >
-                  7-Day Views: 8920
                 </AppText>
               </Box>
             </Flex>
@@ -843,7 +832,7 @@ function Performance() {
             instancetype="WidthTooltipGray"
             fz={12}
           >
-            Measured in: USDT
+            {t("Measured in: USDT")}
           </AppText>
         </Flex>
       </SimpleGrid>
@@ -903,7 +892,7 @@ function Profit() {
     <>
       <Group justify="space-between" p={0}>
         <AppText fz={16} fw={"bold"}>
-          Profit (Follower)
+          {t("Profit (Follower)")}
         </AppText>
         <AppButton
           variant="transparent"
@@ -935,7 +924,7 @@ function Profit() {
                         onMouseEnter={props.open}
                         onMouseLeave={props.close}
                       >
-                        Cumulative Profit
+                        {t("Cumulative Profit")}
                       </AppText>
                     ),
                   })}
@@ -969,7 +958,7 @@ function Profit() {
                         onMouseEnter={props.open}
                         onMouseLeave={props.close}
                       >
-                        Total ROI
+                        {t("Total ROI")}
                       </AppText>
                     ),
                   })}
@@ -998,7 +987,7 @@ function Profit() {
             instancetype="WidthTooltipGray"
             fz={12}
           >
-            Measured in: USDT
+            {t("Measured in: USDT")}
           </AppText>
         </Flex>
       </SimpleGrid>
@@ -1071,24 +1060,24 @@ function TabsUI() {
         <Tabs.Panel value="gallery">
           <Space mt={20} />
           <SimpleGrid cols={2} w={"fit-content"}>
-              <AppButton
-                onClick={() => setMode(1)}
-                w={"100%"}
-                variant="light"
-                bg={mode == 1 ? "" : "gray.1"}
-                c={mode == 1 ? "" : "gray"}
-              >
-                {t("All")}
-              </AppButton>
-              <AppButton
-                onClick={() => setMode(2)}
-                w={"100%"}
-                variant="light"
-                bg={mode == 2 ? "" : "gray.1"}
-                c={mode == 2 ? "" : "gray"}
-              >
-                Traders
-              </AppButton>
+            <AppButton
+              onClick={() => setMode(1)}
+              w={"100%"}
+              variant="light"
+              bg={mode == 1 ? "" : "gray.1"}
+              c={mode == 1 ? "" : "gray"}
+            >
+              {t("All")}
+            </AppButton>
+            <AppButton
+              onClick={() => setMode(2)}
+              w={"100%"}
+              variant="light"
+              bg={mode == 2 ? "" : "gray.1"}
+              c={mode == 2 ? "" : "gray"}
+            >
+              Traders
+            </AppButton>
           </SimpleGrid>
           <Box h={320} w={"100%"} my={20} pos={"relative"}>
             <AppChart
@@ -1122,7 +1111,10 @@ function TabsUI() {
               <Flex align={"center"} gap={10}>
                 {mode === 2 && (
                   <>
-                    <AppText visibleFrom="sm" instancetype="WithTextTooltip">
+                    <AppText
+                      visibleFrom="sm"
+                      instancetype="WithTextTooltip"
+                    >
                       Derivatives Pair
                     </AppText>
                     <Select
@@ -1183,7 +1175,10 @@ function TabsUI() {
               <Flex align={"center"} gap={10}>
                 {mode === 2 && (
                   <>
-                    <AppText instancetype="WithTextTooltip" visibleFrom="sm">
+                    <AppText
+                      instancetype="WithTextTooltip"
+                      visibleFrom="sm"
+                    >
                       Derivatives Pair
                     </AppText>
                     <Select
@@ -1217,7 +1212,10 @@ function TabsUI() {
               <Flex align={"center"} gap={10}>
                 {mode === 2 && (
                   <>
-                    <AppText instancetype="WithTextTooltip" visibleFrom="sm">
+                    <AppText
+                      instancetype="WithTextTooltip"
+                      visibleFrom="sm"
+                    >
                       Derivatives Pair
                     </AppText>
                     <Select

@@ -5,6 +5,8 @@ import {
   SPEPagination,
   SPETableDateTime,
   SPETableHeader,
+  SPETableNumber,
+  SPETableText,
 } from "@/ui/SPEMisc";
 import { Box, Table, TableData } from "@mantine/core";
 import { useCallback, useMemo } from "react";
@@ -29,10 +31,10 @@ export default function MasterTransactions() {
     () => ({
       head: [
         "Time",
-        "Follower UID",
-        "Remark",
         "Type",
         "Amount (USDT)",
+        "Follower UID",
+        "Remark",
       ].map((label, idx) => (
         <SPETableHeader key={idx} label={label} />
       )),
@@ -40,6 +42,22 @@ export default function MasterTransactions() {
         <SPETableDateTime
           key={`${transaction.id}.time`}
           time={transaction.createdAt}
+        />,
+        <SPETableText
+          key={`${transaction.id}.type`}
+          value={transaction.type || "-"}
+        />,
+        <SPETableNumber
+          key={`${transaction.id}.amount`}
+          value={transaction.amount || "-"}
+        />,
+        <SPETableText
+          key={`${transaction.id}.uid`}
+          value={transaction.uid || "-"}
+        />,
+        <SPETableText
+          key={`${transaction.id}.remark`}
+          value={transaction.remark || "-"}
         />,
       ]),
     }),

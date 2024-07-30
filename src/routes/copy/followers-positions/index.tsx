@@ -17,6 +17,7 @@ import {
   SPETableNumber,
   SPETableText,
 } from "@/ui/SPEMisc";
+import AppText from "@/ui/Text/AppText";
 import { error, success } from "@/utils/notifications";
 import {
   Box,
@@ -62,11 +63,23 @@ export default function FollowerPositions() {
               time={follower.followFrom}
             />,
             <SPETableText key={`${idx}.uid`} value={follower.uid} />,
-            <SPETableNumber
-              key={`${idx}.positions`}
-              value={follower.totalCopyPositions}
-              decimalPlaces={0}
-            />,
+            <Box key={`${idx}.positions`}>
+              {Object.keys(follower.positions || {}).length ? (
+                <></>
+              ) : (
+                <AppText>-</AppText>
+              )}
+              {Object.entries(follower.positions || []).map(
+                ([symbol, position]) => (
+                  <FollowerPosition
+                    key={symbol}
+                    color={position > 0 ? "green" : "red"}
+                    symbol={symbol}
+                    position={position}
+                  />
+                ),
+              )}
+            </Box>,
             <SPETableDoubleNumbers
               maw={200}
               key={`${idx}.asset`}
@@ -190,5 +203,26 @@ function Remark({
         />
       }
     />
+  );
+}
+
+function FollowerPosition({
+  symbol,
+  color,
+  position,
+}: {
+  symbol: string;
+  color: string;
+  position: number;
+}) {
+  return (
+    <Flex key={symbol} gap={3} align="center">
+      <SPETableText color={color} value={symbol} />
+      <SPETableNumber
+        color={color}
+        prefix={Number(position) > 0 ? "+" : ""}
+        value={position}
+      />
+    </Flex>
   );
 }

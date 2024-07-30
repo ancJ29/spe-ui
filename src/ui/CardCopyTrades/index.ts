@@ -1,3 +1,2 @@
-export * from "./CardCopyTradeTopOne";
 export * from "./CardCopyTrader";
-export * from "./CardCopyTraderBonus";
+export * from "./CardCopyTradeTopOne";

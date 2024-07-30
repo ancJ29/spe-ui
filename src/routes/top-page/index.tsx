@@ -1,11 +1,9 @@
 // cspell: disable
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Application } from "@/domain/Application";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import AppButton from "@/ui/Button/AppButton";
 import CarouselPage from "@/ui/Carousel/Carousel";
 import AppChart, { randomizeArraySparkline } from "@/ui/Chart/Chart";
-import { AppLogoVertical } from "@/ui/Logo/Logo";
 import MarqueeList from "@/ui/Marquee/Marquee";
 import AppPill from "@/ui/Pill/AppPill";
 import AppTable, { generateItems } from "@/ui/Table/AppTable";
@@ -30,7 +28,7 @@ import {
   Title,
   alpha,
 } from "@mantine/core";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import classes from "./index.module.scss";
 
@@ -630,4 +628,3 @@ function PartnerSection() {
     </>
   );
 }
-

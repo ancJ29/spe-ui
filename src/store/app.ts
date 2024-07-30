@@ -8,7 +8,7 @@ type AppStore = {
   toggleLoading: (_?: boolean) => void;
 };
 
-export default create<AppStore>((set) => ({
+const appStore = create<AppStore>((set) => ({
   loading: true,
   language: Language.EN,
   toggleLoading: (value?: boolean) => {
@@ -16,3 +16,5 @@ export default create<AppStore>((set) => ({
     set((state) => ({ loading: value ?? !state.loading }));
   },
 }));
+
+export default appStore;

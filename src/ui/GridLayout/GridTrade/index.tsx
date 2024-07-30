@@ -131,11 +131,13 @@ export function GridTrade({
 
   return (
     <Grid columns={24} gutter={4} p={4} key={symbol}>
-      <Grid.Col span={{
-        xs: 24,
-        sm: 16,
-        lg: 19,
-      }}>
+      <Grid.Col
+        span={{
+          xs: 24,
+          sm: 16,
+          lg: 19,
+        }}
+      >
         <Grid gutter={4}>
           <Grid.Col
             style={{
@@ -216,11 +218,13 @@ export function GridTrade({
           </Grid.Col>
         </Grid>
       </Grid.Col>
-      <Grid.Col span={{
-        xs: 24,
-        sm: 8,
-        lg: 5,
-      }}>
+      <Grid.Col
+        span={{
+          xs: 24,
+          sm: 8,
+          lg: 5,
+        }}
+      >
         <OrderPanel
           symbol={symbol}
           base={base}

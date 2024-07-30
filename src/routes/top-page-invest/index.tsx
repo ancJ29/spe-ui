@@ -1,12 +1,11 @@
 // cspell: disable
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import AppButton from "@/ui/Button/AppButton";
-import MarqueeList from "@/ui/Marquee/Marquee";
 import ipad1 from "@/assets/images/ipad/ipad1.svg";
 import ipad2 from "@/assets/images/ipad/ipad2.svg";
+import AppButton from "@/ui/Button/AppButton";
+import MarqueeList from "@/ui/Marquee/Marquee";
 
 import {
-  Avatar,
   Box,
   Button,
   Card,
@@ -22,7 +21,6 @@ import {
   Text,
   Timeline,
   Title,
-  useMantineTheme,
 } from "@mantine/core";
 import {
   IconChevronsRight,
@@ -41,10 +39,12 @@ import journey_total from "@/assets/images/journey/total.jpg";
 import journey_unlimited from "@/assets/images/journey/unlimited.jpg";
 
 import { priceDisplay } from "@/common/utils";
+import { fetchAllTraders } from "@/services/apis";
+import { CopyMaster } from "@/types";
 import { CardTrader } from "@/ui/CardCopyTrades";
 import NumberFormat from "@/ui/NumberFormat";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 export default function TopPage() {
   return (
     <>
@@ -94,9 +94,11 @@ function Banner() {
             className="banner--box"
             justify={"space-between"}
           >
-            <Box w={{
-              sm: "50%"
-            }}>
+            <Box
+              w={{
+                sm: "50%",
+              }}
+            >
               <Box>
                 <Text fz={"55px"} pb={10} c={"white"} fw={"bolder"}>
                   {t("Invest Like The Best.")}
@@ -132,15 +134,27 @@ function Banner() {
               </Grid>
             </Box>
 
-            <Box className="card_ipad" pos={"relative"} h={"100%"} w={{
-              sm: "50%",
-            }}>
-              <Box h={"100%"} left={0} top={0} pos={{
-                md: "absolute"
-              }} w={"100%"}>
-                <Box className="rotate-container ipad1"
+            <Box
+              className="card_ipad"
+              pos={"relative"}
+              h={"100%"}
+              w={{
+                sm: "50%",
+              }}
+            >
+              <Box
+                h={"100%"}
+                left={0}
+                top={0}
+                pos={{
+                  md: "absolute",
+                }}
+                w={"100%"}
+              >
+                <Box
+                  className="rotate-container ipad1"
                   maw={{
-                    sm: 400
+                    sm: 400,
                   }}
                   w={"100%"}
                   h={"100%"}
@@ -156,9 +170,10 @@ function Banner() {
                     src={ipad1}
                   />
                 </Box>
-                <Box className="rotate-container ipad2"
+                <Box
+                  className="rotate-container ipad2"
                   maw={{
-                    sm: 400
+                    sm: 400,
                   }}
                   w={"100%"}
                   onWaiting={() => {
@@ -239,7 +254,7 @@ function CardsIntro() {
         cols={{
           md: 3,
           sm: 2,
-          xs: 1
+          xs: 1,
         }}
         styles={{
           root: {
@@ -287,7 +302,7 @@ function CardsIntro() {
         </Card>
         <Card radius="md">
           <Flex direction={"column"} h={"100%"}>
-            <Highlight
+            {/* <Highlight
               ta="left"
               highlight={["10% profit sharing"]}
               highlightStyles={{
@@ -303,7 +318,7 @@ function CardsIntro() {
               {t(
                 "Earn up to 10% profit sharing effortlessly with the Promoter referral link",
               )}
-            </Highlight>
+            </Highlight> */}
             <Space my={"md"} />
             <Box mt={"auto"}>
               <Button
@@ -363,17 +378,20 @@ function CardsIntro() {
 function QuickStart() {
   const t = useSPETranslation();
   const navigate = useNavigate();
-  const a = useMantineTheme()
-  
+
   return (
     <Card radius={"lg"} py={60}>
       <Grid>
-        <Grid.Col span={{
-          sm: 6
-        }}>
+        <Grid.Col
+          span={{
+            sm: 6,
+          }}
+        >
           <Center h={"100%"}>
             <Box>
-              <Title order={1} ta={"center"}>{t("Get Started in Minutes")}</Title>
+              <Title order={1} ta={"center"}>
+                {t("Get Started in Minutes")}
+              </Title>
               <Space h={30} />
               <Group justify="center" visibleFrom="sm">
                 <AppButton
@@ -388,9 +406,11 @@ function QuickStart() {
             </Box>
           </Center>
         </Grid.Col>
-        <Grid.Col span={{
-          sm: 6
-        }}>
+        <Grid.Col
+          span={{
+            sm: 6,
+          }}
+        >
           <Timeline bulletSize={40} active={3}>
             <Timeline.Item
               h={100}
@@ -456,11 +476,13 @@ function WhyCopyTradingSection() {
           {t("Why Copy Trading?")}
         </Title>
         <Space my={"md"} />
-        <SimpleGrid cols={{
-          xs: 1,
-          sm: 2,
-          md: 3
-        }}>
+        <SimpleGrid
+          cols={{
+            xs: 1,
+            sm: 2,
+            md: 3,
+          }}
+        >
           <Box ta={"center"}>
             <Flex align={"center"} h={200}>
               <Image
@@ -590,6 +612,13 @@ The trader receives a percentage of the profits they earn based on monthly high 
 function TrendingTraders() {
   const t = useSPETranslation();
   const navigate = useNavigate();
+  const [traders, setTraders] = useState<CopyMaster[]>([]);
+
+  useEffect(() => {
+    fetchAllTraders().then((traders) => {
+      setTraders(traders);
+    });
+  }, []);
 
   return (
     <div>
@@ -605,9 +634,9 @@ function TrendingTraders() {
 
         <Card>
           <MarqueeList speed={100}>
-            {Array.from({ length: 20 }).map((_, _k) => (
-              <Box key={_k} py={30} px={15}>
-                <CardTrader />
+            {traders.slice(0, 20).map((trader) => (
+              <Box key={trader.masterAccountId} py={30} px={15}>
+                <CardTrader {...trader} />
               </Box>
             ))}
           </MarqueeList>

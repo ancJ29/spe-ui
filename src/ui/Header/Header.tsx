@@ -29,8 +29,6 @@ import {
   ThemeIcon,
   Tooltip,
   UnstyledButton,
-  useComputedColorScheme,
-  useMantineColorScheme,
   useMantineTheme,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -41,17 +39,16 @@ import {
   IconCoin,
   IconCopy,
   IconLogout,
-  IconSun,
 } from "@tabler/icons-react";
 import cx from "clsx";
 import { Fragment, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import AppButton from "../Button/AppButton";
+import { svgLogo } from "../Logo/Logo";
 import { SwitchDarkLightMode } from "../SwitchDarkLight";
 import SwitchLanguage from "../SwitchLanguage/SwitchLanguage";
 import { DepositForm } from "../Wallet";
 import classes from "./index.module.scss";
-import { svgLogo } from "../Logo/Logo";
 
 export function Header(props: Partial<{ metadata: Application }>) {
   const t = useSPETranslation();
@@ -303,13 +300,12 @@ export function Header(props: Partial<{ metadata: Application }>) {
           <DrawerMenu metadata={props.metadata} />
         </Group>
       </header>
-
     </>
   );
 }
 
 function DrawerMenu(props: Partial<{ metadata: Application }>) {
-  const { avatar, me, displayName } = authStore();
+  const { me } = authStore();
   const t = useSPETranslation();
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
@@ -344,29 +340,35 @@ function DrawerMenu(props: Partial<{ metadata: Application }>) {
         hiddenFrom="md"
         styles={{
           header: {
-            display: "none"
+            display: "none",
           },
           body: {
             overflowX: "hidden",
-            height: "100%"
-
-          }
+            height: "100%",
+          },
         }}
       >
-        <Flex direction={"column"} h={"100%"} styles={{
-          root: {
-            overflow: "hidden"
-          }
-        }}>
+        <Flex
+          direction={"column"}
+          h={"100%"}
+          styles={{
+            root: {
+              overflow: "hidden",
+            },
+          }}
+        >
           <Box>
             <Box>
               <Box>
                 <MenuUserInfo />
               </Box>
             </Box>
-            <Box style={{
-              overflow: "hidden",
-            }} flex={"1"}>
+            <Box
+              style={{
+                overflow: "hidden",
+              }}
+              flex={"1"}
+            >
               <Divider />
               {menu.map((item, idx) => {
                 return (
@@ -387,7 +389,10 @@ function DrawerMenu(props: Partial<{ metadata: Application }>) {
                               {t(item.label)}
                             </Box>
                             <IconCaretDownFilled
-                              style={{ width: rem(16), height: rem(16) }}
+                              style={{
+                                width: rem(16),
+                                height: rem(16),
+                              }}
                               className={cx(
                                 classes.icon,
                                 classes.translate,
@@ -417,10 +422,7 @@ function DrawerMenu(props: Partial<{ metadata: Application }>) {
                                   <IconCoin />
                                 </ThemeIcon>
                                 <div>
-                                  <Text
-                                    size="sm"
-                                    fw={500}
-                                  >
+                                  <Text size="sm" fw={500}>
                                     {_item?.label}
                                   </Text>
                                   <Text size="xs" c="dimmed">
@@ -440,11 +442,14 @@ function DrawerMenu(props: Partial<{ metadata: Application }>) {
                           component={Link}
                           to={item.url || "/#"}
                           px={"sm"}
-                          display={"block"} style={{
+                          display={"block"}
+                          style={{
                             all: "unset",
                             display: "block",
-                            width: "100%"
-                          }} fw={"bold"}>
+                            width: "100%",
+                          }}
+                          fw={"bold"}
+                        >
                           {t(item.label)}
                         </Box>
                       </Box>
@@ -464,7 +469,10 @@ function DrawerMenu(props: Partial<{ metadata: Application }>) {
                               {t(item.label)}
                             </Box>
                             <IconCaretDownFilled
-                              style={{ width: rem(16), height: rem(16) }}
+                              style={{
+                                width: rem(16),
+                                height: rem(16),
+                              }}
                               className={cx(
                                 classes.icon,
                                 classes.translate,
@@ -531,7 +539,11 @@ function DrawerMenu(props: Partial<{ metadata: Application }>) {
                   >
                     {t("Log In")}
                   </AppButton>
-                  <AppButton component={Link} to="/register" fullWidth>
+                  <AppButton
+                    component={Link}
+                    to="/register"
+                    fullWidth
+                  >
                     {t("Sign up")}
                   </AppButton>
                 </Flex>
@@ -540,11 +552,14 @@ function DrawerMenu(props: Partial<{ metadata: Application }>) {
           </Box>
           <Box mt={"auto"}>
             <Divider />
-            <Flex mt={"xs"} styles={{
-              root: {
-                borderRadius: "5px"
-              }
-            }}>
+            <Flex
+              mt={"xs"}
+              styles={{
+                root: {
+                  borderRadius: "5px",
+                },
+              }}
+            >
               <SwitchDarkLightMode onDarkMode={false} />
               <SwitchLanguage onDarkMode={false} />
             </Flex>
@@ -552,7 +567,7 @@ function DrawerMenu(props: Partial<{ metadata: Application }>) {
         </Flex>
       </Drawer>
     </>
-  )
+  );
 }
 
 function MenuUserInfo() {
@@ -750,30 +765,42 @@ function MenuUserInfo() {
               </Box>
             </Flex>
             <Box p={"sm"} hiddenFrom="md">
-              <ActionIcon size="xs"
+              <ActionIcon
+                size="xs"
                 onClick={authStore.getState().logout}
-                color="red" variant="transparent"
+                color="red"
+                variant="transparent"
               >
                 <IconLogout
-                    style={{ width: rem(14), height: rem(14) }}
-                  />
+                  style={{ width: rem(14), height: rem(14) }}
+                />
               </ActionIcon>
             </Box>
           </Flex>
         </Box>
         <Divider />
         <Box px={"sm"}>
-          <Box fw={"bold"} component={Link} style={{
-            all: "unset",
-            display: "block"
-          }} to="/user">
+          <Box
+            fw={"bold"}
+            component={Link}
+            style={{
+              all: "unset",
+              display: "block",
+            }}
+            to="/user"
+          >
             {t("Settings")}
           </Box>
           <Space my={"xs"} />
-          <Box style={{
-            all: "unset",
-            display: "block"
-          }} fw={"bold"} component={Link} to="/wallet">
+          <Box
+            style={{
+              all: "unset",
+              display: "block",
+            }}
+            fw={"bold"}
+            component={Link}
+            to="/wallet"
+          >
             {t("Assets")}
           </Box>
           <Space my={"xs"} />

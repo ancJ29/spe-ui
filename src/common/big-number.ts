@@ -1,4 +1,5 @@
-import BigNumber from "bignumber.js"; // cspell:disable-line
+// cspell:ignore bignumber
+import BigNumber from "bignumber.js";
 
 type BN = number | string;
 
@@ -85,7 +86,7 @@ function format(number: BN, decimalPlaces = 2) {
   if (!bigNumber.isFinite()) {
     return "--";
   }
-  return bigNumber.abs().toFormat(decimalPlaces);
+  return bigNumber.toFormat(decimalPlaces);
 }
 
 function isZero(a?: BN | null) {

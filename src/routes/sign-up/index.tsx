@@ -75,8 +75,8 @@ const SignUp = () => {
               <Image src={svgLogo} w={140} />
             </a>
             <Group>
-              <SwitchLanguage onDarkMode/>
-              <SwitchDarkLightMode onDarkMode/>
+              <SwitchLanguage onDarkMode />
+              <SwitchDarkLightMode onDarkMode />
             </Group>
           </Group>
         </Box>

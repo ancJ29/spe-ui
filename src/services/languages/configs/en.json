@@ -1,4 +1,12 @@
 {
+  "PnL%": "PnL%",
+  "Abs. PnL": "Abs. PnL",
+  "Followers": "Followers",
+  "Win Rate": "Win Rate",
+  "Drawdown": "Drawdown",
+  "Avg. PnL": "Avg. PnL",
+  "Avg. Holding Period": "Avg. Holding Period",
+  "Trading Frequency": "Trading Frequency",
   "%s Futures": "%s Futures",
   "24H High": "24H High",
   "24H Low": "24H Low",
