@@ -105,8 +105,9 @@ function Banner() {
                 </Text>
               </Box>
               <Title pb={10} className={classes.textPrimary}>
-                {t(`Trade crypto and win big, just like a pro.Simple.
-                Smart. Secure.`)}
+                {t(
+                  "Trade crypto and win big, just like a pro.Simple. Smart. Secure.",
+                )}
               </Title>
               <Space my={"md"} />
               <Grid w={"fit-content"} gutter={5} columns={12}>
@@ -569,8 +570,9 @@ function JourneySection() {
             }
           >
             <Text c="dimmed" size="sm">
-              {t(`%s revolutionized copy trading: you can now pool money with other investors into a fund directly managed by a skilled trader of your choice.
-The trader receives a percentage of the profits they earn based on monthly high watermarks, incentivizing patient investments that benefit everyone.`)}
+              {t(
+                "%s revolutionized copy trading: you can now pool money with other investors into a fund directly managed by a skilled trader of your choice. The trader receives a percentage of the profits they earn based on monthly high watermarks, incentivizing patient investments that benefit everyone.",
+              )}
             </Text>
             <Box>
               <Image maw={300} mx={"auto"} src={journey_expertly} />

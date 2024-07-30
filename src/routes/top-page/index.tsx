@@ -180,8 +180,9 @@ function Banner() {
                 {t("Vie for triumph and win up to 25,000 USDT!")}
               </Title>
               <Text pb={10} size="lg" c="white">
-                {t(`Trade crypto and win big, just like a pro.Simple.
-                Smart. Secure.`)}
+                {t(
+                  "Trade crypto and win big, just like a pro.Simple. Smart. Secure.",
+                )}
               </Text>
               <Grid>
                 <Grid.Col span={6}>
