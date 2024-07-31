@@ -1,7 +1,7 @@
-import { Tabs } from "@mantine/core";
-import AppText from "../Text/AppText";
 import useSPETranslation from "@/hooks/useSPETranslation";
+import { Tabs } from "@mantine/core";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import AppText from "../Text/AppText";
 
 export default function TermsServiceWrapper() {
   const t = useSPETranslation();
@@ -17,11 +17,11 @@ export default function TermsServiceWrapper() {
         }}
       >
         <Tabs.List>
-          <Tabs.Tab value={"/agreement"}>
+          <Tabs.Tab value={"/privacy-policy"}>
             <AppText
               instancetype="TabText"
               component={Link}
-              to={"/agreement"}
+              to={"/privacy-policy"}
             >
               {t("Privacy Policy ")}
             </AppText>

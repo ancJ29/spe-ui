@@ -30,7 +30,7 @@ const componentMap: Record<string, LazyExoticComponent> = {
   BlankPage: lazy(() => import("@/routes/blank-page")),
   TopPage: lazy(() => import("@/routes/top-page")),
   TopPageInvest: lazy(() => import("@/routes/top-page-invest")),
-  Agreement: lazy(() => import("@/routes/terms-service-agreement")),
+  PrivacyPolicy: lazy(() => import("@/routes/privacy-policy")),
   About: lazy(() => import("@/routes/about")),
   TermsConditions: lazy(() => import("@/routes/terms-service-conditions")),
   RiskDisclosure: lazy(() => import("@/routes/terms-service-risk-disclosure")),
@@ -222,8 +222,8 @@ const configs: Config[] = [
   },
 
   {
-    path: "/agreement",
-    element: "Agreement",
+    path: "/privacy-policy",
+    element: "PrivacyPolicy",
     wrapper: "ServiceWrapper",
   },
   {

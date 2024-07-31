@@ -42,7 +42,7 @@ type Tab = "TOP" | "ALL";
 
 const sizeContainer = "xl";
 
-export default function Page() {
+export default function CopyTrade() {
   const t = useSPETranslation();
   const [traders, setTraders] = useState<CopyMaster[]>([]);
   const [loading, setLoading] = useState(true);

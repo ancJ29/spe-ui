@@ -31,6 +31,7 @@ import {
   IconShieldCheckFilled,
 } from "@tabler/icons-react";
 
+// TODO: rename this component to match the file name
 export default function Page() {
   const t = useTranslation();
   const { me } = authStore();

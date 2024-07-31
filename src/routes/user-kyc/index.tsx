@@ -11,6 +11,7 @@ import {
 } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
 
+// TODO: rename this component to match the file name
 export default function Page() {
   const t = useSPETranslation();
   return (

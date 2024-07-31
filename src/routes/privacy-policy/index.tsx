@@ -1,8 +1,7 @@
 import TermsServiceWrapper from "@/ui/TabsPolicy";
 import { Container, Space } from "@mantine/core";
 
-// TODO: rename this component to match the file name
-export default function Page() {
+export default function PrivacyPolicy() {
   return (
     <Container>
       <Space my={"xl"} />
