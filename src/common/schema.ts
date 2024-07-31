@@ -253,6 +253,7 @@ export const updateUserPayloadSchema = z
   .object({
     type: z.enum([
       UserUpdateType.NICK_NAME,
+      UserUpdateType.AVATAR,
       UserUpdateType.UPDATE_PASSWORD,
       UserUpdateType.KYC_DATA,
       UserUpdateType.ADD_EMAIL,
@@ -263,6 +264,7 @@ export const updateUserPayloadSchema = z
       UserUpdateType.VERIFY_MOBILE,
       UserUpdateType.UPDATE_ANTI_PHISHING_CODE,
     ]),
+    avatar: optionalStringSchema,
     nickName: optionalStringSchema,
     kycData: userKycDataSchema.optional(),
     mobile: optionalStringSchema,

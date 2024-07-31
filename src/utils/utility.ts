@@ -1,3 +1,4 @@
+import { PROFILE_IMAGE_PREFIX } from "@/common/configs";
 import logger from "@/services/logger";
 import debounce from "lodash/debounce";
 
@@ -72,4 +73,14 @@ export function generateUri2FA(
 
 export function valueColor(value: number) {
   return value > 0 ? "green" : "red";
+}
+
+export function avatarUrl(avatar?: string) {
+  if (!avatar) {
+    return undefined;
+  }
+  if (avatar.startsWith("http")) {
+    return avatar;
+  }
+  return `${PROFILE_IMAGE_PREFIX}/${avatar}`;
 }

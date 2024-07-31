@@ -72,9 +72,14 @@ export function cleanObj<T extends Record<string, unknown>>(obj: T) {
 }
 
 export function code(length = 6) {
-  return Math.random()
-    .toString()
-    .slice(2, 2 + length);
+  const list =
+    "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".split(
+      "",
+    );
+  return new Array(length)
+    .fill(0)
+    .map(() => list[Math.floor(Math.random() * list.length)])
+    .join("");
 }
 
 export function last<T>(arr: T[] = []) {

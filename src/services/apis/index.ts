@@ -1,6 +1,5 @@
 export * as axios from "./_axios";
 
-import { PROFILE_IMAGE_PREFIX } from "@/common/configs";
 import { OrderSide, OrderType } from "@/common/enums";
 import { updateUserPayloadSchema } from "@/common/schema";
 import {
@@ -35,6 +34,7 @@ import { assetStore } from "@/store/assets";
 import authStore from "@/store/auth";
 import tradeStore from "@/store/trade";
 import { delay, ONE_MINUTE } from "@/utils";
+import { avatarUrl } from "@/utils/utility";
 import { LRUCache } from "lru-cache";
 import { z } from "zod";
 import logger from "../logger";
@@ -59,7 +59,7 @@ export function fetchAllTraders() {
       traders.map((el, idx) => ({
         ...el,
         top: idx + 1,
-        avatar: `${PROFILE_IMAGE_PREFIX}/${el?.avatar}`,
+        avatar: avatarUrl(el?.avatar),
       })),
     );
   }
