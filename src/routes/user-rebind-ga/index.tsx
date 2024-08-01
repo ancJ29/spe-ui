@@ -1,6 +1,6 @@
 import useSPETranslation from "@/hooks/useSPETranslation";
 import authStore from "@/store/auth";
-import { BindGaForm } from "@/ui/Profile";
+import { ReBindGaForm } from "@/ui/Profile/Forms/ReBindGaForm";
 import { Anchor, Breadcrumbs, Container } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
 import { useEffect } from "react";
@@ -12,10 +12,11 @@ export default function Page() {
   const navigate = useNavigate();
   const { me } = authStore();
   useEffect(() => {
-    if(me?.hasMfa === true) {
-      navigate('/user/rebind-ga')
+    if(me?.hasMfa === false) {
+      navigate('/user/bind-ga')
     }
   }, [me?.hasMfa])
+
   return (
     <>
       <Container>
@@ -30,7 +31,7 @@ export default function Page() {
             {t("Change GA")}
           </Anchor>
         </Breadcrumbs>
-        <BindGaForm />
+        <ReBindGaForm />
       </Container>
     </>
   );

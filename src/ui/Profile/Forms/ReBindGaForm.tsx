@@ -26,10 +26,9 @@ import QRCode from "qrcode.react";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 const SECONDS = 54
 
-export function BindGaForm() {
+export function ReBindGaForm() {
   const t = useSPETranslation();
   const { me } = authStore();
-  
   const otpAuth = useMemo(() => {
     const secret = "KVKFKRCPNZQUYMLXOVYDSQKJKZDTSRLD";
     const label = "alice@spe.com_" + new Date(Date.now()).toLocaleString();
@@ -51,8 +50,6 @@ export function BindGaForm() {
     return s - 1
   }), 1000);
 
-  
-
   useEffect(() => {
     return interval.stop;
   }, []);
@@ -60,12 +57,21 @@ export function BindGaForm() {
   const form = useForm({
     mode: 'uncontrolled',
     initialValues: {
+      oldMfaCode: '',
       mfaCode: '',
       mfaSecret: '',
     },
     validateInputOnChange: true,
 
     validate: {
+      oldMfaCode: (value, values) => {
+        try {
+          emailVerificationCodeValidate().parse(value);
+          return null;
+        } catch (error: any) {
+          return error.errors[0].message;
+        }
+      },
       mfaCode: (value, values) => {
         try {
           emailVerificationCodeValidate().parse(value);
@@ -90,7 +96,7 @@ export function BindGaForm() {
     // Wrong email verification code
     const formData = omit(form.getValues())
     setLoading(true)
-    updateUserApi(UserUpdateType.ADD_MFA, formData).then(res => {
+    updateUserApi(UserUpdateType.UPDATE_MFA, formData).then(res => {
       if (res.data?.result?.success) {
         success(t("Google Authenticator Setup Successful"), t(`Google Authenticator setup is complete. Please use the app to generate codes and enter them during login for added security.`));
 
@@ -118,7 +124,7 @@ export function BindGaForm() {
     sendVerifyCode("EMAIL").then(res => {
       if (res.data?.result?.success) {
         interval.start()
-      }else {
+      } else {
         error(t("Verification Email Code Failed"), t("There was an error sending the verification code."))
       }
     })
@@ -127,6 +133,13 @@ export function BindGaForm() {
   return (
     <>
       <Box py={40}>
+        <Title order={2}>
+          {t("Change Google Authenticator")}
+        </Title>
+        <Text c={"primary"} fz={14}>
+          {t("The withdrawal function will be disabled for 24 hours after you change your Google Authenticator.")}
+        </Text>
+        <Space my={"xl"} />
         <Timeline
           bulletSize={24}
           lineWidth={1}
@@ -140,11 +153,17 @@ export function BindGaForm() {
           }}
         >
           <Timeline.Item
+            styles={{
+              itemTitle: {
+                marginBottom: "20px",
+
+                lineHeight: "0",
+              },
+            }}
             title={
               <Box mb={20}>
-                <Title order={3} mb={"20px"}>
-                  {t("Download Google Authenticator App")}
-                </Title>
+                <Title order={3}>{t("Set Up New Google Authenticator")}</Title>
+
               </Box>
             }
             bullet={
@@ -157,41 +176,6 @@ export function BindGaForm() {
                 fw={"bold"}
               >
                 1
-              </Text>
-            }
-          >
-            <Flex gap={10} align={"start"} h={"50px"}>
-              <Box h={"100%"}>
-                <Image h={"100%"} src={appStore} />
-              </Box>
-              <Box h={"100%"}>
-                <Image h={"100%"} src={chPlay} />
-              </Box>
-            </Flex>
-          </Timeline.Item>
-          <Timeline.Item
-            styles={{
-              itemTitle: {
-                marginBottom: "20px",
-
-                lineHeight: "0",
-              },
-            }}
-            title={
-              <Box mb={20}>
-                <Title order={3}>{t("Setup key")}</Title>
-              </Box>
-            }
-            bullet={
-              <Text
-                styles={{
-                  root: {
-                    color: "light-dark(white, black)",
-                  },
-                }}
-                fw={"bold"}
-              >
-                2
               </Text>
             }
           >
@@ -227,6 +211,38 @@ export function BindGaForm() {
           <Timeline.Item
             title={
               <Box mb={20}>
+                <Title order={3} mb={"20px"}>
+                  {t("検証")}
+                </Title>
+              </Box>
+            }
+            bullet={
+              <Text
+                styles={{
+                  root: {
+                    color: "light-dark(white, black)",
+                  },
+                }}
+                fw={"bold"}
+              >
+                2
+              </Text>
+            }
+          >
+            <Box style={{
+              maxWidth: "500px",
+              width: "100%"
+            }}>
+              <TextInput
+                label={t("New Google Authenticator Code")}
+                placeholder={t("Enter 6-digit code")}
+                key={form.key('oldMfaCode')} {...form.getInputProps('oldMfaCode')}
+              />
+            </Box>
+          </Timeline.Item>
+          <Timeline.Item
+            title={
+              <Box mb={20}>
                 <Title order={3}>{t("Security Verification")}</Title>
               </Box>
             }
@@ -243,9 +259,13 @@ export function BindGaForm() {
               </Text>
             }
           >
-            <Flex gap={50}>
+            <Box style={{
+              maxWidth: "500px",
+              width: "100%"
+            }}>
               <form onSubmit={submit}>
                 <Box>
+                  <Space my={"md"} />
                   <TextInput
                     label={
                       `Current Email Verification（${maskEmail(me?.email ?? "")}）`
@@ -264,8 +284,8 @@ export function BindGaForm() {
                   />
                   <Space my={"md"} />
                   <TextInput
-                    label={t("Google Authenticator Code")}
-                    placeholder={t("Enter 6-digit code")}
+                    label={t("Old Google Authentication Code")}
+                    placeholder={t("Enter code")}
                     key={form.key('mfaSecret')} {...form.getInputProps('mfaSecret')}
                   />
                   <Space my={"md"} />
@@ -285,7 +305,7 @@ export function BindGaForm() {
                   </Button>
                 </Box>
               </form>
-            </Flex>
+            </Box>
           </Timeline.Item>
         </Timeline>
       </Box>

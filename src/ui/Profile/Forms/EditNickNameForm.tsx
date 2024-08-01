@@ -3,6 +3,7 @@ import useSPETranslation from "@/hooks/useSPETranslation";
 import { updateUserApi } from "@/services/apis";
 import authStore from "@/store/auth";
 import { UserUpdateType } from "@/types";
+import { SPEAvatar } from "@/ui/AvatarUploader";
 import { error, success } from "@/utils/notifications";
 import { reloadWindow } from "@/utils/utility";
 import {
@@ -22,8 +23,9 @@ import { useState } from "react";
 
 export function EditNickNameForm() {
   const t = useSPETranslation();
-
   const { avatar, me, displayName } = authStore();
+  
+
   const onChangeNickName = () => {
     modals.open({
       title: t("Add a nickname"),
@@ -35,11 +37,9 @@ export function EditNickNameForm() {
     <>
       <Flex gap={12} align={"center"}>
         <Box>
-          <Avatar
-            w={72}
-            h={72}
-            src={avatar || defaultAvatar}
-          ></Avatar>
+          <SPEAvatar isEdit size={72} src={avatar || defaultAvatar} modalProps={{
+            title: t("Upload Avatar")
+          }}/>
         </Box>
         <Box>
           <Flex align={"center"} gap={10}>

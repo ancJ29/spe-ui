@@ -1,6 +1,6 @@
+import { PROFILE_IMAGE_PREFIX } from "@/common/configs";
 import { AuthenticationPayload } from "@/common/types";
 import { masking } from "@/common/utils";
-import { avatarUrl } from "@/utils/utility";
 import { create } from "zustand";
 
 interface AuthState {
@@ -19,7 +19,7 @@ const authStore = create<AuthState>((set) => ({
   setMe: (me: AuthenticationPayload) => {
     set({
       me,
-      avatar: avatarUrl(me?.avatar),
+      avatar: `${PROFILE_IMAGE_PREFIX}/${me?.avatar}`,
       isLogin: Boolean(me?.id),
       displayName:
         me?.nickName || masking(me?.email || me?.mobile || ""),

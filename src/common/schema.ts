@@ -11,6 +11,8 @@ export const optionalNumberSchema = z.number().optional();
 
 export const optionalStringSchema = stringSchema.optional();
 
+export const optionalBlobSchema = z.custom((value) => value instanceof Blob)
+
 export const reverseSchema = stringSchema
   .transform((v) => v === "true")
   .optional();
@@ -253,7 +255,6 @@ export const updateUserPayloadSchema = z
   .object({
     type: z.enum([
       UserUpdateType.NICK_NAME,
-      UserUpdateType.AVATAR,
       UserUpdateType.UPDATE_PASSWORD,
       UserUpdateType.KYC_DATA,
       UserUpdateType.ADD_EMAIL,
@@ -264,8 +265,8 @@ export const updateUserPayloadSchema = z
       UserUpdateType.VERIFY_MOBILE,
       UserUpdateType.UPDATE_ANTI_PHISHING_CODE,
     ]),
-    avatar: optionalStringSchema,
     nickName: optionalStringSchema,
+    avatar: optionalBlobSchema,
     kycData: userKycDataSchema.optional(),
     mobile: optionalStringSchema,
     antiPhishingCode: optionalStringSchema,

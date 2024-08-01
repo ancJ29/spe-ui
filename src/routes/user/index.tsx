@@ -1,11 +1,15 @@
 import { priceDisplay } from "@/common/utils";
 import useTranslation from "@/hooks/useSPETranslation";
+import { updateUserApi } from "@/services/apis";
 import authStore from "@/store/auth";
+import { UserUpdateType } from "@/types";
+import AppButton from "@/ui/Button/AppButton";
 import {
   AntiPhishingCodeSettingsForm,
   BindPhoneForm,
   EditNickNameForm,
 } from "@/ui/Profile";
+import { AvatarUploader, SPEAvatar } from "@/ui/AvatarUploader";
 import {
   Avatar,
   Box,
@@ -18,6 +22,7 @@ import {
   Space,
   Text,
 } from "@mantine/core";
+import { FileWithPath } from "@mantine/dropzone";
 import {
   IconBrandGoogle,
   IconCheck,
@@ -31,11 +36,11 @@ import {
   IconShieldCheckFilled,
 } from "@tabler/icons-react";
 
-// TODO: rename this component to match the file name
+
 export default function Page() {
   const t = useTranslation();
   const { me } = authStore();
-
+  
   return (
     <>
       <Container>
@@ -50,58 +55,60 @@ export default function Page() {
           <Space my={"xl"} />
           <EditNickNameForm />
           <Space my={"xl"} />
-          <Flex gap={40}>
-            <Box>
-              <Text fz={14} c={"dimmed"}>
-                {t("UID")}
-              </Text>
-              <Flex align={"center"} gap={10}>
-                <Text fz={20} fw={"bold"}>
-                  {me?.depositCode || ""}
+          <Box>
+            <Flex gap={40}>
+              <Box>
+                <Text fz={14} c={"dimmed"}>
+                  {t("UID")}
                 </Text>
-                <Flex align={"start"}>
-                  <CopyButton value="194260796">
-                    {({ copied, copy }) => (
-                      <Button
-                        h={"auto"}
-                        mih={0}
-                        p={0}
-                        variant="transparent"
-                        color={copied ? "teal" : "primary"}
-                        onClick={copy}
-                      >
-                        {copied ? (
-                          <IconCheck size={16} />
-                        ) : (
-                          <IconCopy size={16} />
-                        )}
-                      </Button>
-                    )}
-                  </CopyButton>
+                <Flex align={"center"} gap={10}>
+                  <Text fz={20} fw={"bold"}>
+                    {me?.depositCode || ""}
+                  </Text>
+                  <Flex align={"start"}>
+                    <CopyButton value="194260796">
+                      {({ copied, copy }) => (
+                        <Button
+                          h={"auto"}
+                          mih={0}
+                          p={0}
+                          variant="transparent"
+                          color={copied ? "teal" : "primary"}
+                          onClick={copy}
+                        >
+                          {copied ? (
+                            <IconCheck size={16} />
+                          ) : (
+                            <IconCopy size={16} />
+                          )}
+                        </Button>
+                      )}
+                    </CopyButton>
+                  </Flex>
                 </Flex>
-              </Flex>
-            </Box>
-            <Box>
-              <Text fz={14} c={"dimmed"}>
-                {t("Security Level")}
-              </Text>
-              <Flex align={"center"} gap={10}>
-                <Text fz={20} fw={600} c={priceDisplay("-1").color}>
-                  Low
+              </Box>
+              <Box>
+                <Text fz={14} c={"dimmed"}>
+                  {t("Security Level")}
                 </Text>
-              </Flex>
-            </Box>
-            <Box>
-              <Text fz={14} c={"dimmed"}>
-                {t("KYC (ID Verification)")}
-              </Text>
-              <Flex align={"center"} gap={10}>
-                <Text fz={20} fw={600} c={priceDisplay("-1").color}>
-                  Unverified
+                <Flex align={"center"} gap={10}>
+                  <Text fz={20} fw={600} c={priceDisplay("-1").color}>
+                    Low
+                  </Text>
+                </Flex>
+              </Box>
+              <Box hidden>
+                <Text fz={14} c={"dimmed"}>
+                  {t("KYC (ID Verification)")}
                 </Text>
-              </Flex>
-            </Box>
-          </Flex>
+                <Flex align={"center"} gap={10}>
+                  <Text fz={20} fw={600} c={priceDisplay("-1").color}>
+                    Unverified
+                  </Text>
+                </Flex>
+              </Box>
+            </Flex>
+          </Box>
           <Space my={"xl"} />
           <Divider />
           <Space my={"xl"} />
@@ -149,57 +156,58 @@ export default function Page() {
               <Grid.Col span={24}>
                 <Divider />
               </Grid.Col>
-              <Grid.Col span={10}>
-                {/* KYC  */}
-                <Flex gap={12} align={"center"}>
-                  <Avatar size={44}>
-                    <IconId />
-                  </Avatar>
-                  <Box>
-                    <Text fz={16} fw={600}>
-                      {t("KYC (ID Verification)")}
-                    </Text>
-                    <Text fz={14} fw={400} c={"dimmed"}>
-                      {t(
-                        "Advanced KYC is required for withdrawal and applying for Master in copy trading.",
-                      )}
-                    </Text>
-                  </Box>
-                </Flex>
-              </Grid.Col>
-              <Grid.Col span={8}>
-                <Flex
-                  align={"center"}
-                  gap={5}
-                  justify={"end"}
-                  h={"100%"}
-                >
-                  <IconInfoCircleFilled color="gray" />
-                  <Text fz={14}>{t("Not Yet verified")}</Text>
-                </Flex>
-              </Grid.Col>
-              <Grid.Col span={6}>
-                <Flex justify={"end"} align={"center"} h={"100%"}>
-                  <Button
-                    component="a"
-                    href="/user/kyc"
-                    variant="gradient"
-                    miw={150}
-                    px={"xs"}
-                    gradient={{
-                      from: "orange",
-                      to: "yellow",
-                      deg: 90,
-                    }}
+              <Grid columns={24} hidden>
+                <Grid.Col span={10}>
+                  {/* KYC  */}
+                  <Flex gap={12} align={"center"}>
+                    <Avatar size={44}>
+                      <IconId />
+                    </Avatar>
+                    <Box>
+                      <Text fz={16} fw={600}>
+                        {t("KYC (ID Verification)")}
+                      </Text>
+                      <Text fz={14} fw={400} c={"dimmed"}>
+                        {t(
+                          "Advanced KYC is required for withdrawal and applying for Master in copy trading.",
+                        )}
+                      </Text>
+                    </Box>
+                  </Flex>
+                </Grid.Col>
+                <Grid.Col span={8}>
+                  <Flex
+                    align={"center"}
+                    gap={5}
+                    justify={"end"}
+                    h={"100%"}
                   >
-                    {t("Verify now")}
-                  </Button>
-                </Flex>
-              </Grid.Col>
-              <Grid.Col span={24}>
-                <Divider />
-              </Grid.Col>
-
+                    <IconInfoCircleFilled color="gray" />
+                    <Text fz={14}>{t("Not Yet verified")}</Text>
+                  </Flex>
+                </Grid.Col>
+                <Grid.Col span={6}>
+                  <Flex justify={"end"} align={"center"} h={"100%"}>
+                    <Button
+                      component="a"
+                      href="/user/kyc"
+                      variant="gradient"
+                      miw={150}
+                      px={"xs"}
+                      gradient={{
+                        from: "orange",
+                        to: "yellow",
+                        deg: 90,
+                      }}
+                    >
+                      {t("Verify now")}
+                    </Button>
+                  </Flex>
+                </Grid.Col>
+                <Grid.Col span={24}>
+                  <Divider />
+                </Grid.Col>
+              </Grid>
               <Grid.Col span={10}>
                 {/* Email */}
                 <Flex gap={12} align={"center"}>

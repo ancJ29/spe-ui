@@ -16,7 +16,6 @@ import {
 
 export enum UserUpdateType {
   NICK_NAME = "NICK_NAME",
-  AVATAR = "AVATAR",
   UPDATE_PASSWORD = "UPDATE_PASSWORD",
   KYC_DATA = "KYC_DATA",
   ADD_EMAIL = "ADD_EMAIL",
@@ -26,6 +25,7 @@ export enum UserUpdateType {
   VERIFY_EMAIL = "VERIFY_EMAIL",
   VERIFY_MOBILE = "VERIFY_MOBILE",
   UPDATE_ANTI_PHISHING_CODE = "UPDATE_ANTI_PHISHING_CODE",
+  AVATAR = "AVATAR"
 }
 
 export enum ImageType {
