@@ -19,7 +19,7 @@ import { modals } from "@mantine/modals";
 import { IconInfoCircle } from "@tabler/icons-react";
 import { omit } from "lodash";
 import { FormEvent, useEffect, useState } from "react";
-const SECONDS = 54
+const SECONDS = 54;
 export function AntiPhishingCodeSettingsForm() {
   const t = useSPETranslation();
   const openModal = () => {
@@ -48,15 +48,15 @@ export function AntiPhishingCodeSettingsForm() {
 export function AntiPhishingCodeSettingsModal() {
   const t = useSPETranslation();
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [seconds, setSeconds] = useState(SECONDS);
 
   const interval = useInterval(() => setSeconds((s) => {
     if(s == 0) {
-      interval.stop()
-      return 0
+      interval.stop();
+      return 0;
     }
-    return s - 1
+    return s - 1;
   }), 1000);
 
 
@@ -65,10 +65,10 @@ export function AntiPhishingCodeSettingsModal() {
   }, []);
 
   const form = useForm({
-    mode: 'uncontrolled',
+    mode: "uncontrolled",
     initialValues: {
-      mfaCode: '',
-      verificationCode: '',
+      mfaCode: "",
+      verificationCode: "",
     },
     validateInputOnChange: true,
 
@@ -95,41 +95,41 @@ export function AntiPhishingCodeSettingsModal() {
 
   const onSubmit = () => {
     // Wrong email verification code
-    const formData = omit(form.getValues())
-    setLoading(true)
+    const formData = omit(form.getValues());
+    setLoading(true);
     updateUserApi(UserUpdateType.UPDATE_ANTI_PHISHING_CODE, formData).then(res => {
       if (res.data?.result?.success) {
-        success(t("Anti-Phishing Code Setup Successful"), t(`Anti-Phishing Code set up successfully. `));
+        success(t("Anti-Phishing Code Setup Successful"), t("Anti-Phishing Code set up successfully. "));
 
-        form.setValues(form.values)
+        form.setValues(form.values);
       } else {
-        error(t("Anti-Phishing Code Setup Failed"), t(`We couldn't set up your Anti-Phishing Code. Ensure you have followed the steps correctly and try again.`));
+        error(t("Anti-Phishing Code Setup Failed"), t("We couldn't set up your Anti-Phishing Code. Ensure you have followed the steps correctly and try again."));
       }
 
     }).finally(() => {
-      setLoading(false)
-    })
-  }
+      setLoading(false);
+    });
+  };
 
   const submit = (e: FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     if (form.isValid() === false) {
-      form.validate()
-      return false
+      form.validate();
+      return false;
     }
-    onSubmit()
-  }
+    onSubmit();
+  };
 
   const startSending = () => {
-    setSeconds(SECONDS)
+    setSeconds(SECONDS);
     sendVerifyCode("UPDATE_ANTI_PHISHING_CODE").then(res => {
       if (res.data?.result?.success) {
-        interval.start()
+        interval.start();
       }else {
-        error(t("Verification Phishing Code Failed"), t("There was an error sending the verification code. Please try again or contact support if the issue persists."))
+        error(t("Verification Phishing Code Failed"), t("There was an error sending the verification code. Please try again or contact support if the issue persists."));
       }
-    })
-  }
+    });
+  };
 
 
 
@@ -160,7 +160,8 @@ export function AntiPhishingCodeSettingsModal() {
               description={t(
                 "Enter numbers and letters only. 20 characters max.",
               )}
-              key={form.key('mfaCode')} {...form.getInputProps('mfaCode')}
+              key={form.key("mfaCode")}
+              {...form.getInputProps("mfaCode")}
             />
             <TextInput
               label={t("Current Email Verification")}
@@ -173,7 +174,8 @@ export function AntiPhishingCodeSettingsModal() {
                   </Button>
                 </Flex>
               }
-              key={form.key('verificationCode')} {...form.getInputProps('verificationCode')}
+              key={form.key("verificationCode")}
+              {...form.getInputProps("verificationCode")}
             />
             <Space />
             <Box>

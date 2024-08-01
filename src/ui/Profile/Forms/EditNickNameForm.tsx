@@ -7,7 +7,6 @@ import { SPEAvatar } from "@/ui/AvatarUploader";
 import { error, success } from "@/utils/notifications";
 import { reloadWindow } from "@/utils/utility";
 import {
-  Avatar,
   Badge,
   Box,
   Button,
@@ -24,7 +23,6 @@ import { useState } from "react";
 export function EditNickNameForm() {
   const t = useSPETranslation();
   const { avatar, me, displayName } = authStore();
-  
 
   const onChangeNickName = () => {
     modals.open({
@@ -37,9 +35,7 @@ export function EditNickNameForm() {
     <>
       <Flex gap={12} align={"center"}>
         <Box>
-          <SPEAvatar isEdit size={72} src={avatar || defaultAvatar} modalProps={{
-            title: t("Upload Avatar")
-          }}/>
+          <SPEAvatar size={72} src={avatar || defaultAvatar} />
         </Box>
         <Box>
           <Flex align={"center"} gap={10}>

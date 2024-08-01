@@ -6,8 +6,8 @@ export const MMR = [
   [50000, 0.05],
 ];
 
-export const PROFILE_IMAGE_PREFIX =
-  "https://crypto-copy-invest.s3.ap-southeast-1.amazonaws.com/images/profiles";
+export const S3_HOST = 'https://crypto-copy-invest.s3.ap-southeast-1.amazonaws.com'
+export const PROFILE_IMAGE_PREFIX = `${S3_HOST}/images/profiles`;
 
 export const MASTER_SHARE_PERCENT = 10;
 

@@ -6,7 +6,10 @@ import authStore from "@/store/auth";
 import { UserUpdateType } from "@/types";
 import { error, success } from "@/utils/notifications";
 import { generateUri2FA, maskEmail } from "@/utils/utility";
-import { antiPhishingCodeValidate, emailVerificationCodeValidate, requiredFieldeValidate } from "@/utils/validates";
+import {
+  emailVerificationCodeValidate,
+  requiredFieldedValidate,
+} from "@/utils/validates";
 
 import {
   Box,
@@ -24,105 +27,121 @@ import { useInterval } from "@mantine/hooks";
 import { omit } from "lodash";
 import QRCode from "qrcode.react";
 import { FormEvent, useEffect, useMemo, useState } from "react";
-const SECONDS = 54
+const SECONDS = 54;
 
 export function BindGaForm() {
   const t = useSPETranslation();
   const { me } = authStore();
-  
+
   const otpAuth = useMemo(() => {
-    const secret = "KVKFKRCPNZQUYMLXOVYDSQKJKZDTSRLD";
-    const label = "alice@spe.com_" + new Date(Date.now()).toLocaleString();
+    const secret = "KVKFKRCPNZQUYMLXOVYDSQKJKZDTSRLD"; // cspell: disable-line
+    const label =
+      "alice@spe.com_" + new Date(Date.now()).toLocaleString();
     return {
-      value: generateUri2FA("totp", label, secret, "spe", "100"),
+      value: generateUri2FA("totp", label, secret, "spe", "100"), // cspell: disable-line
       secret,
-      label
-    }
+      label,
+    };
   }, []);
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [seconds, setSeconds] = useState(SECONDS);
 
-  const interval = useInterval(() => setSeconds((s) => {
-    if (s == 0) {
-      interval.stop()
-      return 0
-    }
-    return s - 1
-  }), 1000);
-
-  
+  const interval = useInterval(
+    () =>
+      setSeconds((s) => {
+        if (s == 0) {
+          interval.stop();
+          return 0;
+        }
+        return s - 1;
+      }),
+    1000,
+  );
 
   useEffect(() => {
     return interval.stop;
-  }, []);
+  }, [interval.stop]);
 
   const form = useForm({
-    mode: 'uncontrolled',
+    mode: "uncontrolled",
     initialValues: {
-      mfaCode: '',
-      mfaSecret: '',
+      mfaCode: "",
+      mfaSecret: "",
     },
     validateInputOnChange: true,
 
     validate: {
-      mfaCode: (value, values) => {
+      mfaCode: (value) => {
         try {
           emailVerificationCodeValidate().parse(value);
           return null;
-        } catch (error: any) {
-          return error.errors[0].message;
+        } catch (e) {
+          return t("Invalid verification code");
         }
       },
       mfaSecret: (value) => {
         try {
-          requiredFieldeValidate().parse(value)
+          requiredFieldedValidate().parse(value);
           return null;
-        } catch (error: any) {
-          return error.errors[0].message;
+        } catch (e) {
+          return t("Invalid secret code");
         }
-
       },
     },
   });
 
   const onSubmit = () => {
     // Wrong email verification code
-    const formData = omit(form.getValues())
-    setLoading(true)
-    updateUserApi(UserUpdateType.ADD_MFA, formData).then(res => {
-      if (res.data?.result?.success) {
-        success(t("Google Authenticator Setup Successful"), t(`Google Authenticator setup is complete. Please use the app to generate codes and enter them during login for added security.`));
+    const formData = omit(form.getValues());
+    setLoading(true);
+    updateUserApi(UserUpdateType.ADD_MFA, formData)
+      .then((res) => {
+        if (res.data?.result?.success) {
+          success(
+            t("Google Authenticator Setup Successful"),
+            t(
+              "Google Authenticator setup is complete. Please use the app to generate codes and enter them during login for added security.",
+            ),
+          );
 
-        form.setValues(form.values)
-      } else {
-        error(t("Google Authenticator Binding Failed"), t(`An error occurred while trying to bind Google Authenticator. Please verify the setup instructions and try again.`));
-      }
-
-    }).finally(() => {
-      setLoading(false)
-    })
-  }
+          form.setValues(form.values);
+        } else {
+          error(
+            t("Google Authenticator Binding Failed"),
+            t(
+              "An error occurred while trying to bind Google Authenticator. Please verify the setup instructions and try again.",
+            ),
+          );
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   const submit = (e: FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     if (form.isValid() === false) {
-      form.validate()
-      return false
+      form.validate();
+      return false;
     }
-    onSubmit()
-  }
+    onSubmit();
+  };
 
   const startSending = () => {
-    setSeconds(SECONDS)
-    sendVerifyCode("EMAIL").then(res => {
+    setSeconds(SECONDS);
+    sendVerifyCode("EMAIL").then((res) => {
       if (res.data?.result?.success) {
-        interval.start()
-      }else {
-        error(t("Verification Email Code Failed"), t("There was an error sending the verification code."))
+        interval.start();
+      } else {
+        error(
+          t("Verification Email Code Failed"),
+          t("There was an error sending the verification code."),
+        );
       }
-    })
-  }
+    });
+  };
 
   return (
     <>
@@ -247,26 +266,33 @@ export function BindGaForm() {
               <form onSubmit={submit}>
                 <Box>
                   <TextInput
-                    label={
-                      `Current Email Verification（${maskEmail(me?.email ?? "")}）`
-                    }
+                    label={`Current Email Verification（${maskEmail(
+                      me?.email ?? "",
+                    )}）`}
                     placeholder={t("Enter the verification code")}
                     rightSectionWidth={60}
                     rightSection={
                       <Flex px={10} w={"100%"}>
-                        <Button disabled={interval.active} p={0} variant="transparent" onClick={startSending}>
+                        <Button
+                          disabled={interval.active}
+                          p={0}
+                          variant="transparent"
+                          onClick={startSending}
+                        >
                           {!interval.active && t("Send")}
                           {interval.active && `${seconds}s`}
                         </Button>
                       </Flex>
                     }
-                    key={form.key('mfaCode')} {...form.getInputProps('mfaCode')}
+                    key={form.key("mfaCode")}
+                    {...form.getInputProps("mfaCode")}
                   />
                   <Space my={"md"} />
                   <TextInput
                     label={t("Google Authenticator Code")}
                     placeholder={t("Enter 6-digit code")}
-                    key={form.key('mfaSecret')} {...form.getInputProps('mfaSecret')}
+                    key={form.key("mfaSecret")}
+                    {...form.getInputProps("mfaSecret")}
                   />
                   <Space my={"md"} />
                   <Button

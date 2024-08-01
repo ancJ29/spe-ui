@@ -13,9 +13,9 @@ export default function Page() {
   const { me } = authStore();
   useEffect(() => {
     if(me?.hasMfa === true) {
-      navigate('/user/rebind-ga')
+      navigate("/user/rebind-ga");
     }
-  }, [me?.hasMfa])
+  }, [me?.hasMfa]);
   return (
     <>
       <Container>

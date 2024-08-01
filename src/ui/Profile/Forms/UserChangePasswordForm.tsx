@@ -1,6 +1,8 @@
 import useSPETranslation from "@/hooks/useSPETranslation";
 import { updateUserApi } from "@/services/apis";
 import { UserUpdateType } from "@/types";
+import { error, success } from "@/utils/notifications";
+import { passwordSchemaValidate } from "@/utils/validates";
 import {
   Alert,
   Box,
@@ -12,69 +14,81 @@ import {
   Space,
   Title,
 } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import { IconInfoCircle } from "@tabler/icons-react";
-import { useForm } from '@mantine/form';
 import { omit } from "lodash";
 import { FormEvent, useState } from "react";
-import { error, success } from "@/utils/notifications";
-import { passwordSchemaValidate } from "@/utils/validates";
-
 
 export function UserChangePasswordForm() {
   const t = useSPETranslation();
-  const [loading, setLoading] = useState(false)
-  
+  const [loading, setLoading] = useState(false);
 
   const form = useForm({
-    mode: 'uncontrolled',
+    mode: "uncontrolled",
     initialValues: {
-      currentPassword: '',
-      password: '',
+      currentPassword: "",
+      password: "",
       newPassword: "",
     },
     validateInputOnChange: true,
 
     validate: {
-      currentPassword: (value, values) => (value.length <= 0 ? t(`Please Enter Current Password`) : null),
+      currentPassword: (value) =>
+        value.length <= 0 ? t("Please Enter Current Password") : null,
       password: (value) => {
         try {
           passwordSchemaValidate().parse(value);
-          return null; 
-        } catch (error: any) {
-          return error.errors[0].message; 
+          return null;
+        } catch (e) {
+          return t("invalid password");
         }
-
       },
-      newPassword: (value, values) => value !== values.password ? `${t(`The two passwords are inconsistent. Please try again.`)}` : null,
+      newPassword: (value, values) => {
+        if (value !== values.password) {
+          return t(
+            "The two passwords are inconsistent. Please try again.",
+          );
+        }
+        return null;
+      },
     },
   });
 
   const updatePassword = () => {
-    const formData = omit(form.getValues(), ["newPassword"])
-    setLoading(true)
-    updateUserApi(UserUpdateType.UPDATE_PASSWORD, formData).then(res => {
-      if (res.data.result.success) {
-        success(t("Password Successfully Changed"), t(`
-          Your password has been successfully changed. You can now use your new password to log in.`));
-        
-        form.setValues(form.values)
-      } else {
-        error(t("Password Change Failed"), t("Password modification failed. Please make sure all fields are filled out correctly and that your current password is accurate. If the problem persists, contact support."));
-      }
+    const formData = omit(form.getValues(), ["newPassword"]);
+    setLoading(true);
+    updateUserApi(UserUpdateType.UPDATE_PASSWORD, formData)
+      .then((res) => {
+        if (res.data.result.success) {
+          success(
+            t("Password Successfully Changed"),
+            t(`
+          Your password has been successfully changed. You can now use your new password to log in.`),
+          );
 
-    }).finally(() => {
-      setLoading(false)
-    })
-  }
+          form.setValues(form.values);
+        } else {
+          error(
+            t("Password Change Failed"),
+            t(
+              "Password modification failed. Please make sure all fields are filled out correctly and that your current password is accurate. If the problem persists, contact support.",
+            ),
+          );
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   const submit = (e: FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     if (form.isValid() === false) {
-      form.validate()
-      return false
+      form.validate();
+      return false;
     }
-    updatePassword()
-  }
+    updatePassword();
+  };
 
   return (
     <>
@@ -108,16 +122,34 @@ export function UserChangePasswordForm() {
                   "The withdrawal function will be disabled for 24 hours after you change your login password.",
                 )}
               </Alert>
-              <PasswordInput label={t("Current Password")} key={form.key('currentPassword')} {...form.getInputProps('currentPassword')} />
-              <PasswordInput label={t("New Password")} key={form.key('password')} {...form.getInputProps('password')} />
-              <PasswordInput label={t("Confirm New Password")} key={form.key('newPassword')} {...form.getInputProps('newPassword')} />
+              <PasswordInput
+                label={t("Current Password")}
+                key={form.key("currentPassword")}
+                {...form.getInputProps("currentPassword")}
+              />
+              <PasswordInput
+                label={t("New Password")}
+                key={form.key("password")}
+                {...form.getInputProps("password")}
+              />
+              <PasswordInput
+                label={t("Confirm New Password")}
+                key={form.key("newPassword")}
+                {...form.getInputProps("newPassword")}
+              />
               <Space />
               <Box>
-                <Button loading={loading} disabled={loading}
+                <Button
+                  loading={loading}
+                  disabled={loading}
                   size="lg"
                   color="gray"
                   variant="gradient"
-                  gradient={{ from: "primary", to: "yellow", deg: 90 }}
+                  gradient={{
+                    from: "primary",
+                    to: "yellow",
+                    deg: 90,
+                  }}
                   fullWidth
                   type="submit"
                 >

@@ -5,7 +5,7 @@ import { UserUpdateType } from "@/types";
 import phoneCode from "@/ui/Form/widgets/mocks/phone-code.json";
 import { error, success } from "@/utils/notifications";
 import { extractPhoneNumber, maskEmail } from "@/utils/utility";
-import { emailVerificationCodeValidate, requiredFieldeValidate } from "@/utils/validates";
+import { emailVerificationCodeValidate } from "@/utils/validates";
 import {
   Box,
   Button,
@@ -51,7 +51,7 @@ export function BindPhoneForm() {
     </>
   );
 }
-const SECONDS = 54
+const SECONDS = 54;
 export function BindPhoneModal() {
   const t = useSPETranslation();
   const { me } = authStore();
@@ -62,50 +62,56 @@ export function BindPhoneModal() {
     return phoneCode.find((v) => v.value === region);
   }, [region]);
 
-  extractPhoneNumber({ mobile: "1", phoneLocale: region })
-  const [loading, setLoading] = useState(false)
+  extractPhoneNumber({ mobile: "1", phoneLocale: region });
   const [seconds, setSeconds] = useState(SECONDS);
   const [seconds2, setSeconds2] = useState(SECONDS);
 
-  const interval = useInterval(() => setSeconds((s) => {
-    if (s == 0) {
-      interval.stop()
-      return 0
-    }
-    return s - 1
-  }), 1000);
+  const interval = useInterval(
+    () =>
+      setSeconds((s) => {
+        if (s == 0) {
+          interval.stop();
+          return 0;
+        }
+        return s - 1;
+      }),
+    1000,
+  );
 
-  const intervalMail = useInterval(() => setSeconds2((s) => {
-    if (s == 0) {
-      intervalMail.stop()
-      return 0
-    }
-    return s - 1
-  }), 1000);
-
-  
+  const intervalMail = useInterval(
+    () =>
+      setSeconds2((s) => {
+        if (s == 0) {
+          intervalMail.stop();
+          return 0;
+        }
+        return s - 1;
+      }),
+    1000,
+  );
 
   useEffect(() => {
     return () => {
-      interval.stop()
-      intervalMail.stop()
+      interval.stop();
+      intervalMail.stop();
     };
   }, []);
 
   const form = useForm({
-    mode: 'uncontrolled',
+    mode: "uncontrolled",
     initialValues: {
-      verificationCode: '',
+      verificationCode: "",
     },
     validateInputOnChange: true,
 
     validate: {
-      verificationCode: (value, values) => {
+      verificationCode: (value) => {
         try {
           emailVerificationCodeValidate().parse(value);
           return null;
-        } catch (error: any) {
-          return error.errors[0].message;
+        } catch (e) {
+          return t("Invalid verification code");
+          // return error.errors[0].message;
         }
       },
     },
@@ -113,53 +119,64 @@ export function BindPhoneModal() {
 
   const onSubmit = () => {
     // Wrong email verification code
-    const formData = omit(form.getValues())
-    setLoading(true)
-    updateUserApi(UserUpdateType.ADD_MOBILE, formData).then(res => {
+    const formData = omit(form.getValues());
+    updateUserApi(UserUpdateType.ADD_MOBILE, formData).then((res) => {
       if (res.data.result.success) {
-        success(t("Google Authenticator Setup Successful"), t(`Google Authenticator setup is complete. Please use the app to generate codes and enter them during login for added security.`));
+        success(
+          t("Google Authenticator Setup Successful"),
+          t(
+            "Google Authenticator setup is complete. Please use the app to generate codes and enter them during login for added security.",
+          ),
+        );
 
-        form.setValues(form.values)
+        form.setValues(form.values);
       } else {
-        error(t("Google Authenticator Binding Failed"), t(`An error occurred while trying to bind Google Authenticator. Please verify the setup instructions and try again.`));
+        error(
+          t("Google Authenticator Binding Failed"),
+          t(
+            "An error occurred while trying to bind Google Authenticator. Please verify the setup instructions and try again.",
+          ),
+        );
       }
-
-    }).finally(() => {
-      setLoading(false)
-    })
-  }
+    });
+  };
 
   const submit = (e: FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     if (form.isValid() === false) {
-      form.validate()
-      return false
+      form.validate();
+      return false;
     }
-    onSubmit()
-  }
+    onSubmit();
+  };
 
   const startSending = () => {
-    setSeconds(SECONDS)
-    sendVerifyCode("MOBILE").then(res => {
+    setSeconds(SECONDS);
+    sendVerifyCode("MOBILE").then((res) => {
       if (res.data?.result?.success) {
-        interval.start()
+        interval.start();
       } else {
-        error(t("Verification Phone Code Failed"), t("There was an error sending the verification code."))
+        error(
+          t("Verification Phone Code Failed"),
+          t("There was an error sending the verification code."),
+        );
       }
-    })
-  }
+    });
+  };
 
   const startSendingMail = () => {
-    setSeconds2(SECONDS)
-    sendVerifyCode("EMAIL").then(res => {
+    setSeconds2(SECONDS);
+    sendVerifyCode("EMAIL").then((res) => {
       if (res.data?.result?.success) {
-        intervalMail.start()
+        intervalMail.start();
       } else {
-        error(t("Verification Email Code Failed"), t("There was an error sending the verification code."))
+        error(
+          t("Verification Email Code Failed"),
+          t("There was an error sending the verification code."),
+        );
       }
-    })
-  }
-  
+    });
+  };
 
   return (
     <Center h={"100%"} w={"100%"}>
@@ -237,7 +254,12 @@ export function BindPhoneModal() {
               rightSectionWidth={60}
               rightSection={
                 <Flex px={10} w={"100%"}>
-                  <Button disabled={interval.active} p={0} variant="transparent" onClick={startSending}>
+                  <Button
+                    disabled={interval.active}
+                    p={0}
+                    variant="transparent"
+                    onClick={startSending}
+                  >
                     {!interval.active && t("Send")}
                     {interval.active && `${seconds}s`}
                   </Button>
@@ -247,17 +269,26 @@ export function BindPhoneModal() {
 
             <Box>
               <Flex justify={"space-between"} align={"end"}>
-                <InputLabel size="lg">{t("Current Email Verification")}</InputLabel>
-                <Text c={"dimmed"}>{`${maskEmail(me?.email ?? "")}`}</Text>
+                <InputLabel size="lg">
+                  {t("Current Email Verification")}
+                </InputLabel>
+                <Text c={"dimmed"}>{`${maskEmail(
+                  me?.email ?? "",
+                )}`}</Text>
               </Flex>
               <TextInput
                 rightSectionWidth={60}
                 rightSection={
                   <Flex px={10} w={"100%"}>
-                    <Button disabled={intervalMail.active} p={0} variant="transparent" onClick={startSendingMail}>
-                    {!intervalMail.active && t("Send")}
-                    {intervalMail.active && `${seconds2}s`}
-                  </Button>
+                    <Button
+                      disabled={intervalMail.active}
+                      p={0}
+                      variant="transparent"
+                      onClick={startSendingMail}
+                    >
+                      {!intervalMail.active && t("Send")}
+                      {intervalMail.active && `${seconds2}s`}
+                    </Button>
                   </Flex>
                 }
                 placeholder={t("Enter code")}

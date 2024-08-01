@@ -13,9 +13,9 @@ export default function Page() {
   const { me } = authStore();
   useEffect(() => {
     if(me?.hasMfa === false) {
-      navigate('/user/bind-ga')
+      navigate("/user/bind-ga");
     }
-  }, [me?.hasMfa])
+  }, [me?.hasMfa]);
 
   return (
     <>

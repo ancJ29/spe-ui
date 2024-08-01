@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import { PROFILE_IMAGE_PREFIX } from "@/common/configs";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import { fetchTrader } from "@/services/apis";
 import logger from "@/services/logger";
@@ -12,6 +11,7 @@ import AppPill from "@/ui/Pill/AppPill";
 import { AppPopover } from "@/ui/Popover/AppPopover";
 import AppText from "@/ui/Text/AppText";
 import { shuffleArray } from "@/utils";
+import { avatarUrl } from "@/utils/utility";
 import {
   Avatar,
   Box,
@@ -143,7 +143,7 @@ function Banner(trader: PublicCopyMasterDetail) {
                         md: "unset",
                       }}
                       size={126}
-                      src={`${PROFILE_IMAGE_PREFIX}/${trader?.avatar}`}
+                      src={avatarUrl(trader.avatar)}
                     />
                   </Box>
                   <Box>

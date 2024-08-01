@@ -1,3 +1,4 @@
+import { PROFILE_IMAGE_PREFIX } from "@/common/configs";
 import logger from "@/services/logger";
 import debounce from "lodash/debounce";
 
@@ -74,10 +75,19 @@ export function valueColor(value: number) {
   return value > 0 ? "green" : "red";
 }
 
-
 export function maskEmail(email: string) {
-  const [username, domain] = email.split('@');
-  const maskedUsername = username[0] + '*'.repeat(username.length - 2) + username[username.length - 1];
+  const [username, domain] = email.split("@");
+  const maskedUsername = username[0] + "*".repeat(username.length - 2) + username[username.length - 1];
   const maskedEmail = `${maskedUsername}@${domain}`;
   return maskedEmail;
+}
+
+export function avatarUrl(avatar?: string) {
+  if (!avatar) {
+    return undefined;
+  }
+  if (avatar.startsWith("http")) {
+    return avatar;
+  }
+  return `${PROFILE_IMAGE_PREFIX}/${avatar}`;
 }
