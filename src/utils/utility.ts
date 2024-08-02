@@ -77,7 +77,10 @@ export function valueColor(value: number) {
 
 export function maskEmail(email: string) {
   const [username, domain] = email.split("@");
-  const maskedUsername = username[0] + "*".repeat(username.length - 2) + username[username.length - 1];
+  const maskedUsername =
+    username[0] +
+    "*".repeat(username.length - 2) +
+    username[username.length - 1];
   const maskedEmail = `${maskedUsername}@${domain}`;
   return maskedEmail;
 }

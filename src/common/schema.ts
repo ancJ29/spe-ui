@@ -11,8 +11,6 @@ export const optionalNumberSchema = z.number().optional();
 
 export const optionalStringSchema = stringSchema.optional();
 
-export const optionalBlobSchema = z.custom((value) => value instanceof Blob)
-
 export const reverseSchema = stringSchema
   .transform((v) => v === "true")
   .optional();
@@ -268,7 +266,8 @@ export const updateUserPayloadSchema = z
     ]),
     avatar: optionalStringSchema,
     nickName: optionalStringSchema,
-    avatar: optionalBlobSchema,
+    emailVerificationCode: optionalStringSchema,
+    mobileVerificationCode: optionalStringSchema,
     kycData: userKycDataSchema.optional(),
     mobile: optionalStringSchema,
     antiPhishingCode: optionalStringSchema,

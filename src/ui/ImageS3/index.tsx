@@ -4,16 +4,12 @@ import { ReactNode } from "react";
 import useSWR, { SWRResponse } from "swr";
 
 type PropsType = {
-  children: (res: SWRResponse<{url: string}>) => ReactNode
+  children: (res: SWRResponse<{ url: string }>) => ReactNode;
 };
 export default function ImageS3(props: PropsType) {
   const res = useSWR<{ url: string }>(
     `api/me/upload/url?type=${ImageType.AVATAR}`,
-    fetch
+    fetch,
   );
-  return (
-    <>
-      {props.children && props.children(res)}
-    </>
-  );
+  return <>{props.children && props.children(res)}</>;
 }

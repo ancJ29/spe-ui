@@ -1,4 +1,5 @@
 import { checkMfa } from "@/services/apis";
+import logger from "@/services/logger";
 import { debounceBuilder } from "@/utils/utility";
 import { Loader, TextInput } from "@mantine/core";
 import { WidgetProps } from "@rjsf/utils";
@@ -69,12 +70,12 @@ export function TextEmail2FaWidget({
               "email.is2fa": hasMfa,
             });
           })
-          .catch(() => {
-            // console.log(err);
+          .catch((e) => {
+            logger.error("Failed to check 2FA", e);
           })
           .finally(() => setLoading(false));
       } catch (e: unknown) {
-        // console.log(e.message);
+        logger.error("Failed to check 2FA", e);
       }
     },
     [updateFields],

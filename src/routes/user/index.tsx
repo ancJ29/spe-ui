@@ -6,6 +6,7 @@ import {
   BindPhoneForm,
   EditNickNameForm,
 } from "@/ui/Profile";
+import { BindEmailForm } from "@/ui/Profile/Forms/BindEmailForm";
 import {
   Avatar,
   Box,
@@ -209,7 +210,7 @@ export default function Profile() {
                 </Avatar>
                 <Box>
                   <Text fz={16} fw={600}>
-                    {t("Email Verification)")}
+                    {t("Email Verification")}
                   </Text>
                   <Text fz={14} fw={400} c={"dimmed"}>
                     {t(
@@ -231,7 +232,7 @@ export default function Profile() {
               </Flex>
             </Grid.Col>
             <Grid.Col span={6}>
-              <Flex justify={"end"} align={"center"} h={"100%"}>
+              {/* <Flex justify={"end"} align={"center"} h={"100%"}>
                 <Button
                   variant="gradient"
                   miw={150}
@@ -244,6 +245,9 @@ export default function Profile() {
                 >
                   {t("Change email")}
                 </Button>
+              </Flex> */}
+              <Flex justify={"end"} align={"center"} h={"100%"}>
+                <BindEmailForm />
               </Flex>
             </Grid.Col>
             <Grid.Col span={24}>

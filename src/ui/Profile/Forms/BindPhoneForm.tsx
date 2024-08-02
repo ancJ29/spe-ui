@@ -5,7 +5,10 @@ import { UserUpdateType } from "@/types";
 import phoneCode from "@/ui/Form/widgets/mocks/phone-code.json";
 import { error, success } from "@/utils/notifications";
 import { extractPhoneNumber, maskEmail } from "@/utils/utility";
-import { emailVerificationCodeValidate } from "@/utils/validates";
+import {
+  emailVerificationCodeValidate,
+  requiredFieldValidate,
+} from "@/utils/validates";
 import {
   Box,
   Button,
@@ -13,6 +16,7 @@ import {
   Flex,
   Image,
   InputLabel,
+  NumberInput,
   Select,
   SimpleGrid,
   Space,
@@ -23,7 +27,6 @@ import { useForm } from "@mantine/form";
 import { useInterval } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import { IconCheck, IconChevronDown } from "@tabler/icons-react";
-import { omit } from "lodash";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 
 export function BindPhoneForm() {
@@ -56,6 +59,7 @@ export function BindPhoneModal() {
   const t = useSPETranslation();
   const { me } = authStore();
 
+  const [loading, setLoading] = useState(false);
   const [region, setRegion] = useState("+81 Japan");
 
   const info = useMemo(() => {
@@ -95,23 +99,73 @@ export function BindPhoneModal() {
       interval.stop();
       intervalMail.stop();
     };
-  }, []);
+  }, [interval, intervalMail]);
 
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
-      verificationCode: "",
+      emailVerificationCode: "",
+      mobileVerificationCode: "",
+      mobile: "",
     },
     validateInputOnChange: true,
 
     validate: {
-      verificationCode: (value) => {
+      emailVerificationCode: (value) => {
         try {
           emailVerificationCodeValidate().parse(value);
           return null;
-        } catch (e) {
-          return t("Invalid verification code");
-          // return error.errors[0].message;
+        } catch (error: unknown) {
+          if (
+            typeof error === "object" &&
+            error !== null &&
+            "errors" in error
+          ) {
+            const customError = error as {
+              errors: { message: string }[];
+            };
+            return customError.errors[0].message;
+          } else {
+            return t("Invalid mobile verification code");
+          }
+        }
+      },
+      mobile: (value) => {
+        try {
+          requiredFieldValidate().parse(value.toString());
+          return null;
+        } catch (error: unknown) {
+          if (
+            typeof error === "object" &&
+            error !== null &&
+            "errors" in error
+          ) {
+            const customError = error as {
+              errors: { message: string }[];
+            };
+            return customError.errors[0].message;
+          } else {
+            return t("Invalid mobile verification code");
+          }
+        }
+      },
+      mobileVerificationCode: (value) => {
+        try {
+          emailVerificationCodeValidate().parse(value);
+          return null;
+        } catch (error: unknown) {
+          if (
+            typeof error === "object" &&
+            error !== null &&
+            "errors" in error
+          ) {
+            const customError = error as {
+              errors: { message: string }[];
+            };
+            return customError.errors[0].message;
+          } else {
+            return t("Invalid mobile verification code");
+          }
         }
       },
     },
@@ -119,26 +173,42 @@ export function BindPhoneModal() {
 
   const onSubmit = () => {
     // Wrong email verification code
-    const formData = omit(form.getValues());
-    updateUserApi(UserUpdateType.ADD_MOBILE, formData).then((res) => {
-      if (res.data.result.success) {
-        success(
-          t("Google Authenticator Setup Successful"),
-          t(
-            "Google Authenticator setup is complete. Please use the app to generate codes and enter them during login for added security.",
-          ),
-        );
-
-        form.setValues(form.values);
-      } else {
-        error(
-          t("Google Authenticator Binding Failed"),
-          t(
-            "An error occurred while trying to bind Google Authenticator. Please verify the setup instructions and try again.",
-          ),
-        );
-      }
+    const { emailVerificationCode, mobile, mobileVerificationCode } =
+      form.getValues();
+    const formData = {
+      emailVerificationCode,
+      mobile,
+      mobileVerificationCode,
+    };
+    formData.mobile = extractPhoneNumber({
+      mobile: mobile.toString(),
+      phoneLocale: region,
     });
+
+    setLoading(true);
+    updateUserApi(UserUpdateType.ADD_MOBILE, formData)
+      .then((res) => {
+        if (res.data?.result?.success) {
+          success(
+            t("Phone Number Binding Successfully"),
+            t(
+              "Your phone number has been successfully linked to your account. You will receive notifications via this number.",
+            ),
+          );
+          form.setValues(form.values);
+          modals.closeAll();
+        } else {
+          error(
+            t("Phone Number Binding Failed"),
+            t(
+              "An error occurred while trying to bind Phone Number. Please verify the setup instructions and try again.",
+            ),
+          );
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const submit = (e: FormEvent) => {
@@ -151,6 +221,10 @@ export function BindPhoneModal() {
   };
 
   const startSending = () => {
+    if (form.validateField("mobile").hasError) {
+      form.setFieldError("mobile", t("Please enter mobile first"));
+      return;
+    }
     setSeconds(SECONDS);
     sendVerifyCode("MOBILE").then((res) => {
       if (res.data?.result?.success) {
@@ -244,7 +318,12 @@ export function BindPhoneModal() {
                   </Box>
                 </Box>
                 <Box flex={1}>
-                  <TextInput placeholder={t("Phone number")} />
+                  <NumberInput
+                    hideControls
+                    placeholder={t("Phone number")}
+                    key={form.key("mobile")}
+                    {...form.getInputProps("mobile")}
+                  />
                 </Box>
               </Flex>
             </Box>
@@ -255,7 +334,10 @@ export function BindPhoneModal() {
               rightSection={
                 <Flex px={10} w={"100%"}>
                   <Button
-                    disabled={interval.active}
+                    disabled={
+                      interval.active ||
+                      form.getInputProps("mobile").error
+                    }
                     p={0}
                     variant="transparent"
                     onClick={startSending}
@@ -265,6 +347,8 @@ export function BindPhoneModal() {
                   </Button>
                 </Flex>
               }
+              key={form.key("mobileVerificationCode")}
+              {...form.getInputProps("mobileVerificationCode")}
             />
 
             <Box>
@@ -292,17 +376,21 @@ export function BindPhoneModal() {
                   </Flex>
                 }
                 placeholder={t("Enter code")}
+                key={form.key("emailVerificationCode")}
+                {...form.getInputProps("emailVerificationCode")}
               />
             </Box>
             <Space />
             <Box>
               <Button
+                loading={loading}
+                disabled={loading}
                 size="lg"
                 color="gray"
                 variant="gradient"
                 gradient={{ from: "primary", to: "yellow", deg: 90 }}
                 fullWidth
-                onClick={() => modals.closeAll()}
+                type="submit"
               >
                 {t("Confirm")}
               </Button>

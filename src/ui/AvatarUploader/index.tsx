@@ -55,31 +55,31 @@ export function SPEAvatar(props: AvatarProps) {
       ImageType.AVATAR,
       file.name,
     );
-    try {
-      const reader = new FileReader();
-      reader.onloadend = async () => {
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      try {
         await axios.put(endPoint, reader.result, {
           headers: { "Content-Type": file.type },
         });
         await updateUserApi(UserUpdateType.AVATAR, {
-          avatar: `${S3_HOST}/uploaded/images/${me?.id}/${file.name}`,
+          avatar: `${S3_HOST}/upload/images/${me?.id}/${file.name}`,
         }).then(() => {
           close();
           navigate(0);
           success(t("Success"), t("Avatar has been changed"));
         });
         setLoading(false);
-      };
-      reader.readAsArrayBuffer(file);
-    } catch (err) {
-      setLoading(false);
-      error(
-        t("Error Occurred While Uploading Image"),
-        t(
-          "An error occurred while trying to upload the image. Please check your file and try again.",
-        ),
-      );
-    }
+      } catch (err) {
+        error(
+          t("Error Occurred While Uploading Image"),
+          t(
+            "An error occurred while trying to upload the image. Please check your file and try again.",
+          ),
+        );
+        setLoading(false);
+      }
+    };
+    reader.readAsArrayBuffer(file);
   }, [close, file, me?.id, navigate, t]);
 
   return (

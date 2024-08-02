@@ -1,12 +1,13 @@
 import useSPETranslation from "@/hooks/useSPETranslation";
 import { sendVerifyCode, updateUserApi } from "@/services/apis";
+import logger from "@/services/logger";
 import authStore from "@/store/auth";
 import { UserUpdateType } from "@/types";
 import { error, success } from "@/utils/notifications";
 import { generateUri2FA, maskEmail } from "@/utils/utility";
 import {
   emailVerificationCodeValidate,
-  requiredFieldedValidate,
+  requiredFieldValidate,
 } from "@/utils/validates";
 
 import {
@@ -30,7 +31,7 @@ export function ReBindGaForm() {
   const t = useSPETranslation();
   const { me } = authStore();
   const otpAuth = useMemo(() => {
-    const secret = "KVKFKRCPNZQUYMLXOVYDSQKJKZDTSRLD";
+    const secret = "KVKFKRCPNZQUYMLXOVYDSQKJKZDTSRLD"; // cspell: disable-line
     const label =
       "alice@spe.com_" + new Date(Date.now()).toLocaleString();
     return {
@@ -57,7 +58,7 @@ export function ReBindGaForm() {
 
   useEffect(() => {
     return interval.stop;
-  }, []);
+  }, [interval.stop]);
 
   const form = useForm({
     mode: "uncontrolled",
@@ -69,28 +70,31 @@ export function ReBindGaForm() {
     validateInputOnChange: true,
 
     validate: {
-      oldMfaCode: (value, values) => {
+      oldMfaCode: (value) => {
         try {
           emailVerificationCodeValidate().parse(value);
           return null;
-        } catch (error: any) {
-          return error.errors[0].message;
+        } catch (error) {
+          logger.error(error);
+          return "Invalid code";
         }
       },
-      mfaCode: (value, values) => {
+      mfaCode: (value) => {
         try {
           emailVerificationCodeValidate().parse(value);
           return null;
-        } catch (error: any) {
-          return error.errors[0].message;
+        } catch (error) {
+          logger.error(error);
+          return "Invalid code";
         }
       },
       mfaSecret: (value) => {
         try {
-          requiredFieldedValidate().parse(value);
+          requiredFieldValidate().parse(value);
           return null;
-        } catch (error: any) {
-          return error.errors[0].message;
+        } catch (error) {
+          logger.error(error);
+          return "Invalid code";
         }
       },
     },

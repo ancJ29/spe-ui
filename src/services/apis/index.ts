@@ -260,9 +260,9 @@ export async function inquiryApi(data: GenericObject) {
 }
 
 export function getUploadUrlApi(type: ImageType, name: string) {
-  return getApi<{ url: string }>(`/api/me/upload/url?type=${type}&name=${name}`).then(
-    (res) => res.url,
-  );
+  return getApi<{ url: string }>(
+    `/api/me/upload/url?type=${type}&name=${name}`,
+  ).then((res) => res.url);
 }
 
 export function updateUserApi(
@@ -275,7 +275,13 @@ export function updateUserApi(
   });
 }
 
-export function sendVerifyCode(type: "EMAIL" | "MOBILE" | "UPDATE_ANTI_PHISHING_CODE") {
+export function sendVerifyCode(
+  type:
+    | "EMAIL"
+    | "MOBILE"
+    | "UPDATE_ANTI_PHISHING_CODE"
+    | "NEW_EMAIL",
+) {
   return axios.post("/api/me/verify", { type });
 }
 

@@ -2,13 +2,14 @@ import appStore from "@/assets/Download_on_the_App_Store_Badge.svg.png";
 import chPlay from "@/assets/Google_Play_Store_badge_EN.svg.png";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import { sendVerifyCode, updateUserApi } from "@/services/apis";
+import logger from "@/services/logger";
 import authStore from "@/store/auth";
 import { UserUpdateType } from "@/types";
 import { error, success } from "@/utils/notifications";
 import { generateUri2FA, maskEmail } from "@/utils/utility";
 import {
   emailVerificationCodeValidate,
-  requiredFieldedValidate,
+  requiredFieldValidate,
 } from "@/utils/validates";
 
 import {
@@ -77,12 +78,13 @@ export function BindGaForm() {
           emailVerificationCodeValidate().parse(value);
           return null;
         } catch (e) {
+          logger.error(e);
           return t("Invalid verification code");
         }
       },
       mfaSecret: (value) => {
         try {
-          requiredFieldedValidate().parse(value);
+          requiredFieldValidate().parse(value);
           return null;
         } catch (e) {
           return t("Invalid secret code");
