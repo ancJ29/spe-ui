@@ -15,7 +15,7 @@ export default function GroupLinkAuth() {
         {t("Log In")}
       </AppButton>
       <AppButton component="a" href="/register">
-        {t("Sign up")}
+        {t("Sign Up")}
       </AppButton>
     </>
   );

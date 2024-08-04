@@ -8,7 +8,7 @@ export const MMR = [
 
 export const S3_HOST =
   "https://cci-prod-0801.s3.ap-southeast-1.amazonaws.com";
-export const PROFILE_IMAGE_PREFIX = `${S3_HOST}/images/profiles`;
+export const PROFILE_IMAGE_PREFIX = `${S3_HOST}/upload/images/traders`;
 
 export const MASTER_SHARE_PERCENT = 10;
 

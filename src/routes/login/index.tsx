@@ -1,6 +1,4 @@
-import { schema } from "@/domain/schema";
 import useSPETranslation from "@/hooks/useSPETranslation";
-import AppForm from "@/ui/Form/Form";
 import { Header } from "@/ui/Header";
 import {
   Box,
@@ -12,40 +10,36 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { convertToLoginFormData } from "./config";
+import { useMediaQuery } from "usehooks-ts";
+import LoginForm from "./form";
 import classes from "./login.module.scss";
 
 const Login = () => {
   const t = useSPETranslation();
+  const isMobile = useMediaQuery("(max-width: 768px)");
+
   return (
     <>
       <Header />
-      <Box className={classes.bggray}>
+      <Box className={classes.bgGray}>
         <Center h={"100%"} w={"100%"}>
           <Container size={"lg"}>
             <Box w={"100%"}>
-              <Card radius={"lg"} p={"xl"} w={500}>
-                <Title order={3} style={{ textAlign: "center" }}>
-                  {t("You're enjoy %s!", localStorage.__APP_NAME__)}
+              <Card radius={"lg"} p={"xl"} maw={500}>
+                <Title
+                  fz={isMobile ? "lg" : undefined}
+                  order={3}
+                  style={{ textAlign: "center" }}
+                >
+                  {t(
+                    "You're enjoy to %s!",
+                    localStorage.__APP_NAME__,
+                  )}
                 </Title>
                 <Space h={30} />
-                <AppForm
-                  showJsonOutput={true}
-                  schema={schema.Login.schema}
-                  uiSchema={schema.Login.uiSchema}
-                  formData={schema.Login.formData}
-                  w={"100%"}
-                  api="/api/login"
-                  formDataConverter={convertToLoginFormData}
-                  onSuccess={_authenticated}
-                  messages={{
-                    titleError: t("Login Failed"),
-                    msgSuccess: t(
-                      "Welcome back! You have successfully logged in to your account.",
-                    ),
-                    titleSuccess: t("Login Success"),
-                  }}
-                />
+                <Box w={isMobile ? "80vw" : undefined}>
+                  <LoginForm onSuccess={_authenticated} />
+                </Box>
               </Card>
               <Group justify="center" my={"lg"}>
                 <div>

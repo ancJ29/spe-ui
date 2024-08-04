@@ -1,4 +1,5 @@
 import { z } from "zod";
+
 import { UserUpdateType } from "./types";
 
 export const booleanSchema = z.boolean();
@@ -11,9 +12,25 @@ export const optionalNumberSchema = z.number().optional();
 
 export const optionalStringSchema = stringSchema.optional();
 
-export const reverseSchema = stringSchema
-  .transform((v) => v === "true")
-  .optional();
+export const speNumberSchema = stringSchema.or(numberSchema);
+
+export const binanceOrderParamSchema = z.object({
+  orderIds: stringSchema.array().min(1),
+  symbol: stringSchema,
+  side: z.enum(["BUY", "SELL"]),
+  type: z.enum(["MARKET", "LIMIT"]),
+  volume: speNumberSchema,
+  price: speNumberSchema.optional(),
+  reduceOnly: booleanSchema.optional(),
+});
+
+export const binanceModifyOrderParamSchema = z.object({
+  orderId: stringSchema,
+  symbol: stringSchema,
+  side: z.enum(["BUY", "SELL"]),
+  volume: speNumberSchema,
+  price: speNumberSchema,
+});
 
 export const limitSchema = stringSchema
   .or(numberSchema)
@@ -23,12 +40,10 @@ export const limitSchema = stringSchema
   });
 
 export const querySchema = z.object({
-  reverse: reverseSchema,
+  reverse: stringSchema.transform((v) => v === "true").optional(),
   cursor: optionalStringSchema,
   limit: limitSchema,
 });
-
-export const speNumberSchema = stringSchema.or(numberSchema);
 
 export const coinSchema = z.enum(["BTC", "ETH", "USDT"]);
 

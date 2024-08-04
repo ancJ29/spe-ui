@@ -59,7 +59,7 @@ export function fetchAllTraders() {
       traders.map((el, idx) => ({
         ...el,
         top: idx + 1,
-        avatar: avatarUrl(el?.avatar),
+        avatar: avatarUrl(el?.avatar) || "",
       })),
     );
   }
@@ -275,13 +275,13 @@ export function updateUserApi(
   });
 }
 
-export function sendVerifyCode(
-  type:
-    | "EMAIL"
-    | "MOBILE"
-    | "UPDATE_ANTI_PHISHING_CODE"
-    | "NEW_EMAIL",
-) {
+type VerifyCodeType =
+  | "EMAIL"
+  | "MOBILE"
+  | "UPDATE_ANTI_PHISHING_CODE"
+  | "NEW_EMAIL";
+
+export function sendVerifyCode(type: VerifyCodeType) {
   return axios.post("/api/me/verify", { type });
 }
 
@@ -473,6 +473,24 @@ export function fetchCopySetting(masterAccountId: string) {
   );
 }
 
+export function followApi(
+  masterAccountId: string,
+  ratio: number,
+  amount: number,
+) {
+  return axios
+    .post("/api/copy/follow", {
+      masterAccountId,
+      ratio,
+      amount,
+    })
+    .then((res) => {
+      if (res.data.code !== 0) {
+        throw new Error("Failed to follow");
+      }
+    });
+}
+
 export function saveCopySetting(setting: CopySetting) {
   return axios.post("/api/copy/mine/setting", setting).then((res) => {
     if (res.data.code !== 0) {
@@ -594,12 +612,16 @@ export async function fetchFollowerInformation() {
 
 export async function fetchMasterTraders() {
   const me = authStore.getState().me;
-  if (!me || !me.isCopyMaster) {
+  if (!me || me.isCopyMaster) {
     return [] as MasterTraderInformation[];
   }
-  return getApi<{ traders: MasterTraderInformation[] }>(
-    "/api/copy/mine/traders",
-  ).then((res) => res.traders);
+  logger.debug("Fetching master traders...");
+  return _fetchAndCache("masterTraders", _fetch, 10 * ONE_MINUTE);
+  function _fetch() {
+    return getApi<{ traders: MasterTraderInformation[] }>(
+      "/api/copy/mine/traders",
+    ).then((res) => res.traders);
+  }
 }
 
 function _reloadOpenTrades() {
@@ -611,14 +633,44 @@ function _reloadOpenTrades() {
 async function _fetchAndCache<
   T extends GenericObject | GenericObject[],
 >(key: string, fn: () => Promise<T>, ttl = 3e3) {
-  if (cache.has(key)) {
+  if (cache.has(`fetchAndCache.${key}`)) {
     await delay(1);
-    const res = cache.get(key) as T;
-    logger.debug("Cache hit", key);
+    const res = cache.get(`fetchAndCache.${key}`) as T;
     return res;
   }
   return fn().then((res) => {
-    cache.set(key, res, { ttl });
+    cache.set(`fetchAndCache.${key}`, res, { ttl });
     return res;
   });
+}
+export async function login({
+  email,
+  mobile,
+  mfaCode,
+  password,
+}: {
+  password: string;
+  mobile?: string;
+  email?: string;
+  mfaCode?: string;
+}): Promise<{ token: string }> {
+  try {
+    const res = await axios.post("/api/login", {
+      type: email ? 1 : 2,
+      email,
+      mobile,
+      password,
+      mfaCode,
+    });
+    const token = res.data?.result?.token;
+    if (token) {
+      return { token };
+    } else {
+      throw new Error(res.data.message || "Token not found");
+    }
+  } catch (err) {
+    throw new Error(
+      (err as Error)?.message || "Something went wrong",
+    );
+  }
 }

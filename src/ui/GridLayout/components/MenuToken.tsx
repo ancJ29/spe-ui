@@ -25,7 +25,12 @@ import {
 } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 
-export function MenuToken({ symbol, base, quote }: GridTradeProps) {
+export function MenuToken({
+  symbol,
+  base,
+  quote,
+  isFuture,
+}: GridTradeProps) {
   const t = useSPETranslation();
 
   return (
@@ -87,7 +92,7 @@ export function MenuToken({ symbol, base, quote }: GridTradeProps) {
             </Flex>
 
             <AppText instancetype="WithTextSubtitle">
-              {t("%s Futures", quote)}
+              {isFuture ? t("%s Futures", quote) : t("Spot trading")}
             </AppText>
           </div>
         </Flex>

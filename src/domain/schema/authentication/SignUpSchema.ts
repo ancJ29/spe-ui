@@ -92,7 +92,7 @@ const SignUpSchema: FormSchema = {
           fullWidth: true,
           size: "lg",
         },
-        submitText: t(dictionary, "Sign up"),
+        submitText: t(dictionary, "Sign Up"),
       },
       // label: false,
       classNames: "grid-form-root gap-15",

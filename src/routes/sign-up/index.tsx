@@ -68,7 +68,7 @@ const SignUp = () => {
   }, [colorScheme]);
   return (
     <>
-      <Box className={classes.bggray}>
+      <Box className={classes.bgGray}>
         <Box className="sticky-top" px={20} bg={"black"}>
           <Group justify="space-between">
             <a href="/top-page">
@@ -80,7 +80,7 @@ const SignUp = () => {
             </Group>
           </Group>
         </Box>
-        <Container size={"lg"}>
+        <Container size={"lg"} visibleFrom="lg">
           <Grid py={10}>
             <Grid.Col span={12}>
               <Alert
@@ -212,6 +212,50 @@ const SignUp = () => {
             </Grid.Col>
           </Grid>
         </Container>
+        <Flex
+          align="center"
+          justify="center"
+          h="90vh"
+          hiddenFrom="lg"
+        >
+          <Box w={"100%"}>
+            <Card radius={"lg"} p={"xl"}>
+              <Title order={3}>
+                {t(
+                  "You're invited to %s!",
+                  localStorage.__APP_NAME__,
+                )}
+              </Title>
+              <Space h={30} />
+              <AppForm
+                schema={schema.SignUp.schema}
+                uiSchema={schema.SignUp.uiSchema}
+                formData={schema.SignUp.formData}
+                w={"100%"}
+                api="/api/register"
+                formDataConverter={convertToSignUpFormData}
+                messages={{
+                  titleError: t("Account Registration Failed"),
+                  titleSuccess: t("Account Registration Successful"),
+                  msgSuccess: t(
+                    "Congratulations! Your account has been successfully created. Welcome to our community. Please check your email for a verification link to complete your registration.",
+                  ),
+                }}
+                onSuccess={() => {
+                  window.open("/login", "_self");
+                }}
+              />
+            </Card>
+            <Group justify="center" my={"lg"}>
+              <div>
+                {t("You already registered?")}{" "}
+                <Text component="a" href="/login" fw={"bold"}>
+                  {t("Log In")}
+                </Text>
+              </div>
+            </Group>
+          </Box>
+        </Flex>
       </Box>
     </>
   );

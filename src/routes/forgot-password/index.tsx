@@ -12,9 +12,9 @@ import {
   Text,
   Title,
 } from "@mantine/core";
+import { useNavigate } from "react-router-dom";
 import { convertToForgotPasswordFormData } from "./config";
 import classes from "./index.module.scss";
-import { useNavigate } from "react-router-dom";
 
 const Page = () => {
   const t = useSPETranslation();
@@ -22,7 +22,7 @@ const Page = () => {
   return (
     <>
       <Header />
-      <Box className={classes.bggray}>
+      <Box className={classes.bgGray}>
         <Center h={"100%"} w={"100%"}>
           <Container size={"lg"}>
             <Box w={"100%"}>

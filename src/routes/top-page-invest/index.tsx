@@ -556,6 +556,7 @@ function JourneySection() {
             <Text c="dimmed" size="sm">
               {t(
                 "Dream big and score fast wins with a day-trader? Or grow your portfolio steadily with a long-term investment fund? No problem, %s welcomes users of any approach, any level, and any budget.",
+                localStorage.__APP_NAME__,
               )}
             </Text>
             <Box>
@@ -572,6 +573,7 @@ function JourneySection() {
             <Text c="dimmed" size="sm">
               {t(
                 "%s revolutionized copy trading: you can now pool money with other investors into a fund directly managed by a skilled trader of your choice. The trader receives a percentage of the profits they earn based on monthly high watermarks, incentivizing patient investments that benefit everyone.",
+                localStorage.__APP_NAME__,
               )}
             </Text>
             <Box>
@@ -586,6 +588,7 @@ function JourneySection() {
             <Text c="dimmed" size="sm">
               {t(
                 "Dive into %s's powerful copy trading dashboard. Discover, explore, and evaluate the best traders in the industry. Use key metrics to compare traders side-by-side to find your perfect match.",
+                localStorage.__APP_NAME__,
               )}
             </Text>
             <Box>
@@ -599,6 +602,7 @@ function JourneySection() {
             <Text c="dimmed" size="sm">
               {t(
                 "No hidden fees, no tricky fine print, and no complicated liquidation windows. %s makes copy trading straightforward and transparent. Access easily available trader information, clear rules, and a suite of tools for informed, data-driven decisions.",
+                localStorage.__APP_NAME__,
               )}
             </Text>
             <Box>
@@ -618,7 +622,7 @@ function TrendingTraders() {
 
   useEffect(() => {
     fetchAllTraders().then((traders) => {
-      setTraders(traders);
+      setTraders(traders || []);
     });
   }, []);
 

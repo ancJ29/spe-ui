@@ -262,7 +262,7 @@ export function TabsOfTradeHistory({
         leftSection={
           <Flex gap={10} align={"center"}>
             <AppText instancetype="withPriceLong" c={"primary"}>
-              Trade Information
+              {t("Trade Information")}
             </AppText>
             <Divider
               style={{ alignSelf: "center" }}
@@ -294,6 +294,7 @@ export function TabsOfTradeHistory({
 }
 
 function TradeHistory({ symbol, isFuture }: TabProps) {
+  const t = useSPETranslation();
   const fetch = useCallback(() => fetchTrades(symbol), [symbol]);
   const trades = useSPESyncData<Trade[]>(fetch, 15e3);
   return (
@@ -306,7 +307,7 @@ function TradeHistory({ symbol, isFuture }: TabProps) {
           "Filled",
           "Fee",
           "Transaction Time",
-        ],
+        ].map((label) => t(label)),
         body: trades?.map((trade) => {
           const isBuy = trade.side === "BUY";
           const color = isBuy ? "green" : "red";
@@ -325,12 +326,10 @@ function TradeHistory({ symbol, isFuture }: TabProps) {
             <SPETableNumber
               key={`${trade.tradeId}.price`}
               value={trade.price}
-              maw={50}
             />,
             <SPETableNumber
               key={`${trade.tradeId}.filled`}
               value={trade.volume}
-              maw={50}
             />,
             <SPETableNumber
               key={`${trade.tradeId}.fee`}
@@ -535,18 +534,20 @@ function Positions({ symbol, isFuture }: TabProps) {
   return (
     <SPETable
       tableData={{
-        head: cleanEmpty([
-          isFuture ? "Contract" : "Symbol",
-          "Direction",
-          "Position Size",
-          "Entry Price",
-          "Mark Price",
-          "Liquidation Price",
-          "Position Margin",
-          "Margin Level",
-          "Unrealized PnL(%)",
-          "Action",
-        ]),
+        head: cleanEmpty(
+          [
+            isFuture ? "Contract" : "Symbol",
+            "Direction",
+            "Position Size",
+            "Entry Price",
+            "Mark Price",
+            "Liquidation Price",
+            "Position Margin",
+            "Margin Level",
+            "Unrealized PnL(%)",
+            "Action",
+          ].map((label) => t(label)),
+        ),
         body: positions?.map((position) => {
           const isBuy = position.side === "BUY";
           const color = isBuy ? "green" : "red";

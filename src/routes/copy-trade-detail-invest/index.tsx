@@ -1,11 +1,17 @@
 /* eslint-disable react/prop-types */
+import { MODAL_STYLES } from "@/domain/config";
 import useSPETranslation from "@/hooks/useSPETranslation";
-import { fetchTrader } from "@/services/apis";
+import { fetchMasterTraders, fetchTrader } from "@/services/apis";
 import logger from "@/services/logger";
-import { PublicCopyMasterDetail } from "@/types";
+import authStore from "@/store/auth";
+import {
+  MasterTraderInformation,
+  PublicCopyMasterDetail,
+} from "@/types";
 import AppButton from "@/ui/Button/AppButton";
 import AppCard from "@/ui/Card/AppCard";
 import AppChart from "@/ui/Chart/Chart";
+import { CopySettingForm } from "@/ui/Copy";
 import { OptionFilter } from "@/ui/OptionFilter";
 import AppPill from "@/ui/Pill/AppPill";
 import { AppPopover } from "@/ui/Popover/AppPopover";
@@ -30,6 +36,7 @@ import {
   TableData,
   Tabs,
 } from "@mantine/core";
+import { modals } from "@mantine/modals";
 import {
   IconChartInfographic,
   IconChartPie,
@@ -41,15 +48,15 @@ import {
 } from "@tabler/icons-react";
 import _ from "lodash";
 import { Fragment, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getSeriesValue } from "./config";
 import "./index.module.scss";
 
 export default function CopyTradeDetail() {
   const params = useParams();
   const [trader, setTrader] = useState<PublicCopyMasterDetail>();
+
   useEffect(() => {
-    logger.debug("params", params);
     params.id &&
       fetchTrader(params.id).then((trader) => {
         logger.debug("trader", trader);
@@ -99,6 +106,20 @@ export default function CopyTradeDetail() {
 
 function Banner(trader: PublicCopyMasterDetail) {
   const t = useSPETranslation();
+  const navigate = useNavigate();
+  const [myTrader, setMyTrader] = useState<MasterTraderInformation>();
+  const { me } = authStore();
+
+  useEffect(() => {
+    fetchMasterTraders().then((traders) => {
+      logger.debug("traders", traders);
+      setMyTrader(
+        traders.find(
+          (t) => t.masterAccountId === trader.masterAccountId,
+        ),
+      );
+    });
+  }, [trader.masterAccountId]);
 
   return (
     <>
@@ -311,7 +332,7 @@ function Banner(trader: PublicCopyMasterDetail) {
                                       onMouseEnter={props.open}
                                       onMouseLeave={props.close}
                                     >
-                                      Total Assets ***** USDT
+                                      {t("Total Assets")} ***** USDT
                                     </AppText>
                                   </Group>
                                 ),
@@ -482,14 +503,47 @@ function Banner(trader: PublicCopyMasterDetail) {
                   <Group gap={10} className="cursor-pointer">
                     <IconStar color="white" width={20} />
                     <AppText fz={12} c={"white"} fw={"bold"}>
-                      Subscribe
+                      {t("Subscribe")}
                     </AppText>
                   </Group>
                 </Flex>
                 <Space mb={24} />
-                <AppButton instancetype="WithGradient">
-                  Copy
-                </AppButton>
+                {myTrader ? (
+                  <AppButton
+                    instancetype="WithGradient"
+                    onClick={() => {
+                      navigate("/copy/mine/traders");
+                    }}
+                  >
+                    {t("Copy history")}
+                  </AppButton>
+                ) : (
+                  <AppButton
+                    instancetype="WithGradient"
+                    onClick={() => {
+                      if (!me?.id) {
+                        const { pathname, search } = window.location;
+                        navigate(
+                          `/login?redirect=${encodeURIComponent(
+                            pathname + search,
+                          )}`,
+                        );
+                        return;
+                      }
+                      modals.open({
+                        ...MODAL_STYLES,
+                        title: t("Follow %s", trader.name),
+                        children: (
+                          <CopySettingForm
+                            masterAccountId={trader.masterAccountId}
+                          />
+                        ),
+                      });
+                    }}
+                  >
+                    {t("Copy")}
+                  </AppButton>
+                )}
                 <Space mb={10} />
                 <AppText
                   style={{ textAlign: "center" }}
@@ -508,7 +562,7 @@ function Banner(trader: PublicCopyMasterDetail) {
                   >
                     128
                   </AppText>{" "}
-                  Slots Left
+                  {t("Slots Left")}
                 </AppText>
               </Box>
             </Flex>
@@ -634,8 +688,9 @@ function Performance() {
             dropdown={() => ({
               children: (
                 <AppText instancetype="WithTextTooltip">
-                  Total profit that includes realized and unrealized
-                  PnL
+                  {t(
+                    "Total profit that includes realized and unrealized PnL",
+                  )}
                 </AppText>
               ),
             })}
@@ -1458,7 +1513,7 @@ const tableData = (): TableData => {
     ["king**@***", 22.2, 0, 0, "7 Days"],
     ["ali**@***", 33, 0, 0, "10 Days"],
     // cspell:disable-next-line
-    ["beto**@***", 0, 0, 0, "3 Days"],
+    ["tech**@***", 0, 0, 0, "3 Days"],
     ["cyp**@***", 0, 0, 0, "2 Days"],
   ];
   const _rows = [

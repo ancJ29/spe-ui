@@ -1,7 +1,12 @@
 import { CopySetting } from "@/common/types";
 import useSPETranslation from "@/hooks/useSPETranslation";
-import { fetchCopySetting, saveCopySetting } from "@/services/apis";
+import {
+  fetchCopySetting,
+  followApi,
+  saveCopySetting,
+} from "@/services/apis";
 import { error, success } from "@/utils/notifications";
+import { reloadWindow } from "@/utils/utility";
 import {
   Box,
   Button,
@@ -18,12 +23,81 @@ export function CopySettingForm({
   masterAccountId: string;
 }) {
   const t = useSPETranslation();
+  const [newFollower, setNewFollower] = useState(false);
   const [form, setForm] = useState<CopySetting>();
+  const [followAmount, setFollowAmount] = useState(0);
 
   useEffect(() => {
-    fetchCopySetting(masterAccountId).then((form) => setForm(form));
+    fetchCopySetting(masterAccountId).then((form) => {
+      setNewFollower(!form);
+      setForm(
+        form || {
+          masterAccountId,
+          ratio: 0,
+          maxAmount: 0,
+          minAmount: 0,
+          maxMarginPerMonth: 0,
+          tpRatio: 0,
+          slRatio: 0,
+        },
+      );
+    });
   }, [masterAccountId]);
-
+  if (newFollower) {
+    return (
+      <Box className="space-y-10">
+        <InputLabel fw={600} fz={14}>
+          {t("Copy Trade Ratio (%)")}
+        </InputLabel>
+        <NumberInput
+          rightSection={<></>}
+          size="sm"
+          value={form?.ratio || 0}
+          step={1}
+          onChange={(v) =>
+            setForm(_save(form, "ratio", Math.round(Number(v))))
+          }
+        />
+        <InputLabel fw={600} fz={14}>
+          {t("Follow amount (USDT)")}
+        </InputLabel>
+        <NumberInput
+          rightSection={<></>}
+          thousandSeparator
+          size="sm"
+          value={followAmount}
+          step={1}
+          onChange={(v) => setFollowAmount(Math.round(Number(v)))}
+        />
+        <Box w={"100%"}>
+          <Button
+            mt={5}
+            fullWidth
+            disabled={!form}
+            onClick={() => {
+              form &&
+                followApi(masterAccountId, form.ratio, followAmount)
+                  .then(() => {
+                    success(t("Success"), t("Follow success"));
+                  })
+                  .catch(() => {
+                    error(
+                      t("Something went wrong"),
+                      t("Cannot update follow trader"),
+                    );
+                  })
+                  .finally(() => {
+                    modals.closeAll();
+                    reloadWindow();
+                  });
+            }}
+          >
+            {t("Follow")}
+          </Button>
+        </Box>
+      </Box>
+    );
+  }
   return (
     <Box className="space-y-10">
       <InputLabel fw={600} fz={14}>
@@ -31,11 +105,8 @@ export function CopySettingForm({
       </InputLabel>
       <NumberInput
         rightSection={<></>}
-        thousandSeparator
         size="sm"
         value={form?.ratio || 0}
-        min={0}
-        max={100}
         step={1}
         onChange={(v) =>
           setForm(_save(form, "ratio", Math.round(Number(v))))

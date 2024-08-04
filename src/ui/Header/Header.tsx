@@ -544,7 +544,7 @@ function DrawerMenu(props: Partial<{ metadata: Application }>) {
                     to="/register"
                     fullWidth
                   >
-                    {t("Sign up")}
+                    {t("Sign Up")}
                   </AppButton>
                 </Flex>
               </>
@@ -649,22 +649,10 @@ function MenuUserInfo() {
                 </Box>
               </Flex>
             </Menu.Item>
-            {/* <Menu.Item
-            c={"orange"}
-            fw={"bold"}
-            rightSection={
-              <IconArrowRight
-                color="gray"
-                style={{ width: rem(16) }}
-              />
-            }
-          >
-            Switch/Create Account
-          </Menu.Item> */}
             <Menu.Divider />
 
             <Menu.Item fw={"bold"} component="a" href="/user">
-              Settings
+              {t("Settings")}
             </Menu.Item>
             <Menu.Item fw={"bold"} component="a" href="/wallet">
               {t("Assets")}
@@ -692,7 +680,7 @@ function MenuUserInfo() {
                 });
               }}
             >
-              Deposit
+              {t("Deposit")}
             </Menu.Item>
             <Box
               style={{
@@ -711,7 +699,7 @@ function MenuUserInfo() {
                   />
                 }
               >
-                Logout
+                {t("Logout")}
               </Menu.Item>
             </Box>
           </Menu.Dropdown>
@@ -851,7 +839,7 @@ function GroupLinkAuth() {
           {t("Log In")}
         </AppButton>
         <AppButton component={Link} to="/register">
-          {t("Sign up")}
+          {t("Sign Up")}
         </AppButton>
       </Flex>
     </>

@@ -94,3 +94,22 @@ export function avatarUrl(avatar?: string) {
   }
   return `${PROFILE_IMAGE_PREFIX}/${avatar}`;
 }
+export function convertToInternationalFormatPhoneNumber({
+  phone,
+  phoneLocale,
+}: {
+  phone?: string;
+  phoneLocale: string;
+}): string | undefined {
+  if (!phone) {
+    return undefined;
+  }
+
+  const countryCode = phoneLocale.split(" ")[0];
+
+  const formattedPhone = phone.startsWith("0")
+    ? phone.slice(1)
+    : phone;
+
+  return `${countryCode}${formattedPhone}`;
+}
