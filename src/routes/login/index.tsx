@@ -5,6 +5,7 @@ import {
   Card,
   Center,
   Container,
+  Flex,
   Group,
   Space,
   Text,
@@ -20,44 +21,50 @@ const Login = () => {
 
   return (
     <>
-      <Header />
-      <Box className={classes.bgGray}>
-        <Center h={"100%"} w={"100%"}>
-          <Container size={"lg"}>
-            <Box w={"100%"}>
-              <Card radius={"lg"} p={"xl"} maw={500}>
-                <Title
-                  fz={isMobile ? "lg" : undefined}
-                  order={3}
-                  style={{ textAlign: "center" }}
-                >
-                  {t(
-                    "You're enjoy to %s!",
-                    localStorage.__APP_NAME__,
-                  )}
-                </Title>
-                <Space h={30} />
-                <Box w={isMobile ? "80vw" : undefined}>
-                  <LoginForm onSuccess={_authenticated} />
-                </Box>
-              </Card>
-              <Group justify="center" my={"lg"}>
-                <div>
-                  <Text component="a" href="/forgot-password">
-                    {t("Forgot Password?")}
-                  </Text>
-                </div>
-                <div>
-                  {t("Not a member?")}{" "}
-                  <Text component="a" href="/register" fw={"bold"}>
-                    {t("Sign Up")}
-                  </Text>
-                </div>
-              </Group>
-            </Box>
-          </Container>
-        </Center>
-      </Box>
+      <Flex
+        direction={"column"}
+        h={"100vh"}
+        className={classes.bgGray}
+      >
+        <Header />
+        <Box className={classes.bgGray} flex={1}>
+          <Center h={"100%"} w={"100%"}>
+            <Container size={"lg"}>
+              <Box w={"100%"}>
+                <Card radius={"lg"} p={"xl"} maw={500}>
+                  <Title
+                    fz={isMobile ? "lg" : undefined}
+                    order={3}
+                    style={{ textAlign: "center" }}
+                  >
+                    {t(
+                      "You're enjoy to %s!",
+                      localStorage.__APP_NAME__,
+                    )}
+                  </Title>
+                  <Space h={30} />
+                  <Box w={isMobile ? "80vw" : undefined}>
+                    <LoginForm onSuccess={_authenticated} />
+                  </Box>
+                </Card>
+                <Group justify="center" my={"lg"}>
+                  <div>
+                    <Text component="a" href="/forgot-password">
+                      {t("Forgot Password?")}
+                    </Text>
+                  </div>
+                  <div>
+                    {t("Not a member?")}{" "}
+                    <Text component="a" href="/register" fw={"bold"}>
+                      {t("Sign Up")}
+                    </Text>
+                  </div>
+                </Group>
+              </Box>
+            </Container>
+          </Center>
+        </Box>
+      </Flex>
     </>
   );
 };

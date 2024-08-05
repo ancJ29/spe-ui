@@ -1,5 +1,7 @@
 import { IS_DEV } from "@/domain/config";
 
+const logIt = IS_DEV || localStorage.__LOG_IT__ === "true";
+
 export default {
   error,
   debug,
@@ -9,7 +11,7 @@ const isTrace = false;
 
 function error(...args: unknown[]) {
   // eslint-disable-next-line no-console
-  if (IS_DEV) {
+  if (logIt) {
     // eslint-disable-next-line no-console
     console.error(...args);
   } else {
@@ -18,7 +20,7 @@ function error(...args: unknown[]) {
 }
 
 function debug(...args: unknown[]) {
-  if (IS_DEV) {
+  if (logIt) {
     // eslint-disable-next-line no-console
     console.log(...args);
   } else {
@@ -27,7 +29,7 @@ function debug(...args: unknown[]) {
 }
 
 function trace(...args: unknown[]) {
-  if (IS_DEV) {
+  if (logIt) {
     // eslint-disable-next-line no-console
     isTrace && console.trace(...args);
   } else {

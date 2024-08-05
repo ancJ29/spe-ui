@@ -7,6 +7,7 @@ import {
   Card,
   Center,
   Container,
+  Flex,
   Group,
   Space,
   Text,
@@ -21,49 +22,57 @@ const Page = () => {
   const navigate = useNavigate();
   return (
     <>
-      <Header />
-      <Box className={classes.bgGray}>
-        <Center h={"100%"} w={"100%"}>
-          <Container size={"lg"}>
-            <Box w={"100%"}>
-              <Card radius={"lg"} p={"xl"} w={500}>
-                <Title order={3} style={{ textAlign: "center" }}>
-                  {t("Send my password reset code")}
-                </Title>
-                <Space h={30} />
-                <AppForm
-                  schema={schema.ForgotPassword.schema}
-                  uiSchema={schema.ForgotPassword.uiSchema}
-                  formData={schema.ForgotPassword.formData}
-                  w={"100%"}
-                  msgSuccess="You have successfully submitted a password change request."
-                  api="/api/password/forgot"
-                  formDataConverter={convertToForgotPasswordFormData}
-                  onSubmit={() => {
-                    navigate("/reset-password");
-                  }}
-                  messages={{
-                    titleSuccess: t(
-                      "Account Registration Successful",
-                    ),
-                    msgSuccess: t(
-                      "You have successfully submitted a password change request.",
-                    ),
-                  }}
-                />
-              </Card>
-              <Group justify="center" my={"lg"}>
-                <div>
-                  {t("You already registered?")}{" "}
-                  <Text component="a" href="/login" fw={"bold"}>
-                    {t("Log In")}
-                  </Text>
-                </div>
-              </Group>
-            </Box>
-          </Container>
-        </Center>
-      </Box>
+      <Flex
+        direction={"column"}
+        h={"100vh"}
+        className={classes.bgGray}
+      >
+        <Header />
+        <Box className={classes.bgGray} flex={1}>
+          <Center h={"100%"} w={"100%"}>
+            <Container size={"lg"}>
+              <Box w={"100%"}>
+                <Card radius={"lg"} p={"xl"} w={500}>
+                  <Title order={3} style={{ textAlign: "center" }}>
+                    {t("Send my password reset code")}
+                  </Title>
+                  <Space h={30} />
+                  <AppForm
+                    schema={schema.ForgotPassword.schema}
+                    uiSchema={schema.ForgotPassword.uiSchema}
+                    formData={schema.ForgotPassword.formData}
+                    w={"100%"}
+                    msgSuccess="You have successfully submitted a password change request."
+                    api="/api/password/forgot"
+                    formDataConverter={
+                      convertToForgotPasswordFormData
+                    }
+                    onSubmit={() => {
+                      navigate("/reset-password");
+                    }}
+                    messages={{
+                      titleSuccess: t(
+                        "Account Registration Successful",
+                      ),
+                      msgSuccess: t(
+                        "You have successfully submitted a password change request.",
+                      ),
+                    }}
+                  />
+                </Card>
+                <Group justify="center" my={"lg"}>
+                  <div>
+                    {t("You already registered?")}{" "}
+                    <Text component="a" href="/login" fw={"bold"}>
+                      {t("Log In")}
+                    </Text>
+                  </div>
+                </Group>
+              </Box>
+            </Container>
+          </Center>
+        </Box>
+      </Flex>
     </>
   );
 };

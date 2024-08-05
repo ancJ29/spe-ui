@@ -64,7 +64,8 @@ const componentMap: Record<string, LazyExoticComponent> = {
   KYC: lazy(() => import("@/routes/user-kyc")),
   ModifyPassword: lazy(() => import("@/routes/user-modify-password")),
   Inquiry: lazy(() => import("@/routes/inquiry")),
-
+  CopyTradingReferrals: lazy(() => import("@/routes/crypto-copy-invest-information/induction")),
+  ReferralProgram: lazy(() => import("@/routes/crypto-copy-invest-information/referral-program"))
 };
 
 const configs: Config[] = [
@@ -251,6 +252,16 @@ const configs: Config[] = [
   {
     path: "/inquiry",
     element: "Inquiry",
+    wrapper: "ServiceWrapper",
+  },
+  {
+    path: "/induction",
+    element: "CopyTradingReferrals",
+    wrapper: "ServiceWrapper",
+  },
+  {
+    path: "/referral-program",
+    element: "ReferralProgram",
     wrapper: "ServiceWrapper",
   },
 

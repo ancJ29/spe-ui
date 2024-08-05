@@ -1,27 +1,20 @@
+import useSPETranslation from "@/hooks/useSPETranslation";
 import TermsServiceWrapper from "@/ui/TabsPolicy";
 import { Container, Space } from "@mantine/core";
 
 export default function PrivacyPolicy() {
+  const t = useSPETranslation();
   return (
     <Container>
       <Space my={"xl"} />
       <TermsServiceWrapper />
       <div>
-        <h1>Privacy Policy</h1>
+        <h1>{t("Privacy Policy")}</h1>
         <div>
           <p>
-            This Privacy Policy (this “Policy”) applies to the trading
-            platform (including any applicable mobile applications and
-            websites used to access the same) (collectively the
-            “Platform”) provided by OMcrypto Fintech Limited (the
-            “Company,” “we,” “us” or “our”). It describes how the
-            Company collects, uses, and discloses Personal Information
-            that we obtain from Users of the Platform and any account
-            services provided through the Platform, and how we use and
-            disclose that information. For purposes of this Policy,
-            “Personal Information” refers to information supplied by a
-            User from which the identity of such User may be directly
-            or indirectly determined.
+            {t(
+              "This Privacy Policy (this “Policy”) applies to the trading platform (including any applicable mobile applications and websites used to access the same) (collectively the “Platform”) provided by OMcrypto Fintech Limited (the “Company,” “we,” “us” or “our”). It describes how the Company collects, uses, and discloses Personal Information that we obtain from Users of the Platform and any account services provided through the Platform, and how we use and disclose that information. For purposes of this Policy, “Personal Information” refers to information supplied by a User from which the identity of such User may be directly or indirectly determined.",
+            )}
           </p>
           <p>
             By registering for and using the Platform, you agree that
@@ -520,7 +513,7 @@ export default function PrivacyPolicy() {
           </p>
         </div>
         <div>
-          <h2>Children Under 18</h2>
+          <h2>{t("Children Under 18")}</h2>
           <p>
             Our Platform is not designed for children under 18. If we
             discover that a child under 18 has provided us with

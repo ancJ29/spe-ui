@@ -7,6 +7,7 @@ import {
   Card,
   Center,
   Container,
+  Flex,
   Group,
   Space,
   Text,
@@ -39,44 +40,50 @@ const Page = () => {
   }, []);
   return (
     <>
-      <Header />
-      <Box className={classes.bgGray}>
-        <Center h={"100%"} w={"100%"}>
-          <Container size={"lg"}>
-            <Box w={"100%"}>
-              <Card radius={"lg"} p={"xl"} w={500}>
-                <Title order={3} style={{ textAlign: "center" }}>
-                  {t("Reset Password")}
-                </Title>
-                <Space h={30} />
-                <AppForm
-                  schema={schema.ResetPassword.schema}
-                  uiSchema={schema.ResetPassword.uiSchema}
-                  formData={formData}
-                  w={"100%"}
-                  msgSuccess={t("Password reset has been done")}
-                  api="/api/password/reset"
-                  formDataConverter={convertToResetPasswordFormData}
-                  messages={{
-                    titleSuccess: t("Password Reset Successful"),
-                    msgSuccess: t(
-                      "Your password has been successfully reset. You can now log in with your new password. If you did not request this change, please contact our support team immediately.",
-                    ),
-                  }}
-                />
-              </Card>
-              <Group justify="center" my={"lg"}>
-                <div>
-                  {t("You already registered?")}{" "}
-                  <Text component="a" href="/login" fw={"bold"}>
-                    {t("Log In")}
-                  </Text>
-                </div>
-              </Group>
-            </Box>
-          </Container>
-        </Center>
-      </Box>
+      <Flex
+        direction={"column"}
+        h={"100vh"}
+        className={classes.bgGray}
+      >
+        <Header />
+        <Box className={classes.bgGray} flex={1}>
+          <Center h={"100%"} w={"100%"}>
+            <Container size={"lg"}>
+              <Box w={"100%"}>
+                <Card radius={"lg"} p={"xl"} w={500}>
+                  <Title order={3} style={{ textAlign: "center" }}>
+                    {t("Reset Password")}
+                  </Title>
+                  <Space h={30} />
+                  <AppForm
+                    schema={schema.ResetPassword.schema}
+                    uiSchema={schema.ResetPassword.uiSchema}
+                    formData={formData}
+                    w={"100%"}
+                    msgSuccess={t("Password reset has been done")}
+                    api="/api/password/reset"
+                    formDataConverter={convertToResetPasswordFormData}
+                    messages={{
+                      titleSuccess: t("Password Reset Successful"),
+                      msgSuccess: t(
+                        "Your password has been successfully reset. You can now log in with your new password. If you did not request this change, please contact our support team immediately.",
+                      ),
+                    }}
+                  />
+                </Card>
+                <Group justify="center" my={"lg"}>
+                  <div>
+                    {t("You already registered?")}{" "}
+                    <Text component="a" href="/login" fw={"bold"}>
+                      {t("Log In")}
+                    </Text>
+                  </div>
+                </Group>
+              </Box>
+            </Container>
+          </Center>
+        </Box>
+      </Flex>
     </>
   );
 };
