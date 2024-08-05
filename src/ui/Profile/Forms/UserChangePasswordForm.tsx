@@ -1,7 +1,4 @@
-import useSPETranslation from "@/hooks/useSPETranslation";
-import { updateUserApi } from "@/services/apis";
-import { UserUpdateType } from "@/types";
-import { error, success } from "@/utils/notifications";
+import useSPEUserSettings from "@/hooks/useSPEUserSettings";
 import { passwordSchemaValidate } from "@/utils/validates";
 import {
   Alert,
@@ -17,11 +14,13 @@ import {
 import { useForm } from "@mantine/form";
 import { IconInfoCircle } from "@tabler/icons-react";
 import { omit } from "lodash";
-import { FormEvent, useState } from "react";
 
 export function UserChangePasswordForm() {
-  const t = useSPETranslation();
-  const [loading, setLoading] = useState(false);
+  const { loading, submit, t } = useSPEUserSettings<{
+    currentPassword: string;
+    password: string;
+    newPassword: string;
+  }>("UPDATE_PASSWORD");
 
   const form = useForm({
     mode: "uncontrolled",
@@ -54,42 +53,6 @@ export function UserChangePasswordForm() {
     },
   });
 
-  const updatePassword = () => {
-    const formData = omit(form.getValues(), ["newPassword"]);
-    setLoading(true);
-    updateUserApi(UserUpdateType.UPDATE_PASSWORD, formData)
-      .then((res) => {
-        if (res.data.result.success) {
-          success(
-            t("Password Successfully Changed"),
-            t(`
-          Your password has been successfully changed. You can now use your new password to log in.`),
-          );
-
-          form.setValues(form.values);
-        } else {
-          error(
-            t("Password Change Failed"),
-            t(
-              "Password modification failed. Please make sure all fields are filled out correctly and that your current password is accurate. If the problem persists, contact support.",
-            ),
-          );
-        }
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
-  const submit = (e: FormEvent) => {
-    e.preventDefault();
-    if (form.isValid() === false) {
-      form.validate();
-      return false;
-    }
-    updatePassword();
-  };
-
   return (
     <>
       <Center h={"100%"}>
@@ -102,7 +65,11 @@ export function UserChangePasswordForm() {
           radius="25px"
           mx={"auto"}
         >
-          <form onSubmit={submit}>
+          <form
+            onSubmit={(e) =>
+              submit(e, form, omit(form.getValues(), ["newPassword"]))
+            }
+          >
             <SimpleGrid
               cols={1}
               styles={{

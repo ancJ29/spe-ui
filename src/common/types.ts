@@ -413,3 +413,10 @@ export type BinanceOrderParam = z.infer<
 export type BinanceModifyOrderParam = z.infer<
   typeof binanceModifyOrderParamSchema
 >;
+
+export type GenerateMfaLink = {
+  issuer: string;
+  label: string;
+  path: string;
+  secret: string;
+};

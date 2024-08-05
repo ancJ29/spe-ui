@@ -1,6 +1,7 @@
 import useSPETranslation from "@/hooks/useSPETranslation";
 import useSPEUserSettings from "@/hooks/useSPEUserSettings";
 import { sendVerifyCode } from "@/services/apis";
+import logger from "@/services/logger";
 import { error } from "@/utils/notifications";
 import { maskEmail } from "@/utils/utility";
 import {
@@ -121,32 +122,36 @@ export function EmailBindModal() {
         try {
           emailVerificationCodeValidate().parse(value);
           return null;
-        } catch (error: any) {
-          return error.errors[0].message;
+        } catch (error) {
+          logger.error(error);
+          return t("Invalid verification code");
         }
       },
       newVerificationCode: (value) => {
         try {
           emailVerificationCodeValidate().parse(value);
           return null;
-        } catch (error: any) {
-          return error.errors[0].message;
+        } catch (error) {
+          logger.error(error);
+          return t("Invalid verification code");
         }
       },
       mfaCode: (value) => {
         try {
           antiPhishingCodeValidate().parse(value);
           return null;
-        } catch (error: any) {
-          return error.errors[0].message;
+        } catch (error) {
+          logger.error(error);
+          return t("Invalid MFA code");
         }
       },
       email: (value) => {
         try {
           emailValidate().parse(value);
           return null;
-        } catch (error: any) {
-          return error.errors[0].message;
+        } catch (error) {
+          logger.error(error);
+          return t("Invalid email");
         }
       },
     },
@@ -252,7 +257,7 @@ export function EmailBindModal() {
                 <InputLabel size="lg">
                   {t("Current Email Verification")}
                 </InputLabel>
-                <Text c={"dimmed"}>{maskEmail(me?.email)}</Text>
+                <Text c={"dimmed"}>{maskEmail(me?.email || "")}</Text>
               </Flex>
               <TextInput
                 rightSectionWidth={60}

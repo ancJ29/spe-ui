@@ -1,12 +1,11 @@
 import appStore from "@/assets/Download_on_the_App_Store_Badge.svg.png";
 import chPlay from "@/assets/Google_Play_Store_badge_EN.svg.png";
-import useSPETranslation from "@/hooks/useSPETranslation";
-import { sendVerifyCode, updateUserApi } from "@/services/apis";
+import useSPEUserSettings from "@/hooks/useSPEUserSettings";
+import { sendVerifyCode } from "@/services/apis";
 import logger from "@/services/logger";
 import authStore from "@/store/auth";
-import { UserUpdateType } from "@/types";
-import { error, success } from "@/utils/notifications";
-import { generateUri2FA, maskEmail } from "@/utils/utility";
+import { error } from "@/utils/notifications";
+import { maskEmail } from "@/utils/utility";
 import {
   emailVerificationCodeValidate,
   requiredFieldValidate,
@@ -24,45 +23,30 @@ import {
   Title,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { useInterval } from "@mantine/hooks";
-import { omit } from "lodash";
 import QRCode from "qrcode.react";
-import { FormEvent, useEffect, useMemo, useState } from "react";
-const SECONDS = 54;
+import { useEffect } from "react";
 
 export function BindGaForm() {
-  const t = useSPETranslation();
-  const { me } = authStore();
-
-  const otpAuth = useMemo(() => {
-    const secret = "KVKFKRCPNZQUYMLXOVYDSQKJKZDTSRLD"; // cspell: disable-line
-    const label =
-      "alice@spe.com_" + new Date(Date.now()).toLocaleString();
-    return {
-      value: generateUri2FA("totp", label, secret, "spe", "100"), // cspell: disable-line
-      secret,
-      label,
-    };
-  }, []);
-
-  const [loading, setLoading] = useState(false);
-  const [seconds, setSeconds] = useState(SECONDS);
-
-  const interval = useInterval(
-    () =>
-      setSeconds((s) => {
-        if (s == 0) {
-          interval.stop();
-          return 0;
-        }
-        return s - 1;
-      }),
-    1000,
-  );
+  const {
+    t,
+    loading,
+    setSeconds1,
+    interval1,
+    seconds1,
+    SECONDS,
+    submit,
+    generateMfaLink,
+    otpAuth,
+  } = useSPEUserSettings<{
+    mfaCode: string;
+    mfaSecret: string;
+  }>("ADD_MFA");
 
   useEffect(() => {
-    return interval.stop;
-  }, [interval.stop]);
+    generateMfaLink();
+  }, [generateMfaLink]);
+
+  const { me } = authStore();
 
   const form = useForm({
     mode: "uncontrolled",
@@ -93,49 +77,11 @@ export function BindGaForm() {
     },
   });
 
-  const onSubmit = () => {
-    // Wrong email verification code
-    const formData = omit(form.getValues());
-    setLoading(true);
-    updateUserApi(UserUpdateType.ADD_MFA, formData)
-      .then((res) => {
-        if (res.data?.result?.success) {
-          success(
-            t("Google Authenticator Setup Successful"),
-            t(
-              "Google Authenticator setup is complete. Please use the app to generate codes and enter them during login for added security.",
-            ),
-          );
-
-          form.setValues(form.values);
-        } else {
-          error(
-            t("Google Authenticator Binding Failed"),
-            t(
-              "An error occurred while trying to bind Google Authenticator. Please verify the setup instructions and try again.",
-            ),
-          );
-        }
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
-  const submit = (e: FormEvent) => {
-    e.preventDefault();
-    if (form.isValid() === false) {
-      form.validate();
-      return false;
-    }
-    onSubmit();
-  };
-
   const startSending = () => {
-    setSeconds(SECONDS);
+    setSeconds1(SECONDS);
     sendVerifyCode("EMAIL").then((res) => {
       if (res.data?.result?.success) {
-        interval.start();
+        interval1.start();
       } else {
         error(
           t("Verification Email Code Failed"),
@@ -182,10 +128,20 @@ export function BindGaForm() {
             }
           >
             <Flex gap={10} align={"start"} h={"50px"}>
-              <Box h={"100%"}>
+              <Box
+                h={"100%"}
+                component={"a"}
+                href="https://apps.apple.com/us/app/google-authenticator/id388497605"
+                target="_blank"
+              >
                 <Image h={"100%"} src={appStore} />
               </Box>
-              <Box h={"100%"}>
+              <Box
+                h={"100%"}
+                component="a"
+                href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en"
+                target="_blank"
+              >
                 <Image h={"100%"} src={chPlay} />
               </Box>
             </Flex>
@@ -265,7 +221,7 @@ export function BindGaForm() {
             }
           >
             <Flex gap={50}>
-              <form onSubmit={submit}>
+              <form onSubmit={(e) => submit(e, form)}>
                 <Box>
                   <TextInput
                     label={`Current Email Verification（${maskEmail(
@@ -276,13 +232,13 @@ export function BindGaForm() {
                     rightSection={
                       <Flex px={10} w={"100%"}>
                         <Button
-                          disabled={interval.active}
+                          disabled={interval1.active}
                           p={0}
                           variant="transparent"
                           onClick={startSending}
                         >
-                          {!interval.active && t("Send")}
-                          {interval.active && `${seconds}s`}
+                          {!interval1.active && t("Send")}
+                          {interval1.active && `${seconds1}s`}
                         </Button>
                       </Flex>
                     }

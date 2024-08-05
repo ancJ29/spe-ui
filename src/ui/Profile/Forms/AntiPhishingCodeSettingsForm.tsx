@@ -1,7 +1,8 @@
 import useSPETranslation from "@/hooks/useSPETranslation";
-import { sendVerifyCode, updateUserApi } from "@/services/apis";
-import { UserUpdateType } from "@/types";
-import { error, success } from "@/utils/notifications";
+import useSPEUserSettings from "@/hooks/useSPEUserSettings";
+import { sendVerifyCode } from "@/services/apis";
+import logger from "@/services/logger";
+import { error } from "@/utils/notifications";
 import {
   antiPhishingCodeValidate,
   emailVerificationCodeValidate,
@@ -17,12 +18,9 @@ import {
   TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { useInterval } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import { IconInfoCircle } from "@tabler/icons-react";
-import { omit } from "lodash";
-import { FormEvent, useEffect, useState } from "react";
-const SECONDS = 54;
+
 export function AntiPhishingCodeSettingsForm() {
   const t = useSPETranslation();
   const openModal = () => {
@@ -49,26 +47,18 @@ export function AntiPhishingCodeSettingsForm() {
 }
 
 export function AntiPhishingCodeSettingsModal() {
+  const {
+    loading,
+    submit,
+    seconds1,
+    setSeconds1,
+    interval1,
+    SECONDS,
+  } = useSPEUserSettings<{
+    mfaCode: string;
+    verificationCode: string;
+  }>("UPDATE_ANTI_PHISHING_CODE");
   const t = useSPETranslation();
-
-  const [loading, setLoading] = useState(false);
-  const [seconds, setSeconds] = useState(SECONDS);
-
-  const interval = useInterval(
-    () =>
-      setSeconds((s) => {
-        if (s == 0) {
-          interval.stop();
-          return 0;
-        }
-        return s - 1;
-      }),
-    1000,
-  );
-
-  useEffect(() => {
-    return interval.stop;
-  }, [interval.stop]);
 
   const form = useForm({
     mode: "uncontrolled",
@@ -83,62 +73,28 @@ export function AntiPhishingCodeSettingsModal() {
         try {
           emailVerificationCodeValidate().parse(value);
           return null;
-        } catch (error: any) {
-          return error.errors[0].message;
+        } catch (error) {
+          logger.error(error);
+          return t("Invalid verification code");
         }
       },
       mfaCode: (value) => {
         try {
           antiPhishingCodeValidate().parse(value);
           return null;
-        } catch (error: any) {
-          return error.errors[0].message;
+        } catch (error) {
+          logger.error(error);
+          return t("Invalid mfa code");
         }
       },
     },
   });
 
-  const onSubmit = () => {
-    // Wrong email verification code
-    const formData = omit(form.getValues());
-    setLoading(true);
-    updateUserApi(UserUpdateType.UPDATE_ANTI_PHISHING_CODE, formData)
-      .then((res) => {
-        if (res.data?.result?.success) {
-          success(
-            t("Anti-Phishing Code Setup Successful"),
-            t("Anti-Phishing Code set up successfully. "),
-          );
-
-          form.setValues(form.values);
-        } else {
-          error(
-            t("Anti-Phishing Code Setup Failed"),
-            t(
-              "We couldn't set up your Anti-Phishing Code. Ensure you have followed the steps correctly and try again.",
-            ),
-          );
-        }
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
-  const submit = (e: FormEvent) => {
-    e.preventDefault();
-    if (form.isValid() === false) {
-      form.validate();
-      return false;
-    }
-    onSubmit();
-  };
-
   const startSending = () => {
-    setSeconds(SECONDS);
+    setSeconds1(SECONDS);
     sendVerifyCode("UPDATE_ANTI_PHISHING_CODE").then((res) => {
       if (res.data?.result?.success) {
-        interval.start();
+        interval1.start();
       } else {
         error(
           t("Verification Phishing Code Failed"),
@@ -153,7 +109,7 @@ export function AntiPhishingCodeSettingsModal() {
   return (
     <Center h={"100%"}>
       <Box>
-        <form onSubmit={submit}>
+        <form onSubmit={(e) => submit(e, form)}>
           <SimpleGrid
             cols={1}
             styles={{
@@ -186,13 +142,13 @@ export function AntiPhishingCodeSettingsModal() {
               rightSection={
                 <Flex px={10} w={"100%"}>
                   <Button
-                    disabled={interval.active}
+                    disabled={interval1.active}
                     p={0}
                     variant="transparent"
                     onClick={startSending}
                   >
-                    {!interval.active && t("Send")}
-                    {interval.active && `${seconds}s`}
+                    {!interval1.active && t("Send")}
+                    {interval1.active && `${seconds1}s`}
                   </Button>
                 </Flex>
               }

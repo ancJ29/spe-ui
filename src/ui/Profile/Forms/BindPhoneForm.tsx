@@ -1,9 +1,10 @@
+import { PHONE_CODE_IMAGE } from "@/common/phone-code";
 import useSPETranslation from "@/hooks/useSPETranslation";
-import { sendVerifyCode, updateUserApi } from "@/services/apis";
+import useSPEUserSettings from "@/hooks/useSPEUserSettings";
+import { sendVerifyCode } from "@/services/apis";
 import authStore from "@/store/auth";
-import { UserUpdateType } from "@/types";
 import phoneCode from "@/ui/Form/widgets/mocks/phone-code.json";
-import { error, success } from "@/utils/notifications";
+import { error } from "@/utils/notifications";
 import { extractPhoneNumber, maskEmail } from "@/utils/utility";
 import {
   emailVerificationCodeValidate,
@@ -24,10 +25,9 @@ import {
   TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { useInterval } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import { IconCheck, IconChevronDown } from "@tabler/icons-react";
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 export function BindPhoneForm() {
   const t = useSPETranslation();
@@ -54,52 +54,30 @@ export function BindPhoneForm() {
     </>
   );
 }
-const SECONDS = 54;
 export function BindPhoneModal() {
+  const {
+    submit,
+    loading,
+    interval1,
+    SECONDS,
+    interval2,
+    seconds1,
+    setSeconds1,
+    seconds2,
+    setSeconds2,
+  } = useSPEUserSettings<{
+    emailVerificationCode: string;
+    mobileVerificationCode: string;
+    mobile: string;
+  }>("ADD_MOBILE");
   const t = useSPETranslation();
   const { me } = authStore();
 
-  const [loading, setLoading] = useState(false);
   const [region, setRegion] = useState("+81 Japan");
 
   const info = useMemo(() => {
     return phoneCode.find((v) => v.value === region);
   }, [region]);
-
-  extractPhoneNumber({ mobile: "1", phoneLocale: region });
-  const [seconds, setSeconds] = useState(SECONDS);
-  const [seconds2, setSeconds2] = useState(SECONDS);
-
-  const interval = useInterval(
-    () =>
-      setSeconds((s) => {
-        if (s == 0) {
-          interval.stop();
-          return 0;
-        }
-        return s - 1;
-      }),
-    1000,
-  );
-
-  const intervalMail = useInterval(
-    () =>
-      setSeconds2((s) => {
-        if (s == 0) {
-          intervalMail.stop();
-          return 0;
-        }
-        return s - 1;
-      }),
-    1000,
-  );
-
-  useEffect(() => {
-    return () => {
-      interval.stop();
-      intervalMail.stop();
-    };
-  }, [interval, intervalMail]);
 
   const form = useForm({
     mode: "uncontrolled",
@@ -171,8 +149,7 @@ export function BindPhoneModal() {
     },
   });
 
-  const onSubmit = () => {
-    // Wrong email verification code
+  const values = useMemo(() => {
     const { emailVerificationCode, mobile, mobileVerificationCode } =
       form.getValues();
     const formData = {
@@ -184,51 +161,18 @@ export function BindPhoneModal() {
       mobile: mobile.toString(),
       phoneLocale: region,
     });
-
-    setLoading(true);
-    updateUserApi(UserUpdateType.ADD_MOBILE, formData)
-      .then((res) => {
-        if (res.data?.result?.success) {
-          success(
-            t("Phone Number Binding Successfully"),
-            t(
-              "Your phone number has been successfully linked to your account. You will receive notifications via this number.",
-            ),
-          );
-          form.setValues(form.values);
-          modals.closeAll();
-        } else {
-          error(
-            t("Phone Number Binding Failed"),
-            t(
-              "An error occurred while trying to bind Phone Number. Please verify the setup instructions and try again.",
-            ),
-          );
-        }
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
-  const submit = (e: FormEvent) => {
-    e.preventDefault();
-    if (form.isValid() === false) {
-      form.validate();
-      return false;
-    }
-    onSubmit();
-  };
+    return formData;
+  }, [form, region]);
 
   const startSending = () => {
     if (form.validateField("mobile").hasError) {
       form.setFieldError("mobile", t("Please enter mobile first"));
       return;
     }
-    setSeconds(SECONDS);
+    setSeconds1(SECONDS);
     sendVerifyCode("MOBILE").then((res) => {
       if (res.data?.result?.success) {
-        interval.start();
+        interval1.start();
       } else {
         error(
           t("Verification Phone Code Failed"),
@@ -242,7 +186,7 @@ export function BindPhoneModal() {
     setSeconds2(SECONDS);
     sendVerifyCode("EMAIL").then((res) => {
       if (res.data?.result?.success) {
-        intervalMail.start();
+        interval2.start();
       } else {
         error(
           t("Verification Email Code Failed"),
@@ -255,7 +199,7 @@ export function BindPhoneModal() {
   return (
     <Center h={"100%"} w={"100%"}>
       <Box w={"100%"}>
-        <form onSubmit={submit}>
+        <form onSubmit={(e) => submit(e, form, values)}>
           <SimpleGrid
             cols={1}
             styles={{
@@ -300,7 +244,10 @@ export function BindPhoneModal() {
                           w={"100%"}
                         >
                           <Box>
-                            <Image w={20} src={option?.image} />
+                            <Image
+                              w={20}
+                              src={PHONE_CODE_IMAGE[option.value]}
+                            />
                           </Box>
                           <Text fz={12}>{option.label}</Text>
                           <Flex ml={"auto"} justify={"end"} flex={1}>
@@ -335,15 +282,15 @@ export function BindPhoneModal() {
                 <Flex px={10} w={"100%"}>
                   <Button
                     disabled={
-                      interval.active ||
+                      interval1.active ||
                       form.getInputProps("mobile").error
                     }
                     p={0}
                     variant="transparent"
                     onClick={startSending}
                   >
-                    {!interval.active && t("Send")}
-                    {interval.active && `${seconds}s`}
+                    {!interval1.active && t("Send")}
+                    {interval1.active && `${seconds1}s`}
                   </Button>
                 </Flex>
               }
@@ -365,13 +312,13 @@ export function BindPhoneModal() {
                 rightSection={
                   <Flex px={10} w={"100%"}>
                     <Button
-                      disabled={intervalMail.active}
+                      disabled={interval2.active}
                       p={0}
                       variant="transparent"
                       onClick={startSendingMail}
                     >
-                      {!intervalMail.active && t("Send")}
-                      {intervalMail.active && `${seconds2}s`}
+                      {!interval2.active && t("Send")}
+                      {interval2.active && `${seconds2}s`}
                     </Button>
                   </Flex>
                 }

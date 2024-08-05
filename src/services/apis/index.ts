@@ -16,6 +16,7 @@ import {
   CopySetting,
   CopyTransaction,
   FollowerInformation,
+  GenerateMfaLink,
   GenericObject,
   ImageType,
   MarketInformation,
@@ -275,6 +276,11 @@ export function updateUserApi(
   });
 }
 
+export function generateMfaApi() {
+  return axios.post<{ result: GenerateMfaLink }>(
+    "/api/me/generate/mfa",
+  );
+}
 type VerifyCodeType =
   | "EMAIL"
   | "MOBILE"
