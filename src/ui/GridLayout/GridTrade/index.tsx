@@ -33,6 +33,7 @@ import { useCallback, useState } from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
+import { useMediaQuery } from "usehooks-ts";
 import { OrderBook, TabsOfTradeHistory, TopBar } from "../components";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
@@ -93,6 +94,7 @@ const initialLayouts = {
     },
   ],
 };
+const initLayout = JSON.stringify(initialLayouts);
 export function GridTrade({
   base,
   quote,
@@ -101,24 +103,23 @@ export function GridTrade({
   isFuture = false,
 }: GridTradeProps) {
   const t = useSPETranslation();
+  const isMobile = useMediaQuery("(max-width: 768px)");
   const [layouts, setLayouts] = useState(
     localStorage.__TRADE_LAYOUT__
       ? JSON.parse(localStorage.__TRADE_LAYOUT__)
       : initialLayouts,
   );
 
-  const [customLayout, setCustomLayout] = useState(
-    !localStorage.__TRADE_LAYOUT__ ||
-      localStorage.__TRADE_LAYOUT__ !==
-        JSON.stringify(initialLayouts),
-  );
+  const [customLayout, setCustomLayout] = useState(false);
 
   const onLayoutChange = useCallback(
     (_: unknown, layouts: unknown) => {
       if (layouts) {
-        setCustomLayout(true);
         setLayouts(layouts);
-        localStorage.__TRADE_LAYOUT__ = JSON.stringify(layouts);
+        if (JSON.stringify(layouts) !== initLayout) {
+          setCustomLayout(true);
+          localStorage.__TRADE_LAYOUT__ = JSON.stringify(layouts);
+        }
       }
     },
     [],
@@ -155,6 +156,7 @@ export function GridTrade({
               variant="outline"
               size="xs"
               fz={10}
+              hidden={isMobile}
               h={"15px"}
               onClick={() => {
                 delete localStorage.__TRADE_LAYOUT__;
@@ -163,7 +165,8 @@ export function GridTrade({
               }}
               px={"5px"}
               style={{
-                display: customLayout ? undefined : "none",
+                display:
+                  isMobile || !customLayout ? "none" : undefined,
                 position: "absolute",
                 bottom: 2,
                 right: 0,
@@ -271,166 +274,7 @@ function BoxInfoTradeFoot({
         <AppText fz={14} fw={"bold"}>
           {t("Trading Account")}
         </AppText>
-        <>
-          {/* <Flex align={"center"} gap={5} hidden>
-          <IconChartHistogram color="orange" size={16} />
-          <AppText fz={12} c={"orange"}>
-            {t("P&L")}
-          </AppText>
-        </Flex> */}
-        </>
       </Flex>
-      <>
-        {/* <Box className="space-y-10">
-        <Flex justify={"space-between"}>
-          <InputLabel className="text-label-form">
-            Margin Mode
-          </InputLabel>
-          <Flex align={"center"}>
-            <AppText fz={12}>Cross Margin</AppText>
-            <IconChevronRight size={16} />
-          </Flex>
-        </Flex>
-        <Box h={"1"} className="border-bottom-dark"></Box>
-      </Box> */}
-      </>
-      <>
-        {/* <Grid columns={24} align="center" gutter={0}>
-        <Grid.Col span={10}>
-          <AppPopover
-            withArrow={false}
-            target={(props) => ({
-              children: (
-                <InputLabel
-                  onMouseLeave={props.close}
-                  style={{
-                    cursor: "pointer",
-                  }}
-                  onMouseEnter={props.open}
-                  className="text-label-form"
-                >
-                  Initial Margin
-                </InputLabel>
-              ),
-            })}
-            dropdown={() => ({
-              children: (
-                <div>
-                  <AppText
-                    instancetype="WithTextTooltip"
-                    styles={{
-                      root: {
-                        whiteSpace: "pre-line",
-                      },
-                    }}
-                  >
-                    Initial Margin: 0.0000 USD <br />
-                    Margin Balance: 0.0000 USD <br />
-                    Initial Margin Rate (IMR) = Initial Margin /
-                    (Margin Balance - Haircut Loss) * 100% <br />
-                    <br />
-                    When IMR is ≥ 100%, it indicates that all the
-                    margin balance has been deployed to your positions
-                    and orders. In this case, you can no longer place
-                    any orders that may increase your position size.
-                    <br />
-                    <br />
-                    The initial margin for all positions and orders
-                    under the Unified Trading Account will be
-                    converted to USD in real time to derive the total
-                    initial margin under the account.
-                  </AppText>
-                </div>
-              ),
-            })}
-          />
-        </Grid.Col>
-        <Grid.Col span={9}>
-          <Progress value={30} color="green" />
-        </Grid.Col>
-        <Grid.Col span={5}>
-          <AppText
-            fz={12}
-            c={"green"}
-            fw={"bold"}
-            styles={{
-              root: {
-                textAlign: "right",
-              },
-            }}
-          >
-            0.00%
-          </AppText>
-        </Grid.Col>
-        <Grid.Col span={10}>
-          <AppPopover
-            withArrow={false}
-            target={(props) => ({
-              children: (
-                <InputLabel
-                  onMouseLeave={props.close}
-                  style={{
-                    cursor: "pointer",
-                  }}
-                  onMouseEnter={props.open}
-                  className="text-label-form"
-                >
-                  Maintenance Margin
-                </InputLabel>
-              ),
-            })}
-            dropdown={() => ({
-              children: (
-                <div>
-                  <AppText
-                    instancetype="WithTextTooltip"
-                    styles={{
-                      root: {
-                        whiteSpace: "pre-line",
-                      },
-                    }}
-                  >
-                    Maintenance Margin: 0.0000 USD <br />
-                    Margin Balance: 0.0000 USD <br />
-                    Maintenance Margin Ratio (MMR) = Maintenance
-                    Margin / (Margin Balance - Haircut Loss) * 100%{" "}
-                    <br />
-                    <br />
-                    When MMR ≥ 100%, it will trigger auto-redemption
-                    to repay outstanding liabilities and may trigger
-                    settlement of derivative positions until the
-                    Maintenance Margin Ratio returns to normal.
-                    <br />
-                    <br />
-                    The Maintenance Margin for all positions and
-                    orders in the Unified Trading Account will be
-                    converted in real-time to derive the total
-                    Maintenance Margin in USD.
-                  </AppText>
-                </div>
-              ),
-            })}
-          ></AppPopover>
-        </Grid.Col>
-        <Grid.Col span={9}>
-          <Progress value={30} color="green" />
-        </Grid.Col>
-        <Grid.Col span={5}>
-          <AppText
-            fz={12}
-            c={"green"}
-            fw={"bold"}
-            styles={{
-              root: {
-                textAlign: "right",
-              },
-            }}
-          >
-            0.00%
-          </AppText>
-        </Grid.Col>
-      </Grid> */}
-      </>
       <Box h={"1"} className="border-bottom-dark"></Box>
       <Box className="space-y-10">
         <Flex justify={"space-between"} align={"center"}>

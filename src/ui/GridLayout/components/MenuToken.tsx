@@ -15,7 +15,6 @@ import {
   Group,
   Menu,
   Table,
-  TableData,
 } from "@mantine/core";
 import {
   IconChevronLeft,
@@ -23,6 +22,7 @@ import {
   IconInfoSmall,
   IconMenu2,
 } from "@tabler/icons-react";
+import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
 export function MenuToken({
@@ -30,9 +30,9 @@ export function MenuToken({
   base,
   quote,
   isFuture,
+  isSpot,
 }: GridTradeProps) {
   const t = useSPETranslation();
-
   return (
     <Menu
       trigger="hover"
@@ -98,7 +98,7 @@ export function MenuToken({
         </Flex>
       </Menu.Target>
       <Menu.Dropdown variant="transparent">
-        <TableTokens />
+        <TableTokens isSpot={isSpot} />
       </Menu.Dropdown>
     </Menu>
   );
@@ -136,11 +136,12 @@ export function ListCateAsSlide(props: Partial<{ items: string[] }>) {
   );
 }
 
-export function TableTokens() {
+export function TableTokens({ isSpot }: { isSpot?: boolean }) {
   const t = useSPETranslation();
   const { marketInformation } = tradeStore();
   const navigate = useNavigate();
-  const tableData = (): TableData => {
+
+  const tableData = useMemo(() => {
     const _items = [
       [t("Trading Pairs")],
       [t("Price")],
@@ -148,60 +149,60 @@ export function TableTokens() {
       [t("Volume")],
     ];
 
-    const _rows = SYMBOL_LISTS.map(
-      ({ base, symbol, icon, quote, isFuture }, idx) => {
-        const data = marketInformation[symbol];
-        const change24h = Number(data.change || 0);
-        return [
-          <Flex
-            key={`${idx}.1`}
-            align={"center"}
-            gap={10}
-            style={{
-              cursor: "pointer",
-            }}
-            onClick={() => {
-              navigate(
-                isFuture
-                  ? `/trade/futures/${base}/${quote}`
-                  : `/trade/spot/${base}/${quote}`,
-              );
-            }}
-          >
-            {/* <IconStar size={15} /> */}
-            <Group gap={7} align="center">
-              <Avatar src={icon} size={20} />
-              <AppText instancetype="WithCellTokenInMenu">
-                {symbol}
-              </AppText>
-            </Group>
-          </Flex>,
-          <AppText key={1} fz={12} instancetype="withPriceCardTrade">
-            {data?.markPrice?.toLocaleString() || "--"}
-          </AppText>,
-          <AppText
-            key={`${idx}.2`}
-            fz={12}
-            instancetype="withPriceCardTrade"
-            c={change24h > 0 ? "green" : "red"}
-          >
-            <NumberFormat
-              prefix={change24h > 0 ? "+" : ""}
-              value={change24h}
-              suffix="%"
-              decimalPlaces={2}
-            />
-          </AppText>,
-          <AppText
-            key={`${idx}.3`}
-            fz={12}
-            instancetype="withPriceCardTrade"
-          >
-            {t("N/A")}
-          </AppText>,
-        ];
-      },
-    );
+    const _rows = SYMBOL_LISTS.filter((el) => {
+      return isSpot ? !el.isFuture : el.isFuture;
+    }).map(({ base, symbol, icon, quote, isFuture }, idx) => {
+      const data = marketInformation[symbol];
+      const change24h = Number(data.change || 0);
+      return [
+        <Flex
+          key={`${idx}.1`}
+          align={"center"}
+          gap={10}
+          style={{
+            cursor: "pointer",
+          }}
+          onClick={() => {
+            navigate(
+              isFuture
+                ? `/trade/futures/${base}/${quote}`
+                : `/trade/spot/${base}/${quote}`,
+            );
+          }}
+        >
+          {/* <IconStar size={15} /> */}
+          <Group gap={7} align="center">
+            <Avatar src={icon} size={20} />
+            <AppText instancetype="WithCellTokenInMenu">
+              {symbol}
+            </AppText>
+          </Group>
+        </Flex>,
+        <AppText key={1} fz={12} instancetype="withPriceCardTrade">
+          {data?.markPrice?.toLocaleString() || "--"}
+        </AppText>,
+        <AppText
+          key={`${idx}.2`}
+          fz={12}
+          instancetype="withPriceCardTrade"
+          c={change24h > 0 ? "green" : "red"}
+        >
+          <NumberFormat
+            prefix={change24h > 0 ? "+" : ""}
+            value={change24h}
+            suffix="%"
+            decimalPlaces={2}
+          />
+        </AppText>,
+        <AppText
+          key={`${idx}.3`}
+          fz={12}
+          instancetype="withPriceCardTrade"
+        >
+          {t("N/A")}
+        </AppText>,
+      ];
+    });
     return {
       head: _items.map(([text], i) => {
         return (
@@ -219,7 +220,7 @@ export function TableTokens() {
       }),
       body: _rows,
     };
-  };
+  }, [isSpot, marketInformation, navigate, t]);
   return (
     <Table.ScrollContainer minWidth={"100%"} h={250}>
       <Table
@@ -232,7 +233,7 @@ export function TableTokens() {
         stickyHeader
         highlightOnHover
         withRowBorders={false}
-        data={tableData()}
+        data={tableData}
         verticalSpacing={"xs"}
       />
     </Table.ScrollContainer>

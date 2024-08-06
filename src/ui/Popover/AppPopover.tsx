@@ -21,7 +21,11 @@ interface Custom {
 
 type InstanceProps = PopoverProps & Partial<Custom>;
 
-export function AppPopover(props: InstanceProps) {
+export function AppPopover({
+  target,
+  dropdown,
+  ...props
+}: InstanceProps) {
   const [opened, { close, open }] = useDisclosure(false);
   return (
     <Popover
@@ -39,8 +43,8 @@ export function AppPopover(props: InstanceProps) {
       arrowSize={12}
       {...props}
     >
-      {props.target ? (
-        <Popover.Target {...props.target({ close, opened, open })} />
+      {target ? (
+        <Popover.Target {...target({ close, opened, open })} />
       ) : (
         ""
       )}
@@ -50,7 +54,7 @@ export function AppPopover(props: InstanceProps) {
         }}
         onMouseLeave={close}
         onMouseEnter={open}
-        {...props.dropdown?.({ close, opened, open })}
+        {...dropdown?.({ close, opened, open })}
       />
     </Popover>
   );
