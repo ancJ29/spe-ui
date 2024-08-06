@@ -21,7 +21,6 @@ export default function MyOrders() {
   useEffect(() => {
     fetchCopyOpenPositions().then(setPositions);
   }, []);
-
   const tableData: TableData = useMemo(() => {
     return {
       head: [
@@ -42,11 +41,13 @@ export default function MyOrders() {
         const color =
           position.side === OrderSide.BUY ? "green" : "red";
         return [
-          <MasterTrader
-            key={`${position.positionId}.avatar`}
-            name={position.trader?.name}
-            avatar={position.trader?.avatar}
-          />,
+          <>
+            <MasterTrader
+              key={`${position.positionId}.avatar`}
+              name={position.trader?.name}
+              avatar={position.trader?.avatar}
+            />
+          </>,
           <SPETableSymbol
             color={color}
             key={`${position.positionId}.symbol`}
@@ -100,7 +101,7 @@ export default function MyOrders() {
             },
           }}
           classNames={{
-            table: "table-sticky-column",
+            table: "table-sticky-column table-list-gird-view",
           }}
         />
         <>{tableData.body?.length === 0 && <NoDataRecord />}</>

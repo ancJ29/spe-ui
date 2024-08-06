@@ -15,6 +15,7 @@ import {
   ScrollArea,
   Table,
   TableData,
+  Text,
   Title,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -66,36 +67,62 @@ export function DepositRecords() {
       ].map((el) => t(el)),
       // foot: [],
       body: transactions.map((row) => [
-        <Title order={6} fz={12} key={`${row.id}.time`}>
-          {new Date(row.updatedAt).toLocaleString()}
-        </Title>,
-        <Asset asset={row.asset} key={`${row.id}.asset`} />,
         <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Time")}
+          </Text>
+          <Title order={6} fz={12} key={`${row.id}.time`}>
+            {new Date(row.updatedAt).toLocaleString()}
+          </Title>
+        </>,
+        <>
+          {/* <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Coin")}
+          </Text> */}
+          <Asset asset={row.asset} key={`${row.id}.asset`} />
+        </>,
+        <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Amount")}
+          </Text>
           <Title order={6} fz={12}>
             <NumberFormat decimalPlaces={8} value={row.amount} />
           </Title>
         </>,
         <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("From Address")}
+          </Text>
           <Title order={6} fz={12} key={`${row.id}.from`}>
             {row.from || "N/A"}
           </Title>
         </>,
-        <Badge
-          color={STATUS_COLORS[row.status]}
-          key={`${row.id}.status`}
-        >
-          {row.status}
-        </Badge>,
-        <Flex gap={5} key={`${row.id}.action`}>
-          <Button
-            onClick={() => openModal(row.asset)}
-            p={0}
-            size="xs"
-            variant="transparent"
+        <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Status")}
+          </Text>
+          <Badge
+            color={STATUS_COLORS[row.status]}
+            key={`${row.id}.status`}
           >
-            {t("Deposit")}
-          </Button>
-        </Flex>,
+            {row.status}
+          </Badge>
+        </>,
+        <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Action")}
+          </Text>
+          <Flex gap={5} key={`${row.id}.action`}>
+            <Button
+              onClick={() => openModal(row.asset)}
+              p={0}
+              size="xs"
+              variant="transparent"
+            >
+              {t("Deposit")}
+            </Button>
+          </Flex>
+        </>,
       ]),
     }),
     [openModal, t, transactions],
@@ -117,7 +144,7 @@ export function DepositRecords() {
               },
             }}
             classNames={{
-              table: "table-sticky-column",
+              table: "table-sticky-column table-list-gird-view",
             }}
           />
           <>{transactions.length === 0 && <NoDataRecord />}</>

@@ -57,7 +57,14 @@ export function MaterInformation() {
         w={"100%"}
       >
         <Flex justify={"space-between"}>
-          <Flex gap={30} align={"center"}>
+          <Flex
+            gap={30}
+            align={"center"}
+            wrap={{
+              xs: "wrap",
+              sm: "nowrap",
+            }}
+          >
             <Box>
               <Flex>
                 <Text>{t("Est. Total Profit Sharing")}</Text>
@@ -109,7 +116,10 @@ export function MaterInformation() {
               </Text>
             </Box>
             <SimpleGrid
-              cols={2}
+              cols={{
+                xs: 1,
+                sm: 2,
+              }}
               styles={{
                 root: {
                   gap: 10,
@@ -160,7 +170,13 @@ export function MaterInformation() {
           </Button>
         </Flex>
         <Space mb={"xl"} />
-        <SimpleGrid cols={6}>
+        <SimpleGrid
+          cols={{
+            xs: 1,
+            sm: 3,
+            md: 6,
+          }}
+        >
           <Box>
             <Text fz={14} c={"dimmed"}>
               {t("Settlement Method")}

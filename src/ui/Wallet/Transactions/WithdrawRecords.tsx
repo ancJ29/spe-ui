@@ -16,6 +16,7 @@ import {
   ScrollArea,
   Table,
   TableData,
+  Text,
   Title,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -67,17 +68,40 @@ export function WithdrawRecords() {
         "Action",
       ].map((el) => t(el)),
       body: transactions.map((row) => [
-        <Title order={6} fz={12} key={`${row.id}.time`}>
-          {new Date(row.updatedAt).toLocaleString()}
-        </Title>,
-        <Asset asset={row.asset} key={`${row.id}.asset`} />,
-        <Title order={6} fz={12} key={`${row.id}.amount`}>
-          <NumberFormat decimalPlaces={8} value={row.amount} />
-        </Title>,
-        <Title order={6} fz={12} key={`${row.id}.address`}>
-          {row.to}
-        </Title>,
         <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Time")}
+          </Text>
+          <Title order={6} fz={12} key={`${row.id}.time`}>
+            {new Date(row.updatedAt).toLocaleString()}
+          </Title>
+        </>,
+        <>
+          {/* <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Coin")}
+          </Text> */}
+          <Asset asset={row.asset} key={`${row.id}.asset`} />
+        </>,
+        <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Amount")}
+          </Text>
+          <Title order={6} fz={12} key={`${row.id}.amount`}>
+            <NumberFormat decimalPlaces={8} value={row.amount} />
+          </Title>
+        </>,
+        <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Withdraw Address")}
+          </Text>
+          <Title order={6} fz={12} key={`${row.id}.address`}>
+            {row.to}
+          </Title>
+        </>,
+        <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Status")}
+          </Text>
           <Badge
             color={STATUS_COLORS[row.status]}
             key={`${row.id}.status`}
@@ -85,19 +109,29 @@ export function WithdrawRecords() {
             {row.status}
           </Badge>
         </>,
-        <Title order={6} key={`${row.id}.remark`}>
-          --
-        </Title>,
-        <Flex gap={5} key={`${row.id}.action`}>
-          <Button
-            onClick={() => openModal(row.asset)}
-            p={0}
-            size="xs"
-            variant="transparent"
-          >
-            Withdraw
-          </Button>
-        </Flex>,
+        <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Remark")}
+          </Text>
+          <Title order={6} key={`${row.id}.remark`}>
+            --
+          </Title>
+        </>,
+        <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Action")}
+          </Text>
+          <Flex gap={5} key={`${row.id}.action`}>
+            <Button
+              onClick={() => openModal(row.asset)}
+              p={0}
+              size="xs"
+              variant="transparent"
+            >
+              Withdraw
+            </Button>
+          </Flex>
+        </>,
       ]),
     }),
     [openModal, t, transactions],
@@ -119,7 +153,7 @@ export function WithdrawRecords() {
               },
             }}
             classNames={{
-              table: "table-sticky-column",
+              table: "table-sticky-column table-list-gird-view",
             }}
           />
           <>{transactions.length === 0 && <NoDataRecord />}</>

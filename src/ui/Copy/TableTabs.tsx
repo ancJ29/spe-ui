@@ -3,6 +3,7 @@ import { last } from "lodash";
 import { useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import AppTabs from "../Tabs";
+import AppText from "../Text/AppText";
 
 const MASTER_TABS = [
   {
@@ -75,15 +76,25 @@ export function Tabs() {
       tabs={tabs.map((tab) => ({
         data: {
           label: (
-            <Link
-              style={{
-                all: "unset",
-                display: "block",
-              }}
-              to={tab.link}
-            >
-              {t(tab.label)}
-            </Link>
+            <>
+              <Link
+                style={{
+                  all: "unset",
+                  display: "block",
+                }}
+                to={tab.link}
+              >
+                <AppText
+                  instancetype="TabText"
+                  fz={{
+                    xs: "16px",
+                    md: "20px",
+                  }}
+                >
+                  {t(tab.label)}
+                </AppText>
+              </Link>
+            </>
           ),
           value: tab.value,
         },

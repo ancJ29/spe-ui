@@ -106,7 +106,7 @@ export default function MasterOrders() {
             },
           }}
           classNames={{
-            table: "table-sticky-column",
+            table: "table-sticky-column table-list-gird-view",
           }}
         />
         <>{tableData.body?.length === 0 && <NoDataRecord />}</>

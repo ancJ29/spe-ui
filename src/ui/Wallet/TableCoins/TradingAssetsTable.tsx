@@ -78,6 +78,9 @@ export function TradingAssetsTable({
           </Flex>
         </>,
         <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Assets")}
+          </Text>
           <Title order={6}>
             <NumberFormat decimalPlaces={8} value={row.amount} />
           </Title>
@@ -87,11 +90,17 @@ export function TradingAssetsTable({
           </Text>
         </>,
         <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Total Equity")}
+          </Text>
           <Title order={6}>
             <NumberFormat decimalPlaces={8} value={row.equity} />
           </Title>
         </>,
         <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Available Margin")}
+          </Text>
           <Title order={6}>
             <NumberFormat
               decimalPlaces={8}
@@ -100,11 +109,17 @@ export function TradingAssetsTable({
           </Title>
         </>,
         <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Position Margin")}
+          </Text>
           <Title order={6}>
             <NumberFormat decimalPlaces={8} value={row.margin} />
           </Title>
         </>,
         <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Unrealized PnL")}
+          </Text>
           <Title order={6}>
             <NumberFormat
               decimalPlaces={8}
@@ -113,6 +128,9 @@ export function TradingAssetsTable({
           </Title>
         </>,
         <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Actions")}
+          </Text>
           <Flex gap={5}>
             <Button
               onClick={() => openModal(row.coin)}
@@ -148,7 +166,7 @@ export function TradingAssetsTable({
               },
             }}
             classNames={{
-              table: "table-sticky-column",
+              table: "table-sticky-column table-list-gird-view",
             }}
           />
           {tableData.body?.length === 0 && <NoDataRecord />}

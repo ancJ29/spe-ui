@@ -57,7 +57,14 @@ export function FollowerInformation() {
           radius="25px"
           w={"100%"}
         >
-          <Flex gap={40} align={"center"}>
+          <Flex
+            gap={40}
+            align={"center"}
+            wrap={{
+              xs: "wrap",
+              sm: "nowrap",
+            }}
+          >
             <Box>
               <Flex>
                 <Text>{t("Total Assets")}</Text>
@@ -105,7 +112,7 @@ export function FollowerInformation() {
                 />{" "}
               </Text>
             </Box>
-            <Flex align={"center"}>
+            <Flex visibleFrom="sm" align={"center"}>
               <Divider orientation="vertical" h={74} />
             </Flex>
             <Box>
@@ -138,7 +145,13 @@ export function FollowerInformation() {
             </Box>
           </Flex>
           <Space mb={"xl"} />
-          <SimpleGrid cols={5}>
+          <SimpleGrid
+            cols={{
+              xs: 1,
+              sm: 2,
+              md: 5,
+            }}
+          >
             <Box>
               <Text fz={14} c={"dimmed"}>
                 {t("Unrealized PnL")}

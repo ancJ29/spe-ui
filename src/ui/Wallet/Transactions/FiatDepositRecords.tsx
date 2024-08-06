@@ -6,7 +6,14 @@ import { fetchTransactions } from "@/services/apis";
 import { Asset } from "@/ui/Asset/Asset";
 import NumberFormat from "@/ui/NumberFormat";
 import { NoDataRecord, SPEPagination } from "@/ui/SPEMisc";
-import { Badge, Box, Table, TableData, Title } from "@mantine/core";
+import {
+  Badge,
+  Box,
+  Table,
+  TableData,
+  Text,
+  Title,
+} from "@mantine/core";
 import { useCallback, useMemo } from "react";
 
 export function FiatDepositRecords() {
@@ -48,21 +55,33 @@ export function FiatDepositRecords() {
             <Asset asset={row.asset} />
           </>,
           <>
+            <Text hiddenFrom="sm" c={"dimmed"}>
+              {t("Time")}
+            </Text>
             <Title order={6} fz={12}>
               {new Date(row.updatedAt).toLocaleString()}
             </Title>
           </>,
           <>
+            <Text hiddenFrom="sm" c={"dimmed"}>
+              {t("JPY Amount")}
+            </Text>
             <Title order={6} fz={12}>
               <NumberFormat decimalPlaces={8} value={row.jpyAmount} />
             </Title>
           </>,
           <>
+            <Text hiddenFrom="sm" c={"dimmed"}>
+              {t("USDT Amount")}
+            </Text>
             <Title order={6} fz={12}>
               <NumberFormat decimalPlaces={8} value={row.amount} />
             </Title>
           </>,
           <>
+            <Text hiddenFrom="sm" c={"dimmed"}>
+              {t("Status")}
+            </Text>
             <Badge color={STATUS_COLORS[row.status]}>
               {row.status}
             </Badge>
@@ -86,7 +105,7 @@ export function FiatDepositRecords() {
             },
           }}
           classNames={{
-            table: "table-sticky-column",
+            table: "table-sticky-column table-list-gird-view",
           }}
         />
         <>{transactions.length === 0 && <NoDataRecord />}</>

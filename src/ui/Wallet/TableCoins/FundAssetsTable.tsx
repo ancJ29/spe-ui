@@ -70,6 +70,9 @@ export function FundAssetsTable({ hideZero }: { hideZero: boolean }) {
       ].map((el) => t(el)),
       body: rows.map((row) => [
         <>
+          {/* <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Coin")}
+          </Text> */}
           <Flex align={"center"} gap={10}>
             <Box>
               <Image w={30} h={30} src={COIN_IMAGES[row.coin]} />
@@ -81,6 +84,9 @@ export function FundAssetsTable({ hideZero }: { hideZero: boolean }) {
           </Flex>
         </>,
         <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Available")}
+          </Text>
           <Title order={6}>
             <NumberFormat decimalPlaces={8} value={row.amount} />
           </Title>
@@ -90,6 +96,9 @@ export function FundAssetsTable({ hideZero }: { hideZero: boolean }) {
           </Text>
         </>,
         <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Frozen")}
+          </Text>
           <Title order={6}>
             {<NumberFormat decimalPlaces={8} value={row.locked} />}
           </Title>
@@ -104,11 +113,17 @@ export function FundAssetsTable({ hideZero }: { hideZero: boolean }) {
           </Text>
         </>,
         <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("BTC Valuation")}
+          </Text>
           <Title order={6}>
             {<NumberFormat decimalPlaces={8} value={row.btcValue} />}
           </Title>
         </>,
         <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Actions")}
+          </Text>
           <Flex gap={8}>
             <Button
               onClick={() => openModal("DEPOSIT", row.coin)}
@@ -165,7 +180,7 @@ export function FundAssetsTable({ hideZero }: { hideZero: boolean }) {
             stickyHeader
             highlightOnHover
             classNames={{
-              table: "table-sticky-column",
+              table: "table-sticky-column table-list-gird-view",
             }}
             styles={{
               th: {

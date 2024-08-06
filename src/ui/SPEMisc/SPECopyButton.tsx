@@ -1,10 +1,7 @@
-import useSPETranslation from "@/hooks/useSPETranslation";
 import { Button, CopyButton, Flex } from "@mantine/core";
-import { IconCopy } from "@tabler/icons-react";
+import { IconCheck, IconCopy } from "@tabler/icons-react";
 
 export function SPECopyButton({ value }: { value: string }) {
-  const t = useSPETranslation();
-
   return (
     <CopyButton value={value}>
       {({ copied, copy }) => (
@@ -16,8 +13,12 @@ export function SPECopyButton({ value }: { value: string }) {
           onClick={copy}
         >
           <Flex gap={5} align={"center"} justify={"end"} fz={12}>
-            {copied ? t("Copied") : t("Copy")}
-            <IconCopy size={20} />
+            {/* {copied ? t("Copied") : t("Copy")} */}
+            {copied ? (
+              <IconCheck size={20} color="green" />
+            ) : (
+              <IconCopy size={20} />
+            )}
           </Flex>
         </Button>
       )}

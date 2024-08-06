@@ -46,7 +46,12 @@ export default function Wallet() {
     <Container fluid>
       <Box className="space-y-4" py={10}>
         <Space mt={20} />
-        <SimpleGrid cols={3}>
+        <SimpleGrid
+          cols={{
+            xs: 1,
+            sm: 3,
+          }}
+        >
           <Box>
             <Card
               shadow="0 0 24px 0 rgba(18,18,20,.1)"
@@ -107,8 +112,10 @@ export default function Wallet() {
             </Card>
           </Box>
           <Box ml={"auto"}>
-            <Flex align={"right"} h={"100%"}>
+            <Flex align={"right"} h={"100%"} w={"100%"}>
               <Button
+                display={"block"}
+                fullWidth
                 component="a"
                 href="/wallet/records/swap"
                 variant="gradient"

@@ -7,7 +7,14 @@ import { fetchTransactions } from "@/services/apis";
 import { Asset } from "@/ui/Asset/Asset";
 import NumberFormat from "@/ui/NumberFormat";
 import { NoDataRecord, SPEPagination } from "@/ui/SPEMisc";
-import { Badge, Box, Table, TableData, Title } from "@mantine/core";
+import {
+  Badge,
+  Box,
+  Table,
+  TableData,
+  Text,
+  Title,
+} from "@mantine/core";
 import { useCallback, useMemo } from "react";
 
 export function SwapRecords() {
@@ -46,37 +53,72 @@ export function SwapRecords() {
       ].map((el) => t(el)),
       body: transactions.map((row) => {
         return [
-          <Title order={6} fz={12} key={`${row.id}.time`}>
-            {new Date(row.updatedAt).toLocaleString()}
-          </Title>,
-          <Asset asset={row.toAsset} key={`${row.id}.to`} />,
-          <Title order={6} fz={12} key={`${row.id}.toAmount`}>
-            {row.toAmount}
-          </Title>,
-          <Asset asset={row.asset} key={`${row.id}.from`} />,
-          <Title order={6} fz={12} key={`${row.id}.fromAmount`}>
-            <NumberFormat decimalPlaces={8} value={row.amount} />
-          </Title>,
-          <Title order={6} fz={12} key={`${row.id}.rate`}>
-            <NumberFormat
-              decimalPlaces={8}
-              value={
-                row.toAsset === "USDT"
-                  ? BN.div(row.toAmount, row.amount)
-                  : BN.div(row.amount, row.toAmount)
-              }
-            />
-          </Title>,
-          row.status ? (
-            <Badge
-              key={`${row.id}.status`}
-              color={STATUS_COLORS[row.status]}
-            >
-              {row.status}
-            </Badge>
-          ) : (
-            <span key={`${row.id}.status`}>-</span>
-          ),
+          <>
+            <Text hiddenFrom="sm" c={"dimmed"}>
+              {t("Time")}
+            </Text>
+            <Title order={6} fz={12}>
+              {new Date(row.updatedAt).toLocaleString()}
+            </Title>
+          </>,
+          <>
+            <Text hiddenFrom="sm" c={"dimmed"}>
+              {t("Coin Received")}
+            </Text>
+            <Asset asset={row.toAsset} key={`${row.id}.to`} />
+          </>,
+          <>
+            <Text hiddenFrom="sm" c={"dimmed"}>
+              {t("Amount Received")}
+            </Text>
+            <Title order={6} fz={12} key={`${row.id}.toAmount`}>
+              {row.toAmount}
+            </Title>
+          </>,
+          <>
+            <Text hiddenFrom="sm" c={"dimmed"}>
+              {t("Coin Paid")}
+            </Text>
+            <Asset asset={row.asset} key={`${row.id}.from`} />
+          </>,
+          <>
+            <Text hiddenFrom="sm" c={"dimmed"}>
+              {t("Amount Paid")}
+            </Text>
+            <Title order={6} fz={12} key={`${row.id}.fromAmount`}>
+              <NumberFormat decimalPlaces={8} value={row.amount} />
+            </Title>
+          </>,
+          <>
+            <Text hiddenFrom="sm" c={"dimmed"}>
+              {t("Exchange Rate")}
+            </Text>
+            <Title order={6} fz={12} key={`${row.id}.rate`}>
+              <NumberFormat
+                decimalPlaces={8}
+                value={
+                  row.toAsset === "USDT"
+                    ? BN.div(row.toAmount, row.amount)
+                    : BN.div(row.amount, row.toAmount)
+                }
+              />
+            </Title>
+          </>,
+          <>
+            <Text hiddenFrom="sm" c={"dimmed"}>
+              {t("Status")}
+            </Text>
+            {row.status ? (
+              <Badge
+                key={`${row.id}.status`}
+                color={STATUS_COLORS[row.status]}
+              >
+                {row.status}
+              </Badge>
+            ) : (
+              <span key={`${row.id}.status`}>-</span>
+            )}
+          </>,
         ];
       }),
     }),
@@ -97,7 +139,7 @@ export function SwapRecords() {
             },
           }}
           classNames={{
-            table: "table-sticky-column",
+            table: "table-sticky-column table-list-gird-view",
           }}
         />
         <>{transactions.length === 0 && <NoDataRecord />}</>

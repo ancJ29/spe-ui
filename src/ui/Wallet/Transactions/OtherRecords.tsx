@@ -7,7 +7,7 @@ import { assetStore } from "@/store/assets";
 import { Asset } from "@/ui/Asset/Asset";
 import NumberFormat from "@/ui/NumberFormat";
 import { NoDataRecord, SPEPagination } from "@/ui/SPEMisc";
-import { Box, Table, TableData, Title } from "@mantine/core";
+import { Box, Table, TableData, Text, Title } from "@mantine/core";
 import { useCallback, useMemo } from "react";
 
 const TRANSACTION_TYPES = [
@@ -56,22 +56,44 @@ export function OtherRecords() {
         "Transaction Type",
       ].map((el) => t(el)),
       body: transactions.map((row) => [
-        <Title order={6} fz={12} key={`${row.id}.time`}>
-          {new Date(row.updatedAt).toLocaleString()}
-        </Title>,
-        <Asset asset={row.asset} key={`${row.id}.asset`} />,
-        <Title order={6} fz={12} key={`${row.id}.account`}>
-          {accountById[row.accountId]?.name || "--"}
-        </Title>,
-        <Title order={6} fz={12} key={`${row.id}.amount`}>
-          <NumberFormat
-            decimalPlaces={8}
-            value={BN.add(row.amount, row.fee || 0)}
-          />
-        </Title>,
-        <Title order={6} fz={12} key={`${row.id}.type`}>
-          {row.type}
-        </Title>,
+        <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Time")}
+          </Text>
+          <Title order={6} fz={12} key={`${row.id}.time`}>
+            {new Date(row.updatedAt).toLocaleString()}
+          </Title>
+        </>,
+        <>
+          <Asset asset={row.asset} key={`${row.id}.asset`} />
+        </>,
+        <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Account")}
+          </Text>
+          <Title order={6} fz={12} key={`${row.id}.account`}>
+            {accountById[row.accountId]?.name || "--"}
+          </Title>
+        </>,
+        <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Amount")}
+          </Text>
+          <Title order={6} fz={12} key={`${row.id}.amount`}>
+            <NumberFormat
+              decimalPlaces={8}
+              value={BN.add(row.amount, row.fee || 0)}
+            />
+          </Title>
+        </>,
+        <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Transaction Type")}
+          </Text>
+          <Title order={6} fz={12} key={`${row.id}.type`}>
+            {row.type}
+          </Title>
+        </>,
       ]),
     };
   }, [accountById, t, transactions]);
@@ -91,7 +113,7 @@ export function OtherRecords() {
             },
           }}
           classNames={{
-            table: "table-sticky-column",
+            table: "table-sticky-column table-list-gird-view",
           }}
         />
         <>{transactions.length === 0 && <NoDataRecord />}</>
