@@ -116,7 +116,7 @@ export function EmailBindModal() {
       verificationCode: "",
       mfaCode: "",
     },
-    validateInputOnChange: true,
+    // validateInputOnChange: true,
     validate: {
       verificationCode: (value) => {
         try {

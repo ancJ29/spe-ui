@@ -29,7 +29,7 @@ export function UserChangePasswordForm() {
       password: "",
       newPassword: "",
     },
-    validateInputOnChange: true,
+    // validateInputOnChange: true,
 
     validate: {
       currentPassword: (value) =>

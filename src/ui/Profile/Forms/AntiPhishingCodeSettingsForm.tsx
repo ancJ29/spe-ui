@@ -66,7 +66,7 @@ export function AntiPhishingCodeSettingsModal() {
       mfaCode: "",
       verificationCode: "",
     },
-    validateInputOnChange: true,
+    // validateInputOnChange: true,
 
     validate: {
       verificationCode: (value) => {

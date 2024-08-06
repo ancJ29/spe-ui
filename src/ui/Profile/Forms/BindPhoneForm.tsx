@@ -86,7 +86,7 @@ export function BindPhoneModal() {
       mobileVerificationCode: "",
       mobile: "",
     },
-    validateInputOnChange: true,
+    // validateInputOnChange: true,
 
     validate: {
       emailVerificationCode: (value) => {

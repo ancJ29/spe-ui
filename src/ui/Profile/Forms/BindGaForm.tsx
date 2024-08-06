@@ -54,7 +54,7 @@ export function BindGaForm() {
       mfaCode: "",
       mfaSecret: "",
     },
-    validateInputOnChange: true,
+    // validateInputOnChange: true,
 
     validate: {
       mfaCode: (value) => {

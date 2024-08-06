@@ -53,7 +53,7 @@ export function ReBindGaForm() {
       mfaCode: "",
       mfaSecret: "",
     },
-    validateInputOnChange: true,
+    // validateInputOnChange: true,
 
     validate: {
       oldMfaCode: (value) => {
