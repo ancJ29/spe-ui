@@ -9,8 +9,7 @@ if (!localStorage.__X_UID__) {
 }
 
 const axios = _axios.create({
-  baseURL: "https://demo-api.spe-labo.com",
-  // import.meta.env.APP_API_URL,
+  baseURL: import.meta.env.APP_API_URL,
   headers: {
     "Content-type": "application/json",
     "X-UID": localStorage.__X_UID__,
