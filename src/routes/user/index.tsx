@@ -32,7 +32,7 @@ import {
   IconPhone,
   IconShieldCheckFilled,
 } from "@tabler/icons-react";
-import { LoginHistories } from "./LoginHistory";
+// import { LoginHistories } from "./LoginHistory";
 
 const kycColors: Record<number, string> = {
   0: "red",
@@ -416,8 +416,8 @@ export default function Profile() {
         <Space my={"xl"} />
         <Title order={3}>{t("Login History")}</Title>
         <Space my={"xl"} />
-        <Divider />
-        <LoginHistories />
+        {/* <Divider /> */}
+        {/* <LoginHistories /> */}
       </Box>
     </Container>
   );
