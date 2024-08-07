@@ -18,6 +18,7 @@ import {
   Grid,
   Space,
   Text,
+  Title,
 } from "@mantine/core";
 import {
   IconBrandGoogle,
@@ -31,6 +32,18 @@ import {
   IconPhone,
   IconShieldCheckFilled,
 } from "@tabler/icons-react";
+import { LoginHistories } from "./LoginHistory";
+
+const kycColors: Record<number, string> = {
+  0: "red",
+  1: "green",
+  2: "green",
+};
+const kycLevels: Record<number, string> = {
+  0: "Unverified",
+  1: "Basic",
+  2: "Advanced",
+};
 
 export default function Profile() {
   const t = useTranslation();
@@ -86,8 +99,12 @@ export default function Profile() {
                 {t("Security Level")}
               </Text>
               <Flex align={"center"} gap={10}>
-                <Text fz={20} fw={600} c={priceDisplay("-1").color}>
-                  Low
+                <Text
+                  fz={20}
+                  fw={600}
+                  c={kycColors[me?.kycLevel || 0]}
+                >
+                  {t(kycLevels[me?.kycLevel || 0])}
                 </Text>
               </Flex>
             </Box>
@@ -177,7 +194,9 @@ export default function Profile() {
                   h={"100%"}
                 >
                   <IconInfoCircleFilled color="gray" />
-                  <Text fz={14}>{t("Not Yet verified")}</Text>
+                  <Text fz={14}>
+                    {t(kycLevels[me?.kycLevel || 0])}
+                  </Text>
                 </Flex>
               </Grid.Col>
               <Grid.Col span={6}>
@@ -227,25 +246,15 @@ export default function Profile() {
                 justify={"end"}
                 h={"100%"}
               >
-                <IconInfoCircleFilled color="gray" />
-                <Text fz={14}>{t("Not Yet verified")}</Text>
+                <IconInfoCircleFilled
+                  color={me?.emailVerified ? "green" : "gray"}
+                />
+                <Text fz={14}>
+                  {t(me?.emailVerified ? "Verified" : "Not Verified")}
+                </Text>
               </Flex>
             </Grid.Col>
             <Grid.Col span={6}>
-              {/* <Flex justify={"end"} align={"center"} h={"100%"}>
-                <Button
-                  variant="gradient"
-                  miw={150}
-                  px={"xs"}
-                  gradient={{
-                    from: "orange",
-                    to: "yellow",
-                    deg: 90,
-                  }}
-                >
-                  {t("Change email")}
-                </Button>
-              </Flex> */}
               <Flex justify={"end"} align={"center"} h={"100%"}>
                 <BindEmailForm />
               </Flex>
@@ -279,8 +288,14 @@ export default function Profile() {
                 justify={"end"}
                 h={"100%"}
               >
-                <IconInfoCircleFilled color="gray" />
-                <Text fz={14}>{t("Not Yet verified")}</Text>
+                <IconInfoCircleFilled
+                  color={me?.mobileVerified ? "green" : "gray"}
+                />
+                <Text fz={14}>
+                  {t(
+                    me?.mobileVerified ? "Verified" : "Not Verified",
+                  )}
+                </Text>
               </Flex>
             </Grid.Col>
             <Grid.Col span={6}>
@@ -294,7 +309,6 @@ export default function Profile() {
             </Grid.Col>
 
             <Grid.Col span={10}>
-              {/* Google Authentication */}
               <Flex gap={12} align={"center"}>
                 <Avatar size={44}>
                   <IconBrandGoogle />
@@ -318,15 +332,21 @@ export default function Profile() {
                 justify={"end"}
                 h={"100%"}
               >
-                <IconInfoCircleFilled color="gray" />
-                <Text fz={14}>{t("Not Yet verified")}</Text>
+                <IconCircleCheckFilled
+                  color={me?.hasMfa ? "green" : "gray"}
+                />
+                <Text fz={14}>
+                  {me?.hasMfa ? t("Bind") : t("Not Bind")}
+                </Text>
               </Flex>
             </Grid.Col>
             <Grid.Col span={6}>
               <Flex justify={"end"} align={"center"} h={"100%"}>
                 <Button
                   component="a"
-                  href="/user/bind-ga"
+                  href={
+                    me?.hasMfa ? "user/rebind-ga" : "/user/bind-ga"
+                  }
                   variant="gradient"
                   miw={150}
                   px={"xs"}
@@ -336,7 +356,7 @@ export default function Profile() {
                     deg: 90,
                   }}
                 >
-                  {t("Bind GA")}
+                  {t(me?.hasMfa ? "ReBind GA" : "Bind GA")}
                 </Button>
               </Flex>
             </Grid.Col>
@@ -346,7 +366,6 @@ export default function Profile() {
             </Grid.Col>
 
             <Grid.Col span={10}>
-              {/* Anti-Phishing Code */}
               <Flex gap={12} align={"center"}>
                 <Avatar size={44}>
                   <IconShieldCheckFilled />
@@ -371,8 +390,16 @@ export default function Profile() {
                 justify={"end"}
                 h={"100%"}
               >
-                <IconInfoCircleFilled color="gray" />
-                <Text fz={14}>{t("Not Yet verified")}</Text>
+                <IconCircleCheckFilled
+                  color={me?.hasAntiPhishingCode ? "green" : "gray"}
+                />
+                <Text fz={14}>
+                  {t(
+                    me?.hasAntiPhishingCode
+                      ? "Configured"
+                      : "Not Configured",
+                  )}
+                </Text>
               </Flex>
             </Grid.Col>
             <Grid.Col span={6}>
@@ -386,6 +413,11 @@ export default function Profile() {
             </Grid.Col>
           </Grid>
         </Box>
+        <Space my={"xl"} />
+        <Title order={3}>{t("Login History")}</Title>
+        <Space my={"xl"} />
+        <Divider />
+        <LoginHistories />
       </Box>
     </Container>
   );

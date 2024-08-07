@@ -86,7 +86,7 @@ export function TabsWallet() {
                       >
                         {me?.isCopyMaster
                           ? t("Copy Master Account")
-                          : t("Funding Account")}
+                          : t("Trading Account")}
                       </AppText>
                     }
                   </>

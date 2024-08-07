@@ -59,7 +59,7 @@ export function generateUri2FA(
     s += `&issuer=${encodeURIComponent(issuer)}`;
   }
   if (type === "hotp") {
-    s += `&counter=${counter || "0"}`;
+    s += `&counter=${counter || "30"}`;
   }
   // if (advanced_options_checked) {
   //   s += `&algorithm=${algorithm}&digits=${digits}`;
@@ -72,10 +72,23 @@ export function generateUri2FA(
 }
 
 export function valueColor(value: number) {
+  if (value === 0) {
+    return "";
+  }
   return value > 0 ? "green" : "red";
 }
 
+export function maskPhone(phone: string) {
+  if (!phone) {
+    return "";
+  }
+  return phone.replace(/(\d{3})\d{4}(\d{4})/, "$1****$2");
+}
+
 export function maskEmail(email: string) {
+  if (!email) {
+    return "";
+  }
   const [username, domain] = email.split("@");
   const maskedUsername =
     username[0] +

@@ -21,7 +21,6 @@ export default function Page() {
           </Anchor>
         </Breadcrumbs>
         <Box h={"calc(100vh - 200px)"}>
-          {/* {location.pathname} */}
           <UserChangePasswordForm />
         </Box>
       </Container>

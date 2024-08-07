@@ -5,7 +5,7 @@ import { sendVerifyCode } from "@/services/apis";
 import logger from "@/services/logger";
 import authStore from "@/store/auth";
 import { error } from "@/utils/notifications";
-import { maskEmail } from "@/utils/utility";
+import { maskEmail, maskPhone } from "@/utils/utility";
 import {
   emailVerificationCodeValidate,
   requiredFieldValidate,
@@ -40,6 +40,7 @@ export function BindGaForm() {
   } = useSPEUserSettings<{
     mfaCode: string;
     mfaSecret: string;
+    verificationCode: string;
   }>("ADD_MFA");
 
   useEffect(() => {
@@ -52,13 +53,13 @@ export function BindGaForm() {
     mode: "uncontrolled",
     initialValues: {
       mfaCode: "",
-      mfaSecret: "",
+      mfaSecret: otpAuth.secret || "",
+      verificationCode: "",
     },
-    // validateInputOnChange: true,
-
     validate: {
       mfaCode: (value) => {
         try {
+          logger.debug("mfaCode", value);
           emailVerificationCodeValidate().parse(value);
           return null;
         } catch (e) {
@@ -68,6 +69,7 @@ export function BindGaForm() {
       },
       mfaSecret: (value) => {
         try {
+          logger.debug("mfaSecret", value);
           requiredFieldValidate().parse(value);
           return null;
         } catch (e) {
@@ -79,7 +81,7 @@ export function BindGaForm() {
 
   const startSending = () => {
     setSeconds1(SECONDS);
-    sendVerifyCode("EMAIL").then((res) => {
+    sendVerifyCode(me?.email ? "EMAIL" : "MOBILE").then((res) => {
       if (res.data?.result?.success) {
         interval1.start();
       } else {
@@ -221,9 +223,21 @@ export function BindGaForm() {
             }
           >
             <Flex gap={50}>
-              <form onSubmit={(e) => submit(e, form)}>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  form.setValues({
+                    ...form.getValues(),
+                    mfaSecret: otpAuth.secret,
+                  });
+                  submit(e, form);
+                }}
+              >
                 <Box>
                   <TextInput
+                    style={{
+                      display: me?.email ? undefined : "none",
+                    }}
                     label={`Current Email Verification（${maskEmail(
                       me?.email ?? "",
                     )}）`}
@@ -242,15 +256,40 @@ export function BindGaForm() {
                         </Button>
                       </Flex>
                     }
-                    key={form.key("mfaCode")}
-                    {...form.getInputProps("mfaCode")}
+                    key={form.key("verificationCode")}
+                    {...form.getInputProps("verificationCode")}
+                  />
+                  <TextInput
+                    style={{
+                      display: me?.email ? "none" : undefined,
+                    }}
+                    label={`Current Mobile Verification（${maskPhone(
+                      me?.mobile ?? "",
+                    )}）`}
+                    placeholder={t("Enter the verification code")}
+                    rightSectionWidth={60}
+                    rightSection={
+                      <Flex px={10} w={"100%"}>
+                        <Button
+                          disabled={interval1.active}
+                          p={0}
+                          variant="transparent"
+                          onClick={startSending}
+                        >
+                          {!interval1.active && t("Send")}
+                          {interval1.active && `${seconds1}s`}
+                        </Button>
+                      </Flex>
+                    }
+                    key={form.key("verificationCode")}
+                    {...form.getInputProps("verificationCode")}
                   />
                   <Space my={"md"} />
                   <TextInput
                     label={t("Google Authenticator Code")}
                     placeholder={t("Enter 6-digit code")}
-                    key={form.key("mfaSecret")}
-                    {...form.getInputProps("mfaSecret")}
+                    key={form.key("mfaCode")}
+                    {...form.getInputProps("mfaCode")}
                   />
                   <Space my={"md"} />
                   <Button

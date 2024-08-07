@@ -1,4 +1,5 @@
 {
+  "The withdrawal function will be disabled for 24 hours after you change your login password.": "The withdrawal function will be disabled for 24 hours after you change your login password.",
   "%s Futures": "%s Futures",
   "%s is the proud proprietor of a licensed Digital Currency Exchange (DCE) accredited by the Australian Transaction Reports and Analysis Centre (AUSTRAC), identified by registration number DCE100812987-001.": "%s is the proud proprietor of a licensed Digital Currency Exchange (DCE) accredited by the Australian Transaction Reports and Analysis Centre (AUSTRAC), identified by registration number DCE100812987-001.",
   "%s revolutionized copy trading: you can now pool money with other investors into a fund directly managed by a skilled trader of your choice. The trader receives a percentage of the profits they earn based on monthly high watermarks, incentivizing patient investments that benefit everyone.": "%s revolutionized copy trading: you can now pool money with other investors into a fund directly managed by a skilled trader of your choice. The trader receives a percentage of the profits they earn based on monthly high watermarks, incentivizing patient investments that benefit everyone.",
@@ -372,5 +373,23 @@
   "Closed Price": "Closed Price",
   "Entry Time": "Entry Time",
   "Closed Time": "Closed Time",
-  "X": "X"
+  "X": "X",
+  "Your account has been synchronized to the new system. To ensure your data is safe and secure, please change your password to continue using the service.": "Your account has been synchronized to the new system. To ensure your data is safe and secure, please change your password to continue using the service.",
+  "Old password": "Old password",
+  "Your password has been changed successfully. Please use your new password to log in next time.": "Your password has been changed successfully. Please use your new password to log in next time.",
+  "Password Changed Successfully": "Password Changed Successfully",
+  "There was an error changing your password. Please try again later or contact support if the issue persists.": "There was an error changing your password. Please try again later or contact support if the issue persists.",
+  "Password Change Failed": "Password Change Failed",
+  "Please Enter Old Password": "Please Enter Old Password",
+  "invalid password": "invalid password",
+  "The two passwords are inconsistent. Please try again.": "The two passwords are inconsistent. Please try again.",
+  "Invalid verification code": "Invalid verification code",
+  "Verification Email Code Failed": "Verification Email Code Failed",
+  "There was an error sending the verification code.": "There was an error sending the verification code.",
+  "Verification Code": "Verification Code",
+  "Login History": "Login History",
+  "Time": "Time",
+  "Status": "Status",
+  "Device": "Device",
+  "IP Address": "IP Address"
 }

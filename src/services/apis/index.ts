@@ -26,6 +26,7 @@ import {
   Order,
   Position,
   PublicCopyMasterDetail,
+  RequestPasswordChangePayload,
   SpeTransaction,
   SymbolConfig,
   Trade,
@@ -101,9 +102,7 @@ export function fetchOrderBooks(symbol: string) {
 export async function fetchAllMarketInformation() {
   return _fetchAndCache("market.information", _fetch);
   function _fetch() {
-    return getApi<MarketInformation[]>(
-      "/api/market/information/all",
-    );
+    return getApi<MarketInformation[]>("/api/market/information/all");
   }
 }
 
@@ -275,11 +274,22 @@ export function updateUserApi(
     ...payload,
   });
 }
+export function requestChangePasswordApi(
+  payload: RequestPasswordChangePayload,
+) {
+  return axios.post("/api/auth/change-password/force", {
+    ...payload,
+  });
+}
+
+export function loginHistoryApi() {
+  return axios.get("/api/me/login-history");
+}
 
 export function generateMfaApi() {
-  return axios.post<{ result: GenerateMfaLink }>(
-    "/api/me/generate/mfa",
-  );
+  return axios
+    .post<{ result: GenerateMfaLink }>("/api/me/generate/mfa")
+    .then((res) => res.data.result);
 }
 type VerifyCodeType =
   | "EMAIL"
@@ -558,7 +568,8 @@ export async function fetchCopyOrders(
 ) {
   const base = "/api/copy/mine/orders";
   return getApi<{ orders: CopyOrder[] }>(
-    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${limit || 10
+    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
+      limit || 10
     }`,
   ).then((res) => res.orders);
 }
@@ -570,7 +581,8 @@ export async function fetchCopyTransactions(
 ) {
   const base = "/api/copy/master/me/transactions";
   return getApi<{ transactions: CopyTransaction[] }>(
-    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${limit || 10
+    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
+      limit || 10
     }`,
   ).then((res) => res.transactions);
 }
@@ -582,7 +594,8 @@ export async function fetchMasterCopyOrders(
 ) {
   const base = "/api/copy/master/me/orders";
   return getApi<{ orders: CopyOrder[] }>(
-    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${limit || 10
+    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
+      limit || 10
     }`,
   ).then((res) => res.orders);
 }
@@ -656,7 +669,7 @@ export async function login({
   mobile?: string;
   email?: string;
   mfaCode?: string;
-}): Promise<{ token: string }> {
+}): Promise<{ token: string; forceChangePassword: boolean }> {
   try {
     const res = await axios.post("/api/login", {
       type: email ? 1 : 2,
@@ -667,7 +680,7 @@ export async function login({
     });
     const token = res.data?.result?.token;
     if (token) {
-      return { token };
+      return res.data?.result;
     } else {
       throw new Error(res.data.message || "Token not found");
     }

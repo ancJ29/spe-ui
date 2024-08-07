@@ -420,3 +420,17 @@ export type GenerateMfaLink = {
   path: string;
   secret: string;
 };
+
+export type RequestPasswordChangePayload = {
+  oldPassword: string;
+  newPassword: string;
+  verificationCode: string;
+  userId: string;
+};
+
+export type LoginHistory = {
+  ip: string;
+  timestamp: number;
+  userAgent: string;
+  status: string;
+};

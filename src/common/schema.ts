@@ -137,6 +137,7 @@ export const authenticationPayloadSchema = z.object({
   emailVerified: booleanSchema,
   mobileVerified: booleanSchema,
   hasMfa: booleanSchema,
+  hasAntiPhishingCode: booleanSchema,
   kycLevel: numberSchema.int().positive().min(0).max(4),
   email: optionalStringSchema,
   mobile: optionalStringSchema,
@@ -296,3 +297,13 @@ export const updateUserPayloadSchema = z
   })
   .partial()
   .required({ type: true });
+
+export const verificationCodeSchema = z
+  .string()
+  .length(6)
+  .transform((val) => {
+    if (isNaN(Number(val))) {
+      throw new Error("Verification code error");
+    }
+    return val.toUpperCase();
+  });

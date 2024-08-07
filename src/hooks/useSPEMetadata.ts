@@ -9,12 +9,8 @@ export default function useSPEMetadata() {
   useEffect(() => {
     if (localStorage.__INFORMATION__) {
       try {
-        const data = JSON.parse(localStorage.__INFORMATION__) as Application;
-        if (data?.applications?.name) {
-          setData(data);
-          localStorage.__APP_NAME__ = data.applications.name;
-        }
-
+        const data = JSON.parse(localStorage.__INFORMATION__);
+        setData(data);
       } catch (e) {
         logger.error(e);
         delete localStorage.__INFORMATION__;

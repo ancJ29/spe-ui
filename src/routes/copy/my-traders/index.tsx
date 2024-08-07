@@ -14,6 +14,7 @@ import {
   SPETableHeader,
   SPETableNumber,
 } from "@/ui/SPEMisc";
+import { valueColor } from "@/utils/utility";
 import { Box, Flex, Table, TableData, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import {
@@ -64,6 +65,7 @@ export default function MyTraders() {
             {t("Assets (USDT)")}
           </Text>
           <SPETableNumber
+            decimalPlaces={2}
             key={`${trader.masterAccountId}.asset`}
             value={trader.asset}
           />
@@ -73,6 +75,8 @@ export default function MyTraders() {
             {t("NetPnL (USDT)")}
           </Text>
           <SPETableNumber
+            decimalPlaces={2}
+            color={valueColor(trader.netPnL)}
             key={`${trader.masterAccountId}.netPnL`}
             value={trader.netPnL}
           />
@@ -82,6 +86,7 @@ export default function MyTraders() {
             {t("Copied Positions")}
           </Text>
           <SPETableNumber
+            decimalPlaces={2}
             key={`${trader.masterAccountId}.totalPositions`}
             value={trader.totalPositions}
           />
@@ -91,6 +96,7 @@ export default function MyTraders() {
             {t("Investment")}
           </Text>
           <SPETableNumber
+            decimalPlaces={2}
             key={`${trader.masterAccountId}.invested`}
             value={trader.invested}
           />
@@ -100,6 +106,7 @@ export default function MyTraders() {
             {t("Withdraw")}
           </Text>
           <SPETableNumber
+            decimalPlaces={2}
             key={`${trader.masterAccountId}.withdraw`}
             value={trader.withdraw}
           />
@@ -109,6 +116,7 @@ export default function MyTraders() {
             {t("Withdrawable")}
           </Text>
           <SPETableNumber
+            decimalPlaces={2}
             key={`${trader.masterAccountId}.withDrawable`}
             value={trader.withDrawable}
           />

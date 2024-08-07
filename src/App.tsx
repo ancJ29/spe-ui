@@ -37,9 +37,7 @@ export default function App() {
     if (loaded) {
       return;
     }
-    if (!localStorage.__APP_NAME__) {
-      localStorage.__APP_NAME__ = "Crypto Copy Invest";
-    }
+    localStorage.__APP_NAME__ = "Crypto Copy Invest";
     if (localStorage.__TOKEN__) {
       _getMe()
         .catch((e) => {

@@ -1,4 +1,9 @@
-import { generateMfaApi, updateUserApi } from "@/services/apis";
+// cspell:ignore totp
+import {
+  generateMfaApi,
+  getMe,
+  updateUserApi,
+} from "@/services/apis";
 import authStore from "@/store/auth";
 import { GenerateMfaLink, UserUpdateType } from "@/types";
 import { error, success } from "@/utils/notifications";
@@ -15,7 +20,7 @@ import {
 } from "react";
 import useSPETranslation from "./useSPETranslation";
 
-const SECONDS = 54;
+const SECONDS = 60;
 
 type FormType = `${UserUpdateType}`;
 
@@ -58,7 +63,10 @@ const INITIAL_DATA: Record<string, string[]> = {
   ],
 };
 
-const useSPEUserSettings = <T>(type: FormType) => {
+const useSPEUserSettings = <T>(
+  type: FormType,
+  onSuccess?: () => void,
+) => {
   const t = useSPETranslation();
   const [loading, setLoading] = useState(false);
   const [seconds1, setSeconds1] = useState(SECONDS);
@@ -90,15 +98,17 @@ const useSPEUserSettings = <T>(type: FormType) => {
 
   const { me } = authStore();
 
-  const isHasMfa = useMemo(() => {
-    return Boolean(me?.hasMfa) === true;
-  }, [me]);
-
   const otpAuth = useMemo(() => {
     const secret = linkMfa?.secret ?? ""; // cspell: disable-line
     const label = linkMfa?.label ?? "";
     return {
-      value: generateUri2FA("totp", label, secret, "spe", "100"), // cspell: disable-line
+      value: generateUri2FA(
+        "totp",
+        label,
+        secret,
+        localStorage.__APP_NAME__ || "",
+        "100",
+      ),
       secret,
       label,
     };
@@ -121,10 +131,11 @@ const useSPEUserSettings = <T>(type: FormType) => {
   }, []);
 
   const generateMfaLink = useCallback(() => {
-    generateMfaApi().then((res) => {
-      if (res.data?.result) {
-        setLinkMfa(res.data?.result);
-      }
+    generateMfaApi().then((result) => {
+      // if (IS_DEV) {
+      //   result.secret = "J7GUX5RAUHDHFF7BMYUQFXSZTMDV3FML"; // cspell: disable-line
+      // }
+      setLinkMfa(result);
     });
   }, []);
 
@@ -144,8 +155,12 @@ const useSPEUserSettings = <T>(type: FormType) => {
         .then((res) => {
           if (res.data?.result?.success) {
             success(t(titleS), t(msgS));
-
             form.setValues(form.values);
+            getMe().then((me) => authStore.getState().setMe(me));
+            setTimeout(() => {
+              window.location.href = "/user";
+            }, 1000);
+            onSuccess?.();
           } else {
             error(t(titleF), t(msgF));
           }
@@ -154,7 +169,7 @@ const useSPEUserSettings = <T>(type: FormType) => {
           setLoading(false);
         });
     },
-    [t, type],
+    [t, type, onSuccess],
   );
 
   const submit = useCallback(
@@ -184,7 +199,6 @@ const useSPEUserSettings = <T>(type: FormType) => {
     startSending2,
     submit,
     type,
-    isHasMfa,
     me,
     SECONDS,
     interval1,

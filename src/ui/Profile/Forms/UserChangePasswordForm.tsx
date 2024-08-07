@@ -1,4 +1,6 @@
 import useSPEUserSettings from "@/hooks/useSPEUserSettings";
+import authStore from "@/store/auth";
+import { error } from "@/utils/notifications";
 import { passwordSchemaValidate } from "@/utils/validates";
 import {
   Alert,
@@ -20,7 +22,7 @@ export function UserChangePasswordForm() {
     currentPassword: string;
     password: string;
     newPassword: string;
-  }>("UPDATE_PASSWORD");
+  }>("UPDATE_PASSWORD", _logout);
 
   const form = useForm({
     mode: "uncontrolled",
@@ -29,7 +31,6 @@ export function UserChangePasswordForm() {
       password: "",
       newPassword: "",
     },
-    // validateInputOnChange: true,
 
     validate: {
       currentPassword: (value) =>
@@ -66,9 +67,20 @@ export function UserChangePasswordForm() {
           mx={"auto"}
         >
           <form
-            onSubmit={(e) =>
-              submit(e, form, omit(form.getValues(), ["newPassword"]))
-            }
+            onSubmit={(e) => {
+              if (form.values.newPassword !== form.values.password) {
+                error(
+                  t("Password not match"),
+                  t("Password not match"),
+                );
+                return;
+              }
+              submit(
+                e,
+                form,
+                omit(form.getValues(), ["newPassword"]),
+              );
+            }}
           >
             <SimpleGrid
               cols={1}
@@ -129,4 +141,11 @@ export function UserChangePasswordForm() {
       </Center>
     </>
   );
+}
+
+function _logout() {
+  setTimeout(() => {
+    authStore.getState().logout(false);
+    window.location.href = "/login";
+  }, 2e3);
 }

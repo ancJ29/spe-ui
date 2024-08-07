@@ -289,10 +289,7 @@ function CardsIntro() {
                 variant="gradient"
                 gradient={{ from: "primary", to: "yellow", deg: 90 }}
                 onClick={() => {
-                  window.open(
-                    "https://omtrade.zendesk.com/hc/en-us/articles/8210959682319-OMTrade-Referral-Program",
-                    "_blank",
-                  );
+                  window.open("/referral-program", "_blank");
                 }}
               >
                 {t("Start Inviting")}
@@ -303,7 +300,7 @@ function CardsIntro() {
         </Card>
         <Card radius="md">
           <Flex direction={"column"} h={"100%"}>
-            {/* <Highlight
+            <Highlight
               ta="left"
               highlight={["10% profit sharing"]}
               highlightStyles={{
@@ -319,15 +316,12 @@ function CardsIntro() {
               {t(
                 "Earn up to 10% profit sharing effortlessly with the Promoter referral link",
               )}
-            </Highlight> */}
+            </Highlight>
             <Space my={"md"} />
             <Box mt={"auto"}>
               <Button
                 onClick={() => {
-                  window.open(
-                    "https://omtrade.zendesk.com/hc/en-us/articles/8154033854095-Beginner-s-Guide-for-Copy-Trading-Referrals",
-                    "_blank",
-                  );
+                  window.open("/referer", "_blank");
                 }}
                 variant="gradient"
                 gradient={{ from: "primary", to: "yellow", deg: 90 }}

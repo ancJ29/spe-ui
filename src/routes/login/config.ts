@@ -14,6 +14,6 @@ export function convertToLoginFormData(formData: LoginFormData) {
     type: 2,
     mobile: extractPhoneNumber(formData.mobile),
     password: formData.mobile?.password || "",
-    mfaCode: formData.mobile?.mfaCode || "111111", // TODO: remove this
+    mfaCode: formData.mobile?.mfaCode || "", // TODO: remove this
   } as LoginPayload;
 }

@@ -9,7 +9,7 @@ interface AuthState {
   me?: AuthenticationPayload;
   displayName?: string;
   avatar?: string;
-  logout: () => void;
+  logout: (_?: boolean) => void;
   setMe: (me: AuthenticationPayload) => void;
 }
 
@@ -25,12 +25,12 @@ const authStore = create<AuthState>((set) => ({
         me?.nickName || masking(me?.email || me?.mobile || ""),
     });
   },
-  logout: () => {
+  logout: (reload = true) => {
     delete localStorage.__TOKEN__;
     delete sessionStorage.__TOKEN__;
     sessionStorage.clear();
     set((state) => ({ ...state, token: undefined, me: undefined }));
-    window.location.reload();
+    reload && window.location.reload();
   },
 }));
 

@@ -255,7 +255,7 @@ const configs: Config[] = [
     wrapper: "ServiceWrapper",
   },
   {
-    path: "/induction",
+    path: "/referer",
     element: "CopyTradingReferrals",
     wrapper: "ServiceWrapper",
   },

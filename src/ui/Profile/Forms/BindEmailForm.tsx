@@ -2,6 +2,7 @@ import useSPETranslation from "@/hooks/useSPETranslation";
 import useSPEUserSettings from "@/hooks/useSPEUserSettings";
 import { sendVerifyCode } from "@/services/apis";
 import logger from "@/services/logger";
+import authStore from "@/store/auth";
 import { error } from "@/utils/notifications";
 import { maskEmail } from "@/utils/utility";
 import {
@@ -35,11 +36,11 @@ import { BindPhoneModal } from "./BindPhoneForm";
 
 export function BindEmailForm() {
   const t = useSPETranslation();
-  const { isHasMfa } = useSPEUserSettings("ADD_EMAIL");
+  const { me } = authStore();
+
   const openModal = () => {
-    const isDebug = false;
-    if (isHasMfa) {
-      isDebug ? openModalEmail() : openModalPending();
+    if (me?.hasMfa) {
+      openModalEmail();
     } else {
       openModalPending();
     }
@@ -79,6 +80,7 @@ export function BindEmailForm() {
         onClick={openModal}
         variant="gradient"
         miw={150}
+        disabled
         px={"xs"}
         gradient={{ from: "orange", to: "yellow", deg: 90 }}
       >
@@ -181,7 +183,7 @@ export function EmailBindModal() {
     setSeconds2(SECONDS);
     sendVerifyCode("EMAIL").then((res) => {
       if (res.data?.result?.success) {
-        interval1.start();
+        interval2.start();
       } else {
         error(
           t("Verification Current Email Code Failed"),
@@ -211,7 +213,7 @@ export function EmailBindModal() {
               icon={<IconInfoCircle />}
             >
               {t(
-                "he withdrawal function will be disabled for 24 hours after you change your email.",
+                "The withdrawal function will be disabled for 24 hours after you change your email.",
                 localStorage.__APP_NAME__,
               )}
             </Alert>
@@ -221,7 +223,7 @@ export function EmailBindModal() {
               {...form.getInputProps("email")}
             />
             <TextInput
-              label={t("New Email Verification")}
+              label={t("New Email Verification Code")}
               rightSectionWidth={60}
               rightSection={
                 <Flex px={10} w={"100%"}>

@@ -1,5 +1,7 @@
-import { t as _t } from "@/common/utils";
+import { verificationCodeSchema } from "@/common/schema";
+import { t as _t, t } from "@/common/utils";
 import { getDictionary } from "@/services/languages";
+import logger from "@/services/logger";
 import { z } from "zod";
 
 const dictionary = getDictionary();
@@ -39,6 +41,21 @@ export const passwordSchemaValidate = () => {
     });
 };
 
+export function _validateVerificationCode(
+  value: string | number | undefined,
+) {
+  if (value === "") {
+    return null;
+  }
+  try {
+    verificationCodeSchema.parse(value);
+    return null;
+  } catch (error) {
+    logger.error(error);
+    return t(dictionary, "Invalid verification code");
+  }
+}
+
 export const antiPhishingCodeValidate = () => {
   return z
     .string()
@@ -47,8 +64,11 @@ export const antiPhishingCodeValidate = () => {
 };
 
 export const emailVerificationCodeValidate = () => {
+  z.string().min(6).max(8);
   return z
     .string()
+    .min(6)
+    .max(20)
     .min(6, { message: _t(dictionary, "Verification code error") })
     .max(8, { message: _t(dictionary, "Verification code error") });
 };

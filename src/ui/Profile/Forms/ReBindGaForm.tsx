@@ -3,7 +3,7 @@ import { sendVerifyCode } from "@/services/apis";
 import logger from "@/services/logger";
 import authStore from "@/store/auth";
 import { error } from "@/utils/notifications";
-import { maskEmail } from "@/utils/utility";
+import { maskEmail, maskPhone } from "@/utils/utility";
 import {
   emailVerificationCodeValidate,
   requiredFieldValidate,
@@ -37,6 +37,7 @@ export function ReBindGaForm() {
   } = useSPEUserSettings<{
     oldMfaCode: string;
     mfaCode: string;
+    verificationCode: string;
     mfaSecret: string;
   }>("UPDATE_MFA");
 
@@ -52,10 +53,19 @@ export function ReBindGaForm() {
       oldMfaCode: "",
       mfaCode: "",
       mfaSecret: "",
+      verificationCode: "",
     },
-    // validateInputOnChange: true,
 
     validate: {
+      verificationCode: (value) => {
+        try {
+          emailVerificationCodeValidate().parse(value);
+          return null;
+        } catch (error) {
+          logger.error(error);
+          return "Invalid code";
+        }
+      },
       oldMfaCode: (value) => {
         try {
           emailVerificationCodeValidate().parse(value);
@@ -87,7 +97,7 @@ export function ReBindGaForm() {
   });
   const startSending = () => {
     setSeconds1(SECONDS);
-    sendVerifyCode("EMAIL").then((res) => {
+    sendVerifyCode(me?.email ? "EMAIL" : "MOBILE").then((res) => {
       if (res.data?.result?.success) {
         interval1.start();
       } else {
@@ -182,7 +192,7 @@ export function ReBindGaForm() {
             title={
               <Box mb={20}>
                 <Title order={3} mb={"20px"}>
-                  {t("検証")}
+                  {t("Verification")}{" "}
                 </Title>
               </Box>
             }
@@ -208,8 +218,8 @@ export function ReBindGaForm() {
               <TextInput
                 label={t("New Google Authenticator Code")}
                 placeholder={t("Enter 6-digit code")}
-                key={form.key("oldMfaCode")}
-                {...form.getInputProps("oldMfaCode")}
+                key={form.key("mfaCode")}
+                {...form.getInputProps("mfaCode")}
               />
             </Box>
           </Timeline.Item>
@@ -238,10 +248,22 @@ export function ReBindGaForm() {
                 width: "100%",
               }}
             >
-              <form onSubmit={(e) => submit(e, form)}>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  form.setValues({
+                    ...form.getValues(),
+                    mfaSecret: otpAuth.secret,
+                  });
+                  submit(e, form);
+                }}
+              >
                 <Box>
                   <Space my={"md"} />
                   <TextInput
+                    style={{
+                      display: me?.email ? undefined : "none",
+                    }}
                     label={`Current Email Verification（${maskEmail(
                       me?.email ?? "",
                     )}）`}
@@ -260,15 +282,40 @@ export function ReBindGaForm() {
                         </Button>
                       </Flex>
                     }
-                    key={form.key("mfaCode")}
-                    {...form.getInputProps("mfaCode")}
+                    key={form.key("verificationCode")}
+                    {...form.getInputProps("verificationCode")}
+                  />
+                  <TextInput
+                    style={{
+                      display: me?.email ? "none" : undefined,
+                    }}
+                    label={`Current Mobile Verification（${maskPhone(
+                      me?.mobile ?? "",
+                    )}）`}
+                    placeholder={t("Enter the verification code")}
+                    rightSectionWidth={60}
+                    rightSection={
+                      <Flex px={10} w={"100%"}>
+                        <Button
+                          disabled={interval1.active}
+                          p={0}
+                          variant="transparent"
+                          onClick={startSending}
+                        >
+                          {!interval1.active && t("Send")}
+                          {interval1.active && `${seconds1}s`}
+                        </Button>
+                      </Flex>
+                    }
+                    key={form.key("verificationCode")}
+                    {...form.getInputProps("verificationCode")}
                   />
                   <Space my={"md"} />
                   <TextInput
                     label={t("Old Google Authentication Code")}
                     placeholder={t("Enter code")}
-                    key={form.key("mfaSecret")}
-                    {...form.getInputProps("mfaSecret")}
+                    key={form.key("oldMfaCode")}
+                    {...form.getInputProps("oldMfaCode")}
                   />
                   <Space my={"md"} />
                   <Button

@@ -1,3 +1,4 @@
+import { cleanObj } from "@/common/utils";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import { checkMfa, login } from "@/services/apis";
 import logger from "@/services/logger";
@@ -31,7 +32,11 @@ type Mode = "email" | "phone";
 export default function LoginForm({
   onSuccess,
 }: {
-  onSuccess: (res: { token: string }) => void;
+  onSuccess: (res: {
+    token: string;
+    userId?: string;
+    forceChangePassword?: boolean;
+  }) => void;
 }) {
   const t = useSPETranslation();
   const [loginMode, setLoginMode] = useState<Mode>("email");
@@ -305,7 +310,7 @@ type LoginForm = {
 };
 
 function transformValues(values: LoginForm) {
-  return {
+  return cleanObj({
     email: values.email?.toString().trim() || undefined,
     mobile:
       convertToInternationalFormatPhoneNumber({
@@ -313,9 +318,9 @@ function transformValues(values: LoginForm) {
         phoneLocale: values.region || "+81 Japan",
       }) || undefined,
     password: values.password.toString().trim(),
-    mfaCode: "111111",
+    mfaCode: values.mfaCode?.toString().trim(),
     region: values.region?.toString().trim(),
-  };
+  });
 }
 
 const phoneRegex = new RegExp(

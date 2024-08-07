@@ -47,6 +47,7 @@ export function BindPhoneForm() {
         variant="gradient"
         miw={150}
         px={"xs"}
+        disabled
         gradient={{ from: "orange", to: "yellow", deg: 90 }}
       >
         {t("Bind Phone")}

@@ -1,4 +1,5 @@
 import useSPETranslation from "@/hooks/useSPETranslation";
+import logger from "@/services/logger";
 import { Header } from "@/ui/Header";
 import {
   Box,
@@ -11,13 +12,42 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { useMediaQuery } from "usehooks-ts";
+import { useMediaQuery } from "@mantine/hooks";
+import { modals } from "@mantine/modals";
+import { useCallback } from "react";
+import { ForceChangePasswordForm } from "./ForceChangePasswordForm";
 import LoginForm from "./form";
 import classes from "./login.module.scss";
 
 const Login = () => {
   const t = useSPETranslation();
   const isMobile = useMediaQuery("(max-width: 768px)");
+
+  const onLoginSuccess = useCallback(
+    (res: {
+      token: string;
+      userId?: string;
+      forceChangePassword?: boolean;
+    }) => {
+      if (res.forceChangePassword) {
+        res.token = "";
+        logger.debug("Force Change Password", res);
+        modals.open({
+          title: t("Reset Password"),
+          centered: true,
+          closeOnClickOutside: false,
+          padding: "lg",
+          size: "lg",
+          children: (
+            <ForceChangePasswordForm userId={res.userId || ""} />
+          ),
+        });
+      } else {
+        _authenticated(res);
+      }
+    },
+    [t],
+  );
 
   return (
     <>
@@ -44,7 +74,7 @@ const Login = () => {
                   </Title>
                   <Space h={30} />
                   <Box w={isMobile ? "80vw" : undefined}>
-                    <LoginForm onSuccess={_authenticated} />
+                    <LoginForm onSuccess={onLoginSuccess} />
                   </Box>
                 </Card>
                 <Group justify="center" my={"lg"}>

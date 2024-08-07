@@ -2,11 +2,9 @@ import useSPETranslation from "@/hooks/useSPETranslation";
 import useSPEUserSettings from "@/hooks/useSPEUserSettings";
 import { sendVerifyCode } from "@/services/apis";
 import logger from "@/services/logger";
+import authStore from "@/store/auth";
 import { error } from "@/utils/notifications";
-import {
-  antiPhishingCodeValidate,
-  emailVerificationCodeValidate,
-} from "@/utils/validates";
+import { _validateVerificationCode } from "@/utils/validates";
 import {
   Alert,
   Box,
@@ -20,6 +18,7 @@ import {
 import { useForm } from "@mantine/form";
 import { modals } from "@mantine/modals";
 import { IconInfoCircle } from "@tabler/icons-react";
+import { z } from "zod";
 
 export function AntiPhishingCodeSettingsForm() {
   const t = useSPETranslation();
@@ -46,6 +45,11 @@ export function AntiPhishingCodeSettingsForm() {
   );
 }
 
+type AntiPhishingCodeSettingsFormType = {
+  antiPhishingCode: string;
+  verificationCode?: string;
+  mfaCode?: string;
+};
 export function AntiPhishingCodeSettingsModal() {
   const {
     loading,
@@ -54,37 +58,31 @@ export function AntiPhishingCodeSettingsModal() {
     setSeconds1,
     interval1,
     SECONDS,
-  } = useSPEUserSettings<{
-    mfaCode: string;
-    verificationCode: string;
-  }>("UPDATE_ANTI_PHISHING_CODE");
+  } = useSPEUserSettings<AntiPhishingCodeSettingsFormType>(
+    "UPDATE_ANTI_PHISHING_CODE",
+  );
   const t = useSPETranslation();
+  const { me } = authStore();
 
-  const form = useForm({
+  const form = useForm<AntiPhishingCodeSettingsFormType>({
     mode: "uncontrolled",
     initialValues: {
-      mfaCode: "",
-      verificationCode: "",
+      antiPhishingCode: "",
+      verificationCode: me?.hasMfa ? undefined : "",
+      mfaCode: me?.hasMfa ? "" : undefined,
     },
-    // validateInputOnChange: true,
-
     validate: {
-      verificationCode: (value) => {
+      mfaCode: me?.hasMfa ? _validateVerificationCode : undefined,
+      verificationCode: me?.hasMfa
+        ? undefined
+        : _validateVerificationCode,
+      antiPhishingCode: (value) => {
         try {
-          emailVerificationCodeValidate().parse(value);
+          z.string().min(2).max(20).parse(value);
           return null;
         } catch (error) {
           logger.error(error);
-          return t("Invalid verification code");
-        }
-      },
-      mfaCode: (value) => {
-        try {
-          antiPhishingCodeValidate().parse(value);
-          return null;
-        } catch (error) {
-          logger.error(error);
-          return t("Invalid mfa code");
+          return t("Invalid anti phishing code");
         }
       },
     },
@@ -133,10 +131,18 @@ export function AntiPhishingCodeSettingsModal() {
               description={t(
                 "Enter numbers and letters only. 20 characters max.",
               )}
+              key={form.key("antiPhishingCode")}
+              {...form.getInputProps("antiPhishingCode")}
+            />
+            <TextInput
+              style={{ display: me?.hasMfa ? undefined : "none" }}
+              label={t("Google Authentication")}
+              rightSectionWidth={60}
               key={form.key("mfaCode")}
               {...form.getInputProps("mfaCode")}
             />
             <TextInput
+              style={{ display: me?.hasMfa ? "none" : undefined }}
               label={t("Current Email Verification")}
               rightSectionWidth={60}
               rightSection={
