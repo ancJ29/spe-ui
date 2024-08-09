@@ -1,5 +1,6 @@
 import { PROFILE_IMAGE_PREFIX } from "@/common/configs";
 import logger from "@/services/logger";
+import { format, subDays } from "date-fns";
 import debounce from "lodash/debounce";
 
 export function reloadWindow(delay = 500) {
@@ -133,4 +134,21 @@ export function convertToInternationalFormatPhoneNumber({
     : phone;
 
   return `${countryCode}${formattedPhone}`;
+}
+
+export function getDatesArray(time: number, total: number) {
+  const dates = [];
+  const currentDate = new Date(time);
+  const excludedDates = [format(subDays(currentDate, 2), "dd/MM")];
+
+  for (let i = 0; i < total; i++) {
+    const newDate = subDays(currentDate, i);
+    const formattedDate = format(newDate, "dd/MM");
+
+    if (!excludedDates.includes(formattedDate)) {
+      dates.unshift(formattedDate);
+    }
+  }
+
+  return dates;
 }

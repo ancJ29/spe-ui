@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
+import { priceDisplay } from "@/common/utils";
 import { MODAL_STYLES } from "@/domain/config";
 import useSPETranslation from "@/hooks/useSPETranslation";
-import { fetchFollowerInformation, fetchMasterTraders, fetchTrader } from "@/services/apis";
+import { fetchMasterTraders, fetchTrader } from "@/services/apis";
 import logger from "@/services/logger";
 import authStore from "@/store/auth";
 import {
@@ -12,12 +13,13 @@ import AppButton from "@/ui/Button/AppButton";
 import AppCard from "@/ui/Card/AppCard";
 import AppChart from "@/ui/Chart/Chart";
 import { CopySettingForm } from "@/ui/Copy";
+import NumberFormat from "@/ui/NumberFormat";
 import { OptionFilter } from "@/ui/OptionFilter";
 import AppPill from "@/ui/Pill/AppPill";
 import { AppPopover } from "@/ui/Popover/AppPopover";
+import { NoDataRecord } from "@/ui/SPEMisc";
 import AppText from "@/ui/Text/AppText";
-import { shuffleArray } from "@/utils";
-import { avatarUrl } from "@/utils/utility";
+import { avatarUrl, getDatesArray } from "@/utils/utility";
 import {
   Avatar,
   Box,
@@ -27,15 +29,15 @@ import {
   Flex,
   Grid,
   Group,
-  Pagination,
   Progress,
   SegmentedControl,
-  Select,
   SimpleGrid,
   Space,
   Table,
   TableData,
   Tabs,
+  Text,
+  Title,
 } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import {
@@ -47,13 +49,9 @@ import {
   IconShare,
   IconStar,
 } from "@tabler/icons-react";
-import _ from "lodash";
 import { Fragment, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getSeriesValue } from "./config";
 import "./index.module.scss";
-import NumberFormat from "@/ui/NumberFormat";
-import { getDatesArray, priceDisplay } from "@/common/utils";
 
 export default function CopyTradeDetail() {
   const params = useParams();
@@ -577,7 +575,6 @@ function Banner(trader: PublicCopyMasterDetail) {
   );
 }
 
-
 type filterTimeType = "7D" | "30D" | "90D";
 function Performance(props: PublicCopyMasterDetail) {
   const t = useSPETranslation();
@@ -594,38 +591,56 @@ function Performance(props: PublicCopyMasterDetail) {
   }, [props, time]);
 
   const performanceItems = useMemo(() => {
-    const { pToL, pnlRatio, totalTrades, avgHoldingTime, volatility } = data;
+    const {
+      pToL,
+      pnlRatio,
+      totalTrades,
+      avgHoldingTime,
+      volatility,
+    } = data;
     return [
       [
         "Profit-to-Loss Ratio",
         <>
-          <NumberFormat value={pToL} />:<NumberFormat value={pnlRatio} />
+          <NumberFormat value={pToL} />:
+          <NumberFormat value={pnlRatio} />
         </>,
         "The ratio of average profit per winning order to average loss per losing order.",
       ],
       [
         "Weekly Trades",
-        <><NumberFormat value={totalTrades} /></>,
+        <>
+          <NumberFormat value={totalTrades} />
+        </>,
         "The average number of trades the Master Trader made weekly in the last month.",
       ],
       [
         "Avg. Holding Time",
-        <><NumberFormat value={avgHoldingTime} />Days</>,
+        <>
+          <NumberFormat value={avgHoldingTime} />
+          Days
+        </>,
         "The average position holding period of all closed positions",
       ],
       [
         "ROI Volatility",
-        <><NumberFormat value={volatility} prefix={"%"} /></>,
+        <>
+          <NumberFormat value={volatility} prefix={"%"} />
+        </>,
         "Higher value indicates less stable returns.",
       ],
       [
         "Sharpe Ratio",
-        <><NumberFormat value={0} /></>,
+        <>
+          <NumberFormat value={0} />
+        </>,
         "Higher value indicates better returns at same level of ROI volatility.",
       ],
       [
         "Sortino Ratio",
-        <><NumberFormat value={0} /></>,
+        <>
+          <NumberFormat value={0} />
+        </>,
         "Higher value indicates better returns at same level of risk of loss.",
       ],
       [
@@ -643,7 +658,7 @@ function Performance(props: PublicCopyMasterDetail) {
           {t("Performance")}
         </AppText>
         <OptionFilter
-          onChange={v => setTime(v as filterTimeType)}
+          onChange={(v) => setTime(v as filterTimeType)}
           value={time}
           items={[
             {
@@ -690,8 +705,15 @@ function Performance(props: PublicCopyMasterDetail) {
               ),
             })}
           ></AppPopover>
-          <AppText instancetype="withPriceLong" c={priceDisplay(data.roi).color}>
-            <NumberFormat prefix={priceDisplay(data.roi).sub} value={data.roi} suffix="%" />
+          <AppText
+            instancetype="withPriceLong"
+            c={priceDisplay(data.roi).color}
+          >
+            <NumberFormat
+              prefix={priceDisplay(data.roi).sub}
+              value={data.roi}
+              suffix="%"
+            />
           </AppText>
         </div>
         <Flex align={"end"} direction={"column"}>
@@ -720,8 +742,14 @@ function Performance(props: PublicCopyMasterDetail) {
               ),
             })}
           ></AppPopover>
-          <AppText instancetype="withPriceLong" c={priceDisplay(data.avgPnL).color}>
-            <NumberFormat prefix={priceDisplay(data.avgPnL).sub} value={data.avgPnL} />
+          <AppText
+            instancetype="withPriceLong"
+            c={priceDisplay(data.avgPnL).color}
+          >
+            <NumberFormat
+              prefix={priceDisplay(data.avgPnL).sub}
+              value={data.avgPnL}
+            />
           </AppText>
         </Flex>
         <div>
@@ -779,8 +807,15 @@ function Performance(props: PublicCopyMasterDetail) {
               ),
             })}
           ></AppPopover>
-          <AppText instancetype="withPriceLong" c={priceDisplay(data.followerPnL).color}>
-            <NumberFormat prefix={priceDisplay(data.followerPnL).sub} value={data.followerPnL} suffix="%" />
+          <AppText
+            instancetype="withPriceLong"
+            c={priceDisplay(data.followerPnL).color}
+          >
+            <NumberFormat
+              prefix={priceDisplay(data.followerPnL).sub}
+              value={data.followerPnL}
+              suffix="%"
+            />
           </AppText>
         </Flex>
         <div>
@@ -839,8 +874,14 @@ function Performance(props: PublicCopyMasterDetail) {
               ),
             })}
           ></AppPopover>
-          <AppText instancetype="withPriceLong" c={priceDisplay(data.avgPnL).color}>
-            <NumberFormat prefix={priceDisplay(data.avgPnL).sub} value={data.avgPnL} />
+          <AppText
+            instancetype="withPriceLong"
+            c={priceDisplay(data.avgPnL).color}
+          >
+            <NumberFormat
+              prefix={priceDisplay(data.avgPnL).sub}
+              value={data.avgPnL}
+            />
           </AppText>
         </Flex>
       </SimpleGrid>
@@ -872,7 +913,10 @@ function Performance(props: PublicCopyMasterDetail) {
           </AppText>
         </Flex>
         <Box>
-          <Progress value={Math.floor((data.totalWin + data.totalLoss) / 100)} color="green" />
+          <Progress
+            value={Math.floor((data.totalWin + data.totalLoss) / 100)}
+            color="green"
+          />
         </Box>
       </Box>
       <Space mb={20} />
@@ -1074,7 +1118,7 @@ export function Profit() {
     </>
   );
 }
-
+type TradeDataType = "CurrentPosition" | "OrderHistory";
 function TabsUI(props: PublicCopyMasterDetail) {
   const t = useSPETranslation();
   const series = useMemo(() => {
@@ -1083,7 +1127,9 @@ function TabsUI(props: PublicCopyMasterDetail) {
 
   const [value, setValue] = useState("7DPnlP"); // 7DPnlP | 7DPnl | CumulativePnLP | CumulativePnL
   const [valueRate, setValueRate] = useState("7DWinRate"); // 7DWinRate | 7DDrawdown | 7DFollowersPnL
-  
+  const [tradeMode, setTradeMode] =
+    useState<TradeDataType>("CurrentPosition"); // CurrentPosition | OrderHistory
+
   const unitAsLabel = useMemo(() => {
     return {
       pnl: {
@@ -1096,7 +1142,7 @@ function TabsUI(props: PublicCopyMasterDetail) {
         "7DWinRate": "%",
         "7DDrawdown": "%",
         "7DFollowersPnL": "USDT",
-      }[valueRate]
+      }[valueRate],
     };
   }, [value, valueRate]);
 
@@ -1117,6 +1163,115 @@ function TabsUI(props: PublicCopyMasterDetail) {
     }[valueRate];
   }, [valueRate]);
 
+  const tableDataPosition: TableData = useMemo(() => {
+    const rows: any[] = []; // eslint-disable-line
+    // Contract	Order Price	Qty	Margin/Realized PnL	Followers	Time
+    return {
+      head: [
+        "Contract",
+        "Entry Price",
+        "Qty",
+        "Position Margin",
+        "Unrealized PnL(%)",
+        "Followers",
+      ].map((el) => t(el)),
+      body: rows.map((row) => [
+        <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Available")}
+          </Text>
+          <Title order={6}>
+            <NumberFormat decimalPlaces={8} value={row.amount} />
+          </Title>
+          <Text c="dimmed" size="xs">
+            ~ $
+            {<NumberFormat decimalPlaces={3} value={row.usdValue} />}
+          </Text>
+        </>,
+        <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Frozen")}
+          </Text>
+          <Title order={6}>
+            {<NumberFormat decimalPlaces={8} value={row.locked} />}
+          </Title>
+          <Text c="dimmed" size="xs">
+            ~ $
+            {
+              <NumberFormat
+                decimalPlaces={3}
+                value={row.lockedUsdValue}
+              />
+            }
+          </Text>
+        </>,
+        <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("BTC Valuation")}
+          </Text>
+          <Title order={6}>
+            {<NumberFormat decimalPlaces={8} value={row.btcValue} />}
+          </Title>
+        </>,
+      ]),
+    };
+  }, [t]);
+
+  const tableDataHistory: TableData = useMemo(() => {
+    const rows: any[] = []; // eslint-disable-line
+    // Contract	Order Price	Qty	Margin/Realized PnL	Followers	Time
+    return {
+      // Contract	Order Price	Qty	Margin/Realized PnL	Followers	Time
+      head: [
+        "Contract",
+        "Order Price",
+        "Qty",
+        "Margin/Realized PnL",
+        "Followers",
+        "Time",
+      ].map((el) => t(el)),
+      body: rows.map((row) => [
+        <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Available")}
+          </Text>
+          <Title order={6}>
+            <NumberFormat decimalPlaces={8} value={row.amount} />
+          </Title>
+          <Text c="dimmed" size="xs">
+            ~ $
+            {<NumberFormat decimalPlaces={3} value={row.usdValue} />}
+          </Text>
+        </>,
+        <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Frozen")}
+          </Text>
+          <Title order={6}>
+            {<NumberFormat decimalPlaces={8} value={row.locked} />}
+          </Title>
+          <Text c="dimmed" size="xs">
+            ~ $
+            {
+              <NumberFormat
+                decimalPlaces={3}
+                value={row.lockedUsdValue}
+              />
+            }
+          </Text>
+        </>,
+        <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("BTC Valuation")}
+          </Text>
+          <Title order={6}>
+            {<NumberFormat decimalPlaces={8} value={row.btcValue} />}
+          </Title>
+        </>,
+      ]),
+    };
+  }, [t]);
+
   return (
     <>
       <Tabs
@@ -1134,12 +1289,11 @@ function TabsUI(props: PublicCopyMasterDetail) {
       >
         <Tabs.List>
           <Tabs.Tab value="statistics">{t("Statistics")}</Tabs.Tab>
-          {/* <Tabs.Tab value="tradingData">{t("Trading Data")}</Tabs.Tab> */}
+          <Tabs.Tab value="tradingData">{t("Trading Data")}</Tabs.Tab>
         </Tabs.List>
         <Tabs.Panel value="statistics">
           <Space my={"md"} />
           <SegmentedControl
-            fullWidth
             color="primary"
             value={value}
             onChange={setValue}
@@ -1151,7 +1305,7 @@ function TabsUI(props: PublicCopyMasterDetail) {
             ]}
           />
           <Box h={320} w={"100%"} my={20} pos={"relative"}>
-            <AppChart 
+            <AppChart
               key={valueAsLabel}
               instancetype="SingLine"
               chartSeries={[
@@ -1170,18 +1324,16 @@ function TabsUI(props: PublicCopyMasterDetail) {
                 },
                 tooltip: {
                   y: {
-                    formatter: function(value) {
-                      return `${value}${unitAsLabel.pnl as string}`;
+                    formatter: function (value) {
+                      return `${value} ${unitAsLabel.pnl as string}`;
                     },
                   },
-
-                }
+                },
               }}
             />
           </Box>
           <Space my={"md"} />
           <SegmentedControl
-            fullWidth
             color="primary"
             value={valueRate}
             onChange={setValueRate}
@@ -1192,7 +1344,7 @@ function TabsUI(props: PublicCopyMasterDetail) {
             ]}
           />
           <Box h={320} w={"100%"} my={20} pos={"relative"}>
-            <AppChart 
+            <AppChart
               key={`${valueRateAsLabel}`}
               instancetype="SingLine"
               chartSeries={[
@@ -1211,20 +1363,71 @@ function TabsUI(props: PublicCopyMasterDetail) {
                 },
                 tooltip: {
                   y: {
-                    formatter: function(value) {
-                      return `${value}${unitAsLabel.rate as string}`;
+                    formatter: function (value) {
+                      return `${value} ${unitAsLabel.rate as string}`;
                     },
                   },
-                }
+                },
               }}
             />
           </Box>
         </Tabs.Panel>
-
         <Tabs.Panel value="tradingData">
-          <Center h={"45vh"} c={"gray"}>
-            Settings tab content
-          </Center>
+          <Space my={"md"} />
+          <SegmentedControl
+            color="primary"
+            value={tradeMode}
+            onChange={(v) => setTradeMode(v as TradeDataType)}
+            data={[
+              { label: "Current Position", value: "CurrentPosition" },
+              { label: "Order History", value: "OrderHistory" },
+            ]}
+          />
+          <Space my={"md"} />
+          <Box h={"450px"}>
+            {tradeMode === "CurrentPosition" && (
+              <Table.ScrollContainer minWidth={"100%"} h={"100%"}>
+                <Table
+                  data={tableDataPosition}
+                  stickyHeader
+                  highlightOnHover
+                  classNames={{
+                    table: "table-sticky-column table-list-gird-view",
+                  }}
+                  styles={{
+                    th: {
+                      whiteSpace: "nowrap",
+                      fontSize: "12px",
+                    },
+                  }}
+                />
+                {tableDataPosition.body?.length === 0 && (
+                  <NoDataRecord />
+                )}
+              </Table.ScrollContainer>
+            )}
+            {tradeMode === "OrderHistory" && (
+              <Table.ScrollContainer minWidth={"100%"} h={"100%"}>
+                <Table
+                  data={tableDataHistory}
+                  stickyHeader
+                  highlightOnHover
+                  classNames={{
+                    table: "table-sticky-column table-list-gird-view",
+                  }}
+                  styles={{
+                    th: {
+                      whiteSpace: "nowrap",
+                      fontSize: "12px",
+                    },
+                  }}
+                />
+                {tableDataHistory.body?.length === 0 && (
+                  <NoDataRecord />
+                )}
+              </Table.ScrollContainer>
+            )}
+          </Box>
         </Tabs.Panel>
       </Tabs>
     </>

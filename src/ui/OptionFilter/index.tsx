@@ -5,9 +5,9 @@ import {
   MenuProps,
   MenuTargetProps,
 } from "@mantine/core";
-import { ReactNode, useCallback, useEffect, useState } from "react";
-import AppButton from "../Button/AppButton";
 import { IconChevronDown } from "@tabler/icons-react";
+import { ReactNode, useCallback, useState } from "react";
+import AppButton from "../Button/AppButton";
 
 type FilterOption = {
   value: string;
@@ -22,17 +22,20 @@ export function OptionFilter(
     menuProps: MenuProps;
     menuTargetProps: MenuTargetProps;
     menuDropdownProps: MenuDropdownProps;
-    onChange?: (value: string) => void
+    onChange?: (value: string) => void;
   }>,
 ) {
   const [values, setValues] = useState<string>(
     props.label ?? props.value ?? (props?.items?.[0].value as string),
   );
 
-  const onChange = useCallback((value: string) => {
-    setValues(value);
-    props?.onChange && props.onChange(value);
-  }, [setValues, props]);
+  const onChange = useCallback(
+    (value: string) => {
+      setValues(value);
+      props?.onChange && props.onChange(value);
+    },
+    [setValues, props],
+  );
 
   return (
     <>

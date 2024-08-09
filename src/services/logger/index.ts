@@ -30,9 +30,8 @@ function debug(...args: unknown[]) {
 
 function trace(...args: unknown[]) {
   if (logIt) {
-    // eslint-disable-next-line no-console
     isTrace &&
-      console.trace(`[${new Date().toISOString()}]`, ...args);
+      console.trace(`[${new Date().toISOString()}]`, ...args); // eslint-disable-line no-console
   } else {
     // notify to dev
   }

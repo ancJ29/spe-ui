@@ -1,4 +1,5 @@
 import { shuffleArray } from "@/utils";
+import { useMantineColorScheme } from "@mantine/core";
 import ApexCharts, { ApexOptions } from "apexcharts";
 import _, { set } from "lodash";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -380,7 +381,7 @@ const optionsSignLine = (chartId: string): Instance => {
         },
       },
     ],
-   
+
     grid: {
       // show: false,
       strokeDashArray: 2,
@@ -629,7 +630,7 @@ const _props: Partial<InstancePropsByType> = {
   Line: optionsLine(uuidv4()),
   Bar: optionsBar(uuidv4()),
   Pie: optionsPie(uuidv4()),
-  SingLine: optionsSignLine(uuidv4())
+  SingLine: optionsSignLine(uuidv4()),
 };
 
 type InstanceProps = Partial<Custom>;
@@ -637,6 +638,8 @@ type InstanceProps = Partial<Custom>;
 type Series = ApexAxisChartSeries | ApexNonAxisChartSeries;
 
 export default function AppChart(props: InstanceProps) {
+  const { colorScheme } = useMantineColorScheme();
+
   const refChart = useRef<HTMLDivElement>(null);
   const [chartId] = useState<string>(`chart_${uuidv4()}_apex`);
   const [options] = useState<Instance>(
@@ -652,6 +655,21 @@ export default function AppChart(props: InstanceProps) {
   }, [chartId, props.chartOptions]);
 
   useEffect(() => {
+    if (refChart.current) {
+      const _chart = ApexCharts.getChartByID(chartId);
+      const isDark = colorScheme === "dark";
+      if (_chart) {
+        _chart.updateOptions({
+          theme: {
+            mode: isDark ? "dark" : "light",
+          },
+        });
+      }
+    }
+  }, [colorScheme, refChart, chartId]);
+
+  useEffect(() => {
+    const isDark = colorScheme === "dark";
     if (refChart.current != null) {
       const _options = { ...options };
       const ops = set(_options, "chart.id", chartId);
@@ -666,6 +684,9 @@ export default function AppChart(props: InstanceProps) {
         const chart = new ApexCharts(refChart.current, {
           ...ops,
           ...props.chartOptions,
+          theme: {
+            mode: isDark ? "dark" : "light",
+          },
         });
         chart.render().then(() => {
           if (series) {
@@ -674,7 +695,7 @@ export default function AppChart(props: InstanceProps) {
         });
       }
     }
-  }, [chartId, options, props.chartOptions, series]);
+  }, [chartId, options, props.chartOptions, series, colorScheme]);
 
   useEffect(() => {
     updateSeries();
