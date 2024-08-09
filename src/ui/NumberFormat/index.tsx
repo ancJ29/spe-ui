@@ -18,12 +18,12 @@ export default function NumberFormat({
   if (hidden) {
     return <span>****</span>;
   }
-  if (value === undefined) {
+  if (BN.eq(value || 0, 0)) {
     return "--";
   }
   return (
     <span>
-      {`${prefix}${BN.format(value, decimalPlaces)} ${suffix}`}
+      {`${prefix}${BN.format(value || 0, decimalPlaces)} ${suffix}`}
     </span>
   );
 }

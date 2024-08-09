@@ -96,6 +96,7 @@ export function shuffle<T>(arr: T[]) {
     arr[i] = arr[j];
     arr[j] = temp;
   }
+  return arr;
 }
 
 export function unique<T>(arr: T[]) {

@@ -10,7 +10,12 @@ export function LoginHistories() {
   const t = useSPETranslation();
   const tableData = useMemo<TableData>(() => {
     return {
-      head: [t("Time"), t("IP Address"), t("Device"), t("Status")],
+      head: [
+        t("Login Time"),
+        t("IP Address"),
+        t("Device"),
+        t("Login Status"),
+      ],
       body: [
         ...loginHistories.map((r) => [
           <>

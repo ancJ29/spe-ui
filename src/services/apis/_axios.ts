@@ -11,7 +11,7 @@ if (!localStorage.__X_UID__) {
 const axios = _axios.create({
   baseURL: IS_DEV
     ? import.meta.env.APP_API_URL
-    : "https://demo-api.spe-labo.com",
+    : "https://api.cryptocopyinvest.com",
   headers: {
     "Content-type": "application/json",
     "X-UID": localStorage.__X_UID__,

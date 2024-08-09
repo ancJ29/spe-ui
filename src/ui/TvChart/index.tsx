@@ -3,7 +3,9 @@ import { useMantineColorScheme } from "@mantine/core";
 import { ResolutionString } from "public/tv/charting_library";
 import { useEffect, useRef, useState } from "react";
 import dataFeed from "./data-feed";
-type theme = "Light" | "Dark";
+
+type Theme = "Light" | "Dark";
+
 export const TVChart = ({
   base = "BTC",
   quote = "USDT",
@@ -13,7 +15,7 @@ export const TVChart = ({
   base?: string;
   quote?: string;
   isSpot?: boolean;
-  theme?: theme;
+  theme?: Theme;
 }) => {
   const chartContainerRef = useRef(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -42,7 +44,7 @@ export const TVChart = ({
         datafeed: dataFeed(symbol, isSpot),
         interval: "1h" as ResolutionString,
         debug: false,
-        theme: colorScheme as theme,
+        theme: colorScheme as Theme,
         autosize: true,
 
         overrides: {
@@ -62,7 +64,7 @@ export const TVChart = ({
         ],
       });
       wg.onChartReady(() => {
-        wg.changeTheme(colorScheme as theme);
+        wg.changeTheme(colorScheme as Theme);
       });
       setWidget(wg);
       return () => widget && widget.remove();
@@ -71,7 +73,7 @@ export const TVChart = ({
 
   useEffect(() => {
     try {
-      widget?.changeTheme(colorScheme as theme);
+      widget?.changeTheme(colorScheme as Theme);
     } catch (e: unknown) {
       logger.trace(e);
     }

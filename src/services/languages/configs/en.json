@@ -388,8 +388,8 @@
   "There was an error sending the verification code.": "There was an error sending the verification code.",
   "Verification Code": "Verification Code",
   "Login History": "Login History",
-  "Time": "Time",
-  "Status": "Status",
+  "Login Time": "Time",
+  "Login Status": "Status",
   "Device": "Device",
   "IP Address": "IP Address"
 }

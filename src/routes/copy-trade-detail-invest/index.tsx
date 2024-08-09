@@ -15,7 +15,6 @@ import AppChart from "@/ui/Chart/Chart";
 import { CopySettingForm } from "@/ui/Copy";
 import NumberFormat from "@/ui/NumberFormat";
 import { OptionFilter } from "@/ui/OptionFilter";
-import AppPill from "@/ui/Pill/AppPill";
 import { AppPopover } from "@/ui/Popover/AppPopover";
 import { NoDataRecord } from "@/ui/SPEMisc";
 import AppText from "@/ui/Text/AppText";
@@ -400,75 +399,6 @@ function Banner(trader: PublicCopyMasterDetail) {
                           </Flex>
                         </Box>
                       </Flex>
-                      <Space mb={10} />
-                      <Flex gap={8}>
-                        <AppPopover
-                          width={300}
-                          target={(props) => ({
-                            children: (
-                              <div
-                                className="cursor-pointer"
-                                onMouseEnter={props.open}
-                                onMouseLeave={props.close}
-                              >
-                                <AppPill
-                                  instancetype="WithTagSmall"
-                                  c={"#6c8bb8"}
-                                  bg={"rgba(92,135,199,.16)"}
-                                >
-                                  High Leverage
-                                </AppPill>
-                              </div>
-                            ),
-                          })}
-                          dropdown={() => ({
-                            children: (
-                              <>
-                                <AppText fw={"bold"}>
-                                  High Leverage
-                                </AppText>
-                                <AppText instancetype="WithTextTooltip">
-                                  Traders whose average leverage used
-                                  in the last 30 days is above 30X.
-                                </AppText>
-                              </>
-                            ),
-                          })}
-                        ></AppPopover>
-                        <AppPopover
-                          width={300}
-                          target={(props) => ({
-                            children: (
-                              <div
-                                className="cursor-pointer"
-                                onMouseEnter={props.open}
-                                onMouseLeave={props.close}
-                              >
-                                <AppPill
-                                  instancetype="WithTagSmall"
-                                  c={"#6c8bb8"}
-                                  bg={"rgba(92,135,199,.16)"}
-                                >
-                                  Money Maker
-                                </AppPill>
-                              </div>
-                            ),
-                          })}
-                          dropdown={() => ({
-                            children: (
-                              <>
-                                <AppText fw={"bold"}>
-                                  Money Maker
-                                </AppText>
-                                <AppText instancetype="WithTextTooltip">
-                                  Earn more than 50USDT in profits for
-                                  your Followers.
-                                </AppText>
-                              </>
-                            ),
-                          })}
-                        ></AppPopover>
-                      </Flex>
                     </Box>
                   </Box>
                 </Flex>
@@ -575,10 +505,11 @@ function Banner(trader: PublicCopyMasterDetail) {
   );
 }
 
-type filterTimeType = "7D" | "30D" | "90D";
+type Period = "7D" | "30D" | "90D";
+
 function Performance(props: PublicCopyMasterDetail) {
   const t = useSPETranslation();
-  const [time, setTime] = useState<filterTimeType>("7D");
+  const [time, setTime] = useState<Period>("7D");
 
   const data = useMemo(() => {
     if (time === "7D") {
@@ -617,8 +548,7 @@ function Performance(props: PublicCopyMasterDetail) {
       [
         "Avg. Holding Time",
         <>
-          <NumberFormat value={avgHoldingTime} />
-          Days
+          <NumberFormat value={avgHoldingTime} suffix="Days" />
         </>,
         "The average position holding period of all closed positions",
       ],
@@ -630,22 +560,12 @@ function Performance(props: PublicCopyMasterDetail) {
         "Higher value indicates less stable returns.",
       ],
       [
-        "Sharpe Ratio",
-        <>
-          <NumberFormat value={0} />
-        </>,
-        "Higher value indicates better returns at same level of ROI volatility.",
-      ],
-      [
-        "Sortino Ratio",
-        <>
-          <NumberFormat value={0} />
-        </>,
-        "Higher value indicates better returns at same level of risk of loss.",
-      ],
-      [
         "Last Traded at",
-        <>{new Date(data.lastTrade).toLocaleString()}</>,
+        <>
+          {data.lastTrade
+            ? new Date(data.lastTrade).toLocaleString()
+            : "--"}
+        </>,
         "The last time the Master Trader opened or closed a position.",
       ],
     ];
@@ -658,7 +578,7 @@ function Performance(props: PublicCopyMasterDetail) {
           {t("Performance")}
         </AppText>
         <OptionFilter
-          onChange={(v) => setTime(v as filterTimeType)}
+          onChange={(v) => setTime(v as Period)}
           value={time}
           items={[
             {

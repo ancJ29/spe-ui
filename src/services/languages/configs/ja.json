@@ -389,8 +389,8 @@
   "There was an error sending the verification code.": "「認証コードの送信中にエラーが発生しました。」",
   "Verification Code": "「認証コード」",
   "Login History": "登録履歴",
-  "Time": "ログイン時間",
-  "Status": "状態",
+  "Login Time": "ログイン時間",
+  "Login Status": "状態",
   "Device": "「デバイス」",
   "IP Address": "「IPアドレス」"
 }
