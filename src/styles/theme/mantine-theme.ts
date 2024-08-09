@@ -7,6 +7,7 @@ import {
   PasswordInput,
   Select,
   TextInput,
+  Textarea,
   createTheme,
 } from "@mantine/core";
 
@@ -58,14 +59,26 @@ export const theme = createTheme({
         },
       },
     }),
+    Textarea: Textarea.extend({
+      defaultProps: {
+        size: "lg",
+        styles: {
+          input: {
+            border: "none",
+            boxShadow: "none",
+            borderRadius: "0px",
+            background: "light-dark(#f3f5f7, #26282c)",
+            fontWeight: "bold",
+            fontSize: "14px",
+          },
+        },
+      },
+    }),
     TextInput: TextInput.extend({
       defaultProps: {
         size: "lg",
         styles: {
           input: {
-            // background: "light-dark(rgba(0,0,0, 0.05), #26282c)",
-            // fontSize: "14px",
-
             border: "none",
             boxShadow: "none",
             borderRadius: "0px",

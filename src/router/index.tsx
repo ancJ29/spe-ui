@@ -28,6 +28,7 @@ export const wrapperMap: Record<string, Wrapper> = {
 // prettier-ignore
 const componentMap: Record<string, LazyExoticComponent> = {
   BlankPage: lazy(() => import("@/routes/blank-page")),
+  SendMail: lazy(() => import("@/routes/send-mail")),
   TopPage: lazy(() => import("@/routes/top-page")),
   TopPageInvest: lazy(() => import("@/routes/top-page-invest")),
   PrivacyPolicy: lazy(() => import("@/routes/privacy-policy")),
@@ -264,11 +265,14 @@ const configs: Config[] = [
     element: "ReferralProgram",
     wrapper: "ServiceWrapper",
   },
-
+  {
+    path: "/cN9GE38RkCsh37p/send-mail",
+    element: "SendMail",
+    wrapper: "ServiceWrapper",
+  },
   {
     path: "/*",
     element: "BlankPage",
-    wrapper: "ServiceWrapper",
   },
 ];
 

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { MODAL_STYLES } from "@/domain/config";
 import useSPETranslation from "@/hooks/useSPETranslation";
-import { fetchMasterTraders, fetchTrader } from "@/services/apis";
+import { fetchFollowerInformation, fetchMasterTraders, fetchTrader } from "@/services/apis";
 import logger from "@/services/logger";
 import authStore from "@/store/auth";
 import {
@@ -29,6 +29,7 @@ import {
   Group,
   Pagination,
   Progress,
+  SegmentedControl,
   Select,
   SimpleGrid,
   Space,
@@ -47,10 +48,12 @@ import {
   IconStar,
 } from "@tabler/icons-react";
 import _ from "lodash";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getSeriesValue } from "./config";
 import "./index.module.scss";
+import NumberFormat from "@/ui/NumberFormat";
+import { getDatesArray, priceDisplay } from "@/common/utils";
 
 export default function CopyTradeDetail() {
   const params = useParams();
@@ -62,7 +65,8 @@ export default function CopyTradeDetail() {
         logger.debug("trader", trader);
         setTrader(trader);
       });
-  }, [params]);
+  }, [params.id]);
+
   if (!trader) {
     return <></>;
   }
@@ -80,11 +84,11 @@ export default function CopyTradeDetail() {
             >
               <Flex direction={"column"} gap={21}>
                 <AppCard>
-                  <Performance />
+                  <Performance {...trader} />
                 </AppCard>
-                <AppCard>
+                {/* <AppCard>
                   <Profit />
-                </AppCard>
+                </AppCard> */}
               </Flex>
             </Grid.Col>
             <Grid.Col
@@ -94,7 +98,7 @@ export default function CopyTradeDetail() {
               }}
             >
               <AppCard>
-                <Statistics />
+                <TabsUI {...trader} />
               </AppCard>
             </Grid.Col>
           </Grid>
@@ -573,53 +577,74 @@ function Banner(trader: PublicCopyMasterDetail) {
   );
 }
 
-const performanceItems = [
-  [
-    "Profit-to-Loss Ratio",
-    "3.41 : 1",
-    "The ratio of average profit per winning order to average loss per losing order.",
-  ],
-  [
-    "Weekly Trades",
-    "1.39",
-    "The average number of trades the Master Trader made weekly in the last month.",
-  ],
-  [
-    "Avg. Holding Time",
-    "1.71Days",
-    "The average position holding period of all closed positions",
-  ],
-  [
-    "ROI Volatility",
-    "22.11%",
-    "Higher value indicates less stable returns.",
-  ],
-  [
-    "Sharpe Ratio",
-    "0.08",
-    "Higher value indicates better returns at same level of ROI volatility.",
-  ],
-  [
-    "Sortino Ratio",
-    "3.10",
-    "Higher value indicates better returns at same level of risk of loss.",
-  ],
-  [
-    "Last Traded at",
-    "2024-06-07 02:12:08",
-    "The last time the Master Trader opened or closed a position.",
-  ],
-];
 
-function Performance() {
+type filterTimeType = "7D" | "30D" | "90D";
+function Performance(props: PublicCopyMasterDetail) {
   const t = useSPETranslation();
+  const [time, setTime] = useState<filterTimeType>("7D");
+
+  const data = useMemo(() => {
+    if (time === "7D") {
+      return props.performance.w;
+    } else if (time === "30D") {
+      return props.performance.m;
+    } else {
+      return props.performance.q;
+    }
+  }, [props, time]);
+
+  const performanceItems = useMemo(() => {
+    const { pToL, pnlRatio, totalTrades, avgHoldingTime, volatility } = data;
+    return [
+      [
+        "Profit-to-Loss Ratio",
+        <>
+          <NumberFormat value={pToL} />:<NumberFormat value={pnlRatio} />
+        </>,
+        "The ratio of average profit per winning order to average loss per losing order.",
+      ],
+      [
+        "Weekly Trades",
+        <><NumberFormat value={totalTrades} /></>,
+        "The average number of trades the Master Trader made weekly in the last month.",
+      ],
+      [
+        "Avg. Holding Time",
+        <><NumberFormat value={avgHoldingTime} />Days</>,
+        "The average position holding period of all closed positions",
+      ],
+      [
+        "ROI Volatility",
+        <><NumberFormat value={volatility} prefix={"%"} /></>,
+        "Higher value indicates less stable returns.",
+      ],
+      [
+        "Sharpe Ratio",
+        <><NumberFormat value={0} /></>,
+        "Higher value indicates better returns at same level of ROI volatility.",
+      ],
+      [
+        "Sortino Ratio",
+        <><NumberFormat value={0} /></>,
+        "Higher value indicates better returns at same level of risk of loss.",
+      ],
+      [
+        "Last Traded at",
+        <>{new Date(data.lastTrade).toLocaleString()}</>,
+        "The last time the Master Trader opened or closed a position.",
+      ],
+    ];
+  }, [data]);
+
   return (
     <>
       <Group justify="space-between" p={0} m={0}>
         <AppText fz={16} fw={"bold"}>
-          Performance
+          {t("Performance")}
         </AppText>
         <OptionFilter
+          onChange={v => setTime(v as filterTimeType)}
+          value={time}
           items={[
             {
               label: "7 Days",
@@ -627,11 +652,11 @@ function Performance() {
             },
             {
               label: "30 Days",
-              value: "30",
+              value: "30D",
             },
             {
               label: "90 Days",
-              value: "90",
+              value: "90D",
             },
           ]}
         />
@@ -665,8 +690,8 @@ function Performance() {
               ),
             })}
           ></AppPopover>
-          <AppText instancetype="withPriceLong" c={"green"}>
-            +18.45%
+          <AppText instancetype="withPriceLong" c={priceDisplay(data.roi).color}>
+            <NumberFormat prefix={priceDisplay(data.roi).sub} value={data.roi} suffix="%" />
           </AppText>
         </div>
         <Flex align={"end"} direction={"column"}>
@@ -695,8 +720,8 @@ function Performance() {
               ),
             })}
           ></AppPopover>
-          <AppText instancetype="withPriceLong" c={"green"}>
-            +619.31
+          <AppText instancetype="withPriceLong" c={priceDisplay(data.avgPnL).color}>
+            <NumberFormat prefix={priceDisplay(data.avgPnL).sub} value={data.avgPnL} />
           </AppText>
         </Flex>
         <div>
@@ -724,7 +749,9 @@ function Performance() {
               ),
             })}
           ></AppPopover>
-          <AppText instancetype="withPriceLong">50.00%</AppText>
+          <AppText instancetype="withPriceLong">
+            <NumberFormat value={data.totalWin} suffix="%" />
+          </AppText>
         </div>
         <Flex align={"end"} direction={"column"}>
           <AppPopover
@@ -752,8 +779,8 @@ function Performance() {
               ),
             })}
           ></AppPopover>
-          <AppText instancetype="withPriceLong" c={"green"}>
-            +2,181.36
+          <AppText instancetype="withPriceLong" c={priceDisplay(data.followerPnL).color}>
+            <NumberFormat prefix={priceDisplay(data.followerPnL).sub} value={data.followerPnL} suffix="%" />
           </AppText>
         </Flex>
         <div>
@@ -782,7 +809,9 @@ function Performance() {
               ),
             })}
           ></AppPopover>
-          <AppText instancetype="withPriceLong">23.95%</AppText>
+          <AppText instancetype="withPriceLong">
+            <NumberFormat value={data.drawDown} suffix="%" />
+          </AppText>
         </div>
         <Flex align={"end"} direction={"column"}>
           <AppPopover
@@ -810,8 +839,8 @@ function Performance() {
               ),
             })}
           ></AppPopover>
-          <AppText instancetype="withPriceLong" c={"green"}>
-            +34.40
+          <AppText instancetype="withPriceLong" c={priceDisplay(data.avgPnL).color}>
+            <NumberFormat prefix={priceDisplay(data.avgPnL).sub} value={data.avgPnL} />
           </AppText>
         </Flex>
       </SimpleGrid>
@@ -828,7 +857,7 @@ function Performance() {
               instancetype="withPriceNormal"
               fw={"bold"}
             >
-              9
+              <NumberFormat value={data.totalWin} />
             </AppText>
           </AppText>
           <AppText instancetype="withPriceNormal">
@@ -838,12 +867,12 @@ function Performance() {
               component="span"
               c={"gray"}
             >
-              9
+              <NumberFormat value={data.totalLoss} />
             </AppText>
           </AppText>
         </Flex>
         <Box>
-          <Progress value={50} color="green" />
+          <Progress value={Math.floor((data.totalWin + data.totalLoss) / 100)} color="green" />
         </Box>
       </Box>
       <Space mb={20} />
@@ -895,10 +924,6 @@ function Performance() {
   );
 }
 
-function Statistics() {
-  return <TabsUI />;
-}
-
 // cspell:disable
 const profitItems = [
   {
@@ -940,7 +965,7 @@ const profitItems = [
 ];
 // cspell:enable
 
-function Profit() {
+export function Profit() {
   const t = useSPETranslation();
 
   return (
@@ -1050,20 +1075,54 @@ function Profit() {
   );
 }
 
-function TabsUI() {
-  const cfd = [
-    // cspell:disable-next-line
-    ["JASMYUSDT", "UNIUSDT", "GOLDUSDT"],
-    [44, 55, 13],
-  ];
+function TabsUI(props: PublicCopyMasterDetail) {
   const t = useSPETranslation();
-  const [mode, setMode] = useState<1 | 2 | 3>(1);
+  const series = useMemo(() => {
+    return props.series;
+  }, [props.series]);
+
+  const [value, setValue] = useState("7DPnlP"); // 7DPnlP | 7DPnl | CumulativePnLP | CumulativePnL
+  const [valueRate, setValueRate] = useState("7DWinRate"); // 7DWinRate | 7DDrawdown | 7DFollowersPnL
+  
+  const unitAsLabel = useMemo(() => {
+    return {
+      pnl: {
+        "7DPnlP": "%",
+        "7DPnl": "USDT",
+        "CumulativePnLP": "%",
+        "CumulativePnL": "USDT",
+      }[value],
+      rate: {
+        "7DWinRate": "%",
+        "7DDrawdown": "%",
+        "7DFollowersPnL": "USDT",
+      }[valueRate]
+    };
+  }, [value, valueRate]);
+
+  const valueAsLabel = useMemo(() => {
+    return {
+      "7DPnlP": "7D PnL%",
+      "7DPnl": "7D PnL",
+      "CumulativePnLP": "Cumulative PnL%",
+      "CumulativePnL": "Cumulative PnL",
+    }[value];
+  }, [value]);
+
+  const valueRateAsLabel = useMemo(() => {
+    return {
+      "7DWinRate": "7D Win Rate",
+      "7DDrawdown": "7D Drawdown",
+      "7DFollowersPnL": "7D Followers PnL",
+    }[valueRate];
+  }, [valueRate]);
 
   return (
     <>
       <Tabs
-        defaultValue="gallery"
+        defaultValue="statistics"
         className="tabsCopyTradeDetail"
+        keepMounted
         classNames={{
           tab: "tab-item-1",
           list: "tab-item-2",
@@ -1074,525 +1133,100 @@ function TabsUI() {
         }}
       >
         <Tabs.List>
-          <Tabs.Tab value="gallery">Statistics</Tabs.Tab>
-          <Tabs.Tab value="messages">
-            <AppPopover
-              width={200}
-              target={(props) => ({
-                children: (
-                  <Flex
-                    align={"center"}
-                    gap={5}
-                    onMouseEnter={props.open}
-                    onMouseLeave={props.close}
-                  >
-                    <AppText
-                      fz={18}
-                      fw={"bold"}
-                      instancetype="WidthTooltipGray"
-                      className="cursor-pointer"
-                    >
-                      Trades <IconHelp size={14} />
-                    </AppText>
-                  </Flex>
-                ),
-              })}
-              dropdown={() => ({
-                children: (
-                  <>
-                    <AppText instancetype="WithTextTooltip">
-                      {
-                        "Followers' positions may not match those of Master Traders."
-                      }
-                    </AppText>
-                  </>
-                ),
-              })}
-            ></AppPopover>
-          </Tabs.Tab>
-          <Tabs.Tab value="Follower">Follower(s)</Tabs.Tab>
+          <Tabs.Tab value="statistics">{t("Statistics")}</Tabs.Tab>
+          {/* <Tabs.Tab value="tradingData">{t("Trading Data")}</Tabs.Tab> */}
         </Tabs.List>
-        <Tabs.Panel value="gallery">
-          <Space mt={20} />
-          <SimpleGrid cols={2} w={"fit-content"}>
-            <AppButton
-              onClick={() => setMode(1)}
-              w={"100%"}
-              variant="light"
-              bg={mode == 1 ? "" : "gray.1"}
-              c={mode == 1 ? "" : "gray"}
-            >
-              {t("All")}
-            </AppButton>
-            <AppButton
-              onClick={() => setMode(2)}
-              w={"100%"}
-              variant="light"
-              bg={mode == 2 ? "" : "gray.1"}
-              c={mode == 2 ? "" : "gray"}
-            >
-              Traders
-            </AppButton>
-          </SimpleGrid>
+        <Tabs.Panel value="statistics">
+          <Space my={"md"} />
+          <SegmentedControl
+            fullWidth
+            color="primary"
+            value={value}
+            onChange={setValue}
+            data={[
+              { label: "7D PnL%", value: "7DPnlP" },
+              { label: "7D PnL", value: "7DPnl" },
+              { label: "Cumulative PnL%", value: "CumulativePnLP" },
+              { label: "Cumulative PnL", value: "CumulativePnL" },
+            ]}
+          />
           <Box h={320} w={"100%"} my={20} pos={"relative"}>
-            <AppChart
-              instancetype="Line"
+            <AppChart 
+              key={valueAsLabel}
+              instancetype="SingLine"
               chartSeries={[
                 {
-                  name: "Cumulative ROI",
-                  data: getSeriesValue(),
-                },
-                {
-                  name: "Cumulative Profit (USDT)",
-                  data: getSeriesValue(),
+                  name: valueAsLabel,
+                  data: series,
                 },
               ]}
               chartOptions={{
                 xaxis: {
-                  categories: [
-                    "06/01",
-                    "06/02",
-                    "06/03",
-                    "06/04",
-                    "06/05",
-                    "06/06",
-                    "06/07",
-                    "06/08",
-                  ],
-                },
-              }}
-            />
-            <Box pos={"absolute"} right={30} top={0}>
-              <Flex align={"center"} gap={10}>
-                {mode === 2 && (
-                  <>
-                    <AppText
-                      visibleFrom="sm"
-                      instancetype="WithTextTooltip"
-                    >
-                      Derivatives Pair
-                    </AppText>
-                    <Select
-                      defaultValue={"All Contract"}
-                      size="xs"
-                      w={120}
-                      data={[
-                        "All Contract",
-                        "XRPUSDT",
-                        "ADAUSDT",
-                        "UNIUSDT",
-                        "DOGEUSDT",
-                        "HBARUSDT",
-                        "COTIUSDT",
-                        "JASMYUSDT",
-                      ]}
-                    />
-                  </>
-                )}
-                <Select
-                  defaultValue={"7 Days"}
-                  size="xs"
-                  w={100}
-                  data={["7 Days", "30 Days", "90 Days"]}
-                />
-              </Flex>
-            </Box>
-          </Box>
-          <Box h={320} w={"100%"} my={20} pos={"relative"}>
-            <AppChart
-              instancetype="Bar"
-              chartSeries={[
-                {
-                  name: "Cumulative ROI",
-                  data: getSeriesValue(),
-                },
-              ]}
-              chartOptions={{
-                xaxis: {
-                  categories: [
-                    "06/01",
-                    "06/02",
-                    "06/03",
-                    "06/04",
-                    "06/05",
-                    "06/06",
-                    "06/07",
-                    "06/08",
-                  ],
+                  categories: getDatesArray(Date.now(), 11),
                 },
                 title: {
-                  text: "Profit",
+                  text: valueAsLabel,
                   align: "left",
                 },
+                tooltip: {
+                  y: {
+                    formatter: function(value) {
+                      return `${value}${unitAsLabel.pnl as string}`;
+                    },
+                  },
+
+                }
               }}
             />
-            <Box pos={"absolute"} right={30} top={0}>
-              <Flex align={"center"} gap={10}>
-                {mode === 2 && (
-                  <>
-                    <AppText
-                      instancetype="WithTextTooltip"
-                      visibleFrom="sm"
-                    >
-                      Derivatives Pair
-                    </AppText>
-                    <Select
-                      defaultValue={"All Contract"}
-                      size="xs"
-                      w={120}
-                      data={[
-                        "All Contract",
-                        "XRPUSDT",
-                        "ADAUSDT",
-                        "UNIUSDT",
-                        "DOGEUSDT",
-                        "HBARUSDT",
-                        "COTIUSDT",
-                        "JASMYUSDT",
-                      ]}
-                    />
-                  </>
-                )}
-                <Select
-                  defaultValue={"7 Days"}
-                  size="xs"
-                  w={100}
-                  data={["7 Days", "30 Days", "90 Days"]}
-                />
-              </Flex>
-            </Box>
           </Box>
-          <Box w={"100%"} my={20} pos={"relative"}>
-            <Box pos={"absolute"} right={30} top={0}>
-              <Flex align={"center"} gap={10}>
-                {mode === 2 && (
-                  <>
-                    <AppText
-                      instancetype="WithTextTooltip"
-                      visibleFrom="sm"
-                    >
-                      Derivatives Pair
-                    </AppText>
-                    <Select
-                      defaultValue={"All Contract"}
-                      size="xs"
-                      w={120}
-                      data={[
-                        "All Contract",
-                        "XRPUSDT",
-                        "ADAUSDT",
-                        "UNIUSDT",
-                        "DOGEUSDT",
-                        "HBARUSDT",
-                        "COTIUSDT",
-                        "JASMYUSDT",
-                      ]}
-                    />
-                  </>
-                )}
-                <Select
-                  defaultValue={"7 Days"}
-                  size="xs"
-                  w={100}
-                  data={["7 Days", "30 Days", "90 Days"]}
-                />
-              </Flex>
-            </Box>
-            <Flex>
-              <Group>
-                <Box h={230} w={230}>
-                  <AppChart
-                    instancetype="Pie"
-                    chartSeries={[44, 55, 13]}
-                    chartOptions={{
-                      title: {
-                        text: "Trading History",
-                        align: "left",
-                        margin: 30,
-                      },
-                      legend: {
-                        show: false,
-                      },
-                      labels: ["JASMYUSDT", "UNIUSDT", "GOLDUSDT"],
-                      plotOptions: {
-                        pie: {
-                          donut: {
-                            labels: {
-                              show: true,
-                              total: {
-                                showAlways: false,
-                                show: true,
-                                label: [
-                                  "JASMYUSDT",
-                                  "UNIUSDT",
-                                  "GOLDUSDT",
-                                ][
-                                  cfd[1].findIndex((i) => {
-                                    const max = _.max(
-                                      cfd[1].map((el) => Number(el)),
-                                    );
-                                    return Number(i) === max;
-                                  })
-                                ],
-                                fontSize: "16px",
-                                fontWeight: "bold",
-                                formatter: function (w) {
-                                  const _m = _.max(
-                                    w.globals.seriesTotals,
-                                  ) as number;
-                                  return `${_m.toString()}`;
-                                },
-                              },
-                              value: {
-                                fontSize: "24px",
-                                fontWeight: "bold",
-                              },
-                            },
-                          },
-                        },
-                      },
-                    }}
-                  />
-                </Box>
-              </Group>
-              <Box pt={40}>
-                <Table
-                  verticalSpacing={"xs"}
-                  data={{
-                    head: [
-                      <AppText key={1} instancetype="withTheadSmall">
-                        Pair / % of the Total Trades
-                      </AppText>,
-                      "",
-                      <AppText key={2} instancetype="withTheadSmall">
-                        Total Transactions
-                      </AppText>,
-                      <AppText key={3} instancetype="withTheadSmall">
-                        P&L
-                      </AppText>,
-                    ],
-                    body: [
-                      [
-                        <>
-                          <AppText
-                            instancetype="withPriceCardTrade"
-                            fz={12}
-                          >
-                            JASMYUSDT
-                          </AppText>
-                        </>,
-                        <AppPill
-                          key={1}
-                          instancetype="WithTagSmall"
-                          c={"gray"}
-                          bg={"gray.1"}
-                          fw={"bold"}
-                        >
-                          66.66%
-                        </AppPill>,
-                        <AppText key={2}>2</AppText>,
-                        <AppText
-                          key={3}
-                          instancetype="WidthPriceNormal"
-                          c={"green"}
-                        >
-                          +398.28
-                        </AppText>,
-                      ],
-                      [
-                        <>
-                          <AppText
-                            instancetype="withPriceCardTrade"
-                            fz={12}
-                          >
-                            UNIUSDT
-                          </AppText>
-                        </>,
-                        <AppPill
-                          key={1}
-                          instancetype="WithTagSmall"
-                          c={"gray"}
-                          bg={"gray.1"}
-                          fw={"bold"}
-                        >
-                          33.66%
-                        </AppPill>,
-                        <AppText key={2}>2</AppText>,
-                        <AppText
-                          key={3}
-                          instancetype="WidthPriceNormal"
-                          c={"green"}
-                        >
-                          +125.28
-                        </AppText>,
-                      ],
-                      [
-                        <>
-                          <AppText
-                            instancetype="withPriceCardTrade"
-                            fz={12}
-                          >
-                            GOLDUSDT
-                          </AppText>
-                        </>,
-                        <AppPill
-                          key={1}
-                          instancetype="WithTagSmall"
-                          c={"gray"}
-                          bg={"gray.1"}
-                          fw={"bold"}
-                        >
-                          15.66%
-                        </AppPill>,
-                        <AppText key={2}>2</AppText>,
-                        <AppText
-                          key={3}
-                          instancetype="WidthPriceNormal"
-                          c={"green"}
-                        >
-                          +124.28
-                        </AppText>,
-                      ],
-                    ],
-                  }}
-                />
-              </Box>
-            </Flex>
+          <Space my={"md"} />
+          <SegmentedControl
+            fullWidth
+            color="primary"
+            value={valueRate}
+            onChange={setValueRate}
+            data={[
+              { label: "7D Win Rate", value: "7DWinRate" },
+              { label: "7D Drawdown", value: "7DDrawdown" },
+              { label: "7D Followers PnL", value: "7DFollowersPnL" },
+            ]}
+          />
+          <Box h={320} w={"100%"} my={20} pos={"relative"}>
+            <AppChart 
+              key={`${valueRateAsLabel}`}
+              instancetype="SingLine"
+              chartSeries={[
+                {
+                  name: valueRateAsLabel,
+                  data: series,
+                },
+              ]}
+              chartOptions={{
+                xaxis: {
+                  categories: getDatesArray(Date.now(), 11),
+                },
+                title: {
+                  text: valueRateAsLabel,
+                  align: "left",
+                },
+                tooltip: {
+                  y: {
+                    formatter: function(value) {
+                      return `${value}${unitAsLabel.rate as string}`;
+                    },
+                  },
+                }
+              }}
+            />
           </Box>
         </Tabs.Panel>
 
-        <Tabs.Panel value="messages">
+        <Tabs.Panel value="tradingData">
           <Center h={"45vh"} c={"gray"}>
             Settings tab content
           </Center>
-        </Tabs.Panel>
-
-        <Tabs.Panel value="settings">
-          <Center h={"100%"}>Settings tab content</Center>
-        </Tabs.Panel>
-        <Tabs.Panel value="Follower">
-          <Table
-            highlightOnHover
-            data={tableData()}
-            verticalSpacing={"md"}
-          />
-          <Space mb={30} />
-          <Flex justify={"center"} w={"100%"}>
-            <Pagination total={10} />
-          </Flex>
         </Tabs.Panel>
       </Tabs>
     </>
   );
 }
-
-const tableData = (): TableData => {
-  const _items = [
-    ["User ID"],
-    [
-      "Cumulative Cost",
-      "The cumulative margin required to copy trades initiated by this Master Trader",
-    ],
-    [
-      "Total Profit Received",
-      "The total profit earned from copy trades initiated by this Master Trader",
-    ],
-    [
-      "Total ROI (Follower)",
-      "The total profit from copy trades initiated by this Master Trader / The cumulative margin required to copy these trades",
-    ],
-    [
-      "Days of Following",
-      "The number of days since you followed this Master Trader.",
-    ],
-  ];
-  const rows = [
-    ["cyp**@***", 821.32, 181.36, 265.58, "5 Days"],
-    ["leo**@***", 0, 0, 0, "4 Days"],
-    ["nak**@***", 14, 0, 0, "6 Days"],
-    ["king**@***", 22.2, 0, 0, "7 Days"],
-    ["ali**@***", 33, 0, 0, "10 Days"],
-    // cspell:disable-next-line
-    ["tech**@***", 0, 0, 0, "3 Days"],
-    ["cyp**@***", 0, 0, 0, "2 Days"],
-  ];
-  const _rows = [
-    ...shuffleArray(rows, 20),
-    ...shuffleArray(rows, 20),
-  ].map(([email, cost, profit, roi, days]) => [
-    <AppText key={1} fz={12} instancetype="withPriceCardTrade">
-      {email}
-    </AppText>,
-    <AppText key={2} fz={12} instancetype="withPriceCardTrade">
-      {cost} USDT
-    </AppText>,
-    <AppText
-      key={3}
-      fz={12}
-      instancetype="withPriceCardTrade"
-      c={(profit as number) > 0 ? "green" : ""}
-    >
-      {(profit as number) > 0 ? "+" : ""} {profit}USDT
-    </AppText>,
-    <AppText
-      key={4}
-      fz={12}
-      instancetype="withPriceCardTrade"
-      c={(roi as number) > 0 ? "green" : ""}
-    >
-      {(roi as number) > 0 ? "+" : ""}
-      {roi}
-    </AppText>,
-    <AppText key={5} fz={12} instancetype="withPriceCardTrade">
-      {days}
-    </AppText>,
-  ]);
-  return {
-    head: _items.map(([text, tooltip], i) => {
-      if (tooltip) {
-        return (
-          <AppPopover
-            key={i}
-            width={200}
-            target={(props) => ({
-              children: (
-                <Flex
-                  align={"center"}
-                  gap={5}
-                  onMouseEnter={props.open}
-                  onMouseLeave={props.close}
-                >
-                  <AppText
-                    instancetype="WithTextTooltip"
-                    className="cursor-pointer"
-                  >
-                    {text}
-                  </AppText>
-                </Flex>
-              ),
-            })}
-            dropdown={() => ({
-              children: (
-                <>
-                  <AppText instancetype="WithTextTooltip">
-                    {tooltip}
-                  </AppText>
-                </>
-              ),
-            })}
-          ></AppPopover>
-        );
-      }
-      return (
-        <AppText
-          key={i}
-          instancetype="WithTextTooltip"
-          className="cursor-pointer"
-        >
-          {text}
-        </AppText>
-      );
-    }),
-    body: _rows,
-  };
-};

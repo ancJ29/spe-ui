@@ -15,6 +15,7 @@ export const optionalStringSchema = stringSchema.optional();
 export const speNumberSchema = stringSchema.or(numberSchema);
 
 export const binanceOrderParamSchema = z.object({
+  isSpot: booleanSchema,
   orderIds: stringSchema.array().min(1),
   symbol: stringSchema,
   side: z.enum(["BUY", "SELL"]),
@@ -22,6 +23,12 @@ export const binanceOrderParamSchema = z.object({
   volume: speNumberSchema,
   price: speNumberSchema.optional(),
   reduceOnly: booleanSchema.optional(),
+});
+
+export const binanceCancelOrderParamSchema = z.object({
+  isSpot: booleanSchema,
+  symbol: stringSchema,
+  orderId: stringSchema,
 });
 
 export const binanceModifyOrderParamSchema = z.object({

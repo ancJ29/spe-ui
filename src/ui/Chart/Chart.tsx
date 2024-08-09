@@ -9,6 +9,7 @@ type _TYPES =
   | "Sparkline"
   | "Areapercent"
   | "Line"
+  | "SingLine"
   | "Bar"
   | "Pie";
 type Instance = ApexOptions;
@@ -322,6 +323,90 @@ const optionsLine = (chartId: string): Instance => {
   };
 };
 
+const optionsSignLine = (chartId: string): Instance => {
+  return {
+    chart: {
+      id: `chart_${chartId}_apex`,
+      type: "line",
+      height: "100%",
+      stacked: false,
+      width: "100%",
+      toolbar: {
+        show: false,
+      },
+      zoom: {
+        enabled: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    colors: ["#f29525", "#008ffb"],
+    fill: {
+      opacity: 1,
+      colors: ["#00E396"],
+    },
+    stroke: {
+      curve: "smooth",
+      width: 2,
+    },
+    series: [
+      {
+        name: "Series A",
+        data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6],
+      },
+      {
+        name: "Series B",
+        data: [20, 29, 37, 36, 44, 45, 50, 58],
+      },
+    ],
+    xaxis: {
+      categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
+    },
+    yaxis: [
+      {
+        axisBorder: {
+          show: true,
+        },
+        axisTicks: {
+          show: true,
+        },
+        tickAmount: 7,
+        min: 0,
+        labels: {
+          style: {
+            colors: "gray",
+          },
+        },
+      },
+    ],
+   
+    grid: {
+      // show: false,
+      strokeDashArray: 2,
+    },
+    title: {
+      text: "Earnings",
+      align: "left",
+    },
+    legend: {
+      position: "top",
+      horizontalAlign: "left",
+      offsetY: 0,
+      markers: {
+        width: 15,
+        height: 3,
+        radius: 0,
+        offsetY: -3,
+        offsetX: -3,
+      },
+      itemMargin: {
+        horizontal: 10,
+      },
+    },
+  };
+};
+
 const optionsBar = (chartId: string): Instance => {
   return {
     series: [],
@@ -544,6 +629,7 @@ const _props: Partial<InstancePropsByType> = {
   Line: optionsLine(uuidv4()),
   Bar: optionsBar(uuidv4()),
   Pie: optionsPie(uuidv4()),
+  SingLine: optionsSignLine(uuidv4())
 };
 
 type InstanceProps = Partial<Custom>;

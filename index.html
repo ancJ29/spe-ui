@@ -14,5 +14,16 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        console.log("blur...");
+        window.__BLUR = true;
+      } else {
+        console.log("focus...");
+        delete window.__BLUR
+      }
+    });
+   </script>
   </body>
 </html>

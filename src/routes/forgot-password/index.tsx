@@ -47,15 +47,15 @@ const Page = () => {
                     formDataConverter={
                       convertToForgotPasswordFormData
                     }
-                    onSubmit={() => {
-                      navigate("/reset-password");
+                    onSuccess={() => {
+                      setTimeout(() => {
+                        navigate("/reset-password");
+                      }, 500);
                     }}
                     messages={{
-                      titleSuccess: t(
-                        "Account Registration Successful",
-                      ),
+                      titleSuccess: t("Form submitted"),
                       msgSuccess: t(
-                        "You have successfully submitted a password change request.",
+                        "You have successfully submitted a reset password request.",
                       ),
                     }}
                   />

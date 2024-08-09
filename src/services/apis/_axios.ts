@@ -15,6 +15,7 @@ const axios = _axios.create({
   headers: {
     "Content-type": "application/json",
     "X-UID": localStorage.__X_UID__,
+    "X-LANG": localStorage.__LANGUAGE__,
   },
 });
 
@@ -72,7 +73,7 @@ function _generateUID(prefix: string) {
     const uid = Math.random().toString(36).slice(2);
     if (_check(`${prefix}/${uid}`)) {
       cont = false;
-      return uid;
+      return `${prefix}.${uid}`;
     }
   } while (cont);
   return "";

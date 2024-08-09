@@ -5,7 +5,7 @@ import {
   MenuProps,
   MenuTargetProps,
 } from "@mantine/core";
-import { ReactNode, useState } from "react";
+import { ReactNode, useCallback, useEffect, useState } from "react";
 import AppButton from "../Button/AppButton";
 import { IconChevronDown } from "@tabler/icons-react";
 
@@ -22,11 +22,18 @@ export function OptionFilter(
     menuProps: MenuProps;
     menuTargetProps: MenuTargetProps;
     menuDropdownProps: MenuDropdownProps;
+    onChange?: (value: string) => void
   }>,
 ) {
   const [values, setValues] = useState<string>(
     props.label ?? props.value ?? (props?.items?.[0].value as string),
   );
+
+  const onChange = useCallback((value: string) => {
+    setValues(value);
+    props?.onChange && props.onChange(value);
+  }, [setValues, props]);
+
   return (
     <>
       <Menu
@@ -63,7 +70,7 @@ export function OptionFilter(
           {props.items?.map((item, i) => (
             <Menu.Item
               key={i}
-              onClick={() => setValues(item.value)}
+              onClick={() => onChange(item.value)}
               fw={"bold"}
               value={item.value}
               c={item.value === values ? "primary" : ""}

@@ -71,6 +71,14 @@ export function generateUri2FA(
   // cspell:enable
 }
 
+export function isBlur() {
+  // eslint-disable-next-line
+  // @ts-ignore
+  const isBlur = window.__BLUR;
+  console.log(isBlur, isBlur?.toString()); // eslint-disable-line
+  return isBlur?.toString() === "true";
+}
+
 export function valueColor(value: number) {
   if (value === 0) {
     return "";

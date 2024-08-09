@@ -77,6 +77,7 @@ const AppForm = forwardRef(
       (evt: IChangeEvent, event: FormEvent<unknown>) => {
         logger.trace("submitted formData", evt.formData);
         logger.trace("submit event", event);
+        logger.trace("submitting form data", evt.formData, props.api);
         if (props.api) {
           const rawData = { ...evt.formData };
           const params =
@@ -98,7 +99,7 @@ const AppForm = forwardRef(
                 error(
                   props.messages?.titleError ??
                     t("Something went wrong"),
-                  props.messages?.msgError ?? res.data.message,
+                  res.data.message ?? props.messages?.msgError,
                 );
               }
             })
@@ -193,17 +194,10 @@ const AppForm = forwardRef(
               updateField: (field: string, value: unknown) => {
                 updateFields({ [field]: value });
               },
-              submit: () => formRef.current?.submit(),
+              submit: () => {
+                formRef.current?.submit();
+              },
             }}
-            // onBlur={(id: string, value: string) =>
-            //   logger.trace(`Touched ${id} with value ${value}`)
-            // }
-            // onFocus={(id: string, value: string) =>
-            //   logger.trace(`Focused ${id} with value ${value}`)
-            // }
-            // onError={(errorList: RJSFValidationError[]) =>
-            //   logger.trace("errors", errorList)
-            // }
           />
           <LoadingOverlay
             visible={visible}

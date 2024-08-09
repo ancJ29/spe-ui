@@ -2,6 +2,7 @@ import {
   ForgotPasswordFormData,
   ForgotPasswordPayload,
 } from "@/types";
+import { extractPhoneNumber } from "@/utils/utility";
 
 export function convertToForgotPasswordFormData(
   formData: ForgotPasswordFormData,
@@ -13,7 +14,7 @@ export function convertToForgotPasswordFormData(
     } as ForgotPasswordPayload;
   }
   return {
-    email: formData.mobile?.mobile || "",
+    mobile: extractPhoneNumber(formData.mobile),
     type: 2,
   } as ForgotPasswordPayload;
 }

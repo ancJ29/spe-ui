@@ -1,11 +1,13 @@
 import BN from "@/common/big-number";
 import useSPETranslation from "@/hooks/useSPETranslation";
+import logger from "@/services/logger";
 import tradeStore from "@/store/trade";
 import { GridTradeProps } from "@/types";
 import NumberFormat from "@/ui/NumberFormat";
 import { AppPopover } from "@/ui/Popover/AppPopover";
 import AppText from "@/ui/Text/AppText";
 import { ONE_HOUR, ONE_MINUTE } from "@/utils";
+import { isBlur } from "@/utils/utility";
 import { Box, Divider, Flex, HoverCard } from "@mantine/core";
 import { useHover, useInterval } from "@mantine/hooks";
 import { IconDots } from "@tabler/icons-react";
@@ -523,6 +525,11 @@ function CountDown({ nextFundingTime }: { nextFundingTime: number }) {
   const [counter, setCounter] = useState(0);
 
   const interval = useInterval(() => {
+    if (isBlur()) {
+      logger.trace("Skip counter");
+      return;
+    }
+    logger.trace("increase counter...");
     setCounter((prev) => prev + 1);
   }, 1e3);
 

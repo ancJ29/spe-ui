@@ -1,3 +1,5 @@
+import logger from "@/services/logger";
+import { isBlur } from "@/utils/utility";
 import { useInterval } from "@mantine/hooks";
 import { useCallback, useEffect, useState } from "react";
 
@@ -10,14 +12,19 @@ export default function useSPESyncData<T>(
     data: _defaultData,
   });
 
-  const fetch = useCallback(() => {
+  const _fetch = useCallback(() => {
+    if (isBlur()) {
+      logger.trace("Skip fetching data");
+      return;
+    }
+    logger.trace("Fetching data...");
     return fetchData().then((data) => {
       data && setData({ data });
     });
   }, [fetchData]);
 
   const interval = useInterval(() => {
-    fetch();
+    _fetch();
   }, Math.min(intervalTime, 2e3));
 
   useEffect(() => {
@@ -26,8 +33,8 @@ export default function useSPESyncData<T>(
   }, [interval]);
 
   useEffect(() => {
-    fetch();
-  }, [fetch]);
+    _fetch();
+  }, [_fetch]);
 
   return data;
 }

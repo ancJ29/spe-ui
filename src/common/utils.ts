@@ -1,5 +1,6 @@
 import BN from "./big-number";
 import { GenericObject } from "./types";
+import { format, subDays } from 'date-fns';
 
 export function t(
   dictionary: Record<string, string>,
@@ -190,3 +191,21 @@ export function buildArray<T>(item: T | T[]): T[] {
 export function cleanEmpty<T>(arr: (T | undefined | null)[]) {
   return arr.filter((item) => !!item) as T[];
 }
+
+export function getDatesArray(time: number, total: number) {
+  const dates = [];
+  const currentDate = new Date(time); 
+  const excludedDates = [format(subDays(currentDate, 2), "dd/MM")]; 
+
+  for (let i = 0; i < total; i++) {
+    const newDate = subDays(currentDate, i); 
+    const formattedDate = format(newDate, "dd/MM"); 
+
+    if (!excludedDates.includes(formattedDate)) {
+      dates.unshift(formattedDate);
+    }
+  }
+
+  return dates;
+}
+

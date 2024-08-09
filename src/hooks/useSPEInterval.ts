@@ -1,16 +1,26 @@
+import logger from "@/services/logger";
+import { isBlur } from "@/utils/utility";
 import { useInterval } from "@mantine/hooks";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 export default function useSPEInterval(
   fetch: () => void,
   intervalTime: number,
   skipFirstFetch = false,
 ) {
+  const _fetch = useCallback(() => {
+    if (isBlur()) {
+      logger.trace("Skip fetching data");
+      return;
+    }
+    logger.trace("Fetching data...");
+    fetch();
+  }, [fetch]);
   useEffect(() => {
-    !skipFirstFetch && fetch();
-  }, [fetch, skipFirstFetch]);
+    !skipFirstFetch && _fetch();
+  }, [_fetch, skipFirstFetch]);
 
-  const interval = useInterval(fetch, intervalTime);
+  const interval = useInterval(_fetch, intervalTime);
 
   useEffect(() => {
     interval.start();

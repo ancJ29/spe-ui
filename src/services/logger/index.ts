@@ -13,7 +13,7 @@ function error(...args: unknown[]) {
   // eslint-disable-next-line no-console
   if (logIt) {
     // eslint-disable-next-line no-console
-    console.error(...args);
+    console.error(`[${new Date().toISOString()}]`, ...args);
   } else {
     // notify to dev
   }
@@ -22,7 +22,7 @@ function error(...args: unknown[]) {
 function debug(...args: unknown[]) {
   if (logIt) {
     // eslint-disable-next-line no-console
-    console.log(...args);
+    console.log(`[${new Date().toISOString()}]`, ...args);
   } else {
     // notify to dev
   }
@@ -31,7 +31,8 @@ function debug(...args: unknown[]) {
 function trace(...args: unknown[]) {
   if (logIt) {
     // eslint-disable-next-line no-console
-    isTrace && console.trace(...args);
+    isTrace &&
+      console.trace(`[${new Date().toISOString()}]`, ...args);
   } else {
     // notify to dev
   }

@@ -18,7 +18,6 @@ import {
   Grid,
   Space,
   Text,
-  Title,
 } from "@mantine/core";
 import {
   IconBrandGoogle,
@@ -413,10 +412,10 @@ export default function Profile() {
             </Grid.Col>
           </Grid>
         </Box>
-        <Space my={"xl"} />
+        {/* <Space my={"xl"} />
         <Title order={3}>{t("Login History")}</Title>
         <Space my={"xl"} />
-        {/* <Divider /> */}
+        <Divider /> */}
         {/* <LoginHistories /> */}
       </Box>
     </Container>
