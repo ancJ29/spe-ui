@@ -1,12 +1,9 @@
 import { IS_DEV } from "@/domain/config";
+import { ONE_HOUR } from "@/utils";
 import _axios from "axios";
 import { Md5 } from "ts-md5";
 
-if (!localStorage.__X_UID__) {
-  localStorage.__X_UID__ = _generateUID(
-    Math.random().toString(36).slice(2),
-  );
-}
+_initUid();
 
 const axios = _axios.create({
   baseURL: IS_DEV
@@ -93,4 +90,15 @@ function _generateNonce(prefix: string) {
 
 function _check(uid: string, end = "000") {
   return Md5.hashStr(uid).endsWith(end);
+}
+
+function _initUid() {
+  if (!localStorage.__X_UID__ || !/.*\..*/.test(localStorage.__X_UID__)) {
+    localStorage.__X_UID__ = _generateUID(Date.now().toString());
+  }
+
+  const from = localStorage.__X_UID__.split(".")[1];
+  if (Date.now() - parseInt(from) > ONE_HOUR) {
+    localStorage.__X_UID__ = _generateUID(Date.now().toString());
+  }
 }
