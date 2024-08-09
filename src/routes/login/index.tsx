@@ -61,7 +61,7 @@ const Login = () => {
           <Center h={"100%"} w={"100%"}>
             <Container size={"lg"}>
               <Box w={"100%"}>
-                <Card radius={"lg"} p={"xl"} maw={500}>
+                <Card radius={"lg"} p={"xl"} maw={500} w={"100%"}>
                   <Title
                     fz={isMobile ? "lg" : undefined}
                     order={3}
