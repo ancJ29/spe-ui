@@ -32,15 +32,16 @@ export default function MyTraders() {
   const tableData: TableData = useMemo(() => {
     return {
       head: [
-        "Trader",
-        "Ratio",
+        "My Traders",
+        "Copy Ratio",
+        // コピートレード比率
         "Assets (USDT)",
         "NetPnL (USDT)",
-        "Copied Positions",
+        "Copied Position",
         "Investment",
-        "Withdraw",
+        "Withdraw amount",
         "Withdrawable",
-        "Action",
+        "Actions",
       ].map((label, idx) => (
         <SPETableHeader key={idx} label={label} />
       )),
@@ -123,7 +124,7 @@ export default function MyTraders() {
         </>,
         <>
           <Text hiddenFrom="sm" c={"dimmed"}>
-            {t("Action")}
+            {t("Actions")}
           </Text>
           <Flex
             key={`${trader.masterAccountId}.actions`}

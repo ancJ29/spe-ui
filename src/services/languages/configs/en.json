@@ -1,4 +1,5 @@
 {
+  "Total Copy Equity": "Total Copy Equity",
   "The withdrawal function will be disabled for 24 hours after you change your login password.": "The withdrawal function will be disabled for 24 hours after you change your login password.",
   "%s Futures": "%s Futures",
   "%s is the proud proprietor of a licensed Digital Currency Exchange (DCE) accredited by the Australian Transaction Reports and Analysis Centre (AUSTRAC), identified by registration number DCE100812987-001.": "%s is the proud proprietor of a licensed Digital Currency Exchange (DCE) accredited by the Australian Transaction Reports and Analysis Centre (AUSTRAC), identified by registration number DCE100812987-001.",
@@ -15,8 +16,9 @@
   "Account Number": "Account Number",
   "Account Registration Failed": "Account Registration Failed",
   "Account": "Account",
-  "Action": "Action",
   "Add a nickname": "Add a nickname",
+  "Available Margin": "Available Margin",
+  "Frozen": "Frozen",
   "Add fund": "Add fund",
   "Address": "Address",
   "All": "All",
@@ -391,5 +393,13 @@
   "Login Time": "Time",
   "Login Status": "Status",
   "Device": "Device",
+  "My Traders": "Traders",
+  "Copy Ratio": "Ratio",
+  "Actions": "Actions",
+  "Copied Position": "Position",
+  "Investment": "Investment",
+  "Assets (USDT)": "Assets (USDT)",
+  "NetPnL (USDT)": "NetPnL (USDT)",
+  "Withdraw amount": "Withdraw amount",
   "IP Address": "IP Address"
 }

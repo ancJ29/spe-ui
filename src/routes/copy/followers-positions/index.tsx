@@ -50,7 +50,7 @@ export default function FollowerPositions() {
         ["Settled Profit Sharing", "Unsettled Profit Sharing"],
         ["Realized PnL (USDT)", "Unrealized PnL (USDT)"],
         "Remark",
-        "Action",
+        "Actions",
       ].map((label, idx) => (
         <SPETableHeader key={idx} label={label} />
       )),

@@ -439,7 +439,7 @@ function CurrentOrders({ symbol, isFuture }: TabProps) {
           "Post Only",
           isFuture ? "Reduce Only" : undefined,
           "Order Time",
-          "Action",
+          "Actions",
         ]),
         body: orders?.map((order) => {
           const isBuy = order.side === "BUY";
@@ -545,7 +545,7 @@ function Positions({ symbol, isFuture }: TabProps) {
             "Position Margin",
             "Margin Level",
             "Unrealized PnL(%)",
-            "Action",
+            "Actions",
           ].map((label) => t(label)),
         ),
         body: positions?.map((position) => {

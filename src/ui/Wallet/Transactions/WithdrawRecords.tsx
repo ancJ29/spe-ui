@@ -65,7 +65,7 @@ export function WithdrawRecords() {
         "Withdraw Address",
         "Status",
         "Remark",
-        "Action",
+        "Actions",
       ].map((el) => t(el)),
       body: transactions.map((row) => [
         <>
@@ -119,7 +119,7 @@ export function WithdrawRecords() {
         </>,
         <>
           <Text hiddenFrom="sm" c={"dimmed"}>
-            {t("Action")}
+            {t("Actions")}
           </Text>
           <Flex gap={5} key={`${row.id}.action`}>
             <Button

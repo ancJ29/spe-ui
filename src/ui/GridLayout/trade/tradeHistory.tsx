@@ -636,7 +636,7 @@ export const dataHistories: TableHistory = {
           ["Status"],
           ["Order No."],
           ["Order Time"],
-          ["Action"],
+          ["Actions"],
         ],
         rows: [...Array(20)]
           .map(() => ({ ...row }))
@@ -840,7 +840,7 @@ export const dataHistories: TableHistory = {
           ["Status"],
           ["Order No."],
           ["Order Time"],
-          ["Action"],
+          ["Actions"],
         ],
         rows: [...Array(20)]
           .map(() => ({
@@ -1094,7 +1094,7 @@ export const dataHistories: TableHistory = {
           ["Trade Type"],
           ["Order No."],
           ["Order Time"],
-          ["Action"],
+          ["Actions"],
         ],
         rows: [...Array(20)]
           .map(() => ({ ...row }))
@@ -1196,7 +1196,7 @@ export const dataHistories: TableHistory = {
           ["Status"],
           ["Order No."],
           ["Order Time"],
-          ["Action"],
+          ["Actions"],
         ],
         rows: [...Array(20)]
           .map(() => ({ ...row }))
@@ -1401,7 +1401,7 @@ export const dataHistories: TableHistory = {
           ["Status"],
           ["Order No."],
           ["Order Time"],
-          ["Action"],
+          ["Actions"],
         ],
         rows: [...Array(20)]
           .map(() => ({ ...row }))

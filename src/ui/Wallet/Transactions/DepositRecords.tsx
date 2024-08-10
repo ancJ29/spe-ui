@@ -63,7 +63,7 @@ export function DepositRecords() {
         "From Address",
 
         "Status",
-        "Action",
+        "Actions",
       ].map((el) => t(el)),
       // foot: [],
       body: transactions.map((row) => [
@@ -110,7 +110,7 @@ export function DepositRecords() {
         </>,
         <>
           <Text hiddenFrom="sm" c={"dimmed"}>
-            {t("Action")}
+            {t("Actions")}
           </Text>
           <Flex gap={5} key={`${row.id}.action`}>
             <Button

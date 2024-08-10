@@ -61,13 +61,9 @@ export function FundAssetsTable({ hideZero }: { hideZero: boolean }) {
       return false;
     });
     return {
-      head: [
-        "Coin",
-        "Available",
-        "Frozen",
-        "BTC Valuation",
-        "Actions",
-      ].map((el) => t(el)),
+      head: ["Coin", "Available", "Frozen", "BTC", "Actions"].map(
+        (el) => t(el),
+      ),
       body: rows.map((row) => [
         <>
           {/* <Text hiddenFrom="sm" c={"dimmed"}>
@@ -100,14 +96,19 @@ export function FundAssetsTable({ hideZero }: { hideZero: boolean }) {
             {t("Frozen")}
           </Text>
           <Title order={6}>
-            {<NumberFormat decimalPlaces={8} value={row.locked} />}
+            {
+              <NumberFormat
+                decimalPlaces={8}
+                value={row.locked || 0}
+              />
+            }
           </Title>
           <Text c="dimmed" size="xs">
             ~ $
             {
               <NumberFormat
                 decimalPlaces={3}
-                value={row.lockedUsdValue}
+                value={row.lockedUsdValue || 0}
               />
             }
           </Text>
@@ -117,7 +118,13 @@ export function FundAssetsTable({ hideZero }: { hideZero: boolean }) {
             {t("BTC Valuation")}
           </Text>
           <Title order={6}>
-            {<NumberFormat decimalPlaces={8} value={row.btcValue} />}
+            {row.btcValue}
+            {
+              <NumberFormat
+                decimalPlaces={8}
+                value={row.btcValue || 0}
+              />
+            }
           </Title>
         </>,
         <>
