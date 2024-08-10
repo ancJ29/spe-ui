@@ -375,7 +375,7 @@
   "Unrealized PnL(%)": "未確定損益（％）",
   "Fee": "手数料",
   "Password is 8-20 characters, must contains uppercase and lowercase letters and numbers": "パスワードは8〜20文字で、大文字、小文字、数字を含める必要があります。",
-  "Your account has been synchronized to the new system. To ensure your data is safe and secure, please change your password to continue using the service.": "あなたのアカウントは新しいシステムに同期されました。データの安全とセキュリティを確保するために、パスワードを変更してサービスの利用を続けてください",
+  "Your account has been synchronized to the new system. To ensure your data is safe and secure, please change your password to continue using the service.": "新しいシステムに同期されました。データの安全とセキュリティを確保するために、パスワードを変更してサービスの利用を続けてください",
   "Old password": "旧パスワード",
   "Your password has been changed successfully. Please use your new password to log in next time.": "パスワードが正常に変更されました。次回ログインする際には、新しいパスワードをご使用ください。",
   "Password Changed Successfully": "パスワードの変更が成功しました",

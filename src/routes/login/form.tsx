@@ -26,7 +26,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 import MfaModal from "./2fa";
 import classes from "./login.module.scss";
-import { passwordSchemaValidate } from "@/utils/validates";
 
 type Mode = "email" | "phone";
 
@@ -47,7 +46,7 @@ export default function LoginForm({
     return z.object({
       email: z.string().optional(),
       mobile: z.string().optional(),
-      password: passwordSchemaValidate(),
+      password: z.string(),
       region: z.string().optional(),
       mfaCode: z.string().optional(),
     });

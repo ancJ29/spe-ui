@@ -54,7 +54,7 @@ export function UserChangePasswordForm() {
       newPassword: (value, values) => {
         if (value !== values.password) {
           return t(
-            "The two passwords are inconsistent. Please try again.",
+            "The passwords are inconsistent. Please try again.",
           );
         }
         return null;

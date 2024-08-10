@@ -3,7 +3,6 @@ import {
   requestChangePasswordApi,
   sendVerifyCode,
 } from "@/services/apis";
-import logger from "@/services/logger";
 import { error, success } from "@/utils/notifications";
 import { passwordSchemaValidate } from "@/utils/validates";
 import {
@@ -62,14 +61,15 @@ export function ForceChangePasswordForm(props: PropsType) {
           passwordSchemaValidate().parse(value);
           return null;
         } catch (e) {
-          logger.error(e);
-          return t("Invalid password");
+          return t(
+            "Password is 8-20 characters, must contains uppercase and lowercase letters and numbers",
+          );
         }
       },
       newPassword: (value, values) => {
         if (value !== values.password) {
           return t(
-            "The two passwords are inconsistent. Please try again.",
+            "The passwords are inconsistent. Please try again.",
           );
         }
         return null;
@@ -178,7 +178,6 @@ export function ForceChangePasswordForm(props: PropsType) {
               "Your account has been synchronized to the new system. To ensure your data is safe and secure, please change your password to continue using the service.",
             )}
           </Alert>
-          {props.userId || "--"}
           <PasswordInput
             label={t("Old password")}
             key={form.key("oldPassword")}
