@@ -149,6 +149,7 @@ export default function MyTraders() {
               <IconPlus />
             </AppButton>
             <AppButton
+              disabled
               instancetype="Default"
               variant="transparent"
               onClick={() => {
