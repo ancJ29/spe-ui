@@ -14,11 +14,13 @@ import {
   Title,
 } from "@mantine/core";
 import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { convertToResetPasswordFormData } from "./config";
 import classes from "./index.module.scss";
 
 const Page = () => {
   const t = useSPETranslation();
+  const navigate = useNavigate();
   const formData = useMemo(() => {
     const searchParams = Object.fromEntries(
       window.location.search
@@ -61,6 +63,11 @@ const Page = () => {
                     formData={formData}
                     w={"100%"}
                     msgSuccess={t("Password reset has been done")}
+                    onSuccess={() => {
+                      setTimeout(() => {
+                        navigate("/login");
+                      }, 1000);
+                    }}
                     api="/api/password/reset"
                     formDataConverter={convertToResetPasswordFormData}
                     messages={{
