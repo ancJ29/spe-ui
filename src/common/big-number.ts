@@ -42,6 +42,10 @@ function mul(...b: [BN, ...BN[]]) {
     .toString();
 }
 
+function dp(a: BN, precision = 8) {
+  return new BigNumber(a).dp(precision).toString();
+}
+
 function max(a: BN, b: BN) {
   return new BigNumber(a).gt(b) ? a.toString() : b.toString();
 }
@@ -110,4 +114,5 @@ export default {
   isZero,
   precision,
   format,
+  dp,
 };
