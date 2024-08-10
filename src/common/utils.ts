@@ -1,4 +1,3 @@
-import logger from "../logger";
 import BN from "./big-number";
 import { GenericObject } from "./types";
 
@@ -199,8 +198,4 @@ export function buildArray<T>(item: T | T[]): T[] {
 
 export function cleanEmpty<T>(arr: (T | undefined | null)[]) {
   return arr.filter((item) => !!item) as T[];
-}
-
-export function logError(error: unknown) {
-  logger.error((error as { message: string })?.message);
 }
