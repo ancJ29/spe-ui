@@ -93,7 +93,10 @@ function _check(uid: string, end = "000") {
 }
 
 function _initUid() {
-  if (!localStorage.__X_UID__ || !/.*\..*/.test(localStorage.__X_UID__)) {
+  if (
+    !localStorage.__X_UID__ ||
+    !/.*\..*/.test(localStorage.__X_UID__)
+  ) {
     localStorage.__X_UID__ = _generateUID(Date.now().toString());
   }
 

@@ -17,6 +17,7 @@ const ResetPasswordSchema: FormSchema = {
           },
           password: {
             $ref: "#/definitions/Password",
+            pattern: REGEX.PASSWORD,
           },
           code: {
             $ref: "#/definitions/Code",
@@ -35,6 +36,7 @@ const ResetPasswordSchema: FormSchema = {
           },
           password: {
             $ref: "#/definitions/Password",
+            pattern: REGEX.PASSWORD,
           },
           code: {
             $ref: "#/definitions/Code",
@@ -45,7 +47,6 @@ const ResetPasswordSchema: FormSchema = {
       Password: {
         type: "string",
         title: "Password",
-        minLength: 6,
       },
       type: {
         type: "string",

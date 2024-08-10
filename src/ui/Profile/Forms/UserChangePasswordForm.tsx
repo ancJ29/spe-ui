@@ -16,6 +16,7 @@ import {
 import { useForm } from "@mantine/form";
 import { IconInfoCircle } from "@tabler/icons-react";
 import { omit } from "lodash";
+import { ZodError } from "zod";
 
 export function UserChangePasswordForm() {
   const { loading, submit, t } = useSPEUserSettings<{
@@ -26,6 +27,7 @@ export function UserChangePasswordForm() {
 
   const form = useForm({
     mode: "uncontrolled",
+    validateInputOnBlur: true,
     initialValues: {
       currentPassword: "",
       password: "",
@@ -40,7 +42,13 @@ export function UserChangePasswordForm() {
           passwordSchemaValidate().parse(value);
           return null;
         } catch (e) {
-          return t("invalid password");
+          if (e instanceof ZodError) {
+            if (e.formErrors.formErrors.length > 0) {
+              return t(e.formErrors.formErrors[0]);
+            }
+          } else {
+            return t("Invalid password");
+          }
         }
       },
       newPassword: (value, values) => {

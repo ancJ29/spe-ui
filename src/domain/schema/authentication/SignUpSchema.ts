@@ -21,6 +21,7 @@ const SignUpSchema: FormSchema = {
           },
           password: {
             $ref: "#/definitions/Password",
+            pattern: REGEX.PASSWORD,
           },
         },
         required: ["phoneLocale", "mobile", "password"],
@@ -36,6 +37,7 @@ const SignUpSchema: FormSchema = {
           },
           password: {
             $ref: "#/definitions/Password",
+            pattern: REGEX.PASSWORD,
           },
         },
         required: ["email", "password"],
@@ -43,7 +45,6 @@ const SignUpSchema: FormSchema = {
       Password: {
         type: "string",
         title: "Password",
-        minLength: 6,
       },
       type: {
         type: "string",

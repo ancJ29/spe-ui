@@ -25,6 +25,7 @@ const LoginFormSchema: FormSchema = {
           },
           password: {
             $ref: "#/definitions/Password",
+            pattern: REGEX.PASSWORD,
           },
         },
         required: ["phoneLocale", "mobile", "password"],

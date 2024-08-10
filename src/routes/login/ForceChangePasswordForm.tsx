@@ -63,8 +63,7 @@ export function ForceChangePasswordForm(props: PropsType) {
           return null;
         } catch (e) {
           logger.error(e);
-          // t0@A8o#q1vlw
-          return t("invalid password");
+          return t("Invalid password");
         }
       },
       newPassword: (value, values) => {

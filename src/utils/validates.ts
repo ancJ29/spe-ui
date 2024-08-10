@@ -5,39 +5,25 @@ import logger from "@/services/logger";
 import { z } from "zod";
 
 const dictionary = getDictionary();
-
+export const msgPasswordErr =
+  "Password is 8-20 characters, must contains uppercase and lowercase letters and numbers";
 export const passwordSchemaValidate = () => {
   return z
     .string()
     .min(8, {
-      message: _t(
-        dictionary,
-        "Password must be at least 8 characters",
-      ),
+      message: _t(dictionary, msgPasswordErr),
     })
     .max(20, {
-      message: _t(
-        dictionary,
-        "Password must be at most 20 characters",
-      ),
+      message: _t(dictionary, msgPasswordErr),
     })
     .regex(/[A-Z]/, {
-      message: _t(
-        dictionary,
-        "Password must contain at least one uppercase letter",
-      ),
+      message: _t(dictionary, msgPasswordErr),
     })
     .regex(/[a-z]/, {
-      message: _t(
-        dictionary,
-        "Password must contain at least one lowercase letter",
-      ),
+      message: _t(dictionary, msgPasswordErr),
     })
     .regex(/[0-9]/, {
-      message: _t(
-        dictionary,
-        "Password must contain at least one number",
-      ),
+      message: _t(dictionary, msgPasswordErr),
     });
 };
 
