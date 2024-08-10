@@ -44,6 +44,14 @@ export function randomAddress(chain?: string) {
     prefix = "3";
     length = 33;
   }
+  if (chain === "TRON network") {
+    list =
+      "456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".split(
+        "",
+      );
+    prefix = "T";
+    length = 33;
+  }
 
   return (
     prefix +

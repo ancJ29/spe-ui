@@ -5,6 +5,7 @@ type NumberFormatProps = {
   hidden?: boolean;
   prefix?: string;
   suffix?: string;
+  zeroAsEmpty?: boolean;
   value: string | number | undefined;
 };
 
@@ -14,11 +15,15 @@ export default function NumberFormat({
   prefix = "",
   suffix = "",
   value,
+  zeroAsEmpty = false,
 }: NumberFormatProps) {
   if (hidden) {
     return <span>****</span>;
   }
-  if (BN.eq(value || 0, 0)) {
+  if (!value) {
+    return "--";
+  }
+  if (zeroAsEmpty && BN.eq(value || 0, 0)) {
     return "--";
   }
   return (

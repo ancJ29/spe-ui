@@ -14,11 +14,12 @@ import {
   Title,
 } from "@mantine/core";
 import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useBoolean } from "usehooks-ts";
 
 export default function Inquiry() {
   const t = useSPETranslation();
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { value: sent, setTrue } = useBoolean(false);
   const [form, setForm] = useState({
@@ -170,7 +171,9 @@ export default function Inquiry() {
                         t("Success"),
                         t("Inquiry sent, we will contact you soon"),
                       );
-                      setTimeout(() => window.history.back(), 2000);
+                      setTimeout(() => {
+                        navigate("/");
+                      }, 2000);
                     })
                     .catch((err) => {
                       error(

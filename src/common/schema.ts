@@ -61,6 +61,7 @@ export const txSchema = stringSchema;
 export const chainSchema = z.enum([
   "Ethereum",
   "Binance Smart Chain",
+  "TRON network",
   "Bitcoin",
 ]);
 

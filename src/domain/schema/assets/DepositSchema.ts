@@ -75,8 +75,8 @@ const DepositSchema: FormSchema = {
         properties: {
           chain: {
             type: "string",
-            enum: ["Ethereum", "Binance Smart Chain"],
-            default: "Ethereum",
+            enum: ["TRON network", "Binance Smart Chain"],
+            default: "TRON network",
             title: t(dictionary, "Chain"),
           },
           walletAddress: {
