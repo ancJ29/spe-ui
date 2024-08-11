@@ -101,7 +101,7 @@ const optionsAreapercent = (chartId: string): Instance => {
           colors: "gray",
         },
         formatter: (value) => {
-          return (value / 1000000).toFixed(0) + "%";
+          return value + "%";
         },
       },
       // tickAmount: 0,

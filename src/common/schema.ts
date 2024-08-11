@@ -157,7 +157,7 @@ export const periodPerformanceSchema = z.object({
   totalOrder: speNumberSchema,
   avgPnlPerTrade: speNumberSchema,
   avgPnlPerPosition: speNumberSchema,
-  weekLyTrade: speNumberSchema,
+  weeklyTrade: speNumberSchema,
   lastTrade: speNumberSchema,
   profitToLoss: speNumberSchema,
   maxDrawDown: speNumberSchema,

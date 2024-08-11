@@ -368,8 +368,13 @@ export type CopyMaster = {
   ranking: number;
   masterAccountId: string;
   aum: number;
-  pnlRatio: number; // TODO: calculate pnl ratio
+  pnlRatio: number;
+  avgPnl: number;
+  weeklyTrade: number;
+  profit: number;
+  winRate: number;
   roi: number;
+  avgHoldingTime: number;
   roi90d: number;
   drawDown: number;
   followers: number;
@@ -402,7 +407,7 @@ export type CopyMasterPerformance = {
   totalOrder: SPENumber;
   avgPnlPerTrade: SPENumber;
   avgPnlPerPosition: SPENumber;
-  weekLyTrade: SPENumber;
+  weeklyTrade: SPENumber;
   lastTrade: SPENumber;
   profitToLoss: SPENumber;
   maxDrawDown: SPENumber;

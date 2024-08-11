@@ -545,7 +545,7 @@ function Performance({ performance }: PublicCopyMasterDetail) {
       [
         t("Weekly Trades"),
         <>
-          <NumberFormat value={data?.weekLyTrade} decimalPlaces={2} />
+          <NumberFormat value={data?.weeklyTrade} decimalPlaces={2} />
         </>,
         t(
           "The average number of trades the Master Trader made weekly in the last month.",

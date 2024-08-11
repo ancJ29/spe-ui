@@ -154,7 +154,7 @@ export function CardTraderTop1({
               </AppButton>
             </Tooltip>
             <AppText
-              instancetype="WithPriceCardTrader"
+              instancetype="withPriceCardTrade"
               c={valueColor(roi)}
             >
               {_value(roi)}

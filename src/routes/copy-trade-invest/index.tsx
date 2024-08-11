@@ -1,7 +1,9 @@
 import allTradersIcon from "@/assets/images/all-traders.svg";
 import topTradersIcon from "@/assets/images/top-traders.svg";
+import { shuffle } from "@/common/utils";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import { fetchAllTraders } from "@/services/apis";
+import logger from "@/services/logger";
 import authStore from "@/store/auth";
 import { CopyMaster } from "@/types";
 import AppButton from "@/ui/Button/AppButton";
@@ -11,6 +13,7 @@ import NumberFormat from "@/ui/NumberFormat";
 import { OptionFilter } from "@/ui/OptionFilter";
 import { SPELoading } from "@/ui/SPEMisc";
 import AppText from "@/ui/Text/AppText";
+import { debounceBuilder } from "@/utils/utility";
 import { Carousel } from "@mantine/carousel";
 import {
   Box,
@@ -42,15 +45,47 @@ type Tab = "TOP" | "ALL";
 
 const sizeContainer = "xl";
 
+const filterTraders = debounceBuilder(
+  (
+    traders: CopyMaster[],
+    keyword: string,
+    setFilteredTraders: (_: CopyMaster[]) => void,
+  ) => {
+    logger.debug("filter...", keyword);
+    if (!keyword) {
+      setFilteredTraders(traders);
+    } else {
+      setFilteredTraders(
+        traders.filter((el) => {
+          return el.name
+            .toLowerCase()
+            .includes(keyword.toLowerCase());
+        }),
+      );
+    }
+  },
+  100,
+);
+
 export default function CopyTrade() {
   const t = useSPETranslation();
   const [traders, setTraders] = useState<CopyMaster[]>([]);
+  // prettier-ignore
+  const [filteredTraders, setFilteredTraders] = useState<CopyMaster[]>([]);
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState<Tab>("TOP");
+  const [keyword, setKeyword] = useState("");
+  const [sortKey, setSortKey] =
+    useState<keyof CopyMaster>("pnlRatio");
+
+  useEffect(() => {
+    filterTraders(traders, keyword, setFilteredTraders);
+  }, [traders, keyword]);
 
   useEffect(() => {
     fetchAllTraders().then((traders) => {
       setTraders(traders);
+      setFilteredTraders(traders);
       setTimeout(setLoading, 300, false);
     });
   }, []);
@@ -125,20 +160,40 @@ export default function CopyTrade() {
                 direction={{ xs: "row-reverse", sm: "unset" }}
               >
                 {tab === "ALL" && (
-                  <Checkbox label={t("Followable")} />
+                  <>
+                    <Checkbox label={t("Followable")} />
+                    <Box
+                      flex={{
+                        xs: 1,
+                        sm: "auto",
+                      }}
+                    >
+                      <Input
+                        variant="filled"
+                        placeholder={t("Search traders")}
+                        rightSection={<IconSearch size={16} />}
+                        defaultValue={keyword}
+                        onChange={(e) => {
+                          if (!e.currentTarget.value) {
+                            setKeyword("");
+                          }
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            if (e.currentTarget.value !== keyword) {
+                              setKeyword(e.currentTarget.value);
+                            }
+                          }
+                        }}
+                        onBlur={(e) => {
+                          if (e.currentTarget.value !== keyword) {
+                            setKeyword(e.currentTarget.value);
+                          }
+                        }}
+                      />
+                    </Box>
+                  </>
                 )}
-                <Box
-                  flex={{
-                    xs: 1,
-                    sm: "auto",
-                  }}
-                >
-                  <Input
-                    variant="filled"
-                    placeholder={t("Search traders")}
-                    rightSection={<IconSearch size={16} />}
-                  />
-                </Box>
               </Flex>
             </Flex>
             <Divider />
@@ -165,7 +220,18 @@ export default function CopyTrade() {
                   <Box w={"100%"}>
                     {traders.length && (
                       <AppCarousel>
-                        {traders.slice(0, 10).map((trader) => (
+                        {_sort(
+                          traders.filter((el) => {
+                            if (keyword) {
+                              return el.name
+                                .toLowerCase()
+                                .includes(keyword.toLowerCase());
+                            }
+                            return true;
+                          }),
+                          "pnlRatio",
+                          10,
+                        ).map((trader) => (
                           <Carousel.Slide
                             key={trader.masterAccountId}
                           >
@@ -197,13 +263,15 @@ export default function CopyTrade() {
                   <Box w={"100%"}>
                     {traders.length && (
                       <AppCarousel className="app-carousel-orange">
-                        {traders.slice(0, 10).map((trader) => (
-                          <Carousel.Slide
-                            key={trader.masterAccountId}
-                          >
-                            <CardTrader {...trader} />
-                          </Carousel.Slide>
-                        ))}
+                        {_sort(traders, "profit", 10).map(
+                          (trader) => (
+                            <Carousel.Slide
+                              key={trader.masterAccountId}
+                            >
+                              <CardTrader {...trader} />
+                            </Carousel.Slide>
+                          ),
+                        )}
                       </AppCarousel>
                     )}
                   </Box>
@@ -229,13 +297,15 @@ export default function CopyTrade() {
                   <Box w={"100%"}>
                     {traders.length && (
                       <AppCarousel>
-                        {traders.slice(0, 10).map((trader) => (
-                          <Carousel.Slide
-                            key={trader.masterAccountId}
-                          >
-                            <CardTrader {...trader} />
-                          </Carousel.Slide>
-                        ))}
+                        {_sort(traders, "winRate", 10).map(
+                          (trader) => (
+                            <Carousel.Slide
+                              key={trader.masterAccountId}
+                            >
+                              <CardTrader {...trader} />
+                            </Carousel.Slide>
+                          ),
+                        )}
                       </AppCarousel>
                     )}
                   </Box>
@@ -293,6 +363,9 @@ export default function CopyTrade() {
                   />
                 </Box>
                 <SegmentedControl
+                  onChange={(v) => {
+                    setSortKey((v || "pnlRatio") as keyof CopyMaster);
+                  }}
                   visibleFrom="sm"
                   withItemsBorders={false}
                   size="xs"
@@ -303,15 +376,15 @@ export default function CopyTrade() {
                   }}
                   color={"primary"}
                   data={[
-                    "PnL%",
-                    "Abs. PnL",
-                    "Followers",
-                    "Win Rate",
-                    "Drawdown",
-                    "Avg. PnL",
-                    "Avg. Holding Period",
-                    "Trading Frequency",
-                  ].map((el) => t(el))}
+                    [t("PnL%"), "pnlRatio"],
+                    [t("Abs. PnL"), "profit"],
+                    // [t("Followers"), ""],
+                    [t("Win Rate"), "winRate"],
+                    [t("Drawdown"), "drawDown"],
+                    [t("Avg. `PnL"), "avgPnl"],
+                    [t("Avg. Holding Period"), "avgHoldingTime"],
+                    [t("Trading Frequency"), "weekLyTrade"],
+                  ].map(([label, value]) => ({ label, value }))}
                 />
                 <Box hiddenFrom="sm">
                   <OptionFilter
@@ -347,13 +420,16 @@ export default function CopyTrade() {
                   xl: 4,
                 }}
               >
-                {traders.length &&
-                  traders.map((trader) => (
+                {filteredTraders.length ? (
+                  _sort(filteredTraders, sortKey).map((trader) => (
                     <CardTrader
                       key={trader.masterAccountId}
                       {...trader}
                     />
-                  ))}
+                  ))
+                ) : (
+                  <></>
+                )}
               </SimpleGrid>
             </Box>
           </Container>
@@ -529,4 +605,12 @@ function ViewMore({ onClick }: { onClick: () => void }) {
       {t("View More")}
     </AppButton>
   );
+}
+
+function _sort<T>(arr: T[], key: keyof T, total?: number) {
+  return shuffle(arr)
+    .sort((a, b) => {
+      return (b[key] as number) - (a[key] as number);
+    })
+    .slice(0, total || arr.length);
 }
