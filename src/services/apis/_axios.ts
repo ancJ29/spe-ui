@@ -25,6 +25,10 @@ axios.interceptors.request.use(
       config.headers["Authorization"] = `Bearer ${token}`;
     }
     const timestamp = Date.now().toString();
+
+    if (localStorage.__DEBUG_CODE__) {
+      config.headers["X-DEBUG-CODE"] = localStorage.__DEBUG_CODE__;
+    }
     config.headers["X-TIMESTAMP"] = timestamp;
     config.headers["X-NONCE"] = _generateNonce(
       `${localStorage.__X_UID__}/${timestamp}`,
