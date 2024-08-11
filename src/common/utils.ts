@@ -166,7 +166,7 @@ export function priceDisplay(val?: string | number) {
   return {
     lt: _v > 0,
     isZero: _v === 0,
-    sub: _v > 0 ? "+" : _v < 0 ? "-" : "",
+    sub: _v > 0 ? "+" : _v < 0 ? "" : "",
     color: _v > 0 ? "green" : _v < 0 ? "red" : "",
   };
 }

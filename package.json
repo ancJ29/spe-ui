@@ -13,7 +13,7 @@
     "type-check": "tsc --noEmit -p ./tsconfig.json"
   },
   "dependencies": {
-    "@mantine/carousel": "^7.10.0",
+    "@mantine/carousel": "7.12.0",
     "@mantine/dropzone": "^7.11.2",
     "@mantine/tiptap": "^7.12.0",
     "@mantinex/mantine-logo": "^1.0.1",

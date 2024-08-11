@@ -165,7 +165,7 @@ export const periodPerformanceSchema = z.object({
 
 export const copyMasterPerformanceSchema = z.object({
   all: periodPerformanceSchema,
-  d: periodPerformanceSchema.optional(),
+  w: periodPerformanceSchema.optional(),
   m: periodPerformanceSchema.optional(),
   q: periodPerformanceSchema.optional(),
   aum: optionalNumberSchema,

@@ -25,7 +25,7 @@ export default function useSPESyncData<T>(
 
   const interval = useInterval(() => {
     _fetch();
-  }, Math.min(intervalTime, 2e3));
+  }, Math.max(intervalTime, 2e3));
 
   useEffect(() => {
     interval.start();

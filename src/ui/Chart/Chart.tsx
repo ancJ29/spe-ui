@@ -31,6 +31,7 @@ const optionsSparkline = (chartId: string): Instance => {
     series: [],
     chart: {
       id: `chart_${chartId}_apex`,
+      background: "rgba(0, 0, 0, 0)",
       type: "area",
       height: 40,
       width: 100,
@@ -69,6 +70,7 @@ const optionsAreapercent = (chartId: string): Instance => {
     series: [],
     chart: {
       id: `chart_${chartId}_apex`,
+      background: "rgba(0, 0, 0, 0)",
       type: "area",
       height: 100,
       width: 155,
@@ -132,6 +134,7 @@ const optionsLine = (chartId: string): Instance => {
   return {
     chart: {
       id: `chart_${chartId}_apex`,
+      background: "rgba(0, 0, 0, 0)",
       type: "line",
       height: "100%",
       stacked: false,
@@ -328,6 +331,7 @@ const optionsSignLine = (chartId: string): Instance => {
   return {
     chart: {
       id: `chart_${chartId}_apex`,
+      background: "rgba(0, 0, 0, 0)",
       type: "line",
       height: "100%",
       stacked: false,
@@ -413,6 +417,7 @@ const optionsBar = (chartId: string): Instance => {
     series: [],
     chart: {
       id: `chart_${chartId}_apex`,
+      background: "rgba(0, 0, 0, 0)",
       type: "bar",
       height: "100%",
       width: "100%",
@@ -568,6 +573,7 @@ const optionsPie = (chartId: string): Instance => {
       width: "100%",
       type: "donut",
       id: `chart_${chartId}_apex`,
+      background: "rgba(0, 0, 0, 0)",
       events: {
         dataPointMouseEnter: function (event, chartContext, config) {
           const totalLabel = document.querySelector(

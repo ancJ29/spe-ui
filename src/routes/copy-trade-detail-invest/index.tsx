@@ -343,8 +343,9 @@ function Banner(trader: PublicCopyMasterDetail) {
                                     fz={12}
                                     style={{ textAlign: "center" }}
                                   >
-                                    All assets a Master Trader owns in
-                                    the Copy Trading Account.
+                                    {t(
+                                      "All assets a Master Trader owns in the Copy Trading Account.",
+                                    )}
                                   </AppText>
                                 ),
                               })}
@@ -373,8 +374,9 @@ function Banner(trader: PublicCopyMasterDetail) {
                                       fz={12}
                                       style={{ textAlign: "center" }}
                                     >
-                                      This trader has hidden asset
-                                      info from non-Followers
+                                      {t(
+                                        "This trader has hidden asset info from non-Followers",
+                                      )}
                                     </AppText>
                                   ),
                                 })}
@@ -511,6 +513,7 @@ function Performance({ performance }: PublicCopyMasterDetail) {
   const [time, setTime] = useState<Period>("All");
 
   const data = useMemo(() => {
+    logger.debug("performance", time);
     if (time === "All") {
       return performance.all;
     } else if (time === "7D") {
@@ -586,13 +589,12 @@ function Performance({ performance }: PublicCopyMasterDetail) {
   }, [data, t]);
 
   return (
-    <>
+    <Box>
       <Group justify="space-between" p={0} m={0}>
         <AppText fz={16} fw={"bold"}>
           {t("Performance")}
         </AppText>
         <OptionFilter
-          disabled={true}
           onChange={(v) => setTime(v as Period)}
           value={time}
           items={[
@@ -832,7 +834,7 @@ function Performance({ performance }: PublicCopyMasterDetail) {
       <Box>
         <Flex justify={"space-between"} mb={5}>
           <AppText instancetype="withPriceNormal">
-            Win{" "}
+            {t("Win")}{" "}
             <AppText
               component="span"
               c={"green"}
@@ -843,7 +845,7 @@ function Performance({ performance }: PublicCopyMasterDetail) {
             </AppText>
           </AppText>
           <AppText instancetype="withPriceNormal">
-            Lose{" "}
+            {t("Lose")}{" "}
             <AppText
               instancetype="withPriceNormal"
               component="span"
@@ -905,7 +907,7 @@ function Performance({ performance }: PublicCopyMasterDetail) {
           </AppText>
         </Flex>
       </SimpleGrid>
-    </>
+    </Box>
   );
 }
 
@@ -1089,20 +1091,20 @@ function TabsUI(props: PublicCopyMasterDetail) {
 
   const valueAsLabel = useMemo(() => {
     return {
-      "7DPnlP": "7D PnL%",
-      "7DPnl": "7D PnL",
-      "CumulativePnLP": "Cumulative PnL%",
-      "CumulativePnL": "Cumulative PnL",
+      "7DPnlP": t("7D PnL%"),
+      "7DPnl": t("7D PnL"),
+      "CumulativePnLP": t("Cumulative PnL%"),
+      "CumulativePnL": t("Cumulative PnL"),
     }[value];
-  }, [value]);
+  }, [t, value]);
 
   const valueRateAsLabel = useMemo(() => {
     return {
-      "7DWinRate": "7D Win Rate",
-      "7DDrawdown": "7D Drawdown",
-      "7DFollowersPnL": "7D Followers PnL",
+      "7DWinRate": t("7D Win Rate"),
+      "7DDrawdown": t("7D Drawdown"),
+      "7DFollowersPnL": t("7D Followers PnL"),
     }[valueRate];
-  }, [valueRate]);
+  }, [t, valueRate]);
 
   return (
     <>
@@ -1130,15 +1132,18 @@ function TabsUI(props: PublicCopyMasterDetail) {
             value={value}
             onChange={setValue}
             data={[
-              { label: "7D PnL%", value: "7DPnlP" },
-              { label: "7D PnL", value: "7DPnl" },
-              { label: "Cumulative PnL%", value: "CumulativePnLP" },
-              { label: "Cumulative PnL", value: "CumulativePnL" },
+              { label: t("7D PnL%"), value: "7DPnlP" },
+              { label: t("7D PnL"), value: "7DPnl" },
+              {
+                label: t("Cumulative PnL%"),
+                value: "CumulativePnLP",
+              },
+              { label: t("Cumulative PnL"), value: "CumulativePnL" },
             ]}
           />
           <Box h={320} w={"100%"} my={20} pos={"relative"}>
             <AppChart
-              key={valueAsLabel}
+              key={value}
               instancetype="SingLine"
               chartSeries={[
                 {
@@ -1170,14 +1175,17 @@ function TabsUI(props: PublicCopyMasterDetail) {
             value={valueRate}
             onChange={setValueRate}
             data={[
-              { label: "7D Win Rate", value: "7DWinRate" },
-              { label: "7D Drawdown", value: "7DDrawdown" },
-              { label: "7D Followers PnL", value: "7DFollowersPnL" },
+              { label: t("7D Win Rate"), value: "7DWinRate" },
+              { label: t("7D Drawdown"), value: "7DDrawdown" },
+              {
+                label: t("7D Followers PnL"),
+                value: "7DFollowersPnL",
+              },
             ]}
           />
           <Box h={320} w={"100%"} my={20} pos={"relative"}>
             <AppChart
-              key={`${valueRateAsLabel}`}
+              key={`${valueRate}`}
               instancetype="SingLine"
               chartSeries={[
                 {
