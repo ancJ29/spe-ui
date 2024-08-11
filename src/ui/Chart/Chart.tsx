@@ -14,6 +14,7 @@ type _TYPES =
   | "Bar"
   | "Pie";
 type Instance = ApexOptions;
+
 type Custom = {
   instancetype: _TYPES;
   chartSeries: ApexAxisChartSeries | ApexNonAxisChartSeries;
@@ -65,6 +66,7 @@ const optionsSparkline = (chartId: string): Instance => {
     },
   };
 };
+
 const optionsAreapercent = (chartId: string): Instance => {
   return {
     series: [],

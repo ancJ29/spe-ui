@@ -148,7 +148,7 @@ export function CardTraderTop1({
                       padding: "0 4.2px",
                     }}
                   >
-                    7d
+                    All
                   </span>
                 </AppText>
               </AppButton>
@@ -165,7 +165,9 @@ export function CardTraderTop1({
             chartSeries={[
               {
                 name: "pnl",
-                data: series,
+                data: series.map((el) => {
+                  return el * 100;
+                }),
               },
             ]}
           />
@@ -199,8 +201,11 @@ export function CardTraderTop1({
               </AppText>
             </AppButton>
           </Tooltip>
-          <AppText instancetype="withPriceCardTrade">
-            {_value(roi90d)}
+          <AppText
+            instancetype="withPriceCardTrade"
+            c={valueColor(roi90d)}
+          >
+            {roi90d ? _value(roi90d) : "---"}
           </AppText>
         </Flex>
         <Flex justify={"space-between"}>
@@ -218,7 +223,7 @@ export function CardTraderTop1({
           >
             <AppButton variant="transparent" p={0} m={0} h={"auto"}>
               <AppText instancetype="withTheadSmall">
-                Drawdown{" "}
+                {t("Drawdown")}{" "}
                 <span
                   style={{
                     border: "solid 1px #adb1b8",
@@ -234,9 +239,9 @@ export function CardTraderTop1({
           </Tooltip>
           <AppText
             instancetype="withPriceCardTrade"
-            c={valueColor(drawDown)}
+            c={valueColor(-drawDown)}
           >
-            {_value(drawDown)}
+            {_value(-drawDown, "")}
           </AppText>
         </Flex>
         <Flex justify={"space-between"}>
@@ -255,7 +260,7 @@ export function CardTraderTop1({
             </AppButton>
           </Tooltip>
           <AppText instancetype="withPriceCardTrade">
-            {aum.toLocaleString()}
+            {aum ? aum.toLocaleString() : "---"}
           </AppText>
         </Flex>
         <Space h={20} />
@@ -272,8 +277,8 @@ export function CardTraderTop1({
   );
 }
 
-function _value(percent: number) {
-  return `${percent > 0 ? "+" : ""}${(
-    percent * 100
-  ).toLocaleString()}%`;
+function _value(percent: number, suffix = "%") {
+  return `${
+    percent > 0 ? "+" : ""
+  }${percent.toLocaleString()}${suffix}`;
 }

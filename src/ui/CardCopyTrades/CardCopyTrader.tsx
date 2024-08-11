@@ -88,7 +88,7 @@ export function CardTrader(trader: CopyMaster) {
                       padding: "0 4.2px",
                     }}
                   >
-                    7d
+                    All
                   </span>
                 </AppText>
               </AppButton>
@@ -177,9 +177,9 @@ export function CardTrader(trader: CopyMaster) {
           </Tooltip>
           <AppText
             instancetype="withPriceCardTrade"
-            c={valueColor(trader.drawDown)}
+            c={valueColor(-trader.drawDown)}
           >
-            {_value(trader.drawDown)}
+            {_value(-trader.drawDown, "")}
           </AppText>
         </Flex>
         <Flex justify={"space-between"}>
@@ -198,7 +198,7 @@ export function CardTrader(trader: CopyMaster) {
             </AppButton>
           </Tooltip>
           <AppText instancetype="withPriceCardTrade">
-            {trader.aum.toLocaleString()}
+            {trader.aum ? trader.aum.toLocaleString() : "---"}
           </AppText>
         </Flex>
         <Space h={20} />
@@ -217,8 +217,8 @@ export function CardTrader(trader: CopyMaster) {
   );
 }
 
-function _value(percent: number) {
-  return `${percent > 0 ? "+" : ""}${(
-    percent * 100
-  ).toLocaleString()}%`;
+function _value(percent: number, suffix = "%") {
+  return `${
+    percent > 0 ? "+" : ""
+  }${percent.toLocaleString()}${suffix}`;
 }

@@ -410,5 +410,7 @@
   "Assets (USDT)": "Assets (USDT)",
   "NetPnL (USDT)": "NetPnL (USDT)",
   "Withdraw amount": "Withdraw amount",
+  "Enter a percentage from 20% to 100%": "Enter a percentage from 20% to 100%",
+  "Your amount is insufficient to proceed with this step. Please deposit more funds into your account to continue.": "Your amount is insufficient to proceed with this step. Please deposit more funds into your account to continue.",
   "IP Address": "IP Address"
 }

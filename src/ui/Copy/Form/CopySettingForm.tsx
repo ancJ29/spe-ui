@@ -1,3 +1,4 @@
+import bigNumber from "@/common/big-number";
 import { CopySetting } from "@/common/types";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import {
@@ -5,17 +6,20 @@ import {
   followApi,
   saveCopySetting,
 } from "@/services/apis";
+import { assetStore } from "@/store/assets";
 import { error, success } from "@/utils/notifications";
 import { reloadWindow } from "@/utils/utility";
 import {
+  Alert,
   Box,
   Button,
   Flex,
   InputLabel,
+  LoadingOverlay,
   NumberInput,
 } from "@mantine/core";
 import { modals } from "@mantine/modals";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export function CopySettingForm({
   masterAccountId,
@@ -26,8 +30,15 @@ export function CopySettingForm({
   const [newFollower, setNewFollower] = useState(false);
   const [form, setForm] = useState<CopySetting>();
   const [followAmount, setFollowAmount] = useState(0);
+  const [fetching, setFetching] = useState(true);
+  const { fundingBalances } = assetStore();
+  const maxAmountUSDT = useMemo(() => {
+    const amount = fundingBalances.find(v => v.coin === "USDT")?.amount;
+    return parseFloat(amount ?? "0");
+  }, [fundingBalances]);
 
   useEffect(() => {
+    setFetching(true);
     fetchCopySetting(masterAccountId).then((form) => {
       setNewFollower(!form);
       setForm(
@@ -41,19 +52,25 @@ export function CopySettingForm({
           slRatio: 0,
         },
       );
-    });
+    }).finally(() => setFetching(false));
   }, [masterAccountId]);
+  if(fetching) {
+    return <LoadingOverlay visible={fetching} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />;
+  }
   if (newFollower) {
     return (
-      <Box className="space-y-10">
+      <Box className="space-y-10" mih={150}>
         <InputLabel fw={600} fz={14}>
           {t("Copy Trade Ratio (%)")}
         </InputLabel>
         <NumberInput
-          rightSection={<></>}
+          hideControls
           size="sm"
-          value={form?.ratio || 0}
+          value={form?.ratio || 20}
+          description={t("Enter a percentage from 20% to 100%")}
           step={1}
+          min={20}
+          max={100}
           onChange={(v) =>
             setForm(_save(form, "ratio", Math.round(Number(v))))
           }
@@ -66,9 +83,15 @@ export function CopySettingForm({
           thousandSeparator
           size="sm"
           value={followAmount}
+          max={maxAmountUSDT}
+          min={1}
+          disabled={maxAmountUSDT <= 0}
           step={1}
           onChange={(v) => setFollowAmount(Math.round(Number(v)))}
         />
+        {maxAmountUSDT <= 0 && <Alert>
+          {t("Your amount is insufficient to proceed with this step. Please deposit more funds into your account to continue.")}
+        </Alert>}
         <Box w={"100%"}>
           <Button
             mt={5}
@@ -88,7 +111,7 @@ export function CopySettingForm({
                   })
                   .finally(() => {
                     modals.closeAll();
-                    reloadWindow();
+                    // reloadWindow();
                   });
             }}
           >
@@ -99,15 +122,18 @@ export function CopySettingForm({
     );
   }
   return (
-    <Box className="space-y-10">
+    <Box mih={150} className="space-y-10">
       <InputLabel fw={600} fz={14}>
         {t("Copy Trade Ratio (%)")}
       </InputLabel>
       <NumberInput
-        rightSection={<></>}
+        hideControls
         size="sm"
-        value={form?.ratio || 0}
+        value={form?.ratio || 20}
         step={1}
+        description={t("Enter a percentage from 20% to 100%")}
+        min={20}
+        max={100}
         onChange={(v) =>
           setForm(_save(form, "ratio", Math.round(Number(v))))
         }
@@ -117,7 +143,7 @@ export function CopySettingForm({
       </InputLabel>
       <Flex align="center" justify="space-between">
         <NumberInput
-          rightSection={<></>}
+          hideControls
           thousandSeparator
           size="sm"
           value={form?.maxAmount || 0}

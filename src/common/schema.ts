@@ -168,6 +168,7 @@ export const copyMasterPerformanceSchema = z.object({
   w: periodPerformanceSchema.optional(),
   m: periodPerformanceSchema.optional(),
   q: periodPerformanceSchema.optional(),
+  roiSeries: numberSchema.array(),
   aum: optionalNumberSchema,
   totalProfitSharing: optionalNumberSchema,
   settledAmount: optionalNumberSchema,

@@ -422,5 +422,7 @@
   "Actions": "操作",
   "Withdraw amount": "出金金額",
   "The withdrawal function will be disabled for 24 hours after you change your login password.": "ログインパスワードを変更後、24時間は出金機能が無効となります。",
+  "Enter a percentage from 20% to 100%": "20％から100％までの割合を入力してください",
+  "Your amount is insufficient to proceed with this step. Please deposit more funds into your account to continue.": "このステップを進めるには金額が不足しています。続行するためにアカウントに資金を追加してください。",
   "X": "X"
 }
