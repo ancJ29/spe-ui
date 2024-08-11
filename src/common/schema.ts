@@ -14,6 +14,8 @@ export const optionalStringSchema = stringSchema.optional();
 
 export const speNumberSchema = stringSchema.or(numberSchema);
 
+export const nullableSpeNumberSchema = speNumberSchema.or(z.null()).transform((val) => val ?? 0);
+
 export const binanceOrderParamSchema = z.object({
   isSpot: booleanSchema,
   orderIds: stringSchema.array().min(1),
@@ -147,20 +149,20 @@ export const periodPerformanceSchema = z.object({
   //   win: speNumberSchema,
   //   lose: speNumberSchema,
   // }),
-  pnl: speNumberSchema,
-  avgHoldTime: speNumberSchema,
-  roi: speNumberSchema,
-  totalWin: speNumberSchema,
-  totalLose: speNumberSchema,
-  winRate: speNumberSchema,
-  totalPosition: speNumberSchema,
-  totalOrder: speNumberSchema,
-  avgPnlPerTrade: speNumberSchema,
-  avgPnlPerPosition: speNumberSchema,
-  weeklyTrade: speNumberSchema,
-  lastTrade: speNumberSchema,
-  profitToLoss: speNumberSchema,
-  maxDrawDown: speNumberSchema,
+  pnl: nullableSpeNumberSchema,
+  avgHoldTime: nullableSpeNumberSchema,
+  roi: nullableSpeNumberSchema,
+  totalWin: nullableSpeNumberSchema,
+  totalLose: nullableSpeNumberSchema,
+  winRate: nullableSpeNumberSchema,
+  totalPosition: nullableSpeNumberSchema,
+  totalOrder: nullableSpeNumberSchema,
+  avgPnlPerTrade: nullableSpeNumberSchema,
+  avgPnlPerPosition: nullableSpeNumberSchema,
+  weeklyTrade: nullableSpeNumberSchema,
+  lastTrade: nullableSpeNumberSchema,
+  profitToLoss: nullableSpeNumberSchema,
+  maxDrawDown: nullableSpeNumberSchema,
 });
 
 export const copyMasterPerformanceSchema = z.object({

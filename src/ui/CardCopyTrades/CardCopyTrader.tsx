@@ -108,6 +108,13 @@ export function CardTrader(trader: CopyMaster) {
                 data: trader.series,
               },
             ]}
+            chartOptions={{
+              colors: [trader.roi > 0 ? "#00E396" : "#ff0000"],
+              fill: {
+                opacity: 0.4,
+                colors: [trader.roi > 0 ? "#00E396" : "#ff0000"],
+              },
+            }}
           />
         </Flex>
         <Flex justify={"space-between"}>
