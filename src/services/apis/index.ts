@@ -38,6 +38,7 @@ import tradeStore from "@/store/trade";
 import { delay, ONE_MINUTE } from "@/utils";
 import { avatarUrl } from "@/utils/utility";
 import { LRUCache } from "lru-cache";
+import queryString from "query-string";
 import { z } from "zod";
 import logger from "../logger";
 import axios, { getApi } from "./_axios";
@@ -554,13 +555,6 @@ export async function updateMasterSettingApi(
   await axios.post("/api/copy/master/me/update", params);
 }
 
-export async function fetchOpenCopyPositions() {
-  const path = "/api/copy/master/me/positions/open";
-  return getApi<{ positions: CopyPosition[] }>(path).then(
-    (res) => res.positions,
-  );
-}
-
 export async function fetchCopyOrders(
   cursor: string,
   reverse: boolean,
@@ -568,8 +562,7 @@ export async function fetchCopyOrders(
 ) {
   const base = "/api/copy/mine/orders";
   return getApi<{ orders: CopyOrder[] }>(
-    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
-      limit || 10
+    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${limit || 10
     }`,
   ).then((res) => res.orders);
 }
@@ -581,31 +574,37 @@ export async function fetchCopyTransactions(
 ) {
   const base = "/api/copy/master/me/transactions";
   return getApi<{ transactions: CopyTransaction[] }>(
-    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
-      limit || 10
+    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${limit || 10
     }`,
   ).then((res) => res.transactions);
 }
 
 export async function fetchMasterCopyOrders(
+  masterAccountId: string,
   cursor: string,
   reverse: boolean,
   limit: number,
 ) {
-  const base = "/api/copy/master/me/orders";
+  const base = "/api/copy/master/orders";
   return getApi<{ orders: CopyOrder[] }>(
-    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
-      limit || 10
-    }`,
+    `${base}?${queryString.stringify({ cursor, reverse, limit, masterAccountId })}`,
   ).then((res) => res.orders);
 }
+
+export async function fetchMasterOpenCopyPositions(masterAccountId: string) {
+  const path = "/api/copy/master/positions/open?masterAccountId=" + masterAccountId;
+  return getApi<{ positions: CopyPosition[] }>(path).then(
+    (res) => res.positions,
+  );
+}
+
 
 export async function fetchCopyOpenPositions(
   masterAccountId?: string,
 ) {
   let path = "/api/copy/mine/positions";
   if (masterAccountId) {
-    path = `/api/copy/master/positions/open?masterAccountId=${masterAccountId}`;
+    path = `/api/copy/mine/positions/open?masterAccountId=${masterAccountId}`;
   }
   return getApi<{ positions: CopyPosition[] }>(path).then(
     (res) => res.positions,

@@ -5,7 +5,7 @@ export function SPETableDateTime({ time }: { time: number }) {
   return (
     <Flex align={"end"}>
       <AppText instancetype="WithCellToken" fz={12}>
-        {time ? new Date(time).toLocaleString() : "---"}
+        {time ? new Date(time).toLocaleString("Ja-JP") : "---"}
       </AppText>
     </Flex>
   );

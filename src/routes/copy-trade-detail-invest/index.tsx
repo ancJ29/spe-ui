@@ -16,7 +16,8 @@ import { CopySettingForm } from "@/ui/Copy";
 import NumberFormat from "@/ui/NumberFormat";
 import { OptionFilter } from "@/ui/OptionFilter";
 import { AppPopover } from "@/ui/Popover/AppPopover";
-import { NoDataRecord } from "@/ui/SPEMisc";
+import SPEMasterOpenPosition from "@/ui/SPEMasterOpenPosition";
+import SPEMasterOrderHistory from "@/ui/SPEMasterOrderHistory";
 import AppText from "@/ui/Text/AppText";
 import { avatarUrl, getDatesArray } from "@/utils/utility";
 import {
@@ -32,11 +33,7 @@ import {
   SegmentedControl,
   SimpleGrid,
   Space,
-  Table,
-  TableData,
   Tabs,
-  Text,
-  Title,
 } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import {
@@ -1083,115 +1080,6 @@ function TabsUI(props: PublicCopyMasterDetail) {
     }[valueRate];
   }, [valueRate]);
 
-  const tableDataPosition: TableData = useMemo(() => {
-    const rows: any[] = []; // eslint-disable-line
-    // Contract	Order Price	Qty	Margin/Realized PnL	Followers	Time
-    return {
-      head: [
-        "Contract",
-        "Entry Price",
-        "Qty",
-        "Position Margin",
-        "Unrealized PnL(%)",
-        "Followers",
-      ].map((el) => t(el)),
-      body: rows.map((row) => [
-        <>
-          <Text hiddenFrom="sm" c={"dimmed"}>
-            {t("Available")}
-          </Text>
-          <Title order={6}>
-            <NumberFormat decimalPlaces={8} value={row.amount} />
-          </Title>
-          <Text c="dimmed" size="xs">
-            ~ $
-            {<NumberFormat decimalPlaces={3} value={row.usdValue} />}
-          </Text>
-        </>,
-        <>
-          <Text hiddenFrom="sm" c={"dimmed"}>
-            {t("Frozen")}
-          </Text>
-          <Title order={6}>
-            {<NumberFormat decimalPlaces={8} value={row.locked} />}
-          </Title>
-          <Text c="dimmed" size="xs">
-            ~ $
-            {
-              <NumberFormat
-                decimalPlaces={3}
-                value={row.lockedUsdValue}
-              />
-            }
-          </Text>
-        </>,
-        <>
-          <Text hiddenFrom="sm" c={"dimmed"}>
-            {t("BTC Valuation")}
-          </Text>
-          <Title order={6}>
-            {<NumberFormat decimalPlaces={8} value={row.btcValue} />}
-          </Title>
-        </>,
-      ]),
-    };
-  }, [t]);
-
-  const tableDataHistory: TableData = useMemo(() => {
-    const rows: any[] = []; // eslint-disable-line
-    // Contract	Order Price	Qty	Margin/Realized PnL	Followers	Time
-    return {
-      // Contract	Order Price	Qty	Margin/Realized PnL	Followers	Time
-      head: [
-        "Contract",
-        "Order Price",
-        "Qty",
-        "Margin/Realized PnL",
-        "Followers",
-        "Time",
-      ].map((el) => t(el)),
-      body: rows.map((row) => [
-        <>
-          <Text hiddenFrom="sm" c={"dimmed"}>
-            {t("Available")}
-          </Text>
-          <Title order={6}>
-            <NumberFormat decimalPlaces={8} value={row.amount} />
-          </Title>
-          <Text c="dimmed" size="xs">
-            ~ $
-            {<NumberFormat decimalPlaces={3} value={row.usdValue} />}
-          </Text>
-        </>,
-        <>
-          <Text hiddenFrom="sm" c={"dimmed"}>
-            {t("Frozen")}
-          </Text>
-          <Title order={6}>
-            {<NumberFormat decimalPlaces={8} value={row.locked} />}
-          </Title>
-          <Text c="dimmed" size="xs">
-            ~ $
-            {
-              <NumberFormat
-                decimalPlaces={3}
-                value={row.lockedUsdValue}
-              />
-            }
-          </Text>
-        </>,
-        <>
-          <Text hiddenFrom="sm" c={"dimmed"}>
-            {t("BTC Valuation")}
-          </Text>
-          <Title order={6}>
-            {<NumberFormat decimalPlaces={8} value={row.btcValue} />}
-          </Title>
-        </>,
-      ]),
-    };
-  }, [t]);
-
   return (
     <>
       <Tabs
@@ -1299,53 +1187,27 @@ function TabsUI(props: PublicCopyMasterDetail) {
             value={tradeMode}
             onChange={(v) => setTradeMode(v as TradeDataType)}
             data={[
-              { label: "Current Position", value: "CurrentPosition" },
-              { label: "Order History", value: "OrderHistory" },
+              {
+                label: t("Current Position"),
+                value: "CurrentPosition",
+              },
+              { label: t("Order History"), value: "OrderHistory" },
             ]}
           />
           <Space my={"md"} />
-          <Box h={"450px"}>
+          <Box>
             {tradeMode === "CurrentPosition" && (
-              <Table.ScrollContainer minWidth={"100%"} h={"100%"}>
-                <Table
-                  data={tableDataPosition}
-                  stickyHeader
-                  highlightOnHover
-                  classNames={{
-                    table: "table-sticky-column table-list-gird-view",
-                  }}
-                  styles={{
-                    th: {
-                      whiteSpace: "nowrap",
-                      fontSize: "12px",
-                    },
-                  }}
-                />
-                {tableDataPosition.body?.length === 0 && (
-                  <NoDataRecord />
-                )}
-              </Table.ScrollContainer>
+              <SPEMasterOpenPosition
+                masterAccountId={props.masterAccountId}
+                noFollowerInfo
+              />
             )}
             {tradeMode === "OrderHistory" && (
-              <Table.ScrollContainer minWidth={"100%"} h={"100%"}>
-                <Table
-                  data={tableDataHistory}
-                  stickyHeader
-                  highlightOnHover
-                  classNames={{
-                    table: "table-sticky-column table-list-gird-view",
-                  }}
-                  styles={{
-                    th: {
-                      whiteSpace: "nowrap",
-                      fontSize: "12px",
-                    },
-                  }}
-                />
-                {tableDataHistory.body?.length === 0 && (
-                  <NoDataRecord />
-                )}
-              </Table.ScrollContainer>
+              <SPEMasterOrderHistory
+                masterAccountId={props.masterAccountId}
+                noMargin
+                noFollower
+              />
             )}
           </Box>
         </Tabs.Panel>
