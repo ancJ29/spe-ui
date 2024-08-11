@@ -1,6 +1,7 @@
 import AppButton from "@/ui/Button/AppButton";
 import { AppPopover } from "@/ui/Popover/AppPopover";
 import AppText from "@/ui/Text/AppText";
+import { fmtDate } from "@/utils/utility";
 import { Box, Flex, TableData } from "@mantine/core";
 import { IconEdit, IconPlus } from "@tabler/icons-react";
 
@@ -565,7 +566,7 @@ export const dataHistories: TableHistory = {
           </Box>,
           <Box key={`${idx}.8`} miw={130}>
             <AppText instancetype="WithCellToken" fz={12}>
-              {new Date(tradeTime).toLocaleString()}
+              {fmtDate(tradeTime)}
             </AppText>
           </Box>,
         ],
@@ -808,7 +809,7 @@ export const dataHistories: TableHistory = {
               </Box>,
               <Box key={`${idx}.9`} miw={140}>
                 <AppText instancetype="WithCellToken" fz={12}>
-                  {new Date(orderTime).toLocaleString()}
+                  {fmtDate(orderTime)}
                 </AppText>
               </Box>,
               <AppButton
@@ -1066,7 +1067,7 @@ export const dataHistories: TableHistory = {
               </Box>,
               <Box key={`${idx}.8`} miw={140}>
                 <AppText instancetype="WithCellToken" fz={12}>
-                  {new Date(orderTime).toLocaleString()}
+                  {fmtDate(orderTime)}
                 </AppText>
               </Box>,
               <AppButton
@@ -1164,7 +1165,7 @@ export const dataHistories: TableHistory = {
               </Box>,
               <Box key={`${idx}.7`}>
                 <AppText instancetype="WithCellToken" fz={12}>
-                  {new Date(orderTime).toLocaleString()}
+                  {fmtDate(orderTime)}
                 </AppText>
               </Box>,
               <AppButton
@@ -1372,7 +1373,7 @@ export const dataHistories: TableHistory = {
               </Box>,
               <Box key={`${idx}.9`} miw={140}>
                 <AppText instancetype="WithCellToken" fz={12}>
-                  {new Date(orderTime).toLocaleString()}
+                  {fmtDate(orderTime)}
                 </AppText>
               </Box>,
               <AppButton
@@ -1480,7 +1481,7 @@ export const dataHistories: TableHistory = {
               </Box>,
               <Box key={`${idx}.8`}>
                 <AppText instancetype="WithCellToken" fz={12}>
-                  {new Date(orderTime).toLocaleString()}
+                  {fmtDate(orderTime)}
                 </AppText>
               </Box>,
               <AppButton
@@ -1634,7 +1635,7 @@ export const dataHistories: TableHistory = {
               </AppText>,
               <Box key={`${idx}.8`} miw={140}>
                 <AppText instancetype="WithCellToken" fz={12}>
-                  {new Date(orderTime).toLocaleString()}
+                  {fmtDate(orderTime)}
                 </AppText>
               </Box>,
             ],
@@ -1711,7 +1712,7 @@ export const dataHistories: TableHistory = {
             </AppText>,
             <Box key={`${idx}.8`} miw={140}>
               <AppText instancetype="WithCellToken" fz={12}>
-                {new Date(props.orderTime).toLocaleString()}
+                {fmtDate(props.orderTime)}
               </AppText>
             </Box>,
           ]),
@@ -1787,7 +1788,7 @@ export const dataHistories: TableHistory = {
             </AppText>,
             <Box key={`${idx}.8`} miw={140}>
               <AppText instancetype="WithCellToken" fz={12}>
-                {new Date(props.orderTime).toLocaleString()}
+                {fmtDate(props.orderTime)}
               </AppText>
             </Box>,
           ]),
@@ -1863,7 +1864,7 @@ export const dataHistories: TableHistory = {
             </AppText>,
             <Box key={`${idx}.8`} miw={140}>
               <AppText instancetype="WithCellToken" fz={12}>
-                {new Date(props.orderTime).toLocaleString()}
+                {fmtDate(props.orderTime)}
               </AppText>
             </Box>,
           ]),
@@ -1939,7 +1940,7 @@ export const dataHistories: TableHistory = {
             </AppText>,
             <Box key={`${idx}.8`} miw={140}>
               <AppText instancetype="WithCellToken" fz={12}>
-                {new Date(props.orderTime).toLocaleString()}
+                {fmtDate(props.orderTime)}
               </AppText>
             </Box>,
           ]),

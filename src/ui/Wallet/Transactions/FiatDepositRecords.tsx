@@ -6,6 +6,7 @@ import { fetchTransactions } from "@/services/apis";
 import { Asset } from "@/ui/Asset/Asset";
 import NumberFormat from "@/ui/NumberFormat";
 import { NoDataRecord, SPEPagination } from "@/ui/SPEMisc";
+import { fmtDate } from "@/utils/utility";
 import {
   Badge,
   Box,
@@ -59,7 +60,7 @@ export function FiatDepositRecords() {
               {t("Time")}
             </Text>
             <Title order={6} fz={12}>
-              {new Date(row.updatedAt).toLocaleString()}
+              {fmtDate(row.updatedAt)}
             </Title>
           </>,
           <>

@@ -83,12 +83,6 @@ export enum TimeInForce {
   FOK = "FOK",
 }
 
-export enum HedgeTarget {
-  BINANCE = "BINANCE",
-  BYBIT = "BYBIT",
-  OKX = "OKX",
-}
-
 export enum TemplateType {
   VERIFICATION_EMAIL = "VERIFICATION_EMAIL",
   VERIFICATION_SMS = "VERIFICATION_SMS",

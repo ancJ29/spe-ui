@@ -36,7 +36,7 @@ const colors = [
 ];
 
 export function CardTraderTop1({
-  top = 1,
+  ranking,
   avatar,
   name,
   pnlRatio,
@@ -61,9 +61,9 @@ export function CardTraderTop1({
       component={Link}
       to={`/copy-trading/${masterAccountId}`}
     >
-      {top < 6 && (
+      {ranking < 6 && (
         <Box pos={"absolute"} top={0} left={0} style={{ zIndex: 2 }}>
-          <Image src={images[top - 1]} />
+          <Image src={images[ranking - 1]} />
         </Box>
       )}
       <Box pos={"absolute"} top={36} left={19} style={{ zIndex: 1 }}>
@@ -77,7 +77,7 @@ export function CardTraderTop1({
         right={0}
         style={{
           borderRadius: "0 8px 0 24px",
-          background: colors[top - 1],
+          background: colors[ranking - 1],
           zIndex: 3,
         }}
       >
@@ -88,7 +88,7 @@ export function CardTraderTop1({
           c={"white"}
           style={{ textAlign: "center" }}
         >
-          No. {top.toString().padStart(2, "0")}
+          No. {ranking.toString().padStart(2, "0")}
         </AppText>
       </Box>
       <Box pos={"relative"} style={{ zIndex: 3 }}>

@@ -1,6 +1,7 @@
 import useSPETranslation from "@/hooks/useSPETranslation";
 import { loginHistoryApi } from "@/services/apis";
 import { LoginHistory } from "@/types";
+import { fmtDate } from "@/utils/utility";
 import { Box, Table, TableData, Text } from "@mantine/core";
 import { useEffect, useMemo, useState } from "react";
 
@@ -23,7 +24,7 @@ export function LoginHistories() {
               size="sm"
               styles={{ root: { whiteSpace: "nowrap" } }}
             >
-              {new Date(r.timestamp).toLocaleString()}
+              {fmtDate(r.timestamp)}
             </Text>
           </>,
           <>

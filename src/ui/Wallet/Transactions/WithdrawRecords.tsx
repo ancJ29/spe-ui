@@ -6,6 +6,7 @@ import { fetchTransactions } from "@/services/apis";
 import { Asset } from "@/ui/Asset/Asset";
 import NumberFormat from "@/ui/NumberFormat";
 import { NoDataRecord, SPEPagination } from "@/ui/SPEMisc";
+import { fmtDate } from "@/utils/utility";
 import {
   ActionIcon,
   Badge,
@@ -73,7 +74,7 @@ export function WithdrawRecords() {
             {t("Time")}
           </Text>
           <Title order={6} fz={12} key={`${row.id}.time`}>
-            {new Date(row.updatedAt).toLocaleString()}
+            {fmtDate(row.updatedAt)}
           </Title>
         </>,
         <>

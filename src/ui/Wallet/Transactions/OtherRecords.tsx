@@ -7,6 +7,7 @@ import { assetStore } from "@/store/assets";
 import { Asset } from "@/ui/Asset/Asset";
 import NumberFormat from "@/ui/NumberFormat";
 import { NoDataRecord, SPEPagination } from "@/ui/SPEMisc";
+import { fmtDate } from "@/utils/utility";
 import { Box, Table, TableData, Text, Title } from "@mantine/core";
 import { useCallback, useMemo } from "react";
 
@@ -61,7 +62,7 @@ export function OtherRecords() {
             {t("Time")}
           </Text>
           <Title order={6} fz={12} key={`${row.id}.time`}>
-            {new Date(row.updatedAt).toLocaleString()}
+            {fmtDate(row.updatedAt)}
           </Title>
         </>,
         <>

@@ -127,11 +127,52 @@ export const nullablePositiveInteger = z
   .optional()
   .transform((val) => val ?? null);
 
+export const periodPerformanceSchema = z.object({
+  // orderData: z.object({
+  //   init: speNumberSchema,
+  //   amount: speNumberSchema,
+  //   maxAsset: speNumberSchema,
+  //   minAsset: speNumberSchema,
+  //   position: speNumberSchema,
+  //   first: speNumberSchema,
+  //   last: speNumberSchema,
+  //   total: speNumberSchema,
+  //   positionCnt: speNumberSchema,
+  //   entryTime: speNumberSchema,
+  //   avgPrice: speNumberSchema,
+  //   hold: speNumberSchema,
+  //   profit: speNumberSchema,
+  //   roi: speNumberSchema,
+  //   maxDrawDown: speNumberSchema,
+  //   win: speNumberSchema,
+  //   lose: speNumberSchema,
+  // }),
+  pnl: speNumberSchema,
+  avgHoldTime: speNumberSchema,
+  roi: speNumberSchema,
+  totalWin: speNumberSchema,
+  totalLose: speNumberSchema,
+  winRate: speNumberSchema,
+  totalPosition: speNumberSchema,
+  totalOrder: speNumberSchema,
+  avgPnlPerTrade: speNumberSchema,
+  avgPnlPerPosition: speNumberSchema,
+  weekLyTrade: speNumberSchema,
+  lastTrade: speNumberSchema,
+  profitToLoss: speNumberSchema,
+  maxDrawDown: speNumberSchema,
+});
+
 export const copyMasterPerformanceSchema = z.object({
+  all: periodPerformanceSchema,
+  d: periodPerformanceSchema.optional(),
+  m: periodPerformanceSchema.optional(),
+  q: periodPerformanceSchema.optional(),
   aum: optionalNumberSchema,
   totalProfitSharing: optionalNumberSchema,
   settledAmount: optionalNumberSchema,
   unSettledAmount: optionalNumberSchema,
+  ranking: numberSchema.int().min(0).optional(),
 });
 
 export const authenticationPayloadSchema = z.object({

@@ -59,9 +59,8 @@ export function fetchAllTraders() {
     return getApi<{ traders: CopyMaster[] }>(
       "/api/copy/traders",
     ).then(({ traders }) =>
-      traders.map((el, idx) => ({
+      traders.map((el) => ({
         ...el,
-        top: idx + 1,
         avatar: avatarUrl(el?.avatar) || "",
       })),
     );
@@ -562,7 +561,8 @@ export async function fetchCopyOrders(
 ) {
   const base = "/api/copy/mine/orders";
   return getApi<{ orders: CopyOrder[] }>(
-    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${limit || 10
+    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
+      limit || 10
     }`,
   ).then((res) => res.orders);
 }
@@ -574,7 +574,8 @@ export async function fetchCopyTransactions(
 ) {
   const base = "/api/copy/master/me/transactions";
   return getApi<{ transactions: CopyTransaction[] }>(
-    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${limit || 10
+    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
+      limit || 10
     }`,
   ).then((res) => res.transactions);
 }
@@ -587,17 +588,25 @@ export async function fetchMasterCopyOrders(
 ) {
   const base = "/api/copy/master/orders";
   return getApi<{ orders: CopyOrder[] }>(
-    `${base}?${queryString.stringify({ cursor, reverse, limit, masterAccountId })}`,
+    `${base}?${queryString.stringify({
+      cursor,
+      reverse,
+      limit,
+      masterAccountId,
+    })}`,
   ).then((res) => res.orders);
 }
 
-export async function fetchMasterOpenCopyPositions(masterAccountId: string) {
-  const path = "/api/copy/master/positions/open?masterAccountId=" + masterAccountId;
+export async function fetchMasterOpenCopyPositions(
+  masterAccountId: string,
+) {
+  const path =
+    "/api/copy/master/positions/open?masterAccountId=" +
+    masterAccountId;
   return getApi<{ positions: CopyPosition[] }>(path).then(
     (res) => res.positions,
   );
 }
-
 
 export async function fetchCopyOpenPositions(
   masterAccountId?: string,

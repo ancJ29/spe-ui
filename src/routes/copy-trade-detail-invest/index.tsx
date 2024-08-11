@@ -19,7 +19,8 @@ import { AppPopover } from "@/ui/Popover/AppPopover";
 import SPEMasterOpenPosition from "@/ui/SPEMasterOpenPosition";
 import SPEMasterOrderHistory from "@/ui/SPEMasterOrderHistory";
 import AppText from "@/ui/Text/AppText";
-import { avatarUrl, getDatesArray } from "@/utils/utility";
+import { ONE_DAY, ONE_HOUR, ONE_MINUTE } from "@/utils";
+import { avatarUrl, fmtDate, getDatesArray } from "@/utils/utility";
 import {
   Avatar,
   Box,
@@ -232,8 +233,9 @@ function Banner(trader: PublicCopyMasterDetail) {
                                   fz={12}
                                   style={{ textAlign: "center" }}
                                 >
-                                  The days when a Master Trader holds
-                                  open positions.
+                                  {t(
+                                    "The days when a Master Trader holds open positions.",
+                                  )}
                                 </AppText>
                               ),
                             })}
@@ -502,71 +504,86 @@ function Banner(trader: PublicCopyMasterDetail) {
   );
 }
 
-type Period = "7D" | "30D" | "90D";
+type Period = "All" | "7D" | "30D" | "90D";
 
-function Performance(props: PublicCopyMasterDetail) {
+function Performance({ performance }: PublicCopyMasterDetail) {
   const t = useSPETranslation();
-  const [time, setTime] = useState<Period>("7D");
+  const [time, setTime] = useState<Period>("All");
 
   const data = useMemo(() => {
-    if (time === "7D") {
-      return props.performance.w;
+    if (time === "All") {
+      return performance.all;
+    } else if (time === "7D") {
+      return performance.w;
     } else if (time === "30D") {
-      return props.performance.m;
+      return performance.m;
     } else {
-      return props.performance.q;
+      return performance.q;
     }
-  }, [props, time]);
+  }, [performance, time]);
 
   const performanceItems = useMemo(() => {
-    const {
-      pToL,
-      pnlRatio,
-      totalTrades,
-      avgHoldingTime,
-      volatility,
-    } = data;
+    const total = Number(data?.avgHoldTime || 0) * ONE_MINUTE;
+    const days = Math.floor(total / ONE_DAY);
+    const hours = Math.floor((total % ONE_DAY) / ONE_HOUR);
+
     return [
       [
-        "Profit-to-Loss Ratio",
+        t("Profit-to-Loss Ratio"),
         <>
-          <NumberFormat value={pToL} />:
-          <NumberFormat value={pnlRatio} />
+          {Number(data?.totalWin)}
+          {" :  "}
+          {Number(data?.totalLose)}
         </>,
-        "The ratio of average profit per winning order to average loss per losing order.",
+        t(
+          "The ratio of average profit per winning order to average loss per losing order.",
+        ),
       ],
       [
-        "Weekly Trades",
+        t("Weekly Trades"),
         <>
-          <NumberFormat value={totalTrades} />
+          <NumberFormat value={data?.weekLyTrade} decimalPlaces={2} />
         </>,
-        "The average number of trades the Master Trader made weekly in the last month.",
+        t(
+          "The average number of trades the Master Trader made weekly in the last month.",
+        ),
       ],
       [
-        "Avg. Holding Time",
+        t("Avg. Holding Time"),
         <>
-          <NumberFormat value={avgHoldingTime} suffix="Days" />
+          <span>
+            {days > 0
+              ? `${days} ${t(days > 1 ? "Days" : "Day")} `
+              : ""}
+            {hours > 0
+              ? `${hours} ${t(hours > 1 ? "Hours" : "Hour")} `
+              : ""}
+          </span>
         </>,
-        "The average position holding period of all closed positions",
+        t(
+          "The average position holding period of all closed positions",
+        ),
       ],
       [
-        "ROI Volatility",
+        t("ROI Volatility"),
         <>
-          <NumberFormat value={volatility} prefix={"%"} />
+          <NumberFormat value={0} prefix={"%"} />
         </>,
-        "Higher value indicates less stable returns.",
+        t("Higher value indicates less stable returns."),
       ],
       [
-        "Last Traded at",
+        t("Last Traded at"),
         <>
-          {data.lastTrade
-            ? new Date(data.lastTrade).toLocaleString()
+          {data?.lastTrade
+            ? fmtDate(Number(data.lastTrade || 0))
             : "--"}
         </>,
-        "The last time the Master Trader opened or closed a position.",
+        t(
+          "The last time the Master Trader opened or closed a position.",
+        ),
       ],
-    ];
-  }, [data]);
+    ] as [string, JSX.Element, string][]; // cspell:disable
+  }, [data, t]);
 
   return (
     <>
@@ -575,9 +592,14 @@ function Performance(props: PublicCopyMasterDetail) {
           {t("Performance")}
         </AppText>
         <OptionFilter
+          disabled={true}
           onChange={(v) => setTime(v as Period)}
           value={time}
           items={[
+            {
+              label: "All time",
+              value: "All",
+            },
             {
               label: "7 Days",
               value: "7D",
@@ -616,19 +638,20 @@ function Performance(props: PublicCopyMasterDetail) {
             dropdown={() => ({
               children: (
                 <AppText instancetype="WithTextTooltip">
-                  ROI is a performance measure used to evaluate the
-                  efficiency or profitability of a Master Trader.
+                  {t(
+                    "ROI is a performance measure used to evaluate the efficiency or profitability of a Master Trader.",
+                  )}
                 </AppText>
               ),
             })}
           ></AppPopover>
           <AppText
             instancetype="withPriceLong"
-            c={priceDisplay(data.roi).color}
+            c={priceDisplay(data?.roi).color}
           >
             <NumberFormat
-              prefix={priceDisplay(data.roi).sub}
-              value={data.roi}
+              prefix={priceDisplay(data?.roi).sub}
+              value={data?.roi}
               suffix="%"
             />
           </AppText>
@@ -645,7 +668,7 @@ function Performance(props: PublicCopyMasterDetail) {
                   onMouseEnter={props.open}
                   onMouseLeave={props.close}
                 >
-                  {"Master's PnL"}
+                  {t("Master's PnL")}
                 </AppText>
               ),
             })}
@@ -661,11 +684,11 @@ function Performance(props: PublicCopyMasterDetail) {
           ></AppPopover>
           <AppText
             instancetype="withPriceLong"
-            c={priceDisplay(data.avgPnL).color}
+            c={priceDisplay(data?.pnl).color}
           >
             <NumberFormat
-              prefix={priceDisplay(data.avgPnL).sub}
-              value={data.avgPnL}
+              prefix={priceDisplay(data?.pnl).sub}
+              value={data?.pnl}
             />
           </AppText>
         </Flex>
@@ -681,21 +704,22 @@ function Performance(props: PublicCopyMasterDetail) {
                   onMouseEnter={props.open}
                   onMouseLeave={props.close}
                 >
-                  Win Rate
+                  {t("Win Rate")}
                 </AppText>
               ),
             })}
             dropdown={() => ({
               children: (
                 <AppText instancetype="WithTextTooltip">
-                  Shows the average win rate of a Master Trader over a
-                  certain period.
+                  {t(
+                    "Shows the average win rate of a Master Trader over a certain period.",
+                  )}
                 </AppText>
               ),
             })}
           ></AppPopover>
           <AppText instancetype="withPriceLong">
-            <NumberFormat value={data.totalWin} suffix="%" />
+            <NumberFormat value={data?.winRate} suffix="%" />
           </AppText>
         </div>
         <Flex align={"end"} direction={"column"}>
@@ -726,11 +750,11 @@ function Performance(props: PublicCopyMasterDetail) {
           ></AppPopover>
           <AppText
             instancetype="withPriceLong"
-            c={priceDisplay(data.followerPnL).color}
+            c={priceDisplay(0).color}
           >
             <NumberFormat
-              prefix={priceDisplay(data.followerPnL).sub}
-              value={data.followerPnL}
+              prefix={priceDisplay(0).sub}
+              value={0}
               suffix="%"
             />
           </AppText>
@@ -762,7 +786,7 @@ function Performance(props: PublicCopyMasterDetail) {
             })}
           ></AppPopover>
           <AppText instancetype="withPriceLong">
-            <NumberFormat value={data.drawDown} suffix="%" />
+            <NumberFormat value={-Number(data?.maxDrawDown || 0)} />
           </AppText>
         </div>
         <Flex align={"end"} direction={"column"}>
@@ -793,11 +817,11 @@ function Performance(props: PublicCopyMasterDetail) {
           ></AppPopover>
           <AppText
             instancetype="withPriceLong"
-            c={priceDisplay(data.avgPnL).color}
+            c={priceDisplay(data?.avgPnlPerTrade).color}
           >
             <NumberFormat
-              prefix={priceDisplay(data.avgPnL).sub}
-              value={data.avgPnL}
+              prefix={priceDisplay(data?.avgPnlPerTrade).sub}
+              value={data?.avgPnlPerTrade}
             />
           </AppText>
         </Flex>
@@ -815,7 +839,7 @@ function Performance(props: PublicCopyMasterDetail) {
               instancetype="withPriceNormal"
               fw={"bold"}
             >
-              <NumberFormat value={data.totalWin} />
+              <NumberFormat value={data?.totalWin} />
             </AppText>
           </AppText>
           <AppText instancetype="withPriceNormal">
@@ -825,13 +849,13 @@ function Performance(props: PublicCopyMasterDetail) {
               component="span"
               c={"gray"}
             >
-              <NumberFormat value={data.totalLoss} />
+              <NumberFormat value={data?.totalLose} />
             </AppText>
           </AppText>
         </Flex>
         <Box>
           <Progress
-            value={Math.floor((data.totalWin + data.totalLoss) / 100)}
+            value={Number(data?.winRate || 0)}
             color="green"
           />
         </Box>

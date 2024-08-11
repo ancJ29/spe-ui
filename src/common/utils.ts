@@ -161,8 +161,8 @@ export function masking(text: string): string {
   return text.replace(/.(?=.{4})/g, "*");
 }
 
-export function priceDisplay(val: string | number) {
-  const _v = parseFloat(val.toString());
+export function priceDisplay(val?: string | number) {
+  const _v = Number(val?.toString() || "0");
   return {
     lt: _v > 0,
     isZero: _v === 0,

@@ -152,3 +152,7 @@ export function getDatesArray(time: number, total: number) {
 
   return dates;
 }
+
+export function fmtDate(ts: number) {
+  return new Date(ts).toLocaleString("ja-JP");
+}

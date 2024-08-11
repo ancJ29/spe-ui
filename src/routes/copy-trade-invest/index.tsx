@@ -51,9 +51,7 @@ export default function CopyTrade() {
   useEffect(() => {
     fetchAllTraders().then((traders) => {
       setTraders(traders);
-      setTimeout(() => {
-        setLoading(false);
-      }, 100);
+      setTimeout(setLoading, 300, false);
     });
   }, []);
 

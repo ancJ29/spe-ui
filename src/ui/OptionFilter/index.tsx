@@ -15,6 +15,7 @@ type FilterOption = {
 };
 export function OptionFilter(
   props: Partial<{
+    disabled?: boolean;
     label: string;
     value?: string;
     items: FilterOption[];
@@ -44,6 +45,7 @@ export function OptionFilter(
         shadow="md"
         width={200}
         withinPortal
+        disabled={props.disabled}
         transitionProps={{ transition: "fade-down", duration: 150 }}
         {...props.menuProps}
       >
@@ -58,7 +60,13 @@ export function OptionFilter(
               },
             }}
           >
-            <Flex align={"center"} gap={5}>
+            <Flex
+              align={"center"}
+              gap={5}
+              style={{
+                cursor: props.disabled ? "not-allowed" : "pointer",
+              }}
+            >
               {values ?? props.label ?? "_menu"}
               {props.icon ? (
                 props.icon
@@ -69,19 +77,21 @@ export function OptionFilter(
           </AppButton>
         </Menu.Target>
 
-        <Menu.Dropdown {...props.menuDropdownProps}>
-          {props.items?.map((item, i) => (
-            <Menu.Item
-              key={i}
-              onClick={() => onChange(item.value)}
-              fw={"bold"}
-              value={item.value}
-              c={item.value === values ? "primary" : ""}
-            >
-              {item.label}
-            </Menu.Item>
-          ))}
-        </Menu.Dropdown>
+        {!props.disabled && (
+          <Menu.Dropdown {...props.menuDropdownProps}>
+            {props.items?.map((item, i) => (
+              <Menu.Item
+                key={i}
+                onClick={() => onChange(item.value)}
+                fw={"bold"}
+                value={item.value}
+                c={item.value === values ? "primary" : ""}
+              >
+                {item.label}
+              </Menu.Item>
+            ))}
+          </Menu.Dropdown>
+        )}
       </Menu>
     </>
   );
