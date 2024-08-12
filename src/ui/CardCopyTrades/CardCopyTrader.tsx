@@ -101,7 +101,7 @@ export function CardTrader(trader: CopyMaster) {
             </AppText>
           </Box>
           <AppChart
-            instancetype="Areapercent" // cspell:ignore Areapercent
+            instancetype="Sparkline" // cspell:ignore Areapercent
             chartSeries={[
               {
                 name: "series1",

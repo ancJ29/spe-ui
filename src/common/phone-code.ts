@@ -1,3 +1,4 @@
+// cspell:ignore Aland Burkina Faso Barthelemy d'Ivoire Rica Kitts Marino Maarten Caicos Leste Futuna
 export const PHONE_CODE_IMAGE: Record<string, string> = {
   "+376 Andorra":
     "https://www.bybit.com/common-static/cht-static/user-svc/img/country/andorra.svg",

@@ -163,7 +163,7 @@ export function CardTraderTop1({
             </AppText>
           </Box>
           <AppChart
-            instancetype="Areapercent" // cspell:disable-line
+            instancetype="Sparkline" // cspell:disable-line
             chartSeries={[
               {
                 name: "pnl",
