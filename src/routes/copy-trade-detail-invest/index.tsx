@@ -241,7 +241,7 @@ function Banner(trader: PublicCopyMasterDetail) {
                             })}
                           ></AppPopover>
                           <AppText c={"white"} fw={"bolder"} fz={24}>
-                            37
+                            --
                           </AppText>
                         </Box>
                         <Box>
@@ -281,7 +281,7 @@ function Banner(trader: PublicCopyMasterDetail) {
                             })}
                           ></AppPopover>
                           <AppText c={"white"} fw={"bolder"} fz={24}>
-                            3.0/5.0
+                            --
                           </AppText>
                         </Box>
                       </Flex>
@@ -493,7 +493,7 @@ function Banner(trader: PublicCopyMasterDetail) {
                       deg: 90,
                     }}
                   >
-                    128
+                    --
                   </AppText>{" "}
                   {t("Slots Left")}
                 </AppText>

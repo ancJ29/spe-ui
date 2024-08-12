@@ -7,7 +7,7 @@ export default () => {
   return defineConfig({
     plugins: [react(), preload()],
     server: {
-      port: 9000,
+      port: 9910,
     },
     resolve: {
       alias: {
