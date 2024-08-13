@@ -109,9 +109,12 @@ export function CardTraderTop1({
                 <Image w={20} src={tradeIcon} />
               </Flex>
               <Space my={5} />
-              <Flex gap={10} styles={{
-                root: {whiteSpace: "nowrap"}
-              }}>
+              <Flex
+                gap={10}
+                styles={{
+                  root: { whiteSpace: "nowrap" }
+                }}
+              >
                 <AppText instancetype="withTheadSmall" c={"dark"}>
                   {followers} Follower(s)
                 </AppText>

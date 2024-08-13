@@ -1,6 +1,15 @@
 // cspell:ignore bignumber
 import BigNumber from "bignumber.js";
 
+BigNumber.config({
+  FORMAT: {
+    decimalSeparator: ".",
+    groupSeparator: ",",
+    groupSize: 3,
+  },
+  ROUNDING_MODE: BigNumber.ROUND_DOWN,
+});
+
 type BN = number | string;
 
 function add(...b: [BN, ...BN[]]) {
@@ -78,19 +87,13 @@ function eq(a: BN, b: BN) {
   return new BigNumber(a).eq(b);
 }
 
+// https://mikemcl.github.io/bignumber.js/#round-down
 function format(number: BN, decimalPlaces = 2) {
-  BigNumber.config({
-    FORMAT: {
-      decimalSeparator: ".",
-      groupSeparator: ",",
-      groupSize: 3,
-    },
-  });
   const bigNumber = new BigNumber(number);
   if (!bigNumber.isFinite()) {
     return "--";
   }
-  return bigNumber.toFormat(decimalPlaces);
+  return bigNumber.toFormat(decimalPlaces, BigNumber.ROUND_DOWN);
 }
 
 function isZero(a?: BN | null) {

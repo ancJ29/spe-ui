@@ -23,6 +23,7 @@ import {
 } from "@tabler/icons-react";
 import { useCallback, useMemo, useState } from "react";
 import NumberFormat from "../NumberFormat";
+import { IS_DEV } from "@/domain/config";
 
 export type OrderBookType = "ASK ONLY" | "BID ONLY" | "ASK & BID";
 
@@ -108,7 +109,7 @@ export function OrderBookTable({
     });
   }, [display, symbol]);
 
-  useSPEInterval(fetch, 10e3);
+  useSPEInterval(fetch, IS_DEV ? 10e3 : 1e3);
 
   const pricePanel = useMemo(() => {
     return (
