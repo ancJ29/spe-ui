@@ -3,13 +3,6 @@ import { msgPasswordErr } from "@/utils/validates";
 import { Text } from "@mantine/core";
 import { FieldErrorProps } from "@rjsf/utils";
 
-// prettier-ignore
-// const excludes = [
-//   "must match \"then\" schema",
-//   "must match \"if\" schema",
-//   "must match \"else\" schema",
-// ];
-
 function _convert(str: string) {
   if (str.includes("must have required property")) {
     return "Field is required";
@@ -17,7 +10,6 @@ function _convert(str: string) {
   if (str.includes("must match")) {
     return "Invalid value";
   }
-  window.console.log("_convert", str);
   return str;
 }
 function ErrorMessages({

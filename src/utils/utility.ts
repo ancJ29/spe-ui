@@ -76,7 +76,6 @@ export function isBlur() {
   // eslint-disable-next-line
   // @ts-ignore
   const isBlur = window.__BLUR;
-  console.log(isBlur, isBlur?.toString()); // eslint-disable-line
   return isBlur?.toString() === "true";
 }
 

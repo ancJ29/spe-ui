@@ -90,7 +90,7 @@ export function fetchAllSymbolsApi() {
 }
 
 export function fetchOrderBooks(symbol: string) {
-  return _fetchAndCache(`orderbook.${symbol}`, _fetch);
+  return _fetchAndCache(`orderbook.${symbol}`, _fetch, 500);
   function _fetch() {
     return getApi<{
       a: [number, number, number, number][];
@@ -561,8 +561,7 @@ export async function fetchCopyOrders(
 ) {
   const base = "/api/copy/mine/orders";
   return getApi<{ orders: CopyOrder[] }>(
-    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
-      limit || 10
+    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${limit || 10
     }`,
   ).then((res) => res.orders);
 }
@@ -574,8 +573,7 @@ export async function fetchCopyTransactions(
 ) {
   const base = "/api/copy/master/me/transactions";
   return getApi<{ transactions: CopyTransaction[] }>(
-    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
-      limit || 10
+    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${limit || 10
     }`,
   ).then((res) => res.transactions);
 }

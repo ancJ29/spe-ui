@@ -17,10 +17,10 @@
     <script>
       document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
-        console.log("blur...");
+        // console.log("blur...");
         window.__BLUR = true;
       } else {
-        console.log("focus...");
+        // console.log("focus...");
         delete window.__BLUR
       }
     });

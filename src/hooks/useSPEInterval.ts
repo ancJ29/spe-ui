@@ -7,18 +7,19 @@ export default function useSPEInterval(
   fetch: () => void,
   intervalTime: number,
   skipFirstFetch = false,
+  key?: string
 ) {
   const _fetch = useCallback(() => {
     if (isBlur()) {
-      logger.trace("Skip fetching data");
+      logger.trace("Skip fetching data", key, intervalTime);
       return;
     }
-    logger.trace("Fetching data...");
+    logger.trace("Fetching data...", key, intervalTime);
     fetch();
-  }, [fetch]);
+  }, [fetch, key, intervalTime]);
   useEffect(() => {
     !skipFirstFetch && _fetch();
-  }, [_fetch, skipFirstFetch]);
+  }, [_fetch, skipFirstFetch, key]);
 
   const interval = useInterval(_fetch, intervalTime);
 
